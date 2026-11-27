@@ -1,0 +1,16 @@
+% Faces of the GAI-MUA papers under pdfLaTeX (PLAN.md, section 5; the set-up validated for the Hexagon deposits, 2026-11):
+% TeX Gyre Pagella text (Type 1, T1), TeX Gyre Heros scaled to the x-height, TeX Gyre Cursor, and newpxmath, the
+% Palatino-design companion of TeX Gyre Pagella Math, for mathematics, with its default open, serifed double-struck
+% letters. No Lua code, no fontspec, no unicode-math: the source is ASCII (a gate), accents are TeX accents.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage{tgpagella}
+\usepackage[scale=0.92]{tgheros}
+\usepackage{tgcursor}
+\usepackage{amssymb}
+\usepackage{newpxmath}
+\usepackage{bm}
+\usepackage[protrusion=true,expansion=true]{microtype}
+\input{styles/rp-microtype.tex}
+\endinput

@@ -1,0 +1,602 @@
+\section{The integral vacuum and standard data}\label{sec:vacuum}
+
+The theta functions whose derivatives enter the argument are those of vectors of the adelic Weil
+representation of hermitian spaces over $E$. This section fixes the scale at which their Taylor
+series are taken, constructs an integral multiple $\theta^\circ$ of the vacuum, defines the
+\emph{standard data} (integral combinations of translates of $\theta^\circ$), and proves that their
+derivatives are integral (\cref{thm:jet-integrality}) and have the divisibility of
+\cref{thm:count} at the non-split primes (\cref{thm:standard-divisibility}). We fix the parameters and
+$s$, and write $E=E(s)$.
+
+\subsection{The Weil representation}\label{ss:weil-rep}
+We recall the objects of the adelic Weil representation in the form in which they are used; the
+construction is reviewed in \cref{ss:B-weil}. Let $\Ad=\C^\Phi\times\Ad_{\mathrm f}$, one copy of $\C$
+for each infinite place, so that $\Ad$ is the adele ring of $E$. A \emph{hermitian space with a
+point} $V$ of rank $n$ over $E$ consists of a hermitian matrix $J\in\GL_n(E)$ and $x\in\GL_n(\Ad)$ such
+that $x^*Jx$ is the diagonal matrix of signs $\ve\in\{\pm1\}^n$ at the infinite places and the identity
+at the finite places. It is \emph{standard} if all signs are $+1$ and $J=x=1$.
+
+\begin{enumerate}[label=\textup{(W\arabic*)}]
+\item The Weil data of \cref{prop:weil-data-E} define a Heisenberg bicharacter on $\Ad^n$ and a
+\emph{vacuum function}: a Gaussian at the infinite places times a function of modulus one on the
+lattice $\alpha\widehat\OO_E^{\,n}$ (zero off it). The space $\mathcal S(V)$ of \emph{data} is the
+corresponding reproducing model, a Banach space on which $\Ad^n$ acts by Heisenberg operators
+$\varrho(x)$ and the adelic unitary group of $V$ acts by the Weil representation $\omega$; it carries
+an inner product $\langle\cdot,\cdot\rangle$, and the vacuum $\mathrm{vac}\in\mathcal S(V)$ is a unit
+vector.
+\item A \emph{theta functional} is a bounded linear form on $\mathcal S(V)$ invariant under the
+Heisenberg operators of rational vectors and normalised so that $\abs{\theta(\varrho(x)\mathrm{vac})}^2$
+has mean $1$ over $\Ad^n$ modulo rational vectors. It exists and is unique up to a factor of
+modulus one; we fix one, $\theta_V$, compatibly with orthogonal sums. For $f\in\mathcal S(V)$ and
+$x\in\Ad^n$ we write $f(x)=\theta_V(\varrho(x)f)$, the \emph{theta function} of $f$. The inner
+product $\langle f,f\rangle$ is the mean of $\abs{f(x)}^2$.
+\item For a finite adelic vector $x$ let $\mathrm{fin}(x)$ be the adelic vector with finite part
+$\alpha x$ and archimedean part $0$, and for $\gamma\in E^n$ let $\gamma^{\mathrm f}=\alpha^{-1}\gamma$;
+thus $\mathrm{fin}(\gamma^{\mathrm f})$ is the finite part of the rational vector $\gamma$. The
+\emph{finite Heisenberg operator} of $x$ is $\varrho(\mathrm{fin}(x))$ times a root of unity, the
+value of a semicharacter of the lattice. The \emph{finite part} $\mathcal S(V)^{\mathrm f}$ is the
+span of the images of the vacuum under the finite Heisenberg operators. The lattice
+$\mathfrak a_0^n$ consists of the $\gamma\in E^n$ with $\gamma^{\mathrm f}$ integral.
+\item For standard $V$ and $f\in\mathcal S(V)$, the function
+$\vartheta_f(w)=f(w)\exp(\abs w^2/2)$ of $w\in\C^{\Phi\times n}$ (the archimedean coordinates of
+$\Ad^n$ in Fock's normalisation) is entire if $f\in\mathcal S(V)^{\mathrm f}$. A function $F$ on
+$\C^{\Phi\times n}$ is a \emph{theta function for a lattice $Y\subseteq E^n$} if it is entire and
+fixed by the signed translations along the real images of the elements of $Y$. Translation of $f$ by
+the finite image of $\gamma\in E^n$ acts on $\vartheta_f$ as the twisted translation by minus the real
+image of $\gamma$, whose $(\tau,i)$-coordinate is $\sqrt{2\pi/\sqrt d}\;\Phi_\tau(\gamma_i)$.
+\item The \emph{jet series} of $f$ at the scale $a\in\C$ is the series $J_a(f)$ in variables
+$z_{\tau,i}$ whose coefficient of $z^k$ is $a^{\abs k}/k!$ times $\theta_V(v_{z^k}\otimes f)$, where
+$v_{z^k}$ is the Fock vector of the monomial $z^k$ and $\otimes$ integrates the real Heisenberg
+action. For a homogeneous polynomial $Q$ of degree $l$, $Q(\partial)J_a(f)(0)=a^l\,
+\theta_V(v_Q\otimes f)$; and $J_{ab}(f)(z)=J_b(f)(az)$.
+\item \emph{(Fourier inversion.)} Let $\delta\in\widehat\OO_E$ with $\delta\bar\delta=N\ne0$. If $V$ is
+standard, every theta function for $\bar\delta\mathfrak a_0^n$ is $\vartheta_F$ for some
+$F\in\mathcal S(V)^{\mathrm f}$; and if $\theta_V(F)=1$, a nonzero multiple of the vacuum is a sum of
+$N^{f\cdot n}$ finite Heisenberg translates of one translate $\varrho(\mathrm{fin}(b))F$. If the values
+of $\varphi\in\mathcal S(V)$ at the points $\mathrm{fin}(x)$ are integral at $p$, so are those of such
+a multiple of the vacuum.
+\end{enumerate}
+\lean{New.WeilData, New.SplittingChar, New.chiFin, New.Space, New.𝒮, New.Space.ϱ, New.Space.ω, New.Space.vacElem, New.Space.dataInner, New.Space.IsThetaFunctional, New.Space.exists_isThetaFunctional, New.Space.θ, New.Space.theta_boxProd, New.finVec, New.finiteImage, New.Space.finHeisenbergOp, New.Space.finitePart, New.idealLattice, New.stdLattice, New.Space.IsStd, New.stdSpace, New.Space.entireTheta, New.IsThetaFunction, New.signedShift, New.realImage, New.entireTheta_translate_finiteImage, New.Space.jetSeries, New.Space.integrated, New.Fock.polyVector, New.Space.exists_entireTheta_eq_of_isThetaFunction, New.Space.fourier_inversion, New.Space.norm_mul_vacElem_le_one_of_eq_sum, New.Space.omega_rho}
+
+\subsection{The scale}\label{ss:vacuum-scale}
+Fix a nonzero $\Omega_0\in\C$ and a CM lattice $\mathcal E_0$ for $d$ whose lattice is $\Omega_0\OO_K$,
+the \emph{CM curve}. By the formula of Chowla and Selberg (\cref{thm:B-chowla-selberg}) there is
+$u\in\C^\times$, a unit at every $p$-adic place of $\C$, such that for every automorphism $\sigma$ of $\C$
+over $K$ the conjugate lattice $\mathcal E_0^\sigma$ has area
+\[
+  \mathrm{area}(\mathcal E_0^\sigma)\,\abs{\sigma(u)}^2=\pi\,e^{c_K}\,\frac{2\pi}{\sqrt d},\qquad
+  c_K=\gamma-\re\frac{L'}L(1,\chiK).
+\]
+Put
+\[
+  a_{\mathrm{ar}}=\sqrt{2\pi/\sqrt d},\qquad \varrho_0=\frac{s_0}u,\qquad
+  \mathsf a=\frac{\varrho_0\,a_{\mathrm{ar}}}{\Omega_0},
+\]
+the \emph{area scale}, the \emph{period factor} and the \emph{jet scale}; $s_0$ is the vacuum root of
+\cref{def:vacuum-root}.
+\lean{New.Parameters.cmCurve, New.Parameters.cmPeriod, New.Parameters.latticeModule_cmCurve, New.Parameters.chowlaSelbergUnit, New.Parameters.norm_iota_chowlaSelbergUnit, New.Parameters.area_mul_norm_chowlaSelbergUnit_sq, New.Parameters.areaScale, New.Parameters.periodFactor, New.Parameters.jetScale, New.CMLattice.chowla_selberg, New.chowlaSelbergConst}
+
+\begin{proposition}\label{prop:jet-scale}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\abs{\mathsf a}^2=\Omega^{-1}$, with $\Omega$ as in \eqref{eq:Omega}. More generally, if
+$\mathrm{area}(\mathcal E_0^\sigma)=\abs{\Omega_\sigma}^2\sqrt d/2$, then
+$\abs{\sigma(\varrho_0)a_{\mathrm{ar}}/\Omega_\sigma}^2=\Omega^{-1}$.
+\item At a $p$-adic place $\iota_p$ and $\tau\in\Phi$, $\abs{\varrho_0}=\abs{s_0}$ equals the inverse
+of the absolute value of $\alpha$ at the place of the embedding $y\mapsto\iota_p(\Phi_\tau(\bar y))$.
+In particular $\abs{\varrho_0}=1$ if $p\nmid q_1$.
+\item For $y\in\mathfrak a_0$, $\abs{\varrho_0\overline{\Phi_\tau(y)}}\le1$ at every $p$-adic place. More
+generally, if $y\in E^n$ has $y^{\mathrm f}$ integral at the places above $p$, then the coefficients of
+the linear form $\varrho_0\,y^\dagger$ are integral at $\iota_p$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Parameters.norm_jetScale_sq, New.Parameters.norm_gal_periodFactor_div_mul_areaScale_sq, New.Parameters.norm_iota_vacuumRoot, New.Parameters.span_vacuumRoot_eq, New.Parameters.norm_iota_periodFactor, New.Parameters.norm_iota_periodFactor_eq_one, New.Parameters.norm_periodFactor_mul_conj_le_one, New.Parameters.norm_periodFactor_mul_daggerForms_le_one, New.Parameters.adeleExtension_alpha, New.Parameters.exists_norm_adeleExtension_alpha_mul_eq_one, New.norm_adeleExtension_le_one_iff, New.CMLattice.area_eq_of_a₁_eq, New.Parameters.bigOmega_pos, New.Parameters.jetScale_ne_zero}
+
+\begin{proof}
+(a) The area of $\Omega_\sigma\OO_K$ is $\abs{\Omega_\sigma}^2\sqrt d/2$, since $\OO_K$ has covolume
+$\sqrt d/2$. By \cref{prop:vacuum-root} and the Chowla--Selberg formula,
+\[
+  \Bigl|\frac{\sigma(\varrho_0)a_{\mathrm{ar}}}{\Omega_\sigma}\Bigr|^2
+  =\frac{\mathrm{rd}_E}{\sqrt d}\cdot\frac{2\pi}{\sqrt d}\cdot\frac{\sqrt d/2}{\pi e^{c_K}2\pi/\sqrt d}
+  =\frac{\mathrm{rd}_E}{2\pi e^{c_K}}=\Omega^{-1}.
+\]
+For $\sigma=1$ use $\Omega_1=\Omega_0$.
+(b) Let $\varphi_\tau(y)=\iota_p(\Phi_\tau(\bar y))$. All conjugates of $P'(\zeta)$ over $K$ have the
+same absolute value under $\iota_p$ (\cref{lem:alpha}(a)), so $\abs{\varphi_\tau(\alpha)}$ does not
+depend on $\tau$. The number $\chi_{\mathrm f}(\alpha)$ is algebraic, and by the description of the
+algebraic values of the splitting character (\cref{thm:B-splitting-character}(c)) its absolute value
+at $\iota_p$ is $\prod_\tau\abs{\varphi_\tau(\alpha)}$. Hence $\abs{s_0}^f=\abs{\chi_{\mathrm f}(\alpha)}^{-1}=
+\prod_\tau\abs{\varphi_\tau(\alpha)}^{-1}=\abs{\varphi_\tau(\alpha)}^{-f}$. As $u$ is a unit,
+$\abs{\varrho_0}=\abs{s_0}$. If $p\nmid q_1$, then $\alpha$ is a unit above $p$.
+(c) $\abs{\varphi_\tau(y)}=\abs{\varphi_\tau(\alpha^{-1}y)}\,\abs{\varphi_\tau(\alpha)}$, and
+$\abs{\varphi_\tau(\alpha^{-1}y)}\le1$ when $\alpha^{-1}y$ is integral at the place of $\varphi_\tau$.
+\end{proof}
+
+\begin{lemma}\label{lem:jet-homogeneous}
+For standard $V$, $f\in\mathcal S(V)^{\mathrm f}$ and $a\in\C$: the Taylor series at $0$ of
+$t\mapsto\vartheta_f(a\,t\,v)$ is $J_a(f)$ restricted to the line spanned by $v$; $J_a(f)=0$ with
+$a\ne0$ implies $f=0$; and if $\vartheta_f(cz)=\prod_iG_i(\mu_i\cdot z)$ for entire $G_i$ and linear
+forms $\mu_i$, then $\theta_V(f)=\prod_iG_i(0)$ and $J_c(f)=\prod_iT_0(G_i)(\mu_iz)$, where $T_0$ is
+the Taylor series at $0$.
+\end{lemma}
+\lean{New.Space.iteratedDeriv_integral_exp_mul_realVac, New.Space.taylor_line_eq_subst_jetSeries, New.Space.eq_zero_of_jetSeries_eq_zero, New.taylorAtZero_prod_comp_mul, New.mvPowerSeries_eq_of_forall_line, New.Space.entireTheta_zero, New.Space.theta_eq_prod_of_entireTheta_smul, New.Space.jetSeries_eq_prod_of_entireTheta_smul, New.Space.jetSeries_eq_prod, New.jet_rescale, New.Space.jet_jetSeries_of_isHomogeneous}
+
+\begin{proof}
+\emph{The line.} In Fock's model the theta function of $f$ is an integral of $f$ against the real Gaussian kernel. On the line through $av$ this gives
+\[
+  \vartheta_f(a\,t\,v)=\int\exp\bigl(t\,L(w)\bigr)\,g(w)\,dw
+\]
+for a conjugate-linear form $L$ on the archimedean coordinates and an integrable function $g$ built from $f$ and the Gaussian vacuum. Expand the exponential. The partial sums of $\sum_kt^kL(w)^kg(w)/k!$ are dominated by
+\[
+  \exp\bigl(\abs t\,\norm L\,\norm w\bigr)\,\abs{g(w)},
+\]
+which is integrable because $g$ decays like a Gaussian. By dominated convergence the integral is the power series $\sum_kt^k\int L(w)^kg(w)\,dw/k!$, so its $k$-th derivative at $0$ is $\int L(w)^kg(w)\,dw$. By (W5) this is $a^k\,\theta_V(v_{Q_k}\otimes f)$ for the polynomial $Q_k=(v\cdot z)^k$, that is, the jet of $J_a(f)$ along $Q_k$. Hence the Taylor series on the line is the restriction of $J_a(f)$ to the line.
+
+\emph{Vanishing.} If $J_a(f)=0$ with $a\ne0$, then on every line through $0$ the entire function $\vartheta_f$ has Taylor series $0$, so it vanishes on the line, hence everywhere; and $f$ is determined by its theta function, hence by its values at the real points.
+
+\emph{Products.} A power series is determined by its restrictions to the lines through $0$: the homogeneous component of degree $n$ evaluated at $v$ is the coefficient of $t^n$ of the restriction to the line of $v$, and a polynomial over $\C$ is determined by its values. If $\vartheta_f(cz)=\prod_iG_i(\mu_i\cdot z)$, then on the line spanned by $v$ both $J_c(f)$ and $\prod_iT_0(G_i)(\mu_iz)$ restrict to the Taylor series of $t\mapsto\prod_iG_i((\mu_i\cdot v)t)$, by the first part; so they agree. At $z=0$, $\theta_V(f)=\vartheta_f(0)=\prod_iG_i(0)$.
+\end{proof}
+
+\subsection{Tight frames}\label{ss:tight-frames}
+\begin{definition}\label{def:tight-frame}
+A \emph{tight frame of length $M$} is a finite family $w_i\in\mathfrak a_0$ with multiplicities
+$m_i\in\N$ such that
+\[
+  \sum_im_i\,\Phi_\sigma(w_i)\overline{\Phi_\tau(w_i)}=M\,\delta_{\sigma\tau}\qquad(\sigma,\tau\in\Phi).
+\]
+A vector $y\in E$ has a \emph{unit linear form} at $p$ if $\abs{\iota_p(\varrho_0\overline{\Phi_\tau(y)})}
+=1$ for all $\tau$.
+\end{definition}
+\lean{New.IsTightFrame, New.Parameters.HasUnitLinearForm}
+
+\begin{lemma}\label{lem:a0}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\mathfrak a_0$ is an $\OO_E$-module stable under $\Gal(E/K)$, with $\OO_E\subseteq\mathfrak a_0$
+and $q_1\mathfrak a_0\subseteq\OO_E$; $y\in\mathfrak a_0$ if and only if $P'(\zeta)y$ is integral at the
+places containing $\beta$ and $y$ is integral elsewhere.
+\item For $x,y\in\mathfrak a_0$, $\sum_\tau\Phi_\tau(x)\overline{\Phi_\tau(y)}\in\OO_K$; in particular
+$\sum_\tau\abs{\Phi_\tau(y)}^2\in\N$. If $zP'(\zeta)$ is integral, then $\Tr_{E/K}(z)\in\OO_K$.
+\item For each embedding $\varphi\colon E\to\Cp$ there is $y$ with $\alpha y$ integral and
+$\abs{\varphi(\alpha y)}=1$.
+\end{enumerate}
+\end{lemma}
+\lean{New.finiteImage_add_mem, New.finiteImage_mul_mem, New.Parameters.finiteImage_mem_iff, New.Parameters.valuation_galOfPlace, New.Parameters.finiteImage_galOfPlace_mem, New.Parameters.finiteImage_coe_mem, New.Parameters.coe_trace_eq_sum, New.Parameters.finiteImage_id_eq_inv_alpha_mul, New.Parameters.exists_coe_eq_trace_of_isIntegral, New.Parameters.sum_mul_conj_mem_quadInt, New.Parameters.exists_natCast_eq_sum_norm_sq, New.QuadField.exists_algebraMap_eq_of_star_eq, New.exists_eq_intCast_of_mem_quadInt_of_conj_eq, New.sum_mul_conj_eq_ofReal_iff, New.Parameters.exists_norm_adeleExtension_alpha_mul_eq_one, New.Parameters.eq_of_phi_eq_of_isPrimitiveRoot, New.Parameters.phi_betaKInE}
+
+\begin{proof}
+(a) By \cref{def:alpha}, $y\in\mathfrak a_0$ means that $\alpha_w^{-1}y$ is integral at every finite $w$, where $\alpha_w^{-1}$ is $P'(\zeta)$ at the places containing $\beta$ and $1$ elsewhere; this is the stated criterion, and it is preserved by sums and by multiplication by $\OO_E$. As $\alpha^{-1}$ is integral (\cref{lem:alpha}(b)), $\OO_E\subseteq\mathfrak a_0$; as $q_1\alpha$ is integral, $q_1y=(q_1\alpha)(\alpha^{-1}y)$ is integral for $y\in\mathfrak a_0$. Stability under $g_v$: $g_v$ permutes the places containing $\beta$, because $\beta\in K$ is fixed by $g_v$, and it maps $P'(\zeta)$ to another generator of the different of $E/K$ (\cref{prop:different}(b)), so it preserves the order of $P'(\zeta)$ at these places.
+(b) The trace maps the inverse different $(P'(\zeta))^{-1}$ of $E/K$ into $\OO_K$. For
+$x,y\in\mathfrak a_0$, $x\bar yP'(\zeta)=(\alpha\bar\alpha P'(\zeta))(\alpha^{-1}x)\overline{(\alpha^{-1}y)}$
+is integral by \cref{lem:alpha}(b), so $\Tr_{E/K}(x\bar y)=\sum_\tau\Phi_\tau(x)\overline{\Phi_\tau(y)}$ lies in
+$\OO_K$. For $x=y$ it is real and nonnegative; a real element of $\OO_K$ is a rational integer, since
+the real subfield of $K$ is $\Q$. For the last statement apply the first argument to $z$: if $zP'(\zeta)$ is integral, $z$ lies in the inverse different of $E/K$, which the trace maps into $\OO_K$. (c) Let $w$ be the place of $\varphi$. As $E$ is dense in the finite adeles, some $y\in E$ lies in the open set of the $x$ with $\alpha x\in1+\mathfrak m_w$ at $w$ and $\alpha x$ integral at all other places. Then $\alpha y$ is integral and is a unit at $w$, so $\abs{\varphi(\alpha y)}=1$.
+\end{proof}
+
+\begin{lemma}[Frames from roots of unity]\label{lem:frames-zeta}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The powers $\zeta^i$, $0\le i<q_1$, form a tight frame of length $q_1$; taken $k$ times each,
+of length $kq_1$.
+\item For $y\in\mathfrak a_0$ with $\nu=\sum_\tau\abs{\Phi_\tau(y)}^2$, the vectors $\zeta^ig(y)$,
+$i<q_1$, $g\in\Gal(E/K)$, form a tight frame of length $q_1\nu$.
+\item Disjoint unions of tight frames are tight frames whose lengths add. If $w$ is a tight frame of
+length $M$ with multiplicities one, and disjoint pairs of members $(w_{j},w_{j'})$ are chosen whose
+cross terms satisfy $\sum_{\text{pairs}}\bigl(\Phi_\sigma(w_j)\overline{\Phi_\tau(w_{j'})}+
+\Phi_\sigma(w_{j'})\overline{\Phi_\tau(w_j)}\bigr)=t\,\delta_{\sigma\tau}$ with $t\in\Z$, then replacing
+each pair by its sum gives a tight frame of length $M+t$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Parameters.isTightFrame_pow, New.Parameters.isTightFrame_zeta_pow, New.IsTightFrame.mul_left, New.Parameters.orbit, New.Parameters.isTightFrame_orbit, New.IsTightFrame.sumElim, New.IsTightFrame.join_family, New.IsTightFrame.replace_pairs}
+
+\begin{proof}
+(a) $\sum_i\Phi_\sigma(\zeta)^i\overline{\Phi_\tau(\zeta)}^i=\sum_i(\Phi_\sigma(\zeta)/\Phi_\tau(\zeta))^i$
+is $q_1$ if $\Phi_\sigma(\zeta)=\Phi_\tau(\zeta)$, which happens only for $\sigma=\tau$, and $0$
+otherwise. The members lie in $\OO_E\subseteq\mathfrak a_0$. (b) By (a) the sum over $i$ leaves
+$q_1\delta_{\sigma\tau}\sum_g\abs{\Phi_\sigma(g y)}^2=q_1\nu\,\delta_{\sigma\tau}$, and $g(y)\in\mathfrak a_0$
+by \cref{lem:a0}. (c) Expand $(w_j+w_{j'})(\cdots)$.
+\end{proof}
+
+Let $j_1=\lceil\log_2q_1\rceil$, and let $b_i$ ($i<\totient(q_1)$) be the coefficients of the monic
+polynomial $P(X)/(X-\zeta)$ over $\OO_E$. Put
+\[
+  e_i=\bar\beta^{\,j_1}\,\frac{b_i}{P'(\zeta)}\qquad(0\le i<\totient(q_1)).
+\]
+\lean{New.Parameters.ceilLogQ₁, New.Parameters.cyclotomicQuotient, New.Parameters.dualVector, New.Parameters.X_sub_C_mul_cyclotomicQuotient, New.Parameters.natDegree_cyclotomicQuotient, New.Parameters.monic_cyclotomicQuotient}
+
+\begin{lemma}\label{lem:dual-vectors}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Euler) $\Tr_{E/K}\bigl(\zeta^k b_i/P'(\zeta)\bigr)=\delta_{ik}$ for $i,k<\totient(q_1)$; hence
+$\sum_i\Phi_\sigma(e_i)\overline{\Phi_\tau(\zeta^{-i})}=\bar\beta^{\,j_1}\delta_{\sigma\tau}$ and
+$\sum_i\Phi_\sigma(\zeta^{-i})\overline{\Phi_\tau(e_i)}=\beta^{j_1}\delta_{\sigma\tau}$.
+\item $q_1\mid((d+1)/4)^{j_1}$, and $e_i\in\mathfrak a_0$.
+\item $t=\beta^{j_1}+\bar\beta^{j_1}$ is an integer prime to $q_1$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Parameters.trace_coeff_cyclotomicQuotient_div_mul_pow, New.Parameters.sum_dualVector_mul_conj, New.Parameters.sum_mul_conj_dualVector, New.Parameters.q₁_dvd_pow_ceilLogQ₁, New.Parameters.finiteImage_dualVector_mem, New.Parameters.isCoprime_of_pow_add_conj_pow_eq, New.Parameters.exists_pow_add_conj_pow_eq_intCast, New.Parameters.one_lt_q₁}
+
+\begin{proof}
+(a) Euler's formula for the dual basis of a monogenic extension: the basis $b_i/P'(\zeta)$ is dual
+to $(\zeta^k)$ under the trace form. Writing the trace as $\sum_\sigma\Phi_\sigma$, the matrices
+$(\Phi_\sigma(b_i/P'(\zeta)))_{i,\sigma}$ and $(\Phi_\sigma(\zeta^k))_{\sigma,k}$ are inverse to each other,
+hence also in the other order: $\sum_i\Phi_\sigma(\zeta^i)\Phi_\tau(b_i/P'(\zeta))=\delta_{\sigma\tau}$.
+Since $\overline{\Phi_\tau(\zeta^{-i})}=\Phi_\tau(\zeta^i)$ and $\Phi_\sigma$ is the identity on $K$, the
+two sums follow. (b) Every prime $\ell$ dividing $q_1$ divides $(d+1)/4$ (\cref{lem:split-primes}) and
+occurs in $q_1$ with exponent at most $\log_2q_1\le j_1$. At a place containing $\beta$,
+$\alpha^{-1}e_i=\bar\beta^{j_1}b_i$ is integral. At a place $w$ not containing $\beta$ we have
+$\ord_wP'(\zeta)\le\ord_w q_1\le j_1\ord_w(\beta\bar\beta)=j_1\ord_w\bar\beta$, so $e_i$ is integral at $w$.
+(c) $t\in\Z$ as it is fixed by conjugation and lies in $\OO_K$. Let $\ell\mid q_1$ be prime; then
+$\ell\mid\beta\bar\beta$ and $\ell\nmid\beta+\bar\beta=1$, so modulo a prime of $K$ above $\ell$ one of
+$\beta,\bar\beta$ is $0$ and the other is $1$, and $t\equiv1$.
+\end{proof}
+
+\begin{proposition}[A frame of length prime to $q_1$]\label{prop:coprime-frame}
+Let $\nu_i=\sum_\tau\abs{\Phi_\tau(e_i)}^2$ and $t=\beta^{j_1}+\bar\beta^{j_1}$. There is a tight frame with
+multiplicities one of length
+\[
+  h=q_1\Bigl(1+\sum_i\nu_i\Bigr)+t,
+\]
+which is prime to $q_1$ and contains the vector $\zeta e_{\totient(q_1)-1}$. For every prime $p$, one of
+$y=1$ and $y=\zeta e_{\totient(q_1)-1}$ has a unit linear form at $p$.
+\end{proposition}
+\lean{New.Parameters.isTightFrame_sumElim_inv_pow_orbit, New.Parameters.exists_isTightFrame_factor_eq_add, New.Parameters.dualResolutionFactor, New.Parameters.exists_isTightFrame_coprime, New.Parameters.norm_map_zeta_mul_dualVector, New.Parameters.exists_hasUnitLinearForm}
+
+\begin{proof}
+By \cref{lem:frames-zeta} the powers $\zeta^{-i}$ ($i<q_1$) together with the orbits of the $e_i$ form a
+tight frame of length $q_1(1+\sum\nu_i)$. Pair $\zeta^{-i}$ with the member $e_i$ of the orbit of $e_i$
+for $i<\totient(q_1)$; by \cref{lem:dual-vectors}(a) the cross terms add up to $t\,\delta_{\sigma\tau}$,
+and \cref{lem:frames-zeta}(c) gives the frame of length $h\equiv t\pmod{q_1}$, prime to $q_1$ by
+\cref{lem:dual-vectors}(c). The member $\zeta e_{\totient(q_1)-1}$ of the orbit of $e_{\totient(q_1)-1}$
+belongs to no pair. For the unit linear form, let $\varphi_\tau(y)=\iota_p(\Phi_\tau(\bar y))$; whether
+the place of $\varphi_\tau$ contains $\beta$ does not depend on $\tau$, since $\varphi_\tau(\beta)=
+\iota_p(\bar\beta)$. If it does not, $\abs{\varrho_0}=1$ by \cref{prop:jet-scale}(b) and $y=1$ serves.
+If it does, $\abs{\varrho_0}=\abs{\varphi_\tau(P'(\zeta))}$, and since $b_{\totient(q_1)-1}=1$ the vector
+$y=\zeta\bar\beta^{j_1}/P'(\zeta)$ has $\abs{\varphi_\tau(y)}=\abs{\varphi_\tau(P'(\zeta))}^{-1}$, as
+$\bar\beta$ is a unit at that place.
+\end{proof}
+
+\begin{lemma}\label{lem:frame-any-length}
+Let $v$ be a tight frame with multiplicities one of length $h$ prime to $q_1$, and $R\ge0$. For every
+$m\ge q_1h+R(q_1+h)$ the powers of $\zeta$ and the members of $v$ form, with suitable multiplicities all
+at least $R$, a tight frame of length $m$.
+\end{lemma}
+\lean{New.Parameters.exists_isTightFrame_of_coprime}
+
+\begin{proof}
+Every integer $\ge q_1h$ is $aq_1+bh$ with $a,b\ge0$, since $q_1$ and $h$ are coprime. Write
+$m-R(q_1+h)=aq_1+bh$ and take the powers of $\zeta$ with multiplicity $a+R$ and $v$ with multiplicity
+$b+R$.
+\end{proof}
+
+\begin{theorem}[Frames for the data]\label{thm:frames-data}
+For data as in \cref{def:data}:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item there are $h$ prime to $q_1$ with $1\le h\le b$ and a tight frame $v$ of length $h$ with
+multiplicities one such that, for every prime $p$, some $y$ among the powers of $\zeta$ and the members
+of $v$ has a unit linear form at $p$;
+\item there is a tight frame of length $M=p_0p_1$ with all multiplicities at least $6fb$ that contains,
+for every prime $p$, a member with a unit linear form at $p$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Parameters.norm_coeff_cyclotomic_le, New.Parameters.norm_phi_coeff_cyclotomicQuotient_le, New.Parameters.norm_quadGen_le, New.Parameters.norm_phi_dualVector_le, New.Parameters.ceilLogQ₁_le, New.Data.one_le_norm_phi_relDifferentGen, New.Data.hasLogUpper_pow_ceilLogQ₁, New.Data.le_b_of_eq_dualResolutionFactor, New.Data.exists_short_isTightFrame_coprime, New.Data.exists_isTightFrame}
+
+\begin{proof}
+(a) Take the frame of \cref{prop:coprime-frame}. To bound $h$: the polynomial $P(X)=P_0(X^{T(s)})$ has
+the coefficients of $P_0$, which are bounded by $2^{q_0}$; the coefficients of $P(X)/(X-\zeta)$ are
+sums of at most $q_1$ of them times roots of unity; $\abs\beta\le d$; and $\abs{\Phi_\tau(P'(\zeta))}=
+\abs{\delta_E}_\tau/\sqrt d\ge x^{10}/\sqrt d\ge1$ (\cref{rem:delta-size}). Hence
+$\abs{\Phi_\tau(e_i)}\le d^{j_1}q_12^{q_0}$, $\nu_i\le f(d^{j_1}q_12^{q_0})^2$, and $\abs t\le2d^{j_1}$.
+Since $j_1\le q_0+3s+10$ we have $d^{j_1}\le b^{1/100}$, and $h\le q_1(1+f^2(d^{j_1}q_12^{q_0})^2)
++2d^{j_1}\le b$ by the comparison of sizes (\cref{rem:magnitudes}).
+(b) Apply \cref{lem:frame-any-length} with $R=\lceil6fb\rceil$ and $m=M\ge b^{20}$, which exceeds
+$q_1h+R(q_1+h)$. The members of positive multiplicity include $1=\zeta^0$ and all members of $v$.
+\end{proof}
+
+\subsection{Products along tight frames}\label{ss:resolution-products}
+Let $C$ be a CM lattice for $d$ with hermitian form $H_C(l,z)=\pi\bar lz/\mathrm{area}(C)$. For a
+family $w_j\in E$ and $b\in\C$ consider the linear forms
+\[
+  A_{j,k}(z)=\frac b{a_{\mathrm{ar}}}\sum_\tau\overline{\Phi_\tau(w_j)}\,z_{\tau,k}\qquad(k\in n),
+\]
+and for $\gamma\in E^n$ the shifts $l_{j,k}(\gamma)=-b\sum_\tau\Phi_\tau(\gamma_k)\overline{\Phi_\tau(w_j)}$,
+so that $A_{j,k}$ at the real image of $\gamma$ is $-l_{j,k}(\gamma)$. A vector $F\in\mathcal S(V)$ is
+the \emph{resolution product} of entire functions $h_{j,k}$ of degrees $m_j$ along $w$ at the scale
+$b$ if $F\in\mathcal S(V)^{\mathrm f}$ and for every $\gamma\in E^n$
+\[
+  \vartheta_{\varrho(\mathrm{fin}(\gamma^{\mathrm f}))F}(z)=\prod_{j,k}\bigl(T^{m_j}_{l_{j,k}(\gamma)}h_{j,k}\bigr)
+  \bigl(A_{j,k}(z)\bigr).
+\]
+\lean{New.Parameters.resolutionShift, New.Parameters.resolutionFormCoeff, New.Parameters.resolutionLinearForm, New.Parameters.resolutionLinearForm_apply_eq_dotProduct, New.Parameters.resolutionLinearForm_realImage, New.Parameters.IsResolutionProduct}
+
+By \cref{lem:jet-homogeneous}, the theta value and the jet series of each translate of a resolution
+product are the corresponding products: $\theta_V(\varrho(\mathrm{fin}(\gamma^{\mathrm f}))F)=
+\prod_{j,k}(T^{m_j}_{l_{j,k}(\gamma)}h_{j,k})(0)$, and its jet series at the scale $c$ is
+$\prod_{j,k}T_0\bigl(T^{m_j}_{l_{j,k}(\gamma)}h_{j,k}\bigr)\bigl(\frac{bc}{a_{\mathrm{ar}}}w_j^\dagger z\bigr)$,
+the form $w_j^\dagger$ acting on the coordinate $k$.
+\lean{New.Parameters.IsResolutionProduct.theta_translate, New.Parameters.IsResolutionProduct.jetSeries_translate}
+
+\begin{theorem}[Resolution products]\label{thm:resolution-product}
+Let $V$ be standard, $\delta\in\OO_K$ with $\delta\bar\delta=N\ne0$, $w$ a tight frame of length $M$ with
+multiplicities $m_j$, and exponents $x_{j,k}=(r,t',u)$ with $r+2t'+3u=m_j$. Let $C$ be a CM lattice
+containing $a$ with $\mathrm{area}(C)=\abs a^2M\sqrt d/(2N)$. There is a vector $F$ that is the
+resolution product of the monomial sections $\theta^r\sigma^{2t'}G^u$ of $C$ along $w$ at the scale
+$a/\bar\delta$; its values at all points $\mathrm{fin}(x)$ are integral at every $p$-adic place; and
+$\vartheta_F$ is a theta function for $\bar\delta\,\mathfrak a_0^n$.
+\end{theorem}
+\lean{New.Parameters.exists_isResolutionProduct_of_isTightFrame, New.Parameters.sum_pullForm_resolutionLinearForm_apply, New.Parameters.normalizedShift_prod_comp_of_mem_lattice, New.Parameters.mul_sum_mul_conj_mem_lattice, New.Parameters.cmPeriod_mem_cmCurve_lattice, New.Parameters.norm_map_selfDualAddChar, New.Parameters.IsResolutionProduct.norm_iota_apply_le_one}
+
+\begin{proof}
+\emph{Isometry.} For $u,v\in\C^{\Phi\times n}$,
+$\sum_{j,k}m_jH_C(A_{j,k}u,A_{j,k}v)=\sum_xu_x^*v_x$: multiply the frame identity at $(\tau,\sigma)$ by
+$\overline{u_{\tau,k}}v_{\sigma,k}$ and sum; the factor $\abs{a/\bar\delta}^2/a_{\mathrm{ar}}^2\cdot\pi/\mathrm{area}(C)
+\cdot M$ is $1$ by the choice of the area. \emph{Periods.} For $\gamma\in\bar\delta\mathfrak a_0^n$,
+$A_{j,k}$ maps the real image of $\gamma$ into $\Lambda_C$: indeed
+$\frac a{\bar\delta}\sum_\tau\Phi_\tau(\gamma_k)\overline{\Phi_\tau(w_j)}\in a\OO_K\subseteq\Lambda_C$ by
+\cref{lem:a0}(b). \emph{Invariance.} The product $S(z)=\prod_{j,k}h_{j,k}(A_{j,k}z)$ of sections of
+degrees $m_j$ is therefore multiplied, under translation by such a period, by the product of the
+multipliers $\chi_C(A_{j,k}\gamma)^{m_j}$ and the Gaussian factor of the pulled-back form, which by the
+isometry is the standard one; the multipliers combine to the semicharacter, so $S$ is a theta function
+for $\bar\delta\mathfrak a_0^n$. By Fourier inversion (W6), $S=\vartheta_F$ with
+$F\in\mathcal S(V)^{\mathrm f}$, and translating $F$ by the finite image of $\gamma$ shifts the factor
+$(j,k)$ by $l_{j,k}(\gamma)$ (W4). \emph{Integrality.} The value of $F$ at $\mathrm{fin}(x)$ is the
+theta value of a translate by the finite image of a rational $\gamma$, hence the product of the values
+at $0$ of twisted translates of monomial sections by torsion points of $C$
+($L\gamma^{\mathrm f}$ is integral for some $L\ne0$, so $NL$ times the shift is a period); these torsion
+values are integral at every $p$ (\cref{thm:B-torsion-values}).
+\end{proof}
+
+For the frame of the powers of $\zeta$, each taken $q_1$ times (length $q_1^2$), the vectors
+$u_k=\zeta^k/q_1$ give the coordinates $\langle y\rangle_k=-\Tr_{E/K}(y\bar\zeta^k)/q_1\in K$. A
+\emph{theta product} for a CM lattice $C$, a period $\Omega$ and a level $e\in\N_{>0}$ is a vector $F$ of
+the finite part whose translates have theta values and jet series
+\[
+  \theta_V\bigl(\varrho(\mathrm{fin}(\gamma^{\mathrm f}))F\bigr)=\prod_{k<q_1}\prod_{i\in n}
+  \bigl(T^1_{\Omega\langle\gamma_i\rangle_k}\theta\bigr)(0)^{q_1},
+\]
+the jet series being the corresponding product of Taylor series along the forms
+$\frac{\Omega c}{q_1a_{\mathrm{ar}}}\sum_w\overline{\Phi_w(\zeta^k)}z_{w,i}$, whose values at finite points
+are integral at every prime, and whose theta function is a theta function for $q_1e\,\mathfrak a_0^n$.
+Then $\theta_V(F)=1$.
+\lean{New.Parameters.zetaCoord, New.Parameters.zetaCoord_smul, New.Parameters.zetaCoordThetaTranslate, New.Parameters.zetaLinearSeries, New.Parameters.IsThetaProduct, New.Parameters.IsThetaProduct.theta_eq_one, New.Parameters.isResolution_resolutionVectors_zeta_pow}
+
+\begin{corollary}\label{cor:theta-product}
+If $V$ is standard, $C$ has area $\abs\Omega^2\sqrt d/2$ and $\Omega e\in\Lambda_C$, a theta product
+exists; in particular for $\mathcal E_0$ with $\Omega=\Omega_0$ and $e=1$. For a theta product of level
+one, a nonzero multiple of the vacuum is a sum of $(q_1^2)^{fn}$ finite Heisenberg translates of one
+translate of $F$.
+\end{corollary}
+\lean{New.Parameters.exists_isThetaProduct, New.Parameters.exists_isThetaProduct_cmCurve, New.Parameters.IsThetaProduct.exists_smul_vacElem_eq_sum, New.Parameters.exists_smul_vac_eq_sum}
+
+\begin{proof}
+Apply \cref{thm:resolution-product} with $\delta=q_1e$, the frame of the powers of $\zeta$ each taken
+$q_1$ times, and the monomial $\theta$ of degree one; the repeated frame vectors give the powers $q_1$.
+The second statement is (W6) with $N=(q_1e)^2$.
+\end{proof}
+
+\subsection{The integral vacuum}\label{ss:integral-vacuum}
+
+\begin{proposition}\label{prop:vacuum-scale}
+There is a constant $C_{\mathrm{vac}}$ such that for every $s$ there is $c\ne0$ with the following
+properties, for the standard space of rank one: the values $c\,\mathrm{vac}(\mathrm{fin}(x))$ are
+integral at every $p$-adic place, and their conjugates over $K$ have absolute value at most
+$\exp(C_{\mathrm{vac}}q_1^2)$.
+\end{proposition}
+\lean{New.Parameters.exists_norm_gal_torsion_value_le, New.Parameters.sq_q₁_pow_card_infinitePlace_le, New.Parameters.exists_mul_vacElem_integral_bounded, New.Parameters.vacuumBoundConst, New.Parameters.IsVacuumScale, New.Parameters.vacuumScale, New.Parameters.isVacuumScale_vacuumScale, New.Parameters.vacuumScale_ne_zero}
+
+\begin{proof}
+Let $F$ be the theta product of level one for $\mathcal E_0$ (\cref{cor:theta-product}) and $c$ the
+scalar with $c\,\mathrm{vac}$ a sum of $(q_1^2)^f$ translates of $F$ times roots of unity. A value of
+$c\,\mathrm{vac}$ at a finite point is a sum of $(q_1^2)^f\le e^{2q_1^2}$ values of $F$ times roots of
+unity, and a value of $F$ is a product of $q_1^2$ torsion values $(T^1_{x\Omega_0}\theta)(0)$, $x\in K$.
+These are integral at every $p$ (\cref{thm:resolution-product}), and their conjugates over $K$ are
+bounded by a constant $M_0$ independent of $s$: by complex multiplication they are torsion values of
+the finitely many conjugate lattices $\mathcal E_0^\sigma$, and these are bounded uniformly in the torsion
+point (\cref{thm:B-torsion-values}). Take $C_{\mathrm{vac}}=2+\log^+M_0$.
+\end{proof}
+
+We fix such a scalar $c_{\mathrm{vac}}=c_{\mathrm{vac}}(s)$, the \emph{vacuum scale}, and define the
+\emph{integral vacuum} of a space of rank $n$ as $\theta^\circ=c_{\mathrm{vac}}^{\,n}\,\mathrm{vac}$.
+
+\begin{proposition}\label{prop:integral-vacuum}
+Let $V$ be standard of rank $n$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\theta^\circ(\mathrm{fin}(x))=\prod_{i\in n}c_{\mathrm{vac}}\mathrm{vac}_1(\mathrm{fin}(x_i))$, with
+$\mathrm{vac}_1$ the vacuum of rank one; these values are integral at every $p$-adic place, and for
+every automorphism $\sigma$ of $\C$, $\abs{\sigma(\theta^\circ(\mathrm{fin}(x)))}\le\exp(C_{\mathrm{vac}}q_1^2)^n$.
+\item If $\abs{f(\mathrm{fin}(x))}\le M$ for all $x$, then $\abs{\langle f,f\rangle}\le M^2$.
+\item $\theta^\circ(\mathrm{fin}(x))\ne0$ for some $x$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Parameters.intVacuum, New.Parameters.intVacuum_finVec_eq_prod, New.Parameters.norm_intVacuum_le_one, New.Parameters.norm_gal_intVacuum_le, New.Parameters.exists_algEquiv_norm_eq, New.Parameters.norm_ringEquiv_intVacuum_le, New.Parameters.norm_dataInner_self_le, New.Parameters.exists_intVacuum_ne_zero}
+
+\begin{proof}
+(a) The vacuum of an orthogonal sum is the product of the vacua, and $\theta_V$ is multiplicative on
+orthogonal sums. Every automorphism $\sigma$ of $\C$ restricts on $K$ to the identity or to complex
+conjugation, so $\sigma$ or $\sigma$ followed by complex conjugation is over $K$, with the same
+absolute values. (b) $\langle f,f\rangle$ is the mean of $\abs{f}^2$; by continuity it suffices to bound $f$
+at points whose archimedean part is rational, and translating by a rational vector changes $f$ by a
+factor of modulus one and moves such a point to one with archimedean part zero. (c) Otherwise (b)
+with $M=0$ gives $\langle\theta^\circ,\theta^\circ\rangle=0$, while $\mathrm{vac}$ is a unit vector.
+\end{proof}
+
+\begin{proposition}[Conjugates of jets]\label{prop:jet-conjugates}
+There is a map $\sigma\mapsto B_\sigma$ from $\Gal(\C/K)$ to the finite adeles of $E$ such that every
+standard space $V$ has a vector $F\in\mathcal S(V)^{\mathrm f}$ with $\theta_V(F)=1$ whose translates
+$\varrho(\mathrm{fin}(x))F$ span $\mathcal S(V)^{\mathrm f}$, and for each $\sigma$ a vector
+$F'_\sigma\in\mathcal S(V)^{\mathrm f}$ and a scale $t_\sigma$ with $\abs{t_\sigma}^2=\Omega^{-1}$ such that,
+for all $x$, $\sigma$ maps the jets of $\varrho(\mathrm{fin}(x))F$ at the scale $\mathsf a$ to the jets of
+$\varrho(\mathrm{fin}(B_\sigma x))F'_\sigma$ at the scale $t_\sigma$, with the places permuted by $\sigma$
+(\cref{ss:decomposition}).
+\end{proposition}
+\lean{New.Parameters.exists_isJetConjugate_translates, New.Parameters.finitePart_le_span_translates, New.Parameters.map_zetaLinearSeries, New.Parameters.exists_rational_translate_eq, New.Parameters.IsThetaProduct.isJetConjugate_of_map_taylorAtZero_eq, New.Space.IsJetConjugate, New.Parameters.placePerm}
+
+\begin{proof}
+Take $F$ the theta product of level one for $\mathcal E_0$; its translates span the finite part by
+\cref{cor:theta-product}. By the main theorem of complex multiplication
+(\cref{thm:B-cm-reciprocity}), for each $\sigma$ there are a period $\Omega_\sigma$ of $\mathcal E_0^\sigma$
+with a multiple $\Omega_\sigma e_\sigma$ in its lattice and a finite idele $\beta_\sigma$ of $K$ such that,
+for $x'$ near $\beta_\sigma x$, $\sigma$ maps the Taylor series of $T^1_{x\Omega_0}\theta_{\mathcal E_0}$
+to that of $T^1_{x'\Omega_\sigma}\theta_{\mathcal E_0^\sigma}$. Let $F'_\sigma$ be the theta product for
+$\mathcal E_0^\sigma$, $\Omega_\sigma$, $e_\sigma$, and $B_\sigma$ the image of $\beta_\sigma$. Both sides of
+the claimed identity are locally constant in $x$, so we may take $x$ the finite image of a rational
+$\gamma$; choosing $x_0\in K$ close to $\beta_\sigma$, the translates by $B_\sigma\gamma^{\mathrm f}$ and by
+$(x_0\gamma)^{\mathrm f}$ of $F'_\sigma$ agree, and the factors of the two products correspond by complex
+multiplication. The linear forms correspond up to the permutation of the places, and the scale is
+$t_\sigma=\sigma(\varrho_0)a_{\mathrm{ar}}/\Omega_\sigma$, of square absolute value $\Omega^{-1}$ by
+\cref{prop:jet-scale}(a).
+\end{proof}
+
+\subsection{Standard data}\label{ss:standard-data}
+Fix a prime $p$, a $p$-adic place $\iota_p$, and let $\OO_{\iota}\subset\C$ be the ring of complex numbers
+that $\iota_p$ maps into $\OO$. For $\delta\in\OO_K$ let $\mathcal I_\delta$ be the group of finite adelic
+vectors $x$ such that $\delta x$ is integral at all places of $E$ above $p$.
+
+\begin{definition}\label{def:standard-data}
+The \emph{standard data of level $\delta$ at $p$} on $V$ are the elements of the $\OO_\iota$-module
+$\mathcal S_\delta(V)$ spanned by the finite Heisenberg translates of $\theta^\circ$ by the $x\in\mathcal I_\delta$.
+\end{definition}
+\lean{New.Parameters.integralAfter, New.Parameters.standardData, New.embValRing, New.Parameters.integralAfter.stdLattice_le}
+
+\begin{proposition}[Stability]\label{prop:standard-stability}
+$\mathcal S_\delta(V)$ is stable under multiplication by elements of $\OO_\iota$, under the finite
+Heisenberg operators of the $x\in\mathcal I_\delta$, and under the Weil operators $\omega(1,g)$ of finite
+unitary points $g$ that are integral at the places above $p$.
+\end{proposition}
+\lean{New.Parameters.smul_mem_standardData_of_norm_le_one, New.Parameters.finHeisenbergOp_intVacuum_mem_standardData, New.Parameters.finHeisenbergOp_mem_standardData, New.Parameters.mulVec_mem_integralAfter, New.Parameters.omega_finHeisenbergOp_intVacuum, New.Parameters.omega_mem_standardData, New.Gf, New.integralAbove}
+
+\begin{proof}
+The finite Heisenberg operators of $x$ and $y$ compose to that of $x+y$ up to a root of unity, and
+$\mathcal I_\delta$ is a group. For $g$ integral above $p$, $\delta gx$ is $g$ applied to $\delta x$, so
+$g$ preserves $\mathcal I_\delta$; and $\omega(1,g)$ maps the translate of $\theta^\circ$ by $x$ to
+$(\Delta_{\mathrm f}(g^{-1}))^{-1}$ times the translate by $gx$ of the sum of the translates of
+$\theta^\circ$ by $gy$, where $y$ runs over the integral vectors modulo those that $g$ keeps integral; the
+factor is a unit at $\iota_p$ since $g^{-1}$ is also integral above $p$.
+\end{proof}
+
+\begin{theorem}[Standard data as theta products]\label{thm:standard-theta-products}
+Let $V$ be standard, $\delta\in\OO_K\setminus\{0\}$, $N=\delta\bar\delta$, and $f\in\mathcal S_\delta(V)$.
+There is a resolution of the identity $(u_j,m_j)$ by vectors of $E^n$ whose finite images
+$u_j^{\mathrm f}$ are integral at the places above $p$, and $H\in\OO[[y(u^\dagger z)]]$ for the curve
+$\mathcal E_0$, such that
+\[
+  \iota_p\Bigl(J_{\bar\delta a_{\mathrm{ar}}/\Omega_0}(f)\Bigr)=\Theta_{u^\dagger,m}^{\,N}\,H .
+\]
+\end{theorem}
+\lean{New.resolutionVectors, New.dagger_resolutionVectors, New.IsTightFrame.isResolution, New.CMLattice.exists_prod_twistedTranslate_eq_thetaProd_mul, New.Parameters.ne_zero_of_prime_coprime, New.Parameters.mem_integralAfter_of_nsmul_mem, New.Parameters.finiteImage_resolutionVectors_mem, New.Parameters.exists_coprime_mul_mem_of_mem_integralAfter, New.Parameters.exists_rho_finiteImage_eq_and_coprime_mul_mem, New.Parameters.exists_coprime_isTightFrame_sq, New.Parameters.mul_neg_sum_mul_conj_mem_cmCurve_lattice, New.Parameters.intVacuum_eq_sum_smul_vacElem, New.Parameters.exists_finHeisenbergOp_rho_eq_smul, New.Parameters.IsVacuumExpansion, New.Parameters.exists_intVacuum_eq_sum_of_isThetaFunction, New.Parameters.exists_isVacuumExpansion, New.Parameters.thetaMultiples, New.Parameters.map_linearSeries_smul_dagger_resolutionVectors, New.Parameters.mem_thetaMultiples_of_jetSeries_eq_prod, New.Parameters.exists_jetSeries_map_eq_thetaProd_pow_mul}
+
+\begin{proof}
+\emph{A frame of square length prime to $p$.} If $p\nmid q_1$ take the powers of $\zeta$ (length $q_1$);
+otherwise the frame of \cref{prop:coprime-frame}, of length $h$ prime to $q_1$, hence to $p$. Repeating
+each member $b$ times, where $b$ is that length, gives a tight frame $w$ with multiplicities one of
+length $b^2$, $p\nmid b$. For $k\ne0$ the vectors $w_j/(bk)$, placed in each coordinate of $E^n$, are a
+resolution of the identity with multiplicities $k^2$.
+
+\emph{Expansion of $\theta^\circ$.} By \cref{thm:resolution-product} with $\delta=b$ and the monomial
+$\theta$, there is $F$ of the finite part with $\theta_V(F)=1$ whose theta function is a theta function
+for $b\,\mathfrak a_0^n$ and whose translates are products of translates of $\theta_{\mathcal E_0}$ along
+the frame. Fourier inversion gives points $y_j$ with $by_j$ integral and coefficients such that a power
+$M$ of $b^2$ times $F$ is a combination of translates of the vacuum; applying $\theta_V$ and inserting
+the expression of each multiple of the vacuum as a sum of translates of $F$, we obtain
+$\theta^\circ=\sum_ja_j\varrho(\mathrm{fin}(y_j))F$ with $a_j\in\OO_\iota$, because the values of
+$\theta^\circ$ are integral and $M$ is prime to $p$.
+
+\emph{Translates.} Let $x\in\mathcal I_\delta$. A translate of $F$ by $x$ (or by $x+y_j$, which lies in
+$\mathcal I_\delta$ as $b$ is prime to $p$) equals the translate by the finite image of a rational
+$\gamma$ such that $m\delta\gamma\in\mathfrak a_0^n$ for some $m$ prime to $p$: approximate $x$ by $\gamma$
+with $\gamma^{\mathrm f}-x$ in the standard lattice. Its jet series at $\bar\delta a_{\mathrm{ar}}/\Omega_0$ is
+the product over the frame of the series of $T^1_{t}\theta$ along the forms $\bar\delta(w_j/b)^\dagger z$,
+with shifts $t=-(\Omega_0/b)\sum_\tau\Phi_\tau(\gamma_i)\overline{\Phi_\tau(w_j)}$, which $kb\delta$ maps into
+$\Lambda_{\mathcal E_0}$ for every multiple $k$ of $mb$, because $\mathfrak a_0$ is self-dual over $\OO_K$
+(\cref{lem:a0}(b)).
+
+\emph{One curve.} For $\delta'\in\OO_K$ with $\delta'\bar\delta'=N'$ and $\delta'y_i\in\Lambda$, the product
+$\prod_i(T^1_{y_i}\theta)(\bar\delta'\mu_iz)$ read in $\Cp$ is $\prod_i\theta(\mu_iz)^{N'}$ times an element
+of $\OO[[y(\mu z)]]$: by \cref{thm:cm-background}\ref{it:cm-sections}, $z\mapsto(T^1_{y}\theta)(\bar\delta'z)$ is
+a section of degree $N'$, hence $\theta(z)^{N'}$ times an even elliptic function with poles only on
+$t+\Lambda$, which is integral in $y$ by the integrality of torsion values and of the group law
+(\cref{thm:B-torsion-values}). Applied with $\delta'=k\delta$ and rewriting the forms through
+$w_j/(bk)$, the translate lies in the module of vectors whose jet series is
+$\Theta_{u^\dagger,m}^N$ times an element of $\OO[[y(u^\dagger z)]]$, for the resolution $u_j=w_j/(bk)$,
+whose finite images are integral above $p$ since $bk$ is prime to $p$ times a unit there. This module
+is an $\OO_\iota$-module; taking $k$ a common multiple for the finitely many translates in an expression
+of $f$ proves the claim.
+\end{proof}
+
+\subsection{Integrality and divisibility of the derivatives}\label{ss:jet-integrality}
+For a CM lattice $C$ and linear forms $\mu_i$ over $\Cp$, let $\mathcal R_\mu$ be the ring generated by
+$\OO[[y(\mu z)]]$, the series $\theta(\mu_iz)$ and the series $g'(\mu_iz)$, where $g=-\log\theta$.
+\lean{New.CMLattice.jetRing, New.CMLattice.mem_jetRing_of_mem_multiSeriesRing, New.CMLattice.theta_mem_jetRing, New.CMLattice.derivative_negLogTheta_mem_jetRing, New.CMLattice.smul_mem_jetRing, New.CMLattice.thetaProd_mem_jetRing}
+
+\begin{lemma}\label{lem:jet-ring}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $d\,g''\in\OO[[y]]$.
+\item The constant terms of elements of $\mathcal R_\mu$ are integral. If $\mu_i=d\nu_i$ with $\nu_i$
+integral, then $\mathcal R_\mu$ is stable under all partial derivatives.
+\item If a subring of power series is stable under partial derivatives and its elements have integral
+constant terms, then $Q(\partial)F(0)$ is integral for every element $F$ and every polynomial $Q$ with
+integral coefficients.
+\item Consequently, if $\mu=d\nu$ with $\nu$ integral and $H\in\OO[[y(\mu z)]]$, then
+$Q(\partial)(\Theta_{\mu,m}^NH)(0)$ is integral for every integral polynomial $Q$.
+\end{enumerate}
+\end{lemma}
+\lean{New.CMLattice.smul_derivative_derivative_negLogTheta_mem, New.CMLattice.norm_constantCoeff_le_of_mem_jetRing, New.CMLattice.pderiv_mem_jetRing, New.norm_jet_le_one_of_pderiv_mem, New.CMLattice.norm_jet_thetaProd_pow_mul_le_one}
+
+\begin{proof}
+(a) $g''=g''(0)+x$ with $x\in\OO[[y]]$, and $d\,g''(0)=-\sqrt{-d}\cdot\sqrt{-d}\,g''(0)$ is integral by
+\cref{thm:cm-background}\ref{it:cm-isogeny}. (b) $y(0)=0$, $\theta(0)=1$, $g'(0)=0$. For the derivatives:
+$\partial\theta(\mu_iz)=-\mu_{ix}\,g'(\mu_iz)\theta(\mu_iz)$, $\partial g'(\mu_iz)=\nu_{ix}\,(dg'')(\mu_iz)\in
+\OO[[y(\mu z)]]$ by (a), and $\OO[[y(\mu z)]]$ is stable since $\mu$ is integral. (c) $Q(\partial)F(0)$ is
+an integral combination of constant terms of derivatives of $F$. (d) is (b) and (c).
+\end{proof}
+
+\begin{theorem}[Integrality of the derivatives]\label{thm:jet-integrality}
+Let $V$ be standard, $\delta\in\OO_K\setminus\{0\}$, $f\in\mathcal S_\delta(V)$ and $Q$ a polynomial in the
+variables $z_{\tau,i}$ with coefficients in $\OO_\iota$. Then $Q(\partial)J_{\bar\delta d\mathsf a}(f)(0)$ is
+integral at $\iota_p$. If $Q$ is homogeneous of degree $l$ and $c\in\C$, then
+\[
+  \abs{\iota_p\bigl(Q(\partial)J_{c\mathsf a}(f)(0)\bigr)}\le\Bigl|\iota_p\Bigl(\frac c{\bar\delta d}\Bigr)\Bigr|^l .
+\]
+\end{theorem}
+\lean{New.Parameters.norm_jet_jetSeries_le_one, New.Parameters.norm_jet_jetSeries_le_pow}
+
+\begin{proof}
+By \cref{thm:standard-theta-products}, $J_{\bar\delta a_{\mathrm{ar}}/\Omega_0}(f)=\Theta_{u^\dagger,m}^NH$ in
+$\Cp$. Since $\bar\delta d\mathsf a=d\varrho_0\cdot\bar\delta a_{\mathrm{ar}}/\Omega_0$, the series
+$J_{\bar\delta d\mathsf a}(f)$ is this one with $z$ replaced by $d\varrho_0z$, which turns the forms
+$u_j^\dagger$ into $d\nu_j$ with $\nu_j=\varrho_0u_j^\dagger$, integral by \cref{prop:jet-scale}(c). Apply
+\cref{lem:jet-ring}(d). For the second statement, $J_{c\mathsf a}(f)(z)=J_{\bar\delta d\mathsf a}(f)
+(\frac c{\bar\delta d}z)$, and a homogeneous jet of degree $l$ scales by the $l$-th power.
+\end{proof}
+
+\begin{theorem}[Normal form of standard data]\label{thm:standard-normal-form}
+Let $p$ be non-split, $V$ standard, $f\in\mathcal S_1(V)$ and $c\in\OO_\iota$. Then
+$\iota_p(J_{c\mathsf a}(f))$ has the normal form $(I_p^\circ,\mathrm{pr},\varpi,\lambda)$ for some $\varpi$
+with $\abs\varpi=p^{-\rho_p}$ and some $\lambda$.
+\end{theorem}
+\lean{New.Parameters.isIntegralAbove_of_finiteImage_mem, New.Parameters.exists_hasNormalForm_jetSeries}
+
+\begin{proof}
+Non-split primes do not divide $q_1$, so $\alpha$ is a unit above $p$ and the vectors $u_j$ of
+\cref{thm:standard-theta-products} (with $\delta=1$, $N=1$) are integral above $p$. Hence
+$J_{a_{\mathrm{ar}}/\Omega_0}(f)=\Theta_{u^\dagger,m}H$ has the normal form by \cref{thm:normal-form-theta}.
+Moreover $\abs{\varrho_0}=1$ (\cref{prop:jet-scale}(b)), so $c\varrho_0$ is integral and
+\cref{prop:normal-form-rules}\ref{it:nf-scale} applies to $J_{c\mathsf a}(f)(z)=J_{a_{\mathrm{ar}}/\Omega_0}(f)
+(c\varrho_0z)$.
+\end{proof}
+
+\begin{theorem}[Divisibility of standard data]\label{thm:standard-divisibility}
+Let $p$ be non-split, $f$ standard data of level one at $p$ on the space $\Hom(V_n,V_{n'})$ of
+$n'\times n$ matrices, for standard spaces $V_n$, $V_{n'}$, and $c\in\OO_\iota$; write $F=\iota_p(J_{c\mathsf a}(f))$,
+a series in the entries $z_{\tau,b,a}$, and $N=\#n'$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For every filling $i'$ and integral directions $y$,
+$v\bigl(P_{i',y}(\partial)F(0)\bigr)\ge D_p(\kappa)-fN^3(1+\log_p\max(B,1))$.
+\item If $\kappa$ fits the ranks, $\mathcal M$ is a set of places and the charges $w$ cover the exempt
+pairs for $\mathcal M$ and every $e\in I_p^\circ$, then for all standard fillings $i'$, $i$,
+\[
+  v\bigl(\mathrm{Sch}_\kappa(F)_{i'i}\bigr)+\abs w_{i'}\ge D_p(\kappa^\circ)+\gamma_p(B-B^\circ)
+  -fN^3\bigl(1+\log_p\max(B,1)\bigr).
+\]
+\end{enumerate}
+\end{theorem}
+\lean{New.Parameters.norm_jet_minorProd_jetSeries_le, New.Parameters.norm_schurJet_jetSeries_le_of_charges}
+
+\begin{proof}
+(a) By \cref{thm:standard-normal-form}, $F$ has the normal form $(I_p^\circ,\mathrm{pr},\varpi,\lambda)$ with $\abs\varpi=p^{-\rho_p}$ in the variables $z_{\tau,b,a}$; \cref{thm:count} without marked places and charges gives the bound. (b) By \cref{prop:schur-entry}, as $\kappa$ fits the ranks, there are integral directions $y$ with $\abs{\mathrm{Sch}_\kappa(F)_{i'i}}\le\abs{P_{i',y}(\partial)F(0)}$, that is, $v(\mathrm{Sch}_\kappa(F)_{i'i})\ge v(P_{i',y}(\partial)F(0))$. The filling $i'$ is the same, so the charge $\abs w_{i'}$ is the same, and \cref{thm:count} with the marked places $\mathcal M$ and the charges $w$ bounds the right side.
+\end{proof}

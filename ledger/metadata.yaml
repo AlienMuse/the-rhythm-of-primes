@@ -1,0 +1,28 @@
+# Front matter of the paper (DECISIONS.md D2, D3). tools/build.py writes src/generated/metadata.tex from this file.
+title: "The Rhythm of Primes"
+subtitle: "On the Formally Verified Proof of the Generalized Riemann Hypothesis for Dirichlet L-functions"
+# the subtitle as typeset (TeX; the plain form above goes into the PDF metadata and the deposit records)
+subtitle_tex: "On the Formally Verified Proof of the Generalized Riemann Hypothesis for Dirichlet $L$-functions"
+short_title: "The Rhythm of Primes"
+author: "Vincent Liu"
+affiliation: "WiseMotif.ai"
+affiliation_url: "https://wisemotif.ai"
+email: "vincent.liu@wisemotif.ai"
+orcid: "https://orcid.org/0009-0000-8718-222X"
+version_line: "Preprint \\textperiodcentered\\ Version 1.0.0"
+date: "November 2026"
+doi: "10.5281/zenodo.24593828"   # reserved through the RDM API 2026-11-27 (release/zenodo-state.json; D18)
+licence: "CC BY 4.0"
+pdf_subject: "A research paper of the GAI-MUA programme"
+# MSC 2020 codes are checked online against the MSC2020 list before release (PLAN.md §7).
+msc:
+  - "11M26 (primary)"
+  - "11M06, 11F27, 11F55, 11R39, 11G15, 11F80, 03B35, 68V15 (secondary)"
+keywords:
+  - "Generalized Riemann Hypothesis"
+  - "Dirichlet L-functions"
+  - "theta correspondence"
+  - "Stepanov's method"
+  - "heights"
+  - "formal verification"
+  - "Lean"

@@ -1,0 +1,107 @@
+\section{Regular families of twists}\label{sec:fit}
+
+This section proves \cref{thm:regular-family}. For each prime place $\iota$ over $\ell$ the twisting theorem gives an $m$-fold twist whose main summands have short Selmer groups and whose ratios of
+$L$-values are $\ell$-adically large; the bound for denominators of \cref{sec:denominators} turns the Selmer bound into a clearing bound $\beta_\ell$; and the clearing bounds,
+summed over $\ell$ with weights $\log\ell$, stay within the denominator budget.
+
+\subsection{The eigensystems of the lifts}\label{ss:fit-eigensystems}
+\lean{New.Selmer.DenominatorLe.clearsProjection, New.Selmer.sum_padicValNat_mul_log_le, New.Selmer.sum_half_pow_mul_log_le, New.Selmer.prod_Ioc_natB_le_pow, New.Selmer.sum_defectBound_mul_log_le, New.Selmer.sum_localDefectBound_mul_log_le, New.Selmer.isNegligible_padicValNat_oddClassBound, New.Selmer.isNegligible_twistError, New.Selmer.isNegligible_denominatorError, New.Selmer.isNegligible_padicValNat_card_stdClasses, New.Selmer.sum_clearingBound_add_padicValNat_le, New.Selmer.isRepOfType_one, New.Selmer.exists_isMainSummand_mainPair, New.Selmer.range_goodLift_le_span_hasLiftHeckePolynomial, New.Selmer.exists_mFoldTwist_selmerLengthLe_inv_ratio_le, New.Selmer.denominatorLe_range_goodLift, New.Selmer.denominatorLe_span_trivialLift, New.Selmer.exists_mFoldTwist_hasDenominatorsLe, New.exists_isRegularFamily}
+
+\begin{proposition}[Splitting the space of lifts]\label{prop:fit-splitting}
+Let $\vartheta$ be a twist and $1\le j\le m$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The space of lifts for $\vartheta$ and $j$, the range of the theta lift of the good forms on $W_j$ for the descent pair of $\vartheta$ and $j$, is spanned by forms $y$ such that $y$ lies in the range of the type projection of a
+tuple $c$ of labels in lift setting, and at the split places off the level the Hecke polynomial of $y$ is that of a lift of a system $q$ of Hecke eigenvalues occurring in a good form on $W_m$.
+\item The systems $q$ in (a) are finitely many and do not depend on $\vartheta$ or $j$.
+\item For a main pair $p$ for $j$ and the descent pair of the trivial twist, the trivial $\ell$-adic character of rank one is of the type of the labels $X-1$, and some rank one representation is a main summand
+for the lift of $p$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The space of lifts is the range of the lift $L^{\rm good}_{\vartheta,j}$ of the good forms on $W_j$, those of principal level at the chosen places in the image of the idempotent $e_0$, the sum of the idempotents $e_c$ of the good tuples $c$ of labels. The good forms decompose into joint eigenspaces of the
+Hecke operators (\cref{prop:hecke-eigen}), and $e_0$ is the sum of the $e_c$; so the range is spanned by the lifts $y$ of good eigenforms on $W_j$ that lie in the image of some $e_c$, which is contained in that of $e_0$. The labels $c$ for which some twisted label has the root $1$ contribute false lifts or zero (\cref{thm:norm-one-lift}), so the
+remaining $c$ are in lift setting for the descent pair of $\vartheta$ and $j$ (\cref{lem:lift-settings}(a)). The lift intertwines the Hecke operators at the split places off the level with the lift of the Hecke polynomials (\cref{prop:lift-descent}(c)), so the Hecke polynomial of $y$ is that of a lift of the eigensystem $q$ of its source. This is
+\cref{thm:main-summands-exist}(d).
+
+(b) The eigensystem $q$ of a nonzero good eigenform on $W_j$ also occurs in a good form on $W_m$: $W_j$ embeds into $W_m$ compatibly with the Hecke action off the level and with the good idempotent, so the image of the eigenform is a nonzero good form on $W_m$ with the same eigenvalues. The good forms on $W_m$ form a finite-dimensional
+space, so the systems occurring there are finitely many (\cref{prop:hecke-eigen}); they depend neither on $\vartheta$ nor on $j$.
+
+(c) For the descent pair of the lift of $p$ from $\U(1)$ to $\U(2z)$, with the trivial twist, take for every chosen place the label $X-1$. The trivial $\ell$-adic representation of rank one is conjugate self-dual with the parameter $1$; it satisfies the local conditions of the empty level at all finite places, with the single jump
+$0$ at each embedding; and inertia at a chosen place acts through $1$, the only root of $X-1$. Hence it is of the type of these labels. The main pair is in lift setting for these labels (\cref{ss:rep-type}). After the twist of \cref{thm:main-summands-exist}(b), with $r_O=1$ and the string of length $2z-1$, the jump $0$ becomes $0-(1-z-\epsilon_\sigma(-c))=z-1-\epsilon_\sigma c$, the main summand weight of rank one of \cref{thm:main-summands-exist}(a); so \cref{thm:main-summands-exist}(b), (c) give the rank one main summand.
+\end{proof}
+
+\subsection{A twist for one prime}\label{ss:fit-one-prime}
+
+\begin{theorem}[A twist with few congruences at one prime]\label{thm:fit-one-prime}
+For a prime $\ell$ and $\iota\colon\C\simeq\bar\Q_\ell$ there is an $m$-fold twist $\tau$ such that $\Nm Q(\tau)$ is prime to $\ell$ and, for $\vartheta=\tau^j$, $1\le j\le m$:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item for every ramified pair $p$ and sign $s$, $\norm{\varrho_p(\vartheta,s)^{-1}}_\iota\le\ell^{e'_\ell}$;
+\item the projection to the space of lifts for $\vartheta$ and $j$ has denominator at most $\ell^{\beta_\ell}$ at $\iota$, and for every main pair $p$ for $j$ the inner product of the projections of two test forms to the line of
+the lift $\varphi_{p,\vartheta}$ has norm at most $\ell^{\beta_\ell}h_\ell$ at $\iota$, where $h_\ell$ is the $\ell$-part of the class number of $U(1)$ at the chosen level.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\emph{The family of main summands.} Let $\mathcal S$ be the finite set of systems of \cref{prop:fit-splitting}(b). For each $1\le j\le m$ and $q\in\mathcal S$ let $R_{j,q}$ be a main summand for the $j$-th descent pair of the trivial twist and $q$ (\cref{thm:main-summands-exist}(c)), and for each main pair $p$ for some $j$ let $R'_p$ be the rank one main summand
+of \cref{prop:fit-splitting}(c). All of them are like main summands, and the main pairs are finitely many (\cref{prop:finite-pairs}). The twisting theorem (\cref{thm:twisting}) for the joined family gives an $m$-fold twist $\tau$ such that every $\vartheta=\tau^j$ has (i) auxiliary modulus, a character $\psi$ of $\vartheta^{-1}$ from the
+norm-one torus, and ramification at most $e'_\ell$; (ii) for each member of the family, a lattice in its twist by $\psi$ whose crystalline Selmer group with divisible coefficients has length at most $e'_\ell$; (iii) the bound (a).
+
+\emph{The modulus.} The places of $Q(\tau)$ have prime norm and avoid the bad places, which contain those above $\ell$; so $\Nm Q(\tau)$ is prime to $\ell$ (\cref{lem:class-sums}(c)).
+
+\emph{The space of lifts.} Fix $j$ and $\vartheta=\tau^j$. The descent pairs of $\vartheta$ and of the trivial twist differ by the twist of their character of $\U(1)$ by $\vartheta$, so a main summand $R_{j,q}$ for the trivial twist, twisted by $\psi$, has the Selmer bound (ii) for $\vartheta$. By \cref{prop:fit-splitting}(a) the space of lifts $Z$ is spanned by
+forms $y$ in the image of $e_c$ for labels $c$ in lift setting, which lift a system $q\in\mathcal S$; with $R_{j,q}$, each such $y$ is a lift generator in the sense of \cref{sec:denominators}. \Cref{thm:denominator-bound}(b), with ramification and Selmer length at most $e'_\ell$, gives an operator $\Lambda$ on $Z$ with
+$\norm{\iota\det\Lambda}\ge\ell^{-\dim Z\cdot r\beta_\ell}$, $r$ the rank of $W_m$, that clears the denominators of the projection to $Z$ on integral forms orthogonal to the false lifts for $e_0$; a fortiori the same holds with any bound $\beta'\ge\beta_\ell$.
+
+\emph{The line of a main pair.} Let $p$ be a main pair for $j$. The lift $\varphi_{p,\vartheta}$ has the labels $X-1$ at the chosen places and lifts the constant system $1$ (\cref{prop:fit-splitting}(c)), and the lattice of $R'_p$ twisted by $\psi$ has the Selmer bound (ii). \Cref{thm:denominator-bound}(b) for the one-dimensional space spanned
+by $\varphi_{p,\vartheta}$ and the idempotent of the labels $X-1$ gives an operator with $\norm{\iota\det}\ge\ell^{-\beta_\ell}$ that clears the denominators of the projection to this line on integral forms orthogonal to the false lifts. The classes of $\U(1)$ at the chosen level have trivial automorphism groups (\cref{prop:free-levels}), so the
+inner product of two integral forms is $1/\#\mathrm{classes}$ times an integral sum (\cref{prop:norm-L-value}); with the clearing operator, the inner product of the projections of two test forms to the line has norm at most $\ell^{\beta_\ell}h_\ell$ at $\iota$, where $h_\ell=\ell^{v_\ell(\#\mathrm{classes})}$.
+\end{proof}
+
+\subsection{Summing over the primes}\label{ss:fit-sum}
+
+\begin{lemma}[Weighted sums of valuations]\label{lem:fit-sums}
+Let $T$ be a finite set of primes.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $1\le a\le b$ are integers, $\sum_{\ell\in T}v_\ell(a)\log\ell\le\log b$.
+\item $\sum_{\ell\in T}2^{-\ell}\log\ell\le2$.
+\item The product $\Pi$ of the integers in $(b-30h^3,b+30h^3]$, for $b\ge0$ and the truncated difference, is at most $(b+30h^3)^{60h^3}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) $\sum_{\ell\in T}v_\ell(a)\log\ell$ is at most the sum over all primes dividing $a$, which is $\log a$ by unique factorisation, and $\log a\le\log b$. (b) $\log\ell\le\ell$, and $\sum_{n\ge1}n2^{-n}=\frac{1/2}{(1-1/2)^2}=2$. (c) There are at most $60h^3$ factors, each at most $b+30h^3$.
+\end{proof}
+
+\begin{proposition}[The error terms are negligible]\label{prop:fit-negligible}
+Let $x$ be the length of the prime sum.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\sum_{\ell\in T}\mathrm{loc}_\ell\log\ell\le4\cdot10^6e^{180}f\,(m/k)\,b\log b$ for every finite set $T$ of primes.
+\item The odd class bound is at most $2^{4(N_E+\mathrm t+3)^{27}}h_E$, and its $\ell$-adic valuations are negligible with exponent $2000$.
+\item The twist errors $e'_\ell$ are negligible with exponent $999$, the denominator errors $e_\ell$ with exponent $4000$, and the valuations $v_\ell(h)$ of the class number of $U(1)$ at the chosen level with exponent $30$.
+\item $\sum_{\ell\in T}(\beta_\ell+v_\ell(h))\log\ell\le\mathrm{budget}$ for every finite set $T$ of primes.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+All sums are over a finite set $T$ of primes. (a) By definition $\mathrm{defect}_\ell=10^6\frac mk\bigl(b\,v_\ell(M)+v_\ell((2b)!\,\Pi^{h^3})\bigr)$ with $h=\mathrm r^8$, and by \cref{lem:fit-sums}(a), (c),
+\[
+  \sum_{\ell\in T}\mathrm{defect}_\ell\log\ell\le10^6\frac mk\Bigl(b\log M+\log\bigl((2b)!\,(b+30h^3)^{60h^6}\bigr)\Bigr);
+\]
+the bracket is at most $e^{180}b\log b$ by \cref{prop:sizes}, and $\mathrm{loc}_\ell=4f\,\mathrm{defect}_\ell$. (b) The bound for the odd class bound is \cref{thm:B-padic}(c). By \cref{lem:fit-sums}(a) the weighted sum of its valuations is at most $\log(2^{4(N_E+\mathrm t+3)^{27}}h_E)=4(N_E+\mathrm t+3)^{27}\log2+\log h_E$, and
+$\log h_E\le x^{30}$; this is at most $x^{2000}$ by \cref{prop:sizes}. (c) For the twist errors, by \cref{lem:fit-sums}(a), (b) the weighted sum is at most $(4f+3)\mathrm r\log n_{\rm ch}+\sum_\ell2^{-\ell}\log\ell\le(4f+3)\mathrm r\log n_{\rm ch}+2$. The denominator error is $\mathrm t$ times the valuation of the odd class bound plus $c\,v_\ell(n_{\rm ch})$,
+with $c=8f\mathrm t+2+(4\mathrm t+1)h^{22}+h$ (\cref{ss:denominator-bound}), so its weighted sum is at most $\mathrm t\,x^{2000}+c\log n_{\rm ch}$, by (b) and \cref{lem:fit-sums}(a). The class number of $\U(1)$ at the chosen level is at most $\exp(x^{30})$, so its weighted sum is at most $x^{30}$. The three bounds are at most $x^{999}$, $x^{4000}$ and
+$x^{30}$ by \cref{prop:sizes}, as $\log n_{\rm ch}\le x^{32}$ (\cref{prop:free-levels}). (d) By definition $\beta_\ell=\mathrm{loc}_\ell+(1+2\mathrm t)e'_\ell+e_\ell+v_\ell(n_{\rm ch})$, so by (a), (c) and \cref{lem:fit-sums}(a) the sum is at most
+\[
+  4\cdot10^6e^{180}f\,\frac mk\,b\log b+(1+2\mathrm t)x^{999}+x^{4000}+\log n_{\rm ch}+x^{30},
+\]
+which is at most $\mathrm{budget}=fa\log^3b/(mk)$ by \cref{prop:sizes}.
+\end{proof}
+
+\subsection{Proof of the existence of regular families}\label{ss:fit-proof}
+
+\begin{proof}[Proof of \cref{thm:regular-family}]
+For each prime place $\iota$ over $\ell$ let $\xi_\iota$ be the twist $\tau$ of \cref{thm:fit-one-prime}. Its modulus is prime to $\ell$. For a ramified pair $p$, a sign $s$ and $1\le j\le m$ the family $\varrho_p(\xi^j_\iota,s)^{-1}$ has height
+at most $x_1$: take $H=1$, $\alpha=0$ and $h_\ell=e'_\ell$ in \cref{def:height}; condition (ii) is \cref{thm:fit-one-prime}(a), and (iii) holds since $\sum_{\ell\in T}e'_\ell\log\ell\le x^{999}\le x_1$ by \cref{prop:fit-negligible}(c) and \cref{prop:sizes}. Hence the family has small ratios. With
+$\beta'_\ell=(\beta_\ell+v_\ell(h))\log\ell$ the denominators of \cref{thm:fit-one-prime}(b) are at most $e^{\beta'_\ell}$, and $\sum_{\ell\in T}\beta'_\ell\le\mathrm{budget}$ by \cref{prop:fit-negligible}(d). Hence the family is regular.
+\end{proof}

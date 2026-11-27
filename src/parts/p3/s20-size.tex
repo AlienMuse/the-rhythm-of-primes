@@ -1,0 +1,239 @@
+\section{Size of the composite lift and the proof of Theorem~A}\label{sec:size}
+
+This section bounds the archimedean size of the composite lift for the trivial twist (\cref{thm:composite-size}), shows that
+short forms span the ramified source forms (\cref{prop:short-span}), and combines both with the seesaw identity
+(\cref{thm:seesaw}) and the divisibility theorem (\cref{thm:divisibility}) to prove Theorem~\ref{thm:A}. In the size bound
+the archimedean sizes of the jets and the gains appear with the same prime sums, which cancel in the exponent; and the
+restriction to $Y_m$ saves $a\log N$ at each $a$-place, which pays for the excess of the $m$ lifts over the main amount.
+
+For a form $\varphi$ on a definite group and $\sigma\in\operatorname{Aut}\C$, $\norm\varphi_\sigma^2$ is the sum over the classes $c$ of the squared Gram norms of
+$\sigma(\varphi(g_c))$, divided by the orders of the stabilisers; at a free level the stabilisers are trivial.
+\lean{New.LevelPlaces.LevelForm.normSqAt, New.LevelPlaces.LevelForm.integralForms, New.weylNormSq, New.weylGram}
+
+\subsection{Short forms}\label{ss:short-forms}
+A form $\varphi$ is \emph{$B$-short} if each value $\varphi(g)$ is integral for Weyl's lattice at $g$ at every $p$-adic embedding, and every conjugate
+of $\varphi(g)$ under $\operatorname{Aut}\C$ has squared norm at most $B$.
+\lean{New.IsShort, New.IsShort.sub_translate, New.Data.isShort_ramifyingOp}
+
+\begin{proposition}[Short forms span]\label{prop:short-span}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $K$ be a free level, $N\ne0$ an integer in the different of $E$, and $M\ge nf+\#\{\text{boxes in columns of height}<n\}$. If
+$B\ge(6N(fn)^2)^{6M}$, the forms of level $K$ are spanned by the $B$-short ones.
+\item The class number of the standard lattice in rank $n$ is at most $(1+2c^3)^{4fn^2}$, $c=6N(fn)^2$; at a level containing the
+principal level of $G$ in rank at most $2n_m$ there are at most $\exp(x^{29}(1+\log G))$ classes, and at most $\exp(x^{30})$ at a level
+containing that of $\pi_M\pi_N$ in rank at most $n_m$.
+\item The ramified source forms are the image of $\prod_{w\mid\pi_N}(1-z_w)$; they have dimension at least $(1-f/(N-1))\dim\mathcal S\ge(1-b^{-8})\dim\mathcal S$,
+and are spanned by the $e^{\errunit}$-short ones.
+\end{enumerate}
+\end{proposition}
+\lean{New.span_isShort_eq_top, New.isShort_deltaForm, New.norm_weylEval_le_one_of_integral, New.weylRep_mul_weylRep_zero, New.norm_weylRep_mulVec_det_smul_weylEval_le_one, New.weylNormSq_det_smul_weylRep_mulVec_weylEval_le, New.Space.card_stdClasses_le, New.Space.stdClasses_eq_of_gram_eq, New.Space.norm_map_mul_apply_le, New.Space.norm_gram_apply_le_cube, New.Space.isIntegral_conjTranspose_mul_apply, New.Data.card_stdClasses_le_exp_mul_log, New.Data.card_stdClasses_le_exp, New.Data.ramifiedSourceForms_eq_range, New.Data.ramifyingOp, New.Data.ramifyingOp_empty, New.Data.ramifyingOp_cons, New.Data.finrank_ker_ramifyingOp_le, New.finrank_ker_mul_le, New.Data.finrank_ker_one_sub_scalingGenerator_le, New.Data.le_finrank_ramifiedSourceForms, New.Data.f_div_N_sub_one_le, New.Data.span_isShort_eq_top, New.Data.span_isShort_ramifiedSourceForms_eq_top, New.algFormCentralRep, New.coe_algFormCentralRep_apply, New.sum_pow_apply_eq_zero_iff_exists_eq_sub, New.iInf_ker_sum_pow_eq_range, New.relIndex_mul_finrank_levelSpace, New.span_setOf_mem_eq_top_of_eq_range, New.Data.centralRep, New.Data.coe_centralRep_apply, New.Data.algFormCentralRep_scalingGenerator_pow, New.Data.centralRep_scalingGenerator_pow_eq_one, New.Data.sum_scalingGenerator_pow_eq_zero_iff_exists_eq_sub, New.Data.exists_eq_sub_scalingGenerator, New.Data.N_sub_one_le_relIndex_levelX, New.Data.coe_mem_levelSpace_sup_zpowers, New.Data.cast_N_sub_one_ne_zero, New.Data.sum_height_mul_columnCount_le, New.Data.exists_isScalingAt_valuation_pow_iff, New.Data.isScalingAt_scalingGenerator, New.Data.valuation_scalingGenerator_pow_sub_one_lt_one_iff, New.Data.scalarFin_mem_maxCompactAt_of_isScalingAt, New.Data.scalarFin_scalingGenerator_mem_maxCompactAt, New.Data.scalarFin_scalingGenerator_mem_chosenLevel, New.Data.scalarFin_scalingGenerator_pow_mem_levelX_iff, New.Data.not_isChosen_of_N_mem, New.Data.mem_levelX, New.Data.inf_supportedOn_le_chosenLevel}
+
+\begin{proof}
+(a) \emph{Delta forms.} At a free level $K$ a form is the sum of its \emph{delta forms}, one for each class $c$: the delta form at a representative $x$ made from a vector $v$ is supported on $\Gamma xK$, and its value at $y$ is $\gamma^{-1}v$ for the unique rational $\gamma$ with $x^{-1}\gamma y\in K$. If the coordinates of $x^{-1}\iota(v)$ have absolute value at most $1$ for every
+$p$-adic embedding $\iota$ and every conjugate of $v$ has squared norm at most $B$, the delta form is $B$-short, because its values are the moved vectors $\gamma^{-1}v$ and the gauge and the norms are invariant under rational points. Hence it suffices to find, for each class $c$, a spanning set of vectors with these two properties.
+
+\emph{Short bases.} A lattice of rank $n$ over $\OO_E$ with a unimodular hermitian form has a \emph{short basis}: a basis $Y$ such that the entries of all conjugates of $Y$ are at most $C=6N(fn)^2$, by Minkowski's theorem and the integrality of the Gram matrix ($N$ in the different makes the dual lattice contain $N^{-1}$ times the lattice).
+Let $Y_c$ be a short basis of the lattice of $c$, so that $c^{-1}Y_c$ is integral, and similarly short bases for the powers of $c$ that absorb the determinant part of the weight.
+
+\emph{The vectors.} Let $A$ be the action of $Y_c$ in the weight, times the determinants of these short bases, and consider $A\,\mathrm{ev}(y)$ for arrays $y$ of roots of unity, $\mathrm{ev}(y)$ being the evaluation vector (\cref{ss:B-schur}). They are integral at every embedding: $c^{-1}$ moves the vector to the action of the integral matrix $c^{-1}Y_c$ applied to the values at $y$ of the products
+of minors, which are polynomials with integral coefficients, times determinants of integral matrices; and the entries of $y$ have absolute value $1$ in every normed field. They are $B$-short: with $R=C$, the Schur matrix of a family $z$ multiplies squared norms by at most $\prod\rho^{\lambda}$ with $\sum\rho$ at most the sum of the squared entries, each at most $(nR)^2$, the exponents
+adding up to the number of boxes; and $\abs{\det Y}\le(n^2R)^n\le(R^3)^n$; so the squared norm is at most $R^{6M}\le B$. Evaluation vectors at roots of unity span the Weyl module and $A$ is invertible, so these vectors span.
+
+(b) \emph{The class number.} To a class $g$ attach a short basis $Y$ of its lattice, its Gram matrix $G=Y^{\mathsf H}Y$, and a rational matrix $X$ congruent to $(g^{-1}Y)^{-1}$ modulo $\hat\OO$ with entries at most $(2f)^2N$. Both $G$ and $GX$ have integral entries, because $Y^{\mathsf H}Z=(gY)^{\mathsf H}(gZ)$ for unitary $g$; their conjugates are at most
+$C^3$. The pair $(G,GX)$ determines the class: if two classes give the same pair, then $\gamma=YY'^{-1}$ is a rational isometry, since the Gram matrices agree, and $g=\gamma g'k$ with $k=A'A^{-1}$, $A=g^{-1}Y$, $A'=g'^{-1}Y'$, which is integral as the sum of the integral matrices $A'A^{-1}-A'X$ and $A'X'$. The number of algebraic integers of
+$E$ with all conjugates at most $C^3$ is at most $(1+2C^3)^{2f}$, and there are $2n^2$ entries; this gives $(1+2C^3)^{4fn^2}$. A level containing a principal level of $G$ has index at most $\#\GL_n(\OO/G)\le G^{2fn^2}$ in the integral points, and every class of the integral points splits into at most that many classes; with \cref{prop:sizes} this gives
+the two bounds.
+
+(c) \emph{Ramified forms as an image.} The scaling $z_w$ acts on source forms with $z_w^{N-1}=1$: its component at $w$ reduces to a generator of the units of the residue field, which has $N$ elements, and its power $z_w^i$ lies in the level exactly when $N-1\mid i$. For an operator $T$ with $T^r=1$, the translates $T^i\varphi$, $0\le i<r$, have sum $0$ exactly when $\varphi=\psi-T\psi$: the operator
+$r-\sum_iT^i$ is $r$ on such $\varphi$, and $1-T$ divides it. Computing in the commutative group algebra of the $z_w$, the intersection of the kernels of the sums $\sum_iz_w^i$ is the image of $\prod_w(1-z_w)$.
+
+\emph{Dimension.} The kernel of $1-z_w$ consists of the forms fixed by the level $K$ generated by the level of $X_0$ and $z_w$; both levels are free, so the dimensions are in the ratio $[K:\mathrm{level}]$, which is at least $N-1$ since some power $z_w^i$ with $0<i\le[K:\mathrm{level}]$ lies in the level. Hence this kernel has dimension at most $\dim\mathcal S/(N-1)$, and the kernel of a product of
+endomorphisms has dimension at most the sum of the dimensions of the kernels; with the $f$ primes $w\mid\pi_N$ this gives $(1-f/(N-1))\dim\mathcal S$, and $f/(N-1)\le b^{-8}$ since $f\le b$ and $N\ge b^9+1$.
+
+\emph{Short forms.} Apply (a) to the free level of $X_0$ (\cref{prop:free-levels}), of rank $k$, with the integer $q_1d$ of the different, and $B=e^{\errunit}/4^f$; the condition $B\ge C^{6M}$ holds by \cref{prop:sizes}. If $\varphi$ is $B$-short and $k$ is integral, then $\varphi$ minus its right translate by $k$ is $4B$-short, as
+$\abs{u-v}^2\le2\abs u^2+2\abs v^2$ and integrality is preserved; so $\prod_w(1-z_w)$, a product of $f$ such factors, takes $B$-short forms to $e^{\errunit}$-short forms. As the short forms span $\mathcal S$, their images span the image of the product, which is the space of ramified forms.
+\end{proof}
+
+\subsection{Archimedean size}\label{ss:archimedean-size}
+For $j<m$ and a place $\tau$, row $i$ of the diagram of lift $j+1$ has \emph{main length} $c_\tau(1)$ for $i=0$, $\kappa(\tau)$ for $0<i<k$ and $0$
+otherwise, and \emph{slack} $b+\lfloor a/\lfloor x_1\rfloor\rfloor+r^{16}$ for $i=0$ and $r^{16}$ otherwise. Put
+$\mathrm{rs}_j=\sum_\tau\sum_{i<n_j}\sinf(\ell_{\tau,i})$ over the row lengths $\ell_{\tau,i}$ of the diagram of lift $j+1$, and
+$\mathrm{cs}=m\bigl(\#\Phia\,\sinf(a)+k\sum_\tau\sinf(\kappa(\tau))\bigr)$.
+\lean{New.Data.rowMainLength, New.Data.rowSlack, New.Data.rowSizeSum, New.Data.chainSize, New.Data.diagramWeight_le_rowMainLength_add_rowSlack, New.Data.rowMainLength_add_rowSlack_le, New.Data.jetSize_zero, New.Data.sum_range_jetSize_add_eq, New.Data.jetSize_le_add, New.Data.norm_map_star_piMBar_sq}
+
+\begin{lemma}[One kernel]\label{lem:one-kernel-size}
+For $j<m$, a translation $t$, finite points $g$, $g'$ and $\sigma\in\operatorname{Aut}\C$, the jet matrix of $\omega(g,g')\varrho(t_j)\mathrm{vac}_j$ for the
+trivial twist multiplies the norm of the $\sigma$-conjugate of a vector by at most $\exp(x^{50}+\mathrm{rs}_j/2)$; and
+$\sum_{j<m}\mathrm{rs}_j\le\mathrm{cs}+\errunit/2$.
+\end{lemma}
+\lean{New.Data.sqrt_weylNormSq_jetMap_le, New.Data.sum_rowSizeSum_le}
+
+\begin{proof}
+\emph{One kernel.} Apply \cref{thm:jet-size} to the translated vacuum, a vacuum combination of size $1$, with the scale $\pi_M\mathsf a$ and the growth rate $L=a+1$. The conjugate of $\bar\pi_M$ that scales the jets has squared absolute value $M$, so $\abs{\sigma c}^2/\Omega=M/\Omega$, and the term $w$ of the growth condition is
+\[
+  w=\tfrac12\sum\bigl(\ell/L+\log\ell!+\ell\log(M/\Omega)\bigr)=\tfrac12\mathrm{rs}_j+\tfrac12\sum\ell/L ,
+\]
+the sum over the row lengths $\ell$ of the first $n_j$ rows at all places. Every row has length at most $2a$, because both its main length and its slack are at most $a$, so $\sum\ell/L\le2fn_j$. The remaining factors, $\exp(C_0(q_1n_jn_{j+1}+1)^2)$ and $(2L+2)^{fn_jn_{j+1}}$, are at most $e^{x^{50}}$ by \cref{prop:sizes}, which gives the first claim.
+
+\emph{The sum.} Each row length is at most its main length plus its slack, and for a slack $e$,
+\[
+  \sinf(\ell+e)\le\sinf(\ell)+e\bigl(\log(\ell+e+1)+\log(M/\Omega)\bigr)\le\sinf(\ell)+25e\log b ,
+\]
+since $\ell+e\le2a$ and $\log(2a+1)+\log(M/\Omega)\le25\log b$ (\cref{prop:sizes}). The main lengths give, at each place, $\sinf(c_\tau(1))$ for the first row and $\sinf(\kappa(\tau))$ for each of the next $k-1$ rows, and $\sinf(0)=0$ for the others; as $\sinf\ge0$ one may count $k$ rows of main length $\kappa(\tau)$. Here $c_\tau(1)=a$ at the $a$-places and $0$
+elsewhere, so the main lengths of the $m$ lifts add up to at most $\mathrm{cs}$. The slacks add up, per lift and place, to $b+\lfloor a/\lfloor x_1\rfloor\rfloor+n_jr^{16}$, which is $O(b)$; with the factor $25\log b$, over the $mf$ pairs of a lift and a place, and with $mb\le a$, the total is at most $\errunit/2$.
+\end{proof}
+
+\begin{proposition}[The level pays for the excess]\label{prop:level-pays}
+With $s_{\rm main}$ the main prime sum of \cref{sec:main}, the following hold.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\sinf(a)-s_{\rm main}\le a\bigl(\frac1f\sum_\tau\log\kappa(\tau)+\log\frac{M\,\mathrm{rd}_E}{2\pi}\bigr)+1+\frac12\log a$, and
+$m(\sinf(a)-s_{\rm main})-a\log N\le32a\log b$.
+\item $\hmain-m\,\rem+2\sum_pg_p\log p=m\#\Phia\,s_{\rm main}+mk\sum_\tau\sinf(\kappa(\tau))$, the sum over the small non-split primes.
+\item $\mathrm{cs}-\#\Phia\,a\log N\le\hmain-m\,\rem+2\sum_pg_p\log p+32fa\log b$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.jetSize_sub_mainPrimeSum_le, New.Data.mul_jetSize_sub_mainPrimeSum_sub_le, New.Data.card_aPlaces_mul_excess_le, New.Data.mainAmount_sub_add_two_mul_sum_gain, New.Data.chainSize_sub_le, New.Data.two_mul_sum_gain_mul_log}
+
+\begin{proof}
+(a) By Stirling's formula, $\log a!\le a\log a-a+1+\frac12\log a$, the logarithm of the Stirling sequence being decreasing. By \eqref{eq:Omega} and \cref{sec:data}, $\log\Omega=-1-c_1+\log(2\pi/\mathrm{rd}_E)$ with $c_1=\re G_1(1)=\re\frac{L'}{L}(1,\chi_K)-\gamma-1$, so
+$\log(M/\Omega)=\log M+\log\mathrm{rd}_E-\log2\pi+1+c_1$. With $s_{\rm main}=a(\log(a/\bar\kappa)+c_1)$ and $\log\bar\kappa=\frac1f\sum_\tau\log\kappa(\tau)$,
+\[
+  \sinf(a)-s_{\rm main}\le a\log a-a+1+\tfrac12\log a+a\Bigl(\log\frac{M\,\mathrm{rd}_E}{2\pi}+1+c_1\Bigr)-a\log a+a\log\bar\kappa-ac_1 ,
+\]
+in which $a\log a$ and $c_1$ cancel; this is the first inequality. The second is the choice of the level: $N\ge N_-=\bar\kappa^m(M\mathrm{rd}_E/2\pi)^{m-1}b^{-15/2}$ (\cref{def:data}), so $a\log N\ge am\log\bar\kappa+a(m-1)\log(M\mathrm{rd}_E/2\pi)-\frac{15}2a\log b$, and the terms $ma(\log\bar\kappa+\log(M\mathrm{rd}_E/2\pi))$ cancel; what remains is at most
+$a\log(M\mathrm{rd}_E/2\pi)+\frac{15}2a\log b+m(1+\frac12\log a)\le32a\log b$ by \cref{prop:sizes}.
+
+(b) The gain is zero at split primes, so the sum in \cref{prop:gains}(b) may run over all primes below $x_1$, and each prime sum is the sum of its local terms over the same primes. Substitute the definitions $\hmain=mk\sum_\tau(\sinf(\kappa(\tau))-\sfin(\kappa(\tau),\tau))$ and $\rem=\sum_{\tau\in\Phia}(\sfin(a,\tau)-s_{\rm main})$:
+\begin{align*}
+  &\hmain-m\,\rem+m\sum_{\tau\in\Phia}\sfin(a,\tau)+mk\sum_\tau\sfin(\kappa(\tau),\tau)\\
+  &\qquad=mk\sum_\tau\sinf(\kappa(\tau))+m\#\Phia\,s_{\rm main},
+\end{align*}
+and the left side is $\hmain-m\,\rem+2\sum_pg_p\log p$.
+
+(c) Multiplying (a) by $\#\Phia\le f$ gives $\#\Phia(m(\sinf(a)-s_{\rm main})-a\log N)\le32fa\log b$. Adding $m\#\Phia\,s_{\rm main}+mk\sum_\tau\sinf(\kappa(\tau))$ to both sides and using (b) gives $\mathrm{cs}-\#\Phia\,a\log N\le\hmain-m\,\rem+2\sum_pg_p\log p+32fa\log b$.
+\end{proof}
+
+\begin{theorem}[Size of the composite lift]\label{thm:composite-size}
+Let $\Psi$ be a chain datum for the trivial twist and $\sigma\in\operatorname{Aut}\C$. If the values of $\sigma\varphi$ have squared norm at most $e^B$, then those of the
+$\sigma$-conjugate of $B_{1,\Psi}\varphi$ have squared norm at most $\exp(B+\beta)$, with
+\[
+  \beta=\hmain-m\,\rem+2\sum_{p\ \text{small non-split}}g_p\log p+\errunit .
+\]
+The same holds for $R_{1,\Psi'}$ for every weak chain datum $\Psi'$.
+\end{theorem}
+\lean{New.Data.weylNormSq_compositeLift_le, New.Data.weylNormSq_restrictedChain_le}
+
+\begin{proof}
+By \cref{prop:expand-gluing}(b), $B_{1,\Psi}=R_{1,\Psi'}$ for a weak chain datum $\Psi'$, so it suffices to treat $R_{1,\Psi'}$. By \cref{prop:chain-gauge}(a) a value of the chain at $\mathrm{diag}(h,1)$ is a sum, over tuples of classes and over $t$, of $\Psi'(t)$ times products of $m$ kernels applied to values of $\varphi$. By \cref{lem:one-kernel-size} each product multiplies the norm of
+the conjugates by at most $\exp(mx^{50}+\frac12\sum_j\mathrm{rs}_j)$, and by its second part $\frac12\sum_j\mathrm{rs}_j\le\frac12\mathrm{cs}+\frac14\errunit$. The levels of the stages contain the principal level of $\pi_M\pi_N$, so there are at most $\exp(x^{30})$ classes at each stage and $\exp(mx^{30})$ tuples of classes (\cref{prop:short-span}(b)); and
+$\sum_t\abs{\sigma\Psi'(t)}\le\exp(x^{60})$, by the size condition of a weak chain datum for the trivial twist. Hence the norm of a value of the conjugate chain is at most $e^{B/2}\exp(mx^{50}+mx^{30}+x^{60}+\frac12\mathrm{cs}+\frac14\errunit)$. Squaring, and restricting to $Y_m$ by \cref{prop:chain-gauge}(c), the squared norm is multiplied by at most
+\[
+  \exp\Bigl(2mx^{50}+2mx^{30}+2x^{60}+x^{70}+\mathrm{cs}+\tfrac12\errunit-\textstyle\sum_\tau n_\tau\log N\Bigr).
+\]
+The branching exponent $\sum_\tau n_\tau$ is $\#\Phia\,a$, since the restriction removes the long row at each $a$-place (\cref{prop:weight-Y}(c)). By \cref{prop:level-pays}(c),
+\[
+  \mathrm{cs}-\#\Phia\,a\log N\le\hmain-m\,\rem+2\sum_pg_p\log p+32fa\log b ,
+\]
+and $2mx^{50}+2mx^{30}+2x^{60}+x^{70}+32fa\log b\le\frac12\errunit$ by \cref{prop:sizes}; so the exponent is at most $\beta$.
+\end{proof}
+
+\subsection{The good projection}\label{ss:good-projection}
+For a form $z$ of principal level on $Y_0$ and $s\in\bar G$, the \emph{good part} of $sz$ is $\#\bar G\,e_0sz$, a target form.
+
+\begin{proposition}\label{prop:good-projection}
+Let $z$ be a form of principal level on $Y_0$, $s\in\bar G$ and $\vartheta$ a tame character.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For every $g$, with $\ell(ts)$ the lift of $\mathrm{diag}(ts,1)$ of \cref{prop:lower-chain}(c),
+\[
+  \iota_\vartheta(\#\bar G\,e_0sz)(g)=\sum_{t\in\bar G}\#\bar G\,e_0(t)\,\iota_\vartheta(z)\bigl(g\,\ell(ts)\bigr).
+\]
+\item If $c\,\iota_\vartheta z$ is integral at an embedding, so is $c\,\iota_\vartheta(\#\bar G\,e_0sz)$.
+\item If the values of $\sigma\iota_1z$ have squared norm at most $e^B$, then $\norm{\iota_1(\#\bar G\,e_0sz)}_\sigma^2\le\exp(x^{99}+B)$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.lowerChain_goodProjTranslate_apply, New.Data.goodProjTranslate_mem_integralForms, New.Data.normSqAt_goodProjTranslate_le, New.Data.coe_lowerChainAtLevel_apply, New.Data.goodProjTranslate}
+
+\begin{proof}
+(a) The action of $e_0$ is a sum over $\bar G$, and by \cref{prop:lower-chain}(c) the lift turns the action of $ts$ on forms of principal level into right translation by $\ell(ts)$; the formula follows by linearity.
+
+(b) The numbers $\#\bar G\,e_0(t)$ are algebraic integers: $\#\bar G\,e_0$ is a sum of the $\dim\pi\cdot\bar\chi_\pi$ over a set of irreducible representations $\pi$ of $\bar G$, and character values are sums of roots of unity. By (a) the value of $c\,\iota_\vartheta(\#\bar G\,e_0sz)$ at $g$ is a combination, with these coefficients, of values of $c\,\iota_\vartheta z$ at
+the right translates $g\,\ell(ts)$, which are integral above $\ell$; the gauge at $g$ of the value at $g\,\ell(ts)$ is that at $g\,\ell(ts)$, because $\ell(ts)$ is integral, and the gauge is ultrametric.
+
+(c) The coefficients of $\sigma e_0$ have absolute value at most $1$, because $\#\bar G\,\sigma e_0$ is the character of a representation of dimension at most $\#\bar G$. Hence each value of $\sigma\iota_1(\#\bar G\,e_0sz)$ is a sum of $\#\bar G$ terms of norm at most $\#\bar G\,e^{B/2}$, and its squared norm is at most $\#\bar G^4e^B$. The level contains the principal level of
+$\pi_M\pi_N$, so there are at most $\exp(x^{30})$ classes; and $\log\#\bar G\le x^{32}$ (\cref{prop:free-levels}). As $x^{30}+4x^{32}<x^{99}$, the class sum is at most $\exp(x^{99}+B)$.
+\end{proof}
+
+\subsection{The target lattice}\label{ss:target-lattice}
+The target $\mathcal T$ is a twisted lattice (\cref{def:twisted-lattice}): its twists are the $m$-fold twists $\vartheta$ (twists whose tame part
+$\psi$ has $\psi_w^n\ne1$ for $w\in Q$ and $1\le n\le m$), the map at $\vartheta$ is $\Theta_\vartheta=\iota_\vartheta$ with values in the forms on $Y_m$ of the level and
+character of \cref{prop:lower-chain}(c), $\vartheta$ is allowed at $\ell$ if $\ell\nmid\Nm Q(\vartheta)$, the integral vectors at $\iota$ are the forms integral at
+$\iota$, and the coordinates of $\Theta_1y$ are the values at representatives of the classes in the standard basis of the Weyl module.
+\lean{New.Data.targetLattice, New.Data.MFoldTwist, New.Data.Θ, New.Data.levelOf_lastResidueLevel_le_chosenLevel, New.Data.classAut_lastResidueLevel_eq_bot, New.Data.mem_integralVectors_targetLattice, New.Data.normSqAt_targetLattice, New.Data.volume_targetLattice, New.Data.injective_lift_targetLattice}
+
+\begin{proposition}\label{prop:target-lattice}
+This defines a twisted lattice: the levels of the forms on $Y_m$ are free, and the inner product of two forms integral at $\bar\iota$ and $\iota$ is
+integral at $\iota$. A target form is integral at $\iota\mid\ell$ exactly if $\Theta_\vartheta y$ is integral at $\iota$ for all $\vartheta$ with $\ell\nmid\Nm Q(\vartheta)$; the
+norms $\norm{\Theta_1y}_\sigma$ of the lattice are those of the forms; the volume at $\vartheta$ is $\det(\Theta_\vartheta^*\Theta_\vartheta)$; and each $\Theta_\vartheta$ is
+injective on $\mathcal T$.
+\end{proposition}
+
+\begin{proof}
+\emph{Free levels.} For a tame character $\vartheta$ the level of the forms on $Y_m$ consists of the integral points that reduce to $1$ at the chosen places and to block upper triangular matrices at the places of $Q$; it lies in the chosen level, hence is free (\cref{prop:free-levels}): $\Gamma\cap gKg^{-1}$ is trivial for every $g$.
+
+\emph{Inner products.} At a free level the inner product is the sum over the classes of the Gram pairings of the values. Weyl's lattice is self-dual up to the integral Gram matrix, so the pairing of a vector integral at $\bar\iota$ (the place of $\iota$ composed with complex conjugation) with a vector integral at $\iota$ is integral at $\iota$.
+
+\emph{The remaining statements.} Integrality of a target form at $\iota$ is defined through its lifts $\Theta_\vartheta y$ for the allowed $\vartheta$, which is the stated criterion. The coordinates of $\Theta_1y$ are the values at representatives $g_c$ of the classes; the norm of the lattice is the sum over $c$ of the squared Gram norms of $\sigma(\Theta_1y(g_c))$, and $\norm{\Theta_1y}^2_\sigma$
+is the same sum with the term at $c$ divided by $\#(\Gamma\cap g_cKg_c^{-1})$, which is $1$. The volume at $\vartheta$ is $\det(\Theta_\vartheta^*\Theta_\vartheta)$ by definition. Injectivity of $\Theta_\vartheta$ follows from the formula for the norms of the chain proved in \cref{part:lower}, which writes $\norm{\Theta_\vartheta y}^2$ as a product of nonzero constants times $\norm
+y^2$.
+\end{proof}
+
+\subsection{Proof of Theorem~A}\label{ss:proof-theorem-A}
+Let $\epsilon_\ell$ be the errors of \cref{thm:divisibility} and $g'_\ell=\lfloor g_\ell-\epsilon_\ell\rfloor$; it vanishes unless $\ell$ is small non-split or $\ell=N$.
+Put $c_B=\prod_\ell\ell^{-g'_\ell}$, the product over the small non-split primes and $N$, a positive rational number. Let $c_{\rm ss}$ be the constant of the
+seesaw identity for the linear form and the archimedean point fixed in \cref{ss:poincare}, and define
+\[
+  \mathfrak p_s\varphi=c_B\,\#\bar G\,e_0\,s\,c_{\rm ss}^{-1}\mathcal P\varphi\qquad(s\in\bar G,\ \varphi\in\mathcal S^{\rm ram}).
+\]
+Then $\mathfrak p_s=s\,\mathfrak p_1$, and its image is $\#\bar G\,e_0s\mathcal P(\mathcal S^{\rm ram})$. Let $\mathcal S^{\rm int}$ denote the ramified source forms integral at every
+prime place.
+\lean{New.Data.gainExponent, New.Data.invGainFactor, New.Data.prime_of_mem_smallNonsplitPrimes_union, New.Data.invGainFactor_pos, New.Data.sum_log_smallNonsplitPrimes_union_le, New.Data.log_invGainFactor_le, New.Data.norm_invGainFactor, New.Data.seesawConst, New.Data.scaledInclusion, New.Data.projectedPoincare, New.Data.normalizedPoincare, New.Data.coe_normalizedPoincare, New.Data.integralRamified, New.Data.exists_lowerChain_poincare_eq, New.Data.normSqAt_normalizedPoincare, New.Data.range_normalizedPoincare, New.Data.besselForm, New.Data.besselPoint, New.Data.poincare, New.Data.goodPoincare}
+
+\begin{lemma}\label{lem:c-B}
+$\log c_B\le-\sum_\ell g_\ell\log\ell+\errunit+b$, the sum over the small non-split primes; $\abs{c_B}_\ell=\abs{\ell^{-g'_\ell}}_\ell$; and $\sum_\ell\log\ell\le b$
+over the small non-split primes and $N$.
+\end{lemma}
+
+\begin{proof}
+\emph{The bound.} By definition $g'_\ell=\lfloor g_\ell-\epsilon_\ell\rfloor\ge g_\ell-\epsilon_\ell-1$, so $\log c_B=-\sum_\ell g'_\ell\log\ell\le\sum_\ell(-g_\ell+\epsilon_\ell+1)\log\ell$, the sum over the small non-split primes and $N$. Here $g_N=0$, because $N\ge x_1$; the errors give at most $\errunit$ by \cref{thm:divisibility}; and the rounding gives at most
+$\sum_\ell\log\ell$.
+
+\emph{The sum of the logarithms.} By Chebyshev's bound, $\sum_{\ell<x_1}\log\ell\le2x_1$, and $2x_1+\log N\le b$ by \cref{prop:sizes}.
+
+\emph{The absolute values.} $c_B$ is a product of powers of the distinct primes $\ell$ of the index set, so $\abs{c_B}_\ell=\abs{\ell^{-g'_\ell}}_\ell$, the other factors being $\ell$-adic units.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\textup{\ref{thm:A}}(a)]
+By \cref{prop:short-span}(c) it suffices to show that every $e^{\errunit}$-short ramified form $\varphi$ lies in $\mathcal S^{\rm int}$ and satisfies the bound. Integrality
+is part of being short. By \cref{thm:seesaw}, with $z=c_{\rm ss}^{-1}\mathcal P\varphi$, there is a chain datum $\Psi$ for the trivial twist with $\iota_1z=B_{1,\Psi}\varphi$. By
+\cref{thm:composite-size} the values of $\sigma\iota_1z$ have squared norm at most $\exp(\errunit+\beta)$; by \cref{prop:good-projection}(c) the target form
+$\#\bar G\,e_0sz$ has $\norm{\Theta_1(\cdot)}^2_\sigma\le\exp(x^{99}+\errunit+\beta)$; and multiplying by $c_B$ adds $2\log c_B$. By \cref{lem:c-B} the gains cancel:
+\[
+  \norm{\Theta_1\mathfrak p_s\varphi}^2_\sigma\le\exp\bigl(\hmain-m\,\rem+x^{99}+4\errunit+2b\bigr)\le\exp\bigl(\hmain-m\,\rem+fa\log^4b\bigr),
+\]
+since $x^{99}+4fa\log^3b+2b\le fa\log^4b$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\textup{\ref{thm:A}}(b)]
+Fix $s$ and a prime place $\iota\mid\ell$. Let $S_\ell$ be the module of \cref{thm:divisibility}, of colength dividing $\ell^l$ in $\mathcal S^{\rm int}$ with $l\le\epsilon_\ell\dim\mathcal S$.
+For $\varphi\in S_\ell$ and a twist $\vartheta$ with $\ell\nmid\Nm Q(\vartheta)$, $B_{\vartheta,\Psi}\varphi$ has valuation at least $g_\ell-\epsilon_\ell\ge g'_\ell$, so
+$c_B\iota_\vartheta z=c_BB_{\vartheta,\Psi}\varphi$ is integral at $\iota$, because $v_\iota(c_B)=-g'_\ell$. By \cref{prop:good-projection}(b) so is
+$c_B\iota_\vartheta(\#\bar G\,e_0sz)=\Theta_\vartheta\mathfrak p_s\varphi$, and $\mathfrak p_s\varphi$ is an integral vector of the target lattice at $\iota$ (\cref{prop:target-lattice}). Hence a family
+in $\mathfrak p_s(\mathcal S^{\rm int})$ becomes integral at $\iota$ after a matrix of determinant dividing $\ell^l$, $l\le\epsilon_\ell\dim\mathcal S\le2\epsilon_\ell\dim\mathcal S^{\rm ram}$ (\cref{lem:index-calculus}(c); as
+$\dim\mathcal S\le2\dim\mathcal S^{\rm ram}$ by \cref{prop:short-span}(c)). With $\delta_\ell=2\epsilon_\ell\dim\mathcal S^{\rm ram}$, $\sum_\ell\delta_\ell\log\ell\le2\errunit\dim\mathcal S^{\rm ram}$. For a set $\Sigma$
+of translates, a family whose members lie in $\mathfrak p_s(\mathcal S^{\rm int})$ for various $s\in \Sigma$ splits into $\#\Sigma$ subfamilies, and the indices add (\cref{lem:index-calculus}(a), (b)), which gives
+$\#\Sigma\cdot\dim\mathcal S^{\rm ram}\cdot2\errunit$.
+\end{proof}
+\lean{New.Data.span_short_integralRamified_eq_top, New.Data.finrank_sourceForm_le_two_mul, New.Data.normalizedPoincare_mem_integralVectors, New.Data.indexLe_of_mem_image_normalizedPoincare, New.Data.indexLe_normalizedPoincare}
+
+
+Theorem~\ref{thm:A} is stated in \cref{ss:three-theorems} with $\mathcal S$ for the ramified source forms; the proofs above use exactly that space.

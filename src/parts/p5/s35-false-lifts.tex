@@ -1,0 +1,787 @@
+\section{False lifts and Hecke values}\label{sec:false-lifts}
+
+Two further inputs enter the cost of one lift. The first is that the comparison operator takes lifts to forms orthogonal to the \emph{false lifts}, the forms that look
+like lifts locally (they lie in the image of $e_0$ and satisfy the Hecke equation of a lift at one split place) but are orthogonal to the lifts: their periods over a
+complementary block vanish, by a tower of theta descents (\cref{thm:false-lift-periods}). The second is that the squared norms of theta lifts of characters from
+$\U(1)$ are Hecke $L$-values; this turns the ratio $\rho_\vartheta$ of \cref{thm:comparison-operator} into ratios of $L$-values and bounds the heights of their inverses through
+test forms (\cref{thm:twisted-value-heights}).
+
+\subsection{Point forms and false lifts}\label{ss:false-lifts}
+Let $O$ be a descent pair with spaces $W$ of rank $r$ and $V=I_n$. For a split place $w$ off the level, $H_w(X)=\sum_i(-X)^iq^{i(i-1)/2}T_{w,i}$ and $X_*$ is the root of \cref{thm:norm-one-lift}(d). For a central
+idempotent $e$ of the group algebra of $\prod_{v\in M}\GL_r(\F_v)$ and a space $Z$ of forms, the \emph{false lifts} at $w$ are the forms in $eZ$ killed by $H_w(X_*)$; a form is \emph{orthogonal to the false lifts} if it is so
+for every split $w$ off the level. A \emph{test form} at a prime $\ell$ is a form integral above $\ell$ and orthogonal to the false lifts, for $e$ the idempotent of the labels $X-1$ and $Z$ the kernel of the
+descent. A \emph{point form} $\delta_{hA}(v)$ is supported on the class of $hA$ with value $v$, for an element $A$ of the integral level with prescribed columns at $M$ and rows at $Q$. The projection to $Z$ \emph{has
+denominator at most $e^\beta$} at $\iota$ if an operator $\Lambda$ on $Z$ with $\log\abs{\iota(\det\Lambda)}\ge-\dim Z\cdot r\beta$ makes $\Lambda(\mathrm{pr}\,y)$ integral at $\iota$ for every integral $y$ orthogonal to the false lifts, with
+inner products of absolute value at most $1$ against integral forms.
+\lean{New.Rows.IsPointLift, New.Rows.exists_isPointLift, New.Rows.classForm, New.Rows.inner_eq_stdClassSum_gramForm, New.Rows.inner_classForm, New.Rows.normalizedDescent_classForm, New.Rows.pointLift, New.Rows.isPointLift_pointLift, New.Rows.pointForm, New.Rows.inner_pointForm, New.Rows.pointFormDatum, New.Rows.residueBlockDatum_inv_pointLift_mul, New.Rows.normalizedDescent_pointForm, New.DescentPair.exists_invariant_pairing_eq_innerAt, New.LevelPlaces.LevelForm.innerAt_heckePolyOnForms, New.DescentPair.groupAlgAction, New.DescentPair.falseLiftsAt, New.DescentPair.IsOrthogonalToFalseLifts, New.DescentPair.IsTestForm, New.PadicPlace.ofIso, New.PadicPlace.ιₚ_ofIso, New.Selmer.DenominatorLe, New.DescentPair.isOfFinOrder_prod_tamePart_det, New.DescentPair.innerAt_formAction, New.DescentPair.range_groupAlgAction_mem_invtSubmodule, New.DescentPair.heckePolyOnForms_comm, New.DescentPair.innerAt_groupAlgAction, New.DescentPair.exists_adjoint_heckePolyOnForms_comm, New.DescentPair.innerAt_heckePolyOnForms_eq_zero, New.DescentPair.orthogonal_range_heckePolyOnForms_le_ker, New.DescentPair.normSqAt_eq_re_innerAt, New.DescentPair.normSqAt_le_add_of_innerAt_eq_zero, New.DescentPair.mem_sup_ker_sup_range_of_isOrthogonalToFalseLifts, New.DescentPair.normSqAt_starProjection_le}
+
+We make these notions precise. Let $K$ be the level of $O$ on $V$, $c$ its character (\cref{lem:vector-kernel}(b)), $\rho$ the representation of the weight of $O$ and $\Gamma$ the rational points of $\U(V)$.
+The inner product of two forms is the class sum
+\[
+  \langle\varphi,\varphi'\rangle=\sum_h\frac{\langle\varphi(h),\varphi'(h)\rangle}{\#(\Gamma\cap hKh^{-1})}
+\]
+over representatives $h$ of $\Gamma\backslash\U(V)(\Ad_{\rm f})/K$ of the Gram pairings of the values, conjugate linear in the first argument; the Gram matrix is integral in the basis of standard fillings. For an
+automorphism $\sigma$ of $\C$ let $\sigma\varphi(h)$ be the vector of the $\sigma$-images of the coordinates of $\varphi(h)$, and put
+\[
+  \langle\varphi,\varphi'\rangle_\sigma=\sigma^{-1}\Bigl(\sum_h\frac{\langle\sigma\varphi(h),\sigma\varphi'(h)\rangle}{\#(\Gamma\cap hKh^{-1})}\Bigr),\qquad
+  \norm\varphi_\sigma^2=\sum_h\frac{\norm{\sigma\varphi(h)}^2}{\#(\Gamma\cap hKh^{-1})};
+\]
+the pairing is semilinear for $\tau_\sigma=\sigma^{-1}\circ\mathrm{conj}\circ\sigma$ in its first argument, and for $\sigma=1$ these are the inner product and the squared norm. The \emph{class form} $\delta_h(v)$ of a
+finite point $h$ and a vector $v$ of the weight is the form whose value at $y$ is the sum of $c(h^{-1}\gamma y)\rho(\gamma)^{-1}v$ over the rational $\gamma$ with $h^{-1}\gamma y\in K$; it is supported on the
+class of $h$. A \emph{point lift} of matrices $Y_i$ of full column rank over the residue fields at the chosen places and of $r$ distinct rows $e$ is an integral point $A$ of $\U(V)(\Ad_{\rm f})$ with
+component $1$ off the places of $M\cup Q$ and their conjugates, whose reduction at each chosen place has the columns $Y_i$ at the embedded indices and whose reduction at each place of $Q$ has, in
+the rows $e$, the unit vectors of the embedded indices; the point form is $\delta_{hA}(v)$. Its \emph{point datum} is the function of families $X$ of matrices at the places of $O$ that is
+$\prod_{w\in Q}\psi_w(\det X_{w,e})$, with $X_{w,e}$ the rows $e$ of $X_w$, if $X$ equals $Y$ at every chosen place, and $0$ otherwise. In (c) of \cref{prop:point-forms} and in the definition of the
+denominator, the false lifts are formed with the space $Z^\perp$.
+
+\begin{lemma}[Point lifts and class forms]\label{lem:point-lifts}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Point lifts exist for all $Y$ and $e$ as above.
+\item For every form $\varphi$, $\langle\delta_h(v),\varphi\rangle=\langle v,\varphi(h)\rangle$.
+\item The normalised descent of $\delta_h(v)$ at $g\in\U(W)(\Ad)$ is the complex conjugate of the theta kernel at $(g,h)$ of the datum $v_{P_{\bar v}}\otimes\Psi_{\rm bl}\otimes\mathrm{vac}$, twisted by the characters of $O$.
+\item For a point lift $A$ the block datum read at $A^{-1}X$ is the point datum at $X$. Hence the normalised descent of the point form $\delta_{hA}(v)$ at $g$ is the conjugate of the theta kernel at $(g,h)$ of
+the datum with the Fock vector of $P_{\bar v}$ and the point datum read on the reductions at the places of $O$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) At a chosen place complete the $r$ columns $Y_i$ to an invertible matrix $A_i$ with these columns at the embedded indices. At a place of $Q$ the rows $e$ are distinct, so a permutation matrix
+$B_i$ has the unit vectors of the embedded indices as its columns $e$; put $A_i=B_i^{\mathsf T}$, whose rows $e$ are these unit vectors. At a split place the integral points of $\U(V)$ are $\GL_n$ of the local
+integers, which maps onto $\GL_n$ of the residue field, and a point of $\U(V)$ at the pair $\{w,\bar w\}$ is determined by its component at $w$. No place of $O$ is conjugate to itself or to another place of $O$,
+so the family $(A_i)$ is the reduction of an integral point that is $1$ at all other places.
+
+(b) The function $y\mapsto\langle\delta_h(v)(y),\varphi(y)\rangle$ is left invariant under $\Gamma$ and right invariant under $K$, because both forms transform under $K$ by the character $c$ of modulus one and the
+Gram form is invariant under $\rho$. It vanishes off the class of $h$, so the inner product is its value at $h$ divided by $\#(\Gamma\cap hKh^{-1})$. At $y=h$ the sum runs over $\gamma\in\Gamma\cap hKh^{-1}$; with
+$k=h^{-1}\gamma h\in K$ one has $\rho(\gamma)\varphi(h)=\varphi(\gamma h)=\varphi(hk)=c(k)\varphi(h)$, so each term is
+\[
+  \langle c(k)\rho(\gamma)^{-1}v,\varphi(h)\rangle=\overline{c(k)}\,\langle v,\rho(\gamma)\varphi(h)\rangle=\abs{c(k)}^2\langle v,\varphi(h)\rangle=\langle v,\varphi(h)\rangle.
+\]
+There are $\#(\Gamma\cap hKh^{-1})$ terms, which gives the claim.
+
+(c) By \cref{lem:vector-kernel}(c) the descent at $g$ is $\langle\theta_W(g,\cdot),\delta_h(v)\rangle=\overline{\langle\delta_h(v),\theta_W(g,\cdot)\rangle}$, and by (b) this is $\overline{\langle v,\theta_W(g,h)\rangle}=\langle\theta_W(g,h),v\rangle$, which by
+\cref{lem:vector-kernel}(a) is the conjugate of the theta kernel of $\varphi_W(\bar v)$ at $(g,h)$.
+
+(d) At a chosen place the columns of $A_i$ at the embedded indices are $Y_i$, so $A_i^{-1}X_i$ is the inclusion matrix exactly when $X_i=Y_i$. At $w\in Q$ the row $e(j)$ of $A_w$ is the unit vector of the
+embedded index $\iota(j)$, that is $e_{e(j)}^{\mathsf T}A_w=e_{\iota(j)}^{\mathsf T}$, hence $e_{\iota(j)}^{\mathsf T}A_w^{-1}=e_{e(j)}^{\mathsf T}$: the embedded rows of $A_w^{-1}X_w$ are the rows $e$ of $X_w$. Hence the block datum at $A^{-1}X$ is the point
+datum at $X$. The kernel at $(g,hA)$ of a datum $f$ is the kernel at $(g,h)$ of $\omega(1,A)f$, and the finite point $A$, integral and supported on the places of $O$, acts on the finite part of the datum by
+$X\mapsto f(A^{-1}X)$ times the value of the character of $O$ on the side of $W$ at $\det A$, which is $1$ since that character has trivial tame part. With (c) this is the claim.
+\end{proof}
+
+\begin{lemma}[Pairings, central idempotents and Hecke polynomials]\label{lem:hecke-adjoint}
+Let $\sigma$ be an automorphism of $\C$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\langle\cdot,\cdot\rangle_\sigma$ is the restriction to the forms of level $K$ of a pairing of smooth forms of the weight that is invariant under right translation by $\U(V)(\Ad_{\rm f})$.
+\item The action of $\prod_{v\in M}\GL_r(\F_v)$ on forms (\cref{prop:lift-descent}(a)) preserves $\langle\cdot,\cdot\rangle_\sigma$. A central idempotent $e$ of its group algebra is self-adjoint for $\langle\cdot,\cdot\rangle_\sigma$, and an operator that
+commutes with the action preserves the image of $e$.
+\item The operators $H_w(X)$ and $H_u(Y)$ at split places $w$, $u$ off the level commute, also when $u=w$ or $u=\bar w$.
+\item $\norm\varphi_\sigma^2=\re\sigma(\langle\varphi,\varphi\rangle_\sigma)$; in particular $\langle\varphi,\varphi\rangle_\sigma=0$ only for $\varphi=0$. If $\langle x,z\rangle_\sigma=0$, then $\norm z_\sigma^2\le\norm{z+x}_\sigma^2$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Let $G_\sigma$ be the Gram form transported by $\sigma$: $G_\sigma(u,u')=\sigma^{-1}\langle\sigma u,\sigma u'\rangle$. It is invariant under the rational points acting through $\rho$, because the Gram form is invariant
+under the $\sigma$-conjugates of the rational points, which act on the coordinates by matrices over the field generated by the entries of $\rho(\gamma)$. The pairing of smooth forms of the weight given by the
+integral of $G_\sigma$ of the values over $[\U(V)]$, times the index of $K$, restricts to $\langle\cdot,\cdot\rangle_\sigma$ by the passage from class sums to integrals over the quotient, and it is invariant under right translation.
+
+(b) An element $s$ acts as the root of unity $\prod_w\psi_w(\det s_w)$ times right translation by an integral point. Right translation preserves the pairing by (a), and a root of unity $\zeta$ satisfies
+$\tau_\sigma(\zeta)\zeta=\sigma^{-1}(\overline{\sigma\zeta}\,\sigma\zeta)=1$; so the action is unitary for $\langle\cdot,\cdot\rangle_\sigma$, and the adjoint of $s$ is $s^{-1}$. A central idempotent of the group algebra of a finite group is a sum of the minimal ones
+$e_\chi=\frac{\chi(1)}{\#G}\sum_g\chi(g^{-1})g$ for irreducible characters $\chi$, whose values are sums of roots of unity; $\tau_\sigma$ inverts roots of unity, so $\tau_\sigma(\chi(g^{-1}))=\chi(g)$, and the adjoint
+$\sum_g\tau_\sigma(c_g)\,g^{-1}$ of $e=\sum_gc_gg$ is $e$ again. Finally $e$ is a combination of the operators of the action, so an operator commuting with them commutes with $e$ and preserves its image.
+
+(c) The forms of level $K$ are spherical at $w$ and at $u$, and on spherical vectors the Hecke operators at two split places off the level commute: at distinct pairs of places they are translations at
+different components, and at one pair $\{w,\bar w\}$ the spherical Hecke algebra of $\GL_n$ over the local field is commutative (\cref{ss:B-hecke-transfer}). The operators $H$ are polynomials in them.
+
+(d) The first statement is the definition: $\sigma\langle\varphi,\varphi\rangle_\sigma$ is the class sum of the squared norms $\langle\sigma\varphi(h),\sigma\varphi(h)\rangle$, a positive real number unless $\varphi=0$. If $\langle x,z\rangle_\sigma=0$, then
+$\langle z,x\rangle_\sigma=\tau_\sigma\langle x,z\rangle_\sigma=0$, and applying $\sigma$ to $\langle z+x,z+x\rangle_\sigma$ gives $\norm{z+x}_\sigma^2=\norm z_\sigma^2+\norm x_\sigma^2\ge\norm z_\sigma^2$.
+\end{proof}
+
+\begin{proposition}[Point forms and projections]\label{prop:point-forms}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $\varphi$ be a form. Its inner product with the point form $\delta_{hA}(v)$ is the Gram pairing of $v$ with the value $\varphi(hA)$. The finite datum of the descent of a point form is the indicator of $T=Y$ at the
+chosen places times the product of the characters $\psi_w(\det T_e)$ over $w\in Q$.
+\item The adjoint of $H_w(X)$ for the $\sigma$-conjugate pairing is $H_{\bar w}(X')$, $X'=\sigma^{-1}(\overline{\sigma X})$; the image of $H_w(X)$ is orthogonal to its kernel.
+\item If $Z$ lies in the image of a central idempotent and is killed by $H_w(X_*)$, then on forms orthogonal to the false lifts the orthogonal projection to $Z$ does not increase the squared norm at any $\sigma$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) is \cref{lem:point-lifts}(b) for the point $hA$, and \cref{lem:point-lifts}(d).
+
+(b) \emph{The adjoint.} By \cref{lem:hecke-adjoint}(a) the pairing is the restriction of a pairing $B$ of smooth forms invariant under right translation, semilinear for $\tau_\sigma$ in the first argument. The operator
+$T_{w,i}$ is the sum of the right translations by representatives $t$ of the cosets in $K_wt_{w,i}K_w$, $t_{w,i}=\mathrm{diag}(\varpi_w1_i,1)$ at $w$. For an invariant pairing, $B(\varphi t,\varphi')=B(\varphi,\varphi't^{-1})$, and the inverses of
+the representatives represent the cosets of $K_wt_{w,i}^{-1}K_w$. A point of $\U(V)$ at the pair $\{w,\bar w\}$ is determined by its component at $w$, its component at $\bar w$ being the inverse of the conjugate
+transpose; so $t_{w,i}^{-1}$, read at $\bar w$, is $\mathrm{diag}(\bar\varpi_w1_i,1)$, and $K_wt_{w,i}^{-1}K_w$ is the double coset of $T_{\bar w,i}$. Hence $B(T_{w,i}\varphi,\varphi')=B(\varphi,T_{\bar w,i}\varphi')$ on spherical forms. The
+coefficient $(-X)^iq^{i(i-1)/2}$ in the first argument becomes $\tau_\sigma$ of it in the second, which is $(-X')^iq^{i(i-1)/2}$ since $q$ is an integer. Hence the adjoint of $H_w(X)$ is $H_{\bar w}(X')$.
+\emph{Orthogonality.} Write $A=H_w(X)$ and $A'=H_{\bar w}(X')$. Since $\tau_\sigma$ is an involution, the adjoint of $A'$ is $A$, and by \cref{lem:hecke-adjoint}(c) the two commute. If $Az=0$, then
+\[
+  \langle A'z,A'z\rangle_\sigma=\langle z,AA'z\rangle_\sigma=\langle z,A'Az\rangle_\sigma=0,
+\]
+so $A'z=0$ by \cref{lem:hecke-adjoint}(d), and $\langle Av,z\rangle_\sigma=\langle v,A'z\rangle_\sigma=0$ for every $v$.
+
+(c) Let $e$ be the central idempotent, $A=H_w(X_*)$, and let the false lifts be formed with $Z^\perp$. \emph{Decomposition.} For $\sigma=1$ the orthogonal complement of $\ker e+\operatorname{im}A$ is $\operatorname{im}e\cap\ker A$: by
+\cref{lem:hecke-adjoint}(b) $e$ is self-adjoint, so $(\ker e)^\perp=\operatorname{im}e$, and by (b) $(\operatorname{im}A)^\perp=\ker A'=\ker A$. A form orthogonal to $Z+\ker e+\operatorname{im}A$ is therefore in $Z^\perp\cap\operatorname{im}e\cap\ker A$, a false lift
+at $w$. If $y$ is orthogonal to the false lifts, it is orthogonal to the orthogonal complement of $Z+\ker e+\operatorname{im}A$, so, the space of forms being finite dimensional, $y=z+x$ with $z\in Z$ and $x\in\ker e+\operatorname{im}A$.
+\emph{Orthogonality at every $\sigma$.} The space $Z$ lies in $\operatorname{im}e\cap\ker A$. The kernel of $e$ is orthogonal to its image for $\langle\cdot,\cdot\rangle_\sigma$, by self-adjointness; and the image of $A$ is orthogonal to its kernel
+for $\langle\cdot,\cdot\rangle_\sigma$, by (b). Hence $\langle x,z\rangle_\sigma=0$ for every $\sigma$. For $\sigma=1$ this says that $z$ is the orthogonal projection of $y$ to $Z$, and \cref{lem:hecke-adjoint}(d) gives $\norm z_\sigma^2\le\norm y_\sigma^2$
+for every $\sigma$.
+\end{proof}
+
+\subsection{The tower of descents}\label{ss:descent-tower}
+Theta descents of a function $Y$ on $\U(V)(\Ad)$ to $\U(W)(\Ad)$ \emph{vanish} for a character $a$ and a set $S$ of places if they vanish for all data that are the vacuum at the places of $S$ and their conjugates. The
+\emph{hyperplane sums} at a chosen place are $\sum\chi_w(\det s)^{-1}s$ over the invertible $s=1+u\lambda_w$. A matrix $x$ has an \emph{integral block ratio} if its rows on the embedded indices form an invertible block $x'$
+with $x''x'^{-1}$ integral, and $\equiv0$ at the chosen places.
+\lean{New.submatrix_inclMatrix, New.inclMatrix_apply_of_notMem_range, New.inclMatrix_mulVec_apply_embedding, New.inclMatrix_mulVec_apply_of_notMem_range, New.inclMatrix_mulVec_vecMul, New.completeColumns, New.completeColumns_mul_inclMatrix, New.det_completeColumns, New.completeColumns_apply_of_notMem, New.map_completeColumns, New.vecMul_inclMatrix, New.rowShear, New.rowShear_mul_eq_self_of_vecMul_eq_zero, New.rowShear_mul_inclMatrix, New.transpose_rowShear_mul_inclMatrix, New.det_rowShear, New.map_rowShear, New.submatrix_eq_of_transpose_mul_inclMatrix, New.apply_eq_zero_of_transpose_mul_inclMatrix, New.hyperplaneGroup, New.mem_hyperplaneGroup, New.sum_inv_det_hyperplaneGroup_eq_zero, New.coeff_hyperplaneSum_eq_ite, New.hyperplaneSum_zero, New.asAlgebraHom_hyperplaneSum, New.HasIntegralBlockRatio, New.IsAnnihilatingRow, New.exists_isAnnihilatingRow_of_max, New.exists_isAnnihilatingRow_of_det_eq_zero, New.exists_isAnnihilatingRow_of_one_le, New.exists_isAnnihilatingRow_of_not_hasIntegralBlockRatio, New.mem_of_nested_cosets, New.exists_fixed_forall_linearMap_eq_of_finite, New.factorialIdele, New.val_factorialIdele, New.factorialBox, New.mem_factorialBox, New.mem_factorialBox_iff_exists, New.isOpen_factorialBox, New.cosetIndicator_factorialIdele, New.isLocallyConstant_cosetIndicator_factorialIdele, New.antitone_factorialBox, New.IsSchwartzBruhat.eventually_const, New.IsSchwartzBruhat.mem_of_eventually_coset, New.DescentPair.matrixAt, New.DescentPair.matrixAt_apply, New.DescentPair.matrixAt_mul, New.DescentPair.matrixAt_inclMatrix_mul, New.DescentPair.leftMul, New.DescentPair.leftMul_apply, New.DescentPair.matrixAt_leftMul, New.DescentPair.leftMul_mem_integralBox_iff, New.DescentPair.cosetIndicator_leftMul_inv, New.DescentPair.cosetIndicator_leftMul_inv_of_fixed, New.DescentPair.exists_atPlace_eq, New.DescentPair.exists_stdLevel_atPlace_eq, New.DescentPair.mem_levelGroup_of_reduceAt, New.DescentPair.translatedBlockFn, New.DescentPair.isSchwartzBruhat_residueDatum_residueBlockDatum, New.DescentPair.residueBlockDatum_mul, New.DescentPair.residueDatum_of_eq_map, New.DescentPair.idem_smul_eq_of_matrixAt_eq, New.DescentPair.exists_eq_map_of_mem_integralBox, New.DescentPair.residueDatum_of_notMem, New.DescentPair.translatedBlockFn_leftMul, New.DescentPair.exists_leftMul_eq_of_translatedBlockFn_ne_zero, New.DescentPair.levelTranslate, New.DescentPair.levelTranslate_apply, New.DescentPair.finite_range_levelTranslate, New.DescentPair.eq_smul_translatedBlockFn, New.DescentPair.translatedBlockFn_eq_one_of_hasIntegralBlockRatio, New.DescentPair.smul_chosenGLRep_eq_apply_of_triangular, New.DescentPair.isAutomorphic_star_algFormCoeff, New.DescentPair.descentPairing, New.DescentPair.descentPairing_apply, New.DescentPair.BlockDescentVanishes, New.DescentPair.isConjDisjoint_places, New.DescentPair.descentPairing_translate, New.DescentPair.descentPairing_levelTranslate, New.DescentPair.blockDatum_val, New.DescentPair.exists_pairWeil_blockDatum_eq_smul, New.DescentPair.descentPairing_translatedBlockFn_eq_zero, New.DescentPair.levelTranslate_idem_smul, New.DescentPair.eventually_descentPairing_eq_zero_of_hasIntegralBlockRatio, New.DescentPair.blockAction, New.DescentPair.HyperplaneSumsAnnihilate, New.DescentPair.sum_formAction_mulSingle_eq_zero, New.DescentPair.blockAction_mulSingle, New.DescentPair.blockAction_mulSingle_inl, New.DescentPair.blockAction_mulSingle_inr, New.DescentPair.sum_blockAction_eq_zero, New.DescentPair.exists_leftMul_eq_and_blockAction_eq, New.DescentPair.descentPairing_eq_zero_of_not_hasIntegralBlockRatio, New.DescentPair.descentsVanish_of_hyperplaneSumsAnnihilate}
+\lean{New.SiegelWeil.eq_zero_of_heckePolyOp_eq_zero, New.SiegelWeil.lift_pairThetaKer_swap_apply, New.SiegelWeil.projOn_homSlice_zero, New.SiegelWeil.DescentsVanish.integral_homSlice_eq_zero, New.SiegelWeil.norm_theta_sub_zeroTerm_le, New.SiegelWeil.theta_sub_zeroTerm_rho_ratMap, New.SiegelWeil.exists_col_k_mem_latticeBall, New.SiegelWeil.subspaceMean_theta_sub_zeroTerm_eq_zero, New.SiegelWeil.exists_norm_theta_sub_zeroTerm_le, New.SiegelWeil.DescentsVanish.bddAbove_lift, New.SiegelWeil.norm_frobValue, New.SiegelWeil.qPochhammer_ne_zero, New.SiegelWeil.lift_eq_zero_of_heckePolyOp_eq_zero, New.SiegelWeil.DescentsVanish.of_isEmpty, New.SiegelWeil.descentsVanish_add_planes}
+\lean{New.Rows.lift_polyVector_blockDatum_eq_zero, New.Rows.descentsVanish_hyperbolicSum, New.Rows.exists_projOn_eq_pairTheta_ne_zero, New.Rows.integral_conj_pairTheta_mul_algFormCoeff_eq_zero, New.Rows.stdClassSum_gramForm_eq_zero, New.Rows.stdClassSum_gramForm_kernelVector_eq_zero, New.Rows.coeff_labelIdem_X_sub_one, New.Rows.hyperplaneSum_mul_labelIdem_X_sub_one, New.Rows.hyperplaneSum_apply_eq_zero_of_rank_one, New.Rows.stdClassSum_gramForm_eq_zero_of_rank_one, New.Rows.algFormRep_conj_block_apply_eq_self, New.Rows.stdClassSum_period_eq_zero, New.Rows.DividedSplitting.algFormRep_conj_block_eq_self, New.Rows.DividedSplitting.stdClassSum_inner_productForm_eq_zero}
+
+Here the descent of $Y$ to $W$ by a datum $\phi$ is the function
+\[
+  g\mapsto\int_{[\U(V)]}\theta(\omega(g,h)\phi)\,a(\det h)\,Y(h)\,dh,
+\]
+and for a form $\Xi$ on $V$ and a linear form $u$ on the weight, the descents of $\Xi$ are those of the conjugate of its
+matrix coefficient $h\mapsto u(\rho(h_\infty^{-1})\Xi(h_{\rm f}))$ (\cref{ss:descent-pairs}); the set $S$ of the definition is the complement of the places of $M\cup Q$, so the data are the vacuum off the level. For an
+integral row $l=(\lambda,\lambda')$ at a place $w$ of $O$, with $\lambda$ the entries at the embedded indices, the \emph{hyperplane group} is the group of the invertible $1+v\lambda$ over $\F_w$, $v$ running over the
+columns. A row $l$ \emph{annihilates} $x$ at $w$ if $l$ is integral, $\lambda x'+\lambda'x''=0$, $\lambda\not\equiv0\pmod w$, and $\lambda'\equiv0\pmod w$ unless $w$ is chosen. The \emph{shear} of a column $v$ and a row $l$ is the
+matrix $1+(v,0)^{\mathsf T}l$, which is block triangular with first block $1+v\lambda$ and determinant $\det(1+v\lambda)$.
+
+\begin{lemma}[Annihilating rows and hyperplane sums]\label{lem:annihilating-rows}
+Let $w$ be a place of $O$ with residue field $\F_w$ and $x$ an $n\times r$ matrix over the local field at $w$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $x$ has no integral block ratio at $w$, some row annihilates $x$ at $w$.
+\item If $\lambda\ne0$ and $\chi\ne1$ is a character of $\F_w^\times$, then $\sum_s\chi(\det s)^{-1}=0$ over the hyperplane group of $\lambda$; for $\lambda=0$ the hyperplane sum is $1$.
+\item If the products of the hyperplane sums of rows $\lambda_w$ at the chosen places, not all zero, kill a form $y$, then the hyperplane sum of one row $l\ne0$ at one chosen place kills $y$.
+\item If $l$ annihilates $x$ at $w$ and $s=1+v\lambda$ is invertible, there is an integral point $h$, equal to the shear of a lift of $v$ and $l$ at $w$ and to $1$ at the other places of $O$, such that $hx=x$ and
+the right translate of every form $y$ of level $K$ by $h$ is $\chi_w(\det s)^{-1}\bar s\,y$; here $\bar s$ is $s$, acting as in \cref{prop:lift-descent}(a), if $w$ is chosen, and $1$ if $w\in Q$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Let $\abs\cdot$ be the absolute value at $w$. If $x'$ is singular, take $\lambda\ne0$ with $\lambda x'=0$ and $\lambda'=0$, and divide by an entry of $\lambda$ of largest absolute value. Otherwise $x'$ is invertible and
+some entry of $x''x'^{-1}$, in a row $a$, has absolute value $>1$, or $\ge1$ if $w$ is chosen. The row $a$ of the matrix $(x''x'^{-1},-1)$ annihilates $x$, since $x''x'^{-1}x'-x''=0$; its entries in the first block include
+one of absolute value at least that of the entry $-1$ in the second block, strictly larger unless $w$ is chosen. Dividing by an entry of largest absolute value, which lies in the first block, gives an integral
+row with $\lambda\not\equiv0$ and, unless $w$ is chosen, $\lambda'\equiv0$.
+
+(b) For $\lambda\ne0$ the map $s=1+v\lambda\mapsto\det s=1+\lambda v$ is a homomorphism of the hyperplane group onto $\F_w^\times$, as $\lambda v$ takes every value; so $\chi^{-1}\circ\det$ is a nontrivial character of the group,
+and its sum vanishes. For $\lambda=0$ the group is $\{1\}$.
+
+(c) Take $l$ at the given place and the zero row at the other chosen places, whose hyperplane sums are $1$ by (b).
+
+(d) Let $\tilde v$ be an integral lift of $v$ and $h_w$ the shear of $\tilde v$ and $l$; then $h_wx=x+(\tilde v,0)^{\mathsf T}(lx)=x$. Its determinant reduces to $\det s\ne0$, so $h_w$ is integral and invertible, and there is an integral
+point $h$ with component $h_w$ at $w$ and $1$ at the other places of $O$ (as in \cref{lem:point-lifts}(a)). At a chosen place $h_w$ reduces to a block upper triangular matrix with first block $s$; at a place of $Q$, where
+$\lambda'\equiv0$, it reduces to a block lower triangular matrix with first block $s$. In both cases the reduction lies in the level after multiplication by $\mathrm{diag}(s,1)^{-1}$ at a chosen place and directly at
+$Q$, where the level character takes the value $\chi_w(\det s)^{-1}$; with the definition of the action (\cref{prop:lift-descent}(a)) this gives the right translate.
+\end{proof}
+
+\begin{lemma}[Small Hecke roots]\label{lem:small-roots}
+Let $U$ be a hermitian space of rank $m$ and $w$ a split place of norm $q$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A bounded function $F$ on $\U(U)(\Ad)$, spherical at $w$ and killed by $H_w(X)$ with $q^{m+1}\abs X\le1$, is zero.
+\item $\prod_{i<k}(1-q^iX)\ne0$ if $q^k\abs X\le1$.
+\item Let $Y$ be automorphic on $\U(V)$, $\operatorname{rk}V=m+k$, spherical at $w$ and killed by $H_w(X)$; let the character $\chi$ be unramified at $\bar w$ and the datum $\phi$ on $\Hom(U,V)$ the vacuum at $\bar w$. If
+$\sqrt q^{\,m+2k}\abs X\le1$, $\sqrt q^{\,2(m+1)+k}\abs X\le1$ and the descent of $Y$ to $U$ by $\phi$ is bounded, it is zero.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The relation $H_w(X)F=0$ reads $\sum_{U'}(-X)^{\dim U'}q^{\binom{\dim U'}2}F(g\,t_{U'})=0$ for all $g$, the sum over the subspaces $U'$ of $\F_w^m$ with coset representatives $t_{U'}$, the term $U'=0$ having coefficient $1$ and
+$t_0=1$. By the $q$-binomial theorem the total weight is
+\[
+  \sum_{U'}\abs X^{\dim U'}q^{\binom{\dim U'}2}=\prod_{j<m}(1+q^j\abs X)\le\exp\Bigl(\abs X\sum_{j<m}q^j\Bigr)\le\exp\bigl(q^m\abs X\bigr)\le e^{1/2}<2,
+\]
+since $\sum_{j<m}q^j\le q^m$ and $q^m\abs X\le1/q\le1/2$. Isolating the term $U'=0$ at the point $g$ gives $\abs{F(g)}\le\theta\sup\abs F$ with $\theta=e^{1/2}-1<1$; taking the supremum over $g$, $\sup\abs F=0$.
+
+(b) A vanishing factor gives $q^i\abs X=1$ with $i<k$, hence $q^k\abs X=q^{k-i}>1$.
+
+(c) The descent $F$ is spherical at $w$, and the unramified correspondence (\cref{ss:B-hecke-transfer}), as in \cref{prop:lift-descent}(c) with the roles of the two spaces exchanged, gives
+$\prod_{i<k}(1-q^iX_0)\cdot H_w(X')F=0$ with $X_0=\alpha X$ and $X'=q^k\alpha\beta^{-1}X$, where $\alpha$, $\beta$ are the Frobenius values at $\bar w$ of the characters on $U$ and on $V$. The Frobenius value in rank $j$ has absolute
+value $\sqrt q^{\,j}$, so $\abs{X_0}=\sqrt q^{\,m}\abs X$ and $\abs{X'}=q^k\sqrt q^{\,m}\sqrt q^{\,-m-k}\abs X=\sqrt q^{\,k}\abs X$. The first size condition is $q^k\abs{X_0}\le1$, so the product is nonzero by (b) and $H_w(X')F=0$; the second is
+$q^{m+1}\abs{X'}\le1$, so $F=0$ by (a).
+\end{proof}
+
+\begin{lemma}[The zero term and the rest of a kernel]\label{lem:zero-term}
+Let $W'=W\oplus H$ split one hyperbolic plane off $W'$, with isotropic vector $k$ and a splitting whose adelic frames are orthonormal at the infinite places and integral at the finite ones, and let $\theta_0$
+be the zero term of the theta functional of $\Hom(W',V)$ along the isotropic frame.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If the descents of $Y$ to $W$ for the character $a$ vanish for the data that are the vacuum at $S$, then for every such datum $\phi$ on $\Hom(W',V)$ and every $g\in\U(W')(\Ad)$ the integral of $Y$ against the zero term
+of the kernel of $\phi$ at $(g,\cdot)$, twisted by $a$, is zero.
+\item Let $\phi=v_P\otimes\Psi\otimes\mathrm{vac}$ with $\Psi$ Schwartz--Bruhat at a set of finite places disjoint from its conjugates. After a rational translation of $g$, the kernel of $\phi$ minus its zero term is bounded
+uniformly in $g\in\U(W')(\Ad)$ and $h\in\U(V)(\Ad)$, $V$ definite.
+\item Under the hypothesis of (a), for $V$ definite and $Y$ automorphic, the descent of $Y$ to $W'$ by a datum as in (b) is bounded.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By the Iwasawa decomposition $g\kappa=u\,(t,g_0)$ with $\kappa$ in the maximal compact subgroup, $u$ in the unipotent radical of the parabolic of $k$ and $(t,g_0)$ in its Levi subgroup, $g_0\in\U(W)(\Ad)$. The
+translate of $\phi$ by $\kappa^{-1}$ is again the vacuum at $S$, and so is its slice along the isotropic frame, a datum on $\Hom(W,V)$: the frames are integral at the finite places and the vacuum is the product of local
+vacua. On the slice the unipotent element acts as the identity and the Levi element acts by a scalar $\nu(t)$ times $\omega_{W,V}(g_0,h)$. Hence the integral is $\nu(t)$ times the descent of $Y$ to $W$ at $g_0$ by the slice, which
+is zero.
+
+(b) The theta functional minus its zero term is invariant under the translations by the rational maps $zk^{\mathsf H}J$, which lie in the span of the isotropic frame of $\Hom(W',V)$, and at $\phi$ it is the mean over $b$ of
+$\theta\phi-\theta(\varrho(k_{\Ad}b)\phi)$. Let the height of $g$ be the inverse of the first minimum, cut off at $1$, of $W'$ moved by $g$. If it exceeds $2$, Witt's theorem gives a rational $\gamma$ carrying a short isotropic
+vector at $g$ to $k$, so that $k$ lies in the lattice of the space moved by $\gamma g$ and has length at most $2$ divided by the height there. The functional $\theta-\theta_0$ grows at most like a power of the height; along the
+short vector $k$ the datum decays faster than any power, which cancels the growth. On the definite space $V$ the height is one, and a basis of $V$ in the lattice at $h$ has bounded lengths. The kernel at $\gamma g$ is the
+kernel at $g$, $\gamma$ being rational.
+
+(c) The descent at $\gamma g$ equals that at $g$. By (a) the zero term contributes nothing, so the descent is the integral of $Y$ against the kernel minus its zero term. The quotient $[\U(V)]$ is compact for definite $V$, so
+the continuous function $Y$ is bounded, and by (b) the integrand is bounded uniformly in $g$.
+\end{proof}
+
+\begin{theorem}[Periods of false lifts vanish]\label{thm:false-lift-periods}
+Let the parameter of $W$ fit $O$, let $\chi_w\ne1$ for $w\in Q$, and let a form $\Xi$ on $I_n$ be killed by the hyperplane sums at the chosen places, by the descent to $W$ and by $H_w(X_*)$ at a split place $w$ off the
+level.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Bottom of the tower.) The descents of the matrix coefficients of $\Xi$ vanish for all data that are the vacuum off $M\cup Q$ and their conjugates.
+\item (Hyperbolic planes.) Let $Y$ be automorphic on the definite $\U(V)$, $\operatorname{rk}V=n$, let $A$ be a set of finite places disjoint from its conjugates, and let the descents of $Y$ to $W$, $r=\operatorname{rk}W$,
+for a character $a$ vanish for the data that are the vacuum off $A$ and its conjugates. Let $w$ be a split place of norm $q$ off these places, with $a$ unramified at $\bar w$, and let $Y$ be spherical at $w$ and
+killed there by the Hecke polynomial at a point $X$ with $\abs X=q^{-(n-1-r/2)}$. If $2r+2N+3<n$, the descents of $Y$ to $W\oplus H^N$ for $a\upsilon^N$ vanish for the same data.
+\item If $2r+2N+3<n$, the descents to $W\oplus H^N$ vanish; and for $I_n=I_N\oplus I_l$, a finite point $x$ supported on the places of $O$ and any function on the finite points of $\U(I_l)$ whose coordinates are
+multiples of conjugate theta kernels of $(W,I_l)$ with data that are the vacuum off the level, carried to the values of $\Xi$ by a conjugate linear map equivariant for the real points, the class sum of its pairing
+with $\Xi((h_1,h)x)$ vanishes at every level that fixes the pairing.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) Fix $u$, a polynomial $P$ and $g$, and write $B(\Psi,y)$ for the conjugate of the value at $g$ of the descent of the matrix coefficient $u$ of $y$ by $v_P\otimes\Psi\otimes\mathrm{vac}$, $\Psi$ a Schwartz--Bruhat function of
+the components at the places of $O$; it is linear in $\Psi$ and conjugate linear in $y$. Put $y=\Xi$.
+
+\emph{All polynomials.} The normalised descent of $\Xi$ is a nonzero multiple of the conjugate of the descent $F$ by the datum of the highest vector (\cref{prop:descent-pairs}(c)), so $F=0$. The descent by $v_P\otimes\Psi_{\rm bl}\otimes\mathrm{vac}$
+is $F$ convolved with a test function on the real points of $\U(W)$, the real points acting on the Fock vectors, times a character of $\det g$ coming from the character on the side of $V$. Hence $B(\Psi_{\rm bl},\Xi)=0$ for all $P$,
+and, translating, $B(\Psi_{\rm bl}(\cdot A),\Xi)=0$ for every finite point $A$ of $\U(W)$ that is $1$ off the places of $O$ and their conjugates, since $\omega(A,1)$ multiplies $\Psi_{\rm bl}\otimes\mathrm{vac}$ by a nonzero
+number (a character value at $\det A$ times a power of its idele norm) and replaces $\Psi_{\rm bl}$ by $\Psi_{\rm bl}(\cdot A)$.
+
+\emph{Two rules for $B$.} For $k\in K_0$ and the right translate $y'$ of $y$ by $k$, $B(\Psi(k^{-1}\cdot),y')=B(\Psi,y)$, by equivariance of the theta kernel under $(1,k)$, which moves $\Psi$ and fixes $v_P$ and the vacuum. For
+$h\in K$ this gives $B(c\Psi(h^{-1}\cdot),y)=B(\Psi,y)$ with $c$ the conjugate of $c(h)$, since $y$ transforms by $c(h)$.
+
+\emph{Small classes.} The set of $\Psi$ with $B(\Psi,\Xi)=0$ is a subspace. Let $\mathbf 1_{x,i}$ be the indicator of the class of $x$ modulo the idele $i!$ at the places of $O$. Two such classes are nested or disjoint, and
+a Schwartz--Bruhat function is constant on the class of $x$ modulo $i!$ for $i$ large (a multiple $N\hat{\OO}^{n\times r}$ of the standard lattice lies in its neighbourhood of constancy, and $N\mid i!$ for $i\ge N$). Finitely many such
+classes cover the support of $\Psi$, and removing a largest class repeatedly writes $\Psi$ as a combination of their indicators. Hence it suffices to show $B(\mathbf 1_{x,i},\Xi)=0$ for all $x$ and large $i$.
+
+\emph{Points with an integral block ratio at every place of $O$.} Let $A$ be the point of $\U(W)$ with components $x_w'^{-1}$ at the places of $O$ and $\Psi_0=\Psi_{\rm bl}(\cdot A)$. At each place of $O$ the components of $xA$ are
+$(1,x''x'^{-1})^{\mathsf T}$, integral and $\equiv(1,0)^{\mathsf T}$ at the chosen places, so $\Psi_0(x)=1$; for $i$ large $\Psi_0$ is $1$ on the class $C$ of $x$. The translates $c\,\mathbf 1_C(h^{-1}\cdot)$, $h\in K$, are finitely many,
+because $c$ takes finitely many values and the class of $hx$ depends locally constantly on $h$ in the compact group $K_0$; let $\Psi_1$ be their mean. By the second rule $B(\Psi_1,\Xi)=B(\mathbf 1_C,\Xi)$, and $\Psi_1$ is fixed by
+the twisted translations. The support of $\Psi_0$ contains $C$ and is stable under $K$, so it contains that of $\Psi_1$; and $\Psi_0$ obeys the same rule $\Psi_0(hz)=\bar c(h)\Psi_0(z)$, by the transformation law of the block datum
+under the residue level (\cref{prop:descent-pairs}(a)). If $\Psi_0(z)\ne0$, then at the places of $O$ the matrix $z$ is $h\iota A^{-1}$ for some $h\in K$ (the components of $zA$ are $\equiv(1,0)^{\mathsf T}$ at the chosen places and have
+an invertible upper block at $Q$, and the point with components $\bigl(\begin{smallmatrix}u'&0\\u''&1\end{smallmatrix}\bigr)$ lies in $K$). Both functions read only the components at the places of $O$ and follow the same rule on the
+orbit of $\iota A^{-1}$, which contains the support of $\Psi_0$; hence $\Psi_1=\Psi_1(x)\Psi_0$ and $B(\mathbf 1_C,\Xi)=\Psi_1(x)B(\Psi_0,\Xi)=0$.
+
+\emph{Points without an integral block ratio at some place $w$ of $O$.} By \cref{lem:annihilating-rows}(a) some row $l$ annihilates $x$ at $w$. For each $s=1+v\lambda$ in the hyperplane group take $h_s$ as in
+\cref{lem:annihilating-rows}(d). It fixes the components of $x$, so it preserves the class $C$ of $x$ modulo any idele, and by the first rule $B(\mathbf 1_C,\Xi h_s)=B(\mathbf 1_C,\Xi)$. Moreover
+$\sum_s\Xi h_s=\sum_s\chi_w(\det s)^{-1}\bar s\,\Xi=0$: at a chosen place this is the hyperplane sum of $l$, which kills $\Xi$ by \cref{lem:annihilating-rows}(c), and at $w\in Q$ it is $\sum_s\chi_w(\det s)^{-1}\cdot\Xi=0$ by
+\cref{lem:annihilating-rows}(b), as $\chi_w\ne1$. Since $B$ is conjugate linear in $y$, $0=B(\mathbf 1_C,\sum_s\Xi h_s)=\#\{s\}\cdot B(\mathbf 1_C,\Xi)$.
+
+\emph{All data.} It remains to pass from the data $v_P\otimes\Psi\otimes\mathrm{vac}$ to all data that are the vacuum off the level: the descent at $g$ is a bounded linear functional of the datum, and translates of the vacuum by
+finite points supported on the places of $O$ are multiples of data $\Psi\otimes\mathrm{vac}$ (\cref{thm:B-periods}(a)).
+
+(b) Induct on $N$. For $N=0$ there is nothing to prove. Let $W'=W\oplus H^{N}$, $N=l+1$, and assume the claim for $W\oplus H^l$; it suffices to treat the data $\phi=v_P\otimes\Psi\otimes\mathrm{vac}$ (\cref{thm:B-periods}(a)), with
+the character $\chi=a\upsilon^N$. \emph{Boundedness.} Split one plane off $W'$ by an adapted splitting; the descents to $W\oplus H^l$ for $a\upsilon^l$ vanish by induction, so the descent of $Y$ to $W'$ by $\phi$ is bounded by
+\cref{lem:zero-term}(c). \emph{The Hecke equation.} The character $\chi$ is unramified at $\bar w$ and $\phi$ is the vacuum there, $w$ being off the level. Apply \cref{lem:small-roots}(c) with $U=W'$, $m=r+2N$ and $n=m+k$. Here
+$\abs X^{-1}=\sqrt q^{\,d}$ with $d=r+2(n-r-1)=2n-r-2$, so a condition $\sqrt q^{\,j}\abs X\le1$ holds for $j\le d$. The first exponent is $m+2k=2n-r-2N\le d$. The second is $2(m+1)+k=n+r+2N+2$, and $n+r+2N+2\le2n-r-2$ is
+$2r+2N+4\le n$, which is the hypothesis $2r+2N+3<n$. Hence the descent is zero.
+
+(c) \emph{The tower.} For the highest vector $\zeta_0$, the descents of the conjugate matrix coefficient of $\Xi$ to $W$ vanish by (a), and that coefficient is spherical at $w$ and killed by the Hecke polynomial at the
+conjugate of $X_*$, which has absolute value $\abs{X_*}=(\sqrt q^{\,r}q^{n-r-1})^{-1}=q^{-(n-1-r/2)}$, the Frobenius value of the character on $W$ having absolute value $\sqrt q^{\,r}$. By (b) its descents to $W\oplus H^N$ vanish. For
+another vector $\zeta$: the right translate by a real point $x$ of the coefficient at $\zeta_0$ is the coefficient at $x\zeta_0$, these vectors span, the descent of a translate is the translate of the descent of the translated
+datum, and the data that are the vacuum off the level are stable under the real points.
+
+\emph{Absorbing the kernel of $W$.} Let $\varphi$ be a datum on $\Hom(W,I_l)$ that is the vacuum off the level, $b$ a character and $y_1$ the right translate by $x$ of the coefficient of $\Xi$ at $\zeta$; its descents to $W\oplus H^N$
+vanish, $x$ being $1$ off the places of $O$ (\cref{thm:B-periods}(a)). Choose a datum $\varphi''$ on $\Hom(W,I_N)$, again the vacuum off the level, whose kernel does not vanish at $(g,h_1)$: a translate of the vacuum by
+a real matrix does not vanish at a suitable real point. On $I_n=I_N\oplus I_l$ the kernel of $\varphi''\otimes\varphi$ at $(g,\mathrm{diag}(h_1,h_2))$ is the product of the kernels of $\varphi''$ at $(g,h_1)$ and of $\varphi$ at $(g,h_2)$. Put
+$y_2(h)=\overline{\theta(\omega(g,h)(\varphi''\otimes\varphi))}\,y_1(h)$. Its descents to $H^N$ are descents of $y_1$ to $W\oplus H^N$, because kernels multiply in the sum $W\oplus H^N$; so they vanish. The level of $\U(I_n)$ off the
+places of $O$ fixes $y_2$: it fixes the kernel, the character of $W$ being unramified there, and it fixes $\Xi$ and commutes with $x$. By \cref{thm:B-periods}(c) the period of $y_2$ over $[\U(I_l)]$ vanishes at $h_1$, and that
+period is the nonzero kernel of $\varphi''$ at $(g,h_1)$, conjugated, times $\int_{[\U(I_l)]}\overline{\theta(\omega(g,h_2)\varphi)}\,y_1(\mathrm{diag}(h_1,h_2))\,dh_2$. Hence this integral vanishes.
+
+\emph{Class sums.} Let $\vartheta$ be the given function and $C$ the conjugate linear map. Write each coordinate $j$ of $\vartheta$, moved by the real points, as $c_j$ times a conjugate theta kernel $F_j$, and pair it through
+$C$ with the coefficient $y_j$ of $\Xi$ at the corresponding vector; by the equivariance of $C$ the sum of the $c_jF_jy_j$ restricted to the finite points is $h\mapsto\langle C(\vartheta(h)),\Xi((h_1,h)x)\rangle$, which is therefore left
+invariant under the rational points. At a level fixing it, its class sum is the integral over $[\U(I_l)]$ of the corresponding function on the adelic group, the real group being compact; so it is a linear combination of the
+integrals of the previous step, which vanish.
+\end{proof}
+
+\begin{corollary}[Periods against point forms and product forms]\label{cor:false-lift-periods}
+Let $O$, $\Xi$ and $w$ be as in \cref{thm:false-lift-periods}, $I_n=I_N\oplus I_l$ with $2r+2N+3<n$, and let $C$ be conjugate linear from vectors of a weight $\kappa$ to vectors of the weight of $O$, equivariant for the
+real points of the second block.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $x$ be supported at the chosen places and $A$ a point lift with columns $Y$ at the chosen places and rows $e'$ in the block $I_N$. If a level of $\U(I_l)$ fixes a datum $\Psi$ modulo an ideal with places in
+$M\cup Q$ and, after conjugation by $x$, the matrices $Y_i$, then the class sum over that level of $h\mapsto\langle\Xi,\delta_{(h_1,h)xA}(C(\theta_\Psi(g,h)))\rangle$ is zero, $\theta_\Psi(g,h)$ being the vector of the conjugate theta kernels of
+$(W,I_l)$ with datum $\Psi$, one for each basis polynomial of weight $\kappa$.
+\item If $W$ is a line and $\chi_w\ne1$ at the chosen places, the hypothesis on the hyperplane sums may be replaced by: $\Xi$ lies in the image of the mean over $\prod_{v\in M}\GL_1(\F_v)$. The rank condition is then
+$2N+5<n$.
+\item Let the indices of $W$ and of a further set be embedded in the block $N$, let $\gamma$ be supported at the chosen places with $\varpi\OO^n\subseteq\gamma\OO^n\subseteq\OO^n$ there, and let the product form at $(x,h)\gamma$ have as
+value the Cartan product of a vector $y$ of the weight $k^+$ and the conjugate of $\theta_\Psi(g,h)$, for a datum $\Psi$ modulo the square $\varpi$ of the product of the chosen places. Its class sum over $h$ at the principal
+level $\varpi$ of $\U(I_l)$, paired with $\Xi$, is zero.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(a) By \cref{lem:point-lifts}(b) the pairing is the conjugate of
+\[
+  \langle C(\theta_\Psi(g,h)),\Xi((h_1,h)xA)\rangle.
+\]
+A real point of the second block acts on the polynomial of the datum as on the Weyl module, so the coordinates of
+$\theta_\Psi(g,\cdot)$, moved by the real points, are multiples of conjugate theta kernels. It remains to see that the level fixes the pairing. It fixes the kernel, as it fixes $\Psi$. Let $k$ lie in the level and put
+$c=(xA)^{-1}(1,k)(xA)$. At the chosen places the columns of $c$ at the embedded indices are those of $1$, because $x^{-1}(1,k)x$ fixes $Y$ and $A$ has the columns $Y$ there. At the places of $Q$ the point $x$ is trivial, so
+$x^{-1}(1,k)x$ reduces to the block matrix $(1,k)$, which fixes the rows $e'$ in the first block, and the rows $e'$ of $A$ are the embedded rows of $1$; so the embedded rows of $c$ are those of $1$. By the computation of
+\cref{lem:annihilating-rows}(d), with the first block $1$, the point $c$ fixes $\Xi$, and \cref{thm:false-lift-periods}(c) applies.
+
+(b) In rank one the idempotent of the label $X-1$ is the mean over $\GL_1(\F_v)$, the root $1$ naming the trivial character. The hyperplane group of a row $l\ne0$ of length one is all of $\F_v^\times$, which fixes its mean,
+so the hyperplane sum times the mean is $\sum_s\chi_v(s)^{-1}$ times the mean, which is $0$ by \cref{lem:annihilating-rows}(b). Hence the forms in the image of the mean are killed by every tensor product of hyperplane
+sums in which one row is not $0$, and \cref{thm:false-lift-periods}(c) applies with $r=1$.
+
+(c) Apply (a) to the conjugate linear map $\zeta\mapsto y\cdot\bar\zeta$ and the point $\gamma$. The map is equivariant for the real group of the second block: in the first block the columns of the conjugate of a real point
+are those of $1$, in the second those of its inverse transpose are given by the point itself, and the representation acts through the conjugate matrix, which passes into the Cartan product and acts on the two
+factors by the Schur maps of those columns. The level is fixed: the block $(1,k)$ with $k\equiv1$ modulo $\varpi$ is integral and $\equiv1$ modulo $\varpi$, its conjugate by $\gamma$ is integral and $\equiv1$ modulo the
+chosen places and fixes the first block at $Q$, so it fixes every form of level $K$, as in (a) with $A=1$.
+\end{proof}
+
+\subsection{Lifts of characters and Hecke \texorpdfstring{$L$}{L}-values}\label{ss:character-lifts}
+For \emph{$L$-value data} $X$ (chosen places, twist places, row lengths, and a character $\mu$ of $[\U(1)]$ of weight $-(\text{row length}+k)$ with tame part trivial off these places), the lift $\varphi_X$ is the class sum over
+$\U(1)$ of the theta kernel to the definite $\U(2k)$ with the block datum; it is the theta lift of the constant $1$ times the index of the chosen level. For a pair $p=(\nu,z)$, $z\ge2$, and a tame $\vartheta$, the lift
+$\varphi_{p,\vartheta}$ of $\nu\vartheta$ is $\varphi_X$ for these data, scaled by the vacuum and jet scales; its \emph{algebraic part} is $L^{\rm alg}_p(\vartheta)=\norm{\varphi_{p,\vartheta}}^2/\Nm Q^{2z-1}$, the \emph{denominator} $n_\nu=M^{4fz}(Md)^{j}$ with $j$
+the sum of the row lengths, and the \emph{integral algebraic part} $n_LL^{\rm alg}$, $n_L=n_{\rm Aut}n_\nu^2$. A pair is \emph{flat} if $\nu$ has weight $-z$ at every place, and a \emph{main pair for $j$} if $m<z\le r$, the tame
+part of $\nu$ is $\omega^j$, and $w_j+r-t\le c\le w_j$ for its weight $-c$.
+\lean{New.LevelPlaces.LevelForm.inner_eq_petersson, New.nonempty_unit_embedding, New.arbitraryIndexEmbedding, New.LValueData, New.LValueData.descentPair, New.LValueData.descentPair_colsPlus_apply, New.LValueData.kernelValue, New.LValueData.isLiftWeight, New.LValueData.charW_hasWeight, New.LValueData.charV_hasWeight, New.LValueData.liftKernel, New.LValueData.conjWeylRep_eq_one, New.LValueData.kernelForm, New.LValueData.chosenLevel, New.LValueData.trivialLift, New.LValueData.kernelForm_invariant, New.LValueData.trivialLift_eq_stdClassSum_translate, New.LValueData.toPoly_eq_rename_fockPoly, New.LValueData.fockPoly_eq_schurCoeffPoly, New.LValueData.theta_pairThetaKernel_omega_fockDatum, New.LValueData.kernelForm_of_rowLength_eq_zero, New.LValueData.kernelForm_eq_vectorKernelForm, New.LValueData.normalizedDescent_eq_inner_kernelForm, New.LValueData.inner_trivialLift, New.LValueData.hookNumber_eq_prod_factorial, New.LValueData.schurJet_jetSeries_eq_kernelForm, New.LValueData.isHCParam_zero, New.LValueData.fitsParams_descentPair, New.DescentPair.heckePolyOnForms_liftHeckeRoot_eq_zero, New.schurJet_rename_perm, New.onHom_mul_scalarFin_inv, New.stdLineHom, New.LValueData.map_pairWeilFinite_blockDatum, New.LValueData.map_trivialLift}
+\lean{New.Data.CriticalPair.HasLiftRank, New.Data.CriticalPair.HasEmptyRow, New.Data.CriticalPair.rowLengthSum, New.Data.CriticalPair.denomBound, New.Data.CriticalPair.lValueData, New.Data.CriticalPair.trivialLift, New.Data.CriticalPair.algPart, New.Data.CriticalPair.integralAlgebraicPart, New.LValueData.isForm_const_one, New.LValueData.constForm, New.LValueData.trivialLift_eq_smul_thetaLift, New.LValueData.lift_fockDatum_const_one, New.LValueData.hasLiftHeckePolynomial_trivialLift, New.LValueData.index_rangeParabolic_incl, New.LValueData.index_stabilizer_inclMatrix_col, New.fockPairing_rename_rename, New.LValueData.fockPairing_fockPoly_highestVector, New.natCard_GL_unit_resField, New.LValueData.stdLevelIndex_chosenLevel, New.LValueData.relIndex_descentResidueLevel, New.LValueData.blockMeanSquare, New.LValueData.blockMass_eq_blockMeanSquare_div, New.LValueData.isSharp_blockDatum, New.LValueData.blockMeanSquare_mul_relIndex_mul_prod_eq_pow, New.LValueData.integral_fockInner_realPairWeil, New.LValueData.inner_thetaLift_constForm_self, New.eulerProd_placeSign_ne_zero, New.LValueData.eulerProd_indicator_placeSign, New.LValueData.inner_trivialLift_self_eq_L}
+\lean{New.Rows.detKernel, New.Rows.detPeriod, New.Rows.prod_range_corank_one_sub_q_pow, New.Rows.liftFn_charOfTamePart_det_eq_residueDatum, New.Rows.residueDatum_singleton_mul, New.Rows.detKernel_stdEmbFin_mul, New.Rows.detPeriod_eq_stdClassSum_sum, New.Rows.stdLevel_le_rightStabilizer_detKernel, New.Rows.sum_heckePolyCoeff_smul_modDatum_eq_modDatum, New.Rows.detPeriod_insert}
+
+We fix the notation. Let $X$ be $L$-value data of rank $N=\#n\ge2$, with row lengths $\ell_\tau$ and character $\mu$, of weight $-(\ell_\tau+\lfloor N/2\rfloor)$ at $\tau$. Its descent pair has as source the definite line $W$ and as
+target $V=I_N$, the level places of $X$, the weight with one row of length $\ell_\tau$ at $\tau$ and no power of the determinant, and on the side of $V$ the character $\chi_V=\mu\upsilon^{\lfloor N/2\rfloor}$, of weight
+$-\ell_\tau$ and tame part that of $\mu$; on the side of $W$ the character is trivial. For a finite point $g$ of $\U(1)$, $\theta_X(g,\cdot)$ is the vector kernel of this pair at $g$ (\cref{lem:vector-kernel}), a form on $V$, and
+$J_X\subseteq K_0^1$ is the principal level of $\U(1)$ at the chosen places, the integral points that are $\equiv1$ there; then $\varphi_X=\sum_g\theta_X(g,\cdot)/\#\mathrm{Aut}(g)$ over $\U(1)(E)\backslash\U(1)(\Ad_{\rm f})/J_X$. Write $L(s,\mu)$ for the
+$L$-function of $x\mapsto\mu(x/\bar x)$ without the factors at the places of $X$ and their conjugates, $\Nm Q$ for the product of the norms of the twist places, $\mathrm{hook}$ for the squared Fock norm of the highest vector of
+the weight and $\dim$ for its dimension. For a pair $p$ and a tame $\vartheta$ of modulus $Q$, $X_{p,\vartheta}$ denotes the data with the chosen places, the twist places $Q$, the row lengths $c(\tau)-z$ and the character
+$\nu\vartheta$, in rank $2z$; the scale of $\varphi_{p,\vartheta}$ is $\mathsf a^{2z}(\bar\pi_M\mathsf t)^{J}$, with the vacuum scale $\mathsf a$ and the jet scale $\mathsf t$ of the field $E$ in its tower and $J=\sum_\tau(c(\tau)-z)$.
+The \emph{determinant kernel} of $(I_n,I_n)$ for a character $\alpha$ of weight $-c$, a function $\Psi$ on matrices modulo $\mathfrak m$ and the polynomial $\prod_\tau\det^{c_\tau}$ is the theta kernel at $(1,h)$ of this datum, both characters
+being $\alpha$; its \emph{period} is its class sum at the level $K_0$ for $\Psi=\chi\circ\det$, $\chi$ the character modulo $\mathfrak m$ made of the tame part $\psi$ of $\alpha$.
+
+\begin{lemma}[The kernel of a character lift]\label{lem:character-kernel}
+Let $X$ be $L$-value data.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $g\mapsto\theta_X(g,\cdot)$ is left invariant under $\U(1)(E)$ and right invariant under $J_X$, and $\varphi_X$ is also the class sum of $g\mapsto\theta_X(gz,\cdot)$, for every finite point $z$ of $\U(1)$.
+\item The normalised descent of a form $y$ on $V$ at $(x,g)$ is $\langle\theta_X(g,\cdot),y\rangle$, for every real component $x$; and $\langle\varphi_X,y\rangle$ is the class sum over $\U(1)$, at the level $J_X$, of $g\mapsto(\theta y)(gz)$.
+\item $\varphi_X=[K_0^1:J_X]\,\Theta_W1$, where $1$ is the constant function, a form of parameter $0$ on the line.
+\item The hook number of the weight is $\prod_\tau\ell_\tau!$, and the Fock pairing of the Fock polynomial of the highest vector with itself is the hook number. For a scale $c$, the row sums of the Schur jet matrix of the
+Taylor series at scale $c$ of $\omega(g,h)(\Psi_{\rm bl}\otimes\mathrm{vac})$ are $c^{\sum_\tau\ell_\tau}$ times the coordinates of $\theta_X(g,h)$.
+\item If all $\ell_\tau$ vanish, every coordinate of $\theta_X(g,h)$ is the scalar theta kernel at $((1,g),(1,h))$ of the datum given by the polynomial $1$ and the block datum read modulo the square of the product of the chosen places
+times the product of the twist places, for the characters $1$ and $\chi_V$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By \cref{lem:vector-kernel}(b) the rational points act on the kernel through the weight, which is trivial on the line. For each $k\in J_X$ the reduction at the chosen places is $1$, so in the law of \cref{prop:lift-descent}(a)
+with $s=1$ the pair $(k,1)$ fixes the datum; hence $\theta_X(gk,\cdot)=\theta_X(g,\cdot)$. The group $\U(1)(\Ad_{\rm f})$ is commutative, so conjugation by $z$ fixes $J_X$ and translation by $z$ permutes the double cosets,
+with the same stabilisers; the class sum of the translated kernel is therefore the class sum of the kernel.
+
+(b) The first statement is \cref{lem:vector-kernel}(c) for this pair, whose real points of $\U(1)$ act as the identity in the weight $0$. The inner product is additive in its first argument, so it commutes with class sums, and (a)
+gives the translated form.
+
+(c) Pair both sides with a form $y$. By adjointness (\cref{prop:lift-descent}(b)), $\langle\Theta_W1,y\rangle$ is the integral over $[\U(1)]$ of the descent $\theta y$, which by (a) and (b) is a function of the class of $g$ at the level
+$J_X$; for the normalisation of measures of \cref{prop:lift-descent}(b), the integral over $[\U(1)]$ of such a function is its class sum at $J_X$ divided by $[K_0^1:J_X]$. With (b) at $z=1$ this is $\langle\varphi_X,y\rangle/[K_0^1:J_X]$.
+The constant $1$ is a form of parameter $0$: it is automorphic and bounded, and it is the function attached to the constant algebraic form whose value is a unit vector.
+
+(d) The weight has one row of length $\ell_\tau$ at $\tau$, whose hook lengths are $1,\dots,\ell_\tau$. The Fock polynomial of a coordinate vector is obtained from the polynomial of the highest weight theory by renaming the variable at
+$(\tau,a)$ and the one column to the variable with row $(\tau,a)$; renaming along an injective map does not change the Fock pairing $P(\partial)Q(0)$, and the pairing of the highest weight polynomials is the hook number times the
+Gram form, which is $1$ on the highest vector. The row sums are the definition of the kernel, the jets being linear in the datum and homogeneous of degree $\sum_\tau\ell_\tau$ in the scale.
+
+(e) The coordinate $i$ is the jet along the sum of the row $i$ of the Schur matrix; in degree $0$ all basis polynomials are $1$ and each row sums to $1$, so the jet is the theta value of the datum with polynomial $1$
+(\cref{prop:descent-pairs}(a) for the block datum).
+\end{proof}
+
+\begin{lemma}[Indices and masses]\label{lem:character-indices}
+Let $X$ be $L$-value data of rank $N$ and $q=q_w$ the norm of a place $w$ of $X$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $[K_0^1:J_X]=\prod_{w\in M}(q_w-1)$.
+\item The index of the level of the forms on $V$ in $K_0$ is the product of $q^N-1$ over the chosen places and of $1+q+\dots+q^{N-1}$ over the twist places.
+\item The mean of $\abs{\Psi_{\rm bl}}^2$ over the columns modulo the places of $X$ is
+\[
+  \mathrm{bms}=\prod_{w\in M}q_w^{-N}\prod_{w\in Q}\frac{q_w-1}{q_w};
+\]
+the block datum is sharp for the level $J_X$ off the places of $X$ and their
+conjugates, with mass $\mathrm{bms}/[K_0^1:J_X]$.
+\item $\mathrm{bms}$ times the index in (b) times $\prod_w(1-q_w^{-N})^{-1}$ over the places of $X$ is $\Nm Q^{N-1}$.
+\item For $N=2k$, $k>1$, the Euler product $\prod_w(1-\epsilon_wq_w^{-k})^{-1}$ of the place signs ($\epsilon_w=1$ at a place fixed by conjugation, $\pm1$ at the two places of a split pair) is nonzero; omitting the places of $X$ and
+their conjugates multiplies it by $\prod_w(1-q_w^{-N})$ over the places of $X$.
+\item The real points of $\U(1)$ fix the Fock vector $v$ of the highest vector in the real Weil representation, and $\int\langle v,\Omega(x,1)v\rangle\,dx\cdot\langle1,1\rangle=\mathrm{hook}\cdot\vol[\U(1)]$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) At a split place the integral points of $\U(1)$ are the local units, which map onto $\F_w^\times=\GL_1(\F_w)$, and $J_X$ is the kernel of the reduction at the chosen places.
+
+(b) By the Chinese remainder theorem the index is a product over the places of $X$. At a chosen place the level is the stabiliser in $\GL_N(\F_w)$ of the embedded basis vector, whose index is the number $q^N-1$ of nonzero
+vectors. At a twist place it is the stabiliser of the span of the other basis vectors; the inverse transpose takes it to the stabiliser of a line, of index $(q^N-1)/(q-1)=1+q+\dots+q^{N-1}$.
+
+(c) At a chosen place $\Psi_{\rm bl}$ is the indicator of the columns that reduce to the embedded basis vector, a proportion $q^{-N}$; at a twist place $\abs{\psi_w(x_\iota)}^2$ is $1$ if the embedded entry is a unit and $0$ otherwise,
+a proportion $(q-1)/q$. Sharpness and the mass are \cref{prop:block-sharp}(b) for the line: the mass is $\sum\abs{\Psi_{\rm bl}}^2$ divided by the number of columns and by $\#\prod_{w\in M}\GL_1(\F_w)=[K_0^1:J_X]$.
+
+(d) At a chosen place the factor is $q^{-N}(q^N-1)(1-q^{-N})^{-1}=1$; at a twist place it is $\frac{q-1}q\cdot\frac{q^N-1}{q-1}\cdot\frac{q^N}{q^N-1}=q^{N-1}$.
+
+(e) For $k>1$ the product converges absolutely and its factors are nonzero. The places of $X$ split, so each contributes, with its conjugate, the factor $(1-q^{-k})^{-1}(1+q^{-k})^{-1}=(1-q^{-2k})^{-1}$, which is removed.
+
+(f) In the real Weil representation $(x,y)$ acts by the Fock operator times $\prod_\tau\det(y_\tau)^{\gamma_\tau}\det(x_\tau)^{\ell_\tau}$, with $\gamma$ the power of the determinant of the weight on $V$, here $0$. The Fock operator of $x$ multiplies the
+polynomial of the highest vector, homogeneous of degree $\ell_\tau$ in the variables at $\tau$, by $\det(x_\tau)^{-\ell_\tau}$, so $\Omega(x,1)v=v$, and $\langle v,v\rangle$ is the hook number by \cref{lem:character-kernel}(d). The real points form one
+circle for each infinite place, and the integral times $\langle1,1\rangle$ is the volume of $[\U(1)]$ for the product measure.
+\end{proof}
+
+\begin{lemma}[The central action]\label{lem:central-action}
+For a finite point $z$ of $\U(1)$ let $T_z$ be translation of forms on $V$ by the scalar matrix $\det z$ times $\chi_V(\det z)$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Translation by a scalar preserves the inner product, and the adjoint of $T_z$ is $T_{z^{-1}}$.
+\item $T_{z^{-1}}\theta_X(g,\cdot)=\theta_X(gz,\cdot)$, and $T_z\varphi_X=\varphi_X$.
+\item $T_z$ commutes with every translation, hence with the operators $H_w(X)$ at split places off the level and with the action of $\prod_{v\in M}\GL_1(\F_v)$, whose images of group algebra elements it preserves. If $z$
+is integral at the places above $\ell$, $T_{z^{-1}}$ preserves the forms integral at every embedding $\C\to\C_\ell$.
+\item Let the stabilisers of the classes of $\U(1)$ at $J_X$ be trivial and $s_c$ represent the class $c$. If $y\perp\varphi_X$, the descent kills $\sum_cT_{s_c}y$.
+\item Under the hypothesis of (d), if $\Xi$ is orthogonal to the false lifts formed with the kernel of the descent, then $\sum_cT_{s_c}^{-1}\Xi$ is orthogonal to those formed with $(\C\varphi_X)^\perp$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The inner product is the restriction of a translation invariant pairing (\cref{lem:hecke-adjoint}(a)), and $\abs{\chi_V}=1$; so the adjoint of $T_z$ is $\overline{\chi_V(\det z)}$ times translation by the inverse scalar, which is $T_{z^{-1}}$.
+
+(b) The pair of scalars $(\nu,\nu)$, $\nu=\det z^{-1}$, acts as the identity on $\Hom(W,V)$ and in the Weil representation on the block datum by a number, the product of the character values. Hence translating the kernel by $\nu$ on $V$
+amounts to translating it by $z$ on $\U(1)$, up to the scalar $\chi_V(\nu)$, which is the first claim. Then $T_z\varphi_X$ is the class sum of $g\mapsto\theta_X(gz^{-1},\cdot)$, which is $\varphi_X$ by \cref{lem:character-kernel}(a).
+
+(c) A scalar matrix is central in $\U(V)(\Ad_{\rm f})$, and the Hecke operators and the group action are combinations of translations, times roots of unity for the latter. If $z$ is integral above $\ell$, the scalar
+$k=(\det z)^{-1}$ and its inverse are integral above $\ell$, so the gauge at $g$ of $T_{z^{-1}}\Xi(g)$ is that of $\Xi(gk)$ at $gk$, at most $1$; the character value is a unit at every embedding.
+
+(d) By \cref{lem:character-kernel}(b) and by (a) and (b), the descent of $\sum_cT_{s_c}y$ at $g$ is
+\[
+  \sum_c\langle T_{s_c^{-1}}\theta_X(g,\cdot),y\rangle=\sum_c\langle\theta_X(gs_c,\cdot),y\rangle=\langle\varphi_X,y\rangle=0,
+\]
+since, the stabilisers being trivial, the class sum of the translated kernel is $\varphi_X$.
+
+(e) Let $y$ be a false lift formed with $(\C\varphi_X)^\perp$: $y\perp\varphi_X$, $y$ in the image of $e$ and killed by $H_w(X_*)$. By (a), $\langle\sum_cT_{s_c}^{-1}\Xi,y\rangle=\langle\Xi,\sum_cT_{s_c}y\rangle$. By (c) the form $\sum_cT_{s_c}y$ lies in the image of $e$ and is killed
+by $H_w(X_*)$, and by (d) it lies in the kernel of the descent; so it is a false lift formed with that kernel, and $\Xi$ is orthogonal to it.
+\end{proof}
+
+\begin{lemma}[Galois conjugates of the lift]\label{lem:galois-lift}
+Let $\sigma\in\mathrm{Aut}(\C/K)$ and $\Omega$ the period of \cref{thm:jet-conjugation}.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\sigma'=\mathrm{conj}\circ\sigma\circ\mathrm{conj}$ lies in $\mathrm{Aut}(\C/K)$ and permutes the infinite places of $E$ as $\sigma$ does; write $e$ for this permutation.
+\item Let the data have no twist places and even rank $N=2m'$. There are constants $t$, $l$ with $\abs t=\Omega^{-1/2}$, $l\ne0$, and a norm-one adele $u$ such that for all data $X$ on these places the following holds. Let $Y$ be
+the data on the same places with row lengths $\ell_{e^{-1}\tau}$ and a character equal to $\sigma\circ\mu$ on the finite points, and $D=\sum_\tau\ell_\tau$. Then $\sigma$ of the coordinate $i$ of $\mathsf t^D\varphi_X(h)$ is
+$t^D\,l\,\chi_{V,Y}(\det u)\,(\sigma\Delta/\Delta)(h)$ times the coordinate $i\circ e^{-1}$ of $\varphi_Y(h)$, where $\Delta$ is the multiplier of the Weil representation at the finite component of $x\mapsto hx$.
+\item For a pair $p$ and a tame $\vartheta$, $\varphi_{p,\vartheta}=\mathsf a^{2z}\bar\pi_M^{J}\,A$ with $A=\mathsf t^J\varphi_{X_{p,\vartheta}}$, so $\norm{\varphi_{p,\vartheta}}^2=\abs{\mathsf a^{2z}}^2M^J\langle A,A\rangle$.
+\item There is $a>0$ such that for every pair $p$ of rank $2z\ge4$, with $A$ formed at $\vartheta=1$, there are data $Y$ on the same places with the row lengths $c(\tau)-z$ permuted by $e$ and $\abs{\sigma\langle A,A\rangle}=\Omega^{-J}a\norm{\varphi_Y}^2$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Complex conjugation preserves $K$ and $\sigma$ fixes $K$ pointwise, so $\sigma'(y)=\overline{\sigma(\bar y)}=y$ for $y\in K$. For a CM field complex conjugation commutes with every embedding, $\mathrm{conj}\circ\tau=\tau\circ c_E$ with $c_E$ the
+conjugation of $E$; hence $\sigma'\circ\tau=\mathrm{conj}\circ\sigma\circ\tau\circ c_E$, which is conjugate to $\sigma\circ\tau\circ c_E=\mathrm{conj}\circ(\sigma\circ\tau)$, and so defines the same place as $\sigma\circ\tau$.
+
+(b) Both $\varphi_X$ and $\varphi_Y$ are class sums over $\U(1)$, the second after translation by $u^{-1}$ (\cref{lem:character-kernel}(a)); compare them term by term. The kernels are jets of the data $\omega(g,h)(\Psi_{\rm bl}\otimes\mathrm{vac})$
+(\cref{lem:character-kernel}(d)), and the semilinear map $L$ of \cref{thm:jet-conjugation} carries jets at scale $\mathsf t$ to conjugates of jets at scale $t$, with the places permuted, which permutes the Schur jet matrix by $e$.
+It remains to compute $L$ on the datum. The action of a pair is a character times the Weil action of its image in $\U(\Hom(W,V))$. By \cref{thm:jet-conjugation}(b), $L(\Psi\otimes\mathrm{vac})=c\,\omega(u)((\sigma\circ\Psi)\otimes\mathrm{vac})$; with no twist
+places the residue function of the block datum has values $0$ and $1$, which $\sigma$ fixes, so the block data of $X$ and $Y$ correspond. Moving $L$ past the Weil operators of $g$ and $h$ introduces the multiplier ratio
+$\sigma\Delta/\Delta$; at the image of $g$ it is the ratio at $g^{-1}$ to the power $2m'$, whose square is $\sigma\upsilon/\upsilon$ at $\det g$, and the characters $\chi_V=\mu\upsilon^{m'}$ of $X$ and $Y$ then match, as $\sigma\circ\mu$ is the
+character of $Y$ on the finite points; the characters on the side of $W$ are trivial. This gives the factor $l\,\chi_{V,Y}(\det u)(\sigma\Delta/\Delta)(h)$ and the kernel of $Y$ at $(gu^{-1},h)$.
+
+(c) is the definition of the scaled lift, with $\abs{\bar\pi_M}^2=M$.
+
+(d) Write $\sigma\langle A,A\rangle$ through the coordinates: since $\sigma(\bar\zeta)=\overline{\sigma'(\zeta)}$, it is the class sum of the Gram pairings of $\sigma'A(h)$ and $\sigma A(h)$. Apply (b) to $\sigma$ and to $\sigma'$; both carry $A$ to a constant times the
+multiplier ratio times the lift of conjugate data with the row lengths permuted by $e$, by (a) the same permutation. The conjugate data are the same: the values of the character on the finite points are algebraic
+numbers in a CM field (on the rational points they are products of powers of the embeddings $\Phi_v$, on an open subgroup values of the tame part, and the index is finite), on which complex conjugation
+commutes with $\sigma$, so $\sigma'\circ\nu=\sigma\circ\nu$ there. The multiplier ratios of $\sigma$ and $\sigma'$ have modulus one and cancel in the pairing, the constants
+contribute $\abs{t}^{2J}=\Omega^{-J}$ and a positive number independent of $p$, and what remains is the squared norm of the lift of the conjugate data.
+\end{proof}
+
+\begin{proposition}[Squared norms are $L$-values]\label{prop:norm-L-value}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For rank $2k$, $k>1$, $\norm{\varphi_X}^2$ is the product of $C\ne0$ (the volumes of $[\U(2k)]$ and $[\U(1)]$ over $\zeta_F(2k)$), $\prod_{w\in M}(q_w-1)$, the hook number and the dimension of the weight,
+$L(k,\mu^{-1})$ and $\Nm Q^{2k-1}$.
+\item $\varphi_X$ is spherical at split places off its places, with the Hecke polynomials of a lift of the trivial system; the twisted central translations fix it; its Galois conjugates are, up to simple factors,
+the lifts of the conjugate characters.
+\item For a pair $p$ and every tame $\vartheta$, $L^{\rm alg}_p(\vartheta)>0$ is $A_p\,L(z,\nu\vartheta)$ without the factors at the level, with $A_p$ independent of $\vartheta$; hence $\abs{L(z,(\nu\vartheta)^{-1})}/\abs{L(z,\nu^{-1})}=L^{\rm alg}_p(\vartheta)/L^{\rm alg}_p(1)$, and
+$L_*$ of $(\nu\vartheta^s)^{-1}$ up to $z$ is $\Nm Q^{z^2}$ times that of $\nu^{-1}$ times the squared ratios at $1,\dots,z$.
+\item (Rank two, $z=1$.) The period of the determinant theta kernel of $(I_n,I_n)$ is a class sum of kernel values, and adding a prime $v$ to the modulus multiplies it by $\prod_{l<n}(1-q^lX)$, $X$ the inverse Frobenius value.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) \emph{Rallis' formula for the constant.} Let $n=N=2k$. By \cref{lem:character-indices}(c) the block datum is sharp for $J_X$ with mass $\mathrm{bms}/[K_0^1:J_X]$, and the real vector $v$ is an edge (\cref{prop:descent-pairs}(b)). Translations fix the
+constant $1$, so its Rallis series is the constant $\Sigma$, the sum of the vacuum coefficients of $\chi_V=\mu\upsilon^k$ over the finite points modulo those integral off the places of $X$ and their conjugates; and $\Omega(x,1)v=v$. Hence
+\cref{thm:B-rallis}(b) and \cref{lem:character-indices}(f) give
+\[
+  \langle\Theta_W1,\Theta_W1\rangle_{\rm Pet}=\vol[\U(n)]\,\frac{\mathrm{bms}}{[K_0^1:J_X]}\,\mathrm{hook}\,\vol[\U(1)]\,\Sigma.
+\]
+\emph{Class sums.} The class sum product on $V$ is the index of the level in $K_0$ times $\dim$ times the Petersson product (\cref{prop:lift-descent}(b)), and $\varphi_X=[K_0^1:J_X]\Theta_W1$ (\cref{lem:character-kernel}(c)). Therefore
+\[
+  \norm{\varphi_X}^2=[K_0^1:J_X]\cdot\vol[\U(n)]\vol[\U(1)]\cdot\dim\cdot\mathrm{hook}\cdot[K_0:K]\cdot\mathrm{bms}\cdot\Sigma.
+\]
+\emph{The vacuum sum.} By \cref{thm:B-rallis}(e), $\Sigma=L(k,\mu^{-1})$ divided by the Euler product of the place signs at $k$ without the places of $X$ and their conjugates, which is $\zeta_F(2k)\prod_w(1-q_w^{-N})$ by
+\cref{lem:character-indices}(e); here $\zeta_F(2k)$ denotes the full Euler product of the place signs, which is the value of the zeta function of $F$ at $2k$ when $E/F$ is unramified at the finite places, and is nonzero.
+By \cref{lem:character-indices}(d), $[K_0:K]\,\mathrm{bms}\prod_w(1-q_w^{-N})^{-1}=\Nm Q^{N-1}$, and by (a) of that lemma $[K_0^1:J_X]=\prod_{w\in M}(q_w-1)$. Collecting, $\norm{\varphi_X}^2$ is the product of $C=\vol[\U(n)]\vol[\U(1)]/\zeta_F(2k)$, of
+$\prod_{w\in M}(q_w-1)$, $\mathrm{hook}$, $\dim$, $L(k,\mu^{-1})$ and $\Nm Q^{N-1}$; $C\ne0$ as the volumes are positive.
+
+(b) \emph{Hecke polynomials.} By \cref{lem:character-kernel}(c) it suffices to treat $\Theta_W1$. The constant is spherical at every split $w$ off the places of $X$, with Hecke polynomial $1-X$ in rank one, the double coset of
+$\mathrm{diag}(\varpi_w)$ being a single coset. By \cref{prop:lift-descent}(c) with $t=N-1$ the lift has the polynomial $\prod_{l<N-1}(1-q^l\alpha X)\cdot(1-q^{N-1}\alpha\beta^{-1}X)$, $\alpha$, $\beta$ the Frobenius values of the characters of the pair, which is the
+Hecke polynomial of a lift of the trivial system. \emph{Central translations} fix $\varphi_X$ by \cref{lem:central-action}(b), and the group $\prod_{w\in M}\GL_1(\F_w)$ fixes it, since it fixes the constant $1$ and commutes with the
+lift (\cref{prop:lift-descent}(a)). \emph{Galois conjugates} are \cref{lem:galois-lift}(b).
+
+(c) \emph{The value.} Apply (a) to the data $X_{p,\vartheta}$ of rank $2z$: the volumes, the chosen places, the weight and its hook number and dimension do not depend on $\vartheta$, so $\norm{\varphi_{X_{p,\vartheta}}}^2=C'\,L(z,(\nu\vartheta)^{-1})\Nm Q^{2z-1}$
+with $C'\ne0$ independent of $\vartheta$ and of $Q$; here $L$ omits the chosen places, the places of $Q$ and their conjugates. The scale $\mathsf a^{2z}(\bar\pi_M\mathsf t)^J$ is nonzero and independent of $\vartheta$, so
+$L^{\rm alg}_p(\vartheta)=A_pL(z,(\nu\vartheta)^{-1})$ with $A_p=C'\abs{\mathsf a^{2z}(\bar\pi_M\mathsf t)^J}^2\ne0$. Since the set of omitted places is stable under conjugation, the $L$-functions of $\nu\vartheta$ and of its inverse agree: the
+Euler factor of $(\nu\vartheta)^{-1}$ at $w$ is that of $\nu\vartheta$ at $\bar w$. \emph{Positivity.} $\vartheta$ has weight $0$, so $\nu\vartheta$ has the weight $-c$ of $\nu$, which is nonzero as $1\le z\le c(v)$; the character
+$x\mapsto\nu\vartheta(x/\bar x)$ is therefore not trivial, and its partial $L$-function does not vanish at real $s\ge1$ (as in \cref{thm:B-tower}(a)). Hence $\norm{\varphi_{X_{p,\vartheta}}}^2\ne0$, $\varphi_{p,\vartheta}\ne0$ and $L^{\rm alg}_p(\vartheta)>0$. \emph{The ratio.}
+Dividing the values at $\vartheta$ and at $1$, where $Q=\emptyset$, the constant $A_p$ cancels; the quotient is a positive real number, so it equals its absolute value, which is
+$\abs{L(z,(\nu\vartheta)^{-1})}/\abs{L(z,\nu^{-1})}$. The same holds for $n_LL^{\rm alg}_p$, $n_L$ being a nonzero integer independent of $\vartheta$; and the ratio $\varrho_p(\vartheta,s)$ is nonzero and real for both signs, its two
+$L$-values being nonzero. \emph{The products.} For $1\le z'\le z$ the pair $(\nu,z')$ is again a pair, its ratio at $\vartheta^s$ is $\abs{L(z',(\nu\vartheta^s)^{-1})}/\abs{L(z',\nu^{-1})}$, and no place of $Q$ is chosen. Hence
+\[
+  \prod_{w\in M\cup Q}q_w^{z^2}\prod_{z'\le z}\abs{L(z',(\nu\vartheta^s)^{-1})}^2=\Nm Q^{z^2}\cdot\prod_{w\in M}q_w^{z^2}\prod_{z'\le z}\abs{L(z',\nu^{-1})}^2\cdot\prod_{z'\le z}\varrho_{(\nu,z')}(\vartheta,s)^2,
+\]
+the $L$-values of $\nu^{-1}$ being nonzero.
+
+(d) \emph{Invariance.} Substituting $\gamma^{-1}$ multiplies the polynomial $\prod_\tau\det^{c_\tau}$ by $\prod_\tau(\det\gamma)^{-c_\tau}$, and translating the kernel by a rational $\gamma$ gives the factor $\prod_\tau(\det\gamma)^{c_\tau}$ through the
+character $\alpha$ of weight $-c$, so the kernel is left invariant under the rational points; right translation by $k\in K_0$ replaces the datum by $y\mapsto\alpha(\det k)\chi(\det(k^{-1}y))$, which is the datum again, so
+the kernel has level $K_0$. \emph{A class sum of kernel values.} The function $\chi\circ\det$ modulo $\mathfrak m$ vanishes off the image of $\GL_n(\OO/\mathfrak m)$, where the determinant is no unit, and on it is
+$\sum_y\chi(\det y)\mathbf 1_y$; translation by a lift of $y$ to $K_0$ turns the indicator of the unit matrix into that of $y$, times the character, and the kernel is linear in the datum. Hence the period is the class sum of $g\mapsto\sum_y$ of the
+kernel values at $g\cdot\mathrm{lift}(y)$ for the indicator of $1$. \emph{Adding a prime.} Let the primes of $\mathfrak m'$ be those of $\mathfrak m$ and a new prime $v$, split since $\mathfrak m'$ is prime to its conjugate, and
+$X=\alpha(v)^{-1}$ for the Frobenius value $\alpha(v)$, the value at a uniformiser of the Hecke character of $\alpha$ in rank $n$ times $q^{n/2}$. The datum modulo $\mathfrak m$ is the vacuum at $v$. Translate it by the transposed Hecke
+coset representatives $\gamma_U$ at $v$, one for each subspace $U$ of $\F_v^n$, with the coefficients $(-X)^{\dim U}q^{\binom{\dim U}2}$: at $v$ the sum puts in the function $x\mapsto\prod_{l<\mathrm{corank}\,x}(1-q^l)$, which is $1$ for invertible $x$ and $0$
+otherwise, that is $\psi_v\circ\det$, $\psi_v$ being trivial; at the other places of $\mathfrak m'$ nothing changes. Hence the datum modulo $\mathfrak m'$ is $\sum_U(-X)^{\dim U}q^{\binom{\dim U}2}\omega(\gamma_U)$ applied to the datum modulo $\mathfrak m$.
+Applying the theta functional, the kernels are related in the same way; they have level $K_0$, so their class sums are integrals over $[\U(n)]$, which do not see translations. Hence the period for $\mathfrak m'$ is
+$\sum_U(-X)^{\dim U}q^{\binom{\dim U}2}=\prod_{l<n}(1-q^lX)$ times that for $\mathfrak m$, by the $q$-binomial theorem.
+\end{proof}
+
+\lean{New.Data.TameChar.IsIntegralMeasure, New.Data.TameChar.IsIntegralMeasure.norm_sq, New.Data.CriticalPair.pointDatum, New.Data.CriticalPair.pointKernel, New.Data.CriticalPair.smul_kernelForm_apply, New.Data.CriticalPair.trivialLift_apply, New.Data.CriticalPair.weylGauge_denomBound_smul_pointKernel_le_one, New.Data.CriticalPair.denomBound_smul_trivialLift_mem_integralForms, New.Data.CriticalPair.integralAlgebraicPart_mem_integralAway, New.Data.CriticalPair.norm_integralAlgebraicPart_one_le_one, New.Data.CriticalPair.TrivialLiftIndex, New.Data.CriticalPair.liftPoint, New.Data.CriticalPair.trivialLift_apply_eq_sum_smul, New.Data.CriticalPair.kernelPairing, New.Data.CriticalPair.norm_sq_trivialLift_eq_sum, New.Data.CriticalPair.mul_kernelPairing_mem_embValRing, New.Data.CriticalPair.isIntegralMeasure_integralAlgebraicPart}
+\lean{New.Data.CriticalPair.sqrt_weylNormSq_pointKernel_le, New.Data.CriticalPair.normSqAt_trivialLift_le, New.Data.CriticalPair.chosenGroupOrder_mul_denomBound_sq_le, New.Data.CriticalPair.norm_map_integralAlgebraicPart_le, New.Parameters.exists_eq_star_map_star_and_placePerm_eq, New.Data.CriticalPair.norm_trivialLift_sq_eq_mul_inner, New.Data.CriticalPair.exists_norm_map_inner_trivialLift_eq_mul, New.Data.exists_log_norm_inner_trivialLift_eq, New.Data.CriticalPair.exists_log_norm_map_norm_sq_trivialLift_eq_add_sum_jetSize, New.Data.exists_hasEmptyRow, New.Data.CriticalPair.HasEmptyRow.hasLiftRank, New.Data.CriticalPair.IsMainPair.negWeight_sub_z_mem_Icc, New.Data.heightLe_norm_trivialLift_sq}
+\lean{New.LValueData.centralRep, New.LValueData.normalizedCentralOp, New.LValueData.coe_centralRep_apply, New.LValueData.inner_centralRep_centralRep, New.LValueData.inner_normalizedCentralOp, New.LValueData.normalizedCentralOp_kernelForm, New.LValueData.normalizedCentralOp_trivialLift, New.LValueData.commute_algFormRep_scalarFin, New.LValueData.algFormRep_scalarFin_apply_comm, New.LValueData.centralRep_mem_range_groupAlgAction, New.LValueData.centralRep_heckePolyOnForms, New.LValueData.normalizedCentralOp_inv_mem_integralForms, New.LValueData.sum_normalizedCentralOp_mem_ker_normalizedDescent, New.LValueData.isOrthogonalToFalseLifts_sum_normalizedCentralOp_inv, New.Selmer.DenominatorLe.norm_card_mul_inner_starProjection_le, New.Selmer.DenominatorLe.norm_inner_starProjection_le}
+\lean{New.Data.CriticalPair.exists_norm_sq_trivialLift_eq_mul_L, New.Data.CriticalPair.cast_chosenGroupOrder_mul_denomBound_sq_ne_zero, New.Data.CriticalPair.vacuumScale_pow_mul_pow_rowLengthSum_ne_zero, New.Data.CriticalPair.L_inv_mul, New.Data.CriticalPair.one_le_cast_z, New.Data.CriticalPair.neg_negWeight_ne_zero, New.Data.CriticalPair.L_mul_ne_zero, New.Data.CriticalPair.trivialLift_ne_zero, New.Data.CriticalPair.algPart_pos, New.Data.CriticalPair.exists_ne_zero_algPart_eq_mul_L, New.Data.CriticalPair.exists_algPart_eq_mul_L, New.Data.CriticalPair.ratio_eq_algPart_div, New.Data.CriticalPair.integralAlgebraicPart_ne_zero, New.Data.CriticalPair.exists_integralAlgebraicPart_eq_mul_L, New.Data.CriticalPair.ratio_eq_integralAlgebraicPart_div, New.Data.CriticalPair.ratio_ne_zero, New.Data.CriticalPair.star_ratio, New.Data.CriticalPair.ratio_ne_zero_and_real, New.LValueData.formAction_trivialLift, New.Data.CriticalPair.formAction_trivialLift, New.Data.CriticalPair.exists_ofAlgForm_trivialLift_eq_smul_lift, New.Data.IsRegularFamily.heightLe_of_eq_zpow_mul, New.Data.CriticalPair.lowerPoint, New.Data.TameChar.disjoint_isChosen_Q, New.Data.CriticalPair.ratio_lowerPoint, New.Data.CriticalPair.lValueProd_eq_mul_prod_ratio_sq}
+
+A function $F$ of the tame characters is an \emph{integral measure} at the modulus $Q$ if there are finitely many points $u_a$ of $\U(1)(\Ad)$ and numbers $c_a$ such that $\norm{j(c_a)}\le1$ for every prime $l$ prime to $\Nm Q$ and every ring map
+$j\colon\C\to\C_l$, and $F(\vartheta')=\sum_ac_a\vartheta'(u_a)$ for all tame $\vartheta'$ of modulus $Q$. The \emph{point kernel} of $p$ twisted by $\vartheta$ is the kernel of the data $X_{p,\vartheta}$ at the datum that is $\mathsf a^{2z}$ times the
+indicator of the columns that reduce to the embedded basis vector at the chosen places and have the entry $1$ in that position at the places of $Q$, with the variables scaled by $\bar\pi_M\mathsf t$.
+
+\begin{lemma}[Values and squared norms of the lift]\label{lem:lift-values}
+Let $p=(\nu,z)$ be a pair with $z\ge2$ and $\vartheta$ tame of modulus $Q$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\varphi_{p,\vartheta}(h)$ is the sum of the point kernels at $(g_c\,\lambda(A),h)$ over the classes $c$ of $\U(1)$ at $J_X$, with representatives $g_c$, and the families $A$ of units of the residue fields at $Q$, $\lambda(A)$ an integral
+lift of $A^{-1}$.
+\item For a prime $l\nmid\Nm Q$ and $j\colon\C\to\C_l$, $n_\nu$ times a point kernel value at $(g,h)$ has gauge at most $1$ at $h$.
+\item For tame $\vartheta'$ of the same modulus, $\varphi_{p,\vartheta'}(h)=\sum_a\vartheta'(\det(1,g_a))^{-1}\theta^Q(g_a,h)$, with $g_a$ the point attached to the index $a=(c,A)$ in (a) and $\theta^Q$ the point kernel for the trivial
+character regarded as tame of modulus $Q$. Hence $\norm{\varphi_{p,\vartheta'}}^2=\sum_{a,b}\vartheta'(\det(g_b/g_a))\,\kappa_{ab}$ with numbers $\kappa_{ab}$ that depend on $Q$ only, and $n_{\rm Aut}n_\nu^2\kappa_{ab}$ is integral at every $j$ as in (b).
+\item If $F$ is an integral measure at $Q$, so is $\vartheta'\mapsto\abs{F(\vartheta')}^2$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By \cref{prop:descent-pairs}(a) the block datum is the sum over $A$ of the translates, by lifts of $A^{-1}$, of the indicator datum, and the scales of the point kernel come out of the datum and of the jets as the powers
+$\mathsf a^{2z}$ and $(\bar\pi_M\mathsf t)^J$ (\cref{lem:character-kernel}(d)). The classes of $\U(1)$ at the level $J_X$ have no automorphisms, so the class sum is a plain sum.
+
+(b) With $\delta=M^{2f\cdot2z}=M^{4fz}$ the datum $\delta$ times the point datum is standard of level $M$ at every $l\nmid\Nm Q$ (\cref{prop:mod-datum}; the indicator has values $0$ and $1$, and the factor $\mathsf a^{2z}$ is part of the
+point datum). The weight has $J$ boxes and $\delta(Md)^J=n_\nu$, so by \cref{thm:one-lift-gauge}(e) the kernel of $n_\nu$ times the point datum does not increase gauges. The jet at $(g,h)$ applied to the vector $1$ of the trivial weight of $\U(1)$, which has gauge one, is the
+kernel value.
+
+(c) The character $\vartheta'$ is a scalar factor of the Weil action, and the point datum and the points $g_a$ depend on the modulus only; this gives the first formula. Expanding both arguments of the sesquilinear class sum,
+$\norm{\varphi_{p,\vartheta'}}^2=\sum_{a,b}\overline{\vartheta'(\det g_a)^{-1}}\vartheta'(\det g_b)^{-1}\kappa'_{ab}$, with $\kappa'_{ab}$ the class sum at the level of the lift of the Gram pairings of $\theta^Q(g_a,\cdot)$ and $\theta^Q(g_b,\cdot)$, taken at fixed
+representatives; as $\abs{\vartheta'}=1$, the coefficient is $\vartheta'(\det(g_a/g_b))$, and renaming gives the formula. Each Gram pairing of two vectors of gauge at most one at $h$ is integral, the Gram matrix being integral and invariant, so
+$n_\nu^2$ times the pairing is integral by (b), and $n_{\rm Aut}$, a common multiple of the orders of the stabilisers, clears the weights of the class sum.
+
+(d) $\abs{F(\vartheta')}^2=F(\vartheta')\overline{F(\vartheta')}$ is the double sum of $c_a\bar c_b\vartheta'(u_au_b^{-1})$, since $\overline{\vartheta'(u)}=\vartheta'(u^{-1})$; and $\bar c_b$ is integral at $j$ because $c_b$ is integral at $j\circ\mathrm{conj}$.
+\end{proof}
+
+\begin{proposition}[Algebraic parts]\label{prop:algebraic-parts}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $n_\nu$ times each kernel value is integral at primes prime to $\Nm Q$; so $n_\nu\varphi_{p,\vartheta}$ is an integral form and $n_LL^{\rm alg}_p(\vartheta)$ is integral away from $Q$; it is given, on the tame characters with set $Q$,
+by one element of the group ring of $\U(1)(\Ad)$ integral away from $Q$.
+\item For a flat pair, $n_L\le\exp(x^{33})$ and every conjugate of $n_LL^{\rm alg}_p(1)$ is at most $\exp(x^{34})$; flat pairs with prescribed tame part exist in every even rank between $4$ and $t$.
+\item Let $\mathrm{budget}=fa\log^3b/(mk)$, and recall the size $\sinf(i)=\log i!+i\log(M/\Omega)$ of \eqref{eq:sinf}. For a main pair $p$ for $j$, the constant family $\norm{\varphi_{p,1}}^2$ has height at most
+\[
+  \mathrm{budget}-\sum_\tau\sinf(\kappa(\tau)).
+\]
+\item A bound for the denominator of the projection to the line of $\varphi_{p,\vartheta}$ bounds that of the product of the projections of two test forms, at the cost of the class number of $\U(1)$ at the chosen level.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The first claim is \cref{lem:lift-values}(b). By \cref{lem:lift-values}(a) a value of $n_\nu\varphi_{p,\vartheta}$ is a sum of vectors of gauge at most one, and the gauge is ultrametric, so $n_\nu\varphi_{p,\vartheta}$ is integral at every $j$ over
+$l\nmid\Nm Q$. The squared norm is the class sum of the Gram pairings of the values; $n_\nu^2$ makes each pairing integral and $n_{\rm Aut}$ clears the weights; and $\Nm Q$ is a unit at $l$, so $n_LL^{\rm alg}_p(\vartheta)$ is
+integral. For $\vartheta=1$ the modulus is empty and every prime is allowed. By \cref{lem:lift-values}(c) the function $\vartheta'\mapsto n_LL^{\rm alg}_p(\vartheta')$ on the tame characters of modulus $Q$ is $\sum_{a,b}c_{ab}\vartheta'(u_{ab})$ with
+$u_{ab}=\det(g_b/g_a)$ and $c_{ab}=n_{\rm Aut}n_\nu^2\kappa_{ab}/\Nm Q^{2z-1}$, integral at every $j$ over $l\nmid\Nm Q$.
+
+(b) \emph{The integer.} For a flat pair the row lengths vanish, so $n_\nu=M^{4fz}$ and $\log(n_{\rm Aut}M^{8fz})\le x^{33}$ by the comparison of sizes (\cref{rem:magnitudes}). \emph{One kernel value.} The weight is $0$, the test vector has
+norm $1$, and the datum is that of the indicator, a function modulo an ideal of norm $M^f$ with values $0$ and $1$; by \cref{thm:jet-conjugation}(c) and \cref{prop:mod-datum} the $\sigma$-conjugate of a kernel value has norm at most
+$C=(M^f)^{2z}\exp(C_0(q_1\cdot2z+1)^2+2fz\log4)$. \emph{The class sums.} Both class numbers, of $\U(1)$ at $J_X$ and of $\U(2z)$ at the level of the lift, are at most $\exp(x^{30})$ by \cref{prop:sizes}, and a value of $\varphi=\varphi_{p,1}$ is a
+sum of kernel values over the classes of $\U(1)$, there being no twist places. Hence $\norm{\sigma\varphi(h)}\le\exp(x^{30})C$ and $\norm\varphi_\sigma^2\le\exp(x^{30})(\exp(x^{30})C)^2$. \emph{Conjugates.} By Cauchy--Schwarz in the class sum,
+$\abs{\sigma\norm\varphi^2}\le\norm\varphi_{\sigma}\norm\varphi_{\sigma'}$, because $\sigma\langle\varphi(h),\varphi(h)\rangle$ is the Gram pairing of $\sigma'\varphi(h)$ and $\sigma\varphi(h)$. Hence
+$\abs{\sigma(n_LL^{\rm alg}_p(1))}\le\exp(x^{33})\exp(x^{30})(\exp(x^{30})C)^2\le\exp(x^{34})$, every term of the logarithm being small against $x^{34}$. \emph{Existence.} Let $n$ be even with $4\le n\le t$, $z=n/2$, and $\mu$ a
+character of weight $0$ with tame part $\psi$ trivial off the chosen places. The pair $(\mu\upsilon^{-z},z)$ with constant weight $-z$ is flat on $n$, has tame part $\psi$ (the character $\upsilon$ being unramified at the finite
+places), and $\nu\upsilon^z=\mu$; the conditions $1\le z\le t$ and $z\le c=z\le4b$ hold.
+
+(c) \emph{The degrees.} For a main pair, $c(\tau)\in[w_j+r-t,w_j]$ and $z\le r$, so $c(\tau)-z\in[w_j-t,w_j]$; with $\kappa(\tau)+t\le w_j\le\kappa(\tau)+x^{42}$ this gives $\kappa(\tau)\le c(\tau)-z\le\kappa(\tau)+x^{42}$. \emph{A comparison pair.} Let
+$q=(\upsilon^{-z},z)$ be the flat pair of the same rank, which exists by (b) as $2z\le2r\le t$, and $\varphi_q=\varphi_{q,1}$. Put $H=n_L(q)\norm{\varphi_q}^2/\norm{\varphi_{p,1}}^2$. \emph{At the primes.} $H\norm{\varphi_{p,1}}^2=n_L(q)L^{\rm alg}_q(1)$ is integral at
+every prime by (a), so $h_\ell=0$ for all $\ell$. \emph{At infinity.} Let $\sigma\in\mathrm{Aut}(\C/K)$. By \cref{lem:galois-lift}(c), (d) and \cref{lem:character-kernel,lem:character-indices}, as in \cref{prop:norm-L-value}(a) for the data $Y$, there are a
+constant $c_\sigma$, the same for all pairs of rank $2z$, and reals $r$, $r_0\ge-4f$ with
+\[
+  \log\abs{\sigma\norm{\varphi_{p,1}}^2}=c_\sigma+r+\sum_\tau\sinf(c(\tau)-z),\qquad\log\abs{\sigma\norm{\varphi_q}^2}=c_\sigma+r_0,\quad r_0\le4f.
+\]
+Here $r$ is the logarithm of the dimension times the $L$-value at $z\ge2$, where the Euler product is bounded by $e^{\pm4f}$, the dimension being at least $1$ and equal to $1$ for a flat pair; the factorials of the row lengths come
+from the hook number and $\Omega^{-J}M^J$ from (c), (d) of \cref{lem:galois-lift}, which together give $\sinf$. The constant $c_\sigma$ cancels in $\log\abs{\sigma H}$, and $\sinf$ is nondecreasing, as $M\ge\Omega$; so
+\[
+  \log\abs{\sigma H}\le x^{33}+8f-\sum_\tau\sinf(\kappa(\tau))\le\mathrm{budget}-\sum_\tau\sinf(\kappa(\tau)),
+\]
+by (b) and $x^{33}+8f\le\mathrm{budget}$. An automorphism of $\C$ not over $K$ has the same absolute values as one over $K$, composed with complex conjugation. By \cref{def:height} the constant family has the stated height.
+
+(d) Let $\varphi=\varphi_{X}$ for the data of $\varphi_{p,\vartheta}$, which spans the same line, and let $\Lambda$ be the operator of the denominator bound at $\iota$ over $\ell$; on the line it is a number $\mu$ with $\abs{\iota\mu}\ge e^{-\beta}$.
+Let $\Xi$, $\Xi'$ be test forms. The classes of $\U(1)$ at $J_X$ have representatives $s_c$ integral above $\ell$ (a rational point moves any representative into the integral points above $\ell$), and their stabilisers are
+trivial. Put $\Xi''=\sum_cT_{s_c}^{-1}\Xi'$. By \cref{lem:central-action}(c) it is integral above $\ell$, and by \cref{lem:central-action}(e) it is orthogonal to the false lifts formed with $(\C\varphi)^\perp$. Since $T_{s_c}$ fixes $\varphi$ and
+its adjoint is $T_{s_c}^{-1}$, the projection of $\Xi''$ to the line is $N$ times that of $\Xi'$, $N$ the class number of $\U(1)$ at $J_X$. The definition of the denominator gives $\abs{\iota(\mu\langle\Xi,\mathrm{pr}\,\Xi''\rangle)}\le1$, so
+$\abs{\iota(N\langle\Xi,\mathrm{pr}\,\Xi'\rangle)}\le e^\beta$. Finally $\langle\mathrm{pr}\,\Xi,\mathrm{pr}\,\Xi'\rangle=\langle\Xi,\mathrm{pr}\,\Xi'\rangle$ and $\abs{\iota N}=\ell^{-v_\ell(N)}$, so the product of the projections has norm at most $e^{\beta+v_\ell(N)\log\ell}$ at $\iota$.
+\end{proof}
+
+\subsection{Heights of ratios of Hecke values}\label{ss:hecke-value-heights}
+\lean{New.rationalU1_sup_integralU1_le_comap, New.exists_norm_le_norm_twisted_classSum, New.Data.exists_mul_eq_norm_map_le_norm_map_mul, New.Data.pointForm_mem_integralForms, New.Data.CriticalPair.trivialLiftClassSum, New.Data.CriticalPair.trivialLiftClassSum_mem, New.Data.CriticalPair.smul_apply_trivialLiftClassSum, New.Data.CriticalPair.kernelForm_eq_modKernelStdSpace_of_hasEmptyRow, New.Data.twistRow, New.Data.testColumn, New.Data.testColumn_injective, New.Data.inner_pointForm_kernelForm, New.Data.isTestForm_trivialLiftClassSum_pointForm, New.Data.exists_isTestForm_inner_kernelForm_eq, New.Data.modKernel_div_apply, New.Data.norm_map_mul_le_iff_le_div, New.Data.exists_root_prod_integralAlgebraicPart, New.Data.exists_isTestForm_le_norm_inner_trivialLift, New.Data.heightLe_inv_ratio, New.Data.isMainPair_lowerPoint_exchangePair_none, New.Data.isRamified_lowerPoint_exchangePair, New.Data.heckeValueProd_eq_mul_prod_ratio_sq, New.Data.exists_heckeValueProd_eq_mul_prod_ratio, New.Data.heightLe_inv_heckeValueProd_div}
+
+The test forms are built on four blocks of indices. For a main pair $p$ with point $z$ the $2z$ indices of $\U(2z)$ form blocks of sizes $12$, $4$, $4$ and $2z-20$; this is possible since $z>m\ge10^4$. The \emph{test column}
+at a chosen place is the column with rows in the four blocks made of the residue of a point $x_0$ on the first block and of a standard basis vector on each of the other three; it is injective as a linear map, its last
+block being a basis vector. The \emph{twist row} is a fixed row of the second block. For a flat pair $q$ on a block of rank $n'$ with lift $\Xi_q$ at a tame $\vartheta$, $d=n_\nu(q)$ and a function $F$ on the finite points of $\U(n')$
+with values in forms on $\U(2z)$, the \emph{lift class sum} is
+\[
+  \Sigma_{q,\vartheta}F=n_{\rm Aut}\sum_h\frac1{\#\mathrm{Aut}(h)}\,\frac d{\Nm Q^{\,n'-1}}\,\langle1,d\,\Xi_q(h)\rangle\,F(h),
+\]
+the class sum over $\U(n')$ at the level of $\Xi_q$, $\langle\cdot,\cdot\rangle$ the Gram pairing of the trivial weight. A character of the classes of $\U(1)$ at $J_X$ is a \emph{tame class character}.
+
+\begin{lemma}[Averaging over the classes of $\U(1)$]\label{lem:class-averaging}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $\Gamma$ contain the rational points of $\U(1)(\Ad_{\rm f})$ and $K$ the principal level at a set $S$ of places, $K$ compact open with finitely many classes $\Gamma\backslash\U(1)(\Ad_{\rm f})/K$, all with trivial stabilisers.
+For a prime $l$, an embedding $\iota\colon\C\to\C_l$ and every function $s$ there are a point $z$ and a character $\chi$ of weight $0$ with tame part trivial off $S$ such that the class sum of $g\mapsto\chi(\det(gz))s(gz)$, divided
+by the class sum of $1$, has norm at least $\norm{\iota s(1)}$ under $\iota$.
+\item Let $G$ be a finite abelian group, $V^{\#G}=\prod_{\chi\in G}a(\chi)b(\chi)$ and $\iota$ a ring map into a normed field. Every $\psi\in G$ factors as $\psi=\phi\chi$ with $\norm{\iota V}\le\norm{\iota(a(\phi)b(\chi))}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The group is commutative, so the double cosets are the cosets of $\Gamma K$. The finite part of a norm-one adele that is rational, or integral and $\equiv1$ at $S$, lies in $\Gamma K$; so every character of the finite group
+of classes comes from a character of $[\U(1)]$ of weight $0$ with tame part trivial off $S$ (\cref{thm:B-characters-of-weight}). Translate by $z$ so that the representative of the trivial class becomes $1$. By orthogonality of the
+characters of the class group, the normalised twisted class sums add up, over all characters, to $s(1)$, and the norm of a sum is at most the largest norm of its terms.
+
+(b) Choose $\chi$ with $\norm{\iota(a(\psi/\chi)b(\chi))}$ largest. As $\chi\mapsto\psi/\chi$ permutes $G$, the product of these norms over $\chi$ is $\norm{\iota V}^{\#G}$, so the largest is at least $\norm{\iota V}$; put $\phi=\psi/\chi$.
+\end{proof}
+
+\begin{lemma}[A test form and its pairing]\label{lem:seesaw-test}
+Let $p$ be a main pair for $j$ with point $z$, $X=X_{p,\vartheta}$, $l$ a prime with an embedding $\C\to\C_l$ and $l\nmid\Nm Q$. Let $q$, $q_2$, $q_3$ be flat pairs on the blocks of sizes $2z-20$, $4$, $4$, the first and third at the trivial
+character, the second at $\vartheta$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $F$ takes values in an $\OO$-module $\mathcal N$ of forms, $\OO$ the valuation ring of the embedding, then $\Sigma_{q,1}F\in\mathcal N$. If a conjugate linear form $\Lambda$ takes at $F(h)$ the value $B\cdot A\,\theta_{X_{q,1}}(g,h)_i$ for every $h$
+and every coordinate $i$, then $N\mathsf a^{n'}\Lambda(\Sigma_{q,1}F)=B\cdot n_L(q)L^{\rm alg}_q(1)\cdot A$, with $N$ the class number of $\U(1)$ at $J_X$.
+\item For a flat pair every coordinate of its kernel at $(g,h)$ is the scalar kernel of the residue block datum, read modulo any multiple of the square of the chosen places times the twist places, with polynomial $1$ and
+character $\chi_V$.
+\item Let the point form at the block diagonal point $\mathrm{diag}(1,h_2,h_3,h_1)$ have the test column at the chosen places, the twist row of the second block at $Q$, and an integer vector $c$ whose polynomial is $a$ times a
+monomial $\alpha$ in the first block, of degree $\ell_\tau$ at $\tau$. If $\chi$ and the characters of the last three blocks multiply to the character of $X$, its inner product with $\theta_X(g,\cdot)$ is $a$ times the product of the
+four kernels at $g$, the first of which is the kernel of $\chi$, the indicator of $x_0$ and the monomial $\alpha$.
+\item If $c$ is fixed by the representation of the weight at every point whose columns in the first block are those of $1$, the class sum $\Sigma_{q,1}$ over $h_1$ of these point forms is a test form at $l$.
+\item There is a test form $\Xi$ on $\U(2z)$ at $l$ with
+\[
+  \langle\Xi,\theta_X(g,\cdot)\rangle\,N^3\mathsf a^{2z-12}=\frac{\prod_\tau\ell_\tau!}{\alpha!}\,n_LL^{\rm alg}_q(1)\,n_LL^{\rm alg}_{q_3}(1)\,n_LL^{\rm alg}_{q_2}(\vartheta)\,\theta_{\chi,x_0,\alpha}(g)
+\]
+for all $g$, where $\theta_{\chi,x_0,\alpha}$ is the kernel of the first block in (c).
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) \emph{Integrality.} $n_{\rm Aut}$ clears the stabilisers in the class sum, so it suffices that each summand lies in $\mathcal N$: its scalar is the product of $d/\Nm Q^{n'-1}$, integral as $l\nmid\Nm Q$, and of $\langle1,d\,\Xi_q(h)\rangle$, integral because
+$d\,\Xi_q(h)$ has gauge at most one (\cref{prop:algebraic-parts}(a)) and in weight $0$ the group acts as the identity, so the vector $1$ has gauge one. \emph{The value.} By adjointness, $\norm{\Xi_q}^2$ is the class sum over $\U(1)$ of the
+pairings of $\Xi_q$ with the kernel at $g$ (\cref{lem:character-kernel}(b)), and this pairing does not depend on the point $g$ of $\U(1)$, since the twisted central translations fix the lift and carry the kernel at $g$ to the
+kernel at $gz$ (\cref{lem:central-action}(b)). Unfolding both sides into double class sums of double sums over coordinates, they agree term by term by the hypothesis on $\Lambda$; the scale $\mathsf a^{n'}$ of the lift and the
+class number $N$ account for the factor.
+
+(b) is \cref{lem:character-kernel}(e), the block datum being a function of the residues that can be read modulo any multiple of the modulus.
+
+(c) Read the data of the four blocks modulo the same ideal. The datum of the point form is the product of the data of the four blocks: at the chosen places the test column restricts to $x_0$ and to the basis vectors, and
+at $Q$ the twist row lies in the second block, where the twisted character sits; on both sides this is the same product over the twist places under the same condition. The polynomial is $a$ times the monomial $\alpha$
+in the first block and $1$ in the others. By the seesaw identity for orthogonal sums of spaces the kernel of the product datum at the block diagonal point is the product of the kernels of the blocks, and the product
+of the characters is the character of $X$. With \cref{lem:point-lifts}(b) this is the claim.
+
+(d) \emph{Integrality.} The point has the component $1$ on the first block, so it fixes the integral vector $c$, whose coordinates are rational integers; hence the point form is integral (\cref{lem:point-lifts}(b) and the gauge at the point), and (a)
+keeps integrality. \emph{Orthogonality.} Let $y$ be in the image of the mean over $\prod_{v\in M}\GL_1(\F_v)$, killed by $H_w(X_*)$ and by the descent. The main pair is ramified at the chosen places, so its tame part
+$\chi_v$ is nontrivial there, and $y$ is killed by the hyperplane sums (\cref{cor:false-lift-periods}(b)). Expanding the lift $\Xi_q$ of the last block over $\U(1)$, the pairing of $y$ with the class sum is a sum, over the
+classes of $\U(1)$, of periods of $y$ against conjugate theta kernels of $(W,I_{2z-20})$ at the points $(1,h_2,h_3)$, with data that are the vacuum off the level. These vanish by \cref{cor:false-lift-periods}(a), applied with
+$I_N$ the first three blocks, $N=20$, and the rank condition $2\cdot1+2\cdot20+3<2z$; the hypotheses hold: the level fixes the unit column at the chosen places, hence both data, and in weight $0$ every coordinate of the
+kernel is the same theta constant by (b). Exchanging the two class sums and pulling out the scalars gives $0$.
+
+(e) Let $c$ be the integer vector of the weight of $X$ that is fixed by the points whose columns in the first block are those of $1$ and whose polynomial is $a$ times the monomial $\alpha$, $a=\prod_\tau\ell_\tau!/\alpha!$ (it exists by the
+theory of Schur modules, \cref{ss:B-schur}). Put $\Xi=\Sigma_{q_2,\vartheta}\bigl(h_2\mapsto\Sigma_{q_3,1}(h_3\mapsto\Sigma_{q,1}(h_1\mapsto F(h_1,h_2,h_3)))\bigr)$ with $F$ the point form of (c). By (d) the inner class sum is a test form, and the two outer class sums
+keep integrality, by (a), and orthogonality to the false lifts, by linearity. By (c) the pairing of $F$ with the kernel of $X$ factors over the four blocks, and three applications of (a), summing out the three blocks one after the
+other, give the formula; the scales $\mathsf a^{2z-20}$, $\mathsf a^4$, $\mathsf a^4$ give $\mathsf a^{2z-12}$.
+\end{proof}
+
+\begin{lemma}[A geometric mean of untwisted values]\label{lem:geometric-mean}
+Let $q_1(\chi)$ and $q_3(\chi)$ be flat pairs on $n$ and on four indices, for every tame class character $\chi$. There is $\mathcal L\ne0$ with $\mathcal L^{\#G}=\prod_\chi n_LL^{\rm alg}_{q_3(\chi)}(1)\cdot n_LL^{\rm alg}_{q_1(\chi)}(1)$, $G$ the group of these
+characters, and $\abs{\sigma\mathcal L}\le\exp(x^{34})^2$ for every $\sigma\in\mathrm{Aut}(\C)$.
+\end{lemma}
+
+\begin{proof}
+Take a root $\mathcal L$ of the product, which is nonzero by \cref{prop:norm-L-value}(c). For $\sigma$, \cref{lem:class-averaging}(b) with $\iota=\sigma$, $a=n_LL^{\rm alg}_{q_3}$ and $b=n_LL^{\rm alg}_{q_1}$ bounds $\abs{\sigma\mathcal L}$ by a product of two values at
+characters, each at most $\exp(x^{34})$ by \cref{prop:algebraic-parts}(b).
+\end{proof}
+
+\begin{theorem}[Twisted value heights]\label{thm:twisted-value-heights}
+Let $\xi_\iota$ be a regular family of $m$-fold twists (\cref{def:regular-family}).
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (A form with small pairing.) For a main pair $p$ for $j$ and a pair $q_2=(\nu_2,2)$ with empty row on four indices there is $c_0\ne0$, with conjugates at most $\exp(fmb/k+3x^{34})$, such that for every prime $\ell$,
+$\iota$ and twist $\vartheta$ with modulus prime to $\ell$ some test form $\Xi$ on $\U(2z)$ has $v(\langle\Xi,\varphi_{p,\vartheta}\rangle)\le v(c_0\varrho_{q_2}(\vartheta))+\sum_\tau s_\ell(\kappa(\tau))$, the last term being the exponent of $\ell$ forced on
+derivatives of order $\kappa$.
+\item For a main pair $p$ for $j$, the inverse ratios $\abs{L(z,\nu^{-1})}/\abs{L(z,(\nu\xi_\iota^j)^{-1})}$ have height at most $6\,\mathrm{budget}-\hdir$.
+\item $\Gamma_j(\vartheta)/\Gamma_j(1)$ is a power of $\Nm Q$ times the square of a product of $k/2$ ratios of main pairs and $5m$ ratios of ramified pairs, with fixed signs; the inverses of
+$\Gamma_j(\xi^j_\iota)/\Gamma_j(1)$ have height at most $10mx_1+k(6\,\mathrm{budget}-\hdir)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) \emph{The blocks and the constant.} Split the $2z$ indices into the blocks of sizes $12$ (the derivative), $4$ (the twist), $4$ and $2z-20$ (the two factors of a tame class character $\psi$); here $2z-20\le t$ and $4\le t$. For each
+tame class character $\chi$ take flat pairs $q_1(\chi)$ on the last block and $q_3(\chi)$ on the third with tame parts given by $\chi$ (\cref{prop:algebraic-parts}(b)), and let $\mathcal L$ be their geometric mean (\cref{lem:geometric-mean}). The
+degrees $\ell_\tau=c(\tau)-z$ lie in $[\kappa(\tau),\kappa(\tau)+x^{42}]$ (proof of \cref{prop:algebraic-parts}(c)), so \cref{thm:sharpness} applies and gives $t$ with $\abs{\sigma t}\le\exp(fmb/k)$. Put
+\[
+  c_0=t\cdot L_{\rm tw}\cdot\mathcal L,\qquad L_{\rm tw}=n_LL^{\rm alg}_{q_2}(1);
+\]
+then $c_0\ne0$ and $\abs{\sigma c_0}\le\exp(fmb/k)\exp(x^{34})\exp(x^{34})^2=\exp(fmb/k+3x^{34})$.
+\emph{The first block.} Fix $\ell$, $\iota$ and $\vartheta$ with $\ell\nmid\Nm Q$. \Cref{thm:sharpness} at $\ell$ gives a class $x_0$ modulo $\pi_M$ and a monomial $\alpha$ of degrees $\ell_\tau$ such that, for the kernel $s(g)$ of the first block with the
+indicator of $x_0$ and the monomial $\alpha$ and a character $\chi_0$, and the scalar $c=\mathsf a^{12}t^{-1}\frac{\prod_\tau\ell_\tau!}{\alpha!}(\bar\pi_M\mathsf t)^J$,
+\[
+  \ell^{-\sum_\tau s_\ell(\kappa(\tau))}\le\norm{\iota c}\,\norm{\iota s(1)}.
+\]
+\emph{Averaging.} By \cref{lem:class-averaging}(a) at the chosen places there are $z_0$ and a tame class character $\psi$ such that the normalised twisted class sum $\mathcal A$ of $g\mapsto\psi(\det(gz_0))s(gz_0)$ has $\norm{\iota\mathcal A}\ge\norm{\iota s(1)}$; by
+\cref{lem:class-averaging}(b) there is a factorisation $\psi=\psi_3\psi_1$ with $\norm{\iota\mathcal L}\le\norm{\iota W}$, $W=n_LL^{\rm alg}_{q_3(\psi_3)}(1)\,n_LL^{\rm alg}_{q_1(\psi_1)}(1)$. The characters of the four blocks, $\chi_0\psi$ on the first, $\nu_2\vartheta$ on the second and
+those of $q_3(\psi_3)$, $q_1(\psi_1)$, multiply to the character of $X_{p,\vartheta}$, as $\psi=\psi_3\psi_1$.
+\emph{The pairing.} Let $\Xi$ be the test form of \cref{lem:seesaw-test}(e) for these pairs. By adjointness the pairing of $\Xi$ with $\varphi_{X}$ is the class sum over $\U(1)$ of its pairings with $\theta_X(g,\cdot)$
+(\cref{lem:character-kernel}(b)), whose first block kernels are $\psi(\det g)$ times $s$; summing over the classes, the class sum of $\psi s$ is $N\mathcal A$, and with $\varphi_{p,\vartheta}=\mathsf a^{2z}(\bar\pi_M\mathsf t)^J\varphi_X$ and the definition of $c$ we get
+\[
+  N^2\langle\Xi,\varphi_{p,\vartheta}\rangle/\varrho_{q_2}(\vartheta)=t\,L_{\rm tw}\,W\,c\,\mathcal A,
+\]
+where $n_LL^{\rm alg}_{q_2}(\vartheta)=\varrho_{q_2}(\vartheta)L_{\rm tw}$ by \cref{prop:norm-L-value}(c). Hence
+\begin{align*}
+  \norm{\iota(c_0)}\,\ell^{-\sum_\tau s_\ell(\kappa(\tau))}&\le\norm{\iota t}\norm{\iota L_{\rm tw}}\norm{\iota W}\norm{\iota c}\norm{\iota\mathcal A}
+  =\norm{\iota(N^2\langle\Xi,\varphi_{p,\vartheta}\rangle/\varrho_{q_2}(\vartheta))}\\
+  &\le\norm{\iota(\langle\Xi,\varphi_{p,\vartheta}\rangle/\varrho_{q_2}(\vartheta))},
+\end{align*}
+the class number $N$ being an integer; written with valuations, this is the claim.
+
+(b) \emph{The ratio $\rho$.} Let $q_2$ be the flat pair on four indices with tame part $\omega$ (\cref{prop:algebraic-parts}(b)); it is ramified, so by the small ratios (\cref{def:small-ratios}) the family $\rho_\iota^{-1}$, $\rho_\iota=\varrho_{q_2}(\xi_\iota^j)$, has
+height at most $x_1$. Let $c_0$ be as in (a); since $fmb/k+3x^{34}\le\mathrm{budget}$, $\abs{\sigma c_0}\le e^{\mathrm{budget}}$. \emph{Test forms.} At $\iota$ and at its conjugate $\bar\iota$, (a) gives test forms $\Xi_\iota$, $\Xi'_\iota$ for the twist
+$\vartheta=\xi^j_\iota$, whose modulus is prime to $\ell$. Let $\varphi=\varphi_{p,\vartheta}$ and $\varphi_1=\varphi_{p,1}$. Since $\rho$ is real, the two bounds multiply to
+\[
+  \norm{\iota(c_0\bar c_0\rho_\iota^2)}\,\ell^{-2\sum_\tau s_\ell(\kappa(\tau))}\le\norm{\iota(\langle\Xi_\iota,\varphi\rangle\langle\varphi,\Xi'_\iota\rangle)},
+\]
+and the right side is nonzero. \emph{Four factors.} With $\mathrm{pr}$ the orthogonal projection to $\C\varphi$, $\langle\mathrm{pr}\,\Xi,\mathrm{pr}\,\Xi'\rangle=\langle\Xi,\varphi\rangle\langle\varphi,\Xi'\rangle/\norm\varphi^2$. By \cref{prop:norm-L-value}(c), up to the integer power $\Nm Q^{2z-1}$, the
+inverse ratio is $\norm{\varphi_1}^2/\norm\varphi^2$, so
+\[
+  \frac{\Nm Q^{2z-1}}{\varrho_p(\vartheta)}=\norm{\varphi_1}^2\cdot\langle\mathrm{pr}\,\Xi_\iota,\mathrm{pr}\,\Xi'_\iota\rangle\cdot\rho_\iota^{-2}\cdot\frac{\rho_\iota^2}{\langle\Xi_\iota,\varphi\rangle\langle\varphi,\Xi'_\iota\rangle}.
+\]
+The power of $\Nm Q$ is an integer, of norm at most one at $\iota$, so it suffices to bound the height of the right side, and heights add (\cref{lem:height-calculus}(b)). The first factor has height at most $\mathrm{budget}-\sum_\tau\sinf(\kappa(\tau))$
+by \cref{prop:algebraic-parts}(c). The second has height at most $\mathrm{budget}$: by the regularity of the family there are $\beta_\ell$ with $\sum_{\ell\in T}\beta_\ell\le\mathrm{budget}$ such that the product of the projections of two test forms to the line of $\varphi$,
+which is the line of the lift for the data of $\varphi$, has norm at most $e^{\beta_\ell}$ at $\iota$ (\cref{def:regular-family}; this is the condition that \cref{prop:algebraic-parts}(d) reduces to the denominator of the line), and
+\cref{lem:height-calculus}(d) applies with the multiplier $1$. The third has height at most $2x_1$. For the fourth take the
+multiplier $c_0\bar c_0$, with $\abs{\sigma(c_0\bar c_0)}\le e^{2\,\mathrm{budget}}$, and the exponents $2\sum_\tau s_\ell(\kappa(\tau))\log\ell$ from the displayed bound; since $\sum_{\ell\in T}2\sum_\tau s_\ell(\kappa(\tau))\log\ell\le\sum_\tau\sfin(\kappa(\tau),\tau)$ for every finite set
+$T$ of primes (\cref{prop:gains}(b)), it has height at most $2\,\mathrm{budget}+\sum_\tau\sfin(\kappa(\tau),\tau)$ by \cref{lem:height-calculus}(d). The sum is
+\[
+  4\,\mathrm{budget}+2x_1-\sum_\tau\bigl(\sinf(\kappa(\tau))-\sfin(\kappa(\tau),\tau)\bigr)\le6\,\mathrm{budget}-\hdir,
+\]
+as $x_1\le\mathrm{budget}$.
+
+(c) \emph{The expansion.} $\Gamma_j(\vartheta)$ is the product over the three exchange pairs $(\nu_i,z_i)$, $i=\mathrm{none},+1,-1$, of $\prod_{w\in M\cup Q}q_w^{z_i^2}\prod_{z'\le z_i}\abs{L(z',(\nu_i\vartheta^{s_i})^{-1})}^2$ with $s_i=\pm1$ (\cref{ss:three-exchanges}). By the last identity of
+\cref{prop:norm-L-value}(c) for each of them, $\Gamma_j(\vartheta)=\Gamma_j(1)\Nm Q^{\sum_iz_i^2}\bigl(\prod_i\prod_{z'\le z_i}\varrho_{(\nu_i,z')}(\vartheta,s_i)\bigr)^2$. \emph{The pairs.} The pair $(\nu_j,z_*)$ of the $j$-th lift has the point
+$z_*=7(m/2)+k/2$, and for $7(m/2)<z'\le z_*$ the pair $(\nu_j,z')$ is a main pair for $j$: these are $k/2$ ratios with $s=1$. All the pairs $(\nu_i,z')$ are ramified, their tame parts being nontrivial exactly at the chosen
+places; the remaining factors are the $7m/2$ ratios of $(\nu_j,z')$ with $z'\le7(m/2)$ and those of the two flat pairs at the points $m$ and $m/2$, together $5m$. The exponent, the pairs and the signs do not depend on $\vartheta$.
+\emph{The height.} The inverse of $\Gamma_j(\xi^j_\iota)/\Gamma_j(1)$ is $\Nm Q^{-e}$ times the inverse squares of these ratios. A main ratio has inverse of height at most $6\,\mathrm{budget}-\hdir$ by (b), and a ramified one at most $x_1$ by the
+small ratios; the squares of the products have height at most $2\bigl(\frac k2(6\,\mathrm{budget}-\hdir)+5mx_1\bigr)=10mx_1+k(6\,\mathrm{budget}-\hdir)$ (\cref{lem:height-calculus}(b)). Multiplying by an integer power of $\Nm Q$, which is prime to the
+prime of $\iota$, keeps the bound (\cref{lem:height-calculus}(c)).
+\end{proof}

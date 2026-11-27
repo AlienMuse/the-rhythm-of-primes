@@ -1,0 +1,10 @@
+The Rhythm of Primes: On the Formally Verified Proof of the Generalized Riemann Hypothesis for Dirichlet
+L-functions. Version 1.0.0.
+Copyright (c) 2026 Vincent Liu, WiseMotif.ai. Licensed under the Creative Commons Attribution 4.0 International
+licence (LICENSE).
+
+The proof expounded in the paper is due to Levent Alpoge, working with Claude. The paper quotes names of declarations
+and short extracts of statements of the Lean development grh-lean (https://github.com/lsernau/grh-lean),
+Copyright 2026 Anthropic, PBC, distributed under the Apache License, Version 2.0 (LICENSE-APACHE). Those quotations
+remain under that licence; the version used is identified in Appendix E of the paper and in verification/.
+The repository contains no Lean source of grh-lean.

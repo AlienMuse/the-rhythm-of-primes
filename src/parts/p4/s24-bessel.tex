@@ -1,0 +1,510 @@
+\section{Bessel functions at a real place}\label{sec:bessel}
+
+The Poincar\'e series of \cref{sec:moment} are built from Bessel functions at the infinite places: vector-valued functions on the real
+unitary group $G_1$ of $Y_0$ that transform on the left by the generic character of the unipotent radical $U$ of the Bessel subgroup and by an
+irreducible representation of $H=\U(X_0)$, and that lie in a discrete series. This section constructs them, with their normalisation, Schur's
+bound for their derivatives, their decay, a cut of bounded support, and the \emph{open cell bound} for integrals of a Bessel function against its
+translates. The local band limits at one place (\cref{sec:frames}) complete the list of properties that the filling theorem uses
+(\cref{def:bessel-system}).
+
+\subsection{The group and its frame}\label{ss:bessel-group}
+Let $G_1$ be the complex unitary group of the hermitian form $J_1$ made of $\varrho$ hyperbolic planes $\langle e_a,e^*_a\rangle$, the standard positive form
+on $X_0=\C^\kappa$, $\#\kappa=k$, and a vector $z$ with $h(z,z)=-1$; its rank is $r=k+2\varrho+1$. The \emph{frame} is $f=(e_1,\dots,e_\varrho,z)$, of $n=\varrho+1$
+vectors. The \emph{Bessel unipotent group} $U$ consists of the isometries that are block upper unitriangular for the levels of the basis; $U^0\subseteq U$ fixes
+the frame; $H=\U(X_0)$ is embedded on $X_0$; and the \emph{Bessel subgroup} is $R=UH$, a semidirect product, with the Haar measure $du\,dh$. The
+\emph{length} of $y\in G_1$ is $\ell(y)=\inf_{s\in R}(\norm{sy}+1)$, and the \emph{frame box} of radius $\rho$ consists of the $y$ whose \emph{frame vectors}
+$y^{-1}f_a$ have norm at most $\rho$.
+\lean{New.Shape.G₁, New.Shape.J₁, New.Shape.besselFrame, New.Shape.Form.besselU, New.Shape.Form.besselU0, New.Shape.Form.besselH, New.Shape.Form.besselS, New.Shape.embedH_mem_besselS, New.Shape.embedH_conj_mem_besselU_iff, New.Shape.besselGraph, New.Shape.mem_besselGraph, New.Shape.mem_besselGraph_iff_mul_inv_mem, New.Shape.besselGraphChart, New.Shape.besselGraphMeasure, New.Shape.besselGraphMeasure_finiteOnCompacts, New.Shape.besselGraphMeasure_isMulRightInvariant, New.Shape.besselGraphMeasure_isMulLeftInvariant, New.DiscreteSeries.besselGraph_fst_mem_besselS, New.besselLength, New.besselLength_nonneg, New.frameBox, New.frameVector, New.continuous_frameVector, New.frameVector_mul_of_mem_besselFixer, New.frameVector_eq_sum, New.besselQuotMeasure}
+
+Throughout, the Euclidean product is the one for which $e_a,x_i,z,e^*_a$ is an orthonormal basis, norms of vectors are Euclidean, and norms of matrices are
+operator norms; $h(v,w)=\langle v,J_1w\rangle$. Since $J_1$ is a unitary involution, every $g\in G_1$ has $g^{-1}=J_1g^*J_1$, hence $\norm{g^{-1}}=\norm g$ and
+$1\le\norm g$. An element $s\in R$ maps $f_b$ to $f_b$ plus a combination of the $f_a$ with $a<b$: its block $m(s)$ on the frame is upper unitriangular,
+and elements of $H$ and of $U^0$ fix the frame.
+
+\begin{lemma}[Frame vectors]\label{lem:frame-vectors}
+Let $y,\gamma\in G_1$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\norm{y^{-1}f_a}\le\norm y$; for $s\in U$, $y^{-1}f_a=\sum_bm(s)_{ba}\,(sy)^{-1}f_b$; for $s$ fixing the frame, $(sy)^{-1}f_a=y^{-1}f_a$.
+\item The matrix $Z(\gamma)$ of the products $h(f_a,\gamma f_b)$ satisfies
+\[
+  Z(\gamma)_{ab}=h\bigl(y^{-1}f_a,\,y^{-1}\gamma f_b\bigr),\qquad\abs{Z(\gamma)_{ab}}\le\norm{y^{-1}f_a}\,\norm{y^{-1}\gamma f_b}.
+\] For $s$ fixing the frame,
+$Z(s\gamma)=Z(\gamma s)=Z(\gamma)$, and for $s\in U$, $Z(\gamma)=m(s)^*Z(s\gamma)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The frame vectors $f_a$ are unit vectors, and $y^{-1}$ applied to a unit vector has norm at most $\norm{y^{-1}}=\norm y$. Next $y^{-1}=(sy)^{-1}s$ and $sf_a=\sum_bm(s)_{ba}f_b$, so
+$y^{-1}f_a=(sy)^{-1}sf_a=\sum_bm(s)_{ba}(sy)^{-1}f_b$; if $s$ fixes the frame, $m(s)=1$.
+
+(b) The isometry $y^{-1}$ preserves $h$, which gives the first identity. For the inequality, $\abs{h(v,w)}=\abs{\langle v,J_1w\rangle}\le\norm v\,\norm{J_1w}=\norm v\,\norm w$, because $J_1$ is unitary. If $s$ fixes the frame, then
+$Z(s\gamma)_{ab}=h(s^{-1}f_a,\gamma f_b)=h(f_a,\gamma f_b)$ and $Z(\gamma s)_{ab}=h(f_a,\gamma sf_b)=h(f_a,\gamma f_b)$. For $s\in U$, the frame block is multiplicative on $R$, since $R$ preserves the span of the frame, so
+$s^{-1}f_a=\sum_cm(s)^{-1}_{ca}f_c$; as $h$ is conjugate linear in the first variable,
+\[
+  Z(s\gamma)_{ab}=h(s^{-1}f_a,\gamma f_b)=\sum_c\overline{m(s)^{-1}_{ca}}\,Z(\gamma)_{cb},
+\]
+that is $Z(s\gamma)=(m(s)^{-1})^*Z(\gamma)$, or $Z(\gamma)=m(s)^*Z(s\gamma)$.
+\end{proof}
+
+\begin{proposition}[Length and frames]\label{prop:length-frames}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If the vectors $y^{-1}e_a$, $y^{-1}z$ and $y^{-1}e^*_a$ have norm at most $M\ge1$, then $\norm y+1\le8(\varrho+1)M$. The length is continuous, left invariant under $R$, and
+$\ell(y)\le\norm{x^{-1}y}\,\ell(x)$.
+\item The Gram--Schmidt vectors of the frame vectors are left invariant under $R$; if $\ell(y)\le M$ their norms lie in $[M^{-1},M]$, and conversely, if they lie in $[M^{-1},M]$
+with $M\ge1$, then $\ell(y)\le8(\varrho+1)M$. The triangular change of basis depends continuously and measurably on $y$.
+\item The \emph{discriminant} of a $(\varrho+1)\times(\varrho+1)$ matrix $Z$ with leading minors $D_l$ is $\mathfrak g(Z)=\abs{D_{\varrho+1}}^2-\abs{D_\varrho}^2$; up to sign it is the Gram
+determinant of the frame and its image under an isometry with frame Gram matrix $Z$.
+\end{enumerate}
+\end{proposition}
+\lean{New.norm_frameVector_le, New.norm_sum_le_mul_norm_sum_frameVector, New.besselLength_le_norm_mul_add_one, New.RealPlace.exists_norm_le_of_besselLength_le, New.besselLength_besselS_mul, New.besselLength_le_norm_inv_mul_mul_besselLength, New.continuous_besselLength, New.norm_J₁, New.norm_sum_rankOne_col, New.norm_add_one_le_of_mem_frameBox, New.norm_inner_J₁_le, New.realFrameGram_eq_inner, New.realFrameGram_mul_of_mem_besselFixer, New.realFrameGram_eq_frameMatrix_mul, New.norm_realFrameGram_le_mul, New.gramSchmidt_eq_of_sub_mem_span, New.orthoFrame, New.gramSchmidtMatrix, New.inner_orthoFrame_eq_zero_of_ne, New.frameVector_eq_sum_orthoFrame, New.exists_frameVector_mul_eq_orthoFrame, New.orthoFrame_besselS_mul, New.norm_orthoFrame_le, New.one_le_norm_mul_norm_orthoFrame, New.orthoFrame_ne_zero, New.norm_orthoFrame_mem_Icc, New.linearIndependent_orthoFrame, New.gramSchmidtMatrix_besselS_mul, New.continuous_orthoFrame, New.continuous_gramSchmidtMatrix, New.measurable_gramSchmidtMatrix, New.besselLength_le_of_norm_orthoFrame, New.besselLength_le_of_dual, New.frameDisc, New.realFrameGram, New.RealPlace.gramDiscReal, New.framePair, New.isotropicFramePair, New.det_eq_add_of_row_eq_add, New.det_fromBlocks_single, New.gram_framePair, New.det_gram_framePair, New.linkMatrix, New.link, New.latticeMiddleGram, New.middleInclusionMatrix, New.fromCols_middleInclusionMatrix, New.fromBlocks_scaleAt_mul_eq_one, New.fromBlocks_one_mul_eq_one, New.besselLatticeBasis, New.gram_besselLatticeBasis}
+
+\begin{proof}
+(a) Put $A=y^{-1}$. The Euclidean product is $\langle v,w\rangle=h(v,w)+\langle v,(1-J_1)w\rangle$, and $AJ_1A^*=J_1$. Hence $AA^*=J_1+A(1-J_1)A^*$ and
+\[
+  \norm A^2=\norm{AA^*}\le1+\norm{A(1-J_1)}\,\norm A .
+\]
+The columns of $1-J_1$ are $0$ at the $x_i$, $2z$ at $z$, and $\pm(e_a-e^*_a)$ at $e_a$ and $e^*_a$; so the columns of $A(1-J_1)$ have norm at most $2M$, and $\norm{A(1-J_1)}\le(4\varrho+2)M$.
+Dividing by $\norm A\ge1$ gives $\norm A\le1+(4\varrho+2)M$, and $\norm y+1=\norm A+1\le2+(4\varrho+2)M\le8(\varrho+1)M$. Left invariance holds by definition. For $s\in R$,
+$\norm{sy}\le\norm{sx}\norm{x^{-1}y}$ and $1\le\norm{x^{-1}y}$, so $\norm{sy}+1\le(\norm{sx}+1)\norm{x^{-1}y}$; take the infimum over $s$. Applying this with $x$ and $y$ exchanged,
+$\ell(x)/\norm{y^{-1}x}\le\ell(y)\le\norm{x^{-1}y}\ell(x)$, and both bounds tend to $\ell(x)$ as $y\to x$.
+
+(b) Let $g_a(y)$ be the Gram--Schmidt vectors of $y^{-1}f_1,\dots,y^{-1}f_n$ for the Euclidean product (not normalised). If two families $v$, $w$ satisfy $v_a-w_a\in\operatorname{span}(w_b:b<a)$ for all
+$a$, they have the same Gram--Schmidt vectors: by induction the earlier ones agree, and the difference of the $a$-th vectors lies in the span $B$ of the earlier ones and is orthogonal to $B$, hence $0$.
+For $s\in R$, (a) of \cref{lem:frame-vectors} applied to $s^{-1}$ shows that the frame vectors of $sy$ differ from those of $y$ by combinations of earlier ones, so $g(sy)=g(y)$.
+Since $g_a$ is $y^{-1}f_a$ minus its projection to the earlier vectors, $\norm{g_a}\le\norm{y^{-1}f_a}\le\norm y$; and $yg_a$ is $f_a$ plus a combination of $f_b$, $b<a$, so $1\le\norm{yg_a}\le\norm y\norm{g_a}$.
+If $\ell(y)\le M$, some $s\in R$ has $\norm{sy}<M$, and these bounds at $sy$, together with $g(sy)=g(y)$, give $\norm{g_a}\in[M^{-1},M]$.
+
+Conversely let $\norm{g_a}\in[M^{-1},M]$. The Gram--Schmidt matrix is upper unitriangular, and is the frame block of an element $u\in U$ with $(uy)^{-1}f_a=g_a$. Put $w_a=J_1g_a/\norm{g_a}^2$ for $a\le\varrho$.
+As $h(v,J_1w)=\langle v,w\rangle$, we get $h(g_b,w_a)=\delta_{ab}$; and $h(w_a,w_b)=h(g_a,g_b)/(\norm{g_a}^2\norm{g_b}^2)=0$ for $a,b<n$, since the $g_a$ are the images of the isotropic $e_a$ under an isometry. Hence $(w_a)_{a\le\varrho}$ is an isotropic system dual to the
+frame $(g_b)$, and $\norm{w_a}=\norm{g_a}^{-1}\le M$. The images of $(e^*_a)$ under $(uy)^{-1}$ form another such system; two such systems differ by an element of $U^0$ (Witt's theorem with the frame fixed), so
+$w_a=(uy)^{-1}u_0e^*_a$ for some $u_0\in U^0$, and $y'=u_0^{-1}uy$ has frame vectors $g_a$ and $y'^{-1}e^*_a=w_a$. By (a), $\ell(y)=\ell(y')\le\norm{y'}+1\le8(\varrho+1)M$. Continuity of $g$ and of the
+triangular matrix follows along the Gram--Schmidt recursion, which divides only by the nonzero numbers $\norm{g_a}^2$.
+
+(c) Let $D=\mathrm{diag}(0,\dots,0,-1)$ be the Gram matrix of the frame. For $h$, the Gram matrix of $(f,\gamma f)$ has the diagonal blocks $D$ and the off-diagonal blocks $Z$ and $Z^*$, $Z=Z(\gamma)$. Exchange the two block columns,
+at the cost of the sign $(-1)^n$. For square $Z$, $W$ and the matrix $E$ with the single entry $c$ at $(t,t)$, $t$ the last index, expanding along the two rows of index $t$ gives
+$\det\begin{pmatrix}Z&E\\E&W\end{pmatrix}=\det Z\det W-c^2\,\mathrm{adj}(Z)_{tt}\,\mathrm{adj}(W)_{tt}$. With $W=Z^*$, $c=-1$ and $\mathrm{adj}(Z)_{tt}=D_\varrho(Z)$ the determinant is $\abs{\det Z}^2-\abs{D_\varrho}^2=\mathfrak g(Z)$.
+\end{proof}
+
+For invertible $Z$ let $\xi(Z)=(Z^{-1})_{tt}$, the last diagonal entry of the inverse, and $\nu(Z)^2=1-\abs{\xi(Z)}^2$. By Cramer's rule $\xi=D_\varrho/\det Z$, so
+\begin{equation}\label{eq:disc-nu}
+  \mathfrak g(Z)=\abs{\det Z}^2\,\nu(Z)^2 .
+\end{equation}
+The \emph{open cell} $\Omega$ is the set of invertible $Z$ with $\abs{\xi(Z)}<1$; by \eqref{eq:disc-nu} it is the open set $\{\mathfrak g>0\}$.
+
+\subsection{Bessel functions}\label{ss:bessel-functions}
+A \emph{Bessel function} of type $\pi$, a unitary representation of $H$ on $\C^I$, is a bounded measurable $W\colon G_1\to\C^I$ with $W(uhy)=\psi(u)\pi(h)W(y)$ for $u\in U$,
+$h\in H$, where $\psi(u)=\exp(\sigma(u)-\bar\sigma(u))$ and $\sigma(u)$ is the sum of the entries of $u$ just above the diagonal on the frame. For a doubled
+Harish-Chandra parameter $l=2\lambda$ of large gap with discrete series coefficient $c_\lambda$ and formal degree $\deg$, the \emph{Bessel average} at a point $x$ and a
+unit vector $v$ is $W_x(y)=\int_Rc_\lambda(x^{-1}sy)\,\pi(s)^{-1}v\,ds$.
+\lean{New.IsBesselFunction, New.DiscreteSeries.besselIntegrand, New.DiscreteSeries.besselAverage, New.DiscreteSeries.besselAverage, New.DiscreteSeries.UnitarySignFrame, New.Filling.IsDiscreteSeriesBessel, New.convolve}
+
+Here $\pi$ is extended to $R$ by $\pi(uh)=\psi(u)\pi(h)$; this is a unitary representation of $R$, since $\sigma$ is additive on $U$ and conjugation by $H$, which acts only on $X_0$, does not change the entries
+above the diagonal on the frame. The coefficient $c_\lambda$ is written on $G_1$ through a unitary frame in which the form is diagonal (\cref{app:ds}); conjugation by this frame preserves operator norms. We write
+$F*k$ for the right convolution $(F*k)(y)=\int_{G_1}k(a^{-1})F(ya)\,da$, and $e=\deg\cdot c_\lambda$. Since $c_\lambda(a^{-1})=\overline{c_\lambda(a)}$, the condition $F*e=F$ says that $F$ is fixed by the idempotent of the discrete
+series, and Schur's orthogonality relations give $e*e=e$.
+
+\begin{lemma}[The Bessel subgroup and unfolding]\label{lem:bessel-group}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The measure $du\,dh$ on $R$ is left and right invariant.
+\item For measurable $f\ge0$ on $G_1$ and every $x$, $\int_{G_1}f=\int_{U\backslash G_1}\int_Rf(xsy)\,ds\,dy$.
+\item If $l$ has gap $500r^3+A$, then $\abs{c_\lambda(g)}\le(2/\norm g)^{j+9r^2}$ for $j\le A$, and
+\[
+  \int_R\Bigl(\frac2{\norm{x^{-1}sy}}\Bigr)^{9r^2}ds\le16^{9r^2}\,V(x),\qquad V(x)=\vol\{s\in R:\norm{x^{-1}sx-1}\le1\},
+\]
+uniformly in $y$; and $0<V(x)<\infty$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Write the elements of $R$ as $hu$ with $h\in H$, $u\in U$. Right multiplication by $h'u'$ sends $hu$ to $(hh')(h'^{-1}uh'u')$, that is $(h,u)$ to $(hh',h'^{-1}uh'u')$: a right translation of $H$, and on $U$ the conjugation by $h'^{-1}$,
+which preserves $du$ because $H$ acts on the entries of $U$ by unitary changes of coordinates, followed by a right translation of $U$. Left multiplication by $h'u'$ sends $hu$ to $(h'h)(h^{-1}u'h\,u)$, a left translation of $H$ and, over
+each $h$, a left translation of $U$. Haar measures of $H$ (compact) and of $U$ (unipotent) are left and right invariant, so $du\,dh$ is.
+
+(b) The quotient measure on $U\backslash G_1$ is defined by $\int_{G_1}f=\int_{U\backslash G_1}\int_Uf(uy)\,du\,dy$. Writing $s=hu$ and using this for the function $g\mapsto f(xhg)$,
+\begin{align*}
+  \int_{U\backslash G_1}\int_Rf(xsy)\,ds\,dy&=\int_H\int_{U\backslash G_1}\int_Uf(xhuy)\,du\,dy\,dh\\
+  &=\int_H\int_{G_1}f(xhg)\,dg\,dh=\int_{G_1}f,
+\end{align*}
+by left invariance of Haar measure on $G_1$ and because $H$ has mass one.
+
+(c) The first bound is \cref{prop:A-decay}(a) with $c=j+9r^2$, which is allowed since $9r^2\le500r^3$ and $j\le A$. For the integral put $J(s)=x^{-1}sx$, a homomorphism from $R$ to $G_1$, viewed in $\U(\varepsilon)$ of size $r$
+through the unitary frame, and $y'=x^{-1}y$; then $x^{-1}sy=J(s)y'$. The group $R$ is closed ($U$ is defined by polynomial conditions and $H$ is compact), so $J$ is proper, and $ds$ is right invariant by (a). The last statement of
+\cref{lem:A-covering} with $d=r$ and $c=9r^2>8r^2$ gives $\int_R(2/\norm{J(s)y'})^{9r^2}ds\le16^{9r^2}\,\vol\{s:\norm{J(s)-1}\le1\}$, uniformly in $y'$. The set in $V(x)$ is the preimage of a compact set under the
+proper map $J$, hence compact, so $V(x)<\infty$; it contains the open neighbourhood $\{\norm{J(s)-1}<1\}$ of $1$, so $V(x)>0$.
+\end{proof}
+
+\begin{theorem}[Bessel averages]\label{thm:bessel-average}
+Let $l$ have gap at least $500r^3$ plus an excess, and let $\pi$ be continuous.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The integrand is integrable and $W_x$ is a continuous Bessel function of type $\pi$, reproduced by the idempotent $\deg\cdot c_\lambda$; and
+$\deg\norm{W_x}^2_{L^2(U\backslash G_1)}=\langle v,W_x(x)\rangle$.
+\item If $\langle v,\pi(h)v\rangle$ is the coefficient of a parameter $u$ of $H$ and the volume of $\{s\in R:\norm{x^{-1}sx-1}\le1\}$ is at most $P$ times the modulus of the period
+$\int_Rc_\lambda(x^{-1}sx)\langle v,\pi(s)^{-1}v\rangle ds$, then it is at most $P\deg\norm{W_x}^2$.
+\item (Stationary point.) If $l$ is \emph{steep} (lowest $K$-type of weight $0$ on $X$ and decreasing weight in $[-3B,-B]$ on the other coordinates, with alternating signs) and
+the parameters are bounded with excess at least $10^{30}((r+k)^2\log\beta)^3$, there is $x$ with $\ell(x)\le b^{5n}$ at which this volume is at most
+$\beta^{20(r+k)^2}$ times the modulus of the period.
+\end{enumerate}
+\end{theorem}
+\lean{New.DiscreteSeries.integrable_besselIntegrand, New.DiscreteSeries.continuous_besselIntegrand, New.DiscreteSeries.enorm_besselIntegrand, New.DiscreteSeries.lintegral_enorm_besselIntegrand_le, New.DiscreteSeries.besselAverage_mul, New.DiscreteSeries.isBesselFunction_besselAverage, New.DiscreteSeries.convolve_besselAverage, New.DiscreteSeries.enorm_besselAverage_le, New.DiscreteSeries.integrable_besselAverage, New.DiscreteSeries.formalDegree_mul_integral_norm_sq_besselAverage, New.DiscreteSeries.besselBallVolume, New.DiscreteSeries.besselBallVolume_ne_top, New.DiscreteSeries.besselBallVolume_ne_zero, New.DiscreteSeries.lintegral_decay_le_besselBallVolume, New.DiscreteSeries.norm_dsCoeffInFrame_le, New.DiscreteSeries.besselBallVolume_le_of_period, New.DiscreteSeries.IsSteep.exists_stationary_point, New.DiscreteSeries.lintegral_unfold_besselGraphMeasure, New.DiscreteSeries.measurePreserving_unfold_besselGraphMeasure, New.DiscreteSeries.exists_sub_one_mul_frameCols_eq, New.DiscreteSeries.exists_sub_one_mul_definiteCols_eq, New.DiscreteSeries.exists_besselGraph_fst_eq, New.DiscreteSeries.besselPairHom, New.DiscreteSeries.isProperMap_besselPairHom_fst, New.DiscreteSeries.subOnePair_besselPairHom_fst, New.DiscreteSeries.besselPairHom_snd_val, New.DiscreteSeries.subOnePair_besselPairHom_snd, New.DiscreteSeries.norm_frame_mulVec_le, New.DiscreteSeries.IsPosition.exists_mul_eq_frameCols_and_besselLength_le, New.DiscreteSeries.initCols_eq_of_frame, New.DiscreteSeries.lowersFlag_besselPairHom, New.DiscreteSeries.inducesOn_besselPairHom, New.DiscreteSeries.exists_besselPairHom_fst_eq, New.DiscreteSeries.mul_sqrt_mul_pow_le_pow}
+
+\begin{proof}
+(a) As $\pi$ is unitary and $\norm v=1$, the integrand has modulus $\abs{c_\lambda(x^{-1}sy)}\le(2/\norm{x^{-1}sy})^{9r^2}$, which by \cref{lem:bessel-group}(c) is integrable over $R$ with integral at most $16^{9r^2}V(x)$,
+uniformly in $y$. Hence $W_x$ is bounded; it is continuous because the integrand is jointly continuous and dominated. For $s\in R$, the substitution $t\mapsto ts^{-1}$, allowed by right invariance, gives
+\[
+  W_x(sy)=\int_Rc_\lambda(x^{-1}t\,sy)\,\pi(t)^{-1}v\,dt=\int_Rc_\lambda(x^{-1}t'y)\,\pi(t's^{-1})^{-1}v\,dt'=\pi(s)W_x(y),
+\]
+so $W_x$ is a Bessel function of type $\pi$. For the reproduction, exchange the integrals in $(W_x*e)(y)=\int_{G_1}e(a^{-1})W_x(ya)\,da$; the double integral converges absolutely by the covering bound and the
+integrability of $c_\lambda$ over $G_1$ (\cref{lem:A-covering}). The inner integral is $\int_{G_1}c_\lambda(x^{-1}sya)\,e(a^{-1})\,da=(c_\lambda*e)(x^{-1}sy)=c_\lambda(x^{-1}sy)$.
+
+For the norm, insert the definition of $W_x(y)$ in one factor of $\langle W_x(y),W_x(y)\rangle$ and move $\pi(s)^{-1}=\pi(s)^*$ to the other side:
+\[
+  \langle W_x(y),W_x(y)\rangle=\int_R\overline{c_\lambda(x^{-1}sy)}\,\langle v,\pi(s)W_x(y)\rangle\,ds=\int_R\Phi(sy)\,ds,
+\]
+where $\Phi(g)=\overline{c_\lambda(x^{-1}g)}\,\langle v,W_x(g)\rangle$.
+By \cref{lem:bessel-group}(b) with $x=1$, $\norm{W_x}^2=\int_{G_1}\Phi$. Moreover $\overline{c_\lambda(x^{-1}g)}=c_\lambda(g^{-1}x)$, and with $g=xa$, $\int_{G_1}c_\lambda(g^{-1}x)W_x(g)\,dg=\deg^{-1}(W_x*e)(x)=\deg^{-1}W_x(x)$. Hence
+$\deg\norm{W_x}^2=\langle v,W_x(x)\rangle$.
+
+(b) By definition $\langle v,W_x(x)\rangle=\int_Rc_\lambda(x^{-1}sx)\langle v,\pi(s)^{-1}v\rangle\,ds$ is the period, and by (a) it equals $\deg\norm{W_x}^2\ge0$. The hypothesis on $\langle v,\pi(h)v\rangle$ identifies the integrand with the Laplace
+integrand of \cref{thm:A-period}: for $s=uh$, $\langle v,\pi(s)^{-1}v\rangle=\overline{\psi(u)}\,\overline{c_u(h)}=\exp(\bar\sigma-\sigma)\,\overline{c_u(h)}$.
+
+(c) Let $\mu$ be the lowest weight of $l$ and $\mu'$ that of $u$, which is $a$ at one coordinate and $0$ on $X$. Apply \cref{prop:A-stationary} with $d=\varrho$, $L=2n$ coordinates of $G_1$ outside $X$ and $L'=1$ coordinate
+of $H$ outside $X$; then $L=L'+2d+1$ and there is a stationary position $(v_1,\dots,v_n;i_0)$ with $v_n$ of norm $-1$, whose entries, and those of $\mu^av_1$ for $a\le2\varrho$, are at most $M=(3B+a)^{2n}$. The vectors
+$w_a=\mu^av_1$, $a\le2\varrho$, continue $v_1,\dots,v_n$, and by the residue computation in the proof of \cref{prop:A-stationary} their products are $0$ for $a+b<2\varrho$ and $-1$ for $a+b=2\varrho$. The columns of $i_0$ and
+$v_1,\dots,v_n$ have the Gram matrix of the basis of $X_0$ and of the frame, and both families are independent; by Witt's theorem there is $x\in G_1$ carrying $i_0$ to the inclusion of $X_0$ and $v$ to the frame
+(after the unitary frame of signs). The vectors $x^{-1}$-images of the $e^*_a$ are then given by the $w_a$, of norm at most $\sqrt rM$, and the argument of \cref{prop:length-frames}(b) gives $\ell(x)\le8n\sqrt rM\le b^{5n}$,
+using $3B+a\le b^2$ and $8nr\le b$. For this $x$, conjugation $s\mapsto x^{-1}sx$ maps $R$ properly onto the group of the position: $x^{-1}sx-1$ lowers the flag of the $v_j$, with sum of coefficients
+$\sigma(s)$, and induces on $i_0$ the image of $s$ in $H$; conversely every element of the group of the position arises. \Cref{thm:A-period} with $N=r+k$ bounds the volume of the $s$ with $\norm{x^{-1}sx}\le\beta+1$, which
+contains the unit ball since $H$ is compact, by $\beta^{20(r+k)^2}$ times the modulus of the period.
+\end{proof}
+
+\begin{theorem}[Schur's bound, decay and cut]\label{thm:bessel-schur}
+Let $F$ be a Bessel function of type $\pi$, integrable over $U\backslash G_1$ and reproduced by $\deg\cdot c_\lambda$, for $l$ of gap $500r^3+A$ with entries bounded by $L$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Schur.) $F$ has right derivatives $V_w$ along all words $w$ in the matrix units, again Bessel functions of type $\pi$; for $\abs w\le2n^2$ and integrable $\varphi$,
+$\norm{g\mapsto\int\varphi(y)V_w(gy)dy}^2_{L^2(U\backslash G_1)}\le B^{2\abs w}\norm F_2^2\norm\varphi_2^2/\deg$ whenever $B\ge(r+1)^4(L+r+1+2n^2)$.
+\item (Decay.) Let $x$ have $\ell(x)\le b^{5n}$ and $b^m\deg\norm{W_x}^2\ge$ the ball volume, with $b\ge2000$, $r+L+1\le b^4$, $m\le301r^2$, $3r^3f\le A$. The normalised
+$F=cW_x$ with $\norm F_2^2=\#I$ and its cut $F^\flat=\chi(\ell/b^{6n+2})F$, $\chi$ a fixed cutoff, have a \emph{decay majorant}: a left $R$-invariant $w\le a<\infty$ with
+$\max(1,\ell/b^{6n})^{3r^3f}\abs{F}$, $\max(1,\ell/b^{6n})^{3r^3f}\abs{F^\flat}\le w$ and $a\int w\le b^{400r^2}\#I$.
+\item (Cut pair.) Then $F$ and $F^\flat$ are Bessel functions, $\norm F_2^2=\#I$, $\norm{F^\flat}_2^2\le\#I$, $F^\flat$ vanishes where $\ell>b^{6n+2}$, $F^\flat=F$ where $\ell\le\frac12b^{6n+2}$, and
+$\norm{F-F^\flat}_2^2\le b^{-2r^3f}\#I$.
+\item (Orthonormality.) If $\pi$ is irreducible, the operator $\int_{U\backslash G_1}F\otimes F^*$ is $1$ for $F$ and a scalar in $[0,1]$ for $F^\flat$; so the coordinates of
+$F$ are orthonormal in $L^2(U\backslash G_1)$.
+\end{enumerate}
+\end{theorem}
+\lean{New.IsBesselFunction.hasSchurBound_of_convolve_eq, New.isBoundedMeasurable_formalDegree_mul_dsCoeffInFrame, New.convolve_formalDegree_mul_dsCoeffInFrame_self, New.convolve_formalDegree_mul_dsCoeffInFrame_comp_frameEquiv, New.HCParam.HasLargeGap.norm_sq_eq_formalDegree_mul_integral, New.exists_derivative_kernels, New.IsBesselFunction.lintegral_enorm_sq_integral_inner_translate, New.IsBesselFunction.convolve_of_integrable, New.SchurLe, New.RealPlace.HasSchurBound, New.exists_isDecayMajorant_besselAverage, New.exists_isCutPair_besselAverage, New.IsDecayMajorant, New.IsCutPair, New.InCut, New.scaledBesselLength, New.one_le_scaledBesselLength, New.le_scaledBesselLength, New.besselCutoff, New.besselCutoff_mem_Icc, New.besselCutoff_eq_one, New.besselCutoff_eq_zero, New.besselCut, New.besselCut_apply, New.enorm_besselCut_le, New.enorm_besselCut_sub_le, New.inCut_of_besselCut_ne_zero, New.lt_besselLength_of_besselCut_ne, New.IsBesselFunction.besselCut, New.IsDecayMajorant.lintegral_sq_besselCut_sub_le, New.lintegral_besselGraph_mul_eq, New.besselLength_div_le_half_norm, New.scaledBesselLength_pow_mul_enorm_besselAverage_le, New.IsBesselFunction.smul_of_invariant, New.exists_enorm_sq_mul_eq, New.BesselSystem.orthonormal, New.IsBesselFunction.integral_mul_conj_embedH_mul, New.IsBesselFunction.integral_mul_conj_eq, New.IsCutPair.integrable_cut, New.IsCutPair.exists_integral_cut_mul_conj_eq, New.IsCutPair.lintegral_sq_inner_cut_le}
+
+The proof uses two lemmas on the discrete series at one real place: the derivatives of the coefficient along words in the matrix units, and the decay of the coefficient measured against the formal degree.
+The coefficient $c_\lambda$ is a smooth vector, and $U(\mathfrak g)c_\lambda$ is the space of its right derivatives, on which a matrix $X$ acts by the derivative along $X$. We norm it by
+$\norm x=\deg^{1/2}\norm x_{L^2(\U(\varepsilon))}$, so that $\norm{c_\lambda}=1$, the formal degree being the inverse of $\int\abs{c_\lambda}^2$. Let $M_0$ be the least subspace that contains $c_\lambda$ and is stable under the
+matrix units $E_{ab}$ with $\varepsilon_a=\varepsilon_b$, and $M_{s+1}=M_s+\sum_{a,b}E_{ab}M_s$.
+
+\begin{lemma}[Steps of the filtration]\label{lem:filtration-steps}
+Let $l$ have gap $500r^3+A$ and entries bounded by $L$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $x\in M_s$ and every matrix $X$, $Xx\in M_{s+1}$ and $\norm{Xx}\le(r+1)^4(L+r+1+s)\norm X\norm x$.
+\item Let $\beta$ be a bump function on $\U(\varepsilon)$ with $c_\lambda*\beta=c_\lambda$, and $w$ a word of length $s$ in the matrix units, conjugated by the unitary frame. Then $c_\lambda*\partial_w\beta$ lies in $M_s$ and
+\[
+  \norm{c_\lambda*\partial_w\beta}\le\bigl((r+1)^4(L+r+1+s)\bigr)^s.
+\]
+\end{enumerate}
+\end{lemma}
+\lean{New.norm_frame_conj_single, New.exists_mem_filtration_smear_word}
+
+\begin{proof}
+(a) $Xx=\sum_{a,b}X_{ab}E_{ab}x$ lies in $M_{s+1}$ by definition. For the norm we bound $\Sigma(y)=\sum_{a,b}\norm{E_{ab}y}^2$ for $y\in M_s$. The $L^2$ product is invariant, so $E_{ab}$ is adjoint to $\varepsilon_a\varepsilon_bE_{ba}$, and
+for the Casimir operator $\Omega=\sum_{a,b}E_{ab}E_{ba}$ and its compact part $\Omega_K$, the sum over the pairs with $\varepsilon_a=\varepsilon_b$,
+\[
+  \langle y,\Omega y\rangle=\sum_{\varepsilon_a=\varepsilon_b}\norm{E_{ba}y}^2-\sum_{\varepsilon_a\ne\varepsilon_b}\norm{E_{ba}y}^2,\qquad \Sigma(y)=2\langle y,\Omega_Ky\rangle-\langle y,\Omega y\rangle.
+\]
+On the discrete series $\langle y,\Omega y\rangle\ge\kappa_\lambda\norm y^2$ with $\kappa_\lambda=\sum_a(l_a^2-(2\rho)_a^2)/4$, and $\abs{(2\rho)_a}\le r$, so $-\langle y,\Omega y\rangle\le-\kappa_\lambda\norm y^2\le\frac{r^3}4\norm y^2$. On the other side, the generator $c_\lambda$ is the highest
+vector of the lowest $K$-type, of weight $\Lambda$ with $\abs{\Lambda_a}\le L+r$. A $K$-type of $M_s$ has a highest vector not orthogonal to some $E_wc_\lambda$ with $w$ a word of length at most $s$, so its highest weight $\mu$ is the
+weight of $E_wc_\lambda$, which has entries of modulus at most $N=L+r+s$; on that $K$-type $\Omega_K$ acts by $c_K(\mu)=\sum_a\mu_a(\mu_a+(2\rho_c)_a)\le rN(N+r)$. Hence $\Sigma(y)\le C\norm y^2$ with
+$C=2rN(N+r)+r^3/4$. By Cauchy--Schwarz over the $r^2$ pairs and $\abs{X_{ab}}\le\norm X$,
+\[
+  \norm{Xx}\le\norm X\sum_{a,b}\norm{E_{ab}x}\le\norm X\bigl(r^2C\bigr)^{1/2}\norm x\le(r+1)^4(N+1)\norm X\norm x,
+\]
+since $r^2C\le(r+1)^8(N+1)^2$, an inequality between polynomials with nonnegative coefficients.
+
+(b) Induction on $w$. For the empty word, $c_\lambda*\beta=c_\lambda\in M_0$ has norm $1$. Let $w=qw'$ with a first letter $q=(a,b)$, and let $M$ be the matrix unit $E_{ab}$ conjugated by the unitary frame; it has
+operator norm $1$, as conjugation by a unitary matrix keeps the norm. Convolution on the left commutes with right derivatives, so $c_\lambda*\partial_w\beta$ is the derivative along $M$ of $x=c_\lambda*\partial_{w'}\beta$, that is $Mx$. By induction
+$x\in M_{s-1}$ with $\norm x\le((r+1)^4(L+r+s))^{s-1}$, and (a) gives $Mx\in M_s$ with
+\[
+  \norm{Mx}\le(r+1)^4(L+r+s)\,\norm x\le\bigl((r+1)^4(L+r+1+s)\bigr)^s.\qedhere
+\]
+\end{proof}
+
+\begin{lemma}[Formal degree and decay]\label{lem:degree-decay}
+Let $l$ have gap $500r^3+A$ and entries bounded by $L$, and $K=2000(r+L+1)^6$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For every $R\ge1$, $\deg\cdot\vol\{g\in G_1:\norm g\le R\}\le4(KR^2)^{2r^2}$.
+\item For every integer $M>8r^2$ the function $(2/\norm g)^M$ is integrable on $G_1$, and $\deg\int_{G_1}(2/\norm g)^Mdg\le8K^{2r^2}2^M$. In particular
+\begin{equation}\label{eq:degree-decay}
+  \deg\int_{G_1}\Bigl(\frac2{\norm g}\Bigr)^Mdg\le b^{50r^2+1}2^M\quad\text{if }b\ge2000,\ r+L+1\le b^4,
+\end{equation}
+and then, for $M=9r^2$, $\deg\cdot16^M\int_{G_1}(2/\norm g)^Mdg\le b^{99r^2}$.
+\item If $b\ge2000$, $r+L+1\le b^4$ and $T\ge1$, then $\deg\cdot\vol\{g:\norm g\le T\}\le T^{9r^2}b^{99r^2}$.
+\end{enumerate}
+\end{lemma}
+\lean{New.norm_frameEquiv, New.lintegral_formalDegree_mul_decay_le, New.formalDegree_mul_lintegral_decay_le, New.formalDegree_mul_volume_ball_le}
+
+\begin{proof}
+Conjugation by the unitary frame carries $G_1$ onto $\U(\varepsilon)$, keeps operator norms and carries Haar measure to Haar measure; so we may work on $\U(\varepsilon)$, whose matrices have size $r$. Put $\beta=r+L+1$.
+
+(a) By \cref{prop:A-decay}(c), $\abs{c_\lambda}\ge1/2$ on the set of $g$ with $\norm{g-1}\le(200\beta^5)^{-1}$, so this set has volume at most $\int4\abs{c_\lambda}^2=4/\deg$. \Cref{lem:A-covering}, applied to the identity of $\U(\varepsilon)$ with
+$y=1$, $D=200\beta^5$ and $\kappa=KR^2\ge600\beta^5R^2=3DR^2$, gives $\vol\{\norm g\le R\}\le(KR^2)^{2r^2}\cdot4/\deg$.
+
+(b) Since $\norm g\ge1$, the layer cake formula and (a) with $R=t^{-1/M}\ge1$ give
+\begin{align*}
+  \int\norm g^{-M}dg&=\int_0^1\vol\{g:\norm g^{-M}>t\}\,dt\\
+  &\le\frac{4K^{2r^2}}\deg\int_0^1t^{-4r^2/M}dt=\frac{4K^{2r^2}}\deg\cdot\frac M{M-4r^2}.
+\end{align*}
+As $M>8r^2$, the last factor is less than $2$; this proves the integrability, and multiplication by $\deg\cdot2^M$ gives the bound. If $b\ge2000$ and $r+L+1\le b^4$, then $K\le2000b^{24}\le b^{25}$ and $8\le b$, so
+$8K^{2r^2}\le b^{50r^2+1}$, which is \eqref{eq:degree-decay}. For $M=9r^2$, $2^M16^M\le b^{2M}$, and $50r^2+1+18r^2\le99r^2$.
+
+(c) Let $M=9r^2$. On the ball $\norm g\le T$, $1\le(T/\norm g)^M=(T/2)^M(2/\norm g)^M$. Integrating over the ball and using \eqref{eq:degree-decay},
+\[
+  \deg\cdot\vol\{\norm g\le T\}\le(T/2)^M\deg\int_{G_1}\Bigl(\frac2{\norm g}\Bigr)^Mdg\le T^Mb^{50r^2+1}\le T^{9r^2}b^{99r^2}.\qedhere
+\]
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:bessel-schur}]
+(a) Let $X_\emptyset=e$ and $X_w=e*\partial_w\beta$ for a word $w$, where $\partial_w$ is the derivative along the letters of $w$ conjugated by the frame. By \cref{lem:filtration-steps}(b), as $\int\abs{X_w}^2/\deg=\norm{c_\lambda*\partial_w\beta}^2$,
+$\int\abs{X_w}^2/\deg\le((r+1)^4(L+r+1+\abs w))^{2\abs w}\le B^{2\abs w}$ for $\abs w\le2n^2$, and $X_\emptyset*X_w=X_w$. Put $V_w=F*X_w$; since $F=F*e$, differentiating under the integral shows that along a curve
+$\gamma$ with $\gamma'=\gamma Z$ the derivative of $V_w\circ\gamma$ is $\sum_{a,b}Z_{ab}V_{(a,b)w}\circ\gamma$, so the $V_w$ are the right derivatives of $F$. Convolution on the right commutes with left translations, so
+each $V_w$ is again a Bessel function of type $\pi$. For the bound, the right translates of $F$ span a space on which $G_1$ acts by a multiple of the discrete series of $l$, because $F=F*e$; on it the operator of an
+integrable kernel $k$ has norm at most $\norm k_2/\deg^{1/2}$ (Plancherel's inequality for the discrete series, from Schur's orthogonality). The function $g\mapsto\int\varphi(y)V_w(gy)\,dy$ is the image of $F$ under the
+operators of $X_w$ and of $\varphi$; so its squared norm is at most $\norm F_2^2\cdot\deg^{-1}\int\abs{X_w}^2\cdot\deg^{-1}\int\abs\varphi^2\le B^{2\abs w}\norm F_2^2\norm\varphi_2^2/\deg$.
+
+(b) Put $M=9r^2$, $\varphi(g)=(2/\norm g)^M$ and $\Phi(y)=\int_R\varphi(x^{-1}sy)\,ds$, which is left invariant under $R$ by \cref{lem:bessel-group}(a), and write $\tilde\ell(y)=\max(1,\ell(y)/b^{6n})$. Since
+$\ell(y)=\ell(sy)\le\norm{x^{-1}sy}\,\ell(x)\le\norm{x^{-1}sy}\,b^{5n}\le\norm{x^{-1}sy}\,b^{6n}/2$ by \cref{prop:length-frames}(a) and $b\ge2$, every $s$ has $\tilde\ell(y)\le\max(1,\norm{x^{-1}sy}/2)$. Let $i=3r^3f\le A$ and $g=x^{-1}sy$. If $\tilde\ell(y)=1$, the decay of \cref{lem:bessel-group}(c) with $j=0$ gives $\tilde\ell(y)^i\abs{c_\lambda(g)}\le\varphi(g)$. Otherwise $\norm g\ge2\tilde\ell(y)>2$, and the decay with $j=i$
+gives
+\[
+  \tilde\ell(y)^i\abs{c_\lambda(g)}\le\Bigl(\frac{\norm g}2\Bigr)^i\Bigl(\frac2{\norm g}\Bigr)^{i+M}=\varphi(g).
+\] Integrating over $R$, $\tilde\ell^i\abs{W_x}\le\Phi$. Take $w=\abs c\,\Phi$; as $\abs{F^\flat}\le\abs F$, both bounds of the decay majorant hold. By \cref{lem:bessel-group}(c), $\Phi\le16^MV(x)$, so $w\le a=\abs c\,16^MV(x)$.
+By \cref{lem:bessel-group}(b), $\int_{U\backslash G_1}\Phi=\int_{G_1}\varphi$. Using $c^2\norm{W_x}^2=\#I$ and $V(x)\le b^m\deg\norm{W_x}^2$,
+\[
+  a\int w=c^2\,16^M\,V(x)\int_{G_1}\varphi\le b^m\,\#I\cdot\deg\,16^M\int_{G_1}\varphi\le b^{m+99r^2}\,\#I\le b^{400r^2}\,\#I,
+\]
+where \cref{lem:degree-decay}(b) gives $\deg\,16^M\int\varphi\le b^{99r^2}$, and $m\le301r^2$.
+
+(c) The constant $c$ exists: $V(x)>0$ and $V(x)\le b^m\deg\norm{W_x}^2$ give $\norm{W_x}_2>0$. The cut is $F^\flat(y)=\chi(\ell(y))F(y)$ with $\chi(t)=\max(0,\min(1,2-2t/R))$, $R=b^{6n+2}$; it is continuous, a Bessel function because $\ell$ is
+left invariant under $R$ (\cref{prop:length-frames}(a)), equal to $F$ where $\ell\le R/2$ and zero where $\ell\ge R$, and $\abs{F^\flat}\le\abs F$, so $\norm{F^\flat}_2^2\le\#I$. Where $F^\flat\ne F$ we have $\ell>R/2$, so $\tilde\ell\ge b^2/2\ge b$ and
+$b^{3r^3f}\abs{F^\flat-F}\le\tilde\ell^{3r^3f}\abs F\le w\le a$. Multiplying the two bounds $\abs{F^\flat-F}\le b^{-3r^3f}a$ and $\abs{F^\flat-F}\le b^{-3r^3f}w$ and integrating,
+\[
+  \norm{F^\flat-F}_2^2\le b^{-6r^3f}a\int w\le b^{400r^2-6r^3f}\,\#I\le b^{-2r^3f}\,\#I,
+\]
+since $100r^2\le r^3\le r^3f$.
+
+(d) For $s\in H$, left translation by $s$ normalises $U$ and preserves its Haar measure, and the characters cancel in $W(y)\otimes W(y)^*$; so $\int_{U\backslash G_1}W(sy)\otimes W(sy)^*=\int W\otimes W^*$. With $W(sy)=\pi(s)W(y)$ this
+says that the operator $T=\int W\otimes W^*$ commutes with $\pi(H)$, hence is a scalar by irreducibility, and its trace is $\norm W_2^2$. For $F$ this is $\#I$, so $T=1$; for $F^\flat$ the scalar lies in $[0,\norm{F^\flat}_2^2/\#I]\subseteq[0,1]$.
+\end{proof}
+
+\subsection{The open cell}\label{ss:open-cell}
+For $\gamma\in G_1$ let $Z(\gamma)$ be the matrix of products of $f$ with $\gamma f$. The \emph{open cell} $\Omega$ is the set of invertible $Z$ whose inverse has last diagonal entry $\xi$
+with $\abs\xi<1$; on it $\nu(Z)^2=1-\abs\xi^2$. There is an explicit real-analytic section $Z\mapsto\gamma_Z\in G_1$ with $Z(\gamma_Z)=Z$, with polynomial bounds for it and its
+derivative where $Z$, $Z^{-1}$ and $\nu^{-1}$ are bounded (\emph{bounded in the cell}); by Witt's theorem $Z(\gamma)=Z\in\Omega$ determines $\gamma$ up to the fixer $U^0H$ of the frame on
+both sides.
+\lean{New.RealPlace.invCorner, New.Shape.openCell, New.RealPlace.oneSubNormSqInvCorner, New.RealPlace.IsBoundedInCell, New.RealPlace.diagLast, New.RealPlace.sectionCoeff, New.RealPlace.sectionFrame, New.RealPlace.sectionMatrix, New.RealPlace.mem_openCell, New.RealPlace.invCorner_conjTranspose, New.RealPlace.conjTranspose_mem_openCell_iff, New.RealPlace.gramDiscReal_eq_norm_det_sq_mul, New.RealPlace.mem_openCell_iff, New.RealPlace.continuous_gramDiscReal, New.RealPlace.isOpen_openCell, New.RealPlace.oneSubNormSqInvCorner_pos, New.RealPlace.differentiableAt_sectionMatrix, New.RealPlace.norm_sectionMatrix_le_and_norm_fderiv_le, New.RealPlace.IsBoundedInCell.norm_sectionMatrix_le, New.RealPlace.sectionMatrix_isometry, New.RealPlace.gramSection, New.RealPlace.coe_gramSection, New.RealPlace.measurable_gramSection, New.RealPlace.realFrameGram_gramSection, New.RealPlace.exists_eq_mul_gramSection_mul}
+
+We say that $Z$ is \emph{bounded in the cell by $P$} if $Z\in\Omega$ and $\norm Z$, $\norm{Z^{-1}}$ and $\nu(Z)^{-1}$ are at most $P$. Let $F$ be the matrix with the columns $f$, and $F'$ that with the columns
+$e^*_1,\dots,e^*_\varrho,x_{k_0}$ for a fixed index $k_0$. For $Z\in\Omega$ let $\zeta$ be the last row of $Z^{-1}$ and $Y(Z)$ the matrix with last row $(0,\dots,0,-1)$ and other rows those of $-\zeta^*\zeta$, halved outside the last
+column. Then $F^\vee(Z)=F\,Y(Z)+F'\,\mathrm{diag}(1,\dots,1,\nu(Z))$ is a family dual to the frame ($F^*J_1F^\vee=1$) with Gram matrix $-\zeta^*\zeta$, the congruence of the Gram matrix $D$ of the frame by $Z^{-1}$. The section $\gamma_Z$ is the isometry
+that maps $F$ to $F^\vee(Z)Z$, maps $F^\vee(Z^*)$ to $F(Z^*)^{-1}$ and fixes the $x_i$, $i\ne k_0$; its matrix is a polynomial in the entries of $Z$, $Z^{-1}$, $\nu$ and $\nu^{-1}$, written out in the archive.
+
+\begin{proposition}[The section of the frame Gram map]\label{prop:gram-section}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $Z\in\Omega$, then $\gamma_Z\in G_1$ and $Z(\gamma_Z)=Z$. The map $Z\mapsto\gamma_Z$ is measurable on all matrices (the identity off $\Omega$) and real differentiable on $\Omega$.
+\item If $Z(\gamma)=Z\in\Omega$, then $\gamma=s\gamma_Zs'^{-1}$ with $s$, $s'$ in the fixer $U^0H$ of the frame.
+\item If $Z$ is bounded in the cell by $T\ge4$, then $\norm{\gamma_Z}\le T^{18}$ and the real derivative of $Y\mapsto\gamma_Y$ at $Z$ has norm at most $T^{25}$.
+\item (Perturbation.) Let $Z$ be bounded in the cell by $T\ge4$ and $\norm{Y-Z}<T^{-6}$. Then $Y$ is invertible with $\norm{Y^{-1}}\le2T$ and $\norm{Y^{-1}-Z^{-1}}\le2T^{-4}$, $\nu(Y)^2\ge(1-8T^{-2})\nu(Z)^2$, and $Y$ is bounded in the cell by
+$2T$; if moreover $T\ge8$ and $T\ge n$, then $\mathfrak g(Y)\ge\mathfrak g(Z)/2$.
+\item (Sizes at and near a point.) If $n\le M$, the entries of $Z$ are at most $M^2$ and $\mathfrak g(Z)\ge M^{-1}$, then $Z$ is bounded in the cell by every $T\ge M^{8n}$. If moreover $M\ge8n$ and $P\ge M^{9n}$, every $Y$ with
+$\norm{Y-Z}<P^{-6}$ has $\mathfrak g(Y)\ge\mathfrak g(Z)/2$ and is bounded in the cell by $P$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The products of $F$ with $\gamma_ZF=F^\vee(Z)Z$ are $F^*J_1F^\vee(Z)Z=Z$; the products of $F^\vee$ with $F$ are the identity off the last index, because $F^*J_1F'=\mathrm{diag}(1,\dots,1,0)$ and $F^*J_1F=\mathrm{diag}(0,\dots,0,-1)$, and the factor
+$\mathrm{diag}(0,\dots,0,-1)$ keeps only the last row $(0,\dots,0,-1)$ of $Y(Z)$. That $\gamma_Z$ is an isometry is checked in the span of the orthonormal columns $(F\,|\,F')$, where $\gamma_Z$ acts as $yx^{-1}$ for the
+matrices $x$, $y$ whose columns are $(FZ^{-1}\,|\,F^\vee(Z^*))$ and $(F^\vee(Z)\,|\,F(Z^*)^{-1})$: these two families have the same Gram matrix, which reduces to polynomial identities in the entries of $Z^{-1}$ given
+$\nu^2=1-\abs\xi^2$; on the orthogonal complement $\gamma_Z$ is the identity. The entries are holomorphic in $(Z,W)$ at $W=Z^*$ near $\Omega\times\Omega$, the square root being taken of $1-\xi(Z)\xi(W)$, which lies in the slit plane; restricting to
+$W=Z^*$ gives real differentiability, and measurability follows. (b) The families $(F\,|\,\gamma F)$ and $(F\,|\,\gamma_ZF)$ have the same Gram matrix, which is invertible because its determinant is $\pm\mathfrak g(Z)\ne0$
+(\cref{prop:length-frames}(c)). By Witt's theorem some $g$ carries one to the other; $g$ fixes the frame, and so does $\gamma_Z^{-1}g\gamma$. (c) Write the matrix of $\gamma_Z$ as the value at $W=Z^*$ of a matrix in two variables $(Z,W)$. If $P\ge8$, $Z$ is bounded in the cell by $P$ and $W\in\Omega$ has $\norm{W^{-1}}\le P$, the formula gives the norm bound $P^{12}$:
+$\norm{Y}\le2+8P^2$ for the coefficient matrix, $\abs s\le2$ and $\abs{s^{-1}}\le2P$ for the root $s$ of $1-\xi(Z)\xi(W)$, and the factors $F$, $F'$ have norm one. By (d) every $(Y,W)$ in the ball of radius $T^{-6}$ about $(Z,Z^*)$
+satisfies these hypotheses with $P=2T\ge8$, so $\norm{\gamma_Z}\le(2T)^{12}\le T^{18}$ (as $2^{12}\le T^6$), and the two-variable matrix is holomorphic and bounded by $(2T)^{12}$ on that ball; Schwarz's lemma bounds its derivative at the centre by
+$2(2T)^{12}T^6\le T^{25}$ (as $2^{13}\le T^7$). (d) $Y=Z(1+Z^{-1}(Y-Z))$ with $\norm{Z^{-1}(Y-Z)}\le T^{-5}\le1/2$ gives the inverse with $\norm{Y^{-1}}\le2T$, and
+$Y^{-1}-Z^{-1}=Y^{-1}(Z-Y)Z^{-1}$ has norm at most $2T^{-4}$. Hence $\abs{\xi(Y)-\xi(Z)}\le2T^{-4}$, and since $\nu(Z)^2\ge T^{-2}$, $\nu(Y)^2\ge\nu(Z)^2-4T^{-4}\ge(1-8T^{-2})\nu(Z)^2$; the other bounds follow. For $\mathfrak g=\abs{\det}^2\nu^2$, write
+$Z=(1-E)Y$ with $E=(Y-Z)Y^{-1}$, $\norm E\le2T^{-5}$; then $\abs{\det Z}\le(1+2T^{-5})^n\abs{\det Y}$, and
+$\mathfrak g(Y)\ge(1+2T^{-5})^{-2n}(1-8T^{-2})\,\mathfrak g(Z)\ge e^{-4n/T^5}\cdot\frac78\,\mathfrak g(Z)\ge\frac12\mathfrak g(Z)$ for $T\ge8$ and $T\ge n$. (e) The operator norm of $Z$ is at most $nM^2\le M^3$.
+By \eqref{eq:disc-nu}, with $\abs{\det Z}\le M^{3n}$ and $\nu(Z)^2\le1$, the inequality $M^{-1}\le\abs{\det Z}^2\nu^2$ bounds each factor below: $\abs{\det Z}^{-1}\le M^{1/2}$ and $\nu^{-2}\le M^{6n+1}$, so $\nu^{-1}\le M^{3n+1}$.
+Cramer's rule gives $\norm{Z^{-1}}\le\abs{\det Z}^{-1}\norm{\mathrm{adj}\,Z}\le M^{1/2}\,n!\,M^{2(n-1)}\le M^{8n}$, as $n!\le M^n$. The second statement is (d) with $T=P/2$.
+\end{proof}
+
+\begin{theorem}[Mean value inequality]\label{thm:mean-value}
+For measurable $f\ge0$ on $G_1$,
+\[
+  \int_\Omega c_G\,\mathfrak g(Z)^{k-1}\int_{U^0H}\int_{U^0H}f(s'\gamma_Zs)\,ds\,ds'\,dZ\le\int_{G_1}f ,
+\]
+with $c_G=\vol\U(k)/\vol\U(r)$ times the area of the unit sphere of $\C^k$. The law of $s\gamma_Z$ with density proportional to $\mathfrak g(Z)^{k-1}$ is at most the fibre measure of the
+Gram map $Y\mapsto{}^t\bar YJ_1Y$ over the Gram matrix of the frame.
+\end{theorem}
+\lean{New.RealPlace.lintegral_gramSection_le, New.RealPlace.leGramFibre_gramSectionMeasure, New.RealPlace.lintegral_eq_lintegral_sphereMass_mul_dualFrameOfGram, New.RealPlace.dualFrameOfGram, New.RealPlace.gramSectionMeasure, New.RealPlace.sphereMass, New.Shape.openCellConst, New.Shape.openCellConst_pos, New.Shape.scaledVolumeRatio}
+
+\begin{proof}
+\emph{Dual tuples.} The tuples of $n$ vectors dual to the frame are $J_1F+Rp$, where $R$ has the columns $e_b$ and $x_i$ and $p$ runs over matrices. Every such tuple is $s\,y(T)$ for its Gram matrix $T$ and an element $s$ of the
+fixer $U^0H$, where $y(T)$ is the standard dual tuple $e^*_b+\frac12\sum_aT_{ab}e_a$ ($b<n$), $-z+\sum_aT_{a,t}e_a+\sqrt{1+T_{tt}}\,x_{k_0}$ (defined when $1+T_{tt}\ge0$). Choosing first the $\varrho$ vectors $e^*_b+\dots$, which fixes the upper left block of $T$
+and the unipotent part of $s$, and then the last vector, whose part in $X_0$ runs over a sphere of squared radius $1+T_{tt}$ (polar coordinates in $X_0$, with $H$ rotating it), Lebesgue measure is
+\[
+  dp=2^{-\varrho}\,m_k(1+T_{tt})\,dt\,ds,\qquad m_k(\rho)=\frac{\pi^k\rho^{k-1}}{(k-1)!}\ (\rho>0),
+\]
+with $t$ the real coordinates of $T$ and $ds$ Lebesgue measure on the unipotent parameters times the Haar probability measure of $H$.
+
+\emph{Frames with given products.} For invertible $Z$, the tuples $y$ whose products with the frame form $Z$ are $y=y'Z$ with $y'$ dual to the frame, of Gram matrix $T'=Z^{-*}TZ^{-1}$ if $y$ has Gram matrix $T$. The substitution
+costs $\abs{\det Z}^{2(\varrho+k)}$ in $dp$ and $\abs{\det Z}^{2(\varrho+1)}$ in $dT$, so $dp=\abs{\det Z}^{2(k-1)}2^{-\varrho}m_k(1+T'_{tt})\,dt\,ds$. At the Gram matrix $T_0=D$ of the frame, $T'=-\zeta^*\zeta$ and $1+T'_{tt}=\nu(Z)^2$, the dual tuple is
+$F^\vee(Z)$, and $y(T')Z=\gamma_ZF$. By \eqref{eq:disc-nu}, $\abs{\det Z}^{2(k-1)}2^{-\varrho}m_k(\nu^2)=2^{-\varrho-1}\sigma_k\,\mathfrak g(Z)^{k-1}$, with $\sigma_k=2\pi^k/(k-1)!$ the area of the unit sphere of $\C^k$.
+
+\emph{Below the fibre measure.} For a tuple $E$ of vectors, say that a measure $m$ on $G_1$ is \emph{below the fibre measure over $E$} if, for every lower semicontinuous $K\ge0$ on tuples $Y$ of the size of $E$ with
+$\int_{T(Y)\in S}K\,dY\le C\vol S$ for all small open sets $S$ of hermitian matrices near the Gram matrix of $E$, one has $\int K(gE)\,dm(g)\le C$; here $T(Y)={}^t\bar YJ_1Y$ in its real coordinates and $dY$ is Lebesgue measure. This
+is the sense in which the image of $m$ under $g\mapsto gE$ is at most the fibre measure $dY/dT$ of the Gram map \cite{Siegel1935}.
+
+\emph{The section.} Let $\lambda$ be the law of $s\gamma_Z$ under $2^{-\varrho-1}\sigma_k\mathfrak g(Z)^{k-1}dZ\,ds$, $Z\in\Omega$. It is below the fibre measure over $F$: in the coordinates $(T,Z,s)$ above, the tuples with $Z\in\Omega$ have Lebesgue
+measure with the density computed, continuous in $T$ at $T_0$, and the tuples with $Z\notin\Omega$ only add to $\int_{T(Y)\in S}K\,dY$.
+
+\emph{From frames to Haar measure.} Three facts on the fibre measure give the comparison. (i) On bases, a measure below the fibre measure over the standard basis is at most $\vol\U(r)/2^r$ times Haar measure of $G_1$, normalised through its
+compact dual; this is the computation of the fibre measure of the Gram map on bases. (ii) If $m$ is below the fibre measure over $E$, and $\nu$ fixes $E$ almost everywhere and maps, by $g\mapsto gE'$, to a measure below the fibre measure
+of $Y'\mapsto({}^t\bar EJ_1Y',T(Y'))$ over $E'$, then $m*\nu$ is below the fibre measure over the joined tuple $(E,E')$, because Lebesgue measure on $(Y,Y')$ is the product. (iii) For $E'$ the dual vectors $e^*_b$, the measure
+$2^{-\varrho}du$ on $U^0$ satisfies the hypothesis of (ii), by the coordinates of the dual tuples above; and for $E'$ the basis $x_i$ of $X_0$, the complement of the tuple $(f,e^*)$, which is definite, the measure $\vol\U(k)2^{-k}dh$ on $H$ does,
+by (i) for $\U(k)$. Applying (ii) twice to $m=\lambda$ and then (i),
+\[
+  \lambda*2^{-\varrho}du*\frac{\vol\U(k)}{2^k}dh\le\frac{\vol\U(r)}{2^r}\,dg,\qquad\text{so}\qquad\lambda*ds\le\frac{\vol\U(r)}{2^{\varrho+1}\vol\U(k)}\,dg,
+\]
+as $r=k+2\varrho+1$. Integrating $f$ against $\lambda*ds$ gives the triple integral of the theorem with density $2^{-\varrho-1}\sigma_k\mathfrak g(Z)^{k-1}$; multiplying by $2^{\varrho+1}\vol\U(k)/\vol\U(r)$ turns it into $c_G\,\mathfrak g(Z)^{k-1}$ with
+$c_G=\sigma_k\vol\U(k)/\vol\U(r)$. The second statement of the theorem is the paragraph on the section.
+\end{proof}
+
+\begin{theorem}[Open cell bound]\label{thm:open-cell}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $F$ satisfy Schur's bound with constants $P\ge8r$ and $D$, let every $Y$ within $P^{-6}$ of $Z$ be bounded in the cell by $P$ with $\mathfrak g(Y)\ge c>0$, and let $\varphi$ be integrable,
+vanishing where $\norm y>P^{20}$. Then $\int\norm{\int\varphi(y)F(\gamma_Z(uh)^{-1}y)dy}^2$ over $(h,u)\in H\times U^0$ with $\norm u\le P^{20}$, for Haar measure times $c_Gc^{k-1}$, is at most
+$P^{2000n^2}D\int\abs\varphi^2$.
+\item For a Bessel system (\cref{def:bessel-system}) $X$ of scale $B$, if $\mathfrak g(Z(\gamma))>0$ and some $y$ has $y$, $\gamma^{-1}y$ in the frame box of radius $\rho\ge B$, there are a compact $A$,
+shifts in the fixer of the frame averaged by a probability measure, and a measure $\nu$ of mass at most
+\[
+  \Bigl(\frac{\rho^{9n}}{\mathfrak g}\Bigr)^{10^5n^4}\frac{(\#I)^2}{\deg\cdot c_G\cdot(\mathfrak g/2)^{k-1}}
+\]
+such that the mean of $\norm{\int_A\varphi(z)W(\gamma tz)\otimes\overline{W(tz)}dz}^2$ is at most $\int\abs\varphi^2d\nu$ for bounded measurable $\varphi$.
+\item For systems $X_v$ at all infinite places and $\varphi$ of modulus at most $1$, invariant under the fixers, with $\varphi\cdot(W^\flat(y)\otimes W^\flat(\gamma^{-1}y)^*)$ supported in the boxes, the integral of
+this product has compact support and norm at most the root of the product of the local bounds of (b), plus $\int\abs\varphi\cdot\norm{W\otimes W^*-W^\flat\otimes W^{\flat*}}$.
+\end{enumerate}
+\end{theorem}
+\lean{New.RealPlace.lintegral_gramSection_integral_le, New.lintegral_mul_le_of_frameMatrix_le, New.RealPlace.HasDerivWords, New.RealPlace.HasDerivWords.exists_hasDerivAt_gramSection_mul, New.RealPlace.sobolev_const_mul_le_pow, New.RealPlace.lintegral_gramSection_le_of_hasDerivWords, New.RealPlace.convolutionWeight, New.RealPlace.hasDerivWords_integral, New.volume_upperEntries_closedBall_le, New.Shape.fixerMeasure, New.Shape.fixerBall, New.RealPlace.isBoundedInCell_of_inv_le_gramDiscReal, New.RealPlace.gramDiscReal_div_two_le_and_isBoundedInCell, New.BesselSystem.IsOpenCellBound, New.BesselSystem.exists_isOpenCellBound, New.BesselSystem.IsKernelBound, New.BesselSystem.exists_isKernelBound_gramSection, New.isL2Contraction_of_columns, New.BesselSystem.isL2Contraction_gramSection, New.pairingBoundSq, New.BesselSystem.pairKernel, New.BesselSystem.piKernel, New.BesselSystem.enorm_integral_pairKernel_cut_le, New.BesselSystem.exists_isCompact_enorm_integral_piKernel_le, New.BesselSystem.hasCompactSupport_and_enorm_integral_piKernel_le}
+
+The proof of (a) rests on three lemmas.
+
+\begin{lemma}[Unfolding along the frame]\label{lem:unfold-frame}
+Let $w,\phi\ge0$ be measurable on $G_1$, $w$ left invariant under $R$ and $\phi$ of integral at most $K$ on every orbit of $U^0$, and let $R_0\ge1$ bound the entries of $m(s)$ for every $s\in U$ with $\phi(y)\ne0\ne\phi(sy)$ for some $y$. Then
+$\int_{G_1}\phi w\le K(2R_0)^{2n^2}\int_{U\backslash G_1}w$. If $Q$ is a measurable set of matrices bounded in the cell by $P\ge1$ with $\mathfrak g\ge c>0$ on $Q$, then
+\[
+  \int_Q\int_{H\times U^0}w\bigl(\gamma_Z(uh)^{-1}\bigr)\,c_Gc^{k-1}\,du\,dh\,dZ\le(2P^2)^{2n^2}\int_{U\backslash G_1}w .
+\]
+\end{lemma}
+
+\begin{proof}
+Unfold along $U$; it suffices to bound $\int_U\phi(sy)\,ds$. Write $s=u\,\tilde x\,u_0$ with $u\in U^0$, $\tilde x$ the unitriangular lift of the entries $x$ above the diagonal of $m(s)$, and $\phi(u_0y)\ne0$: the integral over $u$ is at most $K$, and it
+vanishes unless all coordinates of $x$ lie in the disc of radius $R_0$; the box of these coordinates has volume at most $(2R_0)^{2n^2}$. For the second statement, let $\chi$ be a cutoff function for $U^0$ and $\phi$ its product with the
+indicator of $\{y:Z(y)\in Q\}$; compute $\int\phi w$ once in the coordinates of \cref{thm:mean-value}, where on $Q$ the density of the open cell is at least $c_Gc^{k-1}$ and along an orbit of the fixer only $\chi$ changes, with integral $1$; and once by
+the first statement. If $Z(y)$ and $Z(sy)$ are bounded in the cell by $P$ and $s\in U$, the entries of $m(s)$ are at most $P^2$, since $Z(y)=m(s)^*Z(sy)$ by \cref{lem:frame-vectors}(b).
+\end{proof}
+
+\begin{lemma}[Sobolev at the section]\label{lem:sobolev-section}
+Let $(V_w)$ be a family of measurable functions indexed by words in an alphabet $\mathcal L$, with norms left invariant under $R$, such that along a curve with $\gamma'=\gamma X$, $\norm X\le C$, the derivative of
+$V_w\circ\gamma$ exists with norm at most $\Lambda C\sum_{\lambda\in\mathcal L}\norm{V_{\lambda w}\circ\gamma}$, where $\Lambda\ge0$ and $\#\mathcal L\,\Lambda\le P^{44}$. Let $P\ge8r$, let every $Y$ within $P^{-6}$ of $Z$ be bounded in the cell by $P$ with $\mathfrak g(Y)\ge c>0$, and
+let $\int_{U\backslash G_1}\norm{V_w}^2\le K$ for $\abs w\le2n^2$. Then
+\[
+  \int_{\norm u\le P^{20}}\bigl\|V_\emptyset\bigl(\gamma_Z(uh)^{-1}\bigr)\bigr\|^2\,c_Gc^{k-1}\,du\,dh\le P^{550n^2}K.
+\]
+\end{lemma}
+
+\begin{proof}
+Choose real linear coordinates $Y=Z+e(x)$ on the matrices of size $n$, preserving Lebesgue measure, whose coordinate vectors have norm at most $P^2/4$, such that the cube $[0,P^{-8}]^{2n^2}$ lies within $P^{-6}$ of $Z$. Along a
+coordinate line $t\mapsto\gamma_{p(t)}k$ with $\norm k\le P^{20}$, the logarithmic derivative of $\gamma_{p(t)}k$ has norm at most $P^{85}$ by \cref{prop:gram-section}(c),(d), so the derivatives of $t\mapsto V_w(\gamma_{p(t)}k)$ are bounded by
+$\Lambda P^{85}$ times the next members of the family. Sobolev's inequality on the cube (the value at a corner bounded by the mean squares of the mixed derivatives of order at most one in each coordinate) costs at most
+$2P^8(1+(\#\mathcal L\Lambda P^{85})^2)$ per coordinate; integrating over the cube with \cref{lem:unfold-frame} costs $2P^2$ per coordinate. The product over the $2n^2$ coordinates is at most $(P^{275})^{2n^2}=P^{550n^2}$.
+\end{proof}
+
+\begin{lemma}[Derivatives of convolutions]\label{lem:convolution-derivatives}
+Let $V_w$, for words $w$ in the matrix units, be bounded continuous functions on $G_1$ such that the derivative of $V_w\circ\gamma$ along $\gamma'=\gamma X$ is $\sum_{a,b}X_{ab}V_{(a,b)w}\circ\gamma$. Let $\psi$ be integrable weights on $G_1$, indexed by words in
+the letters $((a,b),c,d)$, with $\psi_{((a,b),c,d)i}(y)=\psi_i(y)\,(y^{-1})_{ad}\,y_{cb}/R_0^2$. Then the functions $g\mapsto\int\psi_i(y)V_{i'}(gy)\,dy$, with $i'$ the word of the first components of $i$, satisfy the hypothesis of
+\cref{lem:sobolev-section} with $\Lambda=R_0^2$.
+\end{lemma}
+
+\begin{proof}
+Let $G_i(g)=\int\psi_i(y)V_{i'}(gy)\,dy$ and let $\gamma$ be a curve with $\gamma'=\gamma X$, $\norm X\le C$. For fixed $y$ the curve $\gamma(t)y$ has $(\gamma y)'=(\gamma y)(y^{-1}Xy)$, so by hypothesis
+\[
+  \frac d{dt}V_{i'}(\gamma(t)y)=\sum_{a,b}(y^{-1}Xy)_{ab}\,V_{(a,b)i'}(\gamma(t)y),\qquad (y^{-1}Xy)_{ab}=\sum_{c,d}(y^{-1})_{ad}X_{dc}y_{cb}.
+\]
+Multiplying by $\psi_i(y)$ and writing $\lambda=((a,b),c,d)$, the factor $\psi_i(y)(y^{-1})_{ad}y_{cb}$ is $R_0^2\,\psi_{\lambda i}(y)$, and the first components of $\lambda i$ form the word $(a,b)i'$. The derivatives are dominated by
+$R_0^2C\sum_\lambda\abs{\psi_{\lambda i}}\sup\norm{V_{(a,b)i'}}$, which is integrable, so we may differentiate under the integral:
+\[
+  \frac d{dt}G_i(\gamma(t))=\sum_\lambda R_0^2X_{dc}\,G_{\lambda i}(\gamma(t)),
+\]
+whose norm is at most $R_0^2C\sum_\lambda\norm{G_{\lambda i}(\gamma(t))}$, because $\abs{X_{dc}}\le\norm X\le C$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:open-cell}]
+(a) Let $V_w$ be the right derivatives of $F$ given by \cref{thm:bessel-schur}(a), and $\psi_i$ the weights of \cref{lem:convolution-derivatives} built from $\varphi$ with $R_0=P^{20}$; as $\varphi$ vanishes where $\norm y>P^{20}$, $\abs{\psi_i}\le\abs\varphi$. By Schur's
+bound the convolutions $g\mapsto\int\psi_i(y)V_{i'}(gy)\,dy$ have squared norms at most $P^{2\abs i}D\int\abs\varphi^2\le P^{4n^2}D\int\abs\varphi^2$ for $\abs i\le2n^2$. There are $r^4$ letters and $\Lambda=P^{40}$, so $\#\mathcal L\Lambda\le P^{44}$, and
+\cref{lem:sobolev-section} gives the bound $P^{550n^2}P^{4n^2}D\int\abs\varphi^2\le P^{2000n^2}D\int\abs\varphi^2$.
+
+(b) Put $Z=Z(\gamma)\in\Omega$ and $M=\rho^{9n}/\mathfrak g(Z)$. The entries of $Z$ are at most $\rho^2$ by \cref{lem:frame-vectors}(b), so $\mathfrak g(Z)\le\rho^{8n}$ and $\rho\le M$, $M^{-1}\le\mathfrak g(Z)$; let $M_0=M^{9n}$ and $P=(M_0^5)^n$. By \cref{prop:gram-section}(b),
+$\gamma t(h,u)=s\gamma_Z(uh)^{-1}$ for some $s\in R$ and a measurable $t\colon H\times U^0\to U^0H$. Take $A$ a compact tube over a set $\Omega_0\subseteq U^0$ of elements of norm at most $P^{20}$, the probability measure $m$ the fixer
+measure conditioned on $\Omega_0$, and $\nu$ the measure $\norm W^2\,dz$ on $A$ times $(m(\Omega_0))^{-1}P^{2000n^2}\#I/\deg$. The Bessel system satisfies Schur's bound with $P\ge B^5$ and $D=\#I/\deg$ (\cref{def:bessel-system}); the near-point bounds
+of \cref{prop:gram-section}(e) give the hypothesis of (a) with $c=\mathfrak g(Z)/2$. For each column of the kernel, (a) bounds the mean over $m$ of $\norm{\int_A\varphi(z)W(s\gamma_Z(uh)^{-1}z)\overline{W_j(tz)}\,dz}^2$; the norm of
+$\int\psi(y)W(sgy)\otimes\overline{W(ty)}$ does not depend on $s,t\in R$. The mass of $\nu$ is at most $M^{10^5n^4}(\#I)^2/(\deg c_G(\mathfrak g/2)^{k-1})$, by $\int_A\norm W^2\le K(2R^2)^{2n^2}\#I$ for the measure $K$ of the fibres of $A$ along $U^0$, and
+the identity $P^{2000n^2}M_0^5(MP^{40})^{2n^2}=M^{93600n^4+2n^2+45n}\le M^{10^5n^4}$. Finally, if $z$ is in the frame box of radius $\rho\le M$ and $\ell(s\gamma_Z(uh)^{-1}z)\le M$, then $\norm{u^{-1}z}\le M_0^{5}$: move $\gamma_Zz$ by an element of $U$ to a point of
+norm at most $M$, and express the columns $z^{-1}e^*_a$ through the frames at both points with coefficients from $Z^{-1}$; so $z\in A$ for the tube of radius $M_0^5$.
+
+(c) At each place (b) gives a compact $A_v$, measures $\nu_v$ and probability measures $m_v$ on the shifts. The operator bounds multiply over the places, so the mean over the product of the $m_v$ of the squared norm of the
+pairing is at most $\int\abs\varphi^2d\prod\nu_v\le\prod_v\nu_v(G_1)$, as $\abs\varphi\le1$; hence some shift $t$ does no worse than the mean, and $\varphi$, being invariant under the fixers, is unchanged by it. After the translation by $t$ the cut
+integrand lives on the compact set $\prod A_v$, where the difference with the uncut integrand is bounded by $\int\abs\varphi\,\norm{W\otimes W^*-W^\flat\otimes W^{\flat*}}$. The kernel $W(y)\otimes W(\gamma^{-1}y)^*$ is the adjoint of $W(\gamma^{-1}y)\otimes W(y)^*$, and
+$\gamma^{-1}$ has the same discriminant as $\gamma$.
+\end{proof}
+
+\subsection{Bessel systems}\label{ss:bessel-systems}
+
+\begin{definition}[Bessel system]\label{def:bessel-system}
+A \emph{Bessel system} of scale $b\ge8r$ and decay rate $f$ consists of a finite set $I$, continuous functions $W$, $W^\flat\colon G_1\to\C^I$, a degree $\deg>0$ and an irreducible
+unitary representation $\pi$ of $H$ on $\C^I$, such that $(W,W^\flat)$ is a cut pair of type $\pi$ with decay rate $f$ (\cref{thm:bessel-schur}(c)), $W$ satisfies Schur's bound with
+constants $P$ and $\#I/\deg$ for every $P\ge b^5$, and $W^\flat$ has the \emph{local bounds} of \cref{thm:local-band-limits}: a sieve system of forms whose top form is the inner product
+of normalised orbital integrals of $W^\flat$.
+\end{definition}
+\lean{New.BesselSystem, New.HasLocalBounds, New.FullOrCut.select, New.besselOrbitalIntegral, New.normalizedOrbitalIntegral, New.RealPlace.gramDiscReal, New.Shape.openCellConst}
+
+\begin{theorem}[Bessel systems exist]\label{thm:bessel-systems-exist}
+For admissible data and each infinite place $v$ there is a Bessel system of scale $b$ and decay rate $f$ whose full function is the Bessel function of the discrete series of
+parameter $2\varsigma(v)$ (the target parameter, doubled) and whose type has the column numbers of the weight at $v$. Its degree is the formal degree, so that
+$\deg_v$ is the dimension of the corresponding representation of the compact form, and $\log\prod_v\deg_v$ lies within explicit bounds; each system has at most $b^{2k}$
+coordinates. The filling data of $D$ consist of $N$, $p_0$, $p_1$ with their chosen places, $\pi_N$, the generator $\varpi$ of the different, the level $K_0$ of $X_0$ and these
+systems; the level $K_0$ is the preimage of the principal congruence subgroup $K(M)$, which includes the congruence modulo $\pi_N$.
+\end{theorem}
+\lean{New.Data.exists_besselSystem, New.Data.filling, New.Data.isDiscreteSeriesBessel_filling_besselSystem, New.Data.levelX_zero_eq_comap, New.Data.card_X₀, New.Data.unitarySignFrameY, New.Data.exists_unitary_schur_rep, New.Data.weylDimensionPoly_paramW_le, New.Data.volU_div_volU_le, New.Data.scaledVolumeRatio_le, New.Data.weylDimensionPoly_mul_scaledVolumeRatio_le, New.Data.abs_paramW_le, New.Data.exists_lowestKType_eq_ite, New.Data.realPlaceSizes, New.Data.exponent_add_le_mul_sq_r, New.Data.liftWeight_add_columnCount_le, New.Data.rank_add_le_cube, New.Data.rank_sq_mul_log_le, New.IsBesselFunction.integral_dsKernel_mul_eq_of_convolve_eq, New.Data.natCast_levelPrime_dvd_iff}
+
+\begin{proof}
+\emph{The type.} Let $\pi$ be the representation of $H=\U(X_0)$ given by the Schur matrices of the weight with the column numbers of the weight at $v$, written in an orthonormal basis for its invariant Gram form (write the positive
+Gram matrix as $B^*B$ and conjugate by $B$). It is continuous, unitary and irreducible, and at a highest weight unit vector $e$ its coefficient $\langle e,\pi(h)e\rangle$ is the discrete series coefficient $c_u$ of the
+parameter $u$ of this weight, a product of principal minors in the decreasing order of $u$. The lowest weight of $u$ is the number of columns of height one at a single index and $0$ elsewhere, and the entries of $u$ are at most $3a$.
+
+\emph{The parameter.} Let $l=2\varsigma(v)$ in a unitary frame with the signs of $Y_0$. Its entries are at most $3a$; it is steep for $B$ (\cref{prop:grids}) with $3B$ plus the column number at most $b^2$; its gap exceeds $500r^3$ by at least
+$r^7$, and $r^7\ge10^{30}((r+k)^2\log b^3)^3$ by \cref{prop:sizes}. Its formal degree is Weyl's dimension polynomial at $l$, at most $b^{2r^2}$ since each of the at most $r^2$ halved differences is at most $3a\le b^2$.
+
+\emph{The point.} With $\beta=b^3\ge r+k+3a$, \cref{thm:bessel-average}(c) gives $x$ with $\ell(x)\le b^{5n}$ at which $V(x)\le\beta^{20(r+k)^2}\abs{\text{period}}$, and by \cref{thm:bessel-average}(b) $V(x)\le b^{60(r+k)^2}\deg\norm{W_x}^2$. As $k<r$,
+$m=60(r+k)^2\le240r^2\le301r^2$.
+
+\emph{The functions.} \Cref{thm:bessel-schur}(b),(c) give $F=cW_x$, reproduced by $e$, and its cut, forming a cut pair; the exponents satisfy $3\cdot20(r+k)^2+99r^2\le400r^2$. Schur's bound for $F$ (\cref{thm:bessel-schur}(a)) holds with every
+$P\ge b^5\ge(r+1)^4(3a+r+1+2n^2)$ and $D=\norm F_2^2/\deg=\#I/\deg$. The local bounds of the cut follow from \cref{thm:local-band-limits}, whose size conditions hold with box radius $b^{6n+2}$ and exponent $k-(3n+6)$; they use the norm of the
+matrix coefficient of $F$ and the volume of balls. The number of coordinates is the dimension of $\pi$, at most $b^{2k}$, and $\vol\U(k)/\vol\U(r)\le b^{r^2}$, so $\deg_v$ times the constant of the local bounds is at most $b^{4r^2}$.
+
+\emph{The data.} The filling data record $N$, the primes $p_0,p_1$ with the places dividing $\pi_M$, the idele of $\pi_N$, the generator of the different and these systems. The level $D.\mathrm{level}_0$ of $X_0$ is the set of $k$ that satisfy the
+congruence modulo $\pi_N$ and reduce to $1$ at the chosen places; as $p_0\ne p_1$ are unramified, $p_0p_1$ divides an integral adele exactly when both primes do, which happens exactly when its components at the chosen places and their
+conjugates lie in the maximal ideals. Hence the level is the preimage of $K(M)$, $M=p_0p_1$.
+\end{proof}

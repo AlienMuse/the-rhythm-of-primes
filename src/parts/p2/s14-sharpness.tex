@@ -1,0 +1,346 @@
+\section{The divisibility is attained}\label{sec:sharpness}
+
+The divisibility of \cref{thm:count} is an upper bound for the size of derivatives at $p$. The lower
+bound of \cref{part:lower} needs the opposite: for degrees near the weights of the data some
+derivative of some datum is no more divisible than predicted, simultaneously at all primes, up to a
+controlled common factor. This section proves it (\cref{thm:sharpness}). The prediction at a prime
+$p$ is the \emph{local prime sum}
+\[
+  s_p(y,\sigma)=v(\pi_p)\sum_{e\in I_p}\Bigl(\frac y{p^e}-\kappa(-p^e\sigma)\Bigr)_{\!+},\qquad
+  S_p=\sum_{\sigma\in\Phi}s_p(\kappa(\sigma),\sigma),
+\]
+where $\kappa$ is the weight of \cref{def:data} and $-p^e\sigma=\mathrm{pr}_e\sigma$. The series
+converges since $\kappa\ge0$. By \cref{lem:prime-notation} and $\LamK(p^e)=\log p\,(1-\chiK(p)^e)=
+2\log p\cdot v(\pi_p)[e\in I_p]$, the prime sum of \cref{sec:main} is
+$\sfin(y,\sigma)=2\sum_p\log p\;s_p(y,\sigma)$, the terms truncated at $p^e\le a$.
+\lean{New.Data.localPrimeSum, New.Data.localPrimeSumTotal, New.Data.summable_posPart_sub_weight, New.one_sub_chiK_pow_div_two, New.hasSum_div_pow_positivePartnerExponents}
+
+\subsection{One curve: the limit of divisibility}\label{ss:katz-limit}
+For a CM lattice $C$ and $n\ge0$ let $c(n)$ be the largest absolute value of $G^{(n)}(0)=n!\,[z^n]G$
+for $G\in\OO[[y]]$; the maximum exists and is attained by a power of $y$, since
+$G^{(n)}(0)$ is an integral combination of the $(y^i)^{(n)}(0)$, $i\le n$.
+\lean{New.CMLattice.maxDerivNorm, New.CMLattice.exists_isGreatest_norm_deriv, New.CMLattice.exists_norm_deriv_eq_maxDerivNorm, New.CMLattice.norm_deriv_le_maxDerivNorm, New.CMLattice.maxDerivNorm_nonneg, New.exists_monomial_max_norm_coeff}
+
+\begin{proposition}[Katz's limit]\label{prop:katz-limit}
+$c(0)=1$, $c(n)\le1$, and $c(m+n)\le c(m)c(n)$. If $n+1$ is a power of $q_p$, then
+$c(n+1)\ge p^{-\gamma_pn}$. Consequently, for every $n$ there is $G\in\OO[[y]]$ with
+$v\bigl(G^{(n)}(0)\bigr)\le\gamma_pn$.
+\end{proposition}
+\lean{New.CMLattice.norm_deriv_le_one, New.CMLattice.maxDerivNorm_le_one, New.CMLattice.maxDerivNorm_zero, New.CMLattice.exists_norm_coeff_le_norm_coeff_prod_pow, New.CMLattice.exists_norm_coeff_subst_add_le, New.CMLattice.maxDerivNorm_add_le, New.CMLattice.norm_eq_one_of_piPrimeInt_dvd_sub_one, New.CMLattice.norm_coeff_formalParam_of_eq_primeNorm_pow, New.CMLattice.pow_le_maxDerivNorm_of_eq_primeNorm_pow, New.pow_le_of_submultiplicative, New.rpow_pow_le_norm_factorial_succ, New.factorial_mul_coeff_subst_add, New.coeff_subst_mul_subst, New.CMLattice.katz_divisibility_limit}
+
+\begin{proof}
+\emph{The bounds $c(n)\le1$, $c(0)=1$.} By \cref{thm:cm-background}\ref{it:cm-weierstrass}, $dy/dz=1+3x^2-a_1y$ with $x\in\OO[[y]]$, so $\OO[[y]]$ is stable under $d/dz$. Hence $G^{(n)}\in\OO[[y]]$ for $G\in\OO[[y]]$, and $G^{(n)}(0)$, the constant term of an integral series in $y$ with $y(0)=0$, is integral: $c(n)\le1$. The series $G=1$ gives $c(0)=1$. The maximum exists: since $y$ has no constant term, $G^{(n)}(0)=n![z^n]G$ involves only the coefficients $G_i$ of $G=\sum_iG_iy^i$ with $i\le n$, so it is the integral combination $\sum_{i\le n}G_i\,(y^i)^{(n)}(0)$, and by the ultrametric inequality its absolute value is at most $\max_{i\le n}\abs{(y^i)^{(n)}(0)}$, which is attained by a power of $y$.
+
+\emph{Submultiplicativity.} Let $G\in\OO[[y]]$. By the integrality of the group law (\cref{thm:cm-background}\ref{it:cm-group-law}), $y(z_0+z_1)$ is an integral series in $y(z_0)$ and $y(z_1)$, hence so is $G(z_0+z_1)=\sum_{a,b}h_{ab}\,y(z_0)^ay(z_1)^b$ with $h_{ab}\in\OO$. Expanding $G(z_0+z_1)=\sum_ng_n(z_0+z_1)^n$, the coefficient of $z_0^mz_1^n$ is $\binom{m+n}m g_{m+n}$, so
+\[
+  m!\,n!\,[z_0^mz_1^n]G(z_0+z_1)=(m+n)!\,g_{m+n}=G^{(m+n)}(0).
+\]
+On the other side the coefficient of $z_0^mz_1^n$ in $y(z_0)^ay(z_1)^b$ is $[z^m]y^a\cdot[z^n]y^b$, and only $a\le m$, $b\le n$ contribute. Multiplying by $m!\,n!$ and using the ultrametric inequality,
+\[
+  \abs{G^{(m+n)}(0)}\le\max_{a,b}\abs{(y^a)^{(m)}(0)}\,\abs{(y^b)^{(n)}(0)}\le c(m)\,c(n).
+\]
+Taking the maximum over $G$ gives $c(m+n)\le c(m)c(n)$.
+
+\emph{Powers of $q_p$.} Let $n+1=q_p^j$. The formal parameter $T$ of \cref{thm:cm-background}\ref{it:cm-formal} lies in $\OO[[y]]$, and $T(\varpi z)=\varpi Y$ with $\abs\varpi=p^{-\rho_p}$ and $Y\equiv\sum_{i\ge0}z^{q_p^i}$ modulo $\pi_p$. Comparing coefficients of $z^{n+1}$, $\varpi^{n+1}[z^{n+1}]T=\varpi[z^{n+1}]Y$, and $[z^{n+1}]Y\equiv1$ modulo $\pi_p$ is a unit, because an integer of $\Cp$ that is $1$ modulo the non-unit $\pi_p$ has absolute value $1$. Hence $\abs{[z^{n+1}]T}=\abs\varpi^{-n}=p^{\rho_pn}$. Legendre's formula gives $v((n+1)!)=(n+1-s_p(n+1))/(p-1)\le n/(p-1)$, since the digit sum $s_p(n+1)$ is at least $1$. Therefore
+\[
+  c(n+1)\ge\abs{(n+1)!\,[z^{n+1}]T}\ge p^{-n/(p-1)}\,p^{\rho_pn}=p^{-\gamma_pn}.
+\]
+
+\emph{All $n$.} Put $b_0=p^{-\gamma_p}\in(0,1]$; then $b_0^{q}\le b_0^{q-1}\le c(q)$ whenever $q$ is a power of $q_p$. Fix $n\ge1$ and suppose $c(n)<b_0^n$. For $q$ a power of $q_p$ write $q=n\lfloor q/n\rfloor+r$ with $0\le r<n$; submultiplicativity and $c(r)\le1$ give $b_0^q\le c(q)\le c(n)^{\lfloor q/n\rfloor}$. If $c(n)=0$ this is impossible. Otherwise put $\epsilon=c(n)/b_0^n<1$; then $b_0^q\le\epsilon^{\lfloor q/n\rfloor}b_0^{n\lfloor q/n\rfloor}$, that is, $\epsilon^{-\lfloor q/n\rfloor}\le b_0^{-r}\le b_0^{-n}$, which fails for large $q$. Hence $c(n)\ge b_0^n$, and since the maximum is attained, some $G\in\OO[[y]]$ has $v(G^{(n)}(0))\le\gamma_pn$.
+\end{proof}
+
+\subsection{Least valuations on several copies}\label{ss:least-valuation}
+Let $C$ be a CM lattice, $\mu_j$ linear forms in variables $z_x$ and $m_j$ multiplicities, and
+$\Theta=\Theta_{\mu,m}$. For $n\ge1$, a degree $\nu$ (a multi-index in the $z_x$) and $r\in\R$ we write
+$\mathrm{val}_n(\nu)\le r$ if there are $H_1,\dots,H_n\in\OO[[y(\mu z)]]$ and multi-indices
+$\alpha_1+\dots+\alpha_n=\nu$ such that $\prod_cv\bigl([z^{\alpha_c}](H_c\Theta)\bigr)\le r$; that is,
+some coefficient of degree $\nu$ in some product $\prod_c(H_c\Theta)(z_c)$ over $n$ copies of the
+variables has valuation at most $r$, the degree adding up the copies.
+\lean{New.CMLattice.LeastValLE, New.CMLattice.LeastValLE.mono, New.CMLattice.leastValLE_zero, New.CMLattice.constantCoeff_thetaProd, New.CMLattice.isLowestTerm_thetaProd}
+
+\begin{lemma}\label{lem:least-valuation-rules}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\mathrm{val}_n(0)\le0$; if $\mathrm{val}_n(\nu)\le r$ and $\mathrm{val}_{n'}(\nu')\le r'$, then
+$\mathrm{val}_{n+n'}(\nu+\nu')\le r+r'$.
+\item Let the $A_{c,k}$ be integral and $H_c\in\OO[[y(\mu z)]]$. If the coefficient of $z'^\gamma$ in
+$\prod_c(H_c\Theta)\bigl(\sum_kA_{c,k}z'_k\bigr)$ has valuation at most $r$, then $\mathrm{val}_n(\nu)\le r$
+for the degree $\nu$ obtained by adding up the copies in $\gamma$. In particular this holds for
+$\prod_c(H_c\Theta)(\delta_cz)$ with integral $\delta_c$.
+\item If $\mathrm{val}_n(\nu)\le r$, the $H_c$ may be taken to be monomials in the $y(\mu_jz)$ of degree at
+most $\abs\nu$.
+\end{enumerate}
+\end{lemma}
+\lean{New.CMLattice.LeastValLE.add, New.copySubst, New.copySubst_apply, New.pderiv_copySubst, New.map_copySubst, New.killCompl_copySubst, New.rescale_copySubst, New.mapDomain_fst_apply, New.prod_factorial_mapDomain_fst, New.prod_factorial_mul_coeff_copySubst, New.coeff_copySubst, New.norm_coeff_copySubst_le, New.CMLattice.leastValLE_of_copySubst, New.CMLattice.leastValLE_of_rescale, New.CMLattice.LeastValLE.exists_monomial, New.IsLowestTerm, New.IsLowestTerm.mul, New.IsLowestTerm.prod, New.IsLowestTerm.pow}
+
+\begin{proof}
+(a) With all $H_c=1$ and all $\alpha_c=0$, the product of the constant terms of the $H_c\Theta$ is $1$, of valuation $0$, since $\Theta(0)=\prod_j\theta(0)^{m_j}=1$. If $(H_c,\alpha_c)_{c<n}$ witnesses $\mathrm{val}_n(\nu)\le r$ and $(H'_c,\alpha'_c)_{c<n'}$ witnesses $\mathrm{val}_{n'}(\nu')\le r'$, the concatenated family of $n+n'$ copies has $\sum_c\alpha_c+\sum_c\alpha'_c=\nu+\nu'$ and product of valuations at most $r+r'$.
+
+(b) \emph{One factor.} For a series $F$ and the substitution $z_x\mapsto\sum_kA_kz'_{x,k}$ of copies, the chain rule gives, for an exponent $\gamma$ in the copies with summed degree $\delta$ ($\delta_x=\sum_k\gamma_{x,k}$),
+\[
+  [z'^\gamma]F\Bigl(\sum_kA_kz'_k\Bigr)=A^\gamma\prod_x\frac{\delta_x!}{\prod_k\gamma_{x,k}!}\;[z^\delta]F ,
+\]
+with $A^\gamma=\prod_{x,k}A_k^{\gamma_{x,k}}$. The multinomial coefficients are integers and the $A_k$ are integral, so $\abs{[z'^\gamma]F(\sum_kA_kz'_k)}\le\abs{[z^\delta]F}$. \emph{The product.} The coefficient of $z'^\gamma$ in $\prod_c(H_c\Theta)(\sum_kA_{c,k}z'_k)$ is the sum, over the decompositions $\gamma=\sum_c\gamma_c$, of the products of the coefficients of $z'^{\gamma_c}$ in the factors. If it has valuation at most $r$, then by the ultrametric inequality some term has valuation at most $r$, and by the bound for one factor $\sum_cv([z^{\delta_c}](H_c\Theta))\le r$ for the summed degrees $\delta_c$ of the $\gamma_c$, with $\sum_c\delta_c=\nu$. This is $\mathrm{val}_n(\nu)\le r$. For $\prod_c(H_c\Theta)(\delta_cz)$ take one new copy $z'$ and $A_{c,0}=\delta_c$.
+
+(c) Write $H_c=G_c(y(\mu z))$ with $G_c$ integral. As the $y(\mu_jz)$ have no constant term, a monomial of degree $\abs e$ in them has no terms of degree below $\abs e$, so only the monomials of degree at most $\abs{\alpha_c}$ contribute to $[z^{\alpha_c}](H_c\Theta)=\sum_eG_{c,e}[z^{\alpha_c}](y(\mu z)^e\Theta)$; by the ultrametric inequality one of these monomials, $y(\mu z)^e$ with $\abs e\le\abs{\alpha_c}\le\abs\nu$, has a coefficient at least as large. Replacing each $H_c$ by it does not increase the product of the valuations.
+\end{proof}
+
+\begin{proposition}[Six copies]\label{prop:six-copies}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item There are $\delta_0=1,\delta_1,\dots,\delta_5\in\Z_p$ with $\sum_c\delta_c^2=0$; for them
+$\prod_c\Theta(\delta_cz)$ lies in $\OO[[y(\mu z)]]$, has constant term $1$ and is a unit of that
+ring. If $\mu$ is integral and $\abs\varpi\le p^{-\rho_p}$, then $\prod_c\Theta(\delta_c\varpi z)$ is
+integral with constant term $1$.
+\item If some $\mu_{i_0}$ has unit coefficients, then $\mathrm{val}_6(\nu)\le\gamma_p\abs\nu-v(\nu!)$ for all
+$\nu$, where $\nu!=\prod_x\nu_x!$.
+\item If there are integral $a_{x,i}$ and a unit $s$ with $\sum_ia_{x,i}\mu_i=s\,z_x$ for all $x$, then
+$\mathrm{val}_6(\nu)\le0$ for all $\nu$.
+\end{enumerate}
+\end{proposition}
+\lean{New.padicInt_sum_four_squares, New.CMLattice.prod_rescale_theta_mem, New.CMLattice.scaledThetaProd, New.CMLattice.constantCoeff_scaledThetaProd, New.CMLattice.scaledThetaProd_eq_prod_subst, New.CMLattice.scaledThetaProd_mem, New.CMLattice.exists_scaledThetaProd_mul_eq_one, New.CMLattice.exists_scaledThetaProd_mem_mul_eq_one, New.CMLattice.leastValLE_of_unit_coefficients, New.CMLattice.leastValLE_zero_of_span, New.CMLattice.rescale_mem_range_seriesToCp_of_mem_multiSeriesRing, New.CMLattice.exists_prod_rescale_rescale_thetaProd_eq, New.CMLattice.exists_mul_eq_one_of_mem_multiSeriesRing}
+
+\begin{proof}
+(a) \emph{The scales.} The set of sums of four squares of $p$-adic integers is closed, being the image of the compact set $\Z_p^4$, and it contains the natural numbers by Lagrange's theorem, which are dense in $\Z_p$; so it is all of $\Z_p$, and $-1=\delta_1^2+\delta_2^2+\delta_3^2+\delta_4^2$. With $\delta_0=1$ and $\delta_5=0$, $\sum_c\delta_c^2=0$. \emph{The product in one variable.} Write $\theta=\exp(-g)$. For $\delta\in\Z_p$ the pair $(\delta,\delta^2)$ is a limit of pairs $(n,n^2)=(\alpha,\alpha\bar\alpha)$ with $\alpha=n\in\Z\subseteq\OO_K$, so $\exp(\delta^2g(z)-g(\delta z))\in\OO[[y]]$ by
+\cref{thm:cm-background}\ref{it:cm-isogeny}. Hence
+\[
+  \prod_c\theta(\delta_cz)=\exp\Bigl(-\sum_cg(\delta_cz)\Bigr)=\prod_c\exp\bigl(\delta_c^2g(z)-g(\delta_cz)\bigr)\cdot\exp\Bigl(-\Bigl(\sum_c\delta_c^2\Bigr)g(z)\Bigr)
+\]
+lies in $\OO[[y]]$, the last factor being $1$; call it $u(z)$. Its constant term is $\prod_c\theta(0)=1$, so $u$ is a unit of $\OO[[y]]$: the inverse of $1+h$ with $h(0)=0$ is $\sum_k(-h)^k$, which converges in $\OO[[y]]$. \emph{Several forms.} Exchanging the products, $\prod_c\Theta(\delta_cz)=\prod_ju(\mu_jz)^{m_j}$, which lies in $\OO[[y(\mu z)]]$ with constant term $1$, and its inverse $\prod_ju^{-1}(\mu_jz)^{m_j}$ lies there too. For the last statement, an element of $\OO[[y(\mu z)]]$ with $\mu$ integral becomes integral after $z\mapsto\varpi z$ when $\abs\varpi\le p^{-\rho_p}$ (\cref{thm:cm-background}\ref{it:cm-formal}, applied to each $y(\mu_j\varpi z)=y(\varpi\mu_jz)$).
+
+(b) Take $G\in\OO[[y]]$ with $v(G^{(\abs\nu)}(0))\le\gamma_p\abs\nu$ (\cref{prop:katz-limit}) and let $V$ be the inverse of $\prod_c\Theta(\delta_cz)$ in $\OO[[y(\mu z)]]$. Put $H_0=G(\mu_{i_0}z)V$ and $H_c=1$ for $c\ne0$; they lie in $\OO[[y(\mu z)]]$. Then
+\[
+  \prod_c(H_c\Theta)(\delta_cz)=G(\mu_{i_0}z)\,V(z)\prod_c\Theta(\delta_cz)=G(\mu_{i_0}z),
+\]
+using $\delta_0=1$. Its coefficient of $z^\nu$ is $\mu_{i_0}^\nu\,[w^{\abs\nu}]G\cdot\abs\nu!/\nu!=\mu_{i_0}^\nu G^{(\abs\nu)}(0)/\nu!$, by the multinomial expansion of $(\mu_{i_0}z)^{\abs\nu}$, and $\mu_{i_0}^\nu$ is a unit. Its valuation is at most $\gamma_p\abs\nu-v(\nu!)$, and \cref{lem:least-valuation-rules}(b) gives the claim.
+
+(c) The series $G_x=\sum_ia_{x,i}y(\mu_iz)$ lies in $\OO[[y(\mu z)]]$, as the ring contains the integral constants. Since $y=z+O(z^2)$, its linear part is $\sum_ia_{x,i}\mu_iz=sz_x$, so $G_x$ has lowest term $sz_x$ for the total degree. Lowest terms multiply, and $\Theta$ has lowest term $1$; so $\prod_xG_x^{\nu_x}\Theta$ has lowest term $s^{\abs\nu}z^\nu$, and its coefficient of $z^\nu$ is the unit $s^{\abs\nu}$. This is $\mathrm{val}_1(\nu)\le0$, and \cref{lem:least-valuation-rules}(a) adds five copies in degree $0$.
+\end{proof}
+
+\subsection{Couplings}\label{ss:sharp-couplings}
+Let $\Phi$ be a finite set with a partner rule $\mathrm{pr}$, one coordinate per place, $\Phi_0\subseteq
+\Phi$ and $e\colon\Phi_0\to\N$. The family $(\Phi_0,e)$ is a \emph{coupling family} if every $e(\tau)$ is
+odd and, for $\tau,\tau_1\in\Phi_0$ and odd $e'\le e(\tau)$, $\mathrm{pr}_{e'}\tau_1=\mathrm{pr}_{e(\tau)}\tau$
+only if $\tau_1=\tau$ and $e'=e(\tau)$. For $j\colon\Phi_0\to\N$ let $\nu'$ be the degree of
+$\prod_\tau z_\tau^{p^{e(\tau)}j(\tau)}$ and $\nu''$ that of $\prod_\tau z_{\tau^+}^{j(\tau)}$, where
+$\tau^+=\mathrm{pr}_{e(\tau)}\tau$; thus $\abs{\nu''}=\abs j$ and $\nu'+\nu''$ is the degree of
+$\prod_\tau(z_\tau^{p^{e(\tau)}}z_{\tau^+})^{j(\tau)}$.
+\lean{New.IsCouplingFamily, New.powerDegree, New.partnerDegree, New.powerDegree_apply_of_mem, New.powerDegree_apply_of_notMem, New.partnerDegree_apply, New.degree_powerDegree, New.degree_partnerDegree}
+
+\begin{lemma}\label{lem:kappa-derivatives}
+Let $\kappa\in\Cp$ with $\abs\kappa>1$, and let $G=W\exp(\kappa\Xi)$ with $W$, $\Xi$ integral, $W$ a unit and
+$\Xi(0)=0$. Then $\partial_xG=(\kappa\,\partial_x\Xi+B_x)G$ with $B_x$ integral, and for a finite family
+of variables $t_i$, $i\in T$, and every integral $f$,
+\[
+  \Bigl(\prod_{i\in T}\partial_{t_i}\Bigr)(fG)=\kappa^{\#T}\,g\,G,
+\]
+with $g$ integral and $g\equiv f\prod_{i\in T}\partial_{t_i}\Xi\pmod{\mathfrak m}$.
+\end{lemma}
+\lean{New.exists_pderiv_mul_expSubst, New.exists_pderiv_mul_eq_smul, New.exists_jet_mul_prod_X}
+
+\begin{proof}
+\emph{One derivative.} By the chain rule for the exponential series,
+\[
+  \partial_x\bigl(W\exp(\kappa\Xi)\bigr)=(\kappa\,\partial_x\Xi+\partial_xW/W)\,W\exp(\kappa\Xi),
+\]
+and $B_x=\partial_xW/W$ is integral because $W$ is an integral unit. For integral $f$,
+\[
+  \partial_x(fG)=(\partial_xf+f\kappa\,\partial_x\Xi+fB_x)G=\kappa\bigl(f\,\partial_x\Xi+\kappa^{-1}(\partial_xf+fB_x)\bigr)G ,
+\]
+and as $\abs\kappa>1$, $\kappa^{-1}$ lies in $\mathfrak m$; so $\partial_x(fG)=\kappa g_1G$ with $g_1=f\,\partial_x\Xi+\kappa^{-1}(\partial_xf+fB_x)$ integral and $g_1\equiv f\,\partial_x\Xi$ modulo $\mathfrak m$.
+
+\emph{Iteration.} Induct on $\#T$. If $(\prod_{i\in T'}\partial_{t_i})(fG)=\kappa^{\#T'}g'G$ with $g'$ integral and $g'\equiv f\prod_{i\in T'}\partial_{t_i}\Xi$, apply the first step to $g'G$ and a further variable $t_{i_1}$: $\partial_{t_{i_1}}(g'G)=\kappa g''G$ with $g''\equiv g'\partial_{t_{i_1}}\Xi\equiv f\prod_{i\in T'\cup\{i_1\}}\partial_{t_i}\Xi$.
+\end{proof}
+
+\begin{proposition}[Least valuations along couplings]\label{prop:couplings}
+Let $p>2$ be inert, $\mu$ integral, and let $\Theta$ have the normal form $(I_p^\circ,\mathrm{pr},\varpi,\lambda)$
+with $\abs\varpi=p^{-\rho_p}$ and $\lambda_{e0}$ a unit for odd $e$. For a coupling family $(\Phi_0,e)$ and
+$j$ as above, with $\nu=\nu'+\nu''$,
+\[
+  \mathrm{val}_6(\nu)\le-\abs j,\qquad v(\nu'!\,\nu''!)+\mathrm{val}_6(\nu)\le\gamma_p\abs\nu-\abs j .
+\]
+\end{proposition}
+\lean{New.IsCouplingFamily.isLowestTerm_pderiv_couplingSum, New.isLowestTerm_zero_one, New.IsCouplingFamily.norm_coeff_powerDegree, New.couplingSubst, New.norm_couplingSubst_le_one, New.pderiv_prod_copySubst_couplingSubst, New.coeff_prod_copySubst_rescale, New.monomial_mul_prod_X_partner, New.exists_jet_prod_copySubst_couplingSubst, New.pairExponent, New.mapDomain_fst_pairExponent, New.prod_factorial_pairExponent, New.IsCouplingFamily.norm_coeff_pairExponent, New.CMLattice.varpiValuation_mul_add_one_of_inert, New.CMLattice.norm_pow_div_of_inert, New.CMLattice.one_lt_norm_pow_div_of_inert, New.CMLattice.isUnit_of_rescale_thetaProd_eq, New.CMLattice.leastValLE_partnerDegree_of_isCouplingFamily, New.CMLattice.leastValLE_six_of_isCouplingFamily}
+
+\begin{proof}
+\emph{Setting.} Let $F(z)=\Theta(\varpi z)=W\exp(\kappa\Xi)$ with $\kappa=c_\varpi=\varpi^{p+1}/p$ and $\Xi=\Xi_{I_p^\circ,\lambda}$. For inert $p$, $\rho_p=1/(p^2-1)$, so $v(\kappa)=(p+1)\rho_p-1=1/(p-1)-1<0$ as $p>2$, and $\abs\kappa>1$. The series $W$ is a unit because its constant term is $\Theta(0)=1$. Take $\delta_c$ as in \cref{prop:six-copies}(a); then $U=\prod_cF(\delta_cz)$ is integral with constant term $1$.
+
+\emph{The product of copies.} In two copies $z'$, $z''$ of the variables put
+\[
+  G(z',z'')=F(z'+z'')\prod_{c\ne0}F(\delta_cz'),
+\]
+the substitution $z_0=z'+z''$, $z_c=\delta_cz'$ ($c\ne0$) into six copies; as $\delta_0=1$, $G(z',0)=U(z')$. Only the first factor involves $z''$, so $\partial_{z''_x}G=(\kappa\,\partial_x\Xi+B_x)(z'+z'')\,G$ with $B_x$ integral.
+
+\emph{Step 1: the derivatives in $z''$.} Differentiate $G$ $j(\tau)$ times in $z''_{\tau^+}$ for each $\tau\in\Phi_0$; by \cref{lem:kappa-derivatives} the result is $\kappa^{\abs j}gG$ with $g$ integral and $g\equiv\prod_\tau(\partial_{\tau^+}\Xi)^{j(\tau)}(z'+z'')$ modulo $\mathfrak m$.
+
+\emph{Step 2: $z''=0$.} At $z''=0$ the result is $\kappa^{\abs j}g(z',0)U(z')$ with $g(z',0)\equiv\prod_\tau(\partial_{\tau^+}\Xi)^{j(\tau)}(z')$.
+
+\emph{Step 3: the lowest term.} By \cref{lem:derivative-coupling-sum} ($0\notin I_p^\circ$), modulo $\mathfrak m$ the derivative $\partial_{\tau^+}\Xi$ consists of the monomials $\lambda_{a0}z_{\tau_1}^{p^a}$ with $a\in I_p^\circ$ and $\mathrm{pr}_a\tau_1=\tau^+$. Put $z_{\tau_1}=0$ for $\tau_1\notin\Phi_0$. A remaining monomial of degree at most $p^{e(\tau)}$ has $\tau_1\in\Phi_0$ and odd $a\le e(\tau)$ with $\mathrm{pr}_a\tau_1=\tau^+$, so $\tau_1=\tau$ and $a=e(\tau)$ by the coupling condition. Hence, in total degrees up to $p^{e(\tau)}$, $\partial_{\tau^+}\Xi$ agrees with $\lambda_{e(\tau)0}z_\tau^{p^{e(\tau)}}$ modulo $\mathfrak m$, and its lowest term is this monomial. Lowest terms multiply, and $U$ has lowest term $1$; so the coefficient of $z'^{\nu'}$ in $g(z',0)U(z')$, after the substitution $z_{\tau_1}=0$ (which does not change the coefficient of a monomial in the variables of $\Phi_0$), is $\prod_\tau\lambda_{e(\tau)0}^{j(\tau)}$ modulo $\mathfrak m$, a unit.
+
+\emph{Step 4: coefficients.} The derivative $\prod_\tau\partial_{z''_{\tau^+}}^{j(\tau)}$ at $z''=0$ turns the coefficient of $z'^{\nu'}z''^{\nu''}$ into $\nu''!$ times it. Hence $\abs{[z'^{\nu'}z''^{\nu''}]G}=\abs\kappa^{\abs j}/\abs{\nu''!}$. Since $G(z',z'')=\tilde G(\varpi z',\varpi z'')$ for $\tilde G=\Theta(z'+z'')\prod_{c\ne0}\Theta(\delta_cz')$, the coefficient of $z'^{\nu'}z''^{\nu''}$ in $\tilde G$ is $\varpi^{-\abs\nu}$ times that in $G$, so its valuation $V$ satisfies $V+v(\nu''!)=\abs jv(\kappa)-\rho_p\abs\nu=\abs j(\frac1{p-1}-1)-\rho_p\abs\nu$. The substitution has integral coefficients, so \cref{lem:least-valuation-rules}(b) gives
+\[
+  v(\nu''!)+\mathrm{val}_6(\nu)\le\abs j\Bigl(\frac1{p-1}-1\Bigr)-\rho_p\abs\nu .
+\]
+
+\emph{Conclusion.} As $\abs\nu=\sum_\tau j(\tau)(p^{e(\tau)}+1)\ge\abs j(p+1)$ and $\rho_p(p+1)=1/(p-1)$, the right side is at most $-\abs j$, and $v(\nu''!)\ge0$ gives $\mathrm{val}_6(\nu)\le-\abs j$. For the second bound add $v(\nu'!)\le\abs{\nu'}/(p-1)=(\abs\nu-\abs j)/(p-1)$ (Legendre): the sum is at most $\abs\nu/(p-1)-\abs j-\rho_p\abs\nu=\gamma_p\abs\nu-\abs j$.
+\end{proof}
+
+\subsection{Near pairs and losses}\label{ss:near-pairs}
+From now on we fix data as in \cref{def:data}, and $l_0=l_0(s)$. A \emph{near pair} at a prime $p$ is a
+pair $(\tau,e)$ with $e\in I_p$, $2e<l_0$, and both $\tau$ and $\mathrm{pr}_e\tau$ $b$-places. Let
+$n_\sharp=\lceil6b/k\rceil$ and, for $l\in\N$, let $B(l)=(l^-+1)\cdots(l^-+n_\sharp)$ with
+$l^-=(l-n_\sharp)_+$, the \emph{loss product}. Finally, for $\tau\in\Phi$ let
+$R_\tau=\sum_{e\in I_p}\min\bigl(\kappa(\tau)/p^e,\kappa(\mathrm{pr}_e\tau)\bigr)$.
+\lean{New.Data.IsNearPair, New.Data.lossFactorCount, New.Data.lossProduct, New.Data.lossProduct_ne_zero, New.Data.partnerMinTerm, New.Data.partnerMinSum, New.Data.partnerMinTerm_nonneg, New.Data.partnerMinSum_nonneg, New.Data.partnerMinTerm_le_div}
+
+\begin{lemma}\label{lem:near-pairs}
+Let $p\le k$ be non-split.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $0<i<j<l_0$ the places $\sigma$, $(-p)^i\sigma$, $(-p)^j\sigma$ are not all $b$-places.
+\item Near pairs exist only for inert $p$, with odd exponent; $\mathrm{pr}_e\tau=(-p)^e\tau$ for them.
+\item Two near pairs with the same start, or with the same end, coincide; and the end of a near pair is
+not the start of a near pair.
+\end{enumerate}
+\end{lemma}
+\lean{New.Data.ne_d_of_placeClass_eq, New.Data.notMem_bPlaces_of_two_partners, New.Data.IsNearPair.ne_d, New.Data.IsNearPair.inert_and_odd, New.Data.IsNearPair.inert, New.Data.IsNearPair.odd, New.Data.IsNearPair.pos, New.Data.IsNearPair.partner_eq, New.Data.IsNearPair.pow_mul_mem, New.Data.IsNearPair.exponent_unique, New.Data.IsNearPair.eq_and_eq_of_partner_eq, New.Data.IsNearPair.end_ne_start}
+
+\begin{proof}
+(a) The places form the group $(\Z/q_1)^\times$, and $(-p)^i\sigma/\sigma$ is the class of $(-p)^i=\epsilon\,p^i$ with $\epsilon=(-1)^i$. If $\sigma$, $(-p)^i\sigma$, $(-p)^j\sigma$ were all $b$-places, then with $\tau=(-p)^i\sigma$, $\rho=(-p)^j\sigma$ we would have $\tau/\sigma\equiv\pm p^i$ and $\rho/\sigma\equiv\pm p^j$ modulo $q_1$, hence modulo its divisor $q_1^{(p)}$, with $0<i<j<l_0$ and the prime $p\le k\le kt$; this is excluded by the sparseness of $\Phib$ for the primes up to $kt$ (\cref{def:sparse}, (D3)).
+
+(b) All $b$-places have class $-1$ modulo $q_0$. For $p=d$ the place $\mathrm{pr}_e\tau=-d^e\tau$ has the class of $\tau$ times $-d^e$, and $-d^e\not\equiv1$ modulo $q_0$: as $d$ is odd and $q_0$ divides $2(d+1)$ but not $d+1$, $d^2\equiv1$ modulo $q_0$, so the powers of $d$ are $1$ and $d$, and neither is $\equiv-1$ (for $1$ because $q_0>2$, for $d$ because $q_0\nmid d+1$); so $\tau$ and $-d^e\tau$ do not have the same class, and there is no near pair for $p=d$. For split $p$, $I_p$ is empty. Hence a near pair needs $p$ inert, and then $I_p$ consists of the odd $e$, for which $-p^e=(-p)^e$.
+
+(c) \emph{Same start.} If $(\tau,e)$ and $(\tau,e')$ are near pairs with $e<e'$, then $\tau$, $(-p)^e\tau$ and $(-p)^{e'}\tau$ are $b$-places with $0<e<e'<l_0$, against (a). \emph{Same end.} If $(\tau,e)$ and $(\tau',e')$ have the same end and $e<e'$, then $(-p)^e\tau=(-p)^{e'}\tau'$, so $\tau=(-p)^{e'-e}\tau'$; the $b$-places $\tau'$, $(-p)^{e'-e}\tau'$ and $(-p)^{e'}\tau'$ contradict (a), as $0<e'-e<e'<l_0$. If $e=e'$, then $\tau=\tau'$. \emph{End and start.} If $(-p)^e\tau=\tau'$ with $(\tau',e')$ a near pair, then $\tau$, $(-p)^e\tau$ and $(-p)^{e+e'}\tau$ are $b$-places with $0<e<e+e'<l_0$, as $2e,2e'<l_0$; this is excluded.
+\end{proof}
+
+\begin{lemma}[Losses]\label{lem:losses}
+Let $v=v_p$ on $\N$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $v(n_\sharp!)\le v(B(l))$ and $v(l!)\le v((l^-)!)+v(B(l))$; $n_\sharp\ge x^{42}$.
+\item For $p\ge3$ and $n\le2b$, $n/(p-1)-(\log b+2)\le v(n!)\le n/(p-1)$; hence a multinomial coefficient
+with $n_1+n_2+n_3\le2b$ has valuation at most $3(\log b+2)$.
+\item $\gamma_p\sum_\tau\kappa(\tau)-S_p=v(\pi_p)\sum_\tau R_\tau$.
+\item If near pairs at $\tau$ occur only for one exponent $e_0$, and $\kappa(\tau)/p^{e_0}\le c+1$ when one
+occurs, then $R_\tau\le c+1+l_0a/x_1+2b/(kp)$.
+\item For $p\le k$: $3(\log b+2)+x^{42}+1+l_0a/x_1+2b/(kp)\le v(B(l))$.
+\end{enumerate}
+\end{lemma}
+\lean{New.padicValNat_mono_of_dvd, New.padicValNat_factorial_eq_div_add, New.div_sub_one_le_padicValNat_factorial, New.Data.padicValNat_factorial_lossFactorCount_le, New.Data.padicValNat_factorial_le_add_lossProduct, New.Data.x_pow_le_lossFactorCount, New.Data.padicValNat_factorial_mem_Icc_of_le, New.Data.padicValNat_factorial_add_add_le, New.Data.lossFactorCount_div_sub_one_le, New.Data.mul_sum_weight_sub_localPrimeSumTotal, New.Data.weight_of_notMem, New.Data.weight_of_mem, New.Data.b_le_weight, New.Data.partnerMinTerm_add_le, New.Data.summable_partnerMinTerm, New.Data.tsum_partnerMinTerm_add_le, New.Data.partnerMinTerm_le_of_not_isNearPair, New.Data.partnerMinSum_le, New.Data.error_le_padicValNat_lossProduct}
+
+\begin{proof}
+(a) A product of $n_\sharp$ consecutive integers is divisible by $n_\sharp!$, so $v(n_\sharp!)\le v(B(l))$. For the second claim, $l\le l^-+n_\sharp$, so $l!$ divides $(l^-+n_\sharp)!=(l^-)!\,B(l)$. Finally $n_\sharp\ge6b/k\ge x^{42}$, since $k\le3x^5$ and $b\ge x$ to a large power.
+
+(b) By Legendre's formula $v(n!)=(n-s_p(n))/(p-1)$ with $s_p(n)$ the sum of the base-$p$ digits of $n$. This gives $v(n!)\le n/(p-1)$. As $n$ has at most $\log_pn+1$ digits, each at most $p-1$, $s_p(n)\le(p-1)(\log_pn+1)$, so $v(n!)\ge n/(p-1)-\log_pn-1\ge n/(p-1)-(\log b+2)$ for $n\le2b$ and $p\ge3$ (then $\log_pn\le\log(2b)\le\log b+1$). For a multinomial coefficient with $n=n_1+n_2+n_3\le2b$, $v(n!/(n_1!n_2!n_3!))\le n/(p-1)-\sum_i(n_i/(p-1)-(\log b+2))=3(\log b+2)$.
+
+(c) At each place, $\gamma_p\kappa(\tau)=v(\pi_p)\sum_{e\in I_p}\kappa(\tau)/p^e$ by \cref{lem:prime-notation}(a), and $s_p(\kappa(\tau),\tau)=v(\pi_p)\sum_{e\in I_p}(\kappa(\tau)/p^e-\kappa(\tau'))_+$ with $\tau'=\mathrm{pr}_e\tau$. Since $y-(y-z)_+=\min(y,z)$ for real $y$, $z$, the difference is $v(\pi_p)R_\tau$; sum over $\tau$. All series converge absolutely, the terms being at most $b/p^e$.
+
+(d) Split $R_\tau$ by the exponent. \emph{The near pair}, if it occurs (with $e=e_0$): its term is at most $\kappa(\tau)/p^{e_0}\le c+1$. \emph{Other terms with $2e<l_0$}: if $(\tau,e)$ is not a near pair, then $\tau$ or $\mathrm{pr}_e\tau$ is not a $b$-place and has weight $a/x_1$, so $\min(\kappa(\tau)/p^e,\kappa(\mathrm{pr}_e\tau))\le a/x_1$; there are fewer than $l_0$ such $e$. \emph{Terms with $2e\ge l_0$}: the term with exponent $e+n$ is at most $\kappa(\tau)/p^{e+n}\le b/(p^n2^e)$, so the terms with $e\ge n=\lceil l_0/2\rceil$ add up to at most $2b/p^n$. Since $p^{n-1}\ge2^{l_0/2-1}\ge2^{13s}=m^{286}\ge k$, this is at most $2b/(kp)$.
+
+(e) By (a), $v(B(l))\ge v(n_\sharp!)\ge n_\sharp/p-1\ge6b/(kp)-1$, the first term of Legendre's formula. On the left, $3(\log b+2)+x^{42}+1\le a/x_1$ and $l_0a/x_1\le81\cdot32\log x\cdot b/x^{999}$, both at most $b/(2kp)$ because $kp\le k^2\le9x^{10}$; so the left side is at most $3b/(kp)\le6b/(kp)-1$.
+\end{proof}
+
+\subsection{Twelve copies}\label{ss:twelve-copies}
+Let $w$ be a tight frame of length $M$ with multiplicities $c_i$ (\cref{thm:frames-data}(b)), and let
+$\mu_i=\varrho_0\,w_i^\dagger$ be its linear forms, read in $\Cp$; with $\pi_M$ the conjugate of $\bar\pi_M$,
+the vectors $u_i=w_i/\bar\pi_M$ form a resolution of the identity with multiplicities $c_i$, and
+$\mu_i=\mathfrak s\,u_i^\dagger$ with $\mathfrak s=\varrho_0\pi_M$. A degree $l$ (one variable per place) is
+\emph{near the weights} if $\kappa(\tau)\le l_\tau\le\kappa(\tau)+x^{42}$ for all $\tau$; then $l_\tau\le2b$.
+All least valuations below refer to $\Theta=\Theta_{\mu,c}$ for the CM curve $\mathcal E_0$.
+\lean{New.Parameters.resolutionForms, New.Data.resolutionVectors, New.Data.taylorScale, New.Data.piMBar_mul_conj, New.Data.coe_piMBar_ne_zero, New.Data.norm_conj_piMBar_mul_jetScale_sq, New.Data.phi_resolutionVectors, New.Data.isResolution_resolutionVectors, New.Data.resolutionForms_eq_smul, New.Data.IsNearWeights, New.Data.le_two_mul_b, New.CMLattice.thetaProd_smul, New.Data.norm_resolutionForms_le_one}
+
+\begin{lemma}\label{lem:frame-at-nonsplit}
+Let $p$ be non-split. Then $p\nmid q_1M$, the $u_i$ are integral above $p$, and $\mathfrak s$ is a unit at
+$p$. If $p$ is inert, $\mathrm{val}_6(\nu)\le0$ for all $\nu$, and $\Theta$ has the normal form
+$(I_p^\circ,\mathrm{pr},\varpi,\lambda)$ with $\abs\varpi=p^{-\rho_p}$ and the $\lambda_{e0}$ units. The
+coefficients of the $\mu_i$ are integral at every prime. Moreover $\abs{\pi_M\mathsf a}^2=M/\Omega$.
+\end{lemma}
+\lean{New.isIntegralAbove_of_isIntegral_mul, New.Data.not_dvd_q₁_mul_M, New.Data.isIntegralAbove_resolutionVectors, New.Data.norm_taylorScale_eq_one_of_not_dvd, New.Data.norm_taylorScale, New.Data.leastValLE_six_zero_of_inert, New.Data.exists_hasNormalForm_resolutionForms}
+
+\begin{proof}
+\emph{Coprimality.} Non-split primes do not divide $q_1$ (\cref{lem:split-primes}), and they differ from $p_0$, $p_1$, which are $\equiv1$ modulo $q_1d$ and therefore split (\cref{prop:split-one}); so $p\nmid q_1M$. \emph{The vectors.} $q_1Mu_i=(q_1w_i)\pi_M$, and $q_1w_i\in\OO_E$ because $q_1\mathfrak a_0\subseteq\OO_E$ (\cref{lem:a0}(a)); as $q_1M$ is prime to $p$, $u_i$ is integral at every place above $p$. \emph{The scale.} $\pi_M$ and $\bar\pi_M$ are integers with product $M$, a unit at $p$, so both are units above $p$; and $\abs{\varrho_0}=1$ at $p\nmid q_1$ (\cref{prop:jet-scale}(b)). Hence $\mathfrak s=\varrho_0\pi_M$ is a unit.
+
+\emph{Inert $p$: all degrees.} The resolution identity reads $z_\tau=\sum_ic_i\Phi_\tau(u_i)\,u_i^\dagger z$, so $\sum_ic_i\Phi_\tau(u_i)\,\mu_iz=\mathfrak s\,z_\tau$ with the integral coefficients $c_i\Phi_\tau(u_i)$ and the unit $\mathfrak s$; \cref{prop:six-copies}(c) gives $\mathrm{val}_6(\nu)\le0$. \emph{Normal form.} By \cref{thm:normal-form-theta}, $\Theta_{u^\dagger,c}$ has the normal form $(I_p^\circ,\mathrm{pr},\varpi,\lambda)$ with $\abs\varpi=p^{-\rho_p}$ and the $\lambda_{e0}$ units; $\Theta=\Theta_{\mu,c}$ is $\Theta_{u^\dagger,c}(\mathfrak sz)$, and by \cref{prop:normal-form-rules}\ref{it:nf-scale} it has the normal form with $\lambda'_{ej}=\mathfrak s^{(p^e+1)p^j}\lambda_{ej}$, again units for $j=0$. \emph{Integrality.} The coefficients of $\mu_i=\varrho_0w_i^\dagger$ are integral by \cref{prop:jet-scale}(c), since $w_i\in\mathfrak a_0$. \emph{The scale.} $\abs{\pi_M\mathsf a}^2=\abs{\pi_M}^2\abs{\mathsf a}^2=M\,\Omega^{-1}$ by \cref{prop:jet-scale}(a).
+\end{proof}
+
+\begin{theorem}[Twelve copies]\label{thm:twelve-copies}
+Let some $\mu_{i_0}$ have unit coefficients at $p$ and let $l$ be near the weights. Then
+\[
+  v(l!)+\mathrm{val}_{12}(l)\le S_p+2\sum_\tau v(B(l_\tau)).
+\]
+\end{theorem}
+\lean{New.Data.leastValLE_twelve_of_split, New.Data.div_le_lossFactorCount, New.Data.posPart_le_localPrimeSum, New.Data.padicValNat_factorial_sub_min_le, New.Data.leastValLE_twelve_of_lt, New.chiK_eq_neg_one_of_ne, New.Data.sum_padicValNat_factorial_le_add, New.Data.gammaPrime_mul_degree_sub_le_localPrimeSumTotal_add, New.Data.isCouplingFamily_of_isNearPair, New.Data.powerDegree_add_partnerDegree_le_of_isNearPair, New.Data.partner_bijective, New.Data.powerDegree_add_partnerDegree_le_of_k_lt, New.Data.leastValLE_six_of_isNearPair, New.Data.leastValLE_twelve_localPrimeSumTotal_of_le, New.Data.leastValLE_twelve}
+
+\begin{proof}
+Write $l!=\prod_\tau l_\tau!$ and $\abs l=\sum_\tau l_\tau$. Every $l_\tau$ lies in $[\kappa(\tau),\kappa(\tau)+x^{42}]$ and is at most $2b$. Every non-split $p$ is $d$ or inert, and $d\le k$; so the following three cases cover all primes.
+
+\emph{Split $p$.} Then $I_p=\emptyset$, $S_p=0$ and $\gamma_p=0$. \Cref{prop:six-copies}(b) gives $\mathrm{val}_6(l)\le-v(l!)$, and six more copies in degree $0$ (\cref{lem:least-valuation-rules}(a)) give $v(l!)+\mathrm{val}_{12}(l)\le0$.
+
+\emph{Inert $p>k$.} \emph{The coupling family.} Take $\Phi_0=\Phi$ and $e\equiv1$. The map $\tau\mapsto-p\tau$ is a bijection of $\Phi$, so a partner $t=-p\tau$ has the unique preimage $\tau$, and the only odd $e'\le1$ is $1$: this is a coupling family. Put
+\[
+  i(\tau)=\Bigl\lfloor\frac{(l_\tau-n_\sharp)_+}p\Bigr\rfloor,\qquad j(\tau)=\min\bigl(i(\tau),l_{-p\tau}\bigr).
+\]
+As $l_\tau\le2b$ and $p>k$, $i(\tau)\le2b/k\le n_\sharp$. \emph{Degrees.} At a place $t=-p\tau$ the degree of $\nu'$ is $pj(t)\le pi(t)\le(l_t-n_\sharp)_+$ and that of $\nu''$ is $j(\tau)\le\min(n_\sharp,l_t)$; since $(l_t-n_\sharp)_++\min(n_\sharp,l_t)=l_t$, we have $\nu'+\nu''\le l$. Write $l=\nu'+\nu''+\eta$. \emph{Least valuation.} By \cref{prop:couplings}, $\mathrm{val}_6(\nu'+\nu'')\le-\abs j$, and $\mathrm{val}_6(\eta)\le0$ by \cref{lem:frame-at-nonsplit}; so $\mathrm{val}_{12}(l)\le-\abs j$ by \cref{lem:least-valuation-rules}(a). \emph{One place.} Let $l^-=(l_\tau-n_\sharp)_+$, so $i=i(\tau)=\lfloor l^-/p\rfloor$. By \cref{lem:losses}(a) and Legendre's recursion $v(m!)=\lfloor m/p\rfloor+v(\lfloor m/p\rfloor!)$,
+\[
+  v(l_\tau!)\le v((l^-)!)+v(B(l_\tau))=i+v(i!)+v(B(l_\tau))\le i+2v(B(l_\tau)),
+\]
+as $i\le n_\sharp$ gives $v(i!)\le v(n_\sharp!)\le v(B(l_\tau))$. Moreover $i\le\kappa(\tau)/p$, because $l_\tau-n_\sharp\le\kappa(\tau)+x^{42}-n_\sharp\le\kappa(\tau)$, and $l_{-p\tau}\ge\kappa(-p\tau)$; hence $i-j(\tau)=(i-l_{-p\tau})_+\le(\kappa(\tau)/p-\kappa(-p\tau))_+$, the term $e=1$ of $s_p(\kappa(\tau),\tau)$, which is at most $s_p(\kappa(\tau),\tau)$ as all terms are nonnegative and $v(\pi_p)=1$. Hence $v(l_\tau!)-j(\tau)\le s_p(\kappa(\tau),\tau)+2v(B(l_\tau))$, and summing over $\tau$, $v(l!)-\abs j\le S_p+2\sum_\tau v(B(l_\tau))$.
+
+\emph{Non-split $p\le k$} (so $p\ge13$). \emph{The coupling family.} Let $\Phi_0$ be the set of starts of near pairs and $e(\tau)$ their exponent, unique by \cref{lem:near-pairs}(c), and odd by (b). If $\tau_1\in\Phi_0$ and odd $e'\le e(\tau)$ satisfy $\mathrm{pr}_{e'}\tau_1=\mathrm{pr}_{e(\tau)}\tau$, then $(\tau_1,e')$ is a near pair (its exponent is odd and at most $e(\tau)<l_0/2$, its start is a $b$-place, and its end is the end of $(\tau,e(\tau))$), with the same end; by \cref{lem:near-pairs}(c), $\tau_1=\tau$ and $e'=e(\tau)$. Hence $(\Phi_0,e)$ is a coupling family. Put $j(\tau)=\lfloor l_\tau/p^{e(\tau)}\rfloor$. \emph{Degrees.} At a start $\tau$ the degree of $\nu'$ is $p^{e(\tau)}j(\tau)\le l_\tau$, and that of $\nu''$ is $0$, since no end is a start. At an end $t$ of $(\tau,e(\tau))$, the degree of $\nu''$ is $j(\tau)\le2b/p\le b=\kappa(t)\le l_t$ ($t$ is a $b$-place), and that of $\nu'$ is $0$. Hence $\nu'+\nu''\le l$; write $l=\nu'+\nu''+\eta$. \emph{Least valuation.} By \cref{prop:couplings} and \cref{prop:six-copies}(b) for $\eta$,
+\[
+  \mathrm{val}_{12}(l)\le\gamma_p\abs l-\abs j-v(\nu'!)-v(\nu''!)-v(\eta!) .
+\]
+\emph{Factorials.} At each place $l_\tau=\nu'_\tau+\nu''_\tau+\eta_\tau\le2b$, so by \cref{lem:losses}(b) $v(l!)\le v(\nu'!)+v(\nu''!)+v(\eta!)+3f(\log b+2)$, and $v(l!)+\mathrm{val}_{12}(l)\le\gamma_p\abs l-\abs j+3f(\log b+2)$. \emph{Comparison with $S_p$.} As $\gamma_p\le1$, $\gamma_p\abs l\le\gamma_p\sum_\tau\kappa(\tau)+fx^{42}$, and by \cref{lem:losses}(c), $\gamma_p\sum_\tau\kappa(\tau)=S_p+v(\pi_p)\sum_\tau R_\tau$. Apply \cref{lem:losses}(d) at each $\tau$ with $c=j(\tau)$ for a start (where $\kappa(\tau)/p^{e(\tau)}\le l_\tau/p^{e(\tau)}<j(\tau)+1$) and $c=0$ at the other places (where no near pair starts): $R_\tau\le j(\tau)+1+l_0a/x_1+2b/(kp)$, with $j(\tau)=0$ off $\Phi_0$. As $v(\pi_p)\le1$,
+\begin{align*}
+  \gamma_p\abs l-\abs j+3f(\log b+2)&\le S_p+\sum_\tau\Bigl(3(\log b+2)+x^{42}+1+\frac{l_0a}{x_1}+\frac{2b}{kp}\Bigr)\\
+  &\le S_p+\sum_\tau v(B(l_\tau))
+\end{align*}
+by \cref{lem:losses}(e), which is at most the claim.
+\end{proof}
+
+\subsection{Sharpness}\label{ss:bound-attained}
+Let $V_{12}=\Hom(V_1,V_{12})$ be the standard space of $12\times1$ matrices over $E$, with variables
+$z_{\tau,b}$ ($b<12$) at the place $\tau$, and let $\mathcal T(F)=J_{\pi_M\mathsf a}(F)$ for
+$F\in\mathcal S(V_{12})$. For the modulus $\mathfrak m=(\pi_M)$ and a class $y_0$ of $12\times1$ matrices over
+$\OO_E/\mathfrak m$, the \emph{indicator datum} $\mathbf 1_{y_0}$ is the vector whose component at infinity is
+the Gaussian, whose component at the places dividing $\mathfrak m$ is the indicator of $y_0$, and which agrees
+with the vacuum at the other finite places.
+\lean{New.copyEmbedding, New.copyEmbedding_apply, New.copyExponent, New.copyExponent_apply, New.coeff_prod_rename_copyEmbedding, New.Data.map_subst_linearSeries_copy, New.Data.norm_natCast_prod_eq_rpow_neg_sum, New.Data.twelveSpace, New.Data.twelveTaylor, New.Data.indicatorDatum}
+
+\begin{proposition}[Reduction to the curve]\label{prop:reduction-curve}
+Let $c_i\ge3\abs l$ for all $i$, and $\mathrm{val}_{12}(l)\le r$ at $p$. Then for some class $y_0$ some
+coefficient of degree $l$ of $c_{\mathrm{vac}}^{12}\,\mathcal T(\mathbf 1_{y_0})$ has valuation at most
+$r+v(M^{12f}c^\circ)$, where $c^\circ$ is a value of $\theta^\circ$ at a point $\mathrm{fin}(y)$.
+\end{proposition}
+\lean{New.Data.exists_integral_isThetaFunction_twelveTaylor_eq, New.Data.exists_norm_le_norm_indicatorDatum, New.Data.exists_le_norm_coeff_indicatorDatum}
+
+\begin{proof}
+\emph{Twelve series.} By \cref{lem:least-valuation-rules}(c) there are twelve series of the form $H_b\Theta$ with $H_b=\prod_iy(\mu_iz)^{e_{b,i}}$, $\abs{e_b}\le\abs l$, and exponents $\alpha_b$ with $\sum_b\alpha_b=l$, such that $\sum_bv([z^{\alpha_b}](H_b\Theta))\le r$. \emph{Monomial sections.} For each $b$ and $i$, $y^{e_{b,i}}\theta^{c_i}=(y\theta^3)^{e_{b,i}}\theta^{c_i-3e_{b,i}}$ away from the poles of $y$, a monomial section of degree $c_i$ since $3e_{b,i}\le3\abs l\le c_i$ (\cref{thm:cm-background}\ref{it:cm-sections}). \emph{A vector.} By \cref{thm:resolution-product}, for the frame $w$, $\delta=\pi_M$ and the scale $\mathsf a\pi_M$, applied in each of the twelve coordinates, there is $F\in\mathcal S(V_{12})$ whose rescaled Taylor series $\iota_p\mathcal T(F)$ is the product over the twelve copies $b$ of the series $H_b\Theta$ in the variables of copy $b$, whose values at the points $\mathrm{fin}(x)$ are integral at $\iota_p$, and whose theta function is a theta function for $\pi_M\mathfrak a_0^{12}$. The coefficient of $\mathcal T(F)$ at the exponent $\gamma$ with parts $\alpha_b$ in the copies is $\prod_b[z^{\alpha_b}](H_b\Theta)$, of valuation at most $r$; its total degree at $\tau$ is $l_\tau$.
+
+\emph{Fourier inversion.} By (W6) with $\delta=\pi_M$, $N=M$, $M^{12f}F=\sum_ic_i\varrho(\mathrm{fin}(u_i))\mathrm{vac}$, a finite sum with $\bar\pi_Mu_i\in\mathfrak a_0^{12}$ (one translate class for each of the $M^{12f}$ residues), and the values of the $c_i\varrho(\mathrm{fin}(u_i))\mathrm{vac}$ are integral at $\iota_p$ with those of $F$. Each translate $\varrho(\mathrm{fin}(u_i))\mathrm{vac}$ is a sum of indicator data $\mathbf1_{y_0}$ times roots of unity: at the places dividing $\mathfrak m$ the vacuum translated by $u_i$ is a combination of the indicators of the classes modulo $\mathfrak m$ that its translates cover, with coefficients of modulus one, and at the other places it is the vacuum. \emph{The linear form.} Apply the linear form $L$ that takes the coefficient at $\gamma$ of $\mathcal T$. Evaluating at a point $\mathrm{fin}(y)$ where the vacuum does not vanish, $c_i\,\mathrm{vac}(\mathrm{fin}(y))$ is a value of $c_i\varrho(\mathrm{fin}(u_i))\mathrm{vac}$ up to a root of unity, hence integral; by the ultrametric inequality some $i$ and some class $y_0$ satisfy
+\[
+  \abs{M^{12f}\,L(F)\;\mathrm{vac}(\mathrm{fin}(y))}\le\abs{L(\mathbf1_{y_0})}.
+\]
+Multiplying by $c_{\mathrm{vac}}^{12}$ turns $\mathrm{vac}(\mathrm{fin}(y))$ into the value $c^\circ$ of $\theta^\circ$, and gives $v(c_{\mathrm{vac}}^{12}L(\mathbf1_{y_0}))\le r+v(M^{12f}c^\circ)$.
+\end{proof}
+
+\begin{theorem}[The divisibility is attained]\label{thm:sharpness}
+Let $l\colon\Phi\to\N$ with $\kappa(\tau)\le l_\tau\le\kappa(\tau)+x^{42}$. There is $t\in\C^\times$ with
+$\abs{\sigma(t)}\le\exp(fmb/k)$ for every automorphism $\sigma$ of $\C$ such that, for every prime $p$ and
+$p$-adic place, some exponent $\gamma$ with $\sum_b\gamma_{\tau,b}=l_\tau$ and some class $y_0$ modulo
+$(\pi_M)$ satisfy
+\[
+  v\Bigl(\frac{c_{\mathrm{vac}}^{12}}t\prod_\tau l_\tau!\;[z^\gamma]\mathcal T(\mathbf 1_{y_0})\Bigr)\le S_p .
+\]
+\end{theorem}
+\lean{New.Data.norm_map_mul_intVacuum_le, New.Data.exists_rpow_neg_localPrimeSumTotal_le_norm_coeff}
+
+\begin{proof}
+\emph{The number $t$.} Let $c^\circ\ne0$ be a value of $\theta^\circ$ at a point $\mathrm{fin}(y)$ (\cref{prop:integral-vacuum}(c)), and put
+\[
+  t=M^{12f}\,c^\circ\prod_\tau B(l_\tau)^2 ,
+\]
+which is not zero as no $B(l_\tau)$ vanishes. \emph{The frame.} Take the tight frame of \cref{thm:frames-data}(b): its multiplicities are at least $6fb\ge3\abs l$, because $\abs l\le2fb$, and at every prime some member has a unit linear form, so some $\mu_{i_0}=\varrho_0w_{i_0}^\dagger$ has unit coefficients at $p$. \emph{The valuation.} By \cref{thm:twelve-copies}, $\mathrm{val}_{12}(l)\le r$ with $r=S_p+2\sum_\tau v(B(l_\tau))-v(l!)$. By \cref{prop:reduction-curve} some coefficient of degree $l$ of $c_{\mathrm{vac}}^{12}\mathcal T(\mathbf1_{y_0})$ has valuation at most $r+v(M^{12f}c^\circ)=S_p+v(t)-v(l!)$. Multiplying by $\prod_\tau l_\tau!$ and dividing by $t$ gives the inequality.
+
+\emph{The conjugates.} $\abs{\sigma(c^\circ)}\le\exp(12C_{\mathrm{vac}}q_1^2)$ by \cref{prop:integral-vacuum}(a), $M^{12f}\le b^{264f}$, and $B(l_\tau)\le(l_\tau+n_\sharp)^{n_\sharp}\le(3b)^{n_\sharp}$, an integer. Hence
+\[
+  \log\abs{\sigma(t)}\le12C_{\mathrm{vac}}q_1^2+264f\log b+2fn_\sharp\log(3b),
+\]
+and with $n_\sharp\le6b/k+1$, $q_1\le x^{12}$, $f\ge x^{11}$ and $m\ge\sqrt x$ large against $\log b$, this is at most $fmb/k$ (\cref{prop:sizes}).
+\end{proof}

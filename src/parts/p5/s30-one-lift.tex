@@ -1,0 +1,178 @@
+\section{The norm of one lift}\label{sec:one-lift-norm}
+
+Theorem~\ref{thm:C} is a lower bound for the covolume and the index of a family of target forms, obtained from \cref{thm:twist-for-each-prime} applied to
+the twisted lattice $L_{\mathcal T}$ of \cref{ss:target-lattice}. Its inputs are the volumes $Z(\vartheta)=\det(\Theta_\vartheta^*\Theta_\vartheta)$ of the lower chain at the
+$m$-fold twists $\vartheta$ and auxiliary forms that complete a family to a basis. This part computes the volumes: the norm of one theta lift is given by
+Rallis' formula (this section); theta integrals of spaces of complementary ranks are exchanged (\cref{sec:exchange}); the chain of $m$ lifts is
+arranged in a triangle whose squares are exchanges, so that its volume is a product of volumes of single lifts times ratios of Hecke values
+(\cref{sec:chain-norm}); auxiliary forms are built by moving periods along paths through two grids of spaces (\cref{sec:auxiliary}); and the height of
+the ratio $Z_j(1)/Z_j(\xi^j)$ for one lift is bounded through a comparison operator, false lifts and Hecke values
+(\cref{sec:comparison,sec:false-lifts,sec:theorem-C}).
+
+\subsection{The lift of a descent pair and its adjoint}\label{ss:lift-adjoint}
+Let $O$ be a descent pair (\cref{ss:descent-pairs}) with spaces $W$ of rank $r$ and $V=I_n$, $n=r+t$, level places $M$ (the chosen places) and $Q$, and
+character $\mu$. For a vector $\xi$ of the representation of the weight of $O$ let $\varphi_W(\xi)=v_{P_\xi}\otimes\Psi_{\rm bl}\otimes\mathrm{vac}$ be the datum with the Fock
+polynomial of $\xi$ at the real places and the block datum at the finite places. The \emph{vector kernel} $\theta_W(g,h)$, for $g\in\U(W)(\Ad)$ and a finite
+point $h$ of $\U(V)$, is the vector of the weight representation whose pairing with $\zeta$ is the theta kernel of $\varphi_W(\bar\zeta)$ at $(g,h)$; for fixed $g$
+it is an algebraic form $\theta_W(g,\cdot)$ on $V$. For a doubled parameter $l$ on $W$ that fits $O$ (\cref{prop:descent-pairs}(b)) and a form $y$ on $W$ of
+type $l$, the \emph{lift} is
+\[
+  \Theta_Wy=\int_{[\U(W)]}y(g)\,\theta_W(g,\cdot)\,dg,
+\]
+the theta lift of $y$ by the datum of the highest vector, read as an algebraic form on $V$. For $1\le j\le m$ and a tame character $\vartheta$, the lift
+$\Theta_{j,\vartheta}$ is $\Theta_W$ for the $j$-th descent pair $(W_j,V_j)$ with the character $\mu^0_j\vartheta^j$, on the forms of principal level $J_M$ on $W_j$.
+\lean{New.DescentPair.vectorKernel, New.DescentPair.gramForm_vectorKernel, New.DescentPair.vectorKernelForm, New.DescentPair.normalizedDescent_eq_inner_vectorKernelForm, New.DescentPair.thetaLift, New.DescentPair.ofAlgForm_thetaLift, New.DescentPair.coe_thetaLift, New.Data.singleLift, New.Data.singleLift_apply, New.DescentPair.FitsParams.isArrow_fockDatum, New.DescentPair.FitsParams.isArrow_swap_fockDatum}
+
+\begin{lemma}[The vector kernel]\label{lem:vector-kernel}
+Let $O$ be a descent pair and $g\in\U(W)(\Ad)$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The pairing of $\theta_W(g,h)$ with $\xi$ in the Gram form, conjugate linear in its first argument, is the conjugate of the theta kernel of $\varphi_W(\bar\xi)$ at $(g,h)$.
+\item For rational $\gamma\in\U(V)$ and $k$ in the level of $V$,
+\[
+  \theta_W(g,\gamma xk)=c(k)\rho(\gamma)\theta_W(g,x),\qquad c(k)=\prod_{w\in Q}\psi_w(\det k_w)^{-1}.
+\]
+Here $\rho$ is the representation of the weight of $O$: at an infinite place $\tau$ it is the weight with $k^+(\tau,i)+k^-(\tau,N-i)$ columns of height $i$ and the power
+$-\sum_{1\le i<N}k^-(\tau,i)$ of the determinant, $N$ being the rank of $V$. The level character $c$ is formed with the block $k_w$ of the reduction of $k$ at $w$ on the rows and
+columns of the embedding of $W$. Hence $\theta_W(g,\cdot)$ is an algebraic form on $V$.
+\item The normalised descent of a form $\Xi$ on $V$ has at $g$ the value
+\[
+  \sum_h\frac{\langle\theta_W(g,h),\Xi(h)\rangle}{\#(\Gamma\cap hKh^{-1})}=\langle\theta_W(g,\cdot),\Xi\rangle,
+\]
+the sum over representatives $h$ of the double cosets $\Gamma\backslash\U(V)(\Ad_{\rm f})/K$.
+\end{enumerate}
+\end{lemma}
+\lean{New.DescentPair.conjKernel_apply, New.DescentPair.gramForm_vectorKernel_left, New.DescentPair.normalizedDescent_apply, New.DescentPair.vectorKernelForm_apply, New.DescentPair.vectorKernel_equivariant, New.DescentPair.vectorKernel_mul_level, New.DescentPair.vectorKernel_rational_mul}
+
+\begin{proof}
+(a) The theta kernel of $\varphi_W(\xi)$ is linear in $\xi$, because the Fock polynomial $P_\xi$ is, and the weight representation carries the nondegenerate Gram form; so the conjugate of the kernel of $\varphi_W(\bar\xi)$ is a conjugate
+linear form in $\xi$, represented by a unique vector, which is $\theta_W(g,h)$; the kernel is formed with the characters of $O$ at the point $(g,1,h)$, whose component in $\U(V)(\Ad)$ is trivial at the infinite places. (b) The operator
+$c(k)\rho(\gamma)$ is unitary for the Gram form and onto, so it suffices to pair both sides with its values. There the equivariance of the conjugate kernel under the rational points and the level applies (\cref{prop:descent-pairs}, whose
+proof records it): the level multiplies the block datum by the level character (\cref{prop:descent-pairs}(a)), and the rational points act through the weight of the highest vector. (c) The normalised descent is the class sum
+over $\Gamma\backslash\U(V)(\Ad_{\rm f})/K$ of the conjugate theta kernel at $(g,h)$ applied to $\Xi(h)$, each class weighted by the inverse of the order of its automorphism group (\cref{prop:descent-pairs}(c)); by (a) the summand is
+$\langle\theta_W(g,h),\Xi(h)\rangle$, and the class sum is the inner product of algebraic forms.
+\end{proof}
+
+\begin{proposition}[Lift and descent]\label{prop:lift-descent}
+Let $O$ be a descent pair and $l$ a parameter on $W$ that fits $O$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Equivariance.) Let $k$ be an integral point of $\U(W)(\Ad_{\rm f})$ with reduction $s$ at the chosen places, and $k'$ a lift of $\mathrm{diag}(s_w,1)$ to $\U(V)(\Ad_{\rm f})$. Then $(k,k')$
+multiplies $\varphi_W(\xi)$ by $\chi(s)^{-1}$, $\chi(s)=\prod_w\psi_w(\det s_w)$; the lift of the translate of $y$ by $k$ is $\rho(s)\Theta_Wy$, where $\rho(s)$ acts on forms on $V$ by $\chi(s)$ times
+translation by $k'$; and $(\theta\Xi)(gk)=\theta(\rho(s)\Xi)(g)$ for the normalised descent $\theta$.
+\item (Adjointness.) The normalised descent of a form $\Xi$ on $V$ is a form of type $l$ on $W$, its value at $g$ is $\langle\theta_W(g,\cdot),\Xi\rangle$, and
+$\langle\Theta_Wy,\Xi\rangle=\langle y,\theta\Xi\rangle$, the class sum product on $V$ against the Petersson product on $W$. In particular $\theta\Xi=0$ exactly when $\Xi$ is orthogonal to
+all lifts.
+\item (Hecke polynomials.) Let $w$ be split with $w$, $\bar w$ off $M\cup Q$, $q$ its norm, and $\alpha$, $\beta$ the Frobenius values at $w$ of the characters of $O$ on $W$ and on $V$. If $y$
+is spherical at $w$ with Hecke polynomial $p(X)$, then $\Theta_Wy$ is spherical at $w$ with Hecke polynomial $\prod_{i<t}(1-q^i\alpha X)\cdot p(q^t\alpha\beta^{-1}X)$.
+\end{enumerate}
+\end{proposition}
+\lean{New.DescentPair.omega_fockDatum_eq_inv_prod_smul, New.DescentPair.coe_formAction, New.DescentPair.normalizedDescent_mul_eq_normalizedDescent_formAction, New.DescentPair.thetaLift_formRep, New.DescentPair.hasHeckePolynomial_thetaLift, New.DescentPair.inner_thetaLift, New.DescentPair.isForm_normalizedDescent, New.DescentPair.integrable_smul_vectorKernelForm, New.DescentPair.ofAlgForm_vectorKernelForm, New.DescentPair.thetaLift_eq_integral, New.Data.inner_singleLift, New.Data.coe_adjoint_singleLift, New.Data.adjoint_singleLift_apply, New.Data.singleLift_eq_integral, New.Data.normalizedDescent_eq_zero_iff, New.Data.ofAlgForm_singleLift, New.Data.singleLift_principalRep}
+
+\begin{proof}
+(a) \emph{The datum.} Finite points act only on the finite part $\Psi_{\rm bl}\otimes\mathrm{vac}$ of the datum, and on it the pair $(k,k')$ acts by the substitution $X\mapsto k'^{-1}Xk$ of the reductions times the characters. The block datum is supported on
+the matrices that are the inclusion at $M$, and $k'^{-1}\iota s=\iota$ there since $k'$ reduces to $\mathrm{diag}(s_w,1)$; at $w\in Q$ the block on the embedded rows is multiplied by $s_w$, which multiplies $\psi_w(\det)$ by $\psi_w(\det s_w)^{-1}$
+(\cref{prop:descent-pairs}(a)). Hence $(k,k')$ multiplies $\varphi_W(\xi)$ by $\chi(s)^{-1}$. \emph{The action on forms.} The action $\rho(s)$ on a form on $V$ is $\chi(s)$ times translation by $k'$, the weight representation twisted by the
+power of the determinant of the pair. \emph{The lift.} Substituting $gk^{-1}$ for $g$ in the integral defining $\Theta_W(y(\cdot\,k))$ and moving $k$ into the datum together with $k'$, the scalar $\chi(s)^{-1}$ from the datum and the translation by $k'$
+combine to $\rho(s)$. \emph{The descent.} Both $(\theta\Xi)(gk)$ and $\theta(\rho(s)\Xi)(g)$ are multiples of conjugates of transposed lifts (\cref{prop:descent-pairs}(c)); the transposed lift is equivariant under $(k',k)$, and the scalar $\chi(s)^{-1}$ of the datum
+matches the conjugate of $\chi(s)$ from the conjugated form.
+
+(b) \emph{Type.} The descent is a multiple of the lift from $V$ to $W$ of the conjugate form by the datum of the highest vector (\cref{prop:descent-pairs}(c)), and this datum is an arrow from $V$ to $W$ between the conjugate types
+(\cref{prop:descent-pairs}(b)), so the descent is a form of type $l$. Its value at $g$ is $\langle\theta_W(g,\cdot),\Xi\rangle$ by \cref{lem:vector-kernel}(c). \emph{Convergence.} A coordinate of $g\mapsto y(g)\theta_W(g,\cdot)$ in an orthonormal basis of the forms on $V$ is
+$y$ times the conjugate of a form on $W$, and forms are square integrable on $[\U(W)]$; so the map is integrable, and evaluation at a point of $\U(V)(\Ad)$, being continuous and linear, commutes with the integral. Hence $\Theta_Wy$ is the
+integral of $y(g)\theta_W(g,\cdot)$, both sides having the same image under the injective map from algebraic forms to functions. \emph{Adjointness.} Pass from the class sum product on $V$ to the Petersson product, which multiplies by the
+index of the level and the dimension of the weight, and move the lift to the other side, where it becomes the conjugate of the transposed lift; by \cref{prop:descent-pairs}(c) this is the normalised descent. In particular $\theta\Xi=0$
+exactly when $\langle y,\theta\Xi\rangle=0$ for all $y$, that is when $\Xi$ is orthogonal to all lifts.
+
+(c) At $w$ both characters are unramified and the datum is the vacuum, so the unramified correspondence for the theta lift transfers the Hecke polynomial (\cref{ss:B-hecke-transfer}): the Satake parameters of the lift are those of $y$ shifted by
+$q^t\alpha\beta^{-1}$ together with the $t$ parameters $q^i\alpha$, $i<t$, of the trivial part.
+\end{proof}
+
+\subsection{The block datum}\label{ss:block-datum}
+Write $c_Q=(\Nm Q)^{rt}\prod_{w\in Q}\prod_{i=t+1}^{t+r}(1-q_w^{-i})$ and $c_M=\prod_{w\in M}\prod_{i=t+1}^{t+r}(1-q_w^{-i})/\#\GL_r(\F_w)$. A finite datum is \emph{sharp} for a level $J$ off
+a set $S_0$ of places if it is the vacuum off $S_0$ and its matrix coefficient at the finite points integral off $S_0$ is $\langle F,F\rangle$ on $J$ and $0$ elsewhere
+(\cref{ss:B-rallis}); its \emph{mass} is $\langle F,F\rangle/[K_0:J]$.
+\lean{New.DescentPair.blockFn, New.DescentPair.blockDatum_eq_vacuumDatum, New.DescentPair.blockMass, New.DescentPair.gramFactor, New.DescentPair.twistFactor, New.DescentPair.chosenFactor, New.DescentPair.chosenFactor_ne_zero}
+\lean{New.DescentPair.stdLevelIndex_mul_blockMass}
+
+\begin{proposition}[The block datum is sharp]\label{prop:block-sharp}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The sum of $\abs{\Psi_{\rm bl}(x)}^2$ over the $n\times r$ matrices modulo $\pi_MQ$ is $\#\prod_{w\in Q}\GL_r(\F_w)\cdot(\Nm Q)^{tr}$.
+\item If $\Psi_{\rm bl}(x)\ne0$, the block of $x$ on the embedded rows is the reduction of an integral point of $J_M$; and $\Psi_{\rm bl}\otimes\mathrm{vac}$ is sharp for $J_M$ off the places of
+$\pi_MQ$ and their conjugates (if the signs of $W$ agree or $\pi_MQ\ne(1)$), with mass $c_\Psi$.
+\item The \emph{Gram factor}, the index of the level on $V$ times $\sum\abs{\Psi_{\rm bl}}^2$ over the index of $J_M$, divided by the number of matrices modulo $\pi_MQ$, is $c_Mc_Q$; and
+$c_M\ne0$.
+\end{enumerate}
+\end{proposition}
+\lean{New.card_isUnit_submatrix, New.star_mulChar_det_mul_self, New.DescentPair.bijective_map_levelResidueAt, New.DescentPair.blockFn_normSq, New.DescentPair.exists_reductionGL_eq_submatrix_of_blockFn_ne_zero, New.DescentPair.isSharpFn_blockFn, New.DescentPair.isSharp_blockDatum, New.DescentPair.stdLevelIndex_levelGroup_mul_card, New.DescentPair.gramFactor_div_card}
+
+\begin{proof}
+\emph{The function.} The block datum, defined modulo $\pi_M^2Q$, is also the vacuum datum of the function $\Psi_{\rm bl}$ modulo $\pi_MQ$, which is $0$ unless the reduction $x_w$ at every chosen place $w$ is the inclusion matrix of the embedding
+$\iota\colon r\hookrightarrow n$, and is then $\prod_{w\in Q}\psi_w(\det x'_w)$ with $x'_w$ the block on the rows $\iota$: the two moduli have the same places, and both functions factor through the reductions there.
+
+(a) By the Chinese remainder theorem a matrix modulo $\pi_MQ$ is the family of its reductions at the chosen places and the places of $Q$. The squared modulus of $\Psi_{\rm bl}$ is a product of local indicators. At a chosen place it counts one
+matrix. At $w\in Q$, for a multiplicative character $\chi$ of a finite field and a square matrix $X$, $\abs{\chi(\det X)}^2$ is $1$ if $X$ is invertible and $0$ otherwise; over a finite commutative ring $R$ the $n\times r$ matrices whose block on
+the rows $\iota$ is invertible number $\#\GL_r(R)\cdot(\#R)^{(n-r)r}$, the block being an element of $\GL_r(R)$ and the other rows free. Multiplying over $w\in Q$ gives $\#\prod_Q\GL_r(\F_w)\cdot(\Nm Q)^{tr}$.
+
+(b) \emph{Lifting the block.} If $\Psi_{\rm bl}(x)\ne0$, the block of $x$ is $1$ at the chosen places and invertible at the places of $Q$; by strong approximation for the integral points with the reduction map onto, this family is the reduction of an integral
+point of $W$ that reduces to $1$ at every chosen place, that is of $J_M$. \emph{Sharpness.} The matrix coefficient of $\Psi_{\rm bl}\otimes\mathrm{vac}$ at an integral point $g$ off the places of $\pi_MQ\overline{\pi_MQ}$ is
+$\sum_x\overline{\Psi_{\rm bl}(x)}\Psi_{\rm bl}(xg)$. For $g\in J_M$ the transformation law of the datum for the pair $(k,1)$ shows that $\Psi_{\rm bl}$ is fixed, so the coefficient is $\langle\Psi_{\rm bl},\Psi_{\rm bl}\rangle$. The support is carried into $J_M$ by
+the inclusion matrix, so by the criterion of \cref{thm:B-rallis}(d) for a function on matrices modulo a modulus, which applies when the signs of $W$ agree or the modulus is not $(1)$, the coefficient vanishes off $J_M$. The mass is
+$c_\Psi=\sum\abs{\Psi_{\rm bl}}^2/(\#\text{matrices}\cdot[K_0:J_M])$, with $[K_0:J_M]=\prod_{w\in M}\#\GL_r(\F_w)$.
+
+(c) The index of the level on $V$, times the order of $\prod_{w\in Q}\GL_r(\F_w)$, is the product over the places of $M$ and $Q$ of the index in $\GL_n(\F_w)$ of the group fixing the basis vectors $\iota$: the component of the level is this
+group at a place of $M$ and a parabolic at a place of $Q$, and at $w\in Q$ the index of the parabolic times $\#\GL_r(\F_w)$ is the index of the group fixing $r$ basis vectors. That index is the number of $n\times r$ matrices of rank $r$ over
+$\F_w$, whose proportion among all $n\times r$ matrices is $\prod_{i=t+1}^{t+r}(1-q_w^{-i})$. With (a), the Gram factor divided by the number of matrices is $\prod_{w\in M}\prod_i(1-q_w^{-i})/\#\GL_r(\F_w)\cdot(\Nm Q)^{rt}\prod_{w\in Q}\prod_i(1-q_w^{-i})=c_Mc_Q$.
+Finally $c_M\ne0$ because $q_w^i\ne1$ for $i\ge1$.
+\end{proof}
+
+\subsection{Rallis' formula for one lift}\label{ss:norm-one-lift}
+For a tame character $\vartheta$ and $1\le j\le m$, the \emph{Rallis series} $R_{j,\vartheta}$ on the forms of level $J_M$ on a space of rank $r$ is
+$R_{j,\vartheta}y=\sum_\gamma\mathrm{mc}(\gamma)\,\gamma y$, the sum over the finite points modulo those integral away from the places of $\pi_MQ$ and their conjugates, taken at representatives
+supported off these places and acting by right translation, with the \emph{vacuum coefficient} $\mathrm{mc}(\gamma)=(\chi_V(\det\gamma)\,\mathrm{fm}(\gamma)^{r+t})^{-1}$ for the character $\chi_V$ of the
+$j$-th pair on the side of $V_j$ and the finite multiplier $\mathrm{fm}$ of the Weil representation. Since $r+t>2r$ (Weil's range), the series converges absolutely and $R_{j,\vartheta}y$ is a
+form of level $J_M$.
+\lean{New.Data.rallisTerm, New.Data.liftSeries, New.Data.two_mul_card_rowIndex_lt, New.Data.exists_principalForms_eq_liftSeries, New.Data.hasSum_cosetTerm_of_eq_liftSeries, New.Data.exists_end_eq_liftSeries, New.Data.rallisOperator, New.Data.hasSum_inner_rallisOperator}
+\lean{New.Data.coe_rallisOperator_apply}
+
+\begin{lemma}[The Rallis series]\label{lem:rallis-series}
+Fix $j$, $\vartheta$ and a space of rank $r$. Then $2r<r+t$; for forms $x$, $y$ of level $J_M$ the series $z=R_{j,\vartheta}y$ is a form of level $J_M$ with $\langle x,z\rangle=\sum_\gamma\mathrm{mc}(\gamma)\langle x,\gamma y\rangle$, the
+series of inner products converging absolutely; and $y\mapsto R_{j,\vartheta}y$ is a linear endomorphism of the forms of level $J_M$ whose matrix coefficients are these sums.
+\end{lemma}
+
+\begin{proof}
+The rank of $V_j$ is $r+t$ with $t>r$ by the construction of the descent pairs (\cref{ss:descent-pairs}). By \cref{prop:block-sharp}(b) the block datum is sharp for $J_M$, so off $\pi_MQ$ the character is unramified and $J_M$ contains the integral
+points there; the series of the Rallis formula (\cref{thm:B-rallis}(b), (c)) converges absolutely in Weil's range and its sum is invariant under $J_M$, so it is a form of level $J_M$. The Petersson product with the series may be taken term by
+term, by absolute convergence. A form is determined by its inner products, which are sums of terms linear in $y$; this gives the endomorphism.
+\end{proof}
+
+\begin{theorem}[Norm of one lift]\label{thm:norm-one-lift}
+Let $1\le j\le m$. There is a constant $c_j\ne0$, independent of the tame character $\vartheta$, such that for every $\vartheta$, with $\Theta_j=\Theta_{j,\vartheta}$:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\Theta_j$ is injective on the forms of level $J_M$ on $W_j$;
+\item $\langle\Theta_jx,\Theta_jy\rangle=c_jc_Q\sum_\gamma\mathrm{mc}(\gamma)\langle x,\gamma y\rangle$, the sum over the cosets of the finite points modulo those integral away from $\pi_MQ$;
+\item $\Theta_j^*\Theta_j=c_jc_Q\,R_{j,\vartheta}$ on the forms of level $J_M$;
+\item $\Theta_j$ commutes with $\bar G$, acting on $W_j$ by translation and on $V_j$ by $\rho$; if $y$ lies in a Hecke eigenspace with eigenvalues $p(w,i)$, then $\Theta_jy$ is spherical at each split $w$
+off the level places with Hecke polynomial the $q$-Pochhammer polynomial of rank $t$ times the polynomial of the eigenvalues, at rescaled variables; and the operator
+$H_w(X)=\sum_i(-X)^iq^{i(i-1)/2}T_{w,i}$ at $X_*=(\alpha q^{t-1})^{-1}$, $\alpha$ the Frobenius value of the character on $W_j$, kills every lift.
+\end{enumerate}
+\end{theorem}
+\lean{New.Data.singleLift_injective, New.Data.exists_hasSum_rallisTerm_inner_singleLift, New.Data.exists_hasSum_inner_singleLift, New.Data.exists_adjoint_singleLift_comp_eq, New.Data.hasLiftHeckePolynomial_singleLift, New.Data.heckePolyOnForms_liftHeckeRoot_singleLift_eq_zero}
+
+\begin{proof}
+\emph{Rallis' formula.} By \cref{prop:block-sharp}(b) the block datum is sharp for $J_M$ with mass $c_\Psi$, and the real vector is the Fock vector of the joint harmonic $v_P$, which is an edge (\cref{prop:descent-pairs}(b)). Rallis' inner product formula for sharp data in
+Weil's range (\cref{thm:B-rallis}(c)) applies to the lift by $v_P\otimes\Psi_{\rm bl}\otimes\mathrm{vac}$: it is injective on the $J_M$-invariant forms of the type, which is (a), and
+\[
+  \langle Lx,Ly\rangle_{\rm Pet}=A\,c_\Psi\sum_\gamma\mathrm{mc}(\gamma)\langle x,\gamma y\rangle
+\]
+with $A\ne0$ depending only on the spaces and the real data. These do not involve $\vartheta$, which has weight $0$; they are the same as for the trivial character.
+
+(b) The class sum product on $V_j$ is the index of the level times the dimension of the weight times the Petersson product. With $c_\Psi=\sum\abs{\Psi_{\rm bl}}^2/(\#\text{matrices}\cdot[K_0:J_M])$, the index of the level on $V_j$ times $c_\Psi$ is the Gram
+factor divided by the number of matrices modulo $\pi_MQ$, which is $c_Mc_Q$ by \cref{prop:block-sharp}(c). Hence $\langle\Theta_jx,\Theta_jy\rangle=A\dim\,c_Mc_Q\sum_\gamma\mathrm{mc}(\gamma)\langle x,\gamma y\rangle$. The chosen places, the ranks and the weight do not depend
+on $\vartheta$, so $c_j=A\dim c_M$ is a constant independent of $\vartheta$, nonzero as $A\ne0$ and $c_M\ne0$.
+
+(c) By \cref{lem:rallis-series}, $\langle x,R_{j,\vartheta}y\rangle=\sum_\gamma\mathrm{mc}(\gamma)\langle x,\gamma y\rangle$, so (b) says $\langle\Theta_jx,\Theta_jy\rangle=c_jc_Q\langle x,R_{j,\vartheta}y\rangle$ for all $x$, $y$, that is $\Theta_j^*\Theta_j=c_jc_QR_{j,\vartheta}$; the adjoint of $\Theta_j$ is the
+descent by \cref{prop:lift-descent}(b).
+
+(d) Equivariance is \cref{prop:lift-descent}(a) with $k$ the chosen lift of $s$, the chosen places being among the places of the pair. The Hecke polynomial is \cref{prop:lift-descent}(c) for an eigenform: with $p(w,\cdot)$ the eigenvalues of
+the $T_{w,i}$, the polynomial $p(X)$ of $y$ is $\sum_i(-X)^iq^{i(i-1)/2}p(w,i)$, and the polynomial of the lift is $\prod_{i<t}(1-q^i\alpha X)$, the $q$-Pochhammer polynomial of rank $t$, times $p(q^t\alpha\beta^{-1}X)$. The factor $1-q^{t-1}\alpha X$ vanishes at
+$X_*$, so $H_w(X_*)$ kills the lift of every form in an eigenpart; the eigenparts span the forms of level $J_M$ (\cref{prop:hecke-eigen}(b)), and $H_w(X_*)$ kills all lifts by linearity.
+\end{proof}

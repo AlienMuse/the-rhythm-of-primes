@@ -1,0 +1,248 @@
+\section{Discrete series with a large gap}\label{app:ds}
+
+This appendix proves the lower bound for periods of discrete series coefficients that enters \cref{thm:bessel-average}(c): over the group of a \emph{stationary position}, the volume of a large ball is at most a
+power of the parameters times the modulus of the period (\cref{thm:A-period}). The proof is Laplace's method. Near the identity a coefficient with a large gap is an explicit phase times a number close to the
+interval $[0,1]$ (\cref{thm:A-gaussian}); in a stationary position the phases of the two coefficients cancel against the character of the unipotent part (\cref{prop:A-traces}); so the integrand lies in a cone about the
+positive axis, up to an error that decays away from the compact subgroups (\cref{prop:A-cone}). Integration and a covering argument give the bound (\cref{thm:A-laplace}). The restriction from $\U(\varepsilon\oplus1)$ to
+$\U(\varepsilon)$ is the special case of one vector (\cref{thm:A-restriction}). Related bounds, for fixed rank, are in \cite{NelsonVenkatesh2021,He2017,Sun2007}; what is used here is that all losses are powers of the weights.
+
+\subsection{Coefficients, gaps and decay}\label{ss:A-coefficients}
+Let $\varepsilon\colon n\to\{\pm1\}$ be a vector of signs, $\U(\varepsilon)$ the unitary group of $\mathrm{diag}(\varepsilon)$, and $K=\U(\varepsilon)\cap\U(n)$ its maximal compact subgroup, the block diagonal unitary matrices, with Haar measure of mass one.
+For a matrix $g$ write $a_g$ for its \emph{compact part}, the entries $g_{ij}$ with $\varepsilon_i=\varepsilon_j$, and $y_g=g-a_g$ for its \emph{noncompact part}. A doubled Harish-Chandra parameter is an integer vector $l=2\lambda$ with
+distinct entries congruent to $\#n-1$ modulo $2$; it has \emph{gap} $A$ if $\abs{\lambda_i-\lambda_j}\ge A$ whenever $\varepsilon_i\ne\varepsilon_j$, and \emph{large gap} $h$ if it has gap $500(\#n)^3+h$. Let $\rho$ be the half sum of the roots positive for $l$, $\rho_c$ that of the
+compact ones, and $\Lambda=\lambda+\rho-2\rho_c$ the highest weight of the lowest $K$-type. For an integer weight $w$ let $m_w(g)=\prod_t\det_{\{w\ge t\}}g$, the product of the principal minors on the sets $\{i:w_i\ge t\}$, those with
+$t\le0$ divided by $\det g$. \emph{Flensted-Jensen's coefficient} \cite{FlenstedJensen1980} is
+\[
+  \Xi_l(g,z)=\frac1{\norm{m_\Lambda}^2_K}\int_Km_\Lambda(gk)\,\overline{m_\Lambda(k)}\,m_{-\lambda-\rho}(k^*zk)^{-1}\,dk,\qquad c_l(g)=\Xi_l(a_g,a_g^{-1}g),
+\]
+the coefficient of the highest weight vector of the lowest $K$-type, normalised by $c_l(1)=1$.
+\lean{New.DiscreteSeries.exists_unitary_mul_posSemidef, New.HCParam.phase, New.DiscreteSeries.IsSteep, New.DiscreteSeries.subOnePair, New.HCParam.laplaceIntegrand, New.DiscreteSeries.IsLaplaceDatum}
+
+\begin{proposition}[Size and decay]\label{prop:A-decay}
+Let $l$ have gap $A$ and $g\in\U(\varepsilon)$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\abs{c_l(g)}\le1$; for every integer $0\le c\le A$, $\abs{c_l(g)}^2\abs{\det a_g}^c\le1$ and $\abs{c_l(g)}\le(2/\norm g)^c$ in the operator norm.
+\item If $l$ has large gap $h$, then $\abs{c_l(g)}^4\le(1+\norm{y_g}^2)^{-h}$ in the Frobenius norm.
+\item (Lipschitz.) If $l$ has large gap and entries at most $L$, then $\abs{c_l(xg)-c_l(x)}\le100(\#n+L+1)^5\norm{g-1}$; in particular $\abs{c_l(g)}\ge1/2$ when $\norm{g-1}\le(200\beta^5)^{-1}$ in the operator norm and
+$\beta\ge\#n+L+1$.
+\item (The lowest $K$-type.) Under the hypotheses of (c), $\norm{m_\Lambda}^2_K\ge\bigl(4(2000(\#n+L+1)^6)^{2\#n^2}\bigr)^{-1}$; hence $\norm{m_\Lambda}^2_K\ge e^{-5000T}$ for every $T\ge\max(1,\#n^2,\#n^2\log(\#n+L+1))$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) is the square-integrability estimate for Flensted-Jensen's function: the integrand is bounded by Hadamard's inequality for the minors, and each minor of $a_gk$ grows like a power of $\det a_g$ along the
+noncompact directions, which the gap converts into decay \cite{FlenstedJensen1980}. (c) Join $1$ to $g=1+A$ by the curve $\gamma(t)=1+tA(1-\frac{t-1}2A)^{-1}$, which stays in $\U(\varepsilon)$ because $(\gamma u)^*\mathrm{diag}(\varepsilon)(\gamma u)-u^*\mathrm{diag}(\varepsilon)u=t(g^*\mathrm{diag}(\varepsilon)g-\mathrm{diag}(\varepsilon))=0$ for
+$u=1-\frac{t-1}2A$. The derivative of $c_l(x\gamma(t))$ is the value of a Lie algebra element of norm at most $12(\#n+L+1)^5\norm A$ applied to the highest vector of the lowest $K$-type, a vector of norm one, and the mean value
+inequality gives the bound; at $x=1$, $c_l(1)=1$. (d) $K$ has mass one and lies in the unit ball, and on $K$ the coefficient $c_l(k)$ is $m_\Lambda(k)$. By (c), $\abs{c_l}\ge1/2$ on a ball of radius $(200\beta^5)^{-1}$ about $1$, and the covering
+argument of \cref{lem:A-covering} with $D=200\beta^5$, $R=1$, applied to $K$, gives $1\le(2000(\#n+L+1)^6)^{2\#n^2}\int_K4\abs{c_l}^2$. Taking logarithms, $\log2000\le2000$ and $\log4\le4$ give the second bound. (b) The block of $g^*\,\mathrm{diag}(\varepsilon)\,g=\mathrm{diag}(\varepsilon)$ that commutes with $\mathrm{diag}(\varepsilon)$ reads $a_g^*a_g=1+y_g^*y_g$. If $s_i$ are the singular values of $y_g$, then
+$\abs{\det a_g}^2=\det(1+y_g^*y_g)=\prod_i(1+s_i^2)\ge1+\sum_is_i^2=1+\norm{y_g}^2$. By (a) with $c=h\le A$, $\abs{c_l(g)}^4\le\abs{\det a_g}^{-2h}\le(1+\norm{y_g}^2)^{-h}$.
+\end{proof}
+
+\subsection{Principal minors near the identity}\label{ss:A-minors}
+For a set $S$ of indices let $P$ be the coordinate projection to $S$, $\det_S$ the principal minor on $S$, and $\norm{[P,Z]}$ the Frobenius norm of the two blocks of $Z$ that cross $S$. For an injective $o\colon n\to\Z$ and a matrix $Z$ let
+$u$ and $v$ be the strictly lower and upper triangular parts, for the order of $o$, of the compact part of $Z$, and $\hat g=\exp(-u)\exp(Z)\exp(-v)$.
+\lean{New.DiscreteSeries.norm_det_sq_le_exp, New.DiscreteSeries.principalMinor_eq_det_coordProj, New.DiscreteSeries.conjTranspose_mul_self_one_sub_mul_mul, New.DiscreteSeries.norm_lie_sq_of_unitary, New.DiscreteSeries.norm_principalMinor_sq_le_exp, New.DiscreteSeries.exp_apply_eq_one_apply_of_le, New.DiscreteSeries.exp_neg_lowerMask_apply_of_le, New.DiscreteSeries.exp_neg_lowerMask_mem_blockDiagAlg, New.DiscreteSeries.isBorelMatrix_exp_neg_lowerMask, New.DiscreteSeries.diagChar_exp_neg_lowerMask, New.DiscreteSeries.reducedExp, New.DiscreteSeries.det_reducedExp, New.DiscreteSeries.norm_mul_sub_one_le, New.DiscreteSeries.flenstedJensen_reducedExp, New.DiscreteSeries.norm_apply_le, New.DiscreteSeries.norm_lie_coordProj_apply, New.DiscreteSeries.lie_coordProj_entryMask, New.DiscreteSeries.norm_conj_sub_eq, New.DiscreteSeries.norm_lie_le_add, New.DiscreteSeries.sum_norm_conj_coordProj_sub_le, New.DiscreteSeries.norm_trace_conj_coordProj_mul_sub_le, New.DiscreteSeries.norm_mul_proj_le, New.DiscreteSeries.norm_cross_le, New.DiscreteSeries.norm_cross_sub_le, New.DiscreteSeries.norm_crossTrace_sub_le, New.DiscreteSeries.norm_crossTraceSum_sub_le, New.DiscreteSeries.crossTrace_coordProj, New.DiscreteSeries.norm_lie_coordProj_neg_lowerMask_le, New.DiscreteSeries.apply_of_mem_unitaryLie, New.DiscreteSeries.norm_lie_coordProj_sq_of_mem_unitaryLie, New.DiscreteSeries.crossTraceSum_coordProj_eq, New.DiscreteSeries.principalMinor_conj_eq_det, New.DiscreteSeries.exists_principalMinor_conj_reducedExp_eq_cexp}
+\lean{New.DiscreteSeries.exists_exp_eq_add_mul, New.DiscreteSeries.norm_trace_inv_one_add_smul_mul_sub_le, New.DiscreteSeries.norm_trace_logOneAdd_sub_le, New.DiscreteSeries.IsExpansion, New.DiscreteSeries.IsExpansion.nonneg, New.DiscreteSeries.IsExpansion.norm_le, New.DiscreteSeries.isExpansion_exp, New.DiscreteSeries.IsExpansion.mul, New.DiscreteSeries.IsExpansion.exists_det_one_add_mul_eq_exp, New.DiscreteSeries.crossTrace, New.DiscreteSeries.crossTrace_eq_trace_sub_trace, New.DiscreteSeries.crossTraceSum, New.DiscreteSeries.expMinor, New.DiscreteSeries.logMinorQuadratic, New.DiscreteSeries.logMinorRemainder, New.DiscreteSeries.exists_expMinor_eq_cexp, New.DiscreteSeries.expMinor_eq_cexp_logMinorQuadratic_add_logMinorRemainder, New.DiscreteSeries.norm_logMinorRemainder_le_of_norm_le, New.DiscreteSeries.expMinor_mul_mem_slitPlane, New.DiscreteSeries.one_add_mul_exp_sub_one, New.DiscreteSeries.logMinorRemainder_eq_zero, New.DiscreteSeries.logMinorRemainder_conj, New.DiscreteSeries.crossPart, New.DiscreteSeries.scaleCross, New.DiscreteSeries.scaleCross_one, New.DiscreteSeries.commute_scaleCross_zero, New.DiscreteSeries.scaleCross_neg, New.DiscreteSeries.norm_crossPart, New.DiscreteSeries.norm_sub_crossPart_le, New.DiscreteSeries.norm_scaleCross_le, New.DiscreteSeries.differentiable_matrix_det, New.DiscreteSeries.differentiable_expMinor_scaleCross, New.DiscreteSeries.differentiable_logMinorQuadratic_scaleCross, New.DiscreteSeries.norm_le_mul_sq_of_even, New.DiscreteSeries.logMinorRemainder_scaleCross_neg, New.DiscreteSeries.norm_logMinorRemainder_le, New.DiscreteSeries.exists_det_one_add_proj_mul_eq_exp}
+
+\begin{lemma}[One minor]\label{lem:A-one-minor}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For unitary $k$, $\abs{\det_Sk}^2\le\exp(-\norm{[P,k]}^2/2)$.
+\item Let $Q$ be an orthogonal projection, $\delta\le1/20$, and $A_1,A_2,A_3$ of norm at most $\delta$ with $\norm{[Q,A_i]}\le\zeta$. Then
+\[
+  \det\bigl(1+Q(e^{A_1}e^{A_2}e^{A_3}-1)\bigr)=\exp\Bigl(\sum_i\operatorname{tr}QA_i+{\sum_{i\le j}}'\operatorname{tr}QA_i(1-Q)A_j+r\Bigr),
+\]
+with $\abs r\le10^4\delta\zeta^2$, where $\sum'$ halves the terms with $i=j$.
+\item Let $o$ be smaller on $S$ than off $S$, $Z$ in the Lie algebra of $\U(\varepsilon)$ with $\norm Z\le\delta\le1/20$, and $k\in K$. Then
+$\det_S(k^*\hat gk)=\exp\bigl(\operatorname{tr}PZ+\norm{[P,Z]}^2/4+r\bigr)$ with $\abs r\le10^5\delta(\norm{[P,Z]}^2+\norm{[P,k]}^2)$.
+\item If $l$ has gap $h$ and $\norm Z\le1/20$, then $\Xi_l(1,\exp Z)=\Xi_l(1,\hat g)$ for $o=l$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Put $M=(1-P)kP$ and $Y=(1-P)+PkP$. Then $\det_Sk=\det Y$, and since $k^*k=1$, $Y^*Y=(1-P)+Pk^*PkP=1-M^*M$. For unitary $k$ the two crossing blocks have the same norm: $\norm{(1-P)kP}^2=\operatorname{tr}P-\operatorname{tr}Pk^*PkP=\norm{Pk(1-P)}^2$, so
+$\norm{[P,k]}^2=2\norm M^2$. If $s_i\le1$ are the singular values of $M$, $\abs{\det Y}^2=\prod_i(1-s_i^2)\le\exp(-\sum_is_i^2)=\exp(-\norm{[P,k]}^2/2)$.
+
+(b) Write $e^{A_1}e^{A_2}e^{A_3}=1+A+R$ with $A=\sum_iA_i+\sum_{i<j}A_iA_j+\frac12\sum_iA_i^2$ and $\norm R\le\delta^3e^{3\delta}$, and $\log\det(1+QX)=\operatorname{tr}\log(1+QX)$ with the logarithm $\int_0^1(1+sM)^{-1}M\,ds$ for $\norm M\le1/2$. Expanding to
+second order, $\operatorname{tr}Q A-\frac12\operatorname{tr}(QA)^2$ equals the stated quadratic expression up to terms of order three, because $\operatorname{tr}QA_iQA_j=\operatorname{tr}QA_iA_j-\operatorname{tr}QA_i(1-Q)A_j$. The rest $r$ is of order three in the $A_i$. Scale the crossing parts of the $A_i$
+by a complex parameter $\tau$: $r(\tau)$ is holomorphic for $\abs\tau\le\delta/\zeta$, even in $\tau$ (conjugation by $2Q-1$), and bounded by $C\delta^3$; it vanishes at $\tau=0$ to second order because then the $A_i$ commute with $Q$ and the
+determinant is exactly $\exp\sum\operatorname{tr}QA_i$. Schwarz's lemma at radius $\delta/\zeta$ gives $\abs{r(1)}\le C\delta^3(\zeta/\delta)^2$; if $\delta\le\zeta$ the third order bound suffices directly. Tracking the series gives $C\le10^4$.
+
+(c) The minor is the determinant of (b) for $A_1=-u$, $A_2=Z$, $A_3=-v$ and $Q=kPk^*$, with $\zeta=\norm{[P,Z]}+2\delta\norm{[P,k]}$. Since $u$ and $v$ are strictly triangular inside the blocks and $o$ is smaller on $S$, $\operatorname{tr}Qu$ and $\operatorname{tr}Qv$
+contribute only through the crossing parts of $k$, and the quadratic sum differs from $\norm{[P,Z]}^2/4$ by at most $18\delta\norm{[P,k]}\zeta$ plus $\delta\norm{[P,k]}^2$; the elementary inequality
+$\delta\kappa^2+18\delta\kappa\zeta+10^4\delta\zeta^2\le10^5\delta(x^2+\kappa^2)$ for $\zeta\le x+\kappa$ gives the bound. (d) The matrices $\exp Z$ and $\hat g$ are near $1$, hence accretive, and block diagonal triangular factors multiply the
+integrand of $\Xi_l$ by a character of their diagonal, which is $1$ because the diagonal of a strictly triangular matrix vanishes.
+\end{proof}
+
+\subsection{The Gaussian shape}\label{ss:A-gaussian}
+For a weight $w$ let $Q_w(X)=\sum_{i,j}\abs{w_i-w_j}\abs{X_{ij}}^2$.
+\lean{New.DiscreteSeries.one_le_pow_mul_kTypeNormSq, New.DiscreteSeries.exp_neg_le_kTypeNormSq, New.DiscreteSeries.gapWeightedNormSq, New.DiscreteSeries.gapWeightedNormSq_nonneg, New.DiscreteSeries.sum_norm_lie_coordProj_sq, New.DiscreteSeries.sum_trace_coordProj_mul, New.DiscreteSeries.maxCompactU_conjTranspose_mul_self, New.DiscreteSeries.norm_weightMinors_sq_le_exp, New.DiscreteSeries.exists_weightMinors_conj_reducedExp_eq_cexp, New.DiscreteSeries.norm_trace_paramAddRho_sub_trace_lowestKType_le, New.DiscreteSeries.gapWeightedNormSq_neg_paramAddRho_le, New.DiscreteSeries.exists_weightMinors_neg_paramAddRho_eq_cexp, New.DiscreteSeries.flenstedJensen_div_exp_sub, New.DiscreteSeries.mul_norm_exp_sub_one_le, New.DiscreteSeries.exists_norm_dsCoeff_div_cexp_sub_le}
+
+\begin{theorem}[Gaussian shape of the coefficient]\label{thm:A-gaussian}
+Let $l$ have large gap $A$ and entries at most $L$, let $T\ge\max(1,\#n^2,\#n^2\log(\#n+L+1))$ and $\delta T\le10^{-12}$. For $g\in\U(\varepsilon)$ with $\norm{g-1}\le\delta$ (Frobenius norm) there is $\varrho\in[0,1]$ with
+\[
+  \Bigl\lvert\frac{c_l(g)}{\exp(\operatorname{tr}\Lambda\log g)}-\varrho\Bigr\rvert\le\frac\varrho{10}+e^{-100T}.
+\]
+One may take $\varrho=\exp(-Q_{\lambda+\rho}(\log g)/4)$.
+\end{theorem}
+
+\begin{proof}
+Put $Z=\log g=\log(1+(g-1))$; then $Z$ lies in the Lie algebra of $\U(\varepsilon)$ and $\norm Z\le2\delta$. Let $q=Q_{\lambda+\rho}(Z)/4\ge0$ and $\varrho=e^{-q}\in[0,1]$; write $\mu=\Lambda$.
+
+\emph{Step 1: a mean over $K$.} Since $g$ is within $\delta$ of $1$ it is accretive, and $c_l(g)=\Xi_l(1,g)=\Xi_l(1,\hat g)$ by \cref{lem:A-one-minor}(d) with $o=l$. The weight $-\lambda-\rho$ has the order opposite to that of $l$, so on each set $\{-\lambda-\rho\ge t\}$ the
+order $o=l$ is smaller than off it. Multiplying \cref{lem:A-one-minor}(c) over these sets, and using that $\sum_t$ of the projections is $\mathrm{diag}(-\lambda-\rho)$ up to a constant and $\sum_t\norm{[P_t,X]}^2=Q_{\lambda+\rho}(X)$ (exactly $\abs{w_i-w_j}$ of the sets separate $i$ from $j$),
+\[
+  m_{-\lambda-\rho}(k^*\hat gk)=\exp\bigl(q-\operatorname{tr}\mu Z-r(k)\bigr),\qquad\abs{r(k)}\le10^6\delta\bigl(q+Q_\mu(k)+\#n^2\bigr).
+\]
+Here the trace against $\lambda+\rho$ was replaced by that against $\mu$: the difference $2\rho_c$ has entries at most $\#n$, so the traces differ by at most $\#n^2\norm Z$; and $Q_{\lambda+\rho}(k)\le Q_\mu(k)+2\#n^2$ for the same reason, since $\norm k^2=\#n$.
+Substituting in $\Xi_l$,
+\[
+  \frac{c_l(g)}{e^{\operatorname{tr}\mu Z}}-\varrho=\frac1{\norm{m_\mu}^2_K}\int_K\abs{m_\mu(k)}^2\,e^{-q}\,\bigl(e^{r(k)}-1\bigr)\,dk.
+\]
+
+\emph{Step 2: the integrand.} Put $m=\abs{m_\mu(k)}^2$; by \cref{lem:A-one-minor}(a), multiplied over the sets $\{\mu\ge t\}$ and with $\abs{\det k}=1$, $m\le e^{-Q_\mu(k)/2}$. Write $Q=Q_\mu(k)$. If $\abs{r(k)}\le1/20$ then $\abs{e^r-1}\le\frac{21}{20}\abs r\le\frac1{10}$. Otherwise $q+Q+\#n^2>(2\cdot10^7\delta)^{-1}\ge5\cdot10^4T$, because $\delta T\le10^{-12}$; as $\#n^2\le T$, $q+Q\ge4\cdot10^4T$, and
+$\abs r\le10^6\delta(q+Q+\#n^2)\le2\cdot10^{-6}(q+Q)$. Then $e^{-q}m\abs{e^r-1}\le2e^{-q-Q/2+\abs r}\le2e^{-(q+Q)/3}\le e^{-5100T}$. In all cases
+\[
+  e^{-q}m\abs{e^{r(k)}-1}\le\frac{e^{-q}}{10}m+e^{-5100T}.
+\]
+
+\emph{Step 3.} Integrating over $K$ (mass one) and dividing by $\norm{m_\mu}^2_K\ge e^{-5000T}$ (\cref{prop:A-decay}(d)) gives $\abs{c_l(g)e^{-\operatorname{tr}\mu Z}-\varrho}\le\varrho/10+e^{-100T}$.
+\end{proof}
+
+\subsection{Laplace data and the cone}\label{ss:A-cone}
+Let $\varepsilon,\eta$ be signs on $n$ and $m$, $l$ and $k$ doubled parameters for $\U(\varepsilon)$ and $\U(\eta)$ with lowest weights $\mu=\Lambda_l$ and $\mu'=\Lambda_k$, and $j\colon S\to\U(\varepsilon)\times\U(\eta)$ a homomorphism of a locally compact group, $j(s)=(g,g')$. The parameter $l$ is \emph{steep} for
+$B$ and a splitting $n=X\sqcup\{1,\dots,M\}$ if on $X$ the signs are $+1$ and $\mu=0$, while on the other coordinates the signs alternate $+,-,\dots$ and $\mu$ decreases strictly in $[-3B,-B]$. The pair $(j,\varphi)$ is a \emph{Laplace
+datum} if $l$ is steep; $\mu'\ge0$, $\mu'\le3B$ unless $\U(\eta)$ is compact, and $\mu'=0$ on a copy $\tau(X)$ of $X$ of sign $+1$; the \emph{phase} $\varphi(s)=\operatorname{tr}\mu(g-1)-\operatorname{tr}\mu'(g'-1)$ is additive and imaginary and $\operatorname{tr}(g-1)=\operatorname{tr}(g'-1)$;
+and every unitary $u$ on $X$ occurs, with $g-1$ and $g'-1$ equal to $u-1$ placed along $X$ and $\tau(X)$. The \emph{Laplace integrand} is $\theta(s)=c_l(g)\,\overline{c_k(g')}\,e^{-\varphi(s)}$.
+\lean{New.DiscreteSeries.noncompactPart, New.DiscreteSeries.two_mul_re_sub_one_apply, New.DiscreteSeries.norm_sq_add_re_trace_le, New.DiscreteSeries.norm_sub_one_sq, New.DiscreteSeries.conjTranspose_signMatrix, New.DiscreteSeries.norm_signMatrix_mul, New.DiscreteSeries.norm_signMatrix_mul_conjTranspose_mul_signMatrix, New.DiscreteSeries.norm_noncompactPart_inv, New.DiscreteSeries.norm_sub_one_le_norm_mul_self_sub_one, New.DiscreteSeries.offBlockIndicator, New.DiscreteSeries.onBlock, New.DiscreteSeries.norm_onBlock_le, New.DiscreteSeries.norm_sq_le_rows_add_columns_add_block, New.DiscreteSeries.norm_onBlock_gram_sub_one_le, New.DiscreteSeries.exists_unitary_sub_one_eq_inclMatrix, New.DiscreteSeries.hasSum_trace_geom, New.DiscreteSeries.phase_sub, New.DiscreteSeries.IsLaplaceDatum.phase_pow_mul, New.DiscreteSeries.IsLaplaceDatum.phase_logOneAdd, New.DiscreteSeries.principalMinor_eq_ite_det, New.DiscreteSeries.weightMinors_mul_eq_of_zero_weight_block, New.DiscreteSeries.inclMatrix_mul_mul_conjTranspose_apply_eq_zero, New.DiscreteSeries.apply_eq_zero_of_sub_one_eq_inclMatrix, New.DiscreteSeries.mem_blockDiagAlg_of_sub_one_eq_inclMatrix, New.DiscreteSeries.sub_one_apply_eq_zero_of_weight_ne_zero, New.DiscreteSeries.intDiagonal_mul_sub_one_eq_zero, New.DiscreteSeries.dsCoeff_mul_eq_of_sub_one_eq_inclMatrix, New.DiscreteSeries.norm_noncompactPart_mul_of_mem_blockDiagAlg, New.DiscreteSeries.one_add_sum_le_prod_one_add, New.DiscreteSeries.one_add_norm_sq_le_norm_det_one_add, New.DiscreteSeries.conjTranspose_blockDiagPart_mul_blockDiagPart, New.DiscreteSeries.norm_dsCoeff_pow_four_le, New.DiscreteSeries.IsLaplaceDatum.norm_intDiagonal_mul_subOnePair_sq_le, New.DiscreteSeries.IsLaplaceDatum.norm_subOnePair_mul_intDiagonal_sq_le, New.DiscreteSeries.IsLaplaceDatum.exists_laplaceIntegrand_eq_and_onBlock_eq, New.DiscreteSeries.IsLaplaceDatum.norm_snd_sq, New.DiscreteSeries.IsLaplaceDatum.exists_laplaceIntegrand_eq_and_norm_subOnePair_le}
+
+\begin{proposition}[The cone]\label{prop:A-cone}
+Let $(j,\varphi)$ be a Laplace datum with $B\ge1$, let both parameters have large gap $h$ and entries at most $L$, let $\#n+\#m+L\le\beta$, $N=(\#n+\#m)^2$, $T=N\log\beta\ge1$, $h\ge10^{30}T^3$, and write $G(s)=(2/\norm{g\oplus g'})^{9N}$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Localization.) If $0<r\le1/6$ and $\norm{y_g}^2+\norm{y_{g'}}^2\le r^2$, then $\theta(s)=\theta(t)$ for some $t$ with $\norm{g_t-1},\norm{g'_t-1}\le4r$.
+\item (Far.) If $T\rho=10^{-13}$ and $\norm{y_g}^2+\norm{y_{g'}}^2\ge\rho^2$, then $\abs{\theta(s)}\le e^{-100T}$.
+\item (Near.) If $\norm{g-1},\norm{g'-1}\le\delta$ with $\delta T\le10^{-12}$, then $\abs{\theta(s)}\le2\re\theta(s)+12e^{-100T}$.
+\item (Cone and decay.) For every $s$, $\abs{\theta(s)}\le G(s)$ and $\abs{\theta(s)}\le2\re\theta(s)+6\beta^{-50N}G(s)$.
+\item If $\norm{g\oplus g'-1}\le(200\beta^5)^{-1}$, then $\abs{\theta(s)}\ge1/4$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Since $\varphi$ is imaginary, $\abs{\theta(s)}=\abs{c_l(g)}\abs{c_k(g')}$.
+
+(a) Weight the row relations of $g^*\mathrm{diag}(\varepsilon)g=\mathrm{diag}(\varepsilon)$ by $-\mu$ and those of $g'$ by $\mu'$ and add: because $\operatorname{tr}\mu(g-1)-\operatorname{tr}\mu'(g'-1)$ is imaginary the real parts of the traces cancel, and since $-\mu\ge B$ off $X$ and $\le3B$, the rows of
+$g-1$ off $X$ have squared norm at most $6(\norm{y_g}^2+\norm{y_{g'}}^2)$, and likewise for $g'$ off $\tau(X)$. The block $a$ of $g$ on $X$ is then within $r$ of a unitary matrix; write $a=k_1z_1$ with $k_1$ unitary and $z_1\ge0$, and translate $s$ by an
+element realising $k_1^{-1}$ on $X$. This changes neither coefficient (the weights vanish on $X$, so $m_\mu$ and $m_{\mu'}$ are invariant under such left translations), nor the phase (it is additive and vanishes on $\U(X)$), nor the noncompact
+parts. After translation the block on $X$ is $z_1$, within $r$ of $1$; the rows and columns off $X$ contribute $6r^2$ each and the block $r^2$, so $\norm{g_t-1}\le4r$; the equality of traces bounds $g'_t-1$ in the same way.
+
+(b) By \cref{prop:A-decay}(b), $\abs{\theta(s)}^4\le(1+\norm{y_g}^2)^{-h}(1+\norm{y_{g'}}^2)^{-h}\le(1+\rho^2)^{-h}$. Since $\log(1+\rho^2)\ge\rho^2/2$ for $\rho\le1$ and $h\rho^2/2\ge10^{30}T^3\cdot10^{-26}T^{-2}/2=5000T$, this is at most $e^{-400T}$.
+
+(c) The parameters $\#n,\#m$ and $L$ satisfy the hypotheses of \cref{thm:A-gaussian} with this $T$. Since $\overline{c_k(g')}=c_{-k}(g')$ and $\varphi(s)$ equals the phase evaluated at $\log g$ and $\log g'$ (additivity along the one-parameter groups),
+$\theta(s)=\kappa_l\kappa_k$ with $\kappa_l=c_l(g)/\exp(\operatorname{tr}\mu\log g)$ and $\kappa_k=c_{-k}(g')/\exp(-\operatorname{tr}\mu'\log g')$. By \cref{thm:A-gaussian} there are $a,c\in[0,1]$ with $\abs{\kappa_l-a}\le a/10+t$, $\abs{\kappa_k-c}\le c/10+t$, $t=e^{-100T}\le1$. Hence
+$\abs{\theta(s)-ac}\le0.21ac+4t$, and a complex number within $0.21p+4t$ of a real $p\ge0$ satisfies $\abs z\le2\re z+12t$.
+
+(d) The decay: let the larger of $\norm g$, $\norm{g'}$ be $\norm g$; then $\abs{\theta(s)}\le\abs{c_l(g)}\le(2/\norm g)^{c}$ for $c\le h$ by \cref{prop:A-decay}(a), and $\norm{g\oplus g'}=\max(\norm g,\norm{g'})$; take $c=18N\le h$. The cone: if $\norm{y_g}^2+\norm{y_{g'}}^2\ge\rho^2$ with $T\rho=10^{-13}$, (b) gives
+$\abs\theta\le e^{-100T}$, and every $z$ with $\abs z\le t'$ satisfies $\abs z\le2\re z+3t'$. Otherwise (a) with $r=\rho\le1/6$ moves $s$ to $t$ with both components within $4\rho$ of $1$, and (c) with $\delta=4\rho$, $\delta T=4\cdot10^{-13}$, applies. In both
+cases $\abs\theta\le2\re\theta+12e^{-100T}=2\re\theta+12a^2$ with $a=\beta^{-50N}$. The decay with $c=18N$ gives $\abs\theta\le G^2$. If $G\ge2a$, then $12a^2\le6aG$. If $G<2a$, then $2\re\theta+6aG\ge-2\abs\theta+3G^2\ge G^2\ge\abs\theta$. In both cases
+$\abs\theta\le2\re\theta+6aG$, and $\abs\theta\le G^2\le G$ since $G\le1$ where $\norm{g\oplus g'}\ge2$, while $\abs\theta\le1\le G$ elsewhere.
+
+(e) By \cref{prop:A-decay}(c) each coefficient has modulus at least $1/2$, since $\norm{g-1},\norm{g'-1}\le\norm{g\oplus g'-1}$ and $\beta\ge\#n+L+1$, $\#m+L+1$.
+\end{proof}
+
+\subsection{Laplace's method}\label{ss:A-laplace}
+\lean{New.DiscreteSeries.norm_mul_sub_mul_le, New.DiscreteSeries.norm_le_two_mul_re_add, New.DiscreteSeries.inv_one_add_sq_pow_le_exp_pow_four, New.DiscreteSeries.le_pow_mul_of_le, New.DiscreteSeries.eighteen_mul_le_of_mul_pow_three_le, New.DiscreteSeries.IsLaplaceDatum.norm_laplaceIntegrand, New.DiscreteSeries.IsLaplaceDatum.norm_laplaceIntegrand_le_of_far, New.DiscreteSeries.coe_sum_eq_fromBlocks, New.DiscreteSeries.norm_coe_sum_eq_max, New.DiscreteSeries.norm_sum_sub_one, New.DiscreteSeries.isProperMap_sum, New.DiscreteSeries.IsLaplaceDatum.one_div_four_le_norm_laplaceIntegrand, New.DiscreteSeries.IsLaplaceDatum.norm_laplaceIntegrand_le_mul_re_add_of_near, New.DiscreteSeries.IsLaplaceDatum.norm_laplaceIntegrand_le_mul_re_add, New.DiscreteSeries.IsLaplaceDatum.norm_laplaceIntegrand_le_pow, New.DiscreteSeries.norm_le_two_mul_re_add_mul, New.DiscreteSeries.IsLaplaceDatum.norm_laplaceIntegrand_le_two_mul_re_add_mul_pow, New.DiscreteSeries.IsLaplaceDatum.norm_laplaceIntegrand_le_two_mul_re_add, New.DiscreteSeries.measureReal_div_four_le, New.DiscreteSeries.norm_le_add_one_of_norm_sub_one_le, New.DiscreteSeries.measure_large_ball_le_pow_mul_small_ball, New.DiscreteSeries.IsLaplaceDatum.laplace_method}
+
+\begin{lemma}[Covering]\label{lem:A-covering}
+Let $J\colon S\to\U(\zeta)$ be a homomorphism to the unitary group of a sign vector on a set of size $d$, $\nu$ a right invariant measure on $S$, $D,R\ge1$ and $3DR^2\le\kappa$. Then
+\[
+  \nu\{s:\norm{J(s)y}\le R\}\le\kappa^{2d^2}\,\nu\{s:\norm{J(s)-1}\le1/D\}
+\]
+for every $y$. In particular $\nu\{\norm{J(s)}\le\beta+1\}\le\beta^{16d^2}\nu\{\norm{J(s)-1}\le(200\beta^5)^{-1}\}$ for $\beta\ge10^{12}$, and, if $J$ is proper and $\nu$ finite on compacts, for $c>8d^2$ the function $(2/\norm{J(s)y})^c$ is
+integrable with integral at most $16^c\nu\{\norm{J(s)-1}\le1\}$.
+\end{lemma}
+
+\begin{proof}
+Among the $s$ with $\norm{J(s)y}\le R$ take a maximal family $M$ whose matrices $J(s)y$ are $1/(DR)$-separated. The balls of radius $1/(2DR)$ about these points are disjoint and lie in the ball of radius $R+1$ in the real space of
+$d\times d$ complex matrices, of dimension $2d^2$, so $\#M\le(3DR^2)^{2d^2}$. By maximality, every $s$ in the set has $\norm{J(s)y-J(s_0)y}\le1/(DR)$ for some $s_0\in M$, hence $\norm{J(s s_0^{-1})-1}\le\norm{J(s)y-J(s_0)y}\norm{(J(s_0)y)^{-1}}\le1/D$, since the inverse of a
+unitary matrix for an indefinite form has the same norm. Hence the set is covered by $\#M$ right translates of the small ball, which have the same measure. For the first special case take $D=200\beta^5$, $R=\beta+1$ and $\kappa=\beta^8$. For
+the integral, integrate by layers $\{2^a\le\norm{J(s)y}<2^{a+1}\}$, using the covering bound with $D=1$, $R=2^{a+1}$: the sum $\sum_a2^{-c(a-1)}(3\cdot4^{a+1})^{2d^2}$ converges for $c>8d^2$ and is at most $16^c$.
+\end{proof}
+
+\begin{theorem}[Laplace's method]\label{thm:A-laplace}
+Let $(j,\varphi)$ be a Laplace datum with $B\ge1$, with $s\mapsto g$ proper and $s\mapsto g'$ continuous, and $\nu$ a right invariant measure on $S$, finite on compact sets. Let both parameters have entries at most $L$ and large gap $h$, let
+$\beta\ge10^{12}$ bound $\#n+\#m+L$, and $h\ge10^{30}((\#n+\#m)^2\log\beta)^3$. Then $\theta$ is integrable and, with $N=(\#n+\#m)^2$,
+\[
+  \nu\{s:\norm g\le\beta+1,\ \norm{g'}\le\beta+1\}\le\beta^{20N}\Bigl\lvert\int_S\theta\,d\nu\Bigr\rvert.
+\]
+\end{theorem}
+
+\begin{proof}
+Let $J(s)=g\oplus g'\in\U(\varepsilon\oplus\eta)$, proper; let $V$, $W$ be the measures of $\{\norm J\le\beta+1\}$ and $\{\norm{J-1}\le(200\beta^5)^{-1}\}$ and $I=\abs{\int\theta}$. By \cref{prop:A-cone}(d), $\abs\theta\le G$, and $G$ is integrable with $\int G\le16^{9N}\nu\{\norm{J-1}\le1\}\le16^{9N}V$ by \cref{lem:A-covering}
+($9N>8N$); so $\theta$, which is continuous, is integrable. On the small ball $\abs\theta\ge1/4$ (\cref{prop:A-cone}(e)), and $\abs\theta\le2\re\theta+6\beta^{-50N}G$ everywhere; integrating,
+\[
+  W/4\le\int\abs\theta\le2I+6\beta^{-50N}16^{9N}V.
+\]
+By \cref{lem:A-covering}, $V\le\beta^{16N}W\le8\beta^{16N}I+24\cdot16^{9N}\beta^{-34N}V$. Since $\beta\ge16$, $24\cdot16^{9N}\beta^{-34N}\le24\beta^{-25N}\le1/2$, and $V\le16\beta^{16N}I\le\beta^{20N}I$.
+\end{proof}
+
+\subsection{Positions and the period}\label{ss:A-positions}
+A \emph{position} of $\U(\eta)$ in $\U(\varepsilon)$, with $\#n=\#m+2d+1$, consists of independent vectors $v_1,\dots,v_{d+1}$ whose products vanish except that $\langle v_{d+1},v_{d+1}\rangle=\pm1$, and an isometry $i_0$ of $(\C^m,\eta)$ into their orthogonal complement.
+Let $A_{\le j}$ be the span of $v_1,\dots,v_j$. A matrix $Y$ \emph{lowers the flag} if $YA_{\le j}\subseteq A_{\le j-1}$ for $j\le d+1$; then $\sigma(Y)$ denotes the sum over $j\le d$ of the coefficient of $v_j$ in $Yv_{j+1}$. $Y$ \emph{induces} $Y'$ if $Yi_0=i_0Y'$ modulo $A_{\le d}$. The position is
+\emph{stationary} for weights $\mu,\mu'$ if $\mu v_j=v_{j+1}$ for $j\le d$, $i_0^\dagger\mu i_0=\mu'$, and $i_0$ is the identity on common coordinates $X$. The \emph{group of the position} $R$ consists of the $g\in\U(\varepsilon)$ such that $g-1$ lowers the flag; it maps to
+$\U(\eta)$ by $g\mapsto g'=i_0^\dagger gi_0$, and $\sigma(g)=\sigma(g-1)$ is additive on $R$.
+\lean{New.DiscreteSeries.formAdjoint, New.DiscreteSeries.initCols, New.DiscreteSeries.IsPosition, New.DiscreteSeries.LowersFlag, New.DiscreteSeries.InducesOn, New.DiscreteSeries.IsStationary, New.DiscreteSeries.formAdjoint_mul, New.DiscreteSeries.formAdjoint_sub, New.DiscreteSeries.formAdjoint_formAdjoint, New.DiscreteSeries.trace_formAdjoint, New.DiscreteSeries.formAdjoint_intDiagonal, New.DiscreteSeries.formAdjoint_one, New.DiscreteSeries.formAdjoint_val, New.DiscreteSeries.formAdjoint_sub_one, New.DiscreteSeries.isometry_of_formAdjoint_mul_self, New.DiscreteSeries.formAdjoint_inclMatrix, New.DiscreteSeries.IsPosition.formAdjoint_mul_self, New.DiscreteSeries.IsPosition.formAdjoint_mul_vec, New.DiscreteSeries.IsPosition.vec_orthogonal, New.DiscreteSeries.IsPosition.initCols_orthogonal, New.DiscreteSeries.IsPosition.orthogonal_initCols, New.DiscreteSeries.IsPosition.initCols_isotropic, New.DiscreteSeries.IsPosition.exists_mul_eq_zero_and_mul_eq_one, New.DiscreteSeries.IsPosition.exists_mul_eq_zero_and_mul_initCols_eq_one, New.DiscreteSeries.IsPosition.hasLeftInv, New.DiscreteSeries.IsPosition.exists_eq_of_orthogonal, New.DiscreteSeries.IsPosition.trace_mul_eq_of_mul_initCols_eq_zero, New.DiscreteSeries.IsPosition.trace_mul_eq_trace_add_sum_of_inducesOn, New.DiscreteSeries.IsPosition.lowersFlag_unique, New.DiscreteSeries.LowersFlag.mul, New.DiscreteSeries.IsStationary.pow_mulVec_col_zero, New.DiscreteSeries.IsStationary.gram_pow_mulVec, New.DiscreteSeries.IsPosition.trace_eq, New.DiscreteSeries.IsStationary.phase_eq, New.DiscreteSeries.IsStationary.trace_eq_and_phase_eq}
+\lean{New.DiscreteSeries.AreOppositeNodes, New.DiscreteSeries.polyVec, New.DiscreteSeries.isometryScale, New.DiscreteSeries.alternatingSignForm, New.DiscreteSeries.mul_polyVec, New.DiscreteSeries.pow_mul_polyVec, New.DiscreteSeries.eval_nodal_eq_mul_erase, New.DiscreteSeries.mul_polyVec_erase, New.DiscreteSeries.AreOppositeNodes.neg_one_pow_mul_eval_nodal_pos, New.DiscreteSeries.AreOppositeNodes.eval_nodal_ne_zero, New.DiscreteSeries.AreOppositeNodes.eval_nodal_pos, New.DiscreteSeries.AreOppositeNodes.polyVec_nodal_ne_zero, New.DiscreteSeries.AreOppositeNodes.alternatingSignForm_polyVec, New.DiscreteSeries.AreOppositeNodes.alternatingSignForm_polyVec_X_pow_mul, New.DiscreteSeries.AreOppositeNodes.alternatingSignForm_polyVec_X_pow_mul_X_pow_mul, New.DiscreteSeries.AreOppositeNodes.alternatingSignForm_polyVec_erase_X_pow_mul, New.DiscreteSeries.AreOppositeNodes.alternatingSignForm_polyVec_nodal_erase, New.DiscreteSeries.AreOppositeNodes.isometryScale_mul_alternatingSignForm, New.DiscreteSeries.AreSeparatedNodes, New.DiscreteSeries.one_le_abs_derivative_nodal, New.DiscreteSeries.abs_eval_nodal_le, New.DiscreteSeries.AreSeparatedNodes.polyVec_sq_le, New.DiscreteSeries.AreSeparatedNodes.abs_polyVec_le, New.DiscreteSeries.AreSeparatedNodes.abs_isometryScale_mul_le, New.DiscreteSeries.positionVec, New.DiscreteSeries.positionIsometry, New.DiscreteSeries.positionVec_apply_inl, New.DiscreteSeries.positionVec_apply_inr, New.DiscreteSeries.positionIsometry_apply_inl, New.DiscreteSeries.positionIsometry_apply_inl_inr, New.DiscreteSeries.positionIsometry_apply_inr_inr, New.DiscreteSeries.alternatingSignForm_const_mul_left, New.DiscreteSeries.alternatingSignForm_const_mul_right, New.DiscreteSeries.AreSeparatedNodes.norm_positionVec_le, New.DiscreteSeries.AreSeparatedNodes.norm_positionIsometry_le, New.DiscreteSeries.IsSteep.conjTranspose_mul_signMatrix_mul_apply, New.DiscreteSeries.IsSteep.conjTranspose_mul_signMatrix_mul_apply_of_real, New.DiscreteSeries.AreOppositeNodes.linearIndependent_positionVec, New.DiscreteSeries.IsSteep.gram_positionVec, New.DiscreteSeries.IsSteep.gram_positionIsometry_inr, New.DiscreteSeries.IsSteep.isPosition, New.DiscreteSeries.intDiagonal_mul_positionVec, New.DiscreteSeries.AreSeparatedNodes.norm_pow_mulVec_positionVec_le, New.DiscreteSeries.exists_intDiagonal_mul_positionIsometry, New.DiscreteSeries.IsPosition.formAdjoint_mul_mul_eq, New.DiscreteSeries.IsSteep.exists_isStationary}
+
+\begin{proposition}[Two traces]\label{prop:A-traces}
+Let $(v,i_0)$ be stationary for $\mu,\mu'$, and let $Y$ and $Y^\dagger$ lower the flag, with sums $\sigma$, $\sigma'$, and let $Y$ induce $Y'$. Then $\operatorname{tr}Y=\operatorname{tr}Y'$ and $\operatorname{tr}\mu Y-\operatorname{tr}\mu'Y'=\sigma+\bar\sigma'$.
+\end{proposition}
+
+\begin{proof}
+Complete $v_1,\dots,v_{d+1}$ and the columns of $i_0$ by vectors $w_1,\dots,w_d$ in the complement with $\langle w_a,v_b\rangle=\delta_{ab}$ and $w_a\perp i_0$; the products of the $v$'s force this to be a basis. In this basis the diagonal entries of $Y$ at the $v_j$ vanish because $Y$
+lowers the flag, those at the $w_a$ are $\langle Yw_a,v_a\rangle=\langle w_a,Y^\dagger v_a\rangle=0$ because $Y^\dagger$ lowers the flag, and the block at $i_0$ is $Y'$ modulo $A_{\le d}$; so $\operatorname{tr}Y=\operatorname{tr}Y'$. For the phase, $\mu$ maps $v_j$ to $v_{j+1}$, so the diagonal entries of $\mu Y$ at the
+$v_j$ and the $w_j$ are the coefficients of $v_j$ in $Yv_{j+1}$ and the conjugates of those of $Y^\dagger$; at $i_0$ the block is $i_0^\dagger\mu Yi_0=i_0^\dagger\mu i_0Y'=\mu'Y'$ modulo terms in $A_{\le d}$, which pair to zero with $i_0$.
+\end{proof}
+
+\begin{proposition}[The stationary position]\label{prop:A-stationary}
+Let $l$ be steep for $(X,L,B)$ with $B\ge1$, and let $\mu'$ vanish on $X$, where $\eta=+1$, and increase strictly in $[0,B']$ on the other $L'$ coordinates with alternating signs, $B'\ge0$ and $L=L'+2d+1$. Then there is a stationary
+position with $d+1$ vectors; $v_{d+1}$ has norm $(-1)^{L'}$, and the entries of the $v_j$, of $i_0$ and of $\mu^av_1$, $a\le2d$, have modulus at most $(3B+B')^L$.
+\end{proposition}
+
+\begin{proof}
+Off $X$, let $p=\prod_i(t-\mu_i)$ and $q=\prod_j(t-\mu'_j)$, with the roots $\mu_i<0\le\mu'_j$ distinct integers. For a real polynomial $F$ let $[F]$ be the vector with entries $F(\mu_i)\abs{p'(\mu_i)q(\mu_i)}^{-1/2}$; then $\mu[F]=[tF]$. For the alternating
+form $\langle x,y\rangle=\sum_i(-1)^ix_iy_i$, the sum of residues gives $\langle[F_1],[F_2]\rangle=(-1)^{L'}\sum_i\operatorname{Res}_{\mu_i}F_1F_2/(pq)$, the signs of $q(\mu_i)$ being $(-1)^{L'}$ and those of $p'(\mu_i)$ alternating. Put $v_j=[t^{j-1}q]$. For $a+b\le2d$,
+$\langle[t^aq],[t^bq]\rangle=(-1)^{L'}\sum\operatorname{Res}t^{a+b}/p$, which is $(-1)^{L'}$ if $a+b=2d=\deg p-1$ and $0$ otherwise; so the $v_j$ have the products of a position, and $\mu v_j=v_{j+1}$. Let $q_j=q/(t-\mu'_j)$ and let the columns of $i_0$ be
+$\abs{p(\mu'_j)/q'(\mu'_j)}^{1/2}[q_j]$. Then $\langle[q_j],[t^aq]\rangle=0$ for $a\le2d$ (the numerator $t^aq_j$ has degree less than $L-1$ after division by $p$ only when the residue at $\mu'_j$ is absent), and $\langle[q_j],[q_{j'}]\rangle$ is $0$ for $j\ne j'$ and
+$(-1)^{L'+1}q'(\mu'_j)/p(\mu'_j)$ for $j=j'$, the only extra pole; with the scaling the columns of $i_0$ are orthonormal with signs alternating. Finally $t q_j=\mu'_jq_j+q$ gives $\mu i_0=i_0\mu'+v_1(\cdots)$, so $i_0^\dagger\mu i_0=\mu'$. On $X$ take the identity.
+The entries are values of polynomials of degree at most $L$ at points of modulus at most $3B$, divided by products of differences of distinct integers, which are at least $1$.
+\end{proof}
+
+\lean{New.DiscreteSeries.mul_initCols, New.DiscreteSeries.mul_initCols_eq, New.DiscreteSeries.LowersFlag.inv, New.DiscreteSeries.positionGroup, New.DiscreteSeries.positionSum, New.DiscreteSeries.lowersFlag_positionSum, New.DiscreteSeries.exists_sub_one_mul_eq_initCols_mul, New.DiscreteSeries.IsPosition.positionSum_mul, New.DiscreteSeries.IsPosition.isClosed_positionGroup, New.DiscreteSeries.IsPosition.vec_orthogonal_sub_one_mul, New.DiscreteSeries.IsPosition.inducesOn, New.DiscreteSeries.IsPosition.formAdjoint_conj_mul, New.DiscreteSeries.IsPosition.isometry_formAdjoint_conj, New.DiscreteSeries.IsPosition.inducedHom, New.DiscreteSeries.IsPosition.inducedHom_val, New.DiscreteSeries.IsPosition.inducedHom_eq, New.DiscreteSeries.IsPosition.periodIntegrand, New.DiscreteSeries.IsPosition.exists_inducedHom_eq, New.DiscreteSeries.IsStationary.isLaplaceDatum, New.DiscreteSeries.IsStationary.integrable_periodIntegrand_and_measure_le, New.DiscreteSeries.IsStationary.period_lower_bound_of_surjective, New.DiscreteSeries.IsPosition.gram_fromCols, New.DiscreteSeries.conj_inl_sub_one, New.DiscreteSeries.norm_conj_inl_le, New.DiscreteSeries.conj_inl_sub_one_mul, New.DiscreteSeries.lowersFlag_conj_inl_sub_one, New.DiscreteSeries.inducesOn_conj_inl_sub_one, New.DiscreteSeries.IsPosition.exists_conj_inl_eq, New.DiscreteSeries.IsSteep.lowestKType_neg_mem, New.DiscreteSeries.sq_norm_fromCols_le, New.DiscreteSeries.IsSteep.exists_isStationary_conjTranspose_mul_mul_eq_one, New.DiscreteSeries.IsSteep.exists_volume_le_mul_norm_integral_dsCoeff}
+
+\begin{theorem}[Lower bound for periods]\label{thm:A-period}
+Let $(v,i_0)$ be a stationary position for the lowest weights of $l$ and $k$, $l$ steep with $B\ge1$, and let $\mu'$ vanish on $X$, be nonnegative, and be at most $3B$ unless $\U(\eta)$ is compact. Let both parameters have large gap $h$ and
+entries at most $L$, $N=\#n+\#m$, $\beta\ge\max(10^{12},N+L)$ and $h\ge10^{30}(N^2\log\beta)^3$. Then $\theta(g)=c_l(g)\overline{c_k(g')}\exp(\overline{\sigma(g)}-\sigma(g))$ is integrable over $R$ for every right invariant measure finite on compact sets, and
+\[
+  \nu\{g\in R:\norm g,\norm{g'}\le\beta+1\}\le\beta^{20N^2}\Bigl\lvert\int_R\theta\,d\nu\Bigr\rvert.
+\]
+The same holds for a group $S$ with a proper homomorphism onto $R$.
+\end{theorem}
+
+\begin{proof}
+For $g\in R$, $Y=g-1$ lowers the flag, and so does $Y^\dagger=g^{-1}-1$, since $R$ is a group; $g$ induces $g'$. By \cref{prop:A-traces}, $\operatorname{tr}(g-1)=\operatorname{tr}(g'-1)$ and
+$\operatorname{tr}\mu(g-1)-\operatorname{tr}\mu'(g'-1)=\sigma(g)+\overline{\sigma(g^{-1})}=\sigma(g)-\overline{\sigma(g)}$ by additivity, which is imaginary. The unitary group of $X$ lies in $R$, acting the same way in both factors. Hence $(g\mapsto(g,g'),\ \sigma-\bar\sigma)$ is a Laplace datum, the
+inclusion of the closed subgroup $R$ is proper, and \cref{thm:A-laplace} applies. A proper surjection transports the measure and the integrand.
+\end{proof}
+
+\begin{theorem}[Restriction]\label{thm:A-restriction}
+Let $l$ be steep for $(X,M,B)$ with $M$ even and $B\ge1$, and let $l'$ be a parameter of $\U(\varepsilon\oplus1)$ with $-l'$ steep for $(X,M+1,B)$. Let both have large gap $h$ (for $\#n$ and $\#n+1$), entries at most $L$, $\beta\ge10^{12}$ at least
+$2\#n+1+L$ and $(\#n+1)^4(6B)^{2M+2}$, and $h\ge10^{30}((2\#n+1)^2\log\beta)^3$. Then some $y\in\U(\varepsilon\oplus1)$ with $\norm y^2\le\beta$ has
+\[
+  \vol\{g\in\U(\varepsilon):\norm{g-1}\le1\}\le\beta^{20(2\#n+1)^2}\Bigl\lvert\int_{\U(\varepsilon)}c_l(g)\,\overline{c_{l'}(y^{-1}(g\oplus1)y)}\,dg\Bigr\rvert.
+\]
+\end{theorem}
+
+\begin{proof}
+Take the stationary position of \cref{prop:A-stationary} of $\U(\varepsilon)$ in $\U(\varepsilon\oplus1)$ for the parameters $-l'$ and $-l$ ($d=0$, one vector $v_1$), put $w=(i_0,v_1)$ and $y=w^{-1}$; the entry bound gives $\norm y^2\le\beta$. The group of the position is
+$w\U(\varepsilon)w^{-1}$, the stabiliser of $v_1$, and $g\mapsto(w(g\oplus1)w^{-1},g)$ maps $\U(\varepsilon)$ onto it properly. With $d=0$ the sum $\sigma$ vanishes, so the integrand of \cref{thm:A-period} is the conjugate of the integrand above. The ball
+$\norm{g-1}\le1$ lies in the set whose volume the theorem bounds.
+\end{proof}

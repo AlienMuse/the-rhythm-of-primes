@@ -1,0 +1,417 @@
+\subsection{Discrete series and the local theta correspondence}\label{ss:B-discrete-series}
+At an infinite place the unitary group of a hermitian space of signature $(p,q)$ is $\U(p,q)$. Its discrete series
+are indexed by Harish-Chandra parameters $\lambda$, regular vectors in $\frac{n-1}2+\Z^n$ (here written doubled,
+$l=2\lambda$, on the coordinates of a space with signs $s$), and the \emph{lowest $K$-type} of $\lambda$ has highest
+weight $\Lambda=\lambda+\rho-2\rho_c$. The forms of \emph{type} $l$ are those on which the real group acts through
+the minimal idempotent of the discrete series with parameter $l$ (the \emph{kernel}); a product of such kernels over
+the infinite places is the \emph{type kernel}. If $l$ has gap $h$, the kernel is integrable with
+matrix coefficients decaying like $\exp(-h\cdot\mathrm{dist})$, and integration against it kills bounded functions
+invariant under the unipotent radical of a parabolic (Godement's argument \cite[Ch.~7]{Wallach1988}); this is the
+statement that the type kernel is a \emph{cusp kernel} of order $h/2$.
+\lean{New.HCParam.lowestKType, New.IsHCParam, New.hcParameter, New.highestVector, New.typeKernel, New.IsCuspKernel, New.DiscreteSeries.integral_idempotentKernel_mul_eq_zero, New.DiscreteSeries.exists_conj_mem_dilationGroup}
+
+For a dual pair $(\U(W),\U(V))$ in the Fock model, a polynomial in the variables $\Hom(W,V)$ is a \emph{joint
+harmonic} for parameters $(l,l')$ if it is nonzero, harmonic along rows and columns, and highest for both groups of
+the weights of the two lowest $K$-types. A datum is an \emph{arrow} from type $l$ to type $l'$ if its lifts take forms of
+type $l$ to forms of type $l'$, and an \emph{edge} if it is an arrow in both directions.
+
+\begin{theorem}[Theta correspondence for discrete series]\label{thm:B-theta-ds}
+If $l$ and $l'$ satisfy the block rule (\cref{ss:centres}), then they \emph{match}: every row and column is matched
+with a sign condition or lies in the central range left by the difference of the ranks. For matching parameters a
+joint harmonic exists, given as a product of minors along layers; its projection by the discrete series kernel
+$e_\lambda$ has $\re\langle\Phi,\pi(e_\lambda)\Phi\rangle>0$, is fixed by every function reproducing $e_{\lambda'}$, and
+generates all projected polynomial vectors under bump functions of the second group. Consequently the Fock vector of a
+joint harmonic is an edge between the types $l$ and $l'$.
+\end{theorem}
+\lean{New.isBlockRule_iff_isMatch, New.IsMatch, New.IsMatch.exists_isJointHarmonic, New.IsJointHarmonic, New.IsJointHarmonic.howe_argument, New.OscillatorPair.re_inner_integratedRep_pos, New.OscillatorPair.integratedRep_integratedRep_eq_self, New.OscillatorPair.exists_bump_integratedRep_eq, New.IsEdge, New.IsArrow, New.FockDualPair.std, New.staircaseWeight}
+
+\begin{proof}[Sources]
+The shape of the correspondence of discrete series parameters is due to J.-S.~Li \cite{Li1990} and A.~Paul
+\cite{Paul1999}; the joint harmonics are those of Kashiwara and Vergne \cite{KashiwaraVergne1978}, and the generation
+statement is Howe's argument \cite{Howe1989}. The Lean development proves the statements used: matching from the block
+rule as a statement about integer vectors; the existence of joint harmonics by layers of minors; positivity of the
+projection by comparing the Casimir operators of the two groups on a joint harmonic; and Howe's argument in the Fock
+model.
+\end{proof}
+
+\subsection{Characters of finite general linear groups}\label{ss:B-green}
+Let $\mathbb k$ be a finite field and $T$ an injective character of $\bar{\mathbb k}^\times$. For a label $c$ of degree $r$ the
+character $\Xi_c$ of $\GL_r(\mathbb k)$ is the parabolic induction product of Green's functions $\tau_P$ over the irreducible
+factors $P$ of $c$ \cite{Green1955}.
+
+\begin{theorem}\label{thm:B-green}
+The $\Xi_c$, $c$ a label of degree $r$, are orthonormal irreducible characters of $\GL_r(\mathbb k)$; the elements $e_c$ formed
+from them are orthogonal central idempotents, and their tensor products over finite families of fields are orthogonal central
+idempotents. Multiplying $\Xi_c$ by $\chi\circ\det$ multiplies the roots of $c$ by the element $x_\chi\in\mathbb k^\times$ naming
+$\chi$. If $l\ne0$ and $x_\chi$ is not a root of $c$, then $e_c$ kills $\sum\chi(\det h)^{-1}h$ over the invertible $h=1+ul^{\mathsf T}$.
+\end{theorem}
+\lean{New.greenTau, New.labelChar, New.labelIdem, New.IsLabel.isIrreducibleChar_labelChar, New.labelIdem_orthogonal, New.isCentralProj_tupleIdem, New.tupleIdem_orthogonal, New.evalGL_labelChar_mul_det, New.hyperplaneSum_mul_labelIdem}
+
+\begin{proof}[Sources]
+Green's theory of the characters of $\GL_r(\mathbb k)$ \cite{Green1955}: the $\Xi_c$ for squarefree $c$ are the characters
+induced from the Coxeter tori of the factors; orthonormality is computed in Hall's algebra. The hyperplane sum spans
+representations induced from the stabiliser of $\ker l$ with $\chi\circ\det$ on the line, whose labels have the root $x_\chi$.
+\end{proof}
+
+\subsection{Algebraic modular forms and Bessel periods}\label{ss:B-bessel}
+For a definite hermitian space $V$ over the CM field $E$, automorphic forms on $\U(V)$ of a given weight and level are
+\emph{algebraic modular forms} in the sense of Gross \cite{Gross1999}: functions on the finite set of double cosets
+$\U(V)(E^+)\backslash\U(V)(\Ad_{\mathrm f})/K$ with values in the Weyl module of the weight, transforming by the stabilisers. The
+Petersson product is the finite sum over the double cosets weighted by the inverse orders of the stabilisers; for free levels
+(\cref{prop:free-levels}) all weights are $1$.
+\lean{New.algFormRep, New.levelSpace}
+
+For a hermitian space $V$ of rank $n$ with a point, the \emph{first minimum} $\lambda(g)$ at $g$ is the least length of a nonzero vector of the lattice of the moved space at $g$, cut off at $1$, and the
+\emph{height} is $1/\lambda(g)$. A \emph{form of type $e$}, for a cusp kernel $e$ (a minimal idempotent for convolution on the real group that decays polynomially and is reproduced by a compactly supported
+function), is a bounded automorphic function fixed by right convolution with $e$.
+
+\begin{theorem}[Cusp estimate and rapid decay]\label{thm:B-cusp}
+Let $N\ne0$ be a natural number in the different of $E$, $\kappa=\kappa(E,n,N)\ge1$ the cusp constant, $M\ne0$ and $0<\delta\le1$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $\lambda(g)<(\delta/(M\kappa^2))^n$, the short lattice vectors at $g$ span a rational isotropic subspace $A\ne0$, and the unipotent radical of its stabiliser is covered by its rational points times the real ball
+of radius $\delta$ about $1$ times the principal level $M$.
+\item Forms of type $e$ are cuspidal: their constant terms along the unipotent radicals of nonzero rational isotropic subspaces vanish.
+\item Let $F$ be a form of type $e$ and principal level $M$. If $\lambda(g)<(\delta/(M\kappa^2))^n$ and $\norm{F(gx)-F(g)}\le C$ for every real $x$ within $\delta$ of $1$, then $\norm{F(g)}\le C$.
+\item Forms of type $e$ decay faster than every power of the height, uniformly at a fixed level, and the forms of a fixed type and level span a space of finite dimension.
+\end{enumerate}
+\end{theorem}
+\lean{New.Space.CuspFrame.length_mul_le, New.Space.adelicCoords, New.Space.mem_Gamma_of_adeleMatrix_eq_radicalElem, New.Space.CuspFrame.spans, New.Space.IsCuspidal, New.Space.adelicCoords_gram, New.cuspConst, New.Space.CuspFrame.ne_zero, New.Space.CuspFrame.perpCols, New.Space.CuspFrame.col_isotropicCols_mem, New.Space.IsCuspidal.norm_le_of_firstMinimum_lt, New.Space.exists_cuspFrame_of_height, New.Space.prod_opNorm_mul_le, New.Space.exists_norm_mul_height_pow_le, New.Space.ratEmbed_move, New.Space.exists_cuspFrame, New.exists_isIntBounded_sub_map, New.Space.CuspFrame.isotropic, New.Space.CuspFrame.lengthX_le, New.Space.adelicCoords_evalInf_ne_zero, New.one_le_cuspConst, New.Space.IsForm.mem_rapidFunctions, New.Space.exists_mem_Gamma_adeleMatrix_mul_eq_radicalElem, New.Space.CuspFrame.radicalCovered, New.Space.CuspFrame.orthogonal, New.Space.mem_dilationGroup_of_ratEmbed_mem_radical, New.Space.isCocompact_radical, New.Space.CuspFrame.lengthX, New.Space.exists_norm_sub_le_half, New.Space.CuspFrame.lengthY, New.Space.isIntBounded_adelicCoords, New.Space.norm_le_of_oscillation, New.rank_of_apply_min, New.dist_le_and_mem_principalLevel_of_adeleMatrix_eq, New.Space.finite_levelSpace, New.Space.adelicCoords_injective, New.Space.one_le_norm_mul_of_span_eq_top, New.Space.adelicCoords_gram_eq_zero, New.Space.map_radicalElem, New.exists_orthogonal_one_sub, New.Space.CuspFrame.isotropicCols, New.Reduction.IsIntBounded.mono, New.Space.dist_conj_one_le, New.Space.CuspFrame.col_perpCols_mem, New.IsCuspKernel.integral_mul_eq_zero, New.Space.integral_unipotentRadical_eq_zero, New.Space.IsForm.isCuspidal, New.Space.IsCuspidal.integral_eq_zero, New.Space.nonempty_cuspFrame, New.Space.isForm_realConv, New.Space.fixesLeft_move, New.Space.IsCuspidal.continuous, New.Space.IsForm.norm_le_of_firstMinimum_lt, New.exists_le_rev_and_mul_rev_lt, New.Space.CuspFrame, New.Space.RadicalCovered, New.Space.radical, New.Space.exists_norm_le_of_radicalCovered, New.Space.adelicCoords_mul_add_mul_eq_one, New.Space.exists_basis_prod_norm_le, New.Space.IsCuspidal.rat_mul}
+
+\begin{proof}[Sources]
+These are the classical results on cusp forms \cite[\S\S7--8]{Borel2007}, \cite{MillerSchmid2012}, in a form adapted to bounded functions reproduced by an integrable idempotent, with no differential equation and
+with an explicit depth. (a) A Minkowski-reduced basis is sorted by length; if the first minimum is below the threshold, the shortest vectors are isotropic and span an isotropic subspace, and the rational points of the
+radical are cocompact in it with an explicit fundamental set. (b) Let $F$ be bounded, continuous, fixed by right convolution with $e$ and invariant under the rational points of a unipotent radical $N$ of finite covolume, and let $\Psi(x)$ be the mean of $F(gvx)$
+over $v$ in the quotient of $N$. Then $\Psi$ is fixed by convolution with $e$, since $F$ is (exchange the two integrals), and it is killed by that convolution, being left invariant under the real points of
+the radical: a cusp kernel annihilates every bounded continuous function left invariant under the real points of the unipotent radical of an isotropic subspace, a case of Harish-Chandra's
+theorem that the $K$-finite coefficients of a discrete series have vanishing constant terms. Hence the mean vanishes. (c) By (a), $g$ times the radical lies in rational points times $\delta$-small real points times the level, so all
+values of $F$ on $gN$ lie within $C$ of $F(g)$, while their mean is $0$ by (b); hence $\norm{F(g)}\le C$. (d) High in the cusp, (c) with $\delta^n=\kappa/\mathrm{ht}(g)$ and the bounded
+variation of a form under small real translations give the decay; elsewhere the height is at most $\kappa$. For the finite dimension, a form of level $K$ exceeds half its bound only at height at most a fixed
+$2R$, so only inside $\Gamma C$ with $C$ compact (Mahler's criterion); cover $C$ by finitely many neighbourhoods of points $a^{-1}$ on which such a form stays within half its bound of its value at $a^{-1}$. A form
+vanishing at all these points has every bound halved, hence is $0$, so evaluation at finitely many points is injective on the forms of level $K$.
+\end{proof}
+
+For $Y_0=\langle e_1,\dots,e_\varrho\rangle\oplus X_0\oplus\langle z\rangle\oplus\langle e^*_1,\dots,e^*_\varrho\rangle$, the \emph{Bessel
+subgroup} $R_0=U\rtimes\U(X_0)$ is the stabiliser of the isotropic flag in the $e_a$ that fixes $z$ modulo the flag; its unipotent
+radical $U$ carries the generic character $\psi_U(u)=\psi(\sum_a\langle ue_{a+1},e^*_a\rangle+\langle uz,e^*_\varrho\rangle)$. Every
+element of the Bessel group is a product $uh$ with $u\in U$ and $h\in\U(X_0)$. These are the Bessel models of Gan, Gross and Prasad
+\cite{GGP2012}; Bessel functions on the real group are the bounded functions transforming by $\psi_U$ on the left and by a
+representation of $\U(X_0)$.
+\lean{New.Grading, New.Shape.Form.besselS, New.Shape.Form.besselU, New.exists_besselU_mul_toBesselH, New.IsBesselFunction}
+
+\subsection{Constant terms and the unfolding of Bessel periods}\label{ss:B-unfolding}
+Let $V$, $V'$ be graded hermitian spaces with strings of lengths $s$ and $s-1$ (\cref{ss:graded}), $\Phi$ a datum on $\Hom(V,V')$ and
+$\omega_\alpha$ the Weil representation of $\U(V)\times\U(V')$ twisted by characters $\alpha$ of $\U(1)(\Ad)$. The theta kernel
+$\theta(\omega_\alpha(r,h)\Phi)$ is expanded along the rational maps $V\to V'$ modulo those of degree $\ge0$: each class contributes a
+constant term, the mean of the theta function along the maps of positive degree, which is a theta value of a zero term in a
+mixed model of the Weil representation \cite{Weil1964}. Over a set of classes stable under the rational points of the Bessel group
+in which no chosen representative agrees with the shift on the entries of positive grade, the terms integrate to zero against a
+$\psi_U$-equivariant function; the classes that survive are the translates of the shift by the rational points of $\U(V')$.
+
+\begin{proposition}[One unfolding step]\label{prop:B-unfolding}
+Let $W$ be a continuous $\psi_U$-equivariant function on the Bessel group $R_V$, left invariant under $R_V(E^+)$, and $y$ a rapidly
+decreasing automorphic function on $\U(V')(\Ad)$. Put $\mathcal W'(h)=\int_{[R_V]}W(r)\,C_{\mathrm{sh}}(\Phi)(r,h)\,dr$. Then
+$\int_{[R_V]}W(r)\,\theta(\omega_\alpha(r,h)\Phi)\,dr=\sum_\gamma\mathcal W'(\gamma h)$, the sum over $R_{V'}(E^+)\backslash\U(V')(E^+)$, and
+\[
+  \int_{[R_V]}W(r)\int_{[\U(V')]}\theta(\omega_\alpha(r,h)\Phi)\,y(h)\,dh\,dr=\int_{R_{V'}(E^+)\backslash\U(V')(\Ad)}\mathcal W'(h)\,y(h)\,dh,
+\]
+both sides converging absolutely. If the constants of the two gradings agree, $\gamma\mapsto\mathcal W'(\gamma h)$ is again
+$\psi_U$-equivariant, and $\mathcal W'$ is continuous and left invariant under $R_{V'}(E^+)$.
+\end{proposition}
+\lean{New.Grading.hasSum_unfoldStep, New.Grading.integral_besselGroup_unfold, New.Grading.continuous_unfoldStep, New.Grading.unfoldStep_rat_mul, New.Grading.isEquivariant_unfoldStep, New.Grading.hasSum_constTerm, New.Grading.constTerm_mul, New.Grading.constTerm_eq_theta_zeroTerm}
+
+\begin{proof}[Sources]
+This is the transfer of Bessel and Fourier--Jacobi periods under one theta lift, in the unitary case with a definite complement;
+see Gan and Ichino \cite{GanIchino2016} for the local theory and Kudla \cite{Kudla1984} for the seesaw principle.
+\end{proof}
+
+Two further facts on graded lattices are used. \emph{Iwasawa decomposition for the flag of the grades}: if $E$ contains a primitive root of unity
+of order $5040$, every finite point $x$ has a unipotent $u$ such that the lattice of $ux$ is graded. \emph{Finiteness}: for an
+invertible idele $\mathfrak q$ of valuation $1$ outside a finite set $Q$, the double cosets under the finite Bessel group and the
+lattice stabiliser whose orbits contain a point with the lattice bounds have finitely many representatives, supported on
+$Q\cup\bar Q$; this is the finiteness of the lattices between two given ones, a lattice being determined by its local components
+\cite[\S81]{OMeara1973}.
+\lean{New.Grading.exists_isGraded, New.Grading.exists_finite_representatives, New.Grading.finite_image_latticeMinus, New.Grading.HasLatticeBounds.latticeMinus_componentOn}
+
+\subsection{Hecke operators at split places and the unramified correspondence}\label{ss:B-hecke-transfer}
+Let $w$ be a split place of norm $q$, so that $\U(V)(E^+_w)\cong\GL_n(E_w)$. For $j\le n$, $T_{w,j}$ is the Hecke operator of the double coset of
+$\mathrm{diag}(\varpi1_j,1_{n-j})$ under $\GL_n(\OO_w)$, acting on the vectors spherical at $w$, and the \emph{Hecke polynomial} is
+$H_w(X)=\sum_{j\le n}(-X)^jq^{\binom j2}T_{w,j}$. On spherical vectors $T_{\bar w,j}$ is the operator of the inverse double coset, the operators at
+different split places commute, and in a unitary representation a finite-dimensional stable space of spherical vectors is spanned by joint
+eigenvectors.
+
+Let $S$, $T$ be hermitian spaces of ranks $n$ and $n+k$ and let the characters of the Weil representation of $\U(S)\times\U(T)$ be unramified at
+$w$. On the vacuum at $w$ the operators $T_{w,j}$ for $T$ and $T_{\bar w,j}$ for $S$ count the subspaces of the kernels of an integral matrix and of
+its transpose modulo $w$, and the $q$-binomial theorem gives
+\[
+  H^{T}_w(X)\,\mathrm{vac}=\prod_{l<k}(1-q^lc\,X)\cdot H^{S}_{\bar w}(cX)\,\mathrm{vac},
+\]
+with $c=\chi(\varpi_w)q^{n/2}$ for the character $\chi$ of the pair. Through equivariant maps and through the theta pairing this identity passes to
+theta lifts: the Hecke polynomial of the lift of a spherical form is that of the form, rescaled, times the $q$-Pochhammer symbol. This is the
+unramified theta correspondence for $\GL_n$, stated for operators (Howe; Rallis \cite{Rallis1982}; Kudla \cite{Kudla1986}).
+\lean{New.heckeSplit, New.heckeSplit_star, New.heckeSplit_dual, New.heckeSplit_adjoint, New.heckeSplit_comm, New.IsUnitary.le_span_joint_eigenvectors, New.heckePolyEval, New.heckePolyOp, New.HasHeckePolynomial, New.SiegelWeil.heckePolyOp_pairWeilTarget, New.SiegelWeil.hecke_transfer_of_equivariant, New.SiegelWeil.hecke_transfer_of_pairing, New.SiegelWeil.lift_swap_heckePolyOp, New.SiegelWeil.hasHeckePolynomial_formLift, New.SiegelWeil.hasHeckePolynomial_qPochhammer, New.SiegelWeil.qPochhammer}
+
+\begin{theorem}[Chains of Satake roots]\label{thm:B-chains}
+Let $\rho$ be a smooth representation of $\GL_N(E_w)$ with an invariant scalar product, $q$ the norm of $w$, and $x\ne0$ a vector fixed by $\GL_N(\OO_w)$ with Hecke polynomial $P=\sum_{j\le N}(-1)^jq^{\binom j2}t_jX^{N-j}$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $P(c)=0$ and $\abs c^2q^k=q^N$, then $c,cq,\dots,cq^{k-1}$ are roots of $P$; if $P(c)=0$ and $P(qc)\ne0$, then $\abs c^2\ge q^{N-2}$.
+\item Let $U$ be the Hecke operator of $\mathrm{diag}(\varpi,1,\dots,1)$ for the pro-$p$ Iwahori subgroup. If $d\ne0$ and $P(X/d)=\prod_{i\le k}(X-q^i)\cdot S$ with $S$ dividing $R$, then $x$ is orthogonal to
+$\bigl((dX-q^k)R(dX)\bigr)(U)y$ for every $y$ fixed by the pro-$p$ Iwahori subgroup.
+\end{enumerate}
+\end{theorem}
+\lean{New.Patching.HasRootChain, New.Patching.adjoint_aeval_map_starRingEnd, New.Patching.aeval_cofactor_eq_zero, New.Patching.aeval_conj_eq_zero, New.Patching.apply_inv_partialHecke_zero_top, New.Patching.chain_lemma, New.Patching.chain_lemma_of_adjoint, New.Patching.compactMean_apply_inv_partialHecke_one_succ, New.Patching.eq_zero_of_partialHecke_zero_top, New.Patching.isRoot_chain_of_norm, New.Patching.le_norm_sq_of_isRoot_of_not_isRoot_mul, New.Patching.pairing_aeval_heckeCoset_eq_zero, New.Patching.partialHecke_hyperplane_count_dual}
+
+\begin{proof}[Sources]
+The Satake parameters of unitary unramified representations of $\GL_N$ come in chains; both statements follow from Tadi\'c's classification of the unitary dual \cite{Tadic1986} and the geometric lemma of Bernstein and Zelevinsky. The Lean
+development proves them directly, by two counts of hyperplanes: a root $c$ with $qc$ not a root has $\abs c^2\ge q^{N-2}$; with the symmetry $y\mapsto q^{N-1}/\bar y$ of the roots, forced by unitarity, this gives the chain; and the same counts let
+the roots of a chain below the top one be cancelled one at a time against the partial Hecke sums of translates of $x$, which gives the orthogonality.
+\end{proof}
+
+\subsection{A comparison of simple trace formulas}\label{ss:B-trace-comparison}
+Let $V$ be a hermitian space of rank $n$ over the CM field $E$. For a test function $e\otimes\phi$, with $e$ a cusp kernel on the real group (a minimal convolution
+idempotent with polynomial decay) and $\phi$ locally constant of compact support on $G_{\rm f}$, the trace of its action on forms of type $e$ is the geometric side
+$\sum_R$ over the characteristic polynomials $R$ of rational points of the orbital integrals. A polynomial $R$ that is irreducible with a root off the unit circle contributes
+nothing (the Selberg principle for idempotents of the discrete series, after Harish-Chandra); for $R$ irreducible with all roots on the unit circle the orbital integral
+splits into a product of characters of the compact unitary group and a factor that depends only on $R$ and $\phi$, which matches the classes of different signs.
+\lean{New.Space.orbitalIntegral_eq_zero, New.Space.geometricSide_singleton_eq_zero_of_norm_ne_one, New.Space.orbitalIntegral_eq_prod_mul, New.trace_comparison}
+
+\begin{theorem}[Comparison of traces]\label{thm:B-trace-comparison}
+Let $E$ contain the $5040$th roots of unity and have an even number of infinite places, and let $V$, $V'$ be hermitian spaces of rank $n\ge2$ over $E$ with signs $s$, $s'$.
+Let $l$ be a doubled Harish-Chandra parameter with gap at least $500n^3+10n^5$ at every infinite place for both signs, $K$ a level, and $a$ an element of the group algebra of
+$G_{\rm f}$ preserving the $K$-fixed vectors in every representation, such that $a\star\mathbf 1_K$ is cuspidal at a split place. Then $a$ has the same trace on the forms of
+parameter $l$ and level $K$ on $V$ and on $V'$.
+\end{theorem}
+\lean{New.trace_eq_of_isCuspidalAt, New.isCuspidalAt_convIndicator_tupleIdem, New.sum_coeff_tupleIdem_radicalHom, New.sum_coeff_labelIdem_radicalHom, New.finMean_labelChar_radicalHom}
+
+\begin{proof}[Sources]
+The statement for test functions supported, at a second place, on elements with a simple characteristic root $0$ is the simple trace formula with a cuspidal
+component, as in Arthur and Clozel \cite[Ch.~1]{ArthurClozel1989} and Harris and Labesse \cite[Prop.~1.10.5]{HarrisLabesse2004}; the second condition is removed by
+cutting the level at an auxiliary split place down to the stabiliser of a line, where a line Hecke operator forces the simple zero and counts the spherical vectors through
+its determinant. Here integrable idempotent kernels of discrete series with a large gap replace pseudo-coefficients, and there is neither truncation nor endoscopy. The cuspidal
+input is Green's theory: the class function of a monic irreducible polynomial of degree $n$ has mean zero on the unipotent radical of every proper coordinate parabolic of
+$\GL_n(\F_q)$ \cite{Green1955}, so the idempotent of a tuple of labels with an irreducible member is cuspidal at the place of that member.
+\end{proof}
+
+\subsection{The Siegel--Weil formula and Siegel's formula}\label{ss:B-siegel-weil}
+Let $S$ be a hermitian space over $E$ split into $p$ hyperbolic planes and $T$ a hermitian space of rank $m$, both unimodular at every finite place, with the Weil representation $\omega$ of the
+pair of unitary groups on the test functions $\mathcal S$ of $\mathrm{Hom}(S,T)$ (\cref{ss:B-weil}). A \emph{Lagrangian} of $S$ is a maximal isotropic subspace; every Lagrangian is spanned by the isotropic
+frame of a complete splitting $S=lE^p\oplus kE^p$. The \emph{zero term} of $f$ along a Lagrangian $L$ is the mean of $\theta(\varrho(z)f)$ over the maps $z\colon S\to T$ vanishing on $L$, adelic modulo
+rational; it is the value at $0$ in the Schr\"odinger model of a splitting along $L$ and depends only on $L$.
+\lean{New.SiegelWeil.CompleteSplitting, New.SiegelWeil.splitWeil, New.SiegelWeil.Lagrangian, New.SiegelWeil.homSlice_zero, New.SiegelWeil.forall_colSpan_dot_eq_zero_iff, New.SiegelWeil.exists_mulVec_add_mulVec_of_orthogonal, New.SiegelWeil.mixedValue, New.SiegelWeil.CompleteSplitting.lagrangian, New.SiegelWeil.Lagrangian.eq_of_le, New.SiegelWeil.Lagrangian.exists_completeSplitting, New.SiegelWeil.Lagrangian.completeSplitting, New.SiegelWeil.Lagrangian.numPlanes, New.SiegelWeil.Lagrangian.chosenSplitting, New.SiegelWeil.Lagrangian.lagrangian_chosenSplitting, New.SiegelWeil.Lagrangian.zeroTerm, New.SiegelWeil.zeroTerm_lagrangian_eq_theta, New.SiegelWeil.isometrySplitting, New.SiegelWeil.zeroTerm_isometrySplitting, New.SiegelWeil.zeroTerm_lagrangian_isometrySplitting_comp, New.SiegelWeil.exists_isometry_orthogonal, New.SiegelWeil.mem_comap_iff_forall_dot_eq_zero, New.SiegelWeil.exists_lagrangian_equiv_containing, New.SiegelWeil.mixedValue_splitWeil_levi, New.SiegelWeil.mixedValue_splitWeil, New.SiegelWeil.hasSum_mixedValue_theta_splitWeil, New.SiegelWeil.normalisedTorus, New.SiegelWeil.normalisedTorus_zero, New.SiegelWeil.norm_mixedValue_normalisedTorus, New.SiegelWeil.theta_normalisedTorus_le, New.SiegelWeil.norm_zeroTerm_parabolic_mul, New.Space.Splitting.exists_slice_omega_vacElem_of_isEmpty, New.SiegelWeil.norm_zeroTerm_vacElem_pos, New.SiegelWeil.exists_ideleAbs_le_of_isCompact, New.SiegelWeil.exists_zeroTerm_normalisedTorus_le, New.SiegelWeil.prod_mul_prod_lt_prod_one_add_pow, New.SiegelWeil.transferWeight, New.SiegelWeil.transferPoint, New.SiegelWeil.norm_qPochhammer_mul_norm_eq_norm_sum, New.SiegelWeil.norm_qPochhammer_neg, New.SiegelWeil.norm_transferWeight, New.SiegelWeil.sum_norm_transferWeight_lt, New.SiegelWeil.exists_zeroTerm_omega_schrodingerOp_eq_smul, New.SiegelWeil.exists_zeroTerm_transferPoint_eq, New.SiegelWeil.sum_norm_mul_norm_zeroTerm_le, New.SiegelWeil.eq_zero_of_le_tsum_zeroTerm}
+
+\begin{theorem}[Siegel--Weil formula in Weil's range]\label{thm:B-siegel-weil}
+If $m>2p$, the zero terms are summable in operator norm over the Lagrangians of $S$, and for every $f\in\mathcal S$ the function $h\mapsto\theta(\omega(1,h)f)$ is integrable on $[\U(T)]$ with
+\[
+  \frac1{\vol[\U(T)]}\int_{[\U(T)]}\theta(\omega(1,h)f)\,dh=\sum_L\mathrm{zt}_L(f).
+\]
+\end{theorem}
+\lean{New.SiegelWeil.radicalElement_eq_conj_levi, New.SiegelWeil.exists_compact_parabolic_normal_form, New.SiegelWeil.exists_siegel_set, New.SiegelWeil.tsum_div_two_pow_lt_top, New.SiegelWeil.exists_mul_k_apply_ne_zero, New.SiegelWeil.lagrangian_isometrySplitting_comp_eq, New.SiegelWeil.exists_summable_zeroTerm_bound, New.SiegelWeil.lCoord_mul_levi_dyadicDiag, New.SiegelWeil.tendsto_integral_theta_zeroTerm_sub, New.SiegelWeil.tendsto_zeroTerm_of_notMem, New.SiegelWeil.bddAbove_norm_sub_tsum_norm_zeroTerm, New.SiegelWeil.exists_lagrangian_equiv_col_mem, New.SiegelWeil.tendsto_tsum_zeroTerm_sub_integral_theta, New.SiegelWeil.integrable_theta_splitWeil, New.SiegelWeil.siegel_weil}
+
+\begin{proof}[Sources]
+This is Weil's theorem \cite[\S52, Thm.~5]{Weil1965} in the convergent range, with the Eisenstein series written as the sum of the zero terms over the Lagrangians. The proof in the Lean development
+follows the classical route: reduction theory gives Siegel sets, every adelic point being $\gamma a_x\kappa$ with $\gamma$ rational, $a_x$ a dyadic torus element and $\kappa$ in a compact set; theta is
+bounded uniformly along the normalised torus when $m>\operatorname{rank}S$, and the zero terms of a second splitting are bounded along it. Let $\ell$ be the difference of the two sides. Splitting off
+one isotropic line and inducting on the rank of $S$, $\ell$ along the normalised torus tends to $0$ as any coordinate of the torus tends to infinity, so $\ell(\omega(g)f)$ exceeds the sum of the norms of
+the zero terms of the translated vacuum by a bounded amount; a continuous invariant functional dominated in this way vanishes when $\operatorname{rank}T>\operatorname{rank}S>0$, by the Hecke maximum principle.
+\end{proof}
+
+For a function $\Phi_0$ of finite adelic vectors of rank $n$ and $\alpha\in E^+$ the \emph{density} is $\delta(\Phi_0,\alpha)=\iint\Phi_0(x)\psi_{\rm f}(z(x^*x-\alpha)/2)\,dx\,dz$, over the finite vectors $x$ and the
+self-adjoint finite adeles $z$, with the codifferent of volume $1$. For a level $K$ the \emph{class sum} of a function is its sum over the classes, weighted by $1/\#\mathrm{Aut}$; the class sum of $1$ at the
+stabiliser of $\hat\OO_E^n$ is the \emph{mass} $\mathrm{mass}_n$.
+\lean{New.mem_stdRatPoints_iff, New.classSum_stdRatPoints_eq_mass, New.mass_pos, New.normOneLatticeVectors, New.image_normOneLatticeVectors_eq_orbit_inter, New.classSum_card_norm_one_eq_mass, New.idealZeta, New.le_two_of_pow_le_ofReal, New.lintegral_le_idealZeta_mul, New.coe_stdLattice, New.characterKernel, New.isOpen_characterKernel, New.conductorIdeal, New.cardQuot_conductorIdeal_ne_zero, New.gauss_sum_sq_le, New.lintegral_gauss_sum_le_idealZeta, New.idealZeta_intAdeles_pow_le}
+
+\begin{theorem}[Siegel's formula]\label{thm:B-siegel-formula}
+Let $E$ carry Weil data and $n\ge3$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (One vector.) For the standard definite space of rank $n$, the mean over the unitary quotient of $\sum_\xi\Psi(h^{-1}\xi)$ is $\Psi(0)$ plus the sum over $\beta\in E^+$ of the integrals
+$\int\Psi(x)\psi(\beta x^*x/2)\,dx$; for $\alpha\ne0$ the sum over the rational $\xi$ with $\xi^*\xi=\alpha$ has mean $\abs{D_E}^{1/4}\int P$, $P(z)=\int\Psi(x)\psi(z(x^*x-\alpha)/2)\,dx$.
+\item (Vectors of one norm.) Let $K$ be a level, $\Phi_0\ge0$ locally constant, $K$-invariant and of compact support, and $\alpha$ totally positive. The class sum of level $K$ of
+$\sum_{x^*x=\alpha}\Phi_0(h^{-1}x)$ is the class sum of $1$ times $\abs{D_E}^{1/4}\prod_v\pi^n\alpha_v^{n-1}/(n-1)!$ times $\delta(\Phi_0,\alpha)$.
+\item (Gauss sums.) If $\zeta_{\hat\OO}(\mu)\le2$ and $2(\mu+1)\le n$, the integral over $z$ of $\abs{\int_{\hat\OO^n}\psi_{\rm f}(z(w^*w-\alpha)/2)\,dw}$ is at most $\zeta_{\hat\OO}(\mu)\vol(\hat\OO^n)$.
+\item (Masses.) If $E$ contains a primitive $5040$th root of unity, the class sum in rank $j+1$ of the number of vectors of norm $1$ is $\mathrm{mass}_j$; and for $j\ge4u+12$ and $8f\le2^u$,
+\[
+  \Bigl|\log\frac{\mathrm{mass}_{j+1}}{\mathrm{mass}_j}-f\log\frac{\mathrm{rd}_E^{\,j+1/2}\,j!}{(2\pi)^{j+1}}\Bigr|\le\frac2{2^u}.
+\]
+\end{enumerate}
+\end{theorem}
+\lean{New.SiegelWeil.shearSplitting, New.SiegelWeil.eq_lagrangian_of_notMem_range_shear, New.SiegelWeil.zeroTerm_shearSplitting, New.SiegelWeil.siegel_weil_one_vector, New.exists_fundamentalDomain_real, New.realAdele, New.exists_isAddFundamentalDomain_realAdele, New.star_adeleMatrix_mulVec_dotProduct, New.integrable_and_integral_eq_tsum_of_fundamentalDomain, New.SiegelWeil.siegel_weil_fourierCoeff, New.normDensity, New.SiegelWeil.exists_mixedValue_eq_gaussian_mul, New.integral_fourierChar_mul_inv_pow, New.integral_fourierChar_mul_gaussian_pow, New.integral_gaussian_mul_stdAddChar, New.classSum_eq_mul_integral, New.classSum_eq_mul_normDensity, New.mass_eq_mass_succ_mul_normDensity, New.norm_sub_one_le_of_normDensity_eq, New.abs_log_mass_ratio_sub_le}
+
+\begin{proof}[Sources]
+(a) is the Siegel--Weil formula (\cref{thm:B-siegel-weil}) for the hyperbolic plane against the definite space; the zero terms along the lines of $l+\jmath^{-1}\beta k$, $\beta\in E^+$, are computed in the
+Schr\"odinger model, and Laplace's integral for $1/\Gamma$ gives the archimedean factor. (b) Detect the norm $\alpha$ by its Fourier coefficient; this is Siegel's formula \cite{Siegel1935} for hermitian forms
+\cite{Braun1941}, read off from Weil's formula for one vector \cite[Thm.~5]{Weil1965}, with the singular series left as one adelic Fourier integral. (c) Sort the characters by their conductor ideal; for
+each ideal the Gauss sum is bounded by Weyl differencing, and the sum over the ideals is the zeta value. (d) Apply (b) to the vectors of norm $1$ in the standard lattice and bound the density by (c); this
+is an approximate form of the mass formula for unitary groups \cite{GanHankeYu2001}, which suffices here because only ratios of masses in large rank are used.
+\end{proof}
+
+The local densities at a finite set of finite places, read as one ring $A$ with integers $R$, are controlled by the same Gauss sums. The classes modulo $gL$ of the lattice $L$ of integral vectors are
+compact and open of volume $\abs g^{\#\kappa}$. For a unimodular hermitian form of rank at least $2\mu+1$ and $\zeta_R(\mu)\le2$, a class modulo $gL$ has mass at most $\zeta_R(\mu)\abs g^{-1}$ times its
+volume on each quadric, and on an integral quadric the mass of $L$ differs from $1$ by at most $\zeta_R(\mu)-1$; by Fourier inversion the local density of a continuous $f\ge0$ of compact support at
+$\delta^{-1}t$ is the integral of $f$ over the quadric, whenever the outer integral converges absolutely, and its modulus is always at most this integral. At a finite place the standard form of rank at
+least two has a basis beginning with a hyperbolic pair, so the volume disintegrates along the form into the fibre measures used in \cref{prop:top-floor}(a).
+\lean{New.Floors.IntegralPlace.integers, New.Floors.IntegralPlace.data_normalised, New.Floors.IntegralPlace.volume_setOf_mul_mem, New.Floors.IntegralPlace.exists_ideal_cardQuot_eq, New.Floors.IntegralPlace.skewMeasure_setOf_mul_mem, New.Floors.IntegralPlace.isOpen_isCompact_volume_intVectors, New.Floors.IntegralPlace.modulus_le_volume, New.Floors.IntegralPlace.modulus_le_one, New.Floors.IntegralPlace.unitaryLevel_open_compact, New.Floors.IntegralPlace.modulus_det_eq_one, New.Floors.IntegralPlace.exists_content, New.Floors.IntegralPlace.contentIndex, New.Floors.IntegralPlace.measurable_contentIndex, New.Floors.IntegralPlace.lintegral_contentIndex_pow_le, New.Floors.IntegralPlace.topEichlerMatrix, New.Floors.IntegralPlace.gram_topEichlerMatrix, New.Floors.IntegralPlace.topEichler, New.Floors.IntegralPlace.coe_topEichler, New.Floors.IntegralPlace.topEichler_mem_floorGroup, New.Floors.IntegralPlace.orbitPoint_topEichler, New.Floors.IntegralPlace.topEichler_single, New.Floors.IntegralPlace.measurable_topEichler, New.Floors.IntegralPlace.continuousAt_topEichler, New.Floors.IntegralPlace.intUnits, New.Floors.IntegralPlace.measurableSet_unitaryLevel, New.Floors.IntegralPlace.measurableSet_exists_mul_mem_level, New.Floors.IntegralPlace.ascConv_mconv_unfolding, New.Floors.IntegralPlace.psi_skew_eq_one_iff, New.Floors.IntegralPlace.setIntegral_eq_slab, New.Floors.Place.IsDisintegration.setLIntegral_slab, New.Floors.IntegralPlace.tendsto_average_skew, New.Floors.IntegralPlace.integral_skewMeasure_eq_toReal_lintegral, New.Floors.IntegralPlace.enorm_localDensity_le, New.Floors.integral_eq_mul_of_section}
+\lean{New.Floors.IntegralPlace.classGaussSum, New.Floors.IntegralPlace.psi_mul_trace, New.Floors.IntegralPlace.conj_psi_mul_psi_add, New.Floors.IntegralPlace.smul_mem_intVectors_of_psi_eq_one, New.Floors.IntegralPlace.mem_latticeMultiple_mul_of_psi_eq_one, New.Floors.IntegralPlace.enorm_classGaussSum_sq_le, New.Floors.IntegralPlace.integrable_classGaussSum, New.Floors.IntegralPlace.integral_classGaussSum, New.Floors.IntegralPlace.measure_residueClass_le_lintegral}
+\lean{New.Floors.IntegralPlace.latticeMultiple, New.Floors.IntegralPlace.mem_latticeMultiple, New.Floors.IntegralPlace.coe_latticeMultiple, New.Floors.IntegralPlace.isCompact_latticeMultiple, New.Floors.IntegralPlace.residueClass, New.Floors.IntegralPlace.isCompact_residueClass, New.Floors.IntegralPlace.isOpen_latticeMultiple, New.Floors.IntegralPlace.volume_latticeMultiple, New.Floors.IntegralPlace.isOpen_residueClass, New.Floors.IntegralPlace.volume_residueClass}
+\lean{New.Floors.IntegralPlace.skewMeasure_setOf_mul_mem_sq_le, New.Floors.IntegralPlace.exists_unit_sub_mem, New.Floors.IntegralPlace.lintegral_enorm_classGaussSum_le_idealZeta, New.Floors.IntegralPlace.measure_residueClass_le_idealZeta, New.Floors.IntegralPlace.classGaussSum_one_zero_eq_one, New.Floors.IntegralPlace.one_add_enorm_measure_intVectors_sub_one_le}
+\lean{New.Floors.Place.isDisintegration_map_quadricMeasure, New.Floors.card_eq_card_pair_sum, New.Floors.IntegralPlace.exists_hyperbolic_basis, New.Floors.IntegralPlace.isDisintegration_of_hyperbolic_basis, New.Floors.IntegralPlace.exists_kernel_isDisintegration_le}
+
+Strong approximation is used in the following weak form. A continuous function on the adelic unitary group of a space with a hyperbolic plane that is left invariant under the rational points,
+right invariant under the points supported on a nonempty set $S$ of finite places and their conjugates and under the integral points trivial on $S$, and whose values on the Levi subgroup $\GL_1\times\U(W_0)$
+do not depend on the $\GL_1$ component once it is invariant under the unipotent radical, is constant. The proof combines strong approximation for the two opposite unipotent radicals, Witt's theorem on the
+rational points of the Levi factor, and weak approximation with the Iwasawa decomposition \cite{Kneser1965}.
+\lean{New.Exchange.exists_torus_mul_quasiReflection_fixes, New.Exchange.exists_torus_mul_rational_fixes, New.Exchange.IsAutFunction.apply_eq_apply_one}
+
+\subsection{The constant term along an isotropic line}\label{ss:B-tower}
+This subsection supplies the analytic input of the descent of the exchange identity along hyperbolic planes (\cref{prop:removing-planes}). Let $\nu$ be a character of
+$[\U(1)]$ of weight $\mu$, with $\mu(w)>0$ at every infinite place $w$, whose tame part is nontrivial exactly on a nonempty finite set $S$ of finite places that contains no conjugate of one of its
+places; such a pair $(\nu,S)$ is a \emph{split tame character}. Its \emph{semilocal character} is $\chi(t)=\nu(t/\bar t)$ on $\prod_{w\in S}E_w$, read as $0$ off the units. With $q_w$ the order of the residue
+field at $w$ and $L^S(x,\nu)$ the Euler product of the base change $x\mapsto\nu(x/\bar x)$ without the places of $S\cup\bar S$, put, for $e\ge0$,
+\begin{gather*}
+  L_*(e)=\Bigl(\prod_{w\in S}q_w\Bigr)^{e^2}\prod_{z=1}^{e}\abs{L^S(z,\nu)}^2,\qquad L_*(-e)=L_*(e)^{-1},\\
+  L^\sharp(z)=\abs{L^S(z,\nu)}\prod_{w\in S}q_w^{\,z-1/2},
+\end{gather*}
+the last for real $z\ge1$, where $L^S$ is given by its Euler product.
+\lean{New.Exchange.lValueProd, New.Exchange.lValueProdInt, New.Exchange.lSharp}
+
+Let $W'=W\oplus H$ and $V'=V\oplus H$ be hermitian spaces split by adapted splittings $A$ and $X$ along a hyperbolic plane $H$ (frames orthonormal at the infinite places and integral at the
+finite places), and let $x_B$ be the adelic vector spanning the isotropic line of $X$. For an adele $a$ the \emph{line term} $\mathrm{lt}_a$ sends a datum on $\Hom(W',V')$ to a datum on $\Hom(W,V)$:
+in the model $\beta=\mathrm{true}$ it is translation by the rank one map $a\,x_B\otimes k_A^*$ followed by the zero terms along the line of $A$ and then along that of $X$; in the model
+$\beta=\mathrm{false}$ the dual lines are used and the zero terms are taken in the other order. Write $\mathrm{lt}^\infty_a$ for its archimedean part on the Fock spaces. For real $z$, the \emph{cone
+integrand} of a Fock vector $v$ for $(W',V')$ at a pair $p=(\kappa,a)$ of a point $\kappa$ of the maximal compact subgroup of $\U(V')$ and a family $a$ of nonzero complex numbers indexed by the
+infinite places is
+\[
+  \mathrm{ci}_z(v)(\kappa,a)=\prod_w\Bigl(\frac{a_w}{\abs{a_w}}\Bigr)^{2\mu(w)}\,\abs a^{z}\;\mathrm{lt}^\infty_a(\kappa v),\qquad \abs a=\prod_w\abs{a_w}^2,
+\]
+with $\kappa$ acting by the real Weil representation of weight $\lfloor\operatorname{rk}W'/2\rfloor-\mu$ on $\U(V')$. The \emph{cone integral} $\mathrm{cone}_z(v)$ is its integral over the maximal compact
+subgroup and the archimedean ideles $(E\otimes\R)^\times$, both with Haar measure, in the model $\mathrm{true}$; the \emph{dual cone integral} $\mathrm{cone}^*_z(v)$ is the same in the model $\mathrm{false}$.
+For an integral matrix $y$ at $S$ the \emph{plane datum} of $v$ and $y$ is the datum on $\Hom(W',V')$ with real part $v$, the standard datum of $y$ composed with the projection to $W$ at $S$, and the
+vacuum elsewhere; the \emph{constant term} along $A$ at a point $(u,g)$ of the Levi subgroup $\GL_1\times\U(W)$ is the mean over the unipotent radical of the stabiliser of the line of $A$, modulo its
+rational points.
+\lean{New.Exchange.coneIntegrand, New.Exchange.cone, New.Exchange.dualCone, New.Exchange.lineTerm, New.Exchange.planeDatum, New.Exchange.planeConstantTerm}
+
+\begin{theorem}[The tower property with ramified data]\label{thm:B-tower}
+Let $(\nu,S)$ be a split tame character of weight $\mu$, let $\operatorname{rk}W$ be even and $e=\operatorname{rk}V-\operatorname{rk}W/2$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item ($L$-values.) $L^S(x,\nu)\ne0$ for real $x\ge1$, so $L^\sharp(z)>0$ for $z\ge1$; and for every $z\in\N$
+\[
+  L_*(z+1)=L^\sharp(z+1)^2L_*(z),\qquad L_*(-z)=L^\sharp(z+1)^2L_*(-z-1).
+\]
+\item (Cone integrals.) For $z>0$ and a Schwartz vector $v$ the cone integrand is integrable for the product Haar measure, and $\mathrm{cone}_z(v)$ and $\mathrm{cone}^*_z(v)$ are Schwartz vectors.
+\item (Unfolding.) For a Schwartz vector $v$, an integral $y$ at $S$ and a Levi point $(u,g)$ with $u=1$ or $\operatorname{rk}V=\operatorname{rk}W$, there is a function $\mathcal Z$, analytic on the real
+line, such that the constant term along $A$ at $(u,g)$ of the theta integral of $(W',V')$ on the plane datum is $\mathcal Z(e+1)$, and for real $x\ge1$
+\[
+  \mathcal Z(x)=\varepsilon\,\abs{\alpha_0}^x\prod_{w\in S}q_w^{\,x-1/2}\,L^S(x,\nu)\,\theta_{W,V}\bigl(\mathrm{cone}_x(v),\mathrm{row}_y\bigr)(g),
+\]
+and $\mathcal Z(1-x)$ is the same expression with $\mathrm{cone}^*_x(v)$ and a constant $\varepsilon'$. Here $\alpha_0$ is the normalising idele of the Weil data, and $\abs\varepsilon$, $\abs{\varepsilon'}$ are
+positive numbers independent of $(\nu,S)$.
+\item (One plane.) Let $z\in\N$. If $e=z$, there are $C>0$, independent of the character, and $\gamma$ with $\abs\gamma=C\,L^\sharp(z+1)$ such that the constant term in (c) is
+$\gamma\,\theta_{W,V}(\mathrm{cone}_{z+1}(v),\mathrm{row}_y)(g)$. If $e=-z-1$, the same holds at $u=1$ with $\mathrm{cone}^*_{z+1}(v)$ in place of $\mathrm{cone}_{z+1}(v)$.
+\item (Functional equation.) Let $k\in\N$ with $k\le\mu(w)$ for all $w$. The function $x\mapsto L^S(x,\nu)$ on $[1,\infty)$ extends to an analytic function $\Lambda$ of real $x>-k$ with $\Lambda(j)\ne0$
+at every integer $j>-k$, and $L^\sharp(1-z)=C(z)\,L^\sharp(z)$ for real $1\le z<k+1$, where $L^\sharp(1-z)$ is formed with $\Lambda$ and $C(z)>0$ does not depend on the character.
+\end{enumerate}
+\end{theorem}
+\lean{New.Exchange.SplitTameChar.L_ne_zero, New.Exchange.SplitTameChar.weight_ne_zero, New.Exchange.baseChange_poissonVariable, New.Exchange.continuousOn_L, New.Exchange.exists_equiv_principalAdeleUnits, New.Exchange.exists_haar_ideleParts, New.Exchange.exists_lineFinFactor_uniformizer_eq, New.Exchange.finTateIntegrand, New.Exchange.ideleAbs_poissonVariable_false, New.Exchange.ideleParts, New.Exchange.integral_finTateIntegrand, New.Exchange.integral_ideleClass_tsum, New.Exchange.lSharp_pos, New.Exchange.lValueProdInt_natCast, New.Exchange.lValueProdInt_neg, New.Exchange.lValueProdInt_neg_natCast, New.Exchange.lValueProdInt_pos, New.Exchange.lValueProdInt_succ, New.Exchange.lValueProd_pos, New.Exchange.lValueProd_succ, New.Exchange.lineFinFactor, New.Exchange.lineFinFactor_congr, New.Exchange.lineFinFactor_mul_finPart, New.Exchange.lineFinFactor_zero, New.Exchange.measurePreserving_prod_parameters, New.Exchange.measureReal_idelesUnitOff_empty_pos, New.Exchange.poissonVariable, New.Exchange.poissonVariable_false, New.Exchange.poissonVariable_true, New.Exchange.principalAdeleUnit, New.Exchange.realIdele_mul_finIdeleIncl_ideleParts, New.Exchange.valuation_of_lineFinFactor_ne_zero}
+\lean{New.Exchange.RadicalCoord, New.Exchange.coe_hermitianPart, New.Exchange.constTermAt, New.Exchange.constTermAt_eq_integral, New.Exchange.constTermAt_smul_k, New.Exchange.constTermAt_zero, New.Exchange.continuous_lineLevi, New.Exchange.eq_one_of_levi_mem_radical, New.Exchange.exists_eq_radicalElement_mul_lineLevi_mul, New.Exchange.exists_integral_lineStabilizer, New.Exchange.exists_radicalElement_eq_mul_lineLevi, New.Exchange.exists_unfold_constant_term, New.Exchange.hasSum_constTermAt, New.Exchange.hermitianPart, New.Exchange.integral_thetaIntegral_lineRadical, New.Exchange.isClosedEmbedding_radicalPoint, New.Exchange.isClosed_radicalSubgroup, New.Exchange.isCocompact_lineStabilizer_subgroupOf, New.Exchange.isHaarMeasure_radicalHaar, New.Exchange.lineLevi_mem_lineStabilizer, New.Exchange.lineStabilizer, New.Exchange.lineSum, New.Exchange.lineSum_smul, New.Exchange.lineSum_splittingLine, New.Exchange.lineTerm_pairWeil_radicalElement, New.Exchange.lintegral_levi_unfold, New.Exchange.lintegral_radicalHaar, New.Exchange.lintegral_radicalHaar_conj_lineLevi, New.Exchange.measurable_lineSum, New.Exchange.mem_lineStabilizer_iff, New.Exchange.mem_radicalSubgroup_iff, New.Exchange.radicalElement_mem_radicalSubgroup, New.Exchange.radicalHaar, New.Exchange.radicalHomeomorph, New.Exchange.radicalMeasure, New.Exchange.radicalPoint, New.Exchange.radicalPoint_hermitianPart, New.Exchange.radicalPoint_mul, New.Exchange.radicalSubgroup, New.Exchange.splittingLine, New.Exchange.splittingLine_mem_orbit, New.Exchange.thetaTerm_lineRadical}
+\lean{New.Exchange.LineIndex, New.Exchange.frameAt_lineTermSplitting, New.Exchange.iCoord_levi_iAdelic, New.Exchange.isAdapted_lineTermSplitting, New.Exchange.lineLevi, New.Exchange.lineLevi_inv_mul_kAdelic_mul_levi, New.Exchange.lineLevi_inv_mul_lAdelic_mul_levi, New.Exchange.lineRadical, New.Exchange.lineTermBasis, New.Exchange.lineTermSplitting, New.Exchange.lineTerm_eq_comp_zeroTerm, New.Exchange.lineTerm_eq_slice, New.Exchange.lineTerm_pairWeil_levi, New.Exchange.planeModel, New.Exchange.planeSplitting, New.Exchange.planeSplitting_iAdelic_mul_planeModel_lAdelic, New.Exchange.tsum_lineTerm}
+\lean{New.Exchange.continuous_coneIntegrand, New.Exchange.continuous_ideleAbs_realIdele, New.Exchange.exists_fockMoment_lineTermReal_le, New.Exchange.exists_integrable_fockMoment_coneIntegrand_le, New.Exchange.exists_prod_norm_sq_rpow_le, New.Exchange.exists_sq_rpow_mul_one_add_log_sq_le, New.Exchange.fockMoment_coneIntegrand, New.Exchange.ideleAbs_realIdele_eq_prod, New.Exchange.integrable_coneIntegrand, New.Exchange.isSchwartzVector_integral_coneIntegrand, New.Exchange.realIdele}
+\lean{New.Exchange.LineValueFactors, New.Exchange.analyticOnNhd_integral_zetaIntegrand, New.Exchange.baseChange_mul_lineValue_eq_coneKernel_mul, New.Exchange.coneKernel, New.Exchange.coneKernel_eq, New.Exchange.continuousOn_integral_coneKernel, New.Exchange.exists_lineValue_eq, New.Exchange.exists_planeConstantTerm_eq_integral, New.Exchange.exists_planeConstantTerm_eq_thetaLarge, New.Exchange.exists_planeConstantTerm_eq_thetaLarge_cone, New.Exchange.exists_planeConstantTerm_eq_thetaLarge_dualCone, New.Exchange.exists_zetaIntegral, New.Exchange.homSlice_zero_planeDatum, New.Exchange.integrable_coneKernel, New.Exchange.integrable_theta_cone, New.Exchange.integral_coneKernel, New.Exchange.integral_stdKernelForm, New.Exchange.integral_zetaIntegrand_of_one_le, New.Exchange.integral_zetaIntegrand_of_one_lt, New.Exchange.lineValue, New.Exchange.lineValue_zero_of_factor, New.Exchange.pairWeil_stdRowDatum_eq_self, New.Exchange.rankTwist_eq_mul_of_splitting, New.Exchange.shiftIdele, New.Exchange.smul_localDatum, New.Exchange.stdKernelForm, New.Exchange.stdKernelForm_apply, New.Exchange.theta_lineTerm_levi, New.Exchange.tsum_lineValue_poisson, New.Exchange.zetaIntegrand, New.Exchange.zetaIntegrand_eq_tsum, New.Exchange.zetaMeasure}
+\lean{Membership.mem.transpose_mem_schwartzBruhat, New.Exchange.IsEquivariantLift.apply_shear, New.Exchange.IsEquivariantLift.centreCoeff_shear, New.Exchange.IsEquivariantLift.comp_mul_mem_ker, New.Exchange.IsEquivariantLift.components_of_mat_eq_one_add, New.Exchange.IsEquivariantLift.exists_linear_centreCoeff, New.Exchange.exists_lineTerm_localDatum, New.Exchange.frameMatrix, New.Exchange.isPrimitiveMatrix_frameMatrix, New.Exchange.ite_isIntegralUnit_eq_ite_invOnUnits_div, New.Exchange.map_shear_stdColDatum_eq, New.Exchange.mul_stdColDatum_triangularForm, New.Exchange.stdColDatum_one_mul_mul, New.Exchange.stdRowDatum_frameAt_lineTermSplitting, New.Exchange.triangularForm, New.areMatched_stdRowDatum_stdColDatum, New.invOnUnits_eq_mul_of_unit, New.isIntMatrix_of_stdColDatum_ne_zero, New.isPrimitiveMatrix_iff_int_and_unit_det, New.isPrimitiveMatrix_of_stdColDatum_ne_zero, New.schwartzBruhat.mem_of_support_isPrimitiveMatrix, New.stdColDatum, New.stdColDatum_mem_schwartzBruhat, New.stdRowDatum, New.stdRowDatum_mem}
+\lean{New.Exchange.coneIntegrand_tateVector, New.Exchange.exists_framePoint_eq_of_posProj_eq, New.Exchange.frameAt_real_mul_conjTranspose, New.Exchange.framePoint, New.Exchange.framePoint_apply, New.Exchange.framePoint_eq_mulVec, New.Exchange.framePoint_lineTermSplitting_diag, New.Exchange.framePoint_sub, New.Exchange.isSchwartzVector_tateVector, New.Exchange.lineTermReal_tateVector, New.Exchange.posProj_eq, New.Exchange.posProj_mulVec_framePoint, New.Exchange.realBoxProd_realHeisenbergOp_vacVector, New.Exchange.realPairWeil_tateVector, New.Exchange.signMatrix_mulVec_framePoint, New.Exchange.signMatrix_mul_frameAt_real, New.Exchange.slice_polyVector_apply, New.Exchange.slice_realHeisenbergOp_vacElem_apply, New.Exchange.star_framePoint_dotProduct, New.Exchange.tateVector}
+\lean{New.Exchange.analyticAt_ideleAbs_rpow_mul_prod_rpow, New.Exchange.analyticOnNhd_gammaIntegral, New.Exchange.exists_analyticOnNhd_eq_L_mul_gammaIntegral, New.Exchange.exists_analytic_extension_functional_equation, New.Exchange.exists_analytic_extension_ne_zero, New.Exchange.exists_exp_neg_sq_mul_rpow_mul_one_add_log_sq_le, New.Exchange.gammaIntegral, New.Exchange.gammaIntegral_pos, New.Exchange.gammaWeight, New.Exchange.gammaWeight_pos, New.Exchange.integrable_gammaWeight_mul_rpow, New.Exchange.integrable_prod_exp_neg_sq_mul_rpow, New.Exchange.integral_coneIntegrand_tateVector, New.Exchange.pairTheta_source_zero, New.Exchange.pairTheta_target_zero, New.Exchange.schrodingerOp_vacElem_of_isEmpty, New.Exchange.stdColDatum_one_one, New.Exchange.thetaLarge_smul, New.Exchange.thetaLarge_stdSpace_empty_vacVector_one, New.Exchange.theta_vacElem_of_isEmpty}
+\lean{New.integrable_prod_inv_one_add_log_sq, New.piUnits_val_apply_ne_zero, New.principalAdeleUnits}
+
+\begin{proof}[Sources]
+For cuspidal forms the constant term of a theta lift along an isotropic line is the lift for the pair with one plane removed; this is Rallis' tower property \cite[Thm.~I.1.1]{RallisHowe1984},
+and for unitary groups Wu \cite[Prop.~3.1]{Wu2013}. Here the lifted function is a character, the data are ramified and the isotropic orbit survives, as a Tate integral \cite{Tate1967}; the Lean development
+follows the classical route. (a) The Euler product converges absolutely for $x>1$ and has no zero at $x=1$ because a character of nonzero weight is not trivial; the recursion is the definition of
+$L_*$. (b) The line term decays rapidly in $a$ in every Fock moment, while $\abs a^z$ grows at most polynomially, so the integrand is dominated by a continuous function of $\kappa$ on a compact group
+times $\prod_w(1+\log^2\abs{a_w})^{-1}$, which is integrable for Haar measure on $(\C^\times)^{\#w}$. (c) The constant term of the theta kernel is the sum over the rational vectors of $V'$ of their terms;
+a term vanishes unless the vector is isotropic, and the term of $0$ vanishes on the plane datum, since the standard datum lives on matrices of full rank. By Witt's theorem the nonzero isotropic lines
+form one orbit of the rational points, so the integral over $[\U(V')]$ unfolds to the stabiliser of the line of $X$ and then, in Iwasawa coordinates $((u',h),\kappa)$ with the module
+$\abs{u'}^{\operatorname{rk}V+1}$, to an integral over the idele classes, $[\U(V)]$ and the maximal compact subgroup. Levi points act on the line terms by a scalar and a rescaling of the adele, which turns
+the integrand into Tate's integrand $\nu(a/\bar a)\abs a^{x}\sum_{\xi\in E^\times}$ of line values; Poisson's formula on the line identifies the two models. At $S$ the datum factors along the line into
+a Gauss sum of modulus $(\prod_Sq_w)^{-1/2}$ times the finite factor $a\mapsto\chi^{-1}(a)\chi(\varpi\bar a)$, and Tate's finite integral of this factor is $L^S(x,\nu)$ times a volume for $x>1$. Neither side
+of Poisson's formula has a term at $0$, so the integral is a Mellin transform convergent on every strip and analytic on the real line; continuity in the exponent carries the formula to $x=1$. (d) is
+(c) at $x=z+1$, on the side of Poisson's formula fixed by the sign of $e$; the modulus of the Gauss sum and of $\abs{\alpha_0}^{z+1}$ go into $C$. (e) Apply (c) to the pair $(H,H)$ over the space $0$ with
+the test vector, the Fock vector of the product of the $\mu(w)$-th powers of the diagonal variables: the maximal compact subgroup fixes it, and its cone integrand is the vacuum times
+$e^{-\sum_w\abs{a_w}^2}\abs a^x\prod_w\abs{a_w}^{2\mu(w)}$, whose integral is a positive analytic function of $x>-k$. Dividing $\mathcal Z$ by the analytic factor without zeros that multiplies $L^S$
+continues $L^S$ to $x>-k$, and comparing the two sides of Poisson's formula gives the functional equation in absolute values \cite[\S4.4]{Tate1967}; the continuation has no zero at an integer $j>-k$
+because, by the functional equation, its value there is a nonzero multiple of $L^\sharp(1-j)$ with $1-j\ge1$ when $j\le0$, and is an Euler value at $j\ge1$.
+\end{proof}
+
+\subsection{Vanishing descents and periods}\label{ss:B-periods}
+This subsection supplies the passage from vanishing theta descents to vanishing periods used for the false lifts (\cref{thm:false-lift-periods}). Let $W$, $V$ be hermitian spaces, $a$ a character of $\U(1)(\Ad)$,
+$S$ a set of finite places and $Y$ an automorphic function on $\U(V)(\Ad)$. The descents of $Y$ to $W$ \emph{vanish} (for $a$ and $S$) if $g\mapsto\int_{[\U(V)]}\theta(\omega(g,h)f)\,a(\det h)\,Y(h)\,dh$ is zero for every datum
+$f$ on $\Hom(W,V)$ that is the vacuum at the places of $S$ and their conjugates. If $W$ has a splitting with isotropic frames of rank $p$, the theta kernel at $(g,h)$ is the sum of the \emph{terms} of the rational frames
+$x$ (the $p$-tuples of vectors of $V$), and the \emph{Fourier coefficient} at an hermitian $p\times p$ matrix $\beta$ of a function $F$ on $\U(W)(\Ad)$ is the mean of $\psi(\operatorname{tr}(j\beta M))F(z(M)g)$ over the adelic $M$
+modulo the rational ones, $z$ parametrising the centre of the unipotent radical, $\psi$ the standard additive character and $j$ the purely imaginary element of the Weil data. For a splitting $V=V''\oplus V^\circ$ of
+the definite space of rank $n$ into blocks of ranks $n_1$, $n_2$ and a point $h_1$ of $\U(V'')(\Ad)$, the \emph{block period} of $Y$ is $I(h)=\int_{[\U(V^\circ)]}Y(\mathrm{diag}(h_1,h_2)h)\,dh_2$.
+
+\begin{theorem}[Vanishing descents and periods]\label{thm:B-periods}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Testing and translation.) Let $V$ be definite and $A$ a set of finite places disjoint from its conjugates. The descents of $Y$ vanish for the data that are the vacuum off $A$ and its conjugates as soon as
+they vanish for the data $v_P\otimes\Psi\otimes\mathrm{vac}$, $P$ a polynomial and $\Psi$ a Schwartz--Bruhat function above $A$. If the descents of $Y$ vanish for $S$, so do those of its right translate by a point that
+is integral at every place of $S$.
+\item (Fourier coefficients.) Let $y$ be continuous on $\U(V)(\Ad)$ and left invariant under the rational points, with terms of the kernel at $g$ absolutely integrable against $y$. The Fourier coefficient at $j\beta$
+of the theta lift of $y$ is the sum, over the rational frames with Gram matrix $\beta$, of the integrals over $[\U(V)]$ of their terms times $y$. If $\beta$ is invertible and $x_0$ is one such frame, it is the integral
+of the term of $x_0$ times $y$ modulo the rational stabiliser of $x_0$.
+\item (Periods.) Let $T$ be a set of finite places and $Y$ continuous on $[\U(V)]$, $V=V''\oplus V^\circ$ definite, right invariant under the integral points with component $1$ off $T$ and its conjugates. If the descents
+of $Y$ to the split hermitian space of rank $2n_1$, twisted by $\upsilon^{n_1}$, vanish for all data that are the vacuum at the places of $T$ and their conjugates, then the block period $I(1)$ vanishes for every $h_1$.
+\end{enumerate}
+\end{theorem}
+\lean{New.SiegelWeil.DescentsVanish, New.SiegelWeil.DescentsVanish.comp_mul_right, New.SiegelWeil.DescentsVanish.integral_frameChar_eq_zero, New.SiegelWeil.DescentsVanish.integral_frameChar_mul_blockPeriod_eq_zero, New.SiegelWeil.DescentsVanish.of_schrodingerOp, New.SiegelWeil.blockEmb_eq_secondBlock_mul, New.SiegelWeil.blockEmb_mul_firstFrame, New.SiegelWeil.blockPeriod, New.SiegelWeil.blockPeriod_eq_of_frameChar_eq, New.SiegelWeil.blockPeriod_eq_of_movedFrame_eq, New.SiegelWeil.blockQuotMeasure, New.SiegelWeil.comap_Gamma_secondBlock, New.SiegelWeil.continuous_blockPeriod, New.SiegelWeil.continuous_frameChar, New.SiegelWeil.continuous_frameWeight, New.SiegelWeil.continuous_movedFrame, New.SiegelWeil.exists_continuousMap_comp_eq, New.SiegelWeil.exists_continuousMap_eq_conj_blockPeriod, New.SiegelWeil.exists_movedFrame_eq, New.SiegelWeil.exists_theta_homSlice_eq_mul_frameChar, New.SiegelWeil.firstFrame, New.SiegelWeil.frameChar, New.SiegelWeil.frameWeight, New.SiegelWeil.frameWeight_ne_zero_iff, New.SiegelWeil.hasIntegrableTerms_hyperbolicSplitting_of_isRapid, New.SiegelWeil.integral_blockEmb_eq_zero_of_descentsVanish, New.SiegelWeil.integral_continuousMap_frameChar_eq_zero, New.SiegelWeil.inv_blockEmb_mul_secondBlock_mul, New.SiegelWeil.isClosedEmbedding_secondBlock, New.SiegelWeil.mem_map_Gamma_secondBlock, New.SiegelWeil.mem_range_secondBlock, New.SiegelWeil.movedFrame, New.SiegelWeil.movedFrame_inv_blockEmb_mul, New.SiegelWeil.movedFrame_secondBlock_mul, New.SiegelWeil.secondBlock, New.SiegelWeil.smul_eq_of_frameChar_eq, New.Space.Splitting.centreCoeff_eq_integral_ratStabilizer, New.Space.Splitting.centreCoeff_eq_integral_stabilizer, New.Space.Splitting.centreCoeff_integral_eq_tsum, New.Space.Splitting.fixesLeft_thetaTerm_mul, New.Space.Splitting.hasSum_thetaTerm, New.Space.Splitting.integral_pairTheta_radicalCentre_mul, New.Space.Splitting.radicalCentre_apply, New.Space.Splitting.thetaTerm_mul_ratEmbed_mul, New.Space.Splitting.thetaTerm_radicalCentre_mul, New.Space.gram_eq_iff_mem_orbit, New.Space.mem_ratStabilizer, New.Space.ratStabilizer, New.U.smul_matrix_eq_mul}
+
+\begin{proof}[Sources]
+Fourier coefficients of theta lifts are periods over stabilisers, and vanishing lifts in a theta tower kill periods on the complementary group; see Rallis \cite{RallisHowe1984} and, for this unfolding,
+Walls \cite[Prop.~2.1.1]{Walls2015}. Here a single nondegenerate coefficient of a lift to a split unitary group is unfolded once. (a) The descent at $g$ is a bounded linear functional of the datum, so it suffices to
+test the data $v_P\otimes\varrho(x)\mathrm{vac}$ with $x$ finite and supported on $A$ and its conjugates, and $\varrho(x)\mathrm{vac}$ is a multiple of the image of the vacuum under the Heisenberg operators realising a
+Schwartz--Bruhat function of the components above $A$. The descent of the translate of $Y$ by $h_0$ by a datum $f$ is the descent of $Y$ by $\omega(1,h_0^{-1})f$, again the vacuum at $S$ as $h_0$ is integral there. (b)
+Left multiplication by the central element $z(M)$ multiplies the term of $x$ by $\psi(\operatorname{tr}(-j\beta(x)M))$, $\beta(x)$ the Gram matrix of $x$, and for $y$ invariant under the rational points the term of $x$ times $y$ is
+unchanged under $(x,h)\mapsto(\gamma x,\gamma h)$. Expanding the kernel into its terms and exchanging the sum with the integral and the mean, the mean over $M$ keeps the frames with $\beta(x)=\beta$. For invertible $\beta$,
+Witt's theorem makes these frames one orbit of the rational unitary group, and the sum over the orbit unfolds to the stabiliser. (c) Let $o_1$ be the frame of the first block, $\alpha_0$ the scaling idele of the Weil data,
+$\mathrm{vac}[x]=\abs{e(\alpha_0x)}^2$ the slice of the vacuum and $\psi_u(x)=\psi(\delta\sum u_{ij}x_{ij})$, with $\delta$ generating the inverse different and the components at $T$ and its conjugates removed. For the Heisenberg
+translate of the vacuum along the isotropic vector with coordinates $\alpha_0\bar u$, which is the vacuum at $T$, the term of the frame $o_1$ at the Levi point of $\alpha_0h_1$ is $c\,\psi_u(x)\mathrm{vac}[x]$ with
+$x=g^{-1}o_1h_1$ and $c\ne0$; the theta integral against the continuous $Y$ on the compact quotient converges term by term. By (b) with $\beta=1$ the vanishing descent gives $\int\psi_u(x)\mathrm{vac}[x]Y(g)\,dg=0$ modulo the
+rational points of the second block, which is the stabiliser of $o_1$; integrating first over $[\U(V^\circ)]$ gives $\int\psi_u(h^{-1}o_1)\mathrm{vac}[h^{-1}o_1]I(h)\,dh=0$ over $\U(V^\circ)(\Ad)\backslash\U(V)(\Ad)$, for every $u$. The functions
+that agree with some $\psi_u$ on frames form a monoid closed under conjugation that separates frames up to their components at $T$, so by the Stone--Weierstrass theorem the same holds with $\psi_u$ replaced by any
+continuous function $\chi$ of the values $u\mapsto\psi_u(h^{-1}o_1)$. Where $\mathrm{vac}[h^{-1}o_1]\ne0$ the frame is integral, so it is $\gamma^{-1}o_1$ for an integral $\gamma$ by Witt's theorem over $\hat\OO$, and $I(h)$ depends only on the
+values $\psi_u(h^{-1}o_1)$, because the components at $T$ are absorbed by the integral points supported there, which fix $Y$; by Tietze's theorem $\bar I$ is such a $\chi$. Hence $\int\mathrm{vac}[h^{-1}o_1]\abs{I(h)}^2\,dh=0$, so $I$
+vanishes where $\mathrm{vac}\ne0$, in particular at $h=1$, where the frame is $o_1$.
+\end{proof}
+
+\subsection{Rallis' inner product formula}\label{ss:B-rallis}
+Let $S$, $T$ be hermitian spaces of ranks $n$, $m$ with $2n<m$, and let $\omega$ be the twisted Weil representation of $\U(S)\times\U(T)$ on the data $\mathcal S(\Hom(S,T))$. The \emph{doubled
+datum} of $F$ lives on $\Hom(S\oplus S^-,T)$. A finite datum $F$ is \emph{clean} if only the Lagrangians of $S\oplus S^-$ that are graphs of isometries contribute to its Siegel--Weil
+formula, and \emph{sharp} for an open subgroup $J$ off a set $S_0$ of places if it is the vacuum off $S_0$ and, at the finite points $g$ integral off $S_0$, $\langle F,\omega(g)F\rangle$ is
+$\langle F,F\rangle$ on $J\cap K_0$ and $0$ otherwise; its \emph{mass} $c$ is $\langle F,F\rangle/[K_0:J\cap K_0]$. The \emph{vacuum coefficient} of a finite point $\gamma$ supported off $S_0$ is
+$\mathrm{mc}(\gamma)=(b(\det\gamma)\,\mathrm{fm}(\gamma)^m)^{-1}$, the factor by which $\gamma$ changes the matrix coefficient of the vacuum, and the \emph{Rallis series} is
+$\sum_\gamma\mathrm{mc}(\gamma)R(\gamma)$ over the cosets of the points integral off $S_0$.
+\lean{New.SiegelWeil.negSourceFactor, New.SiegelWeil.norm_negSourceFactor, New.SiegelWeil.theta_negSourceFactor_smul, New.SiegelWeil.doubleDatum, New.SiegelWeil.graphSplitting, New.SiegelWeil.cosetTerm, New.SiegelWeil.weilMatrixCoeff, New.SiegelWeil.IsClean, New.SiegelWeil.IsSharp, New.SiegelWeil.doubleDatum_apply, New.SiegelWeil.theta_doubleDatum, New.SiegelWeil.rho_fromCols_boxProd, New.SiegelWeil.doubleDatum_apply_fromCols, New.SiegelWeil.rho_fromCols_zero_doubleDatum, New.SiegelWeil.zeroTerm_graphSplitting, New.SiegelWeil.zeroTerm_doubleDatum_rho, New.SiegelWeil.pairWeil_rho_shiftMatrix, New.SiegelWeil.mul_eq_zero_of_zeroTerm_ne_zero, New.SiegelWeil.exists_graph_eq_of_zeroTerm_ne_zero, New.SiegelWeil.graphSplitting_lagrangian_injective, New.SiegelWeil.theta_splitWeil_doubleDatum, New.SiegelWeil.zeroTerm_graphSplitting_doubleDatum, New.SiegelWeil.integral_conj_theta_mul_theta, New.SiegelWeil.exists_doubling_bound, New.SiegelWeil.exists_doubling_le_height, New.SiegelWeil.measurePreserving_quotMeasure_unfold, New.SiegelWeil.enorm_mul_height_pow_le, New.SiegelWeil.inner_product_formula, New.SiegelWeil.weilMatrixCoeff_mul, New.SiegelWeil.exists_integral_isotropic_frame}
+
+\begin{theorem}[Rallis' inner product formula]\label{thm:B-rallis}
+Let $2n<m$, and let the real vector $v$ be an edge from a type $e$ (for instance the joint harmonic of corresponding parameters).
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Doubling.) For clean data, the integral
+\[
+  \int_{[\U(T)]}\overline{\theta(\omega(g,h)\phi)}\,\theta(\omega(g',h)\phi')\,dh
+\]
+is the sum of the zero terms of the doubled datum along the graphs of isometries.
+\item Let $F$ be sharp for $J$ off $S_0$ with mass $c$, let $z$ be the Rallis series of $y$ and $\Omega$ the real Weil representation. Then $\langle\Theta y',\Theta y\rangle$ is $\vol[\U(T)]\cdot c$ times the absolutely
+convergent integral $\int\langle v,\Omega(x)v\rangle\langle y',R(x)z\rangle\,dx$ over the real points $x$ of $\U(S)$.
+\item There is $A\ne0$, depending only on the spaces and the real data, such that for $F$ sharp for $J$ off $S_0$ with mass $c$, the lift by $v\otimes F$ is injective on the $J$-invariant forms of
+type $e$, and $\langle\Theta y',\Theta y\rangle=A\,c\sum_\gamma\mathrm{mc}(\gamma)\langle y',R(\gamma)y\rangle$.
+\item If the signs of $S$ agree or $\mathfrak m\ne(1)$, a function $\Psi\ne0$ on matrices modulo $\mathfrak m$ that is fixed with the vacuum by a level $J(\mathfrak m)\le J\le K_0$, and whose support is
+carried into $J$ by a fixed matrix, gives a datum $\Psi\otimes\mathrm{vac}$ sharp for $J$ off the places of $\mathfrak m\bar{\mathfrak m}$, with mass the mean of $\abs\Psi^2$ over $[K_0:J]$.
+\item (Rank one.) For $n=1$, $m=2k$, $k>1$, and a character $\nu$ with tame part trivial off $S$, the sum of the vacuum coefficients of $\nu\upsilon^k$ over the cosets off $D=S\cup\bar S$ is
+$L^D(k,\nu^{-1})$ divided by the Euler product at $k$ of the place signs off $D$, a partial value of $\zeta_F(2k)$.
+\end{enumerate}
+\end{theorem}
+\lean{New.SiegelWeil.IsSharp.isOpen_level, New.SiegelWeil.IsSharp.mass_ne_zero, New.SiegelWeil.IsSharp.integral_ite_eq_mass, New.SiegelWeil.weilMatrixCoeff_integrated, New.SiegelWeil.IsSharp.weilMatrixCoeff_integrated_mul, New.SiegelWeil.IsSharp.inf_supportedOn_le, New.SiegelWeil.IsSharp.isUnramifiedOn, New.hasSum_setIntegral_mul_coset, New.SiegelWeil.IsSharp.hasSum_integral_weilMatrixCoeff_mul, New.SiegelWeil.IsSharp.petersson_lift_eq_integral, New.SiegelWeil.realConv_eq_zero_of_lift_eq_zero, New.SiegelWeil.exists_petersson_formLift_eq_rallisSeries, New.SiegelWeil.rallis_inner_product_cosetTerm, New.SiegelWeil.IsSharpFn, New.SiegelWeil.IsSharpFn.isPrimitiveMatrix, New.SiegelWeil.IsSharpFn.eq_zero_or_eq_zero, New.SiegelWeil.pairWeil_stdLevel_vacuumDatum, New.SiegelWeil.IsSharpFn.weilMatrixCoeff_eq_zero_of_mem_stdLevel_of_notMem, New.SiegelWeil.IsSharpFn.weilMatrixCoeff_eq_zero_of_notMem_stdLevel, New.SiegelWeil.IsSharpFn.isSharp, New.SiegelWeil.isSharpFn_of_mul_eq_one, New.SiegelWeil.isSharp_vacuumDatum_of_mul_eq_one, New.AutChar.HasWeight.apply_eq_one, New.SiegelWeil.vacuumCoeff_eq_spaceChar, New.placeSign, New.norm_placeSign_le, New.placeSign_factor_mul, New.glMultiplier_singleGL_uniformizer_zpow, New.mem_localIntGL_unit_iff, New.vacuumCoeff_ofSplitPlace_uniformizer_zpow, New.exists_hasSum_vacuumCoeff_at_place, New.vacuumSum_pair, New.vacuumSum_eq_L_div_eulerProd}
+
+\begin{proof}[Sources]
+This is Rallis' inner product formula by doubling \cite{Rallis1987}, in Weil's range and for rapidly decreasing forms; the unitary unfolding is as in Li \cite{Li1992}. (a) applies the
+Siegel--Weil formula (\cref{thm:B-siegel-weil}) to $S\oplus S^-$; for a clean datum the boundary orbits drop out. (b) integrates (a) against two functions on $[\U(S)]$ and, for a sharp datum,
+cuts the finite points into cosets, on each of which the matrix coefficient is the vacuum coefficient. (c) The injectivity is Rallis' argument \cite{Rallis1984}: if the lift vanishes, the real
+matrix coefficient of $v$ convolves the form to zero, and for an edge this convolution is a nonzero multiple of the form. (d) The matrix coefficient of $\Psi\otimes\mathrm{vac}$ at an integral point is
+a sum of products of values of $\Psi$, which vanishes off $J$ by the support condition. (e) At a split place the vacuum coefficients form a geometric series in $\nu(\varpi)q^{-k}$, and at the other
+places the coset is trivial; the product over the places is the partial $L$-value over the partial Euler product.
+\end{proof}

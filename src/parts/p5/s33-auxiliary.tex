@@ -1,0 +1,583 @@
+\section{Auxiliary forms}\label{sec:auxiliary}
+
+\Cref{thm:twist-for-each-prime} needs, besides the family $y$ under study, auxiliary forms $z_i$ completing it to a basis, whose twisted lifts become integral
+after multiplication by a scalar $\gamma(\xi)$ of controlled size, and whose untwisted lifts are short. This section constructs them (\cref{thm:auxiliary-forms}).
+The idea is to read the values of the chain $\Theta_\vartheta y$ through periods of forms on two grids of spaces, and to move these periods along paths through the
+grids, turn by turn, from the \emph{first path}, along which the periods compute the pairing with $\Theta_\vartheta$, to the \emph{last path}, along which all spaces
+are definite and the periods are finite sums with explicit denominators and sizes. Each turn is an exchange on one square of a grid, whose constant is a ratio of
+Hecke values; there are $m^2$ turns.
+
+\subsection{Moves, paths and path data}\label{ss:paths}
+The two grids $Y^a_b$ and $\tilde Y^b_a$, $0\le a,b\le m$, are those of \cref{ss:grids}; a \emph{node} is a triple $(z,a,b)$. Fix an $m$-fold twist $\vartheta$ with set of places $Q$, let $\varpi=\pi_M$ and
+$\mathfrak b=\varpi^{\lceil b\rceil}$, and let the \emph{grid modulus} be $\mathfrak m=\mathfrak bQ$. An \emph{edge tuple} is a matrix modulo $\mathfrak m$ for each pair of adjacent nodes. The \emph{lift move}
+$(a,b)\to(a+1,b)$ in grid $z$ is the theta lift with the character of the horizontal edge of index $a$, the joint harmonic of the two nodes at infinity and the indicator of a matrix modulo $\mathfrak m$ at the
+finite places; the \emph{transposed move} $(a,b+1)\to(a,b)$ is the transposed lift with the character of the vertical edge, which carries $\vartheta^{b+1}$. The character of an edge of index $l$ is
+$\mu_{l+1}\vartheta^{l+1}\upsilon^{\lfloor N/2\rfloor}$ (vertical) or $\mu_{l+1}\upsilon^{\lceil N/2\rceil}$ (horizontal), with $\mu_{l+1}$ the untwisted character of lift $l+1$ and $N$ the rank of the end.
+In grid $Y$ conjugate forms move; in grid $\tilde Y$ forms move.
+\lean{New.Data.instNeZeroNatB, New.Data.gridLevelGen, New.Data.gridModulus, New.Data.gridModulus_one_ideal, New.Data.triangleTwist, New.Data.triangleExponent, New.Data.instNeZeroTriangleExponent, New.Data.triangleModulus, New.Data.triangleModulus_false, New.Data.triangleModulus_true, New.Data.gridModulus_ideal_le_triangleModulus_ideal, New.Data.reduceToTriangle, New.Data.piM_dvd_gridLevelGen, New.Data.gridSpace, New.Data.gridKernel, New.Data.GridForm, New.Data.gridChar, New.Data.gridChar_true, New.Data.gridChar_false, New.Data.gridTamePart, New.Data.triangleGLCard, New.Data.GridNode, New.Data.NodeIndex, New.Data.nodeLevel, New.Data.levelIndex, New.Data.gridLevelForms, New.Data.isConjKernelPair_gridKernel, New.Data.gridChar_hasWeight, New.Data.isEdgeFamily_grid_succ_left, New.Data.isEdgeFamily_grid_succ_right, New.Data.gridSpace_diag, New.Data.gridSpace_subdiag, New.Data.pointTransposedLift, New.Data.transposedChain, New.Data.transposedChain_of_lt, New.Data.transposedChain_self, New.Data.transposedMove, New.Data.liftMove, New.Data.gridChar_det, New.Data.levelIndex_eq_card_GL_untwisted, New.IsSumOfRootsOfUnity, New.IsSumOfRootsOfUnity.zero, New.IsSumOfRootsOfUnity.of_isOfFinOrder, New.IsSumOfRootsOfUnity.mul_left, New.IsSumOfRootsOfUnity.sum, New.IsSumOfRootsOfUnity.mul_mem_nsmul, New.Data.EdgeTuple, New.Data.NodeFamily, New.Data.IsVerticalEdge, New.Data.edgeChar, New.Data.tuplesOn, New.Data.edgeMatrixCountBound, New.Data.vectorCountBound, New.Data.IsAdmissibleFamily, New.Data.tupleAction, New.Data.edgeCharProd, New.Data.IsPathDatum, New.Data.IsPathDatum.mono, New.Data.edgeCharProd_mul, New.Data.isOfFinOrder_edgeCharProd, New.Data.tupleAction_mul, New.Data.tupleAction_one, New.Data.mem_tuplesOn, New.Data.tuplesOn_empty, New.Data.sum_tuplesOn_insert, New.Data.sum_tuplesOn_tupleAction, New.Data.IsPathDatum.sum_tupleAction, New.Data.card_matrix_le_edgeMatrixCountBound, New.Data.card_tuplesOn_le, New.Data.columnEdge, New.Data.rowEdge, New.GridPath.formMap, New.GridPath.edges_append, New.GridPath.formMap_append, New.GridPath.formMap_congr, New.GridPath.eq_and_le_of_mem_edges, New.GridPath.card_edges_le, New.TwoGridPath.edges, New.Data.card_tuplesOn_edges_le, New.Data.PeriodTriple, New.Data.gridPeriod, New.Data.IsProportional}
+
+The \emph{triangle modulus} of grid $z$ is $\mathfrak m_0=\varpi Q$ for $z$ false and $\mathfrak b$ for $z$ true; it divides $\mathfrak m$, and it is the modulus of the point data along the first columns. The \emph{level}
+of a node is a subgroup of the invertible matrices modulo $\mathfrak m$: trivial at the nodes $Y_b=Y^0_b$ and the kernel of reduction modulo $\mathfrak b$ elsewhere. A \emph{node family} is an invertible matrix $g_q$
+modulo $\mathfrak m$ at each node $q$; it acts on edge tuples by $S(p,q)\mapsto g_q^{-1}S(p,q)g_p$, and the \emph{edge character product} of a family on a set $w$ of edges is the product over the edges $(p,q)\in w$ of their
+characters at $\det g_q/\det g_p$. A family is \emph{admissible} if at the two ends $Y^0_m$ and $\tilde Y^m_0$ it lies in the level of the node, and at each $\tilde Y^a_a$ it is $g\oplus1$ for its member $g$ at $Y^a_a$. A
+complex number is a \emph{sum of at most $N$ roots of unity} if it is $\sum_{i\le N}\zeta_i$ with each $\zeta_i$ a root of unity or $0$.
+
+\begin{lemma}[Tuples and data]\label{lem:tuples}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Sums of at most $N$ roots of unity are closed under multiplication by roots of unity, and a sum over a finite set $X$ of such numbers is a sum of at most $\#X\cdot N$ roots of unity.
+\item The action on tuples is a right action, the edge character product is multiplicative in the family, and its values are roots of unity. A sum over the tuples supported on $w$ does not change when the
+tuples are moved by a family; for a path datum $\Psi$ on $w$ and an admissible $g$, $\sum_S\Psi(S)f(gS)$ is the edge character product of $g$ times $\sum_S\Psi(S)f(S)$.
+\item The number of matrices of an edge between nodes with indices at most $m$ is at most $N_{\mathfrak m}=\#(\OO_E/\mathfrak m)^{(2n_m)^2}$, and a path through the two grids has at most $2m$ edges; so at most $N_{\mathfrak m}^{2m}$
+tuples are supported on it.
+\item The map along a path is the composite of the moves by the matrices of its edges, a transposed move where the second index drops and a lift move where the first grows; it depends only on the matrices of
+its edges and is multiplicative under concatenation of paths.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) A root of unity times a root of unity is a root of unity, and sums concatenate. (b) $(gh)S=h(gS)$ by associativity of matrix multiplication, and the edge character product of $gh$ is the product by the
+multiplicativity of the characters; the characters of the edges are of finite order on the residue ring, so their values are roots of unity. Moving by a family is a bijection of the tuples supported on $w$, which
+gives the invariance of the sum; for a path datum, $\Psi(g^{-1}S)$ is $\Psi(S)$ times the inverse of the character product, and substituting $S\mapsto gS$ gives the formula. (c) The ranks of the nodes with indices at
+most $m$ are at most $2n_m$; each step of a path changes one index by one, and the indices run from $0$ to $m$. (d) is the definition, with the composites associated.
+\end{proof}
+
+A \emph{path through the two grids} goes from $(m,0)$ to $(0,m)$ by steps up or left and meets the diagonal once, at $(l,l)$; its first half lies in grid $\tilde Y$ and its second half in grid $Y$, and both
+halves are recorded as paths from $(0,m)$ to $(l,l)$. The \emph{first path} is the pair of first columns, through $(0,0)$; the \emph{last path} goes through $(m,m)$. A \emph{turn} replaces a node $(i,j)$ by
+$(i+1,j+1)$. A \emph{path datum} on a set $w$ of edges is a function $\Psi$ of the edge tuples that depends only on the matrices at $w$, is fixed by the admissible families of invertible matrices at the nodes
+up to the characters of the edges, vanishes unless the vertical edges carry left invertible matrices, and has as values sums of at most $N$ roots of unity. The \emph{period} of $\Psi$ on a path $\Gamma$ at a
+real point $g$ of $\U(\tilde Y^l_l)$ is, for a twist, a conjugate form $y'$ on $Y_m$ and a form $\varphi$ on $\tilde Y^m_0$, the sum over the tuples $S$ of $\Psi(S)$ times the pairing at $g$ of the images of $y'$ and
+$\varphi$ along the two halves. Write $\Psi\propto\Xi$ if at every real point the period of $\Psi$ is a multiple of $\Xi$ by a number that depends neither on the twist nor on the forms; a pair of paths
+$(\Gamma',\Gamma)$ \emph{transfers periods} with bound $k$ and constants $c(\vartheta)$ if path data $\Psi'$ on $\Gamma'$ give path data $\Psi$ on $\Gamma$ with the root of unity bound multiplied by $k$, and $\Psi\propto\Xi$
+implies $\Psi'\propto\Xi/c$.
+\lean{New.GridPath.append, New.GridPath.column, New.GridPath.row, New.GridPath.column_self, New.GridPath.column_of_lt, New.GridPath.le_and_le, New.GridPath.eq_row, New.GridPath.squares_append, New.GridPath.bounds_of_mem_squares, New.GridPath.squares_row, New.GridPath.notMem_squares_down_right_append, New.GridPath.squares_right_down_append, New.GridPath.exists_corner_or_eq_down_or_eq, New.TwoGridPath, New.TwoGridPath.first, New.TwoGridPath.last, New.TwoGridPath.mem_squares, New.TwoGridPath.diagonalIndex_le, New.TwoGridPath.squares_subset, New.TwoGridPath.squares_first, New.TwoGridPath.squares_last, New.TwoGridPath.Turn.squares_eq, New.TwoGridPath.Turn.mem_product, New.TwoGridPath.Turn.exists_corner_of_lt, New.TwoGridPath.Turn.exists_half_true_eq_of_gt, New.TwoGridPath.Turn.exists_eq_down_and_eq_right, New.TwoGridPath.exists_turn, New.TwoGridPath.turn_induction}
+
+The pairing at the diagonal node is the \emph{diagonal period}: for a conjugate form $y$ on $Y^j_j$ and a form $\varphi$ on $\tilde Y^j_j=Y^j_j\oplus E\tilde e_j$, the integral over $[\U(Y^j_j)]$ of $y(h)\varphi((h\oplus u^j)g)$, where $u$ is the
+\emph{flip scalar} $\bar t/t$ of $\U(1)$, $t$ a fixed idele generating $\mathfrak m$ times a fixed idele of the Weil data. A monotone path in one grid from $(a_0,b_0)$ to $(a,b)$ is a word in the steps \emph{down}
+$(a,b+1)\to(a,b)$ and \emph{right} $(a,b)\to(a+1,b)$; its \emph{squares} are the unit squares between it and the first column, named by their lower left corners: a step down from $(a,b+1)$ contributes the $(i,b)$
+with $i<a$. The squares of a path through the two grids are those of its half in $Y$, the mirror images of those of its half in $\tilde Y$, and the $(i,j)$ with $i,j$ below the diagonal index.
+
+\begin{lemma}[Paths and turns]\label{lem:paths}
+Every path other than the last has a turn; a turn at $(i,j)$ has $i,j<m$; for $i<j$ it takes place in the half in grid $Y$, for $j<i$ in the half in grid $\tilde Y$, and for $i=j$ on the diagonal. A
+property that holds for the last path and the empty set, and passes from $\Gamma'$ and $T$ to $\Gamma$ and $T\cup\{s\}$ for every turn at $s\notin T$ from $\Gamma$ to $\Gamma'$, holds for the first path and the set of
+all $(i,j)$ with $i,j<m$. Period transfers compose, the bounds and constants multiplying.
+\end{lemma}
+
+\begin{proof}
+\emph{Monotone paths.} Along a monotone path the first index does not fall and the second does not grow, and the only path from $(0,m)$ to $(a,m)$ is the one along the row $m$, which has no squares. The squares
+of a concatenation are the union of those of the parts, and a square of a path from $(a_0,b_0)$ to $(a,b)$ lies left of the column $a$ and between the rows $b$ and $b_0$. If a path comes down to $(i,j)$ and leaves
+to the right, the square at $(i,j)$ is not among its squares; if it passes through $(i+1,j+1)$ instead of $(i,j)$, its squares gain exactly that square. Every monotone path has a corner $(i,j)$ (down then right),
+or ends with a step down, or has no step down.
+
+\emph{Existence of a turn.} Let $\Gamma$ be a path other than the last, with diagonal index $l$. If one of its halves has a corner $(a,b)$ with $b>a$ in grid $Y$, or the mirror image of one in grid $\tilde Y$, that corner
+is a turn off the diagonal. Otherwise both halves have no corners; below the last row (that is, if $l<m$) both end with a step down to $(l,l)$, and replacing these two steps by the steps right to $(l+1,l+1)$ is a
+turn on the diagonal. If $l=m$, both halves run along the row $m$, and $\Gamma$ is the last path.
+
+\emph{Location and bounds.} By the description of the squares, a turn at $(i,j)$ adds the square at $(i,j)$, which lies between the first and the last path, so $i,j<m$. A turn at a corner $(a,b)$ of the half in $Y$
+has $a<b$, the half staying above the diagonal; a turn in the half in $\tilde Y$ is recorded with exchanged indices, so it has $j<i$; and a turn on the diagonal replaces $(j,j)$ by $(j+1,j+1)$.
+
+\emph{Induction.} The first path has no squares and the last has all $m^2$ squares $(i,j)$, $i,j<m$. For a turn at $s$ from $\Gamma$ to $\Gamma'$, $s$ is not a square of $\Gamma$ and the squares of $\Gamma'$ are those of $\Gamma$
+together with $s$. Induct on the number of squares between $\Gamma$ and the last path, carrying along the set $T$ of squares of $\Gamma'$ not in the first path: for the last path this set is empty, and each turn
+backwards adds its square. At the first path the set is all of $\{0,\dots,m-1\}^2$.
+
+\emph{Transitivity.} If $(\Gamma'',\Gamma')$ transfers with bound $k'$ and constants $c'$ and $(\Gamma',\Gamma)$ with $k$ and $c$, then path data on $\Gamma''$ give data on $\Gamma'$ and then on $\Gamma$ with the bound multiplied by $k'k$,
+and $\Psi\propto\Xi$ gives $\Psi'\propto\Xi/c$ and then $\Psi''\propto\Xi/(cc')$. A transfer with bound $k$ is one with every larger bound, by \cref{lem:tuples}(a).
+\end{proof}
+
+\subsection{The first path}\label{ss:first-path}
+The \emph{flat chain} $\Theta^\flat$ is the composite of the $m$ transposed point lifts in grid $\tilde Y$ from $\tilde Y^m_0$ to $\tilde Y^0_0=Y_0\oplus E\tilde e_0$, at the trivial twist. A \emph{flat restriction} at a real point $g$ of
+$\U(\tilde Y^0_0)$ is a linear map $r$ from the forms of level $\mathfrak b$ on $\tilde Y^m_0$ to forms on $Y_0$ such that every form $y$ on $Y_0$ of level $\varpi Q$ has the same Petersson product with $r\varphi$ as with
+$h\mapsto(\Theta^\flat\varphi)(hg)$.
+\lean{New.Data.abs_targetParameter_sub_lowestKType_le_and_eq, New.Data.exists_isSteep, New.Space.hasSum_integral_translates, New.Exchange.translatedCoeff, New.Exchange.sliceConst, New.Exchange.norm_dsCoeff_translate_le, New.Exchange.integrable_translatedCoeff_and_integral_norm_le, New.G.inlLine, New.G.inlLine_snd_mem_principalLevel_iff, New.Space.IsLastColumn, New.Space.exists_isLastColumn, New.Space.IsLastColumn.inv_mul_mem_range, New.Space.IsLastColumn.le_norm_archCoords_sub, New.Space.IsLastColumn.norm_archCoords_one_le, New.Space.IsLastColumn.norm_archCoords_le, New.Space.tsum_eq_tsum_cosets, New.Space.hasSum_integral_of_summable_integral_norm, New.Exchange.integrable_mul_indicator, New.Exchange.integral_norm_mul_indicator, New.Exchange.integral_mul_indicator_mul_eq_smul_realConv, New.Exchange.poincareKernel, New.Exchange.poincareKernel_mul_inlLine, New.Exchange.integral_norm_poincareKernel_le, New.Exchange.tsum_div_norm_pow_le_of_separated, New.Exchange.norm_poincare_period_sub_le}
+\lean{New.Exchange.norm_prod_conj_dsCoeff_inv_mul_sub_le, New.Exchange.HasDeepLevelSizes, New.Exchange.HasDeepLevelSizes.sixteen_le, New.Exchange.HasDeepLevelSizes.beta_le_m, New.Exchange.HasDeepLevelSizes.pow_places_le_div, New.Exchange.HasDeepLevelSizes.sq_le_pow_mul_firstMinimum, New.Exchange.typeKernelMajorant, New.Exchange.integral_typeKernelMajorant_le, New.Exchange.norm_typeKernel_inv_mul_sub_le, New.Exchange.norm_le_half_of_firstMinimum_lt, New.Exchange.poincare_period_translatedCoeff_eq_zero, New.Exchange.norm_realConv_translatedCoeff_le, New.Exchange.norm_dsKernel_mul_pow_le, New.Exchange.integral_translatedCoeff_mul_eq_prod, New.Exchange.realConv_translatedCoeff_mul, New.Exchange.norm_le_half_of_le_firstMinimum, New.Exchange.eq_zero_of_petersson_translate_eq_zero, New.Exchange.exists_forall_eq_zero_of_petersson_restrict_eq_zero, New.Data.norm_gridLevelGen, New.Data.exists_eq_zero_of_orthogonal_gridLevelForms}
+
+The deep level argument concerns a hermitian space $V$ of rank $n$ and the space $V\oplus\langle1\rangle$, with parameters $l$ on $V$ and $l'$ on $V\oplus\langle1\rangle$. A rational point $\gamma$ of $V\oplus\langle1\rangle$ has a \emph{last
+column}, the rational vector $\gamma\tilde e$ for the last basis vector $\tilde e$; the \emph{Poincar\'e kernel} of a function $\varphi$ on the real group and a level $K$ is $\varphi$ at the real part times the indicator of $K$ at
+the finite part, and the \emph{translated coefficient} $c_{l',\alpha,\omega}(g)=\prod_w\overline{c_{l'_w}(\alpha_w^{-1}g_w\omega_w)}$ is a product of conjugate discrete series coefficients. The \emph{real convolution} of $\psi$ and $F$ at $x$ is
+$\int\psi(r)F(x(r,1))\,dr$ over the real group. The \emph{size conditions} $(A,L,N,\beta,R)$ ask: $8(n+1)^2<A$, $N<A$, $A$ exceeds by $2$ the real dimension of a space of rank $n+1$, $\beta$ bounds the cusp constant times the
+level, a polynomial in the rank and the bound $L$ of the parameters, and the number of infinite places; $R\ge\beta^{20A(\#\Phi+1)}$; and the generator of the deep level has modulus at least $R^{3n+2}$ at every infinite place.
+
+\begin{lemma}[Poincar\'e series of deep level]\label{lem:deep-poincare}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $l'_w$ have a large gap for $2A$. Then the translated coefficient decays: its slice $r\mapsto c(g(r\oplus1))$ is integrable over the real group of $V$ with $L^1$ norm at most $\mathrm{sc}(A,\alpha,\omega)\,t^{-A}$, where $t$ bounds below
+the products of the operator norms of $g(r\oplus1)$ and $\mathrm{sc}=16^A\vol\prod_w(2(\norm{\alpha_w}\norm{\omega_w})^2)^A$.
+\item Two rational points with the same last column differ by an element of the image of $\U(V)$. If $y\ne y'$ are the last columns of $\gamma$, $\gamma'$ and the corresponding translates have finite part of level $a$ with
+$\abs a\ge R$ at all infinite places, the distance of $y$ and $y'$ at the point $x\oplus1$ is at least $R$ times the first minimum of $V$ at $x$; the last column of $1$ has length at most $\#\Phi$ there.
+\item (Packing.) Points of a real normed space of dimension at most $A-2$ with mutual distances at least $d^2$, $d\ge10$, one of them of norm at most $d$, have $\sum_{i\ne\mathrm{base}}(d/\norm{x_i})^A\le10/d$.
+\item (Main term.) Let $F$ be automorphic on $V$ of level $a\ne0$ and bounded by $S$, let $\abs a\ge R$, $d^2\le R\lambda$ with $\lambda$ the first minimum at $x$, $d\ge\max(10,\#\Phi)$ and $A\ge2\#\Phi(n+1)+2$. Then the period against $F$ of
+the Poincar\'e series with centre $x\oplus1$ of the translated coefficient differs from $\vol(K_a)$ times the real convolution of $\psi(r)=c(r\oplus1)$ with $F$ at $x$ by at most $\vol(K_a)\,\mathrm{sc}\,S\,(10/d)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Writing $x=\alpha(\alpha^{-1}x\omega)\omega^{-1}$ bounds $\norm{\alpha^{-1}x\omega}$ below by $\norm x/(\norm\alpha\norm\omega)$, and the coefficient of a parameter with a large gap for $2A$ decays like the power $-2A$ of the norm
+(\cref{prop:A-decay}); one half of the decay gives $t^{-A}$, the other half is integrable over the real group with the stated constant, $A>8(n+1)^2$ exceeding the growth of the Haar measure. (b) Both points send the
+last basis vector to the coordinates of the column, so $\gamma^{-1}\gamma'$ fixes it and is block diagonal $\mathrm{diag}(h,1)$. Both columns are congruent to the last basis vector modulo $a$, so their difference is $a$ times a lattice
+vector, nonzero; a nonzero lattice vector has length at least the first minimum (the definite summand $\langle1\rangle$ has no short vector and does not lower it), and $a$ stretches the coordinates at each place by at least $R$. The
+last column of $1$ is $\tilde e$, of length $1$ at each place. (c) Away from the base point, norms and mutual distances are at least $\rho=d^2/2$, since $\norm{x_{\rm base}}\le d\le d^2/2$. For points of a space of dimension at most $A-2$ whose norms and mutual distances
+are at least $\rho$, the packing estimate $\sum_i\norm{x_i}^{-A}\le(5/\rho)^A$ holds, by comparing the disjoint balls of radius $\rho/2$ about the points with balls about $0$. Hence the sum is at most
+$d^A(10/d^2)^A=(10/d)^A\le10/d$, as $d\ge10$. (d) Unfold the period over the cosets $\gamma\U(V)(E)$ of the rational points of
+$V\oplus\langle1\rangle$, which the last columns index (\cref{lem:deep-poincare}(b)); only the cosets meeting the level condition contribute, and the unfolding is the identity
+$\sum_\gamma\int_{[\U(V)]}=\int_{\U(V)(\Ad)}$ for an integrable function, valid because the $L^1$ norms of the terms are summable. The coset of $1$ gives, after translating by $x$ and using the level of $F$, $\vol(K_a)$ times the
+real convolution. For the other cosets, the product of the local operator norms of the translate is at least $\norm{\mathrm{col}(\gamma)}/d$, so by (a) the term of $\gamma$ is at most $\vol(K_a)\,\mathrm{sc}\,S\,(d/\norm{\mathrm{col}(\gamma)})^A$; the
+columns are $d^2$-separated by (b) since $d^2\le R\lambda$, and the base column has norm at most $\#\Phi\le d$, so (c) bounds the sum by $10/d$.
+\end{proof}
+
+\begin{lemma}[Halving]\label{lem:deep-halving}
+Assume the size conditions, large gaps for $4A$ of $l_w$ and for $2A$ of $l'_w$, $\abs{l_w(i)}\le L$, a real point $\omega$ with $\norm\omega^2\le\beta$, and the lower bound $\beta^{-N}\vol\le\abs{\int c_{l}(g)\overline{c_{l'}(\omega^{-1}(g\oplus1)\omega)}\,dg}$ for the
+local pairings at every infinite place. Let $y$ be a form on $V$ of type $l$ and the deep level, bounded by $S$, and orthogonal to $x\mapsto\varphi((x\oplus1)\omega)$ for all forms $\varphi$ of type $l'$ and deep level on
+$V\oplus\langle1\rangle$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The majorant $u\mapsto\prod_w\deg(l_w)(2/\norm{u_w})^{2A}$ of the type kernel is integrable with integral at most $R/(16\beta)\cdot(\beta^N(2\beta)^{3A})^{-\#\Phi}$, and for $u$ within $R^{-2}$ of $1$ the type kernel at $u^{-1}z$ and at $z$ differ by
+at most $\beta/R$ times the sum of the majorants there.
+\item Where the first minimum of $V$ at $x$ is below the threshold of \cref{thm:B-cusp}(c) for $\delta=R^{-2}$, $\norm{y(x)}\le S/2$.
+\item The Poincar\'e series of the translated coefficient for $l'$ and the deep level has period $0$ against $y$.
+\item Where the first minimum is at least that threshold, the real convolution at $x$ of the translated coefficient with $y$ is at most $10S/R$ times $\mathrm{sc}(A,\alpha,\omega)$, and $\norm{y(x)}\le S/2$.
+\item Hence $y=0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The integral of the majorant is a product of local integrals, each finite for a gap $4A$; the size conditions $\beta\ge2000(n+L+1)^6$ and $\beta^{20A(\#\Phi+1)}\le R$ make the product small against $R$. The coefficients are
+Lipschitz under left translation with constant at most $\beta$, there are at most $\beta$ factors, each of norm at most $1$, and the product of numbers of modulus at most one is Lipschitz with the sum of the constants;
+this gives the variation bound. (b) By \cref{thm:B-cusp}(c), with $\delta=R^{-2}$, it suffices to bound $\norm{y(x(u,1))-y(x)}$ by $S/2$ for real $u$ within $R^{-2}$ of $1$. Write both values as convolutions of $y$ with its type
+kernel; by (a) the difference is at most $S\beta/R$ times twice the integral of the majorant, which is at most $S/2$. (c) The Poincar\'e series, up to the nonzero formal degrees, is the conjugate of the value at
+$(h\oplus1)\omega$ of a form of type $l'$ and deep level on $V\oplus\langle1\rangle$: the series converges to such a form by the decay (\cref{lem:deep-poincare}(a)), and it is fixed by the type kernel because each term is.
+The orthogonality hypothesis gives period $0$. (d) Above the threshold, $\lambda\ge(R^{-2}/(M\kappa^2))^n\ge R^{-3n}$ because $M\kappa^2\le\beta\le R$, so $R^2\le R^{3n+2}\lambda$. Apply \cref{lem:deep-poincare}(d) with $d=R$ and
+the generator of the deep level, of modulus at least $R^{3n+2}$ at every place, in the role of $a$: then $d^2\le R^{3n+2}\lambda$, and with (c) it bounds $\vol(K)$ times the convolution by $\vol(K)\,\mathrm{sc}\,S\,(10/R)$; the positive volume cancels. \emph{Undoing the smoothing.} Average the convolution of (d) over the type kernel of
+$y$: by Fubini and the rank one formula for the real convolution of coefficients, the result is $\eta\,y(x)$, where $\eta$ is the product over the places of the local pairings normalised by the values of the kernels at
+$1$; by the lower bound, $\abs\eta\ge(\beta^{-N}\vol)^{\#\Phi}$. The integrand is bounded by the majorant of (a) times the bound of (d), and the constants cancel to give $\norm{y(x)}\le S/2$. (e) Every bound $S$ of $\norm y$ is
+halved by (b) and (d), so $\norm y=0$.
+\end{proof}
+
+\begin{proposition}[Deep level detects forms]\label{prop:deep-level}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The parameter of $Y_0$ and minus that of $\tilde Y^0_0$ are \emph{steep}: for one numbering, at every infinite place the sign is $+$ and the lowest $K$-type has weight $0$ on the base indices of $X_0$
+other than the last, and on the other indices the signs alternate and the weight decreases strictly within $[-3B,-B]$, $B=\kappa+\Delta/2$.
+\item (Poincar\'e series of deep level.) Let $F$ be automorphic on $V$ of level $\alpha\ne0$, bounded by $S$, and $\varphi$ a translated product of discrete series coefficients for parameters of $V\oplus\langle1\rangle$ with a large
+gap. If $\abs\alpha_v\ge R$ at all infinite places and $d^2\le R\lambda$ for the first minimum $\lambda$ of the lattice at the point $x$, the period against $F$ of the Poincar\'e series with centre $x\oplus1$ is the volume of the
+principal level times the real convolution of $\varphi$ with $F$ at $x$, up to that volume times $(10/d)$ times explicit constants and $S$.
+\item There is a real point $g$ of $\U(\tilde Y^0_0)$ such that a form $y$ of level $J_M$ on $Y_0$ vanishes as soon as it is Petersson orthogonal to $x\mapsto\varphi((x\oplus1)g)$ for all forms $\varphi$ on $\tilde Y^0_0$ of
+level $\mathfrak b$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Number the indices of the node $(0,0)$ by $\nu$, so that the doubled parameter at $y$ is $2\lambda_\tau(\nu y)+z$, where $\lambda_\tau$ is the target parameter (\cref{prop:grids}(b)) and $z\in\{0,1\}$ the flag. The sign is $+$ on the
+first $k-1$ entries (the \emph{near} entries) and alternates on the others. Twice the lowest $K$-type is the doubled parameter minus a signed count $L$ of the entries below and above (\cref{ss:A-coefficients}): $L$ counts the
+entries below entry $\nu y$ minus those above, with the opposite count for the entries of the opposite sign. By induction on the number $N=r+z$ of indices, $\abs L\le N$, and at a near entry
+$L+N=N+\min(N,k)-1-2i-((N-k)\bmod2)$, because a far entry lies below every near one ($\kappa_0$ being large against the gap) and the far signs alternate. On the near entries this cancels the doubled parameter, so the
+lowest $K$-type vanishes there. The far entries of $\lambda_\tau$ are $\Delta/2-\kappa_j$ with $\kappa_j$ between $B=\kappa_0$ and $\kappa_\Delta\le2B$, and $\abs L\le N$ is small against the gaps, so on the far entries the lowest $K$-type
+decreases strictly and lies in $[-3B,-B]$.
+
+(b) is \cref{lem:deep-poincare}(d).
+
+(c) At each infinite place, steepness of the two parameters (a) gives, by the restriction theorem for discrete series with a large gap (\cref{thm:A-restriction}), a point $\omega_w$ with $\norm{\omega_w}^2\le\beta$ at which the local
+pairing of the coefficients of $Y_0$ and of $\tilde Y^0_0$ is bounded below by $\beta^{-20(2r+1)^2}$ times a volume. The size conditions hold for the data, the generator $\varpi^{\lceil b\rceil}$ of the deep level having modulus
+$\sqrt M^{\lceil b\rceil}$ at every infinite place, which is large against all the constants by the choice of $b$; the gap conditions hold by the construction of the grids. \Cref{lem:deep-halving}(e) with $g=\omega$ applies to every
+form of level $J_M$, which is of the deep level since $J_M$ contains it.
+\end{proof}
+
+\lean{New.Data.gridChar_detFin_eq_one, New.Data.pairWeil_gridChar_modDatum_eq_self, New.Data.formRep_transposedChain_eq_self, New.Data.triangleRep_weightedChain_eq_self, New.Data.integral_transposedChain_mul_weightedChain, New.Data.eq_zero_of_weightedChain_triangleLift_eq_zero, New.Data.map_transposedChain_le_gridLevelForms, New.Data.gridLevelForms_eq_map_transposedChain, New.Data.exists_forall_diagonalPeriodForm_ne_zero, New.Data.IsFlatRestriction, New.Data.exists_isFlatRestriction, New.Data.exists_isFlatRestriction_range_eq_top, New.Data.IsFlatRestriction.integral_lowerChainUpTo, New.Data.exists_isPathDatum_integral_eq, New.Data.exists_isPathDatum_first}
+\lean{New.Data.finMean_isUnit_indicator, New.Data.disjoint_edges_column, New.Data.exists_triangleGLCard_eq_mul_levelIndex, New.Data.diagonalPeriodForm_formRep, New.Data.formRep_block_one_eq_self, New.Data.gridKernel_zero_true_eq_star, New.Data.exists_petersson_eq_diagonalPeriodForm, New.Data.formRep_formMap_column_tupleAction, New.Data.diagonalPeriodForm_tupleAction, New.Data.sum_tuplesOn_union, New.Data.edges_column, New.Data.mem_edges_first, New.Data.edgePointDatum, New.Data.columnPointDatum, New.Data.firstPointDatum, New.Data.columnPointDatum_congr, New.Data.isSumOfRootsOfUnity_firstPointDatum, New.Data.hasLeftInv_of_edgePointDatum_ne_zero, New.Data.pointTransposedLift_eq_sum, New.Data.transposedChain_eq_sum, New.Data.transposedChain_one_true_eq_transposedChain, New.Data.pairing_transposedChain_eq_sum, New.Data.map_eq_one_and_edgeChar_eq_one_of_mem_nodeLevel, New.Data.firstPointDatum_invariant, New.Data.fintypeQuotientNodeLevel, New.Data.LevelCosets, New.Data.LevelCosets.out, New.Data.LevelCosets.family, New.Data.firstPathDatum, New.Data.firstPathDatum_invariant, New.Data.card_levelCosets_le, New.Data.isPathDatum_firstPathDatum, New.Data.sum_firstPathDatum_mul, New.Data.card_levelCosets_eq, New.Data.exists_diagonalPeriodForm_transposedChain_eq, New.Data.exists_isPathDatum_diagonalPeriodForm_eq}
+
+\begin{lemma}[The flat chain]\label{lem:flat-chain}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The character of an edge of a first column is trivial on the determinants of the finite integral points trivial modulo the triangle modulus, and such pairs of points fix the data of the edge; so they fix the
+images of forms under the transposed chain and under the weighted chain of lifts along the column.
+\item For $i\le m$, $\int T_i\varphi\cdot U=\int T_0\varphi\cdot y$, where $U$ is the weighted chain of $i$ lifts of $y$ and $T_b$ the transposed chain from $m$ to $b$.
+\item In grid $\tilde Y$, the weighted chain of lifts from $\tilde Y^0_0$ to $\tilde Y^m_0$ at the trivial twist is injective on the forms of level $\mathfrak b$, and $\Theta^\flat$ maps the forms of level $\mathfrak b$ on $\tilde Y^m_0$ onto those on
+$\tilde Y^0_0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The tame part of the character is trivial outside the places of the triangle modulus (the chosen places and the places of the twist in grid $Y$; the chosen places in grid $\tilde Y$, where the characters are
+untwisted), so its value at the determinant of an integral point depends only on the point modulo the triangle modulus. A pair $(u,u')$ of such points acts on the datum through its reduction, which is trivial, and
+through the two characters, which are $1$. The last transposed lift has a datum fixed by $(u,1)$, so $u$ fixes every transposed lift and the chain; likewise for the lifts and $(1,u)$. (b) By induction on $i$: across the edge
+from $i$ to $i+1$, the lift and the transposed lift carry the same weight, and moving the weight inside the lift, transposing and regrouping it with the transposed lift gives the step. (c) The triangle of grid $\tilde Y$ is a
+triangle in the sense of \cref{ss:triangles} (\cref{prop:theta-triangle}(c) for $z$ true), so the weighted chain is injective on the base (\cref{thm:triangle-chains}(a)). The image of $\Theta^\flat$ lies in the forms of level $\mathfrak b$
+by (a). If a form $\zeta$ of level $\mathfrak b$ on $\tilde Y^0_0$ is orthogonal to the image, let $U$ be the chain of lifts of $\bar\zeta$; by (b) at $\varphi=\bar U$, $\norm U^2=\langle\zeta,\Theta^\flat\bar U\rangle=0$, so $U=0$ and $\zeta=0$ by
+injectivity. The space being finite dimensional, the image is everything.
+\end{proof}
+
+\begin{lemma}[Point data on the first path]\label{lem:first-point-data}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The diagonal period at $(0,0)$ is unchanged when $y$ is translated by a finite point $u$ and $\varphi$ by $\mathrm{diag}(u,1)$; forms of level $\mathfrak b$ on $\tilde Y^0_0$ are fixed by $\mathrm{diag}(u,1)$ for $u$ of level $\mathfrak b$
+on $Y_0$. The period with a form $\varphi$ on $\tilde Y^0_0$, as a functional of the forms $y$ of level $\varpi Q$ on $Y_0$, is the Petersson product with a form of level $J_M$, linear in $\varphi$.
+\item The transposed point lift of an edge of a first column is the order of the general linear group of the smaller node modulo the triangle modulus times the sum, over the matrices modulo $\mathfrak m$ that reduce to
+the inclusion modulo the triangle modulus, of the transposed moves by these matrices. Hence the pairing of the images of $y'$ and $\varphi$ under the two transposed chains is the product of these orders over the
+nodes of both columns times $\sum_S\Psi^1(S)$ times the pairing of the images along the first path by $S$, with $\Psi^1(S)$ the product of the point data of the edges.
+\item $\Psi^1$ takes the values $0$ and $1$, and where it is nonzero the matrices of the vertical edges are left invertible modulo $\mathfrak m$, the two moduli having the same primes.
+\item A node family on the first path whose members lie in the levels of the nodes fixes $\Psi^1$ up to the edge characters, which are $1$ there.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Both periods are integrals of a function invariant under the rational points, the second translated by $u$, and the block sum of a rational point with $1$ is rational. A form of level $\mathfrak b$ is fixed by a point of the
+principal level $\mathfrak b$, and $\mathrm{diag}(u,1)$ is one. For the Petersson product, the conjugate of the period is a linear functional on the finite-dimensional space of forms of level $J_M$, represented by a form; for $y$ of
+level $\varpi Q$ one may replace $y$ by its mean over $J_M$, because translation by $J_M$ changes neither the period (take $v$ supported on the places of $\mathfrak b$ and their conjugates, with $uv$ of level $\mathfrak b$, so that $v\in J_M$ is
+trivial at the places of $Q$ and fixes $y$, and $(uv,1)$ fixes $\varphi$) nor the Petersson product. (b) Pull the datum back along the reduction from $\mathfrak m$ to the triangle modulus and expand it in indicator functions; the
+pull-back is the point datum of the edge and each summand is a transposed move. Iterating along the column and gluing the tuples of the two columns, which have disjoint edges, gives the formula. (c) The value is a product of
+indicators. If a matrix reduces to the standard inclusion modulo $\mathfrak m_0$, the transposed inclusion times the matrix reduces to $1$, so it is invertible modulo $\mathfrak m$, which has the same primes. (d) A member of the level
+reduces to $1$ modulo the triangle modulus, so it fixes the inclusion, and the characters are trivial on it by \cref{lem:flat-chain}(a).
+\end{proof}
+
+\begin{proposition}[The first path]\label{prop:first-path}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The chain of the $m$ lifts of grid $\tilde Y$ from $\tilde Y^0_0$ is injective on level $\mathfrak b$, and $\Theta^\flat$ maps the forms of level $\mathfrak b$ on $\tilde Y^m_0$ onto those on $\tilde Y^0_0$.
+\item There are a real point $g$ and a surjective flat restriction $r$ at $g$ onto the forms of level $J_M$ on $Y_0$.
+\item There are path data $\Psi_\vartheta$ on the first path, with values sums of at most $N^{2m}$ roots of unity ($N$ the number of matrices modulo $\mathfrak m$ between two nodes), and a constant $\alpha$ such that for every
+flat restriction $r$ at $g$ the pairing of a conjugate form $y'$ on $Y_m$ with $\Theta_\vartheta(r\varphi)$ is $\alpha$ times the period of $\Psi_\vartheta$ on the first path.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) is \cref{lem:flat-chain}(c).
+
+(b) Let $g$ be the point of \cref{prop:deep-level}(c). For $\varphi$ of level $\mathfrak b$ on $\tilde Y^m_0$, $\Theta^\flat\varphi$ is of level $\mathfrak b$ on $\tilde Y^0_0$, and by \cref{lem:first-point-data}(a) there is a form $r\varphi$ of level $J_M$ with
+$\langle y,r\varphi\rangle$ equal to the period of $\bar y$ and $\Theta^\flat\varphi$ at $g$ for every $y$ of level $\varpi Q$; $r$ is linear. This is a flat restriction. If $y\ne0$ of level $J_M$ were orthogonal to the range of $r$, it would be
+orthogonal to the restrictions of all $\Theta^\flat\varphi$, that is, by (a), of all forms of level $\mathfrak b$ on $\tilde Y^0_0$, and \cref{prop:deep-level}(c) gives $y=0$; the forms of level $J_M$ form a finite-dimensional space, so $r$ is
+onto.
+
+(c) \emph{Transposition.} The chain $\Theta_\vartheta$ is the weighted chain of lifts with the weights the orders of the general linear groups (the indices of the principal levels); by \cref{lem:flat-chain}(b) the pairing of $y'$ with
+$\Theta_\vartheta(r\varphi)$ is $\int y'_0\cdot r\varphi$, with $y'_0$ the transposed chain of $y'$ down to $Y_0$, which has level $\varpi Q$ by \cref{lem:flat-chain}(a); by the definition of a flat restriction this is the diagonal period
+at $g$ of $y'_0$ and $\Theta^\flat\varphi$. \emph{Point data.} By \cref{lem:first-point-data}(b) this period is a product of orders times $\sum_S\Psi^1(S)$ times the period along the first path by $S$. \emph{Symmetrisation.} Let $\Psi^0$
+be the sum over the families of coset representatives of the levels at the nodes $Y_i$ and $\tilde Y^i_0$, $i<m$, of the translates of $\Psi^1$, each weighted by the edge characters; the member at $\tilde Y^0_0$ moves with that at $Y^0_0$,
+so each translate is counted a constant number of times. An admissible family permutes these cosets, and the difference of the two families is a family in the levels, which fixes $\Psi^1$ by \cref{lem:first-point-data}(d);
+so $\Psi^0$ is fixed by admissible families up to the edge characters. Where $\Psi^0\ne0$ some translate of $\Psi^1$ is nonzero, and translation keeps left invertibility, so the vertical matrices are left invertible
+(\cref{lem:first-point-data}(c)). The values are sums of at most the number of coset families of roots of unity, and this number is at most $N^{2m}$, each of the at most $2m$ nodes contributing at most $N$ cosets. Every
+translate of $\Psi^1$ gives the same sum against the period, by the invariance of the period (\cref{lem:first-point-data}(a)) and \cref{lem:tuples}(b), so the sum against $\Psi^0$ is the number of coset families times that
+against $\Psi^1$. \emph{The constant.} The number of coset families is the product of the indices of the levels at the nodes $Y_i$ and of the orders at $\tilde Y^i_0$; the orders of $\GL(Y_i)$ modulo $\varpi Q$ are constants
+independent of $\vartheta$ times the indices modulo $\mathfrak m$ (both count invertible matrices, the reduction is onto and local, and in the ratio the factors from the places of $Q$ cancel). Hence $\alpha$, the quotient of the
+products of orders by the number of families, does not depend on $\vartheta$; put $\Psi_\vartheta=\Psi^0$.
+\end{proof}
+
+\subsection{Turns}\label{ss:turns}
+The \emph{ratio of the turn} at $(i,j)$ is $\varrho^{\rm turn}_{i,j}(\vartheta)=\varrho_t\bigl(\mu_{i+1}\mu_{j+1};\vartheta^{j+1}\bigr)$, the product over $1\le s\le t$ of the ratios of Hecke values of the product of the untwisted characters of
+lifts $i+1$ and $j+1$ at the twist $\vartheta^{j+1}$.
+\lean{New.Data.Corner, New.Data.Corner.oldEdges, New.Data.Corner.newEdges, New.Data.Corner.char, New.Data.Corner.IsTurn, New.Data.Corner.oldMatrix, New.Data.Corner.oldColumn, New.Data.Corner.newMatrix, New.Data.Corner.newRow, New.Data.Corner.oldTuple, New.Data.Corner.newTuple, New.Data.Corner.columnFourier, New.Data.Corner.turned, New.Data.Corner.sndGL, New.Data.Corner.sumGL, New.Data.Corner.oldColumn_oldTuple, New.Data.Corner.newRow_newTuple, New.Data.Corner.IsTurn.low_notMem, New.Data.Corner.IsTurn.lowExt_notMem, New.Data.Corner.IsTurn.high_notMem, New.Data.Corner.IsTurn.highExt_notMem, New.Data.Corner.IsTurn.oldTuple_apply_of_mem, New.Data.Corner.IsTurn.newTuple_apply_of_mem, New.Data.Corner.IsTurn.oldTuple_low, New.Data.Corner.IsTurn.newTuple_fst, New.Data.Corner.IsTurn.oldMatrix_oldTuple, New.Data.Corner.IsTurn.newMatrix_newTuple, New.Data.Corner.IsTurn.sum_tuplesOn_oldEdges, New.Data.Corner.IsTurn.sum_tuplesOn_newEdges, New.Data.Corner.IsTurn.columnFourier_congr, New.Data.Corner.IsTurn.columnFourier_tupleAction, New.Data.Corner.IsTurn.hasLeftInv_of_columnFourier_ne_zero, New.Data.Corner.IsTurn.newRow_tupleAction, New.Data.Corner.IsTurn.newMatrix_tupleAction, New.Data.Corner.IsTurn.areMatched_columnFourier, New.Data.Corner.IsTurn.turned_tupleAction, New.Data.Corner.IsTurn.exists_turned_eq, New.Data.Corner.IsTurn.hasLeftInv_of_turned_ne_zero, New.Data.Corner.IsTurn.isSumOfRootsOfUnity_turned, New.Data.Corner.IsTurn.exists_isPathDatum, New.Data.Corner.IsTurn.sum_eq_of_squareLaw, New.Data.turnRatio, New.Data.squarePair, New.Data.isRamified_squarePair, New.Data.isRamifiedRatio_turnRatio, New.Data.isRamifiedRatio_turnRatio_of_mem, New.Data.card_gridIndex_square, New.Data.charOfTamePart_gridModulus_mul, New.Data.edgeChar_columnEdge_mul_rowEdge, New.Data.gridChar_mul_gridChar_eq_rankTwist, New.Data.card_gridIndex_square_le, New.Data.exists_squareLaw_grid_hasAbsUpToNormPower, New.Data.TransfersPeriods, New.Data.TransfersPeriods.refl, New.Data.TransfersPeriods.mono, New.Data.TransfersPeriods.trans, New.Data.innerCorner, New.Data.isTurn_innerCorner, New.Data.edges_eq_oldEdges_innerCorner, New.Data.edges_update_eq_newEdges_innerCorner, New.Data.sum_formMap_eq_of_squareLaw, New.Data.exists_transfersPeriods_off_diagonal}
+\lean{New.Data.subdiagEquiv, New.Data.gridSigns_subdiagEquiv, New.Data.gridSpace_subdiagEquiv, New.Data.subdiagMap, New.Data.reindex_subdiagMap, New.Data.height_subdiagMap, New.Data.subdiagWeight, New.Data.columnLineKernel, New.Data.columnLineKernel_weightFn, New.Data.rowLineKernel, New.Data.rowLineKernel_weightFn, New.Data.diagonalCorner, New.Data.downPath, New.Data.rightPath, New.Data.edges_downPath, New.Data.edges_rightPath, New.Data.columnPeriod, New.Data.rowPeriod, New.Data.gridChar_subdiag, New.Data.modKernel_eq_columnLineKernel_mul, New.Data.rowLineKernel_mul_modKernel, New.Data.isProportional_of_columnPeriod, New.Data.IsProportional.exists_rowPeriod_eq_mul, New.Data.modKernel_eq_sum_single, New.Data.exists_columnLineKernel_eq, New.Data.isTurn_diagonalCorner, New.Data.char_diagonalCorner, New.Data.card_column_le_vectorCountBound, New.Data.periodPairing_columnLineKernel_eq, New.Data.columnPeriod_eq_mul_rowPeriod, New.Data.exists_transfersPeriods_diagonal, New.Data.exists_transfersPeriods_of_turn, New.Data.exists_transfersPeriods_first_last}
+
+A turn replaces two sides of a square by the two other sides. Its \emph{corner} consists of six nodes: the node $V'$ that the turn removes and $\tilde V'=V'\oplus T$, the nodes $W_1$, $W_2$ that it keeps, and the node $V$ that it adds
+and $\tilde V=V\oplus T$; off the diagonal $T$ is empty, on the diagonal it indexes one line. The old path has the edges $V'\to W_1$ and $\tilde V'\to W_2$, the new one $W_1\to V$ and $W_2\to\tilde V$. On the old edges a tuple carries a matrix
+$y\colon V'\to W_1\oplus W_2$ and a column $v\colon T\to W_2$; on the new edges a matrix $x\colon W_1\oplus W_2\to V$ and a row $v'\colon W_2\to T$. The \emph{character of the corner} is the inverse of the product of the characters of the two
+old edges. The corner is a \emph{turn of a path with the other edges $w$} if the kept nodes differ, the removed nodes are not on the new edges and the other edges avoid them and do not end at the added ones, one
+old edge is vertical and the new edge at the same kept node is not, opposite edges have the same character, only the group of $V$ acts at $\tilde V$, and any element $k$ may act at $V'$, through $k\oplus1$ at $\tilde V'$.
+
+For a path datum $\Psi'$ on the old path, its \emph{column Fourier transform} is $\hat\Psi'(S;y,v')=\sum_v\psi(\tr(v'v))\Psi'(S;y,v)$, and the \emph{turned datum} $\Psi(S)$ is the match (\cref{lem:finite-matching}(b)) of $y\mapsto\hat\Psi'(S;y,v')$
+for the character of the corner, taken at the matrix $x$ and the row $v'$ read on the new edges of $S$, through a bijection $\varepsilon$ identifying the indices of $V'$ and $V$ with those of $W_1\oplus W_2$.
+
+\begin{lemma}[Turning a path datum]\label{lem:turn-datum}
+Let the corner be a turn of a path with the other edges $w$, and $\Psi'$ a path datum on the old path whose values are sums of at most $N$ roots of unity.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A sum over the tuples on the old edges is a sum over the tuples $S$ on $w$, the matrices $y$ and the columns $v$; likewise on the new edges with $x$ and $v'$. The column Fourier transform depends on $S$ only through the
+matrices on $w$.
+\item Moving $S$ by an admissible family $g$, $v'$ by the member of $g$ at $W_2$ and $y$ by $(g_{W_1\oplus W_2})^{-1}\,y\,k$ for an invertible $k$ at $V'$ changes the column Fourier transform only by the characters of the edges at the
+determinants. Where the transform is nonzero, the blocks of $y$ on vertical edges and the matrices of $S$ on the vertical edges of $w$ are left invertible.
+\item $y\mapsto\hat\Psi'(S;y,v')$ is matched with its match for the character of the corner, and the turned datum is fixed by admissible families up to the edge character product of the new path.
+\item Where the turned datum is nonzero, $x=x_\gamma$ for an invertible $\gamma$ and its value is $\chi(\det\gamma)$ times the transform at $y_\gamma$; the matrices of the vertical edges of the new path are then left invertible.
+\item The turned datum is a path datum on the new path, with values sums of at most $N$ times the number of columns $v$ of roots of unity.
+\item (Exchange.) If for each index the functions $L$, $L'$ of the two composites around the square satisfy the square law with constant $C$, then the sum over the tuples on the old path against $\Psi'$ is $C$ times the sum over the
+tuples on the new path against the turned datum.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) A matrix at $\tilde V'\to W_2$ has the columns $y_2$ and $v$, and $y$ has the rows $y_1$, $y_2$; gluing gives a bijection of the tuples. Likewise $x$ has the columns $x_1$, $x_2$ and the matrix at $W_2\to\tilde V$ has the rows $x_2$ and $v'$.
+The tuples built from $(S,y,v)$ and $(S',y,v)$ agree on every old edge when $S$ and $S'$ agree on $w$. (b) Let $g'$ be $k$ at $V'$, $k\oplus1$ at $\tilde V'$ and $g$ elsewhere; it is admissible because $V'$ is an inner node. By invariance $\Psi'$ at a
+tuple moved by $g'$ is its value divided by the characters, and moving the tuple of $(S,y,v)$ by $g'$ moves $S$, $y$ and $v$ separately; the sum over $v$ is reindexed by $v\mapsto g^{-1}v$, which turns $\psi(\tr(v'v))$ into the
+character at the moved row. Where the transform is nonzero, some $\Psi'(S;y,v)\ne0$, and the path datum property gives left invertibility. (c) By (b) with $g=1$, replacing $y$ by $yk$ multiplies the transform by the value at $\det k$ of the product of the characters of the two old edges at $V'$, the inverse of the character $\chi$ of the
+corner; so $\chi(\det k)\hat\Psi'(S;yk,v')=\hat\Psi'(S;y,v')$. Where the transform is nonzero the block of $y$ on the vertical old edge is left invertible by (b), so $y$ is a block $y_\gamma$ of an invertible
+matrix (\cref{lem:finite-matching}(d)). Hence \cref{lem:finite-matching}(b) applies. The match commutes with the action at $W_1\oplus W_2$ and transforms by $\chi^{-1}$ at $V$, and opposite edges have the same
+character, so the turned datum is fixed by $g$ up to the characters of the new edges. (d) The match vanishes off the blocks $x_\gamma$ and there equals $\chi(\det\gamma)$ times the function at $y_\gamma$. A vertical new edge is opposite
+to a vertical old edge, and the corresponding blocks of $x_\gamma$ and $y_\gamma$ are left invertible together (\cref{lem:finite-matching}(d)). (e) collects (c), (d) and \cref{lem:tuples}(a): each value of the match is one value of
+the transform, a sum over the columns $v$ of values of $\Psi'$ times roots of unity. (f) Expand both sums by (a); the index of the functions does not see the matrices on the sides of the square, so for fixed $S$ and $v'$ the sum
+over $y$ weighted by the transform and the sum over $x$ weighted by its match are the two sides of the square law, and the sums over $S$ and $v'$ pass through.
+\end{proof}
+
+\begin{lemma}[Characters of a square]\label{lem:square-chars}
+Let $a,b<m$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The pair of the square, $\nu=\mu_{a+1}\mu_{b+1}$ with $z=t$, is a ramified critical pair, and $\varrho^{\rm turn}_{a,b}$ is a ramified ratio.
+\item The two pairs of opposite corners of the square have the same sum of ranks; the character of the lifts of the square times that of its transposed lifts is the rank twist of $\nu\vartheta^n$ in this rank, with $n=a+1$
+in grid $\tilde Y$ and $n=b+1$ in grid $Y$; and the characters of the two edges at the corner $(a,b)$ multiply to the character with tame part that of the pair times that of $\vartheta^n$.
+\item For the sum $W$ of the corners $(a,b+1)$ and $(a+1,b)$, half the rank of $W$ minus its number of negative signs is at most minus the weight of the pair, and the two kept corners together have at least two more positive than
+negative signs.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The weights add and the tame parts multiply; the tame part of $\mu_{a+1}\mu_{b+1}$ is $\omega^{a+b+2}$, nontrivial exactly at the chosen places, and minus the weight, $\kappa_{a+1}+\kappa_{b+1}$, lies between $t$ and $4b$
+(\cref{def:critical-pair}). The ratio of the turn is $\varrho_t$ of this pair at $\vartheta^{j+1}$, a ramified ratio. (b) The ranks along a row and along a column of a grid form arithmetic progressions, so the sums agree. The
+product of the characters compares exponents of each basic character; the sum of the ranks is even, so the rounded halves of the two ranks add up to half the sum. One of the two tame parts carries a power of the twist and
+the other the trivial twist. (c) Both ranks are at most $2n_m\le2h$ with $h$ half the gap, and both weights are at least $h$; the count of signs follows from the shape of the grid signs (\cref{prop:grids}).
+\end{proof}
+
+\begin{theorem}[Turns transfer periods]\label{thm:turns}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (A square.) For $a,b<m$ there are $\kappa$, possibly $0$, a bijection $\sigma$ between the indices of opposite corners, and numbers $c(\vartheta)\ne0$ of modulus $\varrho^{\rm turn}$ up to a constant and a power of $\Nm Q$, such
+that the values of a functional at the images of a form at $(a,b+1)$ through $(a+1,b+1)$ and through $(a,b)$ satisfy the square law with constant $\kappa/c(\vartheta)$.
+\item (Off the diagonal.) For $a<b<m$ a turn at the corner $(a,b)$ of one half transfers periods with bound $1$ and constants of modulus $\varrho^{\rm turn}$ up to a constant and a power of $\Nm Q$.
+\item (On the diagonal.) A turn at $(j,j)$ transfers periods with bound $(\Nm\mathfrak m)^{2n_m}$ and constants of the same kind: a seesaw moves the period to $S=Y^{j+1}_j=\tilde Y^{j+1}_j$, common to both paths, where
+the line $E\tilde e_j$ contributes a theta kernel; there the line is reversed, the kernel to $E\tilde e_j$ being, up to a factor of squared modulus $(\Nm\mathfrak m)^{-\operatorname{rk}S}$, the Fourier transform of the kernels to
+$E\tilde e_{j+1}$, and a second seesaw moves the period on.
+\item There are $c(\vartheta)\ne0$, of modulus $\prod_{i,j<m}\varrho^{\rm turn}_{i,j}(\vartheta)$ up to a constant and a power of $\Nm Q$, such that the first and the last path transfer periods with bound $(\Nm\mathfrak m)^{2n_mm^2}$ and
+constants $c(\vartheta)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Proof of \cref{thm:turns}(a)]
+The square has the edges of the lifts with the characters of grid $z$ at index $a$ and the transposed lifts with those at index $b$. By \cref{lem:square-chars}(b), (c) the hypotheses of \cref{cor:one-square} hold with $U_1$, $U_2$
+the kept corners, $A$, $A'$ the other two, the family of twists indexed by $\vartheta$, and the character $(\nu\vartheta^n)^{-1}$, which is tame for $\mathfrak m$ by \cref{prop:moduli}(b) applied to the pair of \cref{lem:square-chars}(a). The
+corollary gives the square law with constant $\kappa/c$, where $\abs c^2$ is a constant times $L_*$ of this character up to $t$; by \cref{prop:moduli}(b) this is a constant times a power of $\Nm Q$ times
+$\varrho_t(\nu;\vartheta^n)^2=(\varrho^{\rm turn})^2$. The character of the law is the inverse of the product of the characters of the two edges at $(a,b)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:turns}(b)]
+\emph{The corner.} If the other edges $w$ avoid the node $(z,a,b)$ and do not end at $(z,a+1,b+1)$, the corner at $(z,a,b)$ is a turn: an admissible family is free at $(z,a,b)$, which is neither an end nor on the diagonal, the line $T$ is
+empty, and the conditions on the characters are those of \cref{lem:square-chars}(b). The edges of the old path are the two sides through $(a,b)$ and the edges of the rest, and those of the new path the two sides through $(a+1,b+1)$ and
+the same rest. \emph{Data.} By \cref{lem:turn-datum}(e) a path datum $\Psi'$ on the old path gives the turned datum $\Psi$ on the new one, with the same bound, the line being empty (one column). \emph{Periods.} Carry the form that
+starts in grid $z$ along the half to $(a,b+1)$, and read the other half as a functional at $(a+1,b)$; both depend on the tuple only through the matrices off the square. By (a) the two composites around the square satisfy the
+square law with constant $\kappa/c(\vartheta)$, and \cref{lem:turn-datum}(f) gives: the period of $\Psi'$ on the old path is $\kappa/c(\vartheta)$ times that of $\Psi$ on the new path. If $\Psi\propto\Xi$, with factor $\beta$ at a real point,
+then the period of $\Psi'$ is $\kappa\beta\,\Xi/c(\vartheta)$, so $\Psi'\propto\Xi/c$ with factor $\kappa\beta$, independent of the twist and the forms.
+\end{proof}
+
+For the turn on the diagonal at $(j,j)$, the corner removes $Y^j_j$ and $\tilde Y^j_j=Y^j_j\oplus E\tilde e_j$, keeps $Y^j_{j+1}$ and $\tilde Y^{j+1}_j$, and adds $Y^{j+1}_{j+1}$ and $\tilde Y^{j+1}_{j+1}$; the type $T$ indexes the line. The spaces $\tilde Y^{j+1}_j$ and
+$Y^{j+1}_j$ are equal up to a renumbering of the bases that keeps the signs, which identifies their groups and preserves heights; call this space $S$. The \emph{line kernels} are the theta kernel from the line $E\tilde e_j$ to $S$
+for the point mass at a column $v$ and a polynomial $p$, at $u^j$ on the line, with the character of the horizontal edge from $Y^j_j$ on $S$ and the character $\upsilon^{-1}$ on the line; and the kernel from $S$ to the line $E\tilde e_{j+1}$
+for the point mass at a row $v'$, at $u^{j+1}$, with the character of the vertical edge to $\tilde Y^{j+1}_{j+1}$ and $\upsilon$ on the line. The \emph{column period} and the \emph{row period} are the integrals over $[\U(S)]$ of the line kernel
+times the form reaching $S$ in grid $\tilde Y$ times the conjugate form reaching it in grid $Y$, through $Y^j_j$, respectively through $Y^{j+1}_{j+1}$, summed against $\Psi$ over the tuples.
+
+\begin{lemma}[The diagonal turn]\label{lem:diagonal-turn}
+Let $j<m$ and let $q$ be a pair of monotone paths from $(0,m)$ to $(j,j+1)$, one in each grid.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The kernel of the edge from $\tilde Y^j_j$ to $\tilde Y^{j+1}_j$ at $h\oplus u^j$ and $g$ is the product of the line kernel at $g$ and the kernel of the edge from $Y^j_j$ to $S$ at $h$ and $g$, the matrix being cut into columns and the polynomial
+being a product of a polynomial in the variables of $Y^j_j$ and one in those of the line; and symmetrically for the edge from $\tilde Y^{j+1}_j$ to $\tilde Y^{j+1}_{j+1}$ with the rows.
+\item (Seesaws.) If all column periods of $\Psi$ are multiples of $\Xi$ by constants independent of the twist and the forms, so are the periods of $\Psi$ on the path through $(j,j)$. If the periods of $\Psi$ on the path through $(j+1,j+1)$
+are proportional to $\Xi$, then every row period is a multiple of $\Xi$.
+\item (Reversing the line.) There is a map $\tau$ of polynomials, independent of the twist, such that the line kernel from $E\tilde e_j$ with column $v$ and polynomial $p$ is $c$ times $\sum_{v'}\psi(\tr(v'v))$ times the line kernel to $E\tilde e_{j+1}$ with
+row $v'$ and polynomial $\tau p$, with $\abs c^2=(\Nm\mathfrak m)^{-\operatorname{rk}S}$; the same holds for the periods.
+\item The corner on the diagonal is a turn of a path whose other edges are those of $q$, and the character of the corner is the inverse product of the characters of the edges $Y^j_j\to Y^j_{j+1}$ and $Y^j_j\to Y^{j+1}_j$. The number of columns
+modulo $\mathfrak m$ of $S$ is at most $(\Nm\mathfrak m)^{2n_m}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The point mass at a matrix is the product of the point masses at its two blocks of columns (or rows); the Weil representation of an orthogonal sum is the tensor product, so the theta kernel of the sum is the product of the
+kernels; the characters agree because the ranks have the right parities, $t$ being odd. (b) By the seesaw identity for the periods (the integral over $[\U(S)]$ of a kernel that splits into a weight with proportional periods and a
+kernel on an edge), it suffices that the polynomials whose kernels split in this way span all polynomials; by (a) the variables split into two blocks of columns, and the products $AB$ span. The edge from $Y^j_j$ to $S$ is a lift and
+that from $\tilde Y^j_j$ to $S$ a transposed lift; a product $AB$ qualifies, with $A$ on the edge from $Y^j_j$ and $B$ in the weight on $S$, the weight of the period on the path being the constant $1$. For the second statement fix $p$: every
+polynomial $A$ on the edge to $Y^{j+1}_{j+1}$ qualifies, with $Ap$ on the edge to $\tilde Y^{j+1}_{j+1}$, because the periods on the path are proportional by hypothesis. (c) The theta kernel is linear in the finite datum, a sum of the kernels of
+point masses (\cref{lem:mod-lifts}(b)); the Fourier transform of the point mass at $v$ takes the value $\psi(\tr(v'v))$ at $v'$, and the kernel of the line from one side is, by the Weil representation of the line (a rank one space), the
+Fourier transform of the kernel from the other side, up to the Gauss sum constant of squared modulus $(\Nm\mathfrak m)^{-\operatorname{rk}S}$ and the translation by the flip scalar. The integral against the two forms is linear, which gives
+the statement for the periods. (d) The edges of the halves lie in the rectangle spanned by $(0,m)$ and $(j,j+1)$, so they avoid the removed nodes and do not end at the added ones; at the kept node $Y^j_{j+1}$ the old edge is vertical and the
+new one is not; an admissible family has at $\tilde Y^{j+1}_{j+1}$ its member at $Y^{j+1}_{j+1}$ extended by $1$ on the line and stays admissible with any $k$ at $Y^j_j$ and $k\oplus1$ at $\tilde Y^j_j$. The edge from $\tilde Y^j_j$ to $\tilde Y^{j+1}_j$ has the
+character of $Y^j_j\to Y^{j+1}_j$. The rank of $S$ is at most $2n_m$, which bounds the number of columns.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:turns}(c), (d)]
+(c) Let $\Psi'$ be a path datum on the path through $(j,j)$. By \cref{lem:diagonal-turn}(d) and \cref{lem:turn-datum}(e), the turned datum $\Psi$ (with the column Fourier transform in the column of the line) is a path datum on the path through
+$(j+1,j+1)$, with the bound multiplied by the number of columns, at most $(\Nm\mathfrak m)^{2n_m}$. Suppose $\Psi\propto\Xi$. By the second seesaw (\cref{lem:diagonal-turn}(b)), each row period of $\Psi$ for a polynomial $p'$ is $\beta\,\Xi$. Reverse the
+line by \cref{lem:diagonal-turn}(c) and cross the square $(j,j)$ by (a): the column period of $\Psi'$ for $p$ is $c\,C$ times the row period of $\Psi$ for $p'=\tau p$, where $C=\kappa/c(\vartheta)$ is the constant of the square law and $\Psi$
+corresponds under the bijection of the square to the Fourier transform of $\Psi'$ in the column of the line (\cref{lem:turn-datum}(f)). Hence all column periods of $\Psi'$ are multiples of $\Xi/c(\vartheta)$ by numbers independent of the twist and
+the forms, and the first seesaw gives $\Psi'\propto\Xi/c(\vartheta)$. The constant has the modulus of (a) up to the factor $c$ of the line, whose squared modulus is a power of $\Nm\mathfrak m$, that is a constant times a power of $\Nm Q$.
+
+(d) Each turn at $(i,j)$, $i,j<m$, transfers periods with bound at most $(\Nm\mathfrak m)^{2n_m}$ and constants $c_{i,j}(\vartheta)\ne0$ of modulus $\varrho^{\rm turn}_{i,j}$ up to a constant and a norm power, by (b) (for $i<j$ in the half in $Y$, for
+$j<i$ in the half in $\tilde Y$, with the indices exchanged) and (c). Apply \cref{lem:paths} to the property that $(\Gamma,\text{last})$ transfers periods with bound $(\Nm\mathfrak m)^{2n_m\#T}$ and constants $\prod_{s\in T}c_s$: it holds for the last path
+and $T=\emptyset$ by reflexivity, and passes backwards along each turn by transitivity. At the first path, $T$ is all $m^2$ pairs. The product of the constants has the modulus $\prod\varrho^{\rm turn}_{i,j}$ up to a norm power by
+\cref{prop:moduli}(a).
+\end{proof}
+
+\subsection{The last path}\label{ss:last-path}
+On the last path all spaces are definite, forms are algebraic forms on the standard spaces, and the lifts are algebraic. A \emph{branching pairing} for weights $(\kappa,e)$ of $\GL_{n+1}$ and $(\kappa',e')$ of
+$\GL_n$ with interlacing doubled parameters is an integer matrix $B$ such that $v'\mapsto v'\cdot Bv$ is equivariant for block matrices, bounded in the Gram norms, and computes the period of two algebraic forms over the
+smaller definite group as a constant times the integral over the finite points of the pairing of their values. The \emph{last path sum} $\Xi=\Xi(\Psi;y',\varphi)$ is the sum over the tuples $S$ on the last path of $\Psi(S)$
+times the integral over the finite points of $Y^m_m$ of the pairing of the lifts of $y'$ and $\varphi$ along the two halves.
+\lean{New.Exchange.diagramWeight_eq_add_succ, New.Exchange.diagramWeight_eq_zero_of_le_succ, New.Exchange.add_diagramWeight_mem_Icc_of_interlace, New.Exchange.boxes_le_boxes_of_interlace, New.Exchange.exists_add_eq_of_interlace, New.Exchange.norm_dotProduct_mulVec_le_of_isDualPairing, New.Exchange.IsBranchingPairing, New.Exchange.exists_isBranchingPairing, New.Exchange.le_div_two_add_of_paramsCorrespond, New.Data.LastPathIndex, New.Data.exists_isLiftWeight_isHCParam, New.Data.lastPathColumns, New.Data.lastPathDetExp, New.Data.isLiftWeight_lastPathColumns, New.Data.gridWeight_eq_lastPathDetExp, New.Data.isHCParam_lastPathColumns, New.Data.LastPathVector, New.Data.LastPathForm, New.Data.LastPathFiniteDatum, New.Data.lastPathBranching, New.Data.isBranchingPairing_lastPathBranching, New.Data.lastPathPairing, New.Data.exists_lastPathBranching_equivariant, New.Data.norm_dotProduct_lastPathBranching_mulVec_le, New.Data.exists_integral_eq_lastPathPairing, New.Data.isStd_gridSpace_last, New.Data.lastPathToAlgForm, New.Data.card_lastPathIndex_le, New.Data.natAbs_lastPathDetExp_le, New.Data.boxes_lastPathColumns_le_natB_mul, New.Data.lastPathLevel, New.Data.lastPathLevel_le_principalLevel, New.Data.gridChar_hasWeight_lastPathDetExp, New.Data.lastPathKernel, New.Data.lastPathBlockPoint, New.Data.FixedByOuterLevels, New.Data.lastPathEdgeDatum, New.Data.lastPathChain, New.Data.lastPathPeriod, New.Data.edges_last, New.Data.edgeCharProd_last, New.Data.lastPathKernel_omega_lastPathEdgeDatum, New.Data.IsPathDatum.sum_lastPathPairing_omega_invariant, New.Data.lastPathPairing_lastPathChain_mem_smoothInvariants, New.Data.IsPathDatum.sum_lastPathPairing_mul_level, New.Data.exists_lastPathPeriod_mem_smul_norm_le, New.Data.exists_gridPathMap_eq_ofAlgForm_smul_lastPathChain, New.Data.isProportional_lastPathPeriod}
+\lean{New.Exchange.abs_hcParameter_le_of_isHCParam, New.Exchange.hcParameter_sub_one, New.Exchange.boxes_le_card_mul_of_isHCParam, New.Exchange.natAbs_le_of_isHCParam, New.Exchange.exists_eq_add_card_add_sum_Ioc, New.Exchange.exists_isHCParam_of_le, New.Exchange.exists_isHCParam_of_hasGap}
+
+A \emph{weight} is a pair $(\kappa,e)$: $\kappa_w(h)$ columns of height $h$ at the place $w$ and the power $e_w$ of the determinant; $l$ is \emph{twice its Harish-Chandra parameter} if $l_w$ lists, in some order, the entries
+$2(e_w+\sum_{h>p}\kappa_w(h))+n-1-2p$, $0\le p<n$, where only the columns of height below $n$ count. The number of \emph{boxes} is $\sum_w\sum_{h<n}h\kappa_w(h)$. A doubled parameter has \emph{gap $c$} if its entries are distinct, of the
+parity of $n-1$, and entries of different signs are at least $c$ apart.
+
+\begin{lemma}[Regular parameters]\label{lem:regular-weights}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $l$ is twice the parameter of $(\kappa,e)$ and $\abs{l_w(i)}\le\beta$, then each entry of the parameter is at most $\beta$ in absolute value, its last entry is $2e_w+1-n$, $\kappa$ has at most $\#\Phi\cdot n\beta$ boxes, and $\abs{e_w}\le\beta$ for
+nonempty $n$.
+\item If every $l_w$ has a gap, then $l$ is twice the parameter of some weight; if moreover $e_w\le l_w(i)/2+n/2$ for all $i$ (integer division), the weight may be chosen with any prescribed columns $f$ of height at least $n$ and determinant
+power $e_w+f_w(n)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) A row length is half the difference between an entry of $l_w$ and the smallest entry $2e_w+1-n$, so at most $\beta$; the boxes are counted by rows. The largest entry is at least $2e_w+n-1$ and the smallest is $2e_w+1-n$, which bounds
+$\abs{e_w}$. (b) By parity an entry of $l_w$ is determined by its half, so the halves are distinct integers. Sort them; the numbers $\kappa(1),\dots,\kappa(n-1)$ are the gaps between consecutive halves less one, and $\kappa(n)$ is the gap
+between the smallest half and the bound $g$; with $g$ chosen from $e_w$ this gives the weight, the columns above $n$ being free because the parameter does not see them.
+\end{proof}
+
+\begin{lemma}[Branching pairings]\label{lem:branching-pairing}
+Let $(\kappa,e)$ be a weight of $\GL_{n+1}$ with doubled parameter $l'$ and $(\kappa',e')$ one of $\GL_n$ with doubled parameter $-l$, with $l$ and $l'$ interlacing, and all signs $1$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $l$, $l'$ interlace, the highest weights interlace: entry $q$ of the highest weight of $(\kappa_0,e_0)$, the weight of parameter $l$, lies between the entries $q+1$ and $q$ of that of $(\kappa,e)$; so $\kappa_0$ arises from $\kappa$ by
+removing a horizontal strip, and has at most as many boxes below height $n$ as $\kappa$ has below height $n+1$.
+\item A duality $A$ between $(\kappa',e')$ and $(\kappa_0,e_0)$ satisfies $\abs{v'\cdot Av}\le\norm{v'}\norm v$ in the Gram norms.
+\item A branching pairing exists: the composite of the branching matrix from $\kappa$ to $\kappa_0$ and the duality $A$. Its pairing is invariant under $g$ on the left and $\mathrm{diag}(g,u)$ on the right up to $\prod_\tau\det u_\tau^{N_\tau}$ with
+$\abs{N_\tau}$ at most the number of boxes plus $\abs{e_\tau}$; if $M$ bounds the number of boxes, it is at most $(M^M)^3$ times the product of the Gram norms; and for each real point $g$ there is $c$ with
+\[
+  \int_{[\U(V)]}\eta(x)\varphi(\mathrm{diag}(x,u)g)\,dx=\frac c{[K_0:K\cap K_0]}\sum_{h}\frac{\eta(h)\cdot B\,\varphi(\mathrm{diag}(h,u))}{\#\mathrm{Aut}(h)}
+\]
+for algebraic forms $\eta$, $\varphi$ of level $K$, read as functions, the sum over the classes of finite points.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Take the index $i$ at position $q$ of $l_w$ and $j$, $j'$ at positions $q$, $q+1$ of $l'_w$: more than $q$ entries of $l_w$ but only $q$ of $l'_w$ would exceed $l'_w(j)$, and more than $q+1$ of $l'_w$ but only $q$ of $l_w$ would exceed $l_w(i)$.
+The entry of a highest weight is the determinant power plus a row length, which turns the inequalities of parameters into those of rows; the difference $d_q$ of entry $q$ of $(\kappa_0,e_0)$ and entry $q+1$ of $(\kappa,e)$ is the
+number of the columns of height $q+1$ that keep their box, so the removed boxes form a horizontal strip. Each row of $\kappa_0$ is at most the row of $\kappa$ with the same number, and no height lies strictly between $n$
+and $n+1$, which compares the boxes. (b) The pairing with $v$ is the hermitian product with a vector of the same Gram norm, and Cauchy--Schwarz applies. (c) By (a), the branching matrix $b$ from $\kappa$ to $\kappa_0$ exists
+(\cref{prop:branching}, the Pieri rule for a horizontal strip), is equivariant for $\mathrm{diag}(g,u)$ up to a power of $u$, has bounded norm and satisfies multiplicity one; compose it with $A$. The bound on $\abs{N_\tau}$ is that on the power of
+$u$. By multiplicity one, the integral over the real points of the pairing of the real parts is a multiple of the pairing of the values, and for definite groups the integral over the quotient is the class sum of the
+finite parts weighted by the inverse orders of the stabilisers, divided by the index of the level.
+\end{proof}
+
+\begin{lemma}[Weights and bounds on the last path]\label{lem:last-weights}
+Fix a half $z$ of the last path, through the nodes $(z,i,m)$, $i\le m$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item There are columns $\kappa$ and exponents $e_i$ such that the rank grows from $i$ to $i+1$ with no column of height strictly between the two ranks, $e_i$ is the weight at the upper end of the edge character plus the number of
+columns whose height is the rank at $i$, the weight at the lower end is $e_{i+1}$, and $(\kappa,e_i)$ has doubled parameter $-$ the parameter of the forms moved along the half.
+\item The spaces of the last path are standard definite spaces; their ranks are at most $2n_m$, the exponents are at most $\lceil20b\rceil$ in absolute value, and the weights have at most $\lceil b\rceil r^4$ boxes.
+\item The level of the node $(z,j,m)$, the integral points whose reduction modulo $\mathfrak m$ lies in the level of the node, lies in the principal level $J(\mathfrak b)$; it is $J(\mathfrak m)$ on $Y_m$ and $J(\mathfrak b)$ elsewhere.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Choose $\kappa$ to fit the parameter at $j=0$, with $\Delta-t-z$ columns of each height $\operatorname{rk}(j)$, $j\ge1$, and no other columns higher than $\operatorname{rk}(0)$. The parameters at larger $j$ follow by induction: across an edge where
+the weight lifts, the parameters correspond exactly when the second is that of the new weight (\cref{thm:B-theta-ds}), the lift weight growing by $\Delta$ from $j+1$ to $j+2$ and half the rank by $t+z$ in two steps. (b) At $z$ false,
+$i=0$ the space is $Y_m$, which is standard; the other nodes are diagonal with all signs $1$ (\cref{prop:grids}). The ranks are $n_j=k+j(t+1)$ up to the line; the exponents and the boxes are bounded by \cref{lem:regular-weights}(a) with
+the bound $\beta$ on the parameters, compared with $b$ and $r$ by the choice of the data. (c) The level of a node is trivial or the kernel of the reduction modulo $\mathfrak b$, and reducing in two steps is reducing modulo $\mathfrak b$.
+\end{proof}
+
+\begin{lemma}[Class sums on the last path]\label{lem:last-classes}
+Let $\Psi$ be a path datum on the last path and let the forms $y'$, $\varphi$ have the levels at the outer ends of the two halves.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $g$ be a node family and $u$, $u'$ integral points reducing to the members of $g$ at the ends of an edge of the last path. The Weil representation of $(u,u')$ for the kernel of the edge takes the datum of $gS$ on this edge to that of $S$
+times the character of the edge at the determinants.
+\item Moving the data of all lifts by a family $a$ of elements of the levels along the last path, with $a$ at $\tilde Y^m_m$ equal to $\mathrm{diag}(a_{Y^m_m},1)$, does not change the sum against $\Psi$ of the pairings of linear images of the
+tensors of the data; consequently the sum over $S$ of $\Psi(S)$ times the branching pairing of the lifts at $h$ and at $\mathrm{diag}(h,u^m)$ is right invariant under the level of $Y^m_m$, and it is smooth and left invariant under the rational
+points.
+\item If a property of vectors at points holds at $j=0$ for the values of the two forms and is preserved by the kernels, and $\norm{\sigma(Ma)}\le R$ for each pairing $a$ of vectors with the property at corresponding points of $Y^m_m$ and
+$\tilde Y^m_m$, then $\Xi$ is a sum of at most $L$ times the product of the class numbers of the $2m+1$ levels numbers with this bound, with $L\le N\cdot N_{\mathfrak m}^{2m}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) What remains after the substitution is the action of the Weil representation on the indicator of the matrix of the edge, which is translation of the matrix by the two members and the character of the edge. (b) The residues of
+$a$ form an admissible family, and $\Psi$ is fixed by such families up to the characters of the edges; by (a) acting by the members on the data of $gS$ gives those of $S$ times the same characters, which cancel. For the level of
+$Y^m_m$, act by $u$ and $\mathrm{diag}(u,1)$ at the node $(m,m)$ of the two grids and by $1$ elsewhere; the residue of the second is $\mathrm{diag}(r,1)$ with $r$ that of $u$, in the level. The values of the two chains at $h$ and at the block point are
+linear images of the tensors of their data. Each lift is an algebraic form, with an open stabiliser and automorphic, and the second is pulled back along $h\mapsto\mathrm{diag}(h,1)$; so the integrand is smooth and left invariant. (c) By (b)
+the integrand of $\Xi$ is invariant under the levels in each variable, so the last integral and both chains of lifts are plain sums over classes: the chain in grid $\tilde Y$ is a sum over classes using the family that is $a$ in this
+grid and $1$ in the other, and likewise the chain in grid $Y$. Each term is a sum over the tuples $S$ of pairings of reached vectors with coefficients $\Psi(S)$, and $\Psi(S)$ is a sum of at most $N$ roots of unity; there are at most
+$N_{\mathfrak m}^{2m}$ tuples (\cref{lem:tuples}(c)). The integrals commute with the sum, the integrands being smooth and invariant.
+\end{proof}
+
+\begin{proposition}[The last path]\label{prop:last-path}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Every regular doubled parameter is twice the Harish-Chandra parameter of a weight, and a bound $\beta$ on its entries bounds the number of boxes by $\#\Phi\cdot n\beta$ and the determinant power.
+\item Branching pairings exist.
+\item At every real point $g$ there is $\beta$ such that for every twist, $y'$ and $\varphi$, the period of $\Psi$ on the last path at $g$ is $\beta\,\Xi(\Psi_\vartheta;y',\varphi)/N_{\varpi Q}$, where $N_{\varpi Q}$ is the order of the general linear group
+of $Y_m$ modulo $\varpi Q$.
+\item For a path datum whose values are sums of at most $N$ roots of unity, $\Xi$ is a sum of at most $N\cdot N_{\mathfrak m}^{2m}$ times the product of the class numbers of the $2m+1$ levels that occur, of pairings of vectors
+reached by the lifts.
+\item (Denominators.) There is $0<N_0\le\exp(x^{99}b^2)$ such that for every twist, path datum, pair of forms of gauge at most $1$ and prime $p\nmid\Nm Q$, $N_0\Xi$ is $p$-integral.
+\item (Size.) At the trivial twist, if the conjugates of the values of the two forms have squared norms at most $B_0$, $B_1$, then $\abs{\sigma\Xi}\le\exp(x^{200}b^2)\sqrt{B_0B_1}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) is \cref{lem:regular-weights}. (b) is \cref{lem:branching-pairing}(c), applied to the weights of \cref{lem:last-weights}(a) at the two nodes $(m,m)$; their parameters interlace by
+\cref{prop:grids}(c).
+
+(c) \emph{Lifts along the last path are algebraic.} For each half and $j\le m$ there is a constant $c_j$ such that for every twist and tuple $S$ the image of a form $F$ at $(z,0,m)$ along the first $j$ edges is, read as a function, $c_j$
+times the ratio of the indices of the levels at the two ends times the algebraic chain of lifts of $F$ with the data of $S$. By induction on $j$: no lift is made at $j=0$, and $F$ is recovered from its algebraic form; each edge is a
+theta lift between standard definite spaces (\cref{lem:last-weights}(b)) with the datum the indicator of a matrix times a power of the vacuum scale, so it is a constant over the index of the level at its lower end times the
+algebraic lift, and the index at its upper end does not depend on the twist. \emph{The period.} The period along the last path is the diagonal period at $(m,m)$; insert the two chains and apply \cref{lem:branching-pairing}(c) at the
+real point $g$. For each $S$ the term of the period is a constant times the term of $\Xi$ without the factor $\Psi(S)$, divided by the index of the level at $Y_m$; the index at $Y^m_m$ cancels and those in grid $\tilde Y$ do not depend
+on the twist. The index of the level $J(\mathfrak m)$ on $Y_m$ and the order $N_{\varpi Q}$ differ by a constant factor, as in the proof of \cref{prop:first-path}(c).
+
+(d) is \cref{lem:last-classes}(c) with the property of being reached by the lifts.
+
+(e) \emph{One lift.} Let $d$ be the product of powers of $M$ and the prime $d_0$ of the data that takes the datum of an edge to standard data and pays for the boxes of the diagram (the ranks being at most $2n_m$ and the boxes at most
+$\lceil b\rceil r^4$). For $p\nmid\Nm Q$ and an embedding of $\C$ into $\C_p$, $d$ times the datum of each edge of the last path raises $p$-adic gauges by at most $1$ (\cref{thm:one-lift-gauge}(b), (c)). \emph{The flip scalar.} The flip scalar
+$u=\overline{t\alpha}/(t\alpha)$ becomes integral after multiplication by $\Nm Q\cdot M^{\lceil b\rceil}q_1$, because $t$, $q_1\alpha$ and $\alpha^{-1}$ are integral and $t$ divides $\Nm Q\cdot M^{\lceil b\rceil}$; as $\Nm Q$ is a $p$-adic unit,
+$(M^{\lceil b\rceil}q_1)^{m\abs l}\det(u^m)^{-l}$ has $p$-adic absolute value at most $1$ for every integer $l$. \emph{The pairing.} By the equivariance of \cref{lem:branching-pairing}(c), the pairing of $v'$ at $h$ and $v$ at $\mathrm{diag}(h,u^m)$ is the
+inverse of $\prod_\tau\det u'^{N_\tau}$ at $u'=(u^m)^{-1}$ times the pairing of the translated vectors, which have integral entries when the gauges are at most $1$; the product $N_1$ of the numbers $(M^{\lceil b\rceil}q_1)^{m\abs{N_\tau}}$ clears the
+character, and elements of absolute value at most $1$ form a ring. \emph{The sum.} By (d), $\Xi$ is a sum of branching pairings of vectors obtained from the forms by $m$ lifts each; after $j$ lifts, $d^j$ times the vector has gauge at most
+$1$. Put $N_0=N_1d^{2m}$; the $p$-integral numbers form an additive group, which contains $N_0\Xi$. The bound $\log N_0\le x^{99}b^2$ is a comparison of the logarithms of the constants of the data.
+
+(f) At the trivial twist the class numbers of the levels along the last path are at most $\exp(x^{99}b^2)$. The operator by which the datum of an edge carries a value at one point to a value at another multiplies the Gram norm of
+every conjugate by at most $\exp(x^{99}b^2)$: the datum is the indicator of one matrix, so the size bound for jets applies with size $1$ (\cref{thm:jet-size}), each row length being at most the number of boxes. After $j$ lifts the norm
+is at most $\exp(jx^{99}b^2)$ times its bound at the start; the branching pairing is at most $(M^M)^3$ times the product of the norms by \cref{lem:branching-pairing}(c) with $M=\lceil b\rceil r^4$; and the number of terms is $L$ times the
+$2m+1$ class numbers (\cref{lem:last-classes}(c)). Multiplying, with $N$ and $N_{\mathfrak m}$ fixed at the trivial twist, gives $\abs{\sigma\Xi}\le\exp(x^{200}b^2)\sqrt{B_0B_1}$.
+\end{proof}
+
+\subsection{The auxiliary forms}\label{ss:auxiliary-theorem}
+A target form $y$ is \emph{auxiliary} for scalars $\gamma(\vartheta)$, one for each $m$-fold twist, if $\gamma(\vartheta)\Theta_\vartheta y$ is integral at every prime not dividing $\Nm Q(\vartheta)$ and every conjugate of $\Theta_1y$ has
+squared norm at most $\exp(2x_1^2b^2)$.
+\lean{New.Data.lastPathBound, New.Data.liftDenominator, New.Data.liftDenominator_smul_lastPathEdgeDatum_mem_raises, New.Data.generator_inv_mul_normQ_mul_star_mem, New.Data.norm_mul_det_flipScalar_zpow_le_one, New.Data.exists_norm_mul_lastPathPairing_le_one, New.Data.exists_mul_lastPathPeriod_mem_embValRing, New.Data.card_stdClasses_lastPathLevel_le, New.Data.sqrt_weylNormSq_lastPathKernel_le, New.Data.norm_lastPathPeriod_le, New.Data.exists_integral_lowerChainUpTo_eq_lastPathPeriod, New.Data.DualVector, New.Data.dualPairing, New.Data.isDualPairing_dualPairing, New.Data.dualHook, New.Data.dualHook_mul_exp_le, New.Data.mem_embValRing_of_dualPairing_eq_dualHook_mul, New.Data.weylNormSq_le_of_dualPairing, New.Data.lastPathDelta, New.Data.lastPathConjDelta, New.Data.lastPathToAlgForm_lastPathConjDelta, New.Data.fixedByOuterLevels_lastPathConjDelta, New.Data.integral_lastPathConjDelta_mul, New.Data.weylGauge_lastPathConjDelta_le_one, New.Data.weylNormSq_lastPathConjDelta_le, New.Data.exists_dualPairing_eq_mul_lastPathPeriod, New.Data.exists_lowerChain_integral_and_weylNormSq_le, New.Data.span_isShort_eq_top_gridLevelForms, New.Data.exists_span_short_lifts_eq_top}
+
+The values of the chain are read through \emph{delta forms}. Let $A$ be the integer matrix of the invariant pairing of the dual weight on $Y_m$, that of the conjugate forms, with the weight of $Y_m$, normalised at the highest
+vector; its \emph{hook number} $h_A$ is the square norm of the highest weight polynomial for the pairing by differentiation, a positive integer. For a finite point $x$ of $Y_m$ and a vector $v$ of the dual weight, the delta form
+$\delta_x(v)$ is the algebraic form of the dual weight and level $J(\varpi Q)$ supported on the class of $x$ with value $v$ there.
+
+\begin{lemma}[Delta forms]\label{lem:delta-forms}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The pair $(\delta_x(v),\varphi)$, $\varphi$ of level $\mathfrak b$ on $\tilde Y^m_0$, has the levels at the outer ends of the last path.
+\item The index of the level times the integral of $\delta_x(v)$ against $\Theta_\vartheta y$ is the pairing of $v$ with the value at $x$ of the algebraic chain of $y$, divided by the dimension of the weight.
+\item If $x$ is integral above $p$ and $v$ an integer vector, $\delta_x(v)$ has $p$-adic gauge at most $1$; the conjugates of its values are no longer than those of $v$.
+\item If the pairing of a vector $\zeta$ of the weight of $Y_m$ with every integer vector of the dual weight is $h_A$ times a $p$-integral number, then $\zeta$ is $p$-integral. If $\abs{\sigma(v\cdot A\zeta)}\le K\norm{\sigma v}$ for every $v$, then
+$\norm{\sigma\zeta}^2\le K^2$.
+\item $h_A\exp(x^{99}b^2)\exp(x^{200}b^2)\le\exp(x^{201}b^2)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The level of the delta form contains the principal level of $\mathfrak m$, which is the level at the outer end of the half in $Y$; reduction modulo a place of $\varpi Q$ factors through reduction modulo $\mathfrak m$. (b) The integral is a
+class sum, which the delta form reduces to its term at $x$; the division by the dimension is the factor of Schur's orthogonality relations for the weight paired with its dual. (c) The gauge of an integer vector at an integral
+point is at most $1$; the level $J(\varpi Q)$ reduces to $1$ at the chosen places, so the stabilisers are trivial (\cref{prop:free-levels}) and the values of $\delta_x(v)$ are
+$v$ on the class of $x$ and $0$ elsewhere. (d) There is an integer matrix $C$ with $CA=h_A\cdot1$, since $A$ is a duality normalised at the highest vector; so $h_A\zeta_i$ is the pairing of $\zeta$ with the
+$i$-th row of $C$, an integer combination of pairings with integer vectors, hence $h_A$ times a $p$-integral number, and $\zeta_i$ is $p$-integral. For the norm, the squared norm of $\sigma\zeta$ is its pairing with a vector of the
+same norm. (e) compares the logarithm of the hook number, a product of hook lengths of a diagram with at most $\lceil b\rceil r^4$ boxes, with $x^{201}b^2$.
+\end{proof}
+
+\begin{theorem}[Auxiliary forms]\label{thm:auxiliary-forms}
+There are an integer $e$ and numbers $\gamma(\vartheta)\ne0$ with $\gamma(1)=1$ and
+\[
+  \abs{\gamma(\vartheta)}=(\Nm Q)^{e/2}\prod_{0\le i,j<m}\varrho^{\rm turn}_{i,j}(\vartheta),
+\]
+such that the target $\mathcal T$ is spanned by forms that are auxiliary for $\gamma$. If a family of twists $\xi_\iota$ has small ratios, the inverses of the $\abs{\gamma(\xi_\iota)}$ form a family of height at most $m^2tx_1$.
+\end{theorem}
+\lean{New.Data.IsAuxiliaryForm, New.Data.IsAuxiliaryForm.smul_lift_mem_integralForms, New.Data.IsAuxiliaryForm.normSqAt_lift_le, New.Data.exists_span_isAuxiliaryForm_eq_top, New.Data.HasSmallRatios.heightLe_inv_rpow_mul_prod_turnRatio}
+
+\begin{proof}
+\emph{Back through the turns.} Let $\Psi^{\rm first}_\vartheta$ be the path data of \cref{prop:first-path}(c), with the constant $\alpha$ and the flat restriction $r$ at $g$ of \cref{prop:first-path}(b), and let $c(\vartheta)$ be the constants of
+\cref{thm:turns}(d), with $\Psi_\vartheta$ the path data on the last path that the transfer gives from $\Psi^{\rm first}_\vartheta$. By \cref{prop:last-path}(c), $\Psi_\vartheta\propto\Xi/N_{\varpi Q}$; by the transfer, $\Psi^{\rm first}_\vartheta\propto\Xi/(N_{\varpi Q}c(\vartheta))$. Hence, by
+\cref{prop:first-path}(c), the index of the last level times the pairing of $y'$ with $\Theta_\vartheta(r\varphi)$ is $\beta\,\Xi(\Psi_\vartheta;y',\varphi)/c(\vartheta)$, with one constant $\beta$ for all twists and forms, the index and $N_{\varpi Q}$ differing by a constant.
+
+\emph{Values.} Take $y'=\delta_x(v)$, admissible by \cref{lem:delta-forms}(a). Put $u_\vartheta=(c(\vartheta)/c(1))\Theta_\vartheta(r\varphi)$. By \cref{lem:delta-forms}(b) the pairing of $v$ with the value of
+$u_\vartheta$ at $x$ is $\beta'\,\Xi(\Psi_\vartheta;\delta_x(v),\varphi)$, with $\beta'$ independent of $\vartheta$, $x$, $v$ and $\varphi$. In case $\beta'=0$ these pairings vanish, the forms $\Theta_\vartheta(r\varphi)$ are $0$, and the choice $s=1$ below serves; otherwise choose $s\ne0$ with $s\beta'=h_AN_0$.
+\emph{Integrality.} Let $\varphi$ have $p$-integral values at a prime $p\nmid\Nm Q$ (gauge at most $1$). By \cref{lem:delta-forms}(c) and \cref{prop:last-path}(e), $N_0\Xi$ is $p$-integral for integer $v$, so the pairing of every integer $v$ with the
+value of $(c(\vartheta)/c(1))\Theta_\vartheta(s\,r\varphi)$ at an integral $x$ is $h_A$ times a $p$-integral number, and by \cref{lem:delta-forms}(d) the values are $p$-integral, every class having a representative integral above $p$. \emph{Size.} At the trivial twist, if the
+conjugates of the values of $\varphi$ have squared norm at most $B$, then by \cref{prop:last-path}(f) and \cref{lem:delta-forms}(c) the conjugate of the pairing is at most $h_AN_0\exp(x^{200}b^2)\sqrt B\norm{\sigma v}$, and by \cref{lem:delta-forms}(d), (e)
+the conjugates of the values of $\Theta_1(s\,r\varphi)$ have squared norm at most $\exp(2x^{201}b^2)B$.
+
+\emph{Spanning.} The forms of level $\mathfrak b$ on $\tilde Y^m_0$ are spanned by forms whose algebraic forms are \emph{short}: values integral at every prime and conjugates of squared norm at most $\exp(x^{99}b^2)$ (transport along the
+isomorphism between algebraic forms and forms of level $\mathfrak b$, and use an integral basis of the lattice of integral algebraic forms, whose conjugates are bounded by the class numbers and the Weyl module). Since $r$ is onto
+(\cref{prop:first-path}(b)), the forms $s\,r\varphi$ for short $\varphi$ span the forms of level $J_M$ on $Y_0$; for them the lifts are integral as above and the conjugates of $\Theta_1$ have squared norm at most
+$\exp(2x^{201}b^2+x^{99}b^2)\le\exp(x^{202}b^2)$. Apply an integral multiple of the projection to the target, an element of the group algebra of $\bar G$ that
+commutes with the lifts (\cref{prop:lower-chain}(b)): it is onto the target, so it maps a spanning set to a spanning set, the lifts stay integral, and the logarithms of the squared norms of the conjugates
+become at most $x^{99}+x^{202}b^2\le2x_1^2b^2$. Put $\gamma(\vartheta)=c(\vartheta)/c(1)$, so that $\gamma(1)=1$. The modulus of $\gamma$ is that of $c$ up to a norm power by
+\cref{prop:moduli}(a), with $f=\prod\varrho^{\rm turn}_{i,j}\ge0$ and $f(1)=1$.
+
+\emph{The height bound.} The norm power is prime to the prime of $\iota$, so it does not raise the height, and each of the $m^2$ turn ratios is a ramified ratio (\cref{lem:square-chars}(a)), a product of $t$ inverse ratios of $L$-values of a
+ramified pair at a power of $\xi_\iota$, each of height at most $x_1$ for a family with small ratios (\cref{def:small-ratios}).
+\end{proof}

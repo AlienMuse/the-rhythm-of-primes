@@ -1,0 +1,304 @@
+\section{Filling data and the unfolding of the second moment}\label{sec:unfolding}
+
+The near isometry and the second moment of \cref{thm:spanning-inputs} are statements about the Petersson products of Poincar\'e series of Bessel
+functions. This section sets up the abstract data of the \emph{filling theorem}, shows that the Poincar\'e map of \cref{def:poincare} is such a Poincar\'e
+series, and unfolds the Petersson products into sums of \emph{amplitudes} over rational points (\cref{thm:unfolding}). The amplitude sums are then
+the subject of \cref{sec:terms,sec:remaining,sec:main-term}.
+
+\subsection{Filling data}\label{ss:filling-data}
+A \emph{shape} gives $\varrho$, the index set $\kappa$ of $X_0$ and an index $k_0\in\kappa$; the space $V$ is $\varrho$ hyperbolic planes, $X_0$ and a line $Ez$ with $h(z,z)=-N$, and its Gram
+matrix in the basis $e_1,\dots,e_\varrho$, $x_i$ $(i\in\kappa)$, $z$, $e^*_1,\dots,e^*_\varrho$ is the split Gram matrix. \emph{Filling data} over $E$ consist of a prime $N=\pi\bar\pi$ split as in
+\cref{def:data}, two primes $p_0,p_1\in[b^{10},b^{11}]$ with $f$ chosen places each, $M=p_0p_1$, a purely imaginary generator $\varpi$ of the different, a free level $K_0$ of
+$\U(X_0)$, a parameter $b$, and a Bessel system of scale $b$ at each infinite place, subject to size conditions ($10^5\le\varrho$, $1000(2\varrho+2)^9\le k\le f$,
+$(200fk\,\mathrm{rd}_E)^{1000}\le b$, \dots). The lattice of $V$ has the basis in which $x_{k_0}$ is replaced by $x_{k_0}/\bar\pi+z/N$. Write $K$ for its stabiliser in the finite adelic
+group, $\bar G=\prod\GL(\F_w)$ over the chosen places, $K\to\bar G$ the reduction, and $K(M)$ its kernel. A \emph{class} is a double coset $c$ of $\U(X_0)$ for $K_0$, with
+representative $h_c$; the \emph{source} is the Euclidean space with coordinates $(c,i)$, $i$ a tuple of coordinates of the Bessel systems, of dimension $D_X$. The data are
+\emph{admissible} if $K_0$ is the preimage of $K(M)$, the reduction is onto, and
+\[
+  b^{11kf}\mathcal D_{\rm id}\le\mathcal D_{\rm main}\le(M/b^6)^{kf}\mathcal D_{\rm id},\qquad \mathcal D_{\rm id}=\#\bar R_0\cdot D_X,\quad\mathcal D_{\rm main}=\frac{D_X^2}{\deg\cdot\mathrm{mass}_r},
+\]
+with $\bar R_0$ the reduction of the Bessel subgroup, together with bounds for $\varpi$, the scales of the frame, the number of Bessel coordinates, an index, and the Siegel constant.
+\lean{New.Shape, New.Shape.Form.splitGram, New.Shape.BesselIndex, New.Filling, New.Filling.IsAdmissible, New.Filling.M, New.Filling.ratMiddle, New.Filling.latticeMiddle, New.Filling.G, New.Filling.GFin, New.Filling.ResidueGL, New.Filling.BesselCoord, New.Filling.Classes, New.Filling.frameProducts, New.Filling.latticeStabilizer, New.Filling.principalLevel, New.Filling.reducedImage, New.Filling.realM, New.Filling.basisScale, New.Filling.selfDualChar, New.Filling.frameScaleSq, New.Filling.frameScaleProd, New.Filling.unipotentCovolume, New.Filling.siegelConst, New.Filling.termDisc, New.Filling.latticeBasis, New.Filling.toLatticeBasis, New.Filling.ratToAdelic, New.Filling.adelicToInf, New.Filling.adelicToFin, New.Filling.ratToInf, New.Filling.ratToFin, New.Filling.inclHFin, New.Filling.classRep, New.Filling.translateByClassReps, New.Filling.termsOver, New.Filling.classUnipotent, New.Filling.classUnipotent₀, New.Filling.frameBoxRadius, New.Filling.levelMultiples, New.Filling.IsResidueDomain, New.Filling.ratTriangle, New.Filling.reducedPoints, New.Filling.reducedIndicator, New.Filling.IsBoxPartitionOfUnity, New.Filling.besselFn, New.Filling.besselKernel, New.Filling.sourceDim, New.Filling.besselDegree, New.Filling.besselDegree_pos, New.Filling.mainSecondMoment, New.Filling.unipotentOrder, New.Filling.scaledSiegelConst, New.Filling.identitySecondMoment, New.Filling.tailScale, New.Filling.classCutoff, New.Filling.amplitude, New.Filling.amplitudeMajorant, New.Filling.amplitudeSum, New.Filling.ideleM, New.Filling.unipotentChar, New.Filling.Agrees, New.Filling.IsStable, New.Filling.termsOfLink}
+
+The size conditions in full are: $10^5\le\varrho$, $2^{-\varrho}\le b^{-6}$, $(\varrho+1)[E:\Q]\le2^{2\varrho}$, $1000(2\varrho+2)^9\le k\le f$, $(200fk\,\mathrm{rd}_E)^{1000}\le b$, $f\le b/1000$, $\mathrm{rd}_E\le b$, $\varrho+1\le b$,
+$b^{19}\le M\le b^{23}$, $N\ge5$, and, with $n=\varrho+1$, $10^{10}n^4\le n^6$, $3n^6+12\le n^7\le k$. The chosen places for $p_i$ are $f$ in number, no place is chosen twice and no conjugate of a chosen
+place is chosen, and an integral adele is divisible by $M$ exactly when it and its conjugate vanish modulo every chosen place. Admissibility asks moreover that $\abs\varpi_v\le b$, $1\le\abs{\kappa_v}\le b^{23}$ for
+the numbers $\kappa_v$ below, $N\le b^{60n}$, that the Bessel coordinates be at most $b^{2kf}$ in number, that the elements of the stabiliser of the standard lattice of $X_0$ that preserve the lattice of $V$ have index at
+least $(N^k/b)^f$ in it, and an upper bound for the Siegel constant of \cref{ss:filling-sizes}.
+
+\emph{Scales.} At an infinite place $v$ put $\kappa_v=M\,v(\varpi)/(2\pi i)$, a real number because $\varpi$ is purely imaginary. The \emph{normalised basis} at $v$ scales $e_a$ by $\kappa_v^{\varrho-a+1}/\sqrt N$, $x_i$ by $1$, $z$ by $1/\sqrt N$ and
+$e^*_a$ by the inverse of the scale of $e_a$; it carries the Gram matrix with middle block $\mathrm{diag}(1,\dots,1,-N)$ to the one with middle block $\mathrm{diag}(1,\dots,1,-1)$, so that the rescaled image $\gamma\mapsto\gamma_v$ maps the rational
+group $\U(V)(E)$ into $G_1$ at every infinite place. The square of the scale of the frame vector of index $a=0,\dots,\varrho$ is $\kappa_v^{2(\varrho-a)}/N$, and $\Lambda$ denotes the product over $v$ and $a$ of these squares to the
+powers $k+2(\varrho-a)$. The \emph{unipotent character} is $\psi_U(u)=\psi_{\rm f}(-\sigma(u)/(M\varpi))$ on the finite adelic points, with $\psi_{\rm f}$ the finite part of the standard additive character and $\sigma$ the sum of the entries just above
+the diagonal on the frame; the character $x\mapsto\psi_{\rm f}(-x/\varpi)$ has $\hat\OO_E$ as its own dual, since $\varpi$ generates the different.
+
+\emph{Groups.} For a class $c$, $U_c(M)$ is the group of rational $u\in U$ with $h_c^{-1}uh_c\in K(M)$, and $U^0_c(M)$ its subgroup fixing the frame. The reductions of the integral points of $U$, of $H$ (the copy of $\U(X_0)$) and of the Bessel
+subgroup $R=UH$ are written $\bar U$, $\bar H$ and $\bar R_0$. A rational $\gamma$ is a \emph{term over} $(c,s,c')$, $s\in\bar G$, if $h_c^{-1}\gamma h_{c'}\in K$ with reduction $s$; terms compose like a groupoid: the product of terms over $(c,s,c')$ and $(c',t,c'')$ is a term over
+$(c,st,c'')$, and the inverse of a term over $(c,s,c')$ is a term over $(c',s^{-1},c)$.
+
+\begin{lemma}[The finite groups $\bar U$, $\bar H$, $\bar R_0$]\label{lem:reduced-groups}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\bar U$, $\bar H$ and $\bar R_0$ are the products of their projections to the chosen places. The factor of $\bar U$ at $w$ consists of the matrices over $\F_w$ that are block upper unitriangular for the levels of the basis, and
+$\#\bar U=M^{f\varrho(2k+2\varrho+1)}$; the factor of $\bar H$ is $\GL_k(\F_w)$.
+\item $\bar U\cap\bar H=1$, $\bar R_0=\bar U\bar H$ normalises $\bar U$, and $\#\bar R_0=\#\bar U\,\#\bar H$.
+\item For admissible data, $\#\bar H$ is the index of $K_0$ in the group of points of $\U(X_0)(\Ad_{\rm f})$ whose image preserves the lattice of $V$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Let $e\in\hat\OO_E$ be an idempotent with $e\bar e=0$ that reduces to $1$ at a set $P$ of chosen places and to $0$ at the others; it exists because no chosen place is conjugate to a chosen place. If $u$, $u'$ are integral with
+$u^*Ju'=J$, then $k=1+e(u-1)+\bar e(u'-1)$ preserves $J$ (the terms with the factor $e\bar e$ vanish), agrees with $1$ where $u$ and $u'$ do, and reduces like $u$ at $P$ and like $1$ elsewhere. Applied to $u$ and its inverse
+adjoint $u'=J^{-1}(u^{-1})^*J$, which is again block unitriangular, this shows that the reductions are products over the places. A block unitriangular matrix over $\F_w$ lifts entry by entry to an integral one, completed by its
+inverse adjoint. Counting the free entries of the level function with block sizes $1,\dots,1,k+1,1,\dots,1$ gives $\varrho(2k+2\varrho+1)$ entries; over the $2f$ residue fields of orders $p_0$, $p_1$ this gives $M^{f\varrho(2k+2\varrho+1)}$. For $\bar H$
+lift a family in $\prod_w\GL_k(\F_w)$ to an integral $k$ that is $1$ away from the chosen places and their conjugates; its image preserves the lattice because either $\pi$ is a unit at $w$ or $w$ has norm $N$ and $k$ is $1$ there.
+(b) An element of $\bar U\cap\bar H$ is unipotent and acts only on $X_0$, hence is $1$. Each element of the Bessel subgroup is a product of an element of $U$ and one of $H$, and $R$ normalises $U$. (c) $K_0$ is the
+preimage of $K(M)$, the kernel of the reduction onto $\bar H$.
+\end{proof}
+
+\begin{lemma}[Strong approximation and the unipotent character]\label{lem:unipotent-character}
+Let the data be admissible.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $U(E)$ is dense in $U(\Ad_{\rm f})$. For $x\in U(\Ad_{\rm f})$ and $y\in\U(V)(\Ad_{\rm f})$ there is a rational $u\in U$ with $y^{-1}x^{-1}uy\in K(M)$, and then $\psi_U(u)=\psi_U(x)$.
+\item For rational $\gamma\in U$, $\prod_v\exp\bigl(\sigma(\gamma_v)-\overline{\sigma(\gamma_v)}\bigr)=\overline{\psi_U(\gamma)}$, and the Bessel function satisfies $W(\gamma_\infty y)=\psi_U(\gamma)^{-1}W(y)$; in particular $W$ is invariant under $U_c(M)$.
+\item The rational $\gamma\in U$ with $h_c^{-1}\gamma h_c$ integral map onto $\bar U$, and on them $\psi_U(\gamma)$ depends only on the reduction.
+\item If $\gamma\in R(E)$ and $h_c^{-1}\gamma h_d\in K(M)$, then $c=d$ and $\gamma\in U_c(M)$. Every $s\in\bar R_0$ is the reduction of $h_c^{-1}\gamma h_d$ for some class $d$ and rational $\gamma\in R$, for every $c$.
+\item (Freeness.) If $\gamma$ is a rational point of the standard unitary group in at most $k$ variables and $g^{-1}\gamma g$ is integral and reduces to $1$ at the chosen places of one of the primes, then $\gamma=1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) $U$ is built floor by floor from Heisenberg groups $e^*_a\mapsto e^*_a+v+(\beta-h(v,v)/2)e_a$, whose parameters $(v,\beta)$, a vector and a skew element, can be approximated by rational ones (the skew elements $t-\bar t$, $t\in E$, are dense in the
+skew finite adeles); so each floor, and $U(\Ad_{\rm f})$, lies in the closure of $U(E)$. As $y^{-1}K(M)y$ is open, a rational $u$ in $xyK(M)y^{-1}$ exists. Write $u=x\,k'$ with $k'\in yK(M)y^{-1}\cap U$; the character $\psi_U$ is additive on $U$ through $\sigma$, and $\sigma(k')$
+is divisible by $M$ with integral quotient at the finite places (\cref{lem:reduced-groups} with $K(M)$ congruent to $1$ modulo $M$), so $\psi_U(k')=1$ because $\hat\OO_E$ is self-dual.
+
+(b) In the normalised basis the sum of the entries above the diagonal on the frame of $\gamma_v$ is $-2\pi i$ times the $v$-component of $-\sigma(\gamma)/(M\varpi)$, by the choice of $\kappa_v$. The product over $v$ of the
+exponentials is therefore the archimedean factor of the standard character at $-\sigma(\gamma)/(M\varpi)$, which by the product formula ($\psi$ is trivial on $E$) is the inverse of the finite factor $\psi_U(\gamma)$, that is its conjugate. The
+local Bessel functions transform under $U$ by exactly these exponentials.
+
+(c) Given $s\in\bar U$ lift it to an integral point $x$ of $U(\Ad_{\rm f})$ and apply (a) with $y=h_c$; the reduction of $h_c^{-1}uh_c$ is that of $x$, and $\psi_U$ agrees.
+
+(d) Split $h_c^{-1}\gamma h_d$ into a part in $U$ and a part in $H$; the part in $H$ lies in $K(M)$ too and relates the representatives of $c$ and $d$ modulo $K_0$. As $K_0$ is free, $c=d$ and this part is $1$, so $\gamma$ is unipotent.
+For the second statement split $h_ck=u\,h$ with $u\in U(\Ad_{\rm f})$, $h\in H(\Ad_{\rm f})$, approximate $u$ by a rational $x$ as in (a), and write $h=\eta\,h_d\,a$ with $\eta$ rational, $d$ a class and $a\in K_0$; then $\gamma=x\eta$ is a term
+over $(c,s,d)$, since $h_c^{-1}\gamma h_d$ is $k$ times an element of $K(M)$.
+
+(e) The $f$ chosen places above one prime have norm $p_i\ge b^{10}>(2k)^2$, and a nontrivial element of finite order of $\U(k)$ has eigenvalues whose differences from $1$ are algebraic integers of norm less than $(2k)^{2}$ at
+some place above $p_i$; a rational element congruent to $1$ modulo all these places, conjugate into an integral group, has finite order (the definite unitary group is compact at infinity) and hence is $1$.
+\end{proof}
+
+\begin{lemma}[Eichler elements]\label{lem:eichler-elements}
+Let $E$ contain a primitive $5040$th root of unity. For $a<b$ and an integer $x$ of $E$, $1+M x\,E_{ab}$ is the frame block $m(u)$ of some $u\in U_c(M)$; for every $u\in U_c(M)$ the entries of $m(u)$ above the diagonal are $M$ times integers of
+$E$. For a row vector $l$ vanishing at $e_b$, $e^*_b$ for $b\le a$ and integral on the lattice of $c$, and a skew integer $s$, some $u\in U_c(M)$ has in the rows $e_b$ of $u-1$, outside the column $e^*_a$, the row $Ml$ at $e_a$ and zeros
+elsewhere, and only the entry $Ms$ at $(e_a,e^*_a)$ when $l=0$.
+\end{lemma}
+
+\begin{proof}
+For isotropic columns $x$ orthogonal to each other and to a matrix $u$, a skew $s$ and $\tau+\bar\tau=g$, the matrix $1+g\bigl(xu^*J-(u+x(\tau u^*Ju-s))x^*J\bigr)$ preserves $J$ (the Eichler map): expanding, the products through $x^*Ju$, $x^*Jx$ and $u^*Jx$ vanish
+and the rest cancels. Along the columns $e_b$ it is unitriangular for the levels. With $g=M$ and $\tau=M\tau_0$ for an integer $\tau_0$ with $\tau_0+\bar\tau_0=1$ (available because $2$ is a unit times a norm in $E$, which contains a $5040$th root of unity), and
+$x$, $u$ integral on the lattice of $c$, it is $\equiv1$ modulo $M$ on that unimodular lattice, hence lies in $U_c(M)$. A row vector integral on the lattice is $u^*J$ for an integral $u$, because the lattice is unimodular, and
+the frame vector $f_b$ is part of a basis of the lattice, so an integral form taking the value $1$ at $f_b$ and $0$ at the other basis vectors off $X_0$ exists; this gives the element with prescribed frame block. Conversely, in the
+basis of the lattice $M^{-1}(u-1)$ is integral and the frame belongs to this basis.
+\end{proof}
+
+\begin{proposition}[Cutoffs, covolume and blocks]\label{prop:blocks}
+Let the data be admissible and $E$ contain a primitive $5040$th root of unity.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The image of $U_c(M)$ at the infinite places is discrete, a measurable cutoff $\beta_c$ exists, and for every $y$ the integral of $u\mapsto\beta_c(uy)$ over $U_\infty$ is a number $\nu$, the
+\emph{unipotent covolume}, independent of $c$ and $y$; explicitly $\nu=(M^{\varrho(2(\varrho+k)+1)}/N^k)^f\vol(\hat\OO)^{-\varrho(\varrho+k)}\abs{D_E}^{\varrho/4}/\Lambda$, with $\Lambda$ the product of the
+frame scales.
+\item The block sums converge absolutely; for stable $T$ any measurable weight with orbit sums $1$ may replace $\beta_c(y)\beta_{c'}(\gamma^{-1}y)$; and replacing $W$ by its cut changes the
+blocks by at most $\nu b^{-k^3f}/2$ in total.
+\item For integral $u$, $u'\in U$, the block at $\bar us\bar u'^{-1}$ is $\psi_U(u)^{-1}\psi_U(u')$ times the block at $s$; so the block of a stable set vanishes unless $s$ agrees.
+\item For the full Bessel function, the terms of the Bessel subgroup over $s=1$ give $\nu$ times the identity in the coordinates $(c,i)$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Filling.finite_classUnipotent_inter_compact, New.Filling.discreteTopology_map_ratToInf, New.Filling.exists_cutoff_classUnipotent, New.Filling.exists_classCutoff_eq_mul, New.Filling.lintegral_classCutoff_eq_unipotentCovolume, New.Filling.tsum_classCutoff_eq_one, New.Filling.unipotentCovolume_pos, New.Filling.unipotentCovolume_eq_prod, New.Filling.exists_tsum_classCutoff_mul_prod_enorm_le, New.Filling.tsum_amplitudeMajorant_lt_top, New.Filling.tsum_lintegral_enorm_besselKernel_sub_cut_le, New.Filling.hasSum_amplitudeSum_of_cutoff, New.Filling.amplitudeSum_mul_mul_inv, New.Filling.amplitudeSum_besselU_mul, New.Filling.amplitudeSum_eq_zero_of_not_agrees, New.Filling.amplitudeSum_besselS_one_eq_ite, New.Filling.summable_amplitude, New.Filling.enorm_amplitude_le, New.Filling.continuous_besselFn, New.Filling.continuous_besselKernel, New.Filling.enorm_besselKernel, New.Filling.isStable_besselS, New.Filling.rowCoords, New.Filling.measurePreserving_rowCoords, New.Filling.lintegral_classCutoff_eq_measure, New.Filling.freeLattice, New.Filling.exists_fundamental_domain_freeLattice, New.Filling.classUnipotentToInf}
+
+Here the \emph{class cutoff} is $\beta_c=\beta^0_c\cdot\omega$, the product of a cutoff $\beta^0_c$ for $U^0_c(M)$ (whose translates under $U^0_c(M)$ add up to $1$) and the indicator $\omega$ of the \emph{reduced points} of \cref{prop:packing}(c); by
+\cref{prop:packing}(c) its translates under $U_c(M)$ add up to $1$. A set $T$ of rational elements is \emph{stable} if $u^{-1}\gamma u'\in T\iff\gamma\in T$ for rational $u,u'\in U$, and $s$ \emph{agrees} if $\psi_U(u)=\psi_U(u')$ for integral $u,u'\in U$ with $\bar us=s\bar u'$.
+
+\begin{proof}
+(a) \emph{Discreteness.} For a compact set $C$ of matrices at the infinite places and a fixed pair of indices, an entry of $u\in U_c(M)$ with image in $C$ is a rational element lying in a compact set of adeles: at infinity it is bounded by $C$, and at the finite places
+$h_c^{-1}uh_c$ is integral in the lattice basis. There are finitely many such elements, so the image is discrete; a measurable cutoff for a countable discrete group acting freely exists, and $U^0_c(M)$ maps injectively since an entry of $u$ is
+determined by its image under an embedding.
+
+\emph{Coordinates.} A point of $U_\infty$ is given, row by row, by the free entries of its row $e_a$ (the columns $e_b$, $e^*_b$ with $b>a$, and the middle block) and the imaginary part of its entry at $(e_a,e^*_a)$, at all places; these
+\emph{row coordinates} carry the product of the Haar measures to Lebesgue measure. If the free entries of $u$ vanish in the rows $e_b$, $b>a$, and the entries at $(e_b,e^*_b)$ are real there, then the free entries in the row $e_a$ of $xu$ are the sums of those of
+$x$ and $u$, and likewise for the imaginary part at $(e_a,e^*_a)$ once the free entries of the row $e_a$ vanish. Hence $U_c(M)$ translates the coordinates by explicit lattices, triangularly in the order of the rows from the last to the first.
+
+\emph{The lattices.} The free entries of the row $e_a$ of the images of $U_c(M)$ form the lattice of vectors $(M\,s_j/s_{e_a}\,v(x_j))_{v,j}$, with $s$ the scales, for the rational vectors $x$ on the free columns whose transformed vector under the
+block of the lattice basis of $c$ is integral (\cref{lem:eichler-elements} gives the converse inclusion); the block has determinant of generalised index $N^{-f}$, since the basis of the class differs from the identity only in the middle
+block and its determinant is that of a unitary element over $\bar\pi$. The imaginary parts at $(e_a,e^*_a)$ form the lattice $(M/(\text{scale}^2)\,\mathrm{Im}\,v(s))_v$ for skew integers $s$, because the entry at $(e_a,e^*_a)$ is $M$ times a skew algebraic integer.
+The covolume of the first lattice is $\bigl(\prod_vM^2/\text{scale}_{v,a}^2\bigr)^{\#\text{free}}/\vol(\hat\OO)^{\#\text{free}}$ with $2(\varrho-1-a)+k+1$ free columns, and the product over all rows of both covolumes is the stated number $\nu$, independent of $c$.
+
+\emph{The integral.} Let $B\subseteq U_\infty$ be the box over measurable fundamental domains of these lattices; each coset $u\Gamma$ of the image $\Gamma$ of $U_c(M)$ meets $B$ in exactly one point, by the triangular translation. The inverse of $B$ is a
+fundamental domain for the left translations by $\Gamma$, so the integral of $u\mapsto\beta_c(uy)$ over $U_\infty$, whose translates add up to $1$, is $\vol(B)=\nu$.
+
+(b) \emph{Layers.} For $\gamma$ a term over $(c,s,d)$ write $\gamma^{-1}y$ for $\gamma_\infty^{-1}y$, and let $\tilde\ell(x)=\prod_v\max(1,\ell(x_v)/b^{6n})$. The terms whose points $\gamma^{-1}y$ have $\tilde\ell\le R$, weighted by $\beta_d(\gamma^{-1}y)$, have total weight at most
+$(b^{6n^2}R^2)^{2nrf}$ by the packing of \cref{prop:packing}(b), applied in the space of tuples of frame vectors, of real dimension $2nrf$. If points with $\tilde\ell\le R$ have total weight at most $(KR^e)^d$ for all $R\ge1$, the weighted sum of $\tilde\ell^{-i}$ is at
+most $2K^d$ as soon as $2ed<i$ (layer cake). With $i=r^3f$, which exceeds $8nrf$ since $8n<r^2$, this gives
+\[
+  \sum_d\sum_{\gamma\in T\text{ over }(c,s,d)}\beta_d(\gamma^{-1}y)\,\tilde\ell(\gamma^{-1}y)^{-r^3f}\le2b^{12n^3rf}.
+\]
+\emph{Convergence.} At each place the Bessel functions lie below a decay majorant $w_v\le a_v$ with the power $3r^3f$ of the scaled length to spare (\cref{thm:bessel-schur}(b)). Use the power $r^3f$ at $\gamma^{-1}y$ for the sum above and unfold $\beta_c$ at $y$
+over $U$: for $w_v$ left invariant under $U$, $\int\beta_c(y)\prod_vw_v(y_v)\,dy=\nu\prod_v\int_{U\backslash G_1}w_v$, by (a). Hence the sum of the amplitude majorants is at most $\nu\cdot2b^{12n^3rf}\cdot b^{400r^2f}\cdot\#\{\text{Bessel coordinates}\}<\infty$, and the
+amplitudes are summable; this also proves the uniform bound $\sum_{d,\gamma}\beta_d(\gamma^{-1}y)\prod_v\norm{W_v((\gamma^{-1}y)_v)}\le C$.
+
+\emph{The cut.} Where the kernel of $W$ and that of $W^\flat$ differ, the cut acts at $y$ or at $\gamma^{-1}y$ at some place, so $\tilde\ell(y)\tilde\ell(\gamma^{-1}y)\ge b$, and the remaining power $2r^3f$ of the scaled lengths gains $b^{-2r^3f}$. The kernels differ by at most
+\[
+  2b^{-2r^3f}\prod_vw_v(y_v)\prod_va_v\,\tilde\ell(\gamma^{-1}y)^{-r^3f},
+\]
+and the same computation gives the bound
+\[
+  2\nu\cdot2b^{12n^3rf}\,b^{400r^2f}\,\#\{\text{coordinates}\}\,b^{-2r^3f}\le\nu b^{-k^3f}/2:
+\]
+the number of coordinates is at most $b^{2kf}$, and $12n^3rf+1+400r^2f+2kf+k^3f\le2r^3f$ because $12n^3+500\le k<r$.
+
+\emph{Change of weight.} The group $U_c(M)\times U_{c'}(M)$ acts on the pairs $(\gamma,y)$, $\gamma\in T$ over $(c,s,c')$, by $(u\gamma u'^{-1},uy)$, preserving the measure and the kernel (for $T$ stable, by (b) of \cref{lem:unipotent-character}, the characters at $u$ and $u'$ being
+trivial). Both $\beta_c(y)\beta_{c'}(\gamma^{-1}y)$ and the given weight are cutoffs for this action. Two cutoffs give every invariant measurable function the same integral, since under both weighted measures the function has the law it has on the
+quotient; Fubini then identifies the sums of integrals.
+
+(c) Approximate $u$, $u'$ modulo $K(M)$ by rational $x$, $x'\in U$ with the same characters (\cref{lem:unipotent-character}(a)); they are terms over $(c,\bar u,c)$ and $(c',\bar u',c')$. Moving the block by them, that is substituting $\gamma\mapsto x\gamma x'^{-1}$ and $y\mapsto x_\infty y$ with the change of weight
+of (b), multiplies the kernel by $\psi_U(x)^{-1}\psi_U(x')$. If $\bar us=s\bar u'$ the block at $s$ is multiplied by this scalar without changing, so a nonzero block forces it to be $1$.
+
+(d) By \cref{lem:unipotent-character}(d) only $\gamma\in U_c(M)$ with $c=c'$ contribute. By the change of weight the whole weight $\beta_c$ may be put on the single term $\gamma=1$; unfolding over $U$ at every place leaves $\nu$ times the product of the local inner products
+$\int_{U\backslash G_1}W_{v,i}\overline{W_{v,j}}$, which are $\delta_{ij}$ by \cref{thm:bessel-schur}(d). The character of $U$ has modulus $1$ and cancels.
+\end{proof}
+
+\begin{proposition}[Packing and reduced points]\label{prop:packing}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Rigidity.) Let $\gamma$ be a term, and let $y$ have length at most $b^{6n+2}R$ and frame vectors of norm at most $\rho=b^{37n}R$. If the frame vectors of $\gamma^{-1}y$ and $y$ are within
+$(N\rho)^{-1}$ of each other at every place, then $\gamma$ fixes the frame.
+\item (Packing.) Terms $\gamma$ for which the points $\gamma^{-1}y$ have bounded length and frame vectors, and differ by elements of a real subspace $V$, have at most $(b^{6n^2}R^2)^{\dim V}$ frames
+$\gamma f$; weights bounded by cutoffs add up to at most this bound.
+\item (Reduced points.) For a measurable set $D$ of representatives modulo $M\OO_E$ of modulus at most $b^{26}$, a point is \emph{reduced} if the entries above the diagonal of its triangular
+matrix lie in $D$; each point is moved to a reduced point by exactly one coset of unipotent elements, and the indicator of the reduced points is a partition of unity in boxes.
+The \emph{boxed points} are the reduced points in the cut at every place; their frame vectors have norm at most $b^{37n}$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Filling.frameImage_eq_frameImage_one_of_close, New.Filling.encard_image_frameImage_le, New.Filling.tsum_le_of_le_classCutoff_mul, New.Filling.frameVector_sub_eq_sum, New.Filling.exists_gramSchmidtMatrix_le, New.Filling.isBoxPartitionOfUnity_reducedIndicator, New.Filling.IsBoxPartitionOfUnity.mem_frameBox, New.Filling.mem_frameBox_of_classCutoff_ne_zero, New.Filling.mem_boxedPoints_of_classCutoff_ne_zero, New.Filling.exists_classUnipotent_mul_mem_boxedPoints, New.Filling.measurable_classCutoff, New.Filling.exists_mem_classUnipotent_eq_one_add_smul, New.Filling.exists_eichler_classUnipotent, New.Filling.tsum_le_of_encard_range_le, New.Filling.tsum_le_relIndex_pow_mul, New.Filling.IsResidueDomain.exists_mul_mem_reducedPoints_iff_rightCoset, New.Filling.IsResidueDomain.isBoxPartitionOfUnity, New.Filling.exists_isResidueDomain, New.Filling.boxedPoints, New.Filling.inCut_of_mem_boxedPoints, New.Filling.mul_mem_boxedPoints_iff, New.Filling.mem_frameBox_of_mem_boxedPoints, New.Filling.measurableSet_boxedPoints, New.Filling.IsResidueDomain.measurableSet_reducedPoints, New.Filling.IsResidueDomain.norm_gramSchmidtMatrix_le, New.Filling.IsResidueDomain.mem_frameBox}
+
+\begin{proof}
+(a) Let $\delta$ bound the moves of the frame vectors. The products $Z(\gamma)_{ba}=h(f_b,\gamma f_a)$ are algebraic integers, as $h_c^{-1}\gamma h_{c'}$ is integral. At each place, $h(f_b,\gamma f_a)-h(f_b,f_a)$ is at most $N\norm{y^{-1}f_b}$ times the distance of the $a$-th frame vectors
+of $\gamma^{-1}y$ and $y$ (\cref{lem:frame-vectors}(b)), hence less than $N\rho\delta\le1$ in modulus; an algebraic integer of modulus less than $1$ at every place is $0$. Hence $Z(\gamma)=Z(1)$, which says that $\gamma f_a-f_a$ has no components along $e^*_b$
+and $z$; unitarity then makes the middle part of $\gamma f_a-f_a$ isotropic for the middle form, which is anisotropic off $z$, so it vanishes. The coordinates along the $e_b$ remain. By downward induction on $b$: the coordinates of $\gamma f_a$ and
+$f_a$ along $e_x$ agree for $x>b$; the difference along $e_b$, times the ratio of the scales of $f_a$ and $e_b$, is at most $\norm{wy}$ times the distance of the frame vectors for every $w\in U$, by reading the row $b$ of $w$; the ratio of scales is at least
+$b^{-23\varrho}$ and $\inf_w\norm{wy}\le\ell(y)\le b^{6n+2}R$, so the difference, an integer of $E$, has modulus less than $1$ at every place and vanishes.
+
+(b) With $\rho=b^{37n}R$, terms with different frames give points of $V$ at distance at least $(N\rho)^{-1}$ by (a), applied to $\gamma'^{-1}\gamma$, which sends $\gamma^{-1}y$ to $\gamma'^{-1}y$. These points lie in a ball of radius $2\rho$ in $V$. Comparing volumes,
+the number of frames is at most $(4N\rho^2+1)^{\dim V}\le(b^{6n^2}R^2)^{\dim V}$, using $N\le b^{60n}$. For weights: terms with the same frame differ by an element of $U^0_c(M)$ (\cref{lem:unipotent-character}(d) applied to $\gamma^{-1}\gamma'$), so their weights,
+at most $x$ times the terms of a partition of unity, add up to at most $x$.
+
+(c) Work in the group of unitriangular matrices over the ring of tuples over the infinite places. For $u\in U$, the triangular matrix of $u_\infty y$, read in the rational frame, is that of $y$ times $m(u)^{-1}$ (\cref{lem:frame-vectors}(a), \cref{prop:length-frames}(b)), and the kernel of
+$u\mapsto m(u)$ on $U_c(M)$ is $U^0_c(M)$. By \cref{lem:eichler-elements} the image of $U_c(M)$ contains the elementary matrices $1+E_{ab}l$, $a<b$, $l\in M\OO_E$, and consists of unitriangular matrices with entries in $M\OO_E$ above the diagonal. If every element of the
+ring has exactly one translate by $M\OO_E$ in $D$, then for every unitriangular $x$ exactly one element of such a group puts all entries of $x\gamma$ above the diagonal in $D$: the entries are coordinates graded by their distance from the diagonal, and the group
+translates them one diagonal after the other. Hence the $u\in U_c(M)$ with $u_\infty y$ reduced form exactly one coset of $U^0_c(M)$, and the indicator of the reduced points has orbit sums $1$ against every weight with sums $1$ on the cosets of $U^0_c(M)$. A measurable
+$D$ with points of modulus at most $b^{26}$ exists because $M\le b^{23}$ and $\mathrm{rd}_E\le b$ give a fundamental parallelotope of that size. For a reduced point the Gram--Schmidt matrix has entries at most $b^{26}$ in the normalised frame up to the scales, so the
+frame vectors have norm at most $b^{27}\ell(y)$; in the cut, $\ell\le b^{6n+2}$, and $27+6n+2\le37n$.
+\end{proof}
+
+\subsection{The Poincar\'e series}\label{ss:poincare-series}
+A hermitian space $V$ with a grading \emph{fits} filling data if its type, its indexing and its lattice agree with those of the data up to a central element. For $a=(c,i)$ let
+$\phi_a(g)=\beta_c(y)W_i(y)$ if $g_{\rm f}$ lies in $h_cJ$ (with $J$ the principal level) and $0$ otherwise, $y$ the image of $g_\infty$; the \emph{Poincar\'e series} of a source vector $x$ is
+$\sum_ax_a\sum_{\gamma\in\U(V)(E)}\phi_a(\gamma g)$.
+\lean{New.Filling.Fits, New.Filling.stdPrincipalLevel, New.Filling.Fits.ratEquiv, New.Filling.Fits.adelicEquiv, New.Filling.Fits.realHomeomorph, New.Filling.Fits.finiteEquiv, New.Filling.Fits.cutBessel, New.Filling.Fits.poincareSeries, New.Filling.Fits.poincareMap, New.Filling.Fits.coe_poincareMap, New.Filling.Fits.sourceFormCoords, New.Filling.Fits.classPoint, New.Data.filling_fits, New.Data.sourceFormCoords, New.Filling.Fits.weylBesselEquiv}
+
+Precisely, $V$ fits the data if the Bessel system at $v$ has type $(l_v,kw_v)$, the grading labels the basis in the standard way, the type kernel is idempotent, and the finite part of the point of $V$ is a finite idele times the image of a central
+element $\eta$ of $\U(X_0)(\Ad_{\rm f})$ times the lattice basis times an integral matrix reducing to $1$ at the chosen places. Then the Gram matrix of $V$ is the rational Gram matrix of the data, and the point of $V$ gives identifications of the
+rational, adelic, real and finite groups of $V$ with those of the data: the real one, $g_v\mapsto d_v^{-1}x_vg_vp^{-1}$ with $d_v$ the diagonal of scales and $p$ the unitary frame of signs, turns left translation into left translation and preserves Haar
+measure; the finite one is conjugation by an integral matrix $\equiv1$ at the chosen places, so it preserves the lattice stabilisers, the reductions and the principal levels.
+
+\begin{theorem}[Poincar\'e series and Bessel periods]\label{thm:unfolding}
+Let $V$ fit admissible filling data, with $\jmath$ times the constant of the grading equal to $-(M\varpi)^{-1}$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The Poincar\'e series converge absolutely to forms of the type and of the principal level, linear in $x$; the source forms of level $K_0$, read in the coordinates $(c,i)$ of their values at
+the class representatives, form a space of dimension $D_X=\#\{\text{classes}\}\cdot\dim(\text{weight})>0$.
+\item (Folding.) For a form $z$ of the type and principal level, $\int_{[\U(V)]}z\cdot\mathcal P_x=\vol J\sum_c\int_{G_\infty}\beta_c(y)\sum_ix_{(c,i)}W_i(y)\,z(g,x_c)\,dg$.
+\item (Unfolding.) For $a=(c,i)$, $a'=(c',i')$ and $k\in K$ with reduction $s$, $\langle k\mathcal P_{a'},\mathcal P_a\rangle=\vol J\cdot A_{\rm all}(c,s,c')_{ii'}$.
+\item (Period.) There are a real point $g_0$ and a linear form $t$ such that for every source form $\psi$ and every form $y$ of the conjugate type, $\int y\cdot\mathcal P\psi=\int_{[R]}\mathcal W(r)y(rg_0)dr$:
+the Poincar\'e series of the Bessel function represents the Bessel period. In particular the Poincar\'e map of \cref{def:poincare} for $(g_0,t)$ is the Poincar\'e series with the
+coordinates of the central translate of $\psi$.
+\item Hence, for the scaled map $P=(\vol J\cdot\nu)^{-1/2}\mathcal P$, the block $(c,c')$ of $P^*sP$ is the conjugate of $A_{\rm all}(c,s,c')/\nu$ (\emph{the blocks are amplitude sums}).
+\end{enumerate}
+\end{theorem}
+\lean{New.Filling.Fits.petersson_poincare, New.Filling.Fits.integral_mul_poincareSeries_eq_sum_classes, New.Filling.Fits.finrank_levelSpace_eq_sourceDim, New.Filling.Fits.exists_integral_poincareSeries_eq_period, New.Filling.Fits.exists_dotProduct_besselFn_eq_integral, New.Filling.Fits.integral_classCutoff_integral_mul, New.Filling.Fits.exists_integral_besselMeasure_eq_sum, New.Filling.Fits.exists_besselFn_eq_integral, New.Data.exists_poincareAt_eq_poincareMap_comp, New.Data.poincare_eq_poincareMap_comp, New.Data.poincare, New.Data.besselPoint, New.Data.besselForm, New.Filling.HasAmplitudeBlocks, New.Filling.hasAmplitudeBlocks_smul_of_inner_eq, New.Filling.HasAmplitudeBlocks.hilbertSchmidtNorm_sq_eq_secondMoment, New.Data.hasAmplitudeBlocks_scaledPoincare}
+
+\begin{proof}
+(a) \emph{One class.} For $a=(c,i)$ and adelic $g$, the sum of $\phi_a(ug)$ over $u\in U_c(M)$ is $W_i(y)$ if $h_c^{-1}\eta\,g_{\rm f}\in K(M)$ and $0$ otherwise: the Bessel function and the condition at the finite places are invariant under $U_c(M)$
+(\cref{lem:unipotent-character}(b)), and the cutoffs add up to $1$. \emph{Convergence.} All terms of $\sum_\gamma\abs{\phi_a(\gamma g)}$ vanish unless some $\delta$ satisfies the level condition at the finite places; writing the terms as $\gamma^{-1}\delta$, those that do not
+vanish are terms over $(c,1,c)$, and the uniform bound in the proof of \cref{prop:blocks}(b) at the point $\delta_\infty y$ bounds the sum uniformly in $g$. Hence the series converges absolutely and uniformly, $\phi_a$ is integrable on the adelic group, and the quotient
+by the rational points has finite volume. \emph{Type and level.} Grouping the series by cosets of $U_c(M)$, each part is a translate of the Bessel function times an indicator at the finite places, which is fixed by right convolution with the type kernel
+(at each place the kernel fixes the local function, \cref{thm:bessel-average}(a)). The level is principal because the condition at the finite places is. \emph{Dimension.} At a free level a form is a family of arbitrary values at the class representatives in the
+weight, read in the coordinates of the Bessel systems by a fixed linear isomorphism intertwining the Schur matrices with the Kronecker product of the local representations; so the dimension is $D_X$, and $D_X>0$.
+
+(b) For a bounded automorphic $z$, $z$ times the series is integrable on the quotient, and unfolding the sum over the rational points gives $\int_{\U(V)(\Ad)}z\,\phi_a$. On the coset $x_cJ$ of the finite group, $z$ does not depend on the finite part, so the integral
+splits into $\vol J$ times $\int_{G_\infty}\beta_c(y)W_i(y)z(g,x_c)\,dg$.
+
+(c) Apply (b) to $z=k\mathcal P_{a'}$, which is again a form of principal level because $K$ normalises $J$. At $(g,x_c)$ the term $\gamma^{-1}$ of the series of $a'$ survives exactly when $h_{c'}^{-1}\gamma_{\rm f}^{-1}x_ck\in K(M)$, that is when $\gamma$ is a term over $(c,s,c')$; the
+sum and the integral can be exchanged entrywise by the absolute convergence of \cref{prop:blocks}(b). What remains is $\vol J$ times the $(i,i')$ entry of $A_{\rm all}(c,s,c')$.
+
+(d) \emph{The Bessel function as one integral.} The group $R(F_\infty)$ is the product of the local groups $R$, and its Haar measure is a multiple of the product of the measures $du\,dh$. The local Bessel functions are integrals over $R$ of $c_\lambda(x^{-1}ry)\,\pi(r)^{-1}v$
+(\cref{thm:bessel-average}); so their tensor product, paired with a vector $\zeta$ of the weight through the fixed isomorphism, is the integral over $s=na\in R(F_\infty)$ of $\overline{e(g_0^{-1}s^{-1}y)}\,\chi(s)^{-1}\,t(a\zeta)$, with $e$ the type kernel, $g_0$ the point with components $x_v$,
+$\chi$ the character $r\mapsto\psi(-\sigma(r)/(M\varpi))$ of $R(\Ad)$, which is trivial on $H(\Ad)$, and $t$ a linear form absorbing the constants. The condition on $\jmath$ makes $\chi$ equal to the generic character $\psi_U$ on $U(\Ad)$.
+
+\emph{Moving the quotient.} Insert this in (b): for a form $y$ of the conjugate type and principal level,
+\[
+  \int_{U_c\backslash G_\infty}\Bigl(\int_{R(F_\infty)}e(g_0^{-1}s^{-1}x)\,\mathcal W(s)\,ds\Bigr)\,y(x,h_c)\,dx=\int_{U_c\backslash R(F_\infty)}\mathcal W(s)\,y(sg_0,h_c)\,ds,
+\]
+because the kernel $e$ reproduces $y$; everything converges since $y$ is bounded, $e$ integrable and $\mathcal W$ integrable over $U_c\backslash R(F_\infty)$.
+
+\emph{The period.} The weights $r\mapsto\beta_c(r_\infty)[r_{\rm f}\in h_cJ]$, summed over $c$, form a cutoff for the action of $R(E)$ on $R(\Ad)$: every $r$ can be moved by a rational element of $R$ so that its finite part lies in some $h_cJ$ (write $r=na$, $a_{\rm f}\eta=\delta\,h_c\,k$ with $\delta$
+rational and $k\in K_0$, and approximate $n$ by a rational unipotent element), and if $g_{\rm f}\in h_dJ$ and $(\gamma g)_{\rm f}\in h_cJ$ for rational $\gamma\in R$ then $c=d$ and $\gamma\in U_c$ (\cref{lem:unipotent-character}(d)). Hence, with $J'=R(\Ad_{\rm f})\cap J$, $[R]/J'$ is the disjoint union of the
+$U_c\backslash R(F_\infty)$, and $\int_{[R]}F=\vol(J')\sum_c\int_{U_c\backslash R(F_\infty)}F(s,h_c)\,ds$ for $F$ invariant under $J'$ on the right. The source function $\mathcal W(ua)=\psi_U(u)\,t(\check a_\infty^{-1}\psi(a_{\rm f}))$ of a form $\psi$ fixed by $K_0$ is right invariant
+under $J'$: an element of $J'$ is $u\,a$ with $a\in K_0$ and $\chi(u)=1$. Both sides of the claimed identity are multiples of $\sum_c\int_{U_c\backslash R(F_\infty)}\mathcal W(s,h_c)y(sg_0,h_c)\,ds$, and the ratio of the factors goes into $t$. The Poincar\'e map of \cref{def:poincare},
+which represents the Bessel period, therefore equals the Poincar\'e series with the coordinates of the central translate of $\psi$ by $\eta$, since both forms have the same inner product with every form.
+
+(e) $\langle k\mathcal P_{a'},\mathcal P_a\rangle$ is the $(a,a')$ entry of $\mathcal P^*k\mathcal P$; divide (c) by $\vol J\cdot\nu$.
+\end{proof}
+
+\subsection{Sizes of the filling data}\label{ss:filling-sizes}
+
+\begin{proposition}[Admissibility and the main second moment]\label{prop:filling-admissible}
+For admissible data $D$, the filling data of \cref{thm:bessel-systems-exist} are admissible, and:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\bar R_0=\bar U\bar H$ with $\#\bar U=M^{f\varrho(2k+2\varrho+1)}$ and $\#\bar H$ the index of $K_0$ in the lattice stabiliser of $X_0$.
+\item $\mathcal D_{\rm main}=(\#\bar H\,(N^k-1)^f\mathrm{mass}_k\,d)^2/(\deg\cdot\mathrm{mass}_r)$, with $d$ and $\deg$ the dimension and degree of the tensor product of the Bessel systems, and
+$b^{11kf}\le\mathcal D_{\rm main}/\mathcal D_{\rm id}\le(M/b^6)^{kf}$.
+\item (Mean values.) Let $\mathrm{fr}_v=N^k\mathrm{sph}_{k+1}\cdots\mathrm{sph}_r$ be the frame masses and $c_v=\mathrm{fr}_vN^kd_v^2/(\mathrm{sph}_k\deg_v)$. The two products
+\[
+  \#\bar H\,n_X\prod_v\frac{\mathrm{fr}_vd_v^2}{\deg_v}\qquad\text{and}\qquad\#\bar H^2\,\mathrm{mass}_k\prod_v\mathrm{sph}_kc_v
+\]
+are at most $(1+b^{-9})\mathcal D_{\rm main}$, and
+\[
+  \prod_v\mathrm{fr}_v\le(1+b^{-9})(1-N^{-k})^{2f}N^{kf}\,\mathrm{mass}_k/\mathrm{mass}_r.
+\]
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.card_mul_prod_frameMass_le, New.Data.card_sq_mul_mass_mul_prod_le, New.Data.card_mul_card_classes_mul_prod_le, New.Data.filling_mainSecondMoment_eq, New.Data.mainSecondMoment_div_identitySecondMoment_mem_Icc, New.Data.mainSecondMoment_div_identitySecondMoment_eq, New.Data.abs_log_mainSecondMoment_div_identitySecondMoment_sub_le, New.Data.scaledSiegelConst_le, New.Data.filling_reduction_surjective, New.Data.card_besselSystem_le_pow, New.Data.card_besselCoord_le_pow, New.Data.log_filling_besselDegree_mem_Icc, New.Data.relIndex_latticeStabilizer, New.Data.card_classes_eq_card_mul_pow_mul_mass, New.Data.prod_frameMass_mul_div_eq, New.Data.prod_unitSphereMass_mul_div_eq, New.Data.unitSphereMass, New.Data.frameMass, New.Data.prod_frameMass_mul_le, New.Data.prod_frameMass_mul_openCellConst_eq, New.Data.log_prod_unitSphereMass, New.Data.abs_log_prod_unitSphereMass_sub_le, New.Filling.card_reducedImage_besselS, New.Filling.card_reducedImage_besselU, New.Filling.relIndex_sourceLevel, New.Filling.mem_reducedImage_besselU, New.Filling.mem_reducedImage_besselS, New.Filling.reducedImageBesselHEquiv, New.Filling.mem_reducedImage_iff_forall_place, New.Filling.disjoint_reducedImage_besselU_besselH, New.Filling.reducedImage_besselS_le_normalizer, New.Filling.isConjApart_chosenPlaces, New.card_unitriangular, New.unitriangularEquiv}
+
+\begin{proof}
+\emph{Fit and admissibility.} The finite frame of $Y_0$ is the graded lattice basis times an integral matrix $\equiv1$ at the chosen places, by the choice of $Y_0$; the graded basis scales only the string by the central unit $u=$ the lattice scale, so it is the
+lattice basis of the filling data scaled by $u$ on the whole space and by $u^{-1}=\bar u$ on $X_0$: this is the fit. Reduction at the chosen places maps $K$ onto $\bar G$: lift the residues and write the lift in the lattice basis.
+
+(a) is \cref{lem:reduced-groups}.
+
+(b) An integral point of $\U(X_0)$ preserves the lattice of $V$ exactly when its row $k_0$ is the unit vector modulo every place dividing $\pi$; the stabiliser of the unit vector in $\GL_k(\F_w)$ under the inverse transpose has index $N^k-1$, and there are $f$ such places, so the
+index is $(N^k-1)^f$. The classes have trivial automorphism groups, so their number $n_X$ is the index of $K_0$ in the stabiliser of the standard lattice times $\mathrm{mass}_k$; the index splits along $K_0\le\{\text{lattice preserving}\}\le\{\text{standard}\}$, giving
+$n_X=\#\bar H(N^k-1)^f\mathrm{mass}_k$ and $D_X=n_Xd$. With $\mathcal D_{\rm id}=\#\bar R_0D_X=\#\bar U\#\bar H D_X$,
+\[
+  \frac{\mathcal D_{\rm main}}{\mathcal D_{\rm id}}=\frac{d\,(N^k-1)^f\,\mathrm{mass}_k}{\deg\cdot\mathrm{mass}_r\cdot\#\bar U}.
+\]
+Insert the size of the degree: from the formula
+\[
+  \deg=\exp\sum_{v}\sum_{k-1\le l<r}\Bigl(\sum_{i<l}\log(\varsigma_i-\varsigma_l)-\log l!\Bigr)
+\]
+and the bounds $W_v\le\varsigma_i-\varsigma_l$ for $i<k-1$ and $\varsigma_i-\varsigma_l\le$ the lift weight, the logarithm of $\deg$ plus $f\sum_{k-1\le l<r}\log l!$ lies between $\sum_vm(k-1)\log W_v$ and $\sum_vmr(\log W_v+1/x)$, with $m=r-k+1$. Insert also the
+ratio of the masses ($\log(\mathrm{mass}_{l+1}/\mathrm{mass}_l)$ has the main term $f((l+\frac12)\log\mathrm{rd}_E+\log l!-(l+1)\log2\pi)$ with error $2^{1-\varrho}$, \cref{thm:B-siegel-formula}(d)) and the range of $N$. All factorials cancel except $(k-1)!$, the sums of indices
+telescope, and up to a factor $b^{\pm kf/4}$ the ratio is $(Mb^{-15/2})^{kf}d\,((k-1)!)^f$. Since $1\le d((k-1)!)^f\le b^{5kf/4}$ and $b^{19}\le M$, the ratio lies in $[b^{11kf},(M/b^6)^{kf}]$.
+
+(c) Here $\mathrm{sph}_l=(2\pi)^l/(\abs\varpi_v^{l-1/2}(l-1)!)$ is the mass of the unit sphere of $\C^l$ for the fibre measure when $\C$ carries $2/\abs\varpi_v$ and $\R$ carries $\abs\varpi_v^{-1/2}$ times Lebesgue measure; as $2\le\abs\varpi_v\le b$, $\mathrm{sph}_l\le1$.
+The logarithm of $\prod_v\mathrm{sph}_{l+1}$ is $-f((l+\frac12)\log\mathrm{rd}_E+\log l!-(l+1)\log2\pi)$, with $\prod_v\abs\varpi_v=\mathrm{rd}_E^f$. Hence $\prod_v\mathrm{sph}_{l+1}$ is $\mathrm{mass}_l/\mathrm{mass}_{l+1}$ up to a factor $e^{\pm2^{1-\varrho}}$, and these ratios telescope over $k\le l<r$; the $2\varrho+1$ errors add up to at
+most $\log(1+b^{-9})-4f/N$, and $\log(N^k/(N^k-1))\le2/N$ accounts for $(1-N^{-k})^{2f}$. This gives the bound for $\prod\mathrm{fr}_v$. The two products are $\#\bar H n_X(\prod\mathrm{fr}_v)d^2/\deg$ and $\#\bar H^2\mathrm{mass}_kN^{kf}(\prod\mathrm{fr}_v)d^2/\deg$ (the masses $\mathrm{sph}_k$ cancel), and with
+$n_X=\#\bar H(N^k-1)^f\mathrm{mass}_k$ and the bound for $\prod\mathrm{fr}_v$ both are at most $(1+b^{-9})(n_Xd)^2/(\deg\mathrm{mass}_r)=(1+b^{-9})\mathcal D_{\rm main}$. Finally $\prod_v\mathrm{fr}_v\cdot c_G^f\abs{D_E}^{\varrho/2}=c_SN^{2kf}\vol(\hat\OO)^{\varrho+1+2\varrho(\varrho+k)}$ with the Siegel constant
+$c_S=((2\pi)^k\mathrm{rd}_E^{1/2-k}/((k-1)!N^k))^f$, both sides being positive with logarithms linear in those of $2$, $\pi$, $N$, $\mathrm{rd}_E$ and the factorials; with (c) and the definition of $\nu$, in which $\Lambda$ cancels, this is the bound for the scaled Siegel constant
+required by admissibility.
+\end{proof}

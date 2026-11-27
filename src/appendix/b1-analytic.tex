@@ -1,0 +1,423 @@
+% Appendix B, analytic part: Lib/Analytic of grh-lean (growth, zero-free region, Tauberian theorem, primes in
+% windows, theta series, the choice of d, the symmetry of zeros). Main line of the argument: full proofs (D8).
+
+\subsection{Conventions}\label{ss:B-analytic-intro}
+Let $\chi$ be a Dirichlet character modulo $N\ge1$. As in \cref{sec:transform}, $E_\chi(s)$ is
+$L(s,\chi)$ if $\chi$ is not principal and the entire function $(s-1)L(s,\chi)$ if it is. We also use
+\[
+  f_\chi(s)=
+  \begin{cases}
+    L(s,\chi) & \text{if $\chi$ is not principal,}\\
+    E_\chi(s)/s & \text{if $\chi$ is principal,}
+  \end{cases}
+\]
+which is holomorphic on $\re s>0$ and has the size of $L(s,\chi)$ for large $\abs s$. For
+$\re s>1$, $f_\chi(s)=L(s,\chi)(s-\delta_\chi)/s$ with $\delta_\chi=1$ or $0$ according as $\chi$ is
+principal or not. Since $E_\chi$ has no zeros on $\re s\ge1$, neither has $f_\chi$.
+\lean{New.regularL, New.regularL_eq, New.differentiableAt_regularL}
+
+\subsection{Growth near the line \texorpdfstring{$\re s=1$}{Re s = 1} and a zero-free region}\label{ss:B-zero-free}
+
+\begin{lemma}\label{lem:B-partial-sums}
+Let $\kappa_\chi=N^{-1}\sum_{a\bmod N}\chi(a)$, which is $0$ unless $\chi$ is principal, and
+$\abs{\kappa_\chi}\le1$. For real $x\ge0$, $\bigl\lvert\sum_{1\le n\le x}\chi(n)-\kappa_\chi x\bigr\rvert\le2N$.
+For $A>0$ and $\re s\ge1+1/A$, $\abs{L(s,\chi)}\le1+A$.
+\end{lemma}
+\lean{New.charMean, New.norm_charMean_le_one, New.charMean_eq_zero, New.norm_sum_char_sub_le, New.norm_LSeries_char_le}
+
+\begin{proof}
+A sum of $\chi$ over $N$ consecutive integers equals $N\kappa_\chi$, so the difference
+$\sum_{n\le x}\chi(n)-\kappa_\chi x$ is a sum of fewer than $N$ values of $\chi$ less a number of
+absolute value at most $N$. For the last claim, $\abs{L(s,\chi)}\le\zeta(\sigma)\le1+\int_1^\infty
+t^{-\sigma}\dd t=1+1/(\sigma-1)$ with $\sigma=\re s$.
+\end{proof}
+
+\begin{lemma}\label{lem:B-linear-bound}
+For $\re s\ge1/2$, $\abs{f_\chi(s)}\le1+4N\abs s$.
+\end{lemma}
+\lean{New.norm_regularL_le_linear, New.norm_integral_mul_cpow_le, New.differentiableAt_integral_mul_cpow, New.norm_sub_ite_le}
+
+\begin{proof}
+Write $\sum_{n\le t}\chi(n)=\kappa_\chi t+r(t)$, so that $\abs{r(t)}\le2N$ by \cref{lem:B-partial-sums},
+and put $\Phi(s)=\int_1^\infty r(t)t^{-s-1}\dd t$. The integral converges absolutely and defines a
+holomorphic function on $\re s>0$ with $\abs{\Phi(s)}\le2N/\re s$. For $\re s>1$, partial summation
+gives $L(s,\chi)=s\bigl(\Phi(s)+\kappa_\chi/(s-1)\bigr)$, hence
+$f_\chi(s)=\kappa_\chi+\Phi(s)(s-\delta_\chi)$; in the non-principal case $\kappa_\chi=0$. Both sides
+are holomorphic on $\re s>0$, so the identity holds there. For $\re s\ge1/2$ we have
+$\abs{s-\delta_\chi}\le\abs s$, and $\abs{f_\chi(s)}\le1+(2N/\re s)\abs s\le1+4N\abs s$.
+\end{proof}
+
+\begin{lemma}\label{lem:B-L-vs-f}
+Let $\re s>1$ and $l\ge1$; if $\chi$ is principal, let $\abs{s-1}\ge1/l$. Then
+$\abs{L(s,\chi)}\le2l\abs{f_\chi(s)}$.
+\end{lemma}
+\lean{New.norm_LSeries_le_mul_norm_regularL}
+
+\begin{proof}
+$\abs{L(s,\chi)}=\abs{f_\chi(s)}\abs s/\abs{s-\delta_\chi}$, and $\abs s\le2l\abs{s-\delta_\chi}$: for
+principal $\chi$, $\abs s\le\abs{s-1}+1\le(1+l)\abs{s-1}$.
+\end{proof}
+
+\begin{lemma}\label{lem:B-square-bound}
+Let $l\ge10^{10}$ and $N\le e^l$. Then $\abs{f_\chi(s)}\le l^2$ for $\re s\ge1-1/l$ and
+$\abs s\le3e^l$, and $\abs{f_\chi'(s)}\le2l^3$ for $\re s\ge1-1/(2l)$ and $\abs s\le2e^l$.
+\end{lemma}
+\lean{New.norm_regularL_le_sq, New.norm_deriv_regularL_le}
+
+\begin{proof}
+Fix $s$ and put $a=\re s+2/l-1/3$ and $g(z)=f_\chi(z)/(z-s+2)$ on the strip $a\le\re z\le a+1/3$.
+There $\abs{z-s+2}\ge\re(z-s+2)\ge1$, and $\abs z\le\abs{z-s+2}+\abs s+2\le4e^l\abs{z-s+2}$, so by
+\cref{lem:B-linear-bound} $\abs{g(z)}\le(1+16e^{2l})\le e^{3l}$; in particular $g$ is bounded on the
+strip. On the right edge, $\re z=\re s+2/l\ge1+1/l$, and $\abs{g(z)}\le\abs{f_\chi(z)}\le\abs{L(z,\chi)}
+\le1+l$ by \cref{lem:B-partial-sums}. The point $s$ divides the strip in the ratio $1-6/l$ to $6/l$,
+so the three-lines theorem gives
+\[
+  \abs{g(s)}\le\bigl(e^{3l}\bigr)^{6/l}(1+l)^{1-6/l}\le3^{18}(1+l),
+\]
+and $\abs{f_\chi(s)}=2\abs{g(s)}\le2\cdot3^{18}(1+l)\le l^2$. For the derivative apply Cauchy's
+estimate on the circle of radius $1/(2l)$ about $s$, whose points satisfy the hypotheses of the first
+bound.
+\end{proof}
+
+\begin{lemma}[The $3$--$4$--$1$ inequality]\label{lem:B-341}
+Let $l\ge10^{10}$, $N\le e^l$, $0<\eta\le1$, $\re s\ge1+\eta$ and $\abs s\le\frac32e^l$; if $\chi^2$ is
+principal, let $\abs{s-1}\ge1/l$. Then $\eta^3\le256\,l^7\abs{f_\chi(s)}^4$.
+\end{lemma}
+\lean{New.pow_three_le_mul_norm_regularL_pow}
+
+\begin{proof}
+Write $s=\sigma+it$ and $s_2=\sigma+2it$. For $\sigma>1$ the classical inequality
+$\abs{L(\sigma,\chi_0)^3L(s,\chi)^4L(s_2,\chi^2)}\ge1$ holds, $\chi_0$ the principal character. Here
+$\abs{L(\sigma,\chi_0)}\le1+1/\eta\le2/\eta$; $\abs{L(s,\chi)}\le2l\abs{f_\chi(s)}$ by
+\cref{lem:B-L-vs-f}; and $\abs{L(s_2,\chi^2)}\le2l\abs{f_{\chi^2}(s_2)}\le2l^3$ by
+\cref{lem:B-L-vs-f,lem:B-square-bound}, as $\abs{s_2-1}\ge\abs{s-1}$ and $\abs{s_2}\le2\abs s$. Multiply.
+\end{proof}
+
+\begin{lemma}\label{lem:B-zero-free-l}
+Let $l\ge10^{10}$ and $N\le e^l$, and if $\chi^2$ is principal assume that $\abs{f_\chi(z)}\ge1/l$ for
+$\abs{z-1}\le1/l$. For $\re s\ge1-l^{-25}$ and $\abs s\le e^l$, the function $E_\chi$ does not vanish
+at $s$, and $\abs{E_\chi'(s)/E_\chi(s)}\le2l^{25}$.
+\end{lemma}
+\lean{New.div_pow_le_norm_regularL, New.norm_logDeriv_regularL_le, New.norm_logDeriv_entireL_le}
+
+\begin{proof}
+First, $\abs{f_\chi(v)}\ge12/l^{22}$ for $\re v\ge1+l^{-25}$ and $\abs v\le\frac32e^l$: if
+$\chi^2$ is principal and $\abs{v-1}<1/l$ this is the hypothesis; otherwise \cref{lem:B-341} with
+$\eta=l^{-25}$ gives $l^{-75}\le256\,l^7\abs{f_\chi(v)}^4$, and $256\cdot12^4\le l^6$. Next let $s$ be as
+in the statement and $v=s+2l^{-25}$. On the segment from $s$ to $v$ the bound $\abs{f_\chi'}\le2l^3$ of
+\cref{lem:B-square-bound} applies, so $\abs{f_\chi(v)-f_\chi(s)}\le4/l^{22}$ and
+$\abs{f_\chi(s)}\ge8/l^{22}$. Hence $f_\chi(s)\ne0$ and $\abs{f_\chi'(s)/f_\chi(s)}\le l^{25}/4$. Finally
+$E_\chi=f_\chi u$ with $u(z)=z$ or $1$, and $\abs{u'(s)/u(s)}\le1/\abs s\le2$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:zero-free}]
+Since $f_\chi(1)\neq0$ and $f_\chi$ is continuous at $1$, the hypothesis of \cref{lem:B-zero-free-l} on
+$\chi^2$ holds for all sufficiently large $l$, and so does $N\le e^l$.
+\end{proof}
+
+\subsection{A Tauberian theorem}\label{ss:B-tauberian}
+
+\begin{proof}[Proof of \cref{thm:tauberian}]
+\emph{Step 1: regularity of $R$.} Chaining steps of length at most $1$ gives
+$\abs{R(v)-R(u)}\le L\abs{v-u}$ for all $u,v\ge0$; hence $\abs{R(v)}\le(\abs{R(0)}+L)e^v$ for $v\ge0$.
+Put $\Phi(s)=(F(s)-F(1))/(s-1)$. For $\re s>2$, differentiation under the integral sign gives
+$\Phi^{(k)}(s)=\int_0^\infty(-v)^kR(v)e^{(1-s)v}\dd v$.
+
+\emph{Step 2: a Taylor coefficient as a mean.} Let $H>1$ and $k\ge0$. The density
+$g(v)=H^{k+1}v^ke^{-Hv}/k!$ on $(0,\infty)$ has mean $u=(k+1)/H$ and variance $(k+1)/H^2$, and
+\[
+  \frac{(-H)^kH}{k!}\,\Phi^{(k)}(1+H)=\int_0^\infty R(v)\,g(v)\dd v.
+\]
+If $\abs{R(v)-c}\le a+b(v-u)^2$ for $v>0$, the coefficient lies within $a+b(k+1)/H^2$ of $c$. By
+Step 1 and $\abs{v-u}\le\delta+(v-u)^2/\delta$, this holds with $c=R(u)$, $a=L\delta$, $b=L/\delta$
+for every $\delta>0$: the coefficient lies within $L(\delta+u^2/((k+1)\delta))$ of $R(u)$.
+
+\emph{Step 3: a Taylor coefficient is small.} Let $0<\eta\le H$, and let $F$ be holomorphic and at most
+$M$ in absolute value on the closed disc $D$ of radius $H+\eta$ about $1+H$. Then $\Phi$ is holomorphic
+on $D$, and on its boundary $\abs{s-1}\ge\eta$, so $\abs\Phi\le2M/\eta$ there. Cauchy's estimate and
+$H/(H+\eta)\le1-\eta/(2H)\le e^{-\eta/(2H)}$ give
+\[
+  \Bigl\lvert\frac{(-H)^kH}{k!}\Phi^{(k)}(1+H)\Bigr\rvert
+  \le\frac{2M}{\eta}(H+\eta)\Bigl(\frac{H}{H+\eta}\Bigr)^{k+1}
+  \le\frac{4MH}{\eta}\exp\Bigl(-\frac{(k+1)\eta}{2H}\Bigr).
+\]
+
+\emph{Step 4: choice of the parameters.} Given $B$ and a large $u$, put $l=(2B+5)\log u$,
+$\eta=l^{-A}$, $k=\lfloor u^{2B+4}\rfloor$ and $H=(k+1)/u$. Then $1<H\le2u^{2B+4}$, and the disc $D$
+lies in the region $\re s\ge1-l^{-A}$, $\abs s\le2H+\eta+1\le u^{2B+5}=e^l$, where $\abs F\le l^A$
+for large $u$. Since $l^{2A}\le u$ and $u^{3B+7}\le e^{\sqrt u/2}$ for large $u$, and
+$(k+1)\eta/(2H)=u/(2l^A)\ge\sqrt u/2$, Step~3 bounds the coefficient by
+$l^{2A}\cdot4H\cdot e^{-\sqrt u/2}\le u\cdot u^{2B+5}\cdot u^{-3B-7}=u^{-B-1}$. Step~2 with
+$\delta=u^{-B-1}$ places it within $2Lu^{-B-1}$ of $R(u)$. Hence $\abs{R(u)}\le(1+2L)u^{-B-1}\le u^{-B}$
+for $u\ge1+2L$.
+\end{proof}
+\lean{New.iteratedDeriv_transform, New.integrableOn_and_integral_gamma_mul_quadratic, New.norm_taylorCoeff_transform_sub_le, New.norm_iteratedDeriv_dslope_le, New.norm_taylorCoeff_dslope_le, New.abs_sub_le_of_unit_steps, New.norm_taylorCoeff_transform_sub_le_of_lipschitz, New.norm_taylorCoeff_dslope_le_inv_pow}
+
+\subsection{Primes in short logarithmic windows}\label{ss:B-primes}
+We prove \cref{thm:prime-windows} by Newman's contour method. Let $M_0$ be a positive multiple of $4$
+and $A\ge1$.
+
+\begin{lemma}\label{lem:B-real-chars}
+Let $k\ge2$. A character $\chi$ modulo $M_0^k$ with $\chi^2$ principal is induced by a character
+$\chi_0$ modulo $M_0^2$, and $f_\chi=f_{\chi_0}$.
+\end{lemma}
+\lean{New.factorsThrough_sq_of_sq_eq_one, New.exists_regularL_eq_of_sq_eq_one}
+
+\begin{proof}
+Every unit $u\equiv1\pmod{M_0^2}$ is a square modulo $M_0^k$: write $u=1-4M_0mt$ with $M_0=4m$, and
+solve $c^2+c=-M_0mt$ by Newton's iteration, which converges since $M_0mt$ is nilpotent modulo $M_0^k$;
+then $u=(1+2c)^2$. Hence $\chi$ is trivial on the kernel of reduction to $M_0^2$. The two moduli have
+the same prime factors, so the $L$-functions of $\chi$ and $\chi_0$ have the same Euler factors.
+\end{proof}
+
+\begin{lemma}\label{lem:B-near-one}
+For all large $X$: for every $k>1$ with $M_0^k\le X^A$, every character $\chi$ modulo $M_0^k$ and every
+$s$ with $\abs{s-1}\le1/X$, $E_\chi(s)\ne0$ and $\abs{E_\chi'(s)/E_\chi(s)}\le X$.
+\end{lemma}
+\lean{New.eventually_norm_logDeriv_entireL_le_near_one}
+
+\begin{proof}
+Apply \cref{lem:B-zero-free-l} with $l=(A+1)\log X$, so that $e^l=X^{A+1}\ge M_0^k$. Its hypothesis
+for $\chi$ with $\chi^2$ principal concerns, by \cref{lem:B-real-chars}, only the finitely many
+characters modulo $M_0^2$, and holds for large $l$ as in the proof of \cref{thm:zero-free}. For large
+$X$, $2l^{25}\le X$, so $\re s\ge1-1/X\ge1-l^{-25}$, and $\abs s\le2\le e^l$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:prime-windows}]
+Write $W=X^2$ and $q=M_0^k$, and let $a(n)=\Lam(n)$ if $n\equiv1\pmod q$ and $a(n)=0$ otherwise. By
+orthogonality, for $\re z>0$,
+\[
+  \sum_{n\ge1}a(n)n^{-1-z}=\frac{F(z)}{z},\qquad
+  F(z)=\frac{1}{\totient(q)}\Bigl(1-z\sum_{\chi\bmod q}\frac{E_\chi'}{E_\chi}(1+z)\Bigr).
+\]
+By \cref{lem:B-near-one}, $F$ is holomorphic and $\abs F\le2$ on $\abs z\le1/X$. Let $b(n)=\Lam(n)$
+for prime powers $n=p^e$ with $e\ge2$ and $b(n)=0$ otherwise; since $\psi(x)-\vartheta(x)=O(\sqrt x)$,
+$C=\sum_nb(n)n^{-3/4}<\infty$, and we take $X\ge\max(C,200)$.
+
+Suppose that no prime $p\equiv1\pmod q$ has $\log p\in[U,U+X^2]$. Then $a(n)\le b(n)$ whenever
+$\log n\in[U,U+X^2]$. Let $P(z)=\sum_{n<e^U}a(n)n^{-1-z}$ and
+$\mathcal E(z)=\re\bigl(2-Uz-\frac X4(1+Xz)^2\bigr)$. We claim that on the circle $\abs z=1/X$
+\begin{equation}\label{eq:B-newman}
+  \abs{F(z)-zP(z)}\le3U\,e^{\mathcal E(z)}.
+\end{equation}
+On the circle, a computation with $X^2(\im z)^2=1-(X\re z)^2$ gives
+$\mathcal E(z)=2-(U+t)\re z$ with $t=\frac{X^2}{2}(1+X\re z)\in[0,X^2]$. Two facts are used: for every
+real $\sigma$ and every $n$, $\abs{a(n)n^{-1-z}}=e^{\log n(\sigma-\re z)}a(n)n^{-1-\sigma}$; and the
+total $\sum a(n)n^{-1-1/U}=UF(1/U)\le2U$.
+
+If $\re z\le1/U$, each term of $P$ has $\log n\le U$, so
+$\log n\,(1/U-\re z)\le1-U\re z\le\mathcal E(z)$ (using $t\re z\le X^2/U\le1$); hence
+$\abs{P(z)}\le e^{\mathcal E(z)}\cdot2U$, and
+$\abs{F(z)-zP(z)}\le2+\frac1{200}\cdot2Ue^{\mathcal E(z)}\le3Ue^{\mathcal E(z)}$, as
+$\mathcal E(z)\ge0$ and $U\ge X^2$.
+
+If $\re z\ge1/U$, then $F(z)-zP(z)=z\sum_{n\ge e^U}a(n)n^{-1-z}$. In the window, $a(n)\le b(n)$ and
+$\log n\,(-\frac14-\re z)\le U(-\frac14-\re z)\le\mathcal E(z)$, since $t\re z\le U/200$; so these terms
+are at most $e^{\mathcal E(z)}b(n)n^{-3/4}$. Beyond the window, $\log n\ge U+t$ and
+$\log n\,(1/U-\re z)\le(U+t)(1/U-\re z)\le\mathcal E(z)$; so these terms are at most
+$e^{\mathcal E(z)}a(n)n^{-1-1/U}$. The sum is at most $e^{\mathcal E(z)}(2U+C)\le3Ue^{\mathcal E(z)}$.
+This proves \eqref{eq:B-newman}.
+
+The function $G(z)=(F(z)-zP(z))\exp\bigl(-2+Uz+\frac X4(1+Xz)^2\bigr)$ is holomorphic on
+$\abs z\le1/X$ and, by \eqref{eq:B-newman}, at most $3U$ on its boundary. By the maximum principle
+$\abs{G(0)}\le3U$. But $G(0)=F(0)e^{X/4-2}=e^{X/4-2}/\totient(q)$, and
+$3U\totient(q)e^2\le3e^2X^{4A}<e^{X/4}$ for large $X$, as $U,q\le X^{2A}$. This contradiction proves the
+theorem.
+\end{proof}
+\lean{New.summable_vonMangoldt_not_prime, New.hasSum_residueClass_one, New.norm_one_sub_mul_sum_div_totient_le, New.exists_shift_le_re_exponent, New.norm_le_of_term_le_majorant, New.norm_sub_mul_sum_term_le, New.analyticOnNhd_sub_mul_sum_term}
+
+\subsection{Theta series and the P\'olya--Vinogradov inequality}\label{ss:B-theta}
+
+\begin{lemma}[P\'olya--Vinogradov]\label{lem:B-pv}
+Let $\chi\ne1$ be a character modulo $q$. For every $X\ge0$,
+$\bigl\lvert\sum_{1\le v\le X}\chi(v)\bigr\rvert\le2\sqrt q\,(1+\log q)$.
+\end{lemma}
+\lean{New.norm_gaussSum_of_isPrimitive, New.four_mul_le_norm_stdAddChar_sub_one, New.norm_sum_stdAddChar_pow_le, New.norm_sum_le_of_isPrimitive, New.card_divisors_le_two_mul_sqrt, New.sum_eq_sum_divisors_of_changeLevel_eq, New.polya_vinogradov}
+
+\begin{proof}
+For a primitive character $\psi\ne1$ modulo $M$, the Gauss sum $\tau(\psi)$ has absolute value $\sqrt M$,
+and $\psi(v)=\tau(\bar\psi)^{-1}\sum_{k\bmod M}\bar\psi(k)e(kv/M)$. Summing the geometric series in $v$
+and using $\abs{e(k/M)-1}\ge4x(1-x)$ for $k=xM$, $0<x<1$, gives
+$\bigl\lvert\sum_{v\le X}\psi(v)\bigr\rvert\le\sqrt M(1+\log M)$. If $\chi$ modulo $q=Mr$ is induced by
+$\psi$, then $\sum_{v\le X}\chi(v)=\sum_{d\mid r}\mu(d)\psi(d)\sum_{e\le X/d}\psi(e)$, and $r$ has at most
+$2\sqrt r$ divisors.
+\end{proof}
+
+Fix a parity $j\in\{0,1\}$ and put $w(z)=z^je^{-\pi z^2}$. For a sequence $c$ with $\abs{c(n)}\le1$ let
+\begin{gather*}
+  \theta_c(u)=u^{1/2}\sum_{n\ge1}c(n)\,w(nu)\quad(u>0),\\
+  \Gamma_j(s)=\int_0^\infty w(z)z^s\frac{\dd z}{z}=\tfrac12\pi^{-(s+j)/2}\Gamma\bigl(\tfrac{s+j}2\bigr)
+  \quad(\re s>0).
+\end{gather*}
+\lean{New.gaussianMonomial, New.gaussianTheta, New.thetaSeries, New.gaussianMellin, New.gaussianMellin_eq}
+
+\begin{lemma}\label{lem:B-theta}
+Let $\abs{c(n)}\le1$ for all $n$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\abs{\theta_c(u)}\le3e^{-u}u^{-1/2}$ for $u>0$.
+\item For $\re s>1$, $\int_0^\infty\theta_c(u)u^{s-1/2}\frac{\dd u}u=\Gamma_j(s)\sum_nc(n)n^{-s}$; with
+$c\mu$ in place of $c$ and $c=\chi$ a character, the right side is $\Gamma_j(s)/L(s,\chi)$.
+\item Let $\chi\ne1$ be a character modulo $q$ of parity $j$, that is, $\chi(-1)=(-1)^j$. Then
+$\bigl\lvert\sum_n\chi(n)w(nt)\bigr\rvert\le3eq\,e^{-t}$ for $t>0$, and the identity of (b) for $c=\chi$
+holds for $\re s>0$, with absolute convergence.
+\item If moreover $\chi$ is primitive of conductor $q$, then $\abs{\theta_\chi(1/(qt))}=\abs{\theta_\chi(t)}$
+for $t>0$, and
+$\int_0^\infty\abs{\theta_\chi(u)}\frac{\dd u}u=2\int_{q^{-1/2}}^\infty\abs{\theta_\chi(u)}\frac{\dd u}u$.
+\end{enumerate}
+\end{lemma}
+\lean{New.summable_and_norm_gaussianTheta_le, New.norm_thetaSeries_le, New.mellin_gaussianTheta, New.mellin_thetaSeries, New.mellin_thetaSeries_moebius, New.poisson_summation_gaussianMonomial, New.gaussianTheta_poisson_summation, New.norm_gaussianTheta_char_le, New.mellin_gaussianTheta_char, New.hasMellin_thetaSeries_char, New.norm_thetaSeries_inv, New.integral_norm_thetaSeries_div}
+
+\begin{proof}
+(a) $\abs{w(t)}\le3e^{-2t}$ for $t\ge0$ (as $\pi>3$), and the geometric series gives
+$\sum_n\abs{w(nt)}\le3e^{-t}/t$. (b) Integrate term by term, using the substitution $u\mapsto u^2$ in
+$\Gamma_j$. (c) For $t\ge1$ use (a). For $t<1$, Poisson summation in each residue class modulo $q$ gives
+$t\,\bigl\lvert\sum_n\chi(n)w(nt)\bigr\rvert=\bigl\lvert\sum_n\check\chi(n)w(n/(qt))\bigr\rvert$, where
+$\check\chi(n)=q^{-1}\sum_{a\bmod q}\chi(a)e(an/q)$ has absolute value at most $1$ and $\check\chi(0)=0$;
+the sums run over $n\ge1$ because both $\chi$ and $\check\chi$ have parity $j$. Bound the right side by
+(a). The bound makes the integral converge for $\re s>0$ and defines a holomorphic function there,
+equal to $\Gamma_j(s)L(s,\chi)$ for $\re s>1$, hence for $\re s>0$. (d) For primitive $\chi$,
+$q\check\chi=\tau(\chi)\bar\chi$ with $\abs{\tau(\chi)}=\sqrt q$, and the identity of (c) becomes the
+transformation formula in absolute value. The map $u\mapsto1/(qu)$ preserves $\dd u/u$ and $\abs{\theta_\chi}$
+and exchanges $(0,q^{-1/2})$ with $(q^{-1/2},\infty)$.
+\end{proof}
+
+\subsection{Quadratic twists without zeros in a box}\label{ss:B-quadratic-twists}
+For $T>0$ and a sequence $c$ with $\abs{c(n)}\le1$ put
+\[
+  J(c,T)=\int_{1/T}^\infty\bigl(\abs{\theta_c(u)}+\abs{\theta_{c\mu}(u)}\bigr)\frac{\dd u}u,
+  \qquad
+  \mathcal M(s)=\int_{1/T}^\infty\theta_{c\mu}(u)\,u^{s-1/2}\frac{\dd u}u .
+\]
+For $c=\chi$ the function $\mathcal M$ is a truncation of the integral for $\Gamma_j/L(\,\cdot\,,\chi)$
+in \cref{lem:B-theta}(b); it is holomorphic on $\re s>0$ and bounded on $\frac12\le\re s\le2$.
+\lean{New.thetaTailIntegral, New.mollifier, New.mollifier_differentiableOn_and_bounded}
+
+\begin{lemma}\label{lem:B-mollifier}
+Let $\chi\ne1$ be primitive of conductor $q\le T^2$ with $\chi(-1)=(-1)^j$, and write
+$\Lambda(s)=\Gamma_j(s)L(s,\chi)$. Then $\abs{\Lambda(z)\mathcal M(z)-\Gamma_j(z)^2}\le9/T$ on
+$\re z=2$, and $\abs{\Lambda(z)}\le2J(\chi,T)$, $\abs{\mathcal M(z)}\le J(\chi,T)$ on $\re z=1/2$.
+\end{lemma}
+\lean{New.norm_cpow_smul_thetaSeries_le, New.norm_mul_mollifier_sub_le, New.norm_integral_cpow_smul_thetaSeries_le, New.norm_mollifier_le, New.norm_gaussianMellin_mul_LFunction_le}
+
+\begin{proof}
+On $\re z=2$, \cref{lem:B-theta}(a) gives $\abs{u^{z-3/2}\theta_{c}(u)}\le3e^{-u}$ for every $c$, so
+$\abs\Lambda\le3$ and $\abs{\Gamma_j/L-\mathcal M}\le\int_0^{1/T}3\dd u=3/T$ by \cref{lem:B-theta}(b);
+and $\Lambda\mathcal M-\Gamma_j^2=\Lambda(\mathcal M-\Gamma_j/L)$. On $\re z=1/2$ the factor $u^{z-1/2}$
+has absolute value $1$; by \cref{lem:B-theta}(c), (d) and $q^{-1/2}\ge1/T$,
+$\abs{\Lambda(z)}\le2\int_{1/T}^\infty\abs{\theta_\chi}\dd u/u$.
+\end{proof}
+
+\begin{proposition}\label{prop:B-three-lines}
+Let $\delta>0$ and $H\ge0$. For all large $T$ the following holds. If $\chi\ne1$ is primitive of
+conductor $q\le T^2$ with $\chi(-1)=(-1)^j$, and $L(s,\chi)=0$ for some $s$ with
+$\re s\ge\frac12+9\delta$ and $\abs{\im s}\le H$, then $J(\chi,T)>T^{2\delta}$.
+\end{proposition}
+\lean{New.three_lines_bound_of_LFunction_eq_zero, New.eventually_rpow_lt_thetaTailIntegral, New.exists_pos_le_norm_gaussianMellin}
+
+\begin{proof}
+Let $G$ bound $\abs{\Gamma_j}$ on the strip $\frac12\le\re z\le2$ and put $C=9+G^2$. Suppose
+$J(\chi,T)\le T^{2\delta}$. The function $\Psi=\Lambda\mathcal M-\Gamma_j^2$ is holomorphic and bounded
+on the strip; by \cref{lem:B-mollifier} it is at most $CT^{4\delta}$ on the left line and at most
+$CT^{-1}$ on the right line. Since $L(\,\cdot\,,\chi)$ has no zeros on $\re s\ge1$, $\re s\le1$, and $s$
+has weight $\lambda=(\re s-\frac12)/\frac32\ge6\delta$ towards the right line. The three-lines theorem
+gives
+\[
+  \abs{\Gamma_j(s)}^2=\abs{\Psi(s)}\le C\,T^{4\delta(1-\lambda)-\lambda}\le C\,T^{-2\delta}.
+\]
+But $\abs{\Gamma_j}$ is bounded below by a positive constant on the compact rectangle
+$\frac12\le\re z\le1$, $\abs{\im z}\le H$, where it has no zeros. This is impossible for large $T$.
+\end{proof}
+
+For an integer $n\ge1$ let $n^\circ$ be its odd part, and let $(\,\cdot\,/m)$ be the Jacobi symbol.
+
+\begin{lemma}\label{lem:B-jacobi}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $d\equiv7\pmod8$ is prime and $n\ge1$, then $(n/d)=(-d/n^\circ)$.
+\item If $m$ is odd and not a square, then $v\mapsto(-v/m)$ is $\pm$ a non-principal character, and
+$\bigl\lvert\sum_{v\le X}(-v/m)\bigr\rvert\le2\sqrt m(1+\log m)$. Consequently, for $\delta>0$ and $n^\circ$
+not a square, $\bigl\lvert\sum_{v\le X}(-v/n^\circ)\bigr\rvert\le2(1+2/\delta)\,n^{1/2+\delta/2}$.
+\item If $\psi$ is primitive modulo $M$ and $d\nmid M$ is an odd prime, then $\psi\chi_d$ is primitive
+modulo $Md$.
+\end{enumerate}
+\end{lemma}
+\lean{New.legendreSym_eq_jacobiSym_ordCompl, New.dirichletCharacter_jacobiSym_ne_one, New.norm_sum_jacobiSym_le, New.norm_sum_jacobiSym_ordCompl_le, New.isPrimitive_quadTwist}
+
+\begin{proof}
+(a) $(2/d)=1$, and quadratic reciprocity for the odd part, with $d\equiv3\pmod4$. (b) Write $m=c^2a$ with
+$a>1$ squarefree; a prime $p\mid a$ makes the character non-principal. Apply \cref{lem:B-pv}, and
+$1+\log n\le(1+2/\delta)n^{\delta/2}$. (c) The conductor of $\psi\chi_d$ is divisible by $M$ and by $d$.
+\end{proof}
+
+\begin{theorem}[Mean value]\label{thm:B-mean-value}
+Let $\delta>0$. There is $C$ such that for $T>0$, $u\ge1/T$ and every sequence $\alpha$ with
+$\abs{\alpha_n}\le1$, the theta series $\theta_v=\theta_{c_v}$ with $c_v(n)=\alpha_n(-v/n^\circ)$ satisfy
+\[
+  \sum_{1\le v\le T^2}\abs{\theta_v(u)}^2\le C\,T^2u^{-2\delta}.
+\]
+\end{theorem}
+\lean{New.exists_abs_gaussianMonomial_le_rpow, New.exists_mul_abs_gaussianMonomial_mul_le, New.exists_summable_ge_of_isSquare, New.exists_summable_ge_of_isSquare_ordCompl, New.exists_summable_mul_norm_sum_jacobiSym_le, New.sum_sq_thetaSeries_jacobiSym_le}
+
+\begin{proof}
+Expanding the square,
+\[
+  \sum_v\abs{\theta_v(u)}^2=\sum_{n,m\ge1}\alpha_n\bar\alpha_m\,u\,w(nu)w(mu)\sum_{v\le T^2}
+  \Bigl(\frac{-v}{(nm)^\circ}\Bigr).
+\]
+For every $A>0$, $u\abs{w(nu)w(mu)}\ll_Au^{1-2A}(nm)^{-A}$. If $(nm)^\circ$ is a square, bound the inner
+sum by $T^2$ and take $A=\frac12+\delta$; the pairs with $nm$ or $2nm$ a square contribute a convergent
+series $\sum(nm)^{-1/2-\delta}$. Otherwise bound the inner sum by \cref{lem:B-jacobi}(b) and take
+$A=\frac32+\delta$; the term is $\ll u^{-2-2\delta}(nm)^{-1-\delta/2}$, and $u^{-2}\le T^2$.
+\end{proof}
+
+\begin{corollary}\label{cor:B-sum-J}
+Let $\delta>0$. There is $C$ such that for $T>0$ and $\abs{\alpha_n}\le1$,
+$\sum_{1\le v\le T^2}J(c_v,T)\le C\,T^{2+\delta}$.
+\end{corollary}
+\lean{New.sum_integral_norm_thetaSeries_div_le, New.sum_thetaTailIntegral_le}
+
+\begin{proof}
+By Cauchy--Schwarz and \cref{thm:B-mean-value}, $\sum_v\abs{\theta_v(u)}\le C'T^2u^{-\delta}$ for
+$u\ge1/T$; integrate against $\dd u/u$ over $(1/T,\infty)$. The same holds for the coefficients
+$\alpha_n\mu(n)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:choice-of-d}]
+We may assume $\beta<1$ and write $\beta=\frac12+9\delta$. Call a prime $d\equiv a\pmod N$ \emph{bad} if
+some $L(s,\xi\chi_d)$, $\xi$ modulo $N$, vanishes in the box. Each $\xi$ is induced by a primitive
+$\psi$ modulo some $M\mid N$, and $L(s,\xi\chi_d)$ differs from $L(s,\psi\chi_d)$ by Euler factors that
+do not vanish for $\re s\ne0$ (\cref{lem:B-euler-factors}). By \cref{lem:B-jacobi}, $\psi\chi_d$ is
+primitive of conductor $Md$, its parity $j$ is opposite to that of $\psi$ (as $\chi_d(-1)=-1$), and its
+coefficients are $\psi(n)(-d/n^\circ)=c_d(n)$ with $\alpha=\psi$. Take $T^2=NX$. By
+\cref{prop:B-three-lines}, each bad $d\le X$ has $J(c_d,T)>T^{2\delta}$ for one of the finitely many
+$\psi$; by \cref{cor:B-sum-J} there are $O(T^{2-\delta})=O(X^{1-\delta/2})$ of them. If all primes of
+the class were bad, the Dirichlet series $\sum_{p\equiv a}p^{-s}$ would converge absolutely at
+$s=1-\delta/4$, and so $\sum_{p\equiv a}\log p/p$ would converge, against Dirichlet's theorem on primes
+in arithmetic progressions.
+\end{proof}
+\lean{New.exists_card_zero_quadTwist_le, New.zero_density_quadTwist, New.exists_entireL_quadTwist_ne_zero}
+
+\subsection{Symmetry of the zeros}\label{ss:B-zero-symmetry}
+
+\begin{lemma}\label{lem:B-euler-factors}
+Let $\chi$ be a Dirichlet character, $M\ge1$ and $\re s\neq0$. Then
+$\prod_{p\mid M}(1-\chi(p)p^{-s})\neq0$. Every character modulo $N$ is induced by a primitive character
+modulo a divisor of $N$, of the same parity.
+\end{lemma}
+\lean{New.prod_euler_factor_ne_zero, New.exists_isPrimitive_changeLevel_eq, New.gammaFactor_changeLevel}
+
+\begin{proof}
+A vanishing factor means $\chi(p)=p^s$; then $\abs{\chi(p)}=1$ and $p^{\re s}=1$.
+\end{proof}
+
+\begin{proposition}\label{prop:B-zero-symmetry}
+Let $\chi$ be a Dirichlet character, and let $L(s,\chi)=0$ with $\re s\ne0$ and $s\ne1$. Then $s$ is a
+pole of the gamma factor $\Gamma_\R(s+a_\chi)$ of $\chi$, or $L(1-s,\bar\chi)=0$.
+\end{proposition}
+\lean{New.gammaFactor_eq_zero_or_LFunction_one_sub_eq_zero}
+
+\begin{proof}
+Let $\psi$ be the primitive character inducing $\chi$. By \cref{lem:B-euler-factors}, $L(s,\psi)=0$. If
+$s$ is not a pole of the gamma factor, the completed $L$-function of $\psi$ vanishes at $s$, hence that
+of $\bar\psi$ at $1-s$ by the functional equation, and so $L(1-s,\bar\psi)=0$; since $\re(1-s)\neq0$,
+also $L(1-s,\bar\chi)=0$.
+\end{proof}

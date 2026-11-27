@@ -1,0 +1,185 @@
+\section{The local loss above \texorpdfstring{$\ell$}{l}}\label{sec:local-loss}
+
+The cocycles produced by Ribet's method satisfy the linear relations among the $u_x(g)-1$, but at the places above $\ell$ they need not be reductions of crystalline
+cocycles. This section bounds, for all summands and all places above $\ell$ together, the distance of these cocycles from the crystalline condition by the explicit
+\emph{local defect bound} $r'\,\mathrm{loc}_\ell$ (\cref{thm:local-loss}). By Tate duality the distance is the \emph{defect} of the Tate dual of a summand: the length of its
+crystalline cocycles modulo those whose cup products with the crystalline cocycles of all lattices of a class are coboundaries. The defect is bounded through an
+exponent $\ell^k$ that makes the cup products vanish, which \cref{sec:crystalline} computes on Kummer charts.
+
+\subsection{Classes of local lattices and the defect}\label{ss:local-classes}
+Let $\Gamma\to G_\ell=\Gal(\bar\Q_\ell/\Q_\ell)$ have open image, $O$ the integers of a finite extension of $\Q_\ell$, and $B_{\max}$ the crystalline period ring. For a filter $F$ on $\Gamma$, polynomial conditions $K(s)$ on inertia elements
+and finite sets $U(\gamma)$ of integers for the embeddings $\gamma\colon O\to\C_\ell$, the class $\mathrm{InClass}(F,K,U)$ consists of the $\Gamma$-lattices $Y$ over $O$ such that $B_{\max}\otimes Y$ is spanned by the periods fixed near $1$ and along
+$F$, the Hodge--Tate jumps at each $\gamma$ lie in $U(\gamma)$, and every polynomial $Q$ with $K(s)(Q)$ kills $s$ on the periods. A map $\Gamma\to(O/\ell^m)^d$ \emph{comes from the class} if it is $t\circ a$ for a crystalline
+cocycle $a$ of a lattice $Y$ of the class and an equivariant $t$. The \emph{defect} $\mathrm{def}(\mathcal Q,L)$ is the length of the crystalline cocycles of $L$ modulo those orthogonal under cup product to all lattices of
+the class $\mathcal Q$, for every pairing into $\Z/\ell^k(1)$; $L$ \emph{has cup exponent $k$} for $\mathcal Q$ if $\ell^k$ carries the crystalline cocycles of $L$ into this orthogonal. The \emph{crystalline loss} of $(h,b,\ell)$ is the
+$\ell$-adic valuation of $(2b)!\cdot\Pi^{h^3}$, with $\Pi$ the product of the integers in $(b-30h^3,b+30h^3]$, and $\mathrm{defect}_\ell=10^6\frac mk\bigl(b\,v_\ell(M)+\text{crystalline loss}(\mathrm r^8,b,\ell)\bigr)$.
+\lean{New.Selmer.cmSign, New.Selmer.complexEmbeddingOf, New.Selmer.IsMainSummandWeights, New.Selmer.lt_natAbs_of_abs_add_liftWeight_le, New.Selmer.crystallineLoss, New.Selmer.defectBound, New.Selmer.fixes_emb_of_fixes_rootsOfUnity, New.Selmer.map_sqrtNegDInE_eq_cmSign_mul, New.Selmer.map_zeta_eq_zpow_cmSign, New.Selmer.placeClass_eq_cmSign_mul_pow, New.Selmer.notMem_bPlaces_of_short_arc, New.Selmer.cmSign_eq_of_mem_bPlaces, New.Selmer.ribetCocyclesIn, New.Selmer.ribetCocycles, New.Selmer.mem_ribetCocycles, New.Selmer.ribetCocycles.exists_graph_subrepresentation, New.Selmer.SummandCoordIndex, New.Selmer.summandRep, New.Selmer.localChart, New.Selmer.coefficientEmbedding, New.Selmer.crysCocyclesAt, New.Selmer.crysRelations, New.Selmer.crystallineColength, New.Selmer.obeying_crysRelations, New.Selmer.coefficientEmbedding_surjective, New.Selmer.tateTwist_smul, New.Selmer.IsCompletionGroup.complexEmbeddingOf_eq_iff, New.Selmer.IsCompletionGroup.index_eq_card_range, New.Selmer.eq_of_complexEmbeddingOf_localChart_eq, New.Selmer.sum_complexEmbeddingOf_le}
+\lean{New.Selmer.ComesFromClass, New.Selmer.ker_compLeft_mkQ_eq_pPowMultiples, New.Selmer.exists_crysCocycles_pow_smul_eq_coboundary, New.Selmer.relLength_le_of_comesFromClass, New.Selmer.comesFromClass_of_mem_ribetCocycles, New.Selmer.relLength_ribetCocycles_le}
+
+Throughout, $\iota\colon\C\simeq\bar\Q_\ell$ is fixed, $G_\ell=\Gal(\bar\Q_\ell/\Q_\ell)$, and for an embedding $e\colon E\to\bar\Q_\ell$ and $g\in G_\ell$ the complex embedding $\iota^{-1}\circ g^{-1}\circ e$ of $E$ is written $\sigma_g$; $\epsilon_\sigma=\pm1$ is the sign of $\sigma$ for the
+CM type. The \emph{b-places} are the places of $E$ of weight $b$ (\cref{def:data}(D3)); they have class $-1$ modulo $q_0$ and are sparse. A \emph{Ribet cocycle} of $\rho$ with values in a module $B$ is a cocycle obeying the linear relations
+among the families $(u_x(g)-1)_x$; the \emph{crystalline relations} of a lattice $u$ are the linear relations that hold on its crystalline cocycles at the places above $\ell$, extended by zero to the global Galois group.
+
+\begin{lemma}[Signs and spacing of b-places]\label{lem:b-places}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The field $E$ lies in the cyclotomic field of order $q_1d$; hence an element of $G_\ell$ that fixes the roots of unity of that order fixes every $e(E)$. A complex embedding $\sigma$ sends $\sqrt{-d}$ to $\epsilon_\sigma$ times the chosen root, and the embedding of the CM type at the place of
+$\sigma$ sends $\zeta$ to $\sigma(\zeta)^{\epsilon_\sigma}$.
+\item If $g'g^{-1}$ raises $e(\zeta)^{\ell^a}$ to the power $\ell^n$, the ratio of the places of $\sigma_g$ and $\sigma_{g'}$ in $\Phi\cong(\Z/q_1)^\times$ reduces, modulo every divisor $m$ of $q_1$ prime to $\ell^a$, to $\epsilon_{\sigma_g}\epsilon_{\sigma_{g'}}\ell^n$.
+\item (Short arcs.) If $\ell\le k\mathrm t$, $0<i<n<l_0$ and $g'g^{-1}$, $g'g_1^{-1}$ raise $e(\zeta)^{\ell^a}$ to the powers $\ell^n$, $\ell^i$, and $\sigma_g$, $\sigma_{g'}$ lie over b-places, then $\sigma_{g_1}$ does not.
+\item If $\ell\mid q_1d$ and $\sigma_g$, $\sigma_{g'}$ lie over b-places, their signs agree.
+\item A jump within $\mathrm t$ of $-\epsilon_\sigma w$, $w$ the lift weight, has modulus larger than every $B$ with $B+\mathrm t<w$; every jump of a main summand has modulus at least $h_\Delta/2$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) $E=K(\zeta)$ with $K=\Q(\sqrt{-d})\subseteq\Q(\zeta_{4d})$ and $\zeta$ of order $q_1$ (\cref{prop:field-E}); an embedding of $E$ extends to the cyclotomic field, which a root of unity generates. A complex embedding or its conjugate is chosen by the
+CM type at its place, and conjugation negates $\sqrt{-d}$; the CM type embedding at the place agrees with $\sigma$ or with $\bar\sigma$, which sends $\zeta$ to $\sigma(\zeta)^{-1}$.
+
+(b) A place $y\in\Phi$ acts on $\zeta$ as the power given by its class modulo $q_1$, and by (a) the CM embeddings of the places of $\sigma_g$, $\sigma_{g'}$ send $\zeta$ to $\sigma_g(\zeta)^{\epsilon}$, $\sigma_{g'}(\zeta)^{\epsilon'}$. Carry the resulting equation between powers of a primitive root to
+$\bar\Q_\ell$ by $\iota$, apply $g'$, raise to the power $\ell^a$, where the hypothesis applies; this gives a congruence of exponents modulo $q_1/\gcd$, and modulo $m$ the factor $\ell^a$ cancels; multiplying by $\epsilon'$, whose square is $1$, gives the claim.
+
+(c) By (b) the ratios of the places of $\sigma_{g_1}$ and $\sigma_g$ to that of $\sigma_{g'}$ are $\pm\ell^i$ and $\pm\ell^n$ modulo the part of $q_1$ prime to $\ell$; so two b-places would differ by $\pm\ell^{n-i}$ and $\pm\ell^i$ with $0<i,n-i<l_0$, which the sparseness of
+the b-places for the primes up to $k\mathrm t$ excludes.
+
+(d) Suppose the signs are opposite; then $\sigma_g(\sqrt{-d})+\sigma_{g'}(\sqrt{-d})=0$ by (a). \emph{If $\ell\mid q_1$}, let $x=e((1+\sqrt{-d})/2)$, an integer. Applying $g\circ\iota$ to the relation gives $(gg'^{-1})(x)=1-x$, so $\norm{1-x}=\norm x$, the Galois group
+acting by isometries. But $x(1-x)=(d+1)/4$, which $\ell$ divides when $\ell\mid q_1$ (from $d\equiv q_0/2-1$ modulo $q_0$ and $q_1=3^c2^sq_0$), so $\norm x^2<1$; while $1=x+(1-x)$ gives $\max(\norm x,\norm{1-x})\ge1$, a contradiction. \emph{If $\ell=d$},
+$g'g^{-1}$ raises $e(\zeta)$ to some power $d^n$, and by (b) with $m=q_0$ the ratio of the two places is $-d^n$ modulo $q_0$; both have class $-1$, so the ratio is $1$, and $d^n\equiv-1$ modulo $q_0$, which no power of $d$ satisfies.
+
+(e) If $\abs{u+\epsilon_\sigma w}\le\mathrm t$, then $\abs u\ge w-\mathrm t>B$. A main summand jump is low, $\abs u\ge\Delta/4=h_\Delta/2$, or within $\mathrm t$ of $\mp w_i$ with $w_i\ge h_\Delta\ge3\mathrm t$.
+\end{proof}
+
+\begin{proposition}[Tate duality]\label{prop:tate-dual-bound}
+Let $\Gamma\to G_\ell$ be an open embedding and $L=O^d$ a lattice of the class.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Artin--Rees.) For finitely many representations $u_x$ and a noetherian $O$, a cocycle with values in $(O/a)^d$ that obeys every linear relation among the families $(u_x(g)-1)_x$ comes from an equivariant map on a
+subrepresentation containing the families $(u_x(g)-1)_x$ and all multiples of a power of $a$.
+\item A module of maps $\Gamma\to L/\ell^m$ coming from the class has length, modulo the reductions of the crystalline cocycles of $L$, at most the defect of the Tate dual $L^\vee(1)$.
+\item If the lattices of all $u_x\circ\eta$ and of $\rho\circ\eta$ lie in the class, Ribet's cocycles of $\rho$ modulo $\ell^m$, modulo those whose restriction obeys the crystalline relations of $L$, have length at most the defect of
+$L^\vee(1)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Let $I$ be the $O$-span of the families $(u_x(g)-1)_x$ in the families of matrices. By the Artin--Rees lemma for the ideal $(a)$, for some $k$ the elements of $I$ divisible by $a^{k}$ lie in $aI$. Define $C\colon I\to(O/a)^d$ by
+$C(\sum_g\theta_g(u_x(g)-1)_x)=\sum_g\theta_gc(g)$, well defined because $c$ obeys the linear relations; it vanishes on $aI$, as $a$ kills the values. Let $Y$ be the image of the map $(\theta,v)\mapsto(\sum\theta_g(u_x(g)-1)+a^{k+1}v,\,C(\theta))$; it is the graph of the map
+$I+a^{k+1}M\to(O/a)^d$ extending $C$ by zero on $a^{k+1}M$, well defined by the choice of $k$ ($L\theta=a^{k+1}v'$ forces $L\theta\in aI$, so $C(\theta)=0$). It is stable under $g$, acting by left multiplication with $(u_x(g))_x$ and by $\rho(g)$: on the
+generators this is the cocycle rule $c(gh)=c(g)+gc(h)$ and $u(g)(u(h)-1)=(u(gh)-1)-(u(g)-1)$. Its points are determined by their first component, and it contains $((u_x(g)-1)_x+a^kv,c(g))$.
+
+(b) Let $N$ be the module, $A$ the reductions of the crystalline cocycles of $L$ and $H$ the crystalline cocycles of $L^\vee(1)$ orthogonal to the class. \emph{Pairings.} The evaluation pairing of $L^\vee(1)$ with $L$ gives a perfect pairing into
+$\Z_\ell(1)$, and modulo $\ell^m$ the reduction $\tau\colon L\to L/\ell^m$ is onto, equivariant and has kernel $\ell^mL$; $L/\ell^m$ is a discrete module, since a crystalline cocycle of a lattice of the class is continuous. \emph{Members of $N$ are
+orthogonal to $H$.} Let $t\circ a\in N$ with $a$ a crystalline cocycle of $Y$ in the class. Lift $t$ to a linear $q\colon Y\to L$, equivariant modulo $\ell^m$; then $g\,q-q=\ell^m\delta_g$ with linear $\delta_g\colon Y\to L$, and the forms $y\otimes\varphi\mapsto\varphi(\delta_gy)$ give
+a crystalline cocycle of the Tate dual of $Y\otimes L^\vee(1)$, crystalline cocycles being saturated. Hence the pairing $(y,\varphi)\mapsto\varphi(q(y))$ modulo $\ell^m$ is one of the pairings tested in the definition of orthogonality, and the cup product of $q\circ a$
+and $z\in H$ under it is that of $a$ and $z$, a coboundary. \emph{Local duality.} By the inequality of local duality for crystalline cocycles (\cref{thm:B-padic}(b)), the index of $N\cap A$ in $N$ divides the index of $H$ in the crystalline cocycles $Z$ of
+$L^\vee(1)$, as $N$ and $A$ are orthogonal to $H$ and $A$ is the exact annihilator of $Z$ modulo $\ell^m$. A relative index is the cardinality of the quotient, so the lengths compare.
+
+(c) By (a), applied to the $u_x\circ\eta$ and $\rho\circ\eta$, the restriction along $\eta$ of a Ribet cocycle $w$ comes from the class: $Y$ is a subrepresentation of the families of matrices times the values, which contains the family $(\ell^m)^k\cdot1$ (as
+$u_x(1)=1$), and the second component is an equivariant map carrying the crystalline cocycle $g\mapsto((u_x(\eta g)-1)_x,w(\eta g))$ of $Y$ to $w\circ\eta$; $Y$ lies in the class, being a sublattice of a sum of lattices of the class, and crystalline cocycles are saturated.
+Hence the module of restrictions lies in $N$ of (b), and a Ribet cocycle whose restriction is in $A$ obeys the crystalline relations of $L$; apply (b).
+\end{proof}
+
+\subsection{The defect of a crystalline lattice}\label{ss:defect-crystalline}
+The \emph{size conditions} on $(Q,m,h,G,b,\delta,\eta,W)$ are $Q>0$, $99(Q^2+(W+1)Q+Q+W+m)\le h$, $99h^3\le G$, $99(Gh^3+G)\le b$, $2\log(4b)<m$,
+$\delta<\eta$ and $99((\eta+W)Q+\eta+h)\le h^3$.
+\lean{New.Selmer.matrixLattice, New.Selmer.finrank_crysCocycles_eq_add_neg_jumps, New.Selmer.normLength_dualDefect_le_of_hasCupExponent, New.Selmer.le_crystallineLoss_of_pow_dvd, New.Selmer.two_mul_lt_mul_crystallineLoss_succ, New.Selmer.cube_le_crystallineLoss_of_dvd, New.Selmer.natLog_lt_of_two_mul_log_lt, New.Selmer.noMultipleNear_of_forall_not_dvd, New.Selmer.CrystallineSizes, New.Selmer.HasFewLowJumps, New.Selmer.LettersReadThick, New.Selmer.fitsWindows_letterJumps, New.Selmer.CrystallineSizes.differentBound_mul_add_log_le, New.Selmer.LettersReadThick.hasCupExponent_of_le, New.Selmer.CrystallineSizes.hasCupExponent_of_cube_le, New.Selmer.CrystallineSizes.noMultipleNear, New.Selmer.normLength_dualDefect_le_of_noMultipleNear, New.Selmer.normLength_dualDefect_le_of_crystallineSizes}
+
+\begin{lemma}[The crystalline loss]\label{lem:crystalline-loss}
+Let $\lambda=\lambda(h,b,\ell)$ be the crystalline loss.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $\ell^n$ divides $(2b)!\,\Pi^{h^3}$, then $n\le\lambda$; and $2b<\ell(\lambda+1)$.
+\item If $\ell$ divides an integer in $(b-30h^3,b+30h^3]$, then $\lambda\ge h^3$.
+\item If $H\le4b$ and $2\log(4b)<m$, then $\lfloor\log_\ell H\rfloor<m$.
+\item If $\ell>G+\delta+n$ divides no integer in $(b-c,b+c]$ and $\delta+n<c$, then $\ell$ divides no nonzero integer within $n$ of $0$, $\pm(b+\delta)$ or $\pm(G+\delta)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The first claim is the definition of the valuation. By Legendre's formula $v_\ell((2b)!)\ge\lfloor2b/\ell\rfloor$, so $\lambda\ge\lfloor2b/\ell\rfloor>2b/\ell-1$. (b) The factor $\Pi^{h^3}$ then has valuation at least $h^3$. (c) $\log\ell\ge\log2>1/2$, so
+$\lfloor\log_\ell H\rfloor\le2\log(4b)<m$. (d) A nonzero multiple of $\ell$ has modulus at least $\ell>G+\delta+n$, so it is not within $n$ of $0$ or $\pm(G+\delta)$; near $\pm(b+\delta)$ it would lie in $(b-c,b+c]$, as $\delta+n<c$.
+\end{proof}
+
+\begin{theorem}[Defect of a crystalline lattice]\label{thm:crystalline-defect}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Rank.) For a potentially crystalline lattice $L$ whose jumps at the embeddings over a place are given multisets, the rank of the crystalline cocycles is $\operatorname{rk}L$ plus the number of negative jumps.
+\item If $L$ has cup exponent $k$ for $\mathcal Q$, the normalised defect is at most $2k\operatorname{rk}L\cdot[G_\ell:\Gamma]$.
+\item Assume the size conditions; let the jumps of the class lie in $[-\eta,\eta]\cup(-\epsilon_\gamma)[a,a+W]$ and those of the crystalline lattice $L$ in $[-\eta,\eta]\cup\epsilon_\gamma[a,a+W]$, with $a=b+\delta$ at thick and $a=G+\delta$ at
+thin embeddings; and assume either that all negative jumps are at most $-h/2$ and at most $\mu$ jumps of $L$ at each embedding lie in $[-\eta,\eta]$, or that all jumps of $L$ lie in $[-\eta,0]$. Let $\lambda$ be the
+crystalline loss of $(h,b,\ell)$. Then, for a Kummer chart of $\Gamma$ of ramification at most $h$ (with the conditions on thick letters when $\ell\le Q$), the normalised defect is at most $[G_\ell:\Gamma]\cdot y$ for every
+$y\ge10^5\bigl(\operatorname{rk}L\cdot\lfloor2\lambda/Q\rfloor\,m+\mu\lambda\bigr)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) Over $\Z_\ell$ the Bloch--Kato rank formula (\cref{thm:B-padic}(a)) gives $\operatorname{rk}_{\Z_\ell}L$ plus the index $[G_\ell:\Gamma]$ times the number of negative jumps over all embeddings of $O$, counted with multiplicity. Every embedding of $O$ is
+$x\mapsto g(x)$ for some $g\in G_\ell$, and $g\mapsto\sigma_g$ gives, as $g$ runs over coset representatives, each complex embedding of the place $[G_\ell:\Gamma]$ times; counting the jumps at the pairs (embedding of $O$, complex embedding) in two ways and
+dividing by $[O:\Z_\ell]$ gives the rank over $O$.
+
+(b) The defect is the length of a quotient of $Z_f(L)/\ell^kZ_f(L)\cong(O/\ell^k)^{r}$, $r$ the $O$-rank of $Z_f(L)$, which has normalised length $rk$. By (a), $r\le\operatorname{rk}L+[G_\ell:\Gamma]\cdot\#\{\text{negative jumps}\}\le2[G_\ell:\Gamma]\operatorname{rk}L$, at most $\operatorname{rk}L$
+jumps at each embedding being negative.
+
+(c) Write $\lambda$ for the loss and $K=\lfloor2\lambda/Q\rfloor$, so $2\lambda<(K+1)Q$. \emph{The windows at the letters.} At a letter of the chart (a unit of $\F_{\ell^f}$, read through the Teichm\"uller lift and Fontaine's $\theta$) collect the jump sets of the
+embeddings $g$ with $g(\zeta)$ equal to its root of unity; at thick letters, and at all letters if $\ell>Q$, thickness and sign are read off the letter, so the collected sets lie in the low window and opposite far windows, the low window
+widened to $[-2G,2G]$ if $\ell\le Q$ (it contains $[-\eta,\eta]$ and the far windows of thin letters, as $\eta\le G$ and $\delta+W\le G$). \emph{An exponent suffices.} If some power $\ell^{10^4Kx}$ with $x\le m$ carries the crystalline cocycles into the
+orthogonal of the class, then by (b) the normalised defect is at most $[G_\ell:\Gamma]\cdot2\cdot10^4Kx\operatorname{rk}L\le[G_\ell:\Gamma]y$. \emph{Small primes} $\ell\le Q$: the thick letters are sparse with gaps measured up to $J=\lfloor\log_\ell h^3\rfloor$, so
+\cref{thm:cup-exponents}(c) applies with the low window $[-2G,2G]$; its conditions follow from the size conditions and $2(b+\delta)<h^2K'$ for a suitable $K'\le K$, and the exponent is $10^4K(\lfloor\log_\ell h^3\rfloor+1)$ with
+$\lfloor\log_\ell h^3\rfloor+1\le m$ by \cref{lem:crystalline-loss}(c). \emph{Large primes, large loss} $\ell>Q$, $\lambda\ge h^3$: the chart is unramified and $\ell\ge7$, and \cref{thm:cup-exponents}(b) applies, as $2b<\ell(\lambda+1)$ and $2\lambda<(K+1)Q$ give the
+size conditions $b<K\ell^2$, $2G<K\ell$; the exponent is $10^4Km$. \emph{Large primes, small loss} $\lambda<h^3$: by \cref{lem:crystalline-loss}(b) $\ell$ divides no integer in $(b-30h^3,b+30h^3]$, so by \cref{lem:crystalline-loss}(d) $\ell$ divides no nonzero
+integer within $6(2(\lambda+1)+\eta+W)$ of $0$ or $\pm a$. Then \cref{thm:cup-exponents}(a) with $a=2(\lambda+1)$ applies: the defect vanishes if the jumps avoid $[-2(\lambda+1),0)$ or $U'\subseteq[-\eta,0]$, and when at most $\mu$ jumps of $L$
+lie in $[-\eta,\eta]$ at each embedding it is at most $11f(\mu(2(\lambda+1)+1)+\operatorname{rk}L\cdot(W+1))$ times the length of $O/\ell$, which is $1$ after normalisation. If $\lambda<h/5$ and the negative jumps are at most $-h/2$, the jumps avoid
+$[-2(\lambda+1),0)$, as $2(\lambda+1)<h/2$, and the defect vanishes; so does it in the second alternative. Otherwise $\lambda\ge h/5$; then $2(\lambda+1)+1\le6\lambda$, and $(W+1)Q\le h/99\le2\lambda<(K+1)Q$ by the size conditions, so $W+1\le K$. With
+$f=[G_\ell:\Gamma]$ for the unramified chart the defect is at most $[G_\ell:\Gamma]\cdot11(6\mu\lambda+\operatorname{rk}L\cdot K)\le[G_\ell:\Gamma]y$.
+\end{proof}
+
+\subsection{The loss of a lift}\label{ss:loss-lift}
+\lean{New.Selmer.isTameType_of_roots, New.Selmer.localLattice, New.Selmer.IsLatticeIn.exists_equivariant_embedding, New.Selmer.IsLatticeIn.isAdmissible_localLattice, New.Selmer.IsLatticeIn.isKilledBy_localLattice, New.Selmer.IsConjSelfDualOfLevel.eq_one_of_mem_inertiaAbove, New.Selmer.complexEmbeddingAt, New.Selmer.crystallinityFilter, New.Selmer.KillsAboveM, New.Selmer.jumpSetAt, New.Selmer.IsConjSelfDualOfLevel.hasJumps_localLattice, New.Selmer.IsConjSelfDualOfLevel.inClass_localLattice, New.Selmer.hasJumps_and_inClass_localLattice}
+\lean{New.Selmer.farWindowStart, New.Selmer.fitsWindows_and_image_neg_sub_one, New.Selmer.sum_count_neg_sub_one_le, New.Selmer.smul_eq_pow_of_coefficientEmbedding_eq_pow, New.Selmer.complexEmbeddingOf_eq_of_coefficientEmbedding_eq, New.Selmer.pow_ordProj_pow_sub_one_eq_one, New.Selmer.notMem_bPlaces_of_coefficientEmbedding_eq_pow, New.Selmer.eventually_exists_lettersReadThick, New.Selmer.mem_range_of_modEq_one, New.Selmer.IsMainSummandWeights.le_two_mul_natAbs, New.Selmer.two_mul_tame_exponent_le_defectBound, New.Selmer.crystalline_bound_le_defectBound, New.Selmer.IsSummandClass, New.Selmer.crystallineSizes_data, New.Selmer.hasFewLowJumps_tateDual_of_isMainSummandWeights, New.Selmer.subset_Icc_of_jump_eq_single, New.Selmer.normLength_dualDefect_le_defectBound_of_isTameType, New.Selmer.normLength_dualDefect_le_of_isSummandClass, New.Selmer.summand_defect_le_at_place}
+
+\begin{lemma}[Local lattices and the summand classes]\label{lem:local-lattices}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A class of polynomials that contains those vanishing on a multiset of at most $N$ roots of unity of orders dividing $\ell^a-1$, $1\le a\le r$, is a tame type: it contains $X^e-1$, $e=\operatorname{lcm}(\ell^i-1)_{i\le r}$, and a monic polynomial
+over $\Z_\ell$ of degree at most $Nr$.
+\item A lattice in a conjugate self-dual representation $R$ of level $S$ has at a place $w$ above $\ell$ the jumps of $R$ at $\sigma_g$, is potentially crystalline, crystalline unless $w$ lies above $p_0p_1$, and if $w$ lies above $p_0p_1$ every
+polynomial killing an inertia element on all members of a class of such $R$ kills it on the lattice; $R$ is trivial on inertia above places off $S$ and $\ell M$.
+\item If $\ell=p_i$, $0<x\le\mathrm t$, then twice the tame exponent $3r^2((r+t)r+1)^2+150(h_\Delta^2+4\mathrm t+2)$ is at most $\mathrm{defect}_\ell/x$; and $10^5(\rho\lfloor2\lambda/(k\mathrm t)\rfloor m+\lfloor\rho m/(kx)\rfloor\lambda)\le\rho\,\mathrm{defect}_\ell/x$.
+\item The data satisfy the size conditions with $Q=k\mathrm t$, $h=h_\Delta$, $G$ the off weight, $b$ the weight, $\eta=h^2+1$, $W=4\mathrm t$ and $\delta=i\Delta+h-2\mathrm t$, $i\le m$. The jumps of a main summand and of the characters fit the windows
+starting at $w_i-2\mathrm t$, the Tate dual of a main summand has few low jumps ($\mu=\lfloor r m/k\rfloor$), and the dual of a character with jump $c<\mathrm t$ has its jump $-c-1$ in $[-h^2-1,0]$.
+\item There is a Kummer chart of each completion group, of degree $[G_\ell:\Gamma]$ and ramification at most $h_\Delta$, with an element $\zeta$ reading thickness and sign: for every $g$ if $\ell>k\mathrm t$, and at b-places otherwise; the chart is
+unramified with $\ell\ge7$, or $\ell\le k\mathrm t$ and the signs at b-places are constant; and for $\ell\le k\mathrm t$ no three b-letters follow one another at distances at most $\log_\ell h_\Delta^3$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) A root of $y^{\ell^a-1}=1$ is a Teichm\"uller lift in the unramified ring of degree $a\le r$, so its minimal polynomial over $\Z_\ell$ is monic of degree at most $r$; take the product over the multiset. Each root is killed by $X^{\ell^a-1}-1$,
+which divides $X^e-1$.
+
+(b) A lattice is conjugate over $\bar\Q_\ell$ to $R$ by an equivariant injective map, which passes admissibility (the periods fixed near $1$ and along the filter span), the Hodge--Tate jumps (unchanged by extension of scalars) and the
+killing polynomials from $R$ to the lattice. At a place off $S$ and $\ell M$, $R$ is good and $\ell$ is a unit there, so it is trivial on inertia.
+
+(c) Comparisons of sizes (\cref{rem:magnitudes}): the tame exponent is polynomial in $\mathrm r$, while $\mathrm{defect}_\ell/x\ge10^6\frac mk\,b\,v_\ell(M)/\mathrm t$ with $v_\ell(M)\ge1$ and $b\ge x^{999}$. For the second, $\lfloor2\lambda/(k\mathrm t)\rfloor\le2\lambda/(kx)$ and
+$\lfloor\rho m/(kx)\rfloor\le\rho m/(kx)$, so the left side is at most $3\cdot10^5\rho m\lambda/(kx)\le\rho\,\mathrm{defect}_\ell/x$.
+
+(d) The size conditions are comparisons of logarithmic scales (\cref{prop:sizes}). A jump of the main summand is low or within $\mathrm t$ of $\mp w_i=\mp(S+2\mathrm t)$, $S$ the window start, so it lies in $[-\eta,\eta]\cup-\epsilon[S,S+4\mathrm t]$, and $-u-1$ in the opposite
+window. The low dual jumps $-a-1\in[-h^2-1,h^2+1]$ are at most as many as the $a$ with $\abs a\le2h^2$, hence at most $\lfloor rm/k\rfloor$ (\cref{def:main-summand}), and the negative ones are at most $-h/2$ by \cref{lem:b-places}(e). For a character,
+$-c-1\in[-\mathrm t,0]\subseteq[-h^2-1,0]$.
+
+(e) If $\ell\nmid q_1d$, inertia fixes $E$, the chart is unramified, and a letter $g(\zeta)$, $\zeta$ a primitive $(\ell^f-1)$-th root of unity, determines the embedding $\sigma_g$: $gg'^{-1}$ fixes the constants and the image $-\ell$ of the variable of the
+chart, hence lies in the image of $\Gamma$; take $T$ and $s$ to read off the b-place and the sign. Otherwise $\ell\le k\mathrm t$ (the conductor being small against $k\mathrm t$), the signs at b-places are constant by \cref{lem:b-places}(d), and the
+letters of b-places are sparse by \cref{lem:b-places}(c): if $g_1(\zeta)=g_0(\zeta)^{\ell^a}$ and $g_2(\zeta)=g_0(\zeta)^{\ell^{a+b}}$ with $1\le a,b\le\lfloor\log_\ell h_\Delta^3\rfloor$, then $g_2g_0^{-1}$ and $g_2g_1^{-1}$ raise the prime-to-$\ell$ part of $\zeta$ to the powers
+$\ell^{a+b}$ and $\ell^b$, with $a+b<l_0$. The ramification of the chart is at most $h_\Delta$ because the completions of $E$ have ramification dividing $q_1d$ over $\Q_\ell$, small against $h_\Delta$.
+\end{proof}
+
+\begin{theorem}[The local loss]\label{thm:local-loss}
+Let $V$, $c$ be a lift setting for $\vartheta$, $R$ a main summand of rank $r'$, and $\rho_x$ representations of type $c$ (with $(X-1)^t$). Over every large coefficient ring, let $u_x$ be lattices in the $\rho_x$ and, for one
+index $\pi$, $u_\pi$ block diagonal with summands $T$ (a lattice in $R$ above $\ell$) and the characters $O(-e)$, $e<t$. Then at each place $v$ above $\ell$ there is a class of local lattices containing the restrictions of all
+$u_x$ and of the summands of $u_\pi$, and the normalised defects of the $t+1$ summands at all places above $\ell$ add up to at most $r'\,\mathrm{loc}_\ell$, $\mathrm{loc}_\ell=4f\,\mathrm{defect}_\ell$.
+\end{theorem}
+
+\begin{proof}
+\emph{The class at $v$.} Take the class with the crystallinity filter (potentially crystalline if $v$ lies above $p_0p_1$, crystalline otherwise), the jumps of the representations of the type at the complex embeddings of the place, and, above
+$p_0p_1$, the polynomials killing the inertia elements on every representation of the type. By \cref{lem:local-lattices}(b) the restrictions of the $u_x$ lie in it; the summands of $u_\pi$ embed equivariantly in $u_\pi$, so they belong to it too,
+and every jump of $u_\pi$ is a jump of some summand. Above $p_0p_1$ the class is tame by \cref{lem:local-lattices}(a): inertia acts through roots of unity of orders dividing some $\ell^a-1$, $a\le\mathrm r$ (the inertia spectrum,
+\cref{lem:lift-settings}), at most $(\mathrm r+\mathrm t)$ in number. \emph{One summand at $v$.} In the tame case $\ell=p_i$, and \cref{thm:cup-exponents}(d) gives a cup exponent at most the tame exponent, so by \cref{thm:crystalline-defect}(b) and
+\cref{lem:local-lattices}(c) the normalised defect of the dual of a summand of rank $\rho$ is at most $[G_\ell:\Gamma]\rho\,\mathrm{defect}_\ell/x$, with $x=1$ for the main summand and $x=\mathrm t$ for a character. In the crystalline case apply
+\cref{thm:crystalline-defect}(c) with the sizes, windows and few low jumps of \cref{lem:local-lattices}(d), the chart of \cref{lem:local-lattices}(e), $Q=k\mathrm t$ and $\mu=\lfloor\rho m/(kx)\rfloor$; by \cref{lem:local-lattices}(c) the bound is again
+$[G_\ell:\Gamma]\rho\,\mathrm{defect}_\ell/x$. \emph{The sum.} The local degree $[G_\ell:\Gamma_v]$ counts the complex embeddings of $E$ that belong to $v$, and distinct places above $\ell$ have disjoint sets of embeddings, so the local degrees add up to at
+most $2f$. The main summand costs at most $2f\,r'\,\mathrm{defect}_\ell$ and the $t\le\mathrm t$ characters together at most $2f\,t\,\mathrm{defect}_\ell/\mathrm t\le2f\,r'\,\mathrm{defect}_\ell$, as $r'\ge1$; the total is at most $4f\,r'\,\mathrm{defect}_\ell=r'\,\mathrm{loc}_\ell$.
+\end{proof}

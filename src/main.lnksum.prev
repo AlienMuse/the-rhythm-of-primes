@@ -1,0 +1,97 @@
+\RPleansumrow{1}{Introduction}{3}{2}{9}
+\RPleansumfolders{\mbox{Main}, \mbox{Statements}.}
+\RPleansumrow{4}{A weighted prime sum and its Laplace transform}{15}{9}{21}
+\RPleansumfolders{\textit{New:} \mbox{Reduction.Zeros}; \textit{Lib:} \mbox{Analytic.EntireLFunction}.}
+\RPleansumrow{5}{Landau's lemma and the one-sided criterion}{18}{8}{8}
+\RPleansumfolders{\textit{Lib:} \mbox{Analytic.Landau}, \mbox{Analytic.QuadraticTwist}; \textit{New:} \mbox{Reduction.Zeros}.}
+\RPleansumrow{6}{The prime number theorem for the remainders}{21}{6}{13}
+\RPleansumfolders{\textit{New:} \mbox{Reduction.Zeros}, \mbox{Reduction.OneSidedBound}; \textit{Lib:} \mbox{Analytic.PrimeNumberTheorem}.}
+\RPleansumrow{7}{Heights and twisted lattices}{23}{14}{40}
+\RPleansumfolders{\textit{New:} \mbox{Reduction.Lattices}.}
+\RPleansumrow{8}{The parameters and the data}{28}{14}{74}
+\RPleansumfolders{\textit{New:} \mbox{Reduction.Data}, \mbox{Reduction.PrimeSums}, \mbox{Reduction.Zeros}; \textit{Lib:} \mbox{General.NumberTheory}, \mbox{Analytic.Primes}.}
+\RPleansumrow{9}{Prime sums, the three theorems and the main inequality}{34}{11}{38}
+\RPleansumfolders{\textit{New:} \mbox{Reduction.Data}, \mbox{Reduction.PrimeSums}, \mbox{Reduction.ShortAndEnough}, \mbox{Determinant.Twist}, \mbox{Reduction.MainInequality}, \mbox{Reduction.OneSidedBound}, \mbox{Main}; \textit{Lib:} \mbox{Analytic.ZeroSymmetry}.}
+\RPleansumrow{10}{The field \texorpdfstring {$E$}{E} at a prime}{40}{16}{124}
+\RPleansumfolders{\textit{New:} \mbox{Derivatives.Field}; \textit{Lib:} \mbox{ClassField.HeckeCharacter}.}
+\RPleansumrow{11}{The theta function of a CM curve at a non-split prime}{45}{9}{108}
+\RPleansumfolders{\textit{Lib:} \mbox{General.NumberTheory}, \mbox{CM.FormalGroup}, \mbox{CM.Sigma}, \mbox{CM.Integrality}, \mbox{General.Algebra}; \textit{New:} \mbox{Derivatives.FormalGroup}, \mbox{Reduction.Data}, \mbox{Derivatives.Divisibility}.}
+\RPleansumrow{12}{Couplings, the normal form and the count}{51}{13}{128}
+\RPleansumfolders{\textit{New:} \mbox{Derivatives.Divisibility}, \mbox{Derivatives.FormalGroup}; \textit{Lib:} \mbox{CM.Integrality}, \mbox{Weil.Construction}, \mbox{GLn.SchurModule}.}
+\RPleansumrow{13}{The integral vacuum and standard data}{58}{21}{229}
+\RPleansumfolders{\textit{Lib:} \mbox{Weil.Construction}, \mbox{Adelic.Unitary}, \mbox{General.LinearAlgebra}, \mbox{Weil.MixedModel}, \mbox{Weil.Fock}, \mbox{CM.ChowlaSelberg}, \mbox{General.NumberTheory}, \mbox{Adelic.AutomorphicForms}, \mbox{CM.FormalGroup}; \textit{New:} \mbox{Derivatives.Vacuum},}
+\RPleansumfolders{\mbox{Derivatives.Field}, \mbox{UpperBound.Size}, \mbox{Derivatives.Sharpness}.}
+\RPleansumrow{14}{The divisibility is attained}{68}{11}{177}
+\RPleansumfolders{\textit{New:} \mbox{Derivatives.Sharpness}; \textit{Lib:} \mbox{CM.Integrality}.}
+\RPleansumrow{15}{Spaces, weights and forms}{79}{12}{334}
+\RPleansumfolders{\textit{New:} \mbox{Reduction.Data}, \mbox{UpperBound.Objects}, \mbox{UpperBound.Seesaw}; \textit{Lib:} \mbox{DiscreteSeries.Theta}, \mbox{DiscreteSeries.FlenstedJensen}, \mbox{Weil.Lift}, \mbox{LocalGL.Green}, \mbox{General.Groups}, \mbox{Weil.Periods}.}
+\RPleansumrow{16}{Chains of lifts, the composite lift and the Poincar\'e map}{89}{11}{269}
+\RPleansumfolders{\textit{Lib:} \mbox{Weil.CompactLift}, \mbox{General.LinearAlgebra}, \mbox{Adelic.Hecke}, \mbox{Shimura.HeckeTower}, \mbox{GLn.Branching}, \mbox{Weil.Periods}; \textit{New:} \mbox{UpperBound.Objects}, \mbox{UpperBound.Size}, \mbox{UpperBound.Seesaw}.}
+\RPleansumrow{17}{Theta kernels between definite spaces}{97}{6}{102}
+\RPleansumfolders{\textit{Lib:} \mbox{Weil.DualPair}, \mbox{Adelic.AutomorphicForms}; \textit{New:} \mbox{UpperBound.Kernels}, \mbox{OneLift.ComparisonOperator}, \mbox{UpperBound.Seesaw}.}
+\RPleansumrow{18}{The seesaw identity}{103}{15}{459}
+\RPleansumfolders{\textit{Lib:} \mbox{Weil.Periods}, \mbox{Adelic.AutomorphicForms}; \textit{New:} \mbox{UpperBound.Seesaw}, \mbox{Reduction.Lattices}, \mbox{UpperBound.Divisibility}.}
+\RPleansumrow{19}{Divisibility of the composite lift}{122}{13}{288}
+\RPleansumfolders{\textit{New:} \mbox{UpperBound.Size}, \mbox{UpperBound.Divisibility}, \mbox{UpperBound.Objects}, \mbox{Reduction.ShortAndEnough}; \textit{Lib:} \mbox{Adelic.AutomorphicForms}, \mbox{GLn.SchurModule}.}
+\RPleansumrow{20}{Size of the composite lift and the proof of Theorem~A}{136}{7}{112}
+\RPleansumfolders{\textit{New:} \mbox{UpperBound.Size}, \mbox{Spanning.Unfolding}, \mbox{Reduction.IntegralTargetForms}, \mbox{Reduction.Data}, \mbox{Determinant.Chain}, \mbox{Reduction.ShortAndEnough}, \mbox{Spanning.SecondMoment}.}
+\RPleansumrow{21}{Elementary divisors of edge Hecke operators}{143}{14}{406}
+\RPleansumfolders{\textit{New:} \mbox{UpperBound.ElementaryDivisors}, \mbox{Spanning.SecondMoment}; \textit{Lib:} \mbox{General.Groups}, \mbox{General.Algebra}, \mbox{GLn.SchurModule}.}
+\RPleansumrow{22}{The second moment and the spanning theorem}{156}{6}{50}
+\RPleansumfolders{\textit{New:} \mbox{Spanning.SecondMoment}, \mbox{Reduction.ShortAndEnough}; \textit{Lib:} \mbox{Adelic.Unitary}.}
+\RPleansumrow{23}{Equality of multiplicities}{159}{2}{58}
+\RPleansumfolders{\textit{New:} \mbox{Spanning.Multiplicities}; \textit{Lib:} \mbox{Adelic.TraceFormula}.}
+\RPleansumrow{24}{Bessel functions at a real place}{162}{15}{248}
+\RPleansumfolders{\textit{Lib:} \mbox{DiscreteSeries.Bessel}, \mbox{General.Groups}, \mbox{DiscreteSeries.Bruhat}; \textit{New:} \mbox{Spanning.Bessel}.}
+\RPleansumrow{25}{Filling data and the unfolding of the second moment}{176}{7}{184}
+\RPleansumfolders{\textit{Lib:} \mbox{General.Groups}; \textit{New:} \mbox{Spanning.Unfolding}, \mbox{Spanning.RemainingTerms}, \mbox{Spanning.SecondMoment}.}
+\RPleansumrow{26}{Terms, cells and the filling theorem}{185}{9}{158}
+\RPleansumfolders{\textit{New:} \mbox{Spanning.RemainingTerms}, \mbox{Spanning.Unfolding}; \textit{Lib:} \mbox{General.Groups}, \mbox{General.Measure}, \mbox{General.LinearAlgebra}.}
+\RPleansumrow{27}{The remaining terms}{193}{26}{633}
+\RPleansumfolders{\textit{New:} \mbox{Spanning.RemainingTerms}; \textit{Lib:} \mbox{General.NumberTheory}, \mbox{General.LinearAlgebra}, \mbox{General.Measure}.}
+\RPleansumrow{28}{The main term}{216}{17}{266}
+\RPleansumfolders{\textit{New:} \mbox{UpperBound.Objects}, \mbox{Spanning.MainTerm}, \mbox{Spanning.SecondMoment}, \mbox{Spanning.Unfolding}, \mbox{Spanning.Frames}, \mbox{Spanning.Bessel}; \textit{Lib:} \mbox{LocalGL.Green}, \mbox{DiscreteSeries.Bruhat}, \mbox{General.Measure}.}
+\RPleansumrow{29}{Local band limits}{231}{23}{747}
+\RPleansumfolders{\textit{New:} \mbox{Spanning.Frames}.}
+\RPleansumrow{30}{The norm of one lift}{255}{5}{67}
+\RPleansumfolders{\textit{New:} \mbox{Determinant.Norms}.}
+\RPleansumrow{31}{The exchange identity}{259}{28}{268}
+\RPleansumfolders{\textit{New:} \mbox{Determinant.Exchange}.}
+\RPleansumrow{32}{The norm of the chain}{286}{15}{183}
+\RPleansumfolders{\textit{New:} \mbox{Determinant.Chain}.}
+\RPleansumrow{33}{Auxiliary forms}{298}{19}{390}
+\RPleansumfolders{\textit{New:} \mbox{Determinant.AuxiliaryForms}, \mbox{Determinant.Twist}.}
+\RPleansumrow{34}{The comparison operator}{317}{15}{386}
+\RPleansumfolders{\textit{New:} \mbox{OneLift.ComparisonOperator}, \mbox{OneLift.LiftVolumeHeight}.}
+\RPleansumrow{35}{False lifts and Hecke values}{333}{19}{326}
+\RPleansumfolders{\textit{New:} \mbox{OneLift.TestedForms}, \mbox{OneLift.FalseLifts}, \mbox{OneLift.HeckeValues}.}
+\RPleansumrow{36}{The cost of one lift and the proof of Theorem C}{356}{6}{24}
+\RPleansumfolders{\textit{New:} \mbox{Determinant.Twist}, \mbox{Congruences.FitTwistsExist}, \mbox{OneLift.LiftVolumeHeight}.}
+\RPleansumrow{37}{Galois representations of lifts}{361}{7}{124}
+\RPleansumfolders{\textit{New:} \mbox{Congruences.GaloisRepresentations}.}
+\RPleansumrow{38}{Ribet's method to first order}{369}{8}{245}
+\RPleansumfolders{\textit{New:} \mbox{Congruences.FirstOrder}; \textit{Lib:} \mbox{General.LinearAlgebra}, \mbox{General.Algebra}.}
+\RPleansumrow{39}{Even classes and triangles of auxiliary places}{378}{5}{105}
+\RPleansumfolders{\textit{New:} \mbox{Congruences.FirstOrder}.}
+\RPleansumrow{40}{The bound for denominators}{383}{7}{145}
+\RPleansumfolders{\textit{New:} \mbox{Congruences.FirstOrder}.}
+\RPleansumrow{41}{The local loss above \texorpdfstring {$\ell $}{l}}{392}{6}{86}
+\RPleansumfolders{\textit{New:} \mbox{Congruences.LocalLoss}.}
+\RPleansumrow{42}{Cup products of crystalline classes}{398}{23}{410}
+\RPleansumfolders{\textit{New:} \mbox{Congruences.Lifting}.}
+\RPleansumrow{43}{Selmer data and the descent}{423}{13}{177}
+\RPleansumfolders{\textit{New:} \mbox{Congruences.Selmer}.}
+\RPleansumrow{44}{The twisting theorem}{434}{17}{247}
+\RPleansumfolders{\textit{New:} \mbox{Congruences.Selmer}; \textit{Lib:} \mbox{General.Algebra}, \mbox{General.NumberTheory}.}
+\RPleansumrow{45}{Regular families of twists}{446}{4}{19}
+\RPleansumfolders{\textit{New:} \mbox{Congruences.FitTwistsExist}.}
+\RPleansumrow{A}{Discrete series with a large gap}{451}{10}{263}
+\RPleansumfolders{\textit{New:} \mbox{Appendix.DiscreteSeries}.}
+\RPleansumrow{B}{Background results in the form used}{457}{41}{1533}
+\RPleansumfolders{\textit{Lib:} \mbox{Analytic.PrimeNumberTheorem}, \mbox{Analytic.Primes}, \mbox{Analytic.PolyaVinogradov}, \mbox{Analytic.DirichletTheta}, \mbox{Analytic.QuadraticTwist}, \mbox{Analytic.ZeroSymmetry}, \mbox{ClassField.Global}, \mbox{Weil.Construction}, \mbox{ClassField.HeckeCharacter},}
+\RPleansumfolders{\mbox{CM.Sigma}, \mbox{CM.ChowlaSelberg}, \mbox{CM.Integrality}, \mbox{CM.FiniteLattices}, \mbox{CM.FormalGroup}, \mbox{General.NumberTheory}, \mbox{CM.ConjugateCurve}, \mbox{GLn.SchurModule}, \mbox{GLn.Branching},}
+\RPleansumfolders{\mbox{DiscreteSeries.FlenstedJensen}, \mbox{Adelic.AutomorphicForms}, \mbox{DiscreteSeries.CuspKernel}, \mbox{DiscreteSeries.Theta}, \mbox{Weil.Lift}, \mbox{LocalGL.Green}, \mbox{Adelic.Hecke}, \mbox{Weil.Periods}, \mbox{DiscreteSeries.Bruhat},}
+\RPleansumfolders{\mbox{General.Groups}, \mbox{DiscreteSeries.Bessel}, \mbox{Weil.Unramified}, \mbox{General.Combinatorics}, \mbox{LocalGL.SphericalChainLemma}, \mbox{Adelic.TraceFormula}, \mbox{SiegelWeil.Formula}, \mbox{SiegelWeil.Mass}, \mbox{SiegelWeil.OneVector},}
+\RPleansumfolders{\mbox{SiegelWeil.Tower}, \mbox{SiegelWeil.RallisInner}, \mbox{ClassField.Local}, \mbox{GaloisRep.Main}, \mbox{GaloisRep.LocalGlobal}, \mbox{GaloisRep.Pseudocharacter}, \mbox{Shimura.IntegralModel}, \mbox{Shimura.Eigenspace}, \mbox{Shimura.Transfer},}
+\RPleansumfolders{\mbox{Shimura.CongruenceRelation}, \mbox{PadicComparison.CrystallineFrobenius}, \mbox{PadicComparison.HodgeTate}, \mbox{PadicComparison.Primitive}, \mbox{PadicHodge.Limit}, \mbox{ClassField.GreenbergWiles}, \mbox{ClassField.LocalDuality}, \mbox{PadicHodge.BlochKato}, \mbox{Cyclotomic.OddSha},}
+\RPleansumfolders{\mbox{PadicHodge.Kisin}, \mbox{PadicHodge.RadiusLemma}, \mbox{PadicHodge.TateSen}, \mbox{Cyclotomic.Kolyvagin}, \mbox{Cyclotomic.Stickelberger}, \mbox{Cyclotomic.Voronoi}.}

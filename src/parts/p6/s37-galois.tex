@@ -1,0 +1,254 @@
+\section{Galois representations of lifts}\label{sec:galois-lifts}
+
+Part~\ref{part:lower} reduced Theorem~\ref{thm:C} to the existence of a regular family of twists (\cref{thm:regular-family}): for each prime place $\iota$ over $\ell$, an $m$-fold twist
+$\xi_\iota$ whose powers have few congruences, in the sense that the denominators of the projections to the lifts are small, and whose inverse ratios of Hecke values are
+barely divisible by $\ell$. This part constructs such twists. Congruences between a lift and forms orthogonal to the lifts produce, by Ribet's method, Selmer classes
+in the Galois representations attached to the lifts (\cref{sec:ribet,sec:denominators}); the local conditions above $\ell$ cost a bounded loss
+(\cref{sec:local-loss,sec:crystalline}); and a twist ramified at new auxiliary primes makes all these Selmer groups short and keeps the ratios of Hecke values
+barely divisible (\cref{sec:selmer,sec:twisting}). \Cref{sec:fit} assembles the pieces. That denominators of projections to theta lifts give Selmer classes, and that twisting lowers Selmer ranks, is known in other settings \cite{Prasanna2006,Klosin2009,MazurRubin2010}; here the bounds are needed for all primes $\ell$ at once, summed with weights $\log\ell$.
+
+This section describes the Galois representations that occur: those attached to the eigenforms in a space of lifts are, on traces, a twisted \emph{main summand},
+independent of the twist, plus a string of powers of the inverse cyclotomic character.
+
+\subsection{Conjugate self-dual representations}\label{ss:conj-self-dual}
+Fix a prime $\ell$ and an isomorphism $\iota\colon\C\simeq\bar\Q_\ell$. Let $G=\Gal(\Omega/E)$ for the field $E$ of the data, $c$ the complex conjugation, $g^c=cgc$, and $\mathrm{cyc}$ the $\ell$-adic cyclotomic
+character. The \emph{bad places} are the places of $E$ dividing $\ell p_0p_1N$. The \emph{avatar} $\vartheta^{-1}_\ell$ of a tame character $\vartheta$ is the $\ell$-adic Galois character of the base change of $\vartheta^{-1}$ to $E$,
+through $\iota$. A continuous representation $R\colon G\to\GL_n(\bar\Q_\ell)$ is \emph{conjugate self-dual of twist $1-t$} if its trace form on the span of its image is nondegenerate and
+$\operatorname{tr}R(g^c)=\mathrm{cyc}(g)^{1-t}\operatorname{tr}R(g^{-1})$ for all $g$; it is \emph{of level $S$} with jumps $J$ if moreover, at every place $v$ outside $S$ or above $\ell p_0p_1$, it is trivial on inertia near $1$
+(potentially crystalline above $\ell$), has the Hodge--Tate jumps $J(\sigma)$ at the embeddings $\sigma$ over $v$, and is unramified (crystalline above $\ell$) if $v\nmid p_0p_1$.
+\lean{New.Data.algebraMap_mem_cycloField, New.Selmer.AbsGal, New.Selmer.placesAboveM, New.Selmer.badPlaces, New.Selmer.placesDividing_union_subset_badPlaces, New.Data.IsChosen.mem_placesAboveM, New.Selmer.star_mem_placesAboveM, New.Selmer.norm_natCast_le_norm_sub_of_pow_eq_one, New.Selmer.continuous_cyclotomicInv, New.Selmer.cyclotomicInv_frob, New.Data.TameChar.invAvatar, New.Selmer.avatar_conjGal_mul_frob, New.Selmer.avatar_conjGal_mul_avatar, New.Selmer.isLabelledAt_avatar, New.Data.TameChar.tamePart_eq_one_of_isChosen, New.Data.isChosen_levelPlaces_chosenPlace, New.Selmer.isChosen_chosenPlace, New.Selmer.IsConjSelfDual, New.Selmer.twistError, New.Selmer.selmerCocycles, New.Selmer.IsTwistedLattice, New.Selmer.IsTwistedLattice.cyclotomicChar_eq_one, New.Selmer.HasTwistedLattice, New.Selmer.crystallineSelmerLength, New.Selmer.HasDivisibleSelmerLengthLe, New.Selmer.length_selmerCocycles_le_crystallineSelmerLength, New.Selmer.HasDivisibleSelmerLengthLe.hasTwistedLattice, New.Selmer.HasDivisibleSelmerLengthLe.mono, New.Selmer.IsConjSelfDualOfLevel, New.Selmer.IsMainSummandLike, New.Selmer.IsMainSummandLike.eventually_span_eq_top_and_exists_eq_smul_one, New.Selmer.IsMainSummandLike.eventually_eq_bot_or_eq_top, New.Selmer.IsMainSummandLike.eventually_lattice_unique, New.Selmer.normalizingAvatar, New.Selmer.normalizingAvatar_eq_of_isFrob_inv, New.Selmer.normalisedRep, New.Selmer.scaledTypePoly, New.Selmer.IsLiftSetting, New.Selmer.typeProjection, New.Selmer.HasLiftTrace, New.Selmer.IsMainSummand, New.Selmer.IsRepOfType, New.Selmer.IsLiftSetting.card_le, New.Selmer.IsLiftSetting.isChosen_chosenPlace, New.Selmer.IsLiftSetting.isSymmetric_typeProjection, New.Selmer.IsLiftSetting.typeProjection_eq_self_of_mem_range, New.Selmer.IsLiftSetting.range_typeProjection_mem_invtSubmodule, New.Selmer.frequently_isSplit_notMem_places}
+We record the elementary facts about these notions that the later sections use. For a character $a$ of $[\U(1)]$ of weight $e$ and tame part $\psi$ trivial off the chosen places, and integers $k$, $j$, the
+\emph{avatar} of the algebraic Hecke character $y\mapsto a(y/\bar y)\upsilon(y)^{-k}\abs y^{j-k/2}$ is its $\ell$-adic Galois character through $\iota$ (\cref{thm:B-galois}(a) in rank one); $\upsilon$ is the splitting character
+(\cref{thm:B-splitting-character}). A matrix representation $u$ over the ring of integers $\OO$ of a finite extension of $\Q_\ell$ is a \emph{lattice} in $R$ if $R$ is conjugate over $\bar\Q_\ell$ to $u$ read in $\bar\Q_\ell$. A
+\emph{coefficient ring} is the ring of integers of a finite Galois extension of $\Q_\ell$, and \emph{all large} coefficient rings are those containing a given one.
+
+\begin{lemma}[Bad places, avatars and lattices]\label{lem:avatars}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The places above $\ell$ and above $p_0p_1$ are bad. A chosen place lies above $p_0$ or $p_1$, and so does its conjugate; the tame part of a tame character is trivial at the chosen places. Every set of places
+above $p_0p_1$ has at most $4f$ elements, and some chosen place not above $\ell$ has residue field of order $p_0$ or $p_1$.
+\item At a Frobenius element $g$ at a place $w\nmid\ell$ the inverse cyclotomic character takes the value $q_w$. Two distinct $N$-th roots of unity in $\bar\Q_\ell$ have distance at least $\abs N_\ell$.
+\item The avatar $\mu$ of $a(y/\bar y)\upsilon(y)^{-k}\abs y^{j-k/2}$ satisfies $\mu(g^c)\mu(g)=\mathrm{cyc}(g)^{2j-k}$ for all $g$. At a split place $w$ where $\psi$ is trivial at $\bar w$, inertia acts on $\mu$ through the element of the
+residue field that names $\psi_w$: an element of tame exponent $i$ is killed by $X-\iota(T^i(\text{name}))$, $T$ the faithful character of the algebraic closure of the residue field.
+\item A lattice $u$ in $R$ has the traces and determinants of $R$, is continuous if $R$ is, and is trivial where $R$ is.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) A prime ideal containing one factor of $\ell p_0p_1N$ contains the product. The chosen places divide $\pi_M$, an integer of $K$ with $\pi_M\bar\pi_M=p_0p_1$, so they lie above $p_0$ or $p_1$; the conjugates of places
+above $p_i$ lie above $p_i$. The places of the modulus of a tame character are not chosen, and its tame part is trivial off its modulus. Over each $p_i$ there are $f$ chosen places, and a place above $p_i$ is chosen or the
+conjugate of a chosen one, so there are at most $2\cdot2f$ places above $p_0p_1$. A place above both primes would have residue fields of two characteristics; so for $p_i\ne\ell$ a chosen place above $p_i$ is not above $\ell$,
+and its residue field has $p_i$ elements: $q_1d\mid p_i-1$ (\cref{prop:sizes}) and $E\subseteq\Q(\zeta_{q_1d})$ (\cref{prop:field-E}(a)), so $p_i$ splits completely in $E$.
+
+(b) The cyclotomic character at a geometric Frobenius at $w\nmid\ell$ is $q_w^{-1}$. If $\zeta\ne\zeta'$ are $N$-th roots of unity, $\prod_{\eta\ne1}(1-\eta)=N$ over the $N$-th roots of unity $\eta$, and every factor has absolute value at
+most $1$, so $\abs{1-\zeta'/\zeta}\ge\abs N$.
+
+(c) Both sides are continuous characters, so by Chebotarev density (\cref{thm:B-classfield}(d)) it suffices to check them at Frobenius elements at places $w\nmid\ell$ where $\psi$ is trivial at $w$ and $\bar w$. There
+$g^c$ is a Frobenius element at $\bar w$, the avatar at a Frobenius element is $\iota$ of the value of the Hecke character at a uniformiser, and in the product of the values at $\bar w$ and at $w$ the factors of the base
+change of $a$ and of $\upsilon$ cancel ($a$ is a character of $\U(1)$ and $\upsilon(\bar y)=\upsilon(y)^{-1}$), leaving $\abs{\varpi_w\bar\varpi_w}^{j-k/2}$ at the two places, which is $q_w^{-(2j-k)}=\mathrm{cyc}(g)^{2j-k}$ by (b). For the
+inertia statement, an element $s$ of tame exponent $y$ is the Artin image of a local unit $x$ (local class field theory with the roots of unity of order $5040$ in $E$, \cref{thm:B-classfield}), so it acts by the value of the
+character at $x$, which is $\psi_w$ at the residue of $x$; this value is $T^y$ of the name of $\psi_w$.
+
+(d) Some injective $\OO$-algebra map from the matrices over $\OO$ to the matrices over $\bar\Q_\ell$, an inclusion of the entries followed by a conjugation, carries $u(g)$ to $R(g)$ and preserves traces and determinants; it is
+continuous and injective.
+\end{proof}
+
+
+\begin{definition}[Main summand]\label{def:main-summand}
+Let $1\le r\le\mathrm{r}$ (the rank of the data) and $t\le\mathrm t=5\mathrm r$. Jumps $J(\sigma)$, multisets of integers indexed by the complex embeddings, are \emph{main summand weights} for $(r,t)$ if, for one $j\le m$, every jump $u$
+at $\sigma$ is \emph{low}, $\Delta/4\le\abs u\le2m\Delta$, or \emph{high}, $\abs{\epsilon_\sigma u+w_j(\sigma)}\le\mathrm t$ with $\epsilon_\sigma=\pm1$ the sign of $\sigma$ relative to the CM type and $w_j$ the weight of the $j$-th lift; at
+most $rm/k$ jumps at $\sigma$ have $\abs u\le2(\Delta/2)^2$; and at most $r$ jumps at $\sigma$ and $\bar\sigma$ together are negative. A representation $R$ of rank $r$ is \emph{like a main summand} if it is conjugate self-dual of
+level $\emptyset$ with main summand weights and, in addition: at the places above $p_0p_1$ prime to $\ell$ a power prime to the place kills the image of inertia, and for one inertia element $\gamma$ the determinants
+$\det(R\gamma-1)$ and $\det(R(\gamma^c)^{-1}-1)$ have valuation at most $r\,v_\ell(n_{\rm ch})$, $n_{\rm ch}$ the order of $\prod_w\GL_{\mathrm r\mathrm t}(\F_w)$ over the chosen places; over all large coefficient rings the image of a
+lattice spans all matrices and contains a scalar at an element of cyclotomic character $p_i^r$; and some inertia element above $p_0p_1$ acts by a scalar $y$ with $y^{\ell^aj}-1$ a unit for all $a$ and $1\le j\le4r+2$.
+\end{definition}
+
+\begin{proposition}[Main summands]\label{prop:main-summands}
+A representation like a main summand is residually absolutely irreducible over all large coefficient rings, and its stable lattice is unique up to scalars.
+\end{proposition}
+
+\begin{proof}
+\emph{Irreducibility.} Let $\OO$ be large, $u$ a lattice in $R$ over $\OO$ and $f\colon\OO\to k$ a ring map to a field. The image of $u$ spans all matrices over $\OO$ (\cref{def:main-summand}), so the images $f(u(g))$ span all matrices
+over $k$, and a subspace of $k^n$ stable under them is stable under all matrices, hence $0$ or $k^n$. \emph{Uniqueness of the lattice.} Let $u$, $u'$ be the matrices of $R$ over $\OO$ in the bases $Q$, $Q'$, and $B=Q^{-1}Q'$, so that
+$Bu'(g)B^{-1}=u(g)$. Multiply $B$ by a scalar so that $L=B\OO^n\subseteq\OO^n$ and $L\not\subseteq\varpi\OO^n$, $\varpi$ a uniformiser. Then $L$ is stable under the $u(g)$, so its image in $(\OO/\varpi)^n$ is a nonzero stable subspace,
+which by irreducibility is everything; by Nakayama's lemma $L=\OO^n$, so the scaled $B$ lies in $\GL_n(\OO)$: $Q'=\alpha Qk$ with a scalar $\alpha$ and $k\in\GL_n(\OO)$.
+\end{proof}
+
+\subsection{Representations of a type}\label{ss:rep-type}
+A descent pair $O$ with labels $c=(c_i)$ at its chosen places is a \emph{lift setting} for a twist $\vartheta$ if its places are those of the data and of $\vartheta$, its tame part is $\omega^j\vartheta$ with $1\le j\le m$, the
+rank $r_O$ and the difference of ranks $t_O$ are odd with $r_O\le\mathrm r$, $t_O\le\mathrm t$, each $c_i$ is a label of degree $r_O$ whose \emph{scaled} polynomial (roots multiplied by the name of $\psi_w^{-1}$) does not have the root
+$1$, and over each prime $p_k$ one label is primitive with $r_O=\mathrm r$, or is $X-1$ with $r_O=1$. A representation is \emph{of type $c$} if it is conjugate self-dual of a given twist, jumps and level, and inertia at
+the chosen places acts through the roots of the scaled labels. The \emph{normalised representation} of $R$ is its twist by the avatar of the inverse of the character of $W$, of weight $-r_O$.
+\lean{New.Selmer.not_isRoot_one_scaleRoots_inv, New.Selmer.isLiftSetting_descentPair, New.Selmer.isLiftSetting_mainPair, New.Selmer.trivialLift_mem_range_typeProjection, New.Selmer.levelPrime_pow_sub_one_dvd_chosenGroupOrder, New.Selmer.ellVal_levelPrime_pow_sub_one_le, New.Selmer.card_le_of_subset_placesAboveM, New.Selmer.exists_chosen_notMem_placesDividing, New.Selmer.IsLatticeIn.exists_algHom, New.Selmer.IsLatticeIn.continuous, New.Selmer.IsLatticeIn.eq_one, New.Selmer.IsLatticeIn.trace_eq, New.Selmer.coeff_zero_mul_coeff_star, New.Selmer.isConjSelfDual_of_attached, New.Selmer.isTraceNondeg_transpose_inv, New.Selmer.count_jumps_comp_star, New.Selmer.isFiniteTypeAt_and_hasJumpsAt_of_conjPlace, New.Selmer.prod_aroots_dvd_prod_aroots_scaleRoots_comp, New.Selmer.IsRepOfType.twist_avatar, New.Selmer.isRepOfType_of_hasProductLabel}
+\lean{New.Selmer.hasParahoricType_chosenGLRep, New.Selmer.coe_asAlgebraHom_chosenGLRep_apply, New.Selmer.componentOn_places_eq_self, New.Selmer.toSmoothForm_mem_levelSpace_componentOn, New.Selmer.toSmoothForm_typeProjection, New.Selmer.chosenGroupOrder_nsmul_typeProjection_mem_ellIntegralForms, New.Selmer.notMem_and_star_notMem_range_union_places, New.Selmer.normalisedJumps, New.Selmer.normalisedJumps_eq_map_hcParameter, New.Selmer.normalisedJumps_eq_range_add_map, New.Selmer.apply_ofSplitPlace_eq_formTranslation, New.Selmer.hasProductLabel_of_tupleIdem_apply_ne_zero, New.Selmer.hasTwistParahoricType_levelSpace, New.Selmer.toSmoothForm_mem_levelSpace_repOff, New.Selmer.exists_mem_levelSpace_chosenGLRep_map_eq, New.Selmer.translationAtPlaces, New.Selmer.IsFormOfType, New.Selmer.IsFormOfType.isRepOfType_normalisedRep, New.Selmer.exists_baseLevel, New.Selmer.isRepOfType_normalisedRep, New.Selmer.IsFormOfType.isRepOfType_normalisedRep}
+We use three facts about lift settings and types. A \emph{good tuple} of labels at the chosen places is a family of labels of degree $\mathrm r$ (monic, squarefree, nonzero at $0$) vanishing at no $q_2$-th root of unity, $q_2$ the
+order of the residue characters $\omega$ at the chosen places, with one primitive label over each of $p_0$, $p_1$. The \emph{type projection} $e_c$ is the action on forms of the idempotent of the tuple $c$ in the group algebra of
+$\prod_{w\in M}\GL_{r_O}(\F_w)$. The normalised jumps of $O$ are the jumps of the weight of the forms on $V$ minus the infinity type of the normalising character.
+
+\begin{lemma}[Lift settings]\label{lem:lift-settings}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A good tuple $c$ forms a lift setting with the $j$-th descent pair, for every twist $\vartheta$ and $1\le j\le m$. For a main pair $p$ for $j$, the descent pair of the lift of $\nu\vartheta$ from $\U(1)$, with every label $X-1$, is a
+lift setting for $\vartheta$, and the lift $\varphi_{X_{p,\vartheta}}$ lies in the range of its type projection.
+\item For $1\le d\le\mathrm r\mathrm t$, $p_i^d-1$ divides $n_{\rm ch}$, so $v_\ell(p_i^d-1)\le v_\ell(n_{\rm ch})$.
+\item For a lift setting, $e_c$ is self-adjoint and fixes its range, which is stable under the Hecke polynomials at the split places off the level; infinitely many split places are, with their conjugates, off the level.
+\item Let $f$ be an eigenform of weight $\kappa$ on the definite unitary group of rank $n'$, $R$ attached to it, and let $f$ be spherical at the places off $S$, above $\ell$ or above $p_0p_1$, except the chosen places and their
+conjugates, with a type at each chosen place induced from the label $c_i$ of degree $r$ and trivial characters on blocks. Then $R$ is of a type: conjugate self-dual of twist $1-n'$ and level $S$ with the jumps of $\kappa$, and
+inertia at the chosen places acts through the roots of $c_i(X-1)^{n'-r}$.
+\item Twisting a representation of a type by the avatar of $a(y/\bar y)\upsilon(y)^{-k'}\abs y^{j'-k'/2}$, with the tame part of $a$ trivial off the chosen places, gives a representation of a type of the same level, with twist
+shifted by $2j'-k'$, jumps lowered by the infinity type, and the roots of the labels multiplied by the element naming the tame part of $a$ at the chosen place.
+\item If $n'$ is even and $l=2\lambda$ fits $O$, the normalised jumps at $\sigma$ are $0,1,\dots,t_O-1$ and $\frac{t_O-1}2\mp(\lambda_c+\kappa')$, $c$ running over the basis of $W$, with the upper sign on the CM type; $-\kappa'$ is the weight of
+the character of $O$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) \emph{Descent pairs.} The places of the $j$-th descent pair are those of the data and of $\vartheta$, its tame part is $\omega^j\vartheta$, and its ranks $\mathrm r$ and $\mathrm t$ are odd (\cref{prop:sizes}). The scaled label at $w$ has
+the root $1$ only if a root of $c_w$ names $\omega^j$ at $w$, a root of unity of order dividing $q_2$, which a good label does not have; if $y$ is a unit that is not a root of $c$, then $1$ is not a root of $c$ with its roots
+multiplied by $y^{-1}$. \emph{The lift from $\U(1)$.} There $W$ has rank $1$ and the difference of ranks is $2z-1$, both odd, and $1\le\mathrm r$, $2z-1\le\mathrm t$. The scaled label of $X-1$ has the root $1$ only if the tame part of $\nu$
+is trivial at the place, and a main pair is ramified (\cref{def:critical-pair}, \cref{ss:twist-families}). The label $X-1$ belongs to the trivial character of $\GL_1$, so the type projection is the mean over
+$\prod_{w\in M}\GL_1(\F_w)$, which fixes $\varphi_{X_{p,\vartheta}}$ (\cref{prop:norm-L-value}(b)).
+
+(b) $p_i^d-1$ is the first factor of $\#\GL_d(\F_{p_i})=\prod_{e<d}(p_i^d-p_i^e)$, which divides $\#\GL_{\mathrm r\mathrm t}(\F_w)$ at a chosen place $w$ above $p_i$, and $n_{\rm ch}$ is a multiple of these orders.
+
+(c) The idempotent is a central idempotent of the group algebra, hence self-adjoint (\cref{lem:hecke-adjoint}(b)) and the identity on its range. A group element acts by a root of unity times translation by a point that is $1$
+at $w$ and $\bar w$, which commutes with the translations supported at $w$ and $\bar w$, hence with the Hecke polynomial. Places of prime norm split, there are infinitely many, and finitely many lie in the level or its conjugate.
+
+(d) Off the chosen places this is \cref{thm:B-galois}(a) together with conjugate self-duality, proved in \cref{thm:attached}(a) below without using (d). At a place over a chosen place $w$ the type of $f$ is a product label at $w$,
+so \cref{thm:B-galois}(c) gives finite type, the jumps and a polynomial built from the tame characters of the label, $c_i$ for the block of size $r$ and $X-1$ for the trivial blocks of total size $n'-r$, that kills inertia.
+At the conjugate places these pass by conjugate duality: $R\circ(g\mapsto g^c)$ is conjugate to the twisted dual of $R$, both having nondegenerate trace forms and the same traces, conjugating an embedding replaces a jump $u$
+by $n'-1-u$, and a polynomial killing $s$ at $\bar A$ kills $(s^c)^{-1}$ at $A$.
+
+(e) Each local clause passes to the twist from the clause for $R$ and that for the character. The avatar is of finite type with the single jump minus the infinity type; off $p_0p_1$ the character is unramified,
+neither the place nor its conjugate being chosen; and an inertia element $s$ acts on the avatar by $\varphi(u)$, $u$ the name of the tame part, and on $R$ through the values of $\varphi$ at the roots of $c_i$, so on the twist
+through these values times $\varphi(u)$, as $\varphi(u)X-\varphi(ux)=\varphi(u)(X-\varphi(x))$. The twist of the cyclotomic exponent is \cref{lem:avatars}(c).
+
+(f) The normalising character has exponent $r_O-r_-$ on the CM type and $r_-$ off it, $r_-$ the number of minus signs of $W$, and entry $p$ of twice the Harish-Chandra parameter is $2\mu_p+n'-1-2p$ for the highest weight
+$\mu$. Hence the normalised jumps are $(t_O-1\mp(a_p-2r_-+r_O))/2$, $p<n'$, $a$ the doubled parameter. By the block rule (\cref{prop:descent-pairs}(b)) each entry of $a$ is a shifted entry of $l$ or a member of the doubled block of
+length $t_O$, which gives the stated values; both sides are sets of $n'$ distinct integers, so the inclusion is an equality.
+\end{proof}
+
+
+\begin{theorem}[Attached representations]\label{thm:attached}
+Let $O$, $c$ be a lift setting for $\vartheta$ with $Q(\vartheta)$ auxiliary (its places of prime norm and, with their conjugates, not bad).
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A Galois representation attached to an eigenform on a definite unitary group of rank $n$ is conjugate self-dual of twist $1-n$.
+\item For an eigenform $f$ of type $c$ on the larger space of $O$, with the level of $O$ off a set $S$ of places outside the bad places, the normalised representation of an attached $R$ is of type $c$: conjugate
+self-dual with the jumps $0,1,\dots,t_O-1$ and $\frac{t_O-1}2\mp(\lambda_c+\kappa')$ (the upper sign on the CM type, $\lambda$ the parameter on $W$ and $-\kappa'$ the weight of the character of $O$), of level $Q$, $S$
+and their conjugates, with inertia at the chosen places acting through the roots of the scaled labels times $(X-1)^{t_O}$.
+\item There are base data whose forms contain the images of the type projection $e_c$ of the forms of $O$; $n_{\rm ch}e_c$ keeps integral forms; and the normalised representations of their eigensystems
+of auxiliary level are of type $c$, with $(u(g)-\vartheta_\ell^{-1}(g))(u(g)-1)=0$ for $g$ in inertia above $Q$ and its conjugates.
+\end{enumerate}
+\end{theorem}
+\lean{New.Selmer.norm_pow_sub_pow_eq_one, New.Selmer.ellVal_det_sub_one_le_card_mul, New.Selmer.not_q₂_dvd_mul_pow_mul, New.Selmer.IsInertiaSpectrum, New.Selmer.IsInertiaSpectrum.of_conjPlace, New.Selmer.exists_isInertiaSpectrum_chosenPlace, New.Selmer.exists_inertiaGroup_isInertiaSpectrum, New.Selmer.IsRepOfType.exists_map_pow_eq_one_and_ellVal_det_le, New.Selmer.IsCommonRootPower, New.Selmer.IsLiftSetting.exists_isCommonRootPower_of_isPrimitivePolynomial, New.Selmer.IsLiftSetting.exists_isCommonRootPower_of_eq_X_sub_one, New.Selmer.IsLiftSetting.exists_isCommonRootPower, New.Selmer.IsRepOfType.exists_inertia_isRoot_charpoly, New.Selmer.eventually_span_eq_top_and_exists_scalar_of_tame_pair, New.Selmer.IsRepOfType.isMainSummandLike, New.Selmer.invAvatar_eq_of_isTameExponent, New.Selmer.isSplit_twistPlace, New.Selmer.HasTwistParahoricType, New.Selmer.natCast_notMem_of_mem_conjClosure, New.Selmer.isFiniteTypeAt_and_polyKillsAt_of_mem_conjClosure, New.Selmer.normalisedRep_quadratic_on_inertia}
+
+\begin{proof}
+(a) \emph{A coefficient identity.} Let $f\ne0$ in rank $n=k+1$ be spherical at a split $w$ and at $\bar w$, with eigenvalues $s_i$ and $u_i$ of the $i$-th Hecke operators there, so that its Hecke polynomials are
+$Q_w=\sum_i(-1)^iq^{i(i-1)/2}s_iX^{n-i}$ and $Q_{\bar w}$ likewise (\cref{ss:B-galois}). For $i+i'=n$ the $i$-th operator at $\bar w$ followed by the scalar matrix of a uniformiser at $w$ is the $i'$-th operator at $w$, a point of
+$\U(V)$ at $\{w,\bar w\}$ being determined by its component at $w$ (\cref{prop:point-forms}(b)). For $i=0$ the scalar acts by $s_n$; for $i=1$ this gives $s_nu_1=s_{n-1}$, that is $c_0(Q_w)\,c_k(Q_{\bar w})=q^k\,c_1(Q_w)$ for the
+coefficients $c_d$ of $X^d$. \emph{Passage to the representation.} For a matrix $A$ of size $n$ the coefficients of degree $0$, $1$ and $k$ of $\det(X-A)$ are $(-1)^n\det A$, $(-1)^{k}\det A\operatorname{tr}A^{-1}$ and $-\operatorname{tr}A$. The map
+$g\mapsto g^c$ is a homeomorphism carrying Frobenius elements at $w$ to Frobenius elements at $\bar w$, so $R$ read through it is attached to the system $w\mapsto Q_{\bar w}$. For most Frobenius elements $g$ the place is prime to
+$\ell$ and $\mathrm{cyc}(g)^{-1}=q_w$ (\cref{lem:avatars}(b)). Along Frobenius elements tending to an arbitrary $g$, which exist by Chebotarev density (\cref{thm:B-classfield}(d)), the coefficients of $\iota(Q_w)$ and $\iota(Q_{\bar w})$
+tend to those of the characteristic polynomials of $R(g)$ and $R(g^c)$, so in the limit
+\[
+  (-1)^n\det R(g)\cdot\bigl(-\operatorname{tr}R(g^c)\bigr)=\mathrm{cyc}(g)^{-k}(-1)^k\det R(g)\operatorname{tr}R(g^{-1}).
+\]
+The signs agree and $\det R(g)\ne0$, so $\operatorname{tr}R(g^c)=\mathrm{cyc}(g)^{1-n}\operatorname{tr}R(g^{-1})$ for all $g$.
+Continuity and the nondegenerate trace form are part of the definition of an attached representation.
+
+(b) Let $f$ be an eigenform of type $c$ with the level of $O$ off $S$. The type projection fixes $f\ne0$, so the idempotent of each label does not kill it, and at each chosen place $f$ has a product label with two blocks: the block
+of size $r_O$ carries the class function of the scaled label, the other block the trivial character (the trivial character is named by $1$, which is not a root of the scaled label). A place that is neither chosen nor in $Q$, $S$
+or their conjugates is a place of maximal level, because $Q$ and $S$ avoid the bad places. By \cref{lem:lift-settings}(d) the attached $R$ is of a type, with inertia at the chosen places acting through the roots of the scaled
+labels times $(X-1)^{t_O}$ (the tame part of the normalising twist is trivial, so the roots are not scaled again); its normalisation by the avatar of the inverse of the character of $W$ is of a type by
+\cref{lem:lift-settings}(e), with the normalised jumps of \cref{lem:lift-settings}(f), the rank $r_O+t_O$ being even.
+
+(c) Let $\pi$ act on forms through the components at the places of $O$ only, and let $\mathcal Y$ be the forms with the level and character of $O$ under $\pi$ that the idempotent of $c$ fixes. These are forms of base data of the weight of
+$O$ with no extra level: the components of a point at the places of $O$ and their conjugates change neither the reductions there nor the level character, and the maximal level off these places fixes the forms of $O$.
+An operator commuting with $\pi$ on the maximal level commutes with the idempotent, so the Hecke operators off the level keep $\mathcal Y$. \emph{Integrality.} $e_c$ is a sum over $g\in\prod\GL_{r_O}(\F_w)$ of the coefficients of the idempotent,
+which have the denominator $\#\prod\GL_{r_O}(\F_w)$, dividing $n_{\rm ch}$, times a root of unity and the translate of the form by an integral point; so $n_{\rm ch}e_c$ keeps the forms integral above $\ell$. \emph{The representations.}
+For an eigensystem of $\mathcal Y$ of auxiliary level, (b) gives the type. At a place $w\in Q$ the form has the parahoric type of $O$: an integral matrix whose reduction is block triangular acts through $\psi_w^{-1}$ of the determinant of
+the block on the embedded indices, $\psi_w$ being the tame part of $\vartheta$ there, as $\omega$ is trivial at $Q$. By \cref{thm:B-galois}(b), (c), inertia at $w$ acts through $1$ and the tame character of $\psi_w^{-1}$, so $R$ is of
+finite type there and $(X-\vartheta_\ell^{-1}(s))(X-1)$ kills each inertia element $s$ (\cref{lem:avatars}(c) for the avatar of $\vartheta^{-1}$ on inertia); conjugate duality carries this to the conjugate places. The normalising
+character is trivial on inertia away from $\ell$, so the relation holds for the normalised representation.
+\end{proof}
+
+\subsection{Main summands of the lifts}\label{ss:main-summands-lifts}
+A representation $T$ of rank $r_O$ is a \emph{main summand} for a descent pair $O$ and a system of Hecke eigenvalues $z$ if it is like a main summand and, for every tame twist $\vartheta$ of $O$ and every eigenform that lifts
+$z$, the normalised representation $u$ attached to the lift satisfies
+\[
+  \operatorname{tr}u=\vartheta^{-1}_\ell\cdot\operatorname{tr}T+\sum_{e<t_O}\mathrm{cyc}^{-e}.
+\]
+\lean{New.Selmer.cmSign_star, New.Selmer.abs_descentPair_weight_add_liftWeight_le, New.Selmer.le_natAbs_descentPair_jump_and_le, New.Selmer.countP_low_weights_descentPair, New.Selmer.isMainSummandWeights_descentPair, New.Selmer.abs_mainPair_weight_add_liftWeight_le, New.Selmer.isMainSummandWeights_mainPair, New.Selmer.apply_one_eq_of_heckePolyEval_eq, New.Selmer.IsRepOfType.isMainSummandLike_twistByChar, New.Selmer.neg_coeff_eq_of_hasLiftHeckePolynomial, New.Selmer.eventually_trace_frob_eq_of_hasLiftHeckePolynomial, New.Selmer.exists_isMainSummand_of_isRepOfType, New.Selmer.map_jumps_sub_eq_map_targetParameter, New.Data.isEigenform_of_hasHeckePolyAt, New.Selmer.exists_isMainSummand_descentPair}
+For the jumps of the descent pairs write $u_q(\sigma)=\lfloor\mathrm t/2\rfloor-\epsilon_\sigma(\lambda_q+w_j)$, $q<\mathrm r$, with the target parameter $\lambda$ at the place of $\sigma$ (\cref{prop:descent-pair-fits}); the gap $\Delta$ and the lift weights $w_j$
+are those of \cref{prop:grids}.
+
+\begin{lemma}[The jumps of the lifts]\label{lem:lift-jumps}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $q+1<k$ the jump $u_q$ is high, $\abs{\epsilon_\sigma u_q+w_j}\le\mathrm t$; for $k\le q+1\le\mathrm r$ it is low, $\Delta/4\le\abs{u_q}\le2m\Delta$. If $2m\Delta\le B$ and $B+\mathrm t<w_j$, exactly $m$ of the $u_q(\sigma)$ have modulus at most $B$.
+\item For a main pair $(\nu,z)$ for $j$, the jump $z-1-\epsilon_\sigma c$ is high.
+\item Let $y\ne0$ be a form of a descent pair $V$ of ranks $r<n$ that lifts the eigensystem $b$, and $w$ split off the places of $V$ and their conjugates. Then minus the coefficient of $X^{n-1}$ in the Hecke polynomial of $y$ at
+$w$ is $q^t\nu\nu'^{-1}b(w,1)+\bigl(\sum_{i<t}q^i\bigr)\nu$, with $t=n-r$ and $\nu$, $\nu'$ the Frobenius values of the characters of $V$ on $W$ and on $V$.
+\item In the setting of (c), for a pair $O$ whose character $\mu$ has $V$ as a twist by a tame $\vartheta$, with $r-t=2a$: at most Frobenius elements $g$, minus that coefficient times the normalising avatar of $V$ at $g$ is
+$\theta_0(g)\theta(g)b(w,1)+\sum_{e<t}\mathrm{cyc}(g)^{-e}$, where $\theta_0$, $\theta$ are the avatars of $\vartheta^{-1}(x/\bar x)$ and of $\mu^{-1}(x/\bar x)\abs x^a$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) \emph{High jumps.} $\epsilon_\sigma u_q+w_j=\epsilon_\sigma\lfloor\mathrm t/2\rfloor-\lambda_q$ and $\abs{\lambda_q}\le k/2$ for $q+1<k$, with $k\le\mathrm t$; so the modulus is at most $\mathrm t$. \emph{Low jumps.} With $i=q+2-k\in[1,m]$ the parameter is
+$\lambda_q+w_j=(j-i+\frac12)\Delta$, of modulus in $[\Delta/2,m\Delta]$, and $\lfloor\mathrm t/2\rfloor\le\Delta/4$ (\cref{prop:grids}(b)); hence $\Delta/4\le\abs{u_q}\le m\Delta+\Delta/4\le2m\Delta$. \emph{Counting.} The $m$ low jumps have modulus at most $2m\Delta\le B$; a high
+jump has $\abs{u_q}\ge w_j-\mathrm t>B$.
+
+(b) $\epsilon_\sigma(z-1-\epsilon_\sigma c)+w_j=\epsilon_\sigma(z-1)+(w_j-c)$, and $0\le z-1\le\mathrm r-1$, $0\le w_j-c\le\mathrm t-\mathrm r$; the modulus is at most $\mathrm t-1$.
+
+(c) $y$ is spherical at $w$ with Hecke eigenvalues $s_i$, and, being nonzero, has the Hecke polynomial of a lift of $b$: $\prod_{l<t}(1-q^l\nu X)$ times the Hecke polynomial of rank $r$ of $b$ at $q^t\nu\nu'^{-1}X$
+(\cref{prop:lift-descent}(c)). Comparing the linear terms of $\sum_i(-X)^iq^{i(i-1)/2}s_i$ gives $s_1=q^t\nu\nu'^{-1}b(w,1)+\bigl(\sum_{i<t}q^i\bigr)\nu$, the linear term of $\prod_{l<t}(1-q^l\nu X)$ being $-\sum_{i<t}q^i\nu$ and the
+constant term of the polynomial of $b$ being $1$; and minus the coefficient of $X^{n-1}$ in the Hecke polynomial $\sum_j(-1)^jq^{j(j-1)/2}s_jX^{n-j}$ of $y$ (\cref{ss:B-galois}) is $s_1$.
+
+(d) At a Frobenius element at $w\nmid\ell$, off the finitely many places where a character is ramified, the avatars take the values of the characters at a uniformiser (\cref{thm:B-galois}(a)), and the values of $\theta_0$ and $\theta$
+multiply to $q^t/\nu'$; the normalising avatar takes the value $\nu^{-1}$ (its $d$-th power for the $d$-th power of Frobenius). Hence the normalised expression of (c) is $\theta_0\theta(g)b(w,1)+\sum_{i<t}q^i$, and $q^i=\mathrm{cyc}(g)^{-i}$
+by \cref{lem:avatars}(b).
+\end{proof}
+
+
+\begin{theorem}[Main summands exist]\label{thm:main-summands-exist}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The jumps $\lfloor\mathrm t/2\rfloor-\epsilon_\sigma(\lambda_q+w_j)$, $q<\mathrm r$, of the $j$-th descent pair are main summand weights of rank $\mathrm r$; the single jump $z-1-\epsilon_\sigma c$ of a main pair $(\nu,z)$ for $j$ is a main
+summand weight of rank $1$ and string length $2z-1$.
+\item A representation of type $c$ of rank $r_O$, empty level and main summand weights, twisted by the avatar of $\mu^{-1}(x/\bar x)\abs x^{a}$ with $r_O-t_O=2a$, is like a main summand.
+\item For every Hecke eigensystem $z$ of a good form on $W_m$ and every $1\le j\le m$ there is a main summand for the $j$-th descent pair of the trivial twist and $z$; for every main pair there is a main summand of
+rank one for its lift from $\U(1)$ and the constant system.
+\item (Splitting.) The space of lifts for a twist $\vartheta$ and $j$ is spanned by forms in the image of the idempotent of a tuple of labels in lift setting, whose Hecke polynomials at the split places off the level
+are those of a lift of one of finitely many eigensystems $z$ of good forms on $W_m$, independent of $\vartheta$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) \emph{Descent pairs.} By \cref{lem:lift-jumps}(a) each $u_q$ is low or high. Take $B=2(\Delta/2)^2$; then $2m\Delta\le B$ and $B+\mathrm t<w_j$ by the sizes of the data (\cref{prop:grids}), so exactly $m$ jumps at $\sigma$ are small, and
+$m\le\mathrm rm/k$ as $k\le\mathrm r$. At $\sigma$ and $\bar\sigma$ the signs $\epsilon$ are opposite, so $u_q(\sigma)+u_q(\bar\sigma)=2\lfloor\mathrm t/2\rfloor\ge0$ and at most one of the two is negative: at most $\mathrm r$ negative jumps at the pair. The string length is
+$\mathrm t$, as allowed. \emph{Main pairs.} By \cref{lem:lift-jumps}(b) the single jump is high, hence not small (it has modulus at least $w_j-\mathrm t>2(\Delta/2)^2$), and the jumps at $\sigma$ and $\bar\sigma$ add up to $2(z-1)\ge0$, so at most one is
+negative; the string length is $2z-1\le\mathrm t$.
+
+(b) \emph{Twisting.} The tame part of $\mu^{-1}$ is a power of $\omega$, trivial off the chosen places, so by \cref{lem:lift-settings}(e) the twist is a representation of a type whose jumps are lowered by the infinity type of the character;
+these are the given main summand weights. \emph{Ramification above $p_0p_1$.} At a chosen place $w\nmid\ell$ an inertia element $s$ acts through the roots of the scaled labels raised to its tame exponent; these are roots of unity
+of order dividing $p_i^{r_O!}-1$ and some $p_i^d-1$ with $d\le\mathrm r$, and $1$ is not among them for the tame generator, the scaled labels not having the root $1$. Hence the $N$-th powers of inertia act as the identity for
+$N=p_i^{r_O!}-1$, a unit at $w$, and $\det(R\gamma-1)$ for the tame generator $\gamma$ is a product of $r_O$ differences $x-1$, each of valuation at most $v_\ell(p_i^d-1)\le v_\ell(n_{\rm ch})$ (\cref{lem:lift-settings}(b)). The places above
+$p_0p_1$ that are not chosen are conjugates of chosen ones, and conjugate duality carries these statements there, with $(\gamma^c)^{-1}$ in place of $\gamma$. \emph{Large image.} Take a chosen place $w\nmid\ell$ with residue field of
+order $q=p_i$ whose label is primitive with $r_O=\mathrm r$, or $X-1$ with $r_O=1$ (\cref{lem:avatars}(a), the lift setting). The roots $\xi$ of the scaled label have a common $e$-th power $y$ such that $y^x=1$ forces $q_2\mid jx$;
+moreover $\xi^{q^{r_O}}=\xi$, and the powers $(\xi^{q^a})^{\ell^u}$, $a<r_O$, are distinct for every $u$. For $X-1$ the only root is the name of $\omega^{-j}$, of order $q_2$, and the last condition is empty. For a primitive label the
+scaled label is again primitive, its roots are the Frobenius conjugates of a root $\eta$ of order $q^{\mathrm r}-1$, and $y$, their product, has order $q-1$, a multiple of $q_2^2$ by (D4) of \cref{def:data}; as $9\mid q-1$ and $\mathrm r$ is a
+power of $3$, the conjugates of $\eta^{\ell^u}$ are distinct. Let $s$ be inertia of
+tame exponent $1$ and $\tau$ the faithful character followed by $\iota$; then $\tau\xi$ is an eigenvalue of $R(s)$, and conjugation by a Frobenius $\phi$ raises $R(s)$ to the $q$-th power. The eigenvalues
+$\tau\xi^{q^a}$ are pairwise incongruent modulo the maximal ideal, so $R(s)$ is regular semisimple residually, $R(\phi)$ permutes its eigenlines cyclically, and over all large coefficient rings the image of a lattice
+spans all matrices, while $R(\phi^{r_O})$ is a scalar at an element of cyclotomic character $p_i^{r_O}$. \emph{A scalar of large order.} $X^e-\tau y$ kills $R(s)$, so $R(s^e)$ is the scalar $\tau y$. For $1\le t'\le4r_O+2$ and all $a$,
+$q_2$ does not divide $j\ell^bt'$ for any $b$ (a prime $p\ne\ell$ dividing $q_0$ would give $p^s\mid jt'$, but $0<jt'<p^s$). Write the order of $y$ as $\ell^uk'$ with $\ell\nmid k'$. If $(y^{\ell^at'})^{\ell^u}=1$, then $q_2\mid j\ell^{a+u}t'$,
+which is excluded; so $(y^{\ell^at'})^{\ell^u}$ and $1$ are distinct $k'$-th roots of unity, their difference has norm at least $\abs{k'}=1$ (\cref{lem:avatars}(b)), and it is an integral multiple of $y^{\ell^at'}-1$, which is therefore a
+unit.
+
+(c) \emph{Descent pairs.} Let $z\ne0$ be a good form with the system $p$. The idempotent $e_0$ fixes $z$ and is the sum of the idempotents of the good tuples, so some good tuple $c$ does not kill $z$. Its algebraic form is an
+eigenform with the labels $c$: at a chosen place $\GL_{\mathrm r}$ of the local integers acts through the reduction, a parahoric type with one block. By \cref{lem:lift-settings}(a), (d), an attached $R$ is of a type for the $j$-th descent
+pair of the trivial twist, and its traces are the limits of the eigenvalues $p(w,1)$ along Frobenius elements. Lower the jumps by $(\mathrm r-\mathrm t)/2-\epsilon_\sigma w_j$; by \cref{prop:descent-pair-fits} they become the $u_q(\sigma)$, main summand weights by (a).
+Let $T$ be $R$ twisted by the avatar $\theta$ of $\mu^{-1}(x/\bar x)\abs x^a$; by (b) it is like a main summand. For every tame $\vartheta$ and every eigenform $y$ of a twisted pair lifting $p$, \cref{lem:lift-jumps}(d) gives the trace identity at
+most Frobenius elements, $\theta_0$ being the avatar of $\vartheta^{-1}$; the trace of the normalised representation attached to $y$ is minus the coefficient of $X^{n-1}$ of its characteristic polynomial, the normalising avatar is
+continuous, and the identity passes to all $g$ in the limit (\cref{thm:B-classfield}(d)). \emph{Main pairs.} The same argument for the lift from $\U(1)$, with the label $X-1$ (\cref{lem:lift-settings}(a)), the constant form, whose
+system is that of the constant (\cref{prop:norm-L-value}(b)), and the jumps of (a) for main pairs.
+
+(d) is \cref{prop:range-good-lift}, the Hecke polynomials of the lifts being those of \cref{thm:norm-one-lift}(d).
+\end{proof}

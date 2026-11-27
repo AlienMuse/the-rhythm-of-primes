@@ -1,0 +1,188 @@
+\section{Theta kernels between definite spaces}\label{sec:kernels}
+
+For standard definite spaces $I_n$, $I_{n'}$ over $E$ with $n<n'$ and a \emph{lift weight} $(\kappa,e)$ (no
+column of height strictly between $n$ and $n'$, and $e(\tau)=e_b(\tau)+\kappa(\tau,n)$), the \emph{theta kernel}
+of scale $c$ attaches to a finite datum $f$ on $\Hom(I_n,I_{n'})$ the \emph{jet matrix}
+$\mathrm{Sch}_\kappa(J_c(f))$: the matrix of jets of the Taylor series of the theta function of $f$ at scale $c$
+along the entries of the Schur matrix (\cref{ss:schur-entries}). The pair of finite adelic groups acts on data by the
+Weil representation twisted by characters $a$, $b$ of $\U(1)(\Ad)$, and the kernel lifts algebraic forms of weight
+$(\kappa,e)$ on $\U(I_n)$ to forms of weight $(\kappa,e_a)$ on $\U(I_{n'})$ (\cref{ss:chain-lifts}). This section
+proves the three facts on single kernels that the composite lift needs: their Galois conjugates, archimedean bounds
+for their sizes, and $p$-adic bounds for their gauges.
+\lean{New.IsLiftWeight, New.thetaKernel, New.schurCoeffPoly, New.Kernel.lift_equivariant, New.dotProduct_schurJet_mulVec, New.realPairWeil_schurCoeffPoly, New.theta_pairWeil_schurCoeffPoly}
+
+\subsection{Galois conjugation of jets}\label{ss:jet-conjugation}
+
+The theorem rests on a Galois law for maps that scale the finite translations, a form of the Galois action on theta functions with complex multiplication \cite{Shimura1976}; it is stated here with its proof. A $\sigma$-semilinear map $L$ on $\mathcal S(V)$ \emph{scales finite translations by $b$} if it preserves the finite part, $L\varrho(\mathrm{fin}(x))=\varrho(\mathrm{fin}(bx))L$ there, and $\sigma(\psi(z))=\psi(b\bar bz)$ for the additive character
+$\psi$ of the finite adeles for which $\hat\OO$ is self-dual. Let $\Delta(g)$ be the multiplier of the Weil representation at a finite point $g$.
+
+\begin{lemma}[The Galois law of the Weil representation]\label{lem:galois-law}
+Let $L$ scale finite translations by $b$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $b\bar b$ is a unit at every finite place, and for a set $R$ of places disjoint from its conjugate, $b=ua$ with $u$ of norm one and $a$ a unit of $\hat\OO$ equal to $1$ on $R$; $\omega(1,u)^{-1}L$ scales finite translations by $a$.
+\item For the splitting character $\upsilon$, the number $\sigma(\Delta(g))/\Delta(g)$ has modulus $1$ and square $\upsilon(\det g)/\sigma(\upsilon(\det g))$.
+\item If $b$ is a unit of $\hat\OO$, then $L\,\mathrm{vac}=c\,\mathrm{vac}$ for some $c$, and on the finite part $L\omega(g)=(\sigma(\Delta(g))/\Delta(g))\,\omega(g)L$.
+\item In general $L\,\mathrm{vac}=c\,\omega(1,u)\mathrm{vac}$ and $L(\Psi\otimes\mathrm{vac})=c\,\omega(1,u)((\sigma\circ\Psi)\otimes\mathrm{vac})$ for every $\Psi$ Schwartz--Bruhat above $R$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Space.ScalesTranslations.exists_eq_unitary_mul_unit, New.Space.ScalesTranslations.exists_map_schrodingerOp, New.Space.ScalesTranslations.exists_map_vacElem_of_unit, New.Space.ScalesTranslations.isUnit, New.Space.ScalesTranslations.map_finHeisenbergOp, New.Space.ScalesTranslations.map_mem, New.Space.ScalesTranslations.map_omega, New.Space.ScalesTranslations.map_omega_of_unit, New.Space.ScalesTranslations.map_rho, New.Space.ScalesTranslations.map_schrodingerOp_of_map_vacElem, New.Space.ScalesTranslations.map_selfDualAddChar, New.Space.ScalesTranslations.omega_inv_comp, New.Space.finsum_finHeisenbergOp_unit_smul, New.exists_unitary_mul_unit, New.map_finMultiplier_div_norm_sq, New.map_finMultiplier_mul_conj, New.map_schrodingerAct_boxIndicator, New.multiplierRatio, New.multiplierRatio_sq, New.scalarFin_mulVec, New.v_eq_one_of_map_selfDualAddChar}
+
+\begin{proof}
+(a) As $\hat\OO$ is self-dual under $\psi$, $tz$ is integral exactly when $z$ is, if $\sigma(\psi(z))=\psi(tz)$ for all $z$; testing with $1$ and with the inverse of a uniformiser shows that $t=b\bar b$ is a unit at every finite place. A unit $x$ of $\hat\OO$ has the norm of $b$, and it can be changed into a unit $a$ with the same norm that is $1$ on $R$:
+replace $x$ by $1$ at $R$, by $x\bar x$ at $\bar R$ and keep it elsewhere, which keeps the norm. Then $u=b/a$ has norm one. Since $\omega(1,u)$ is the scalar $u$, which is central, $\omega(1,u)^{-1}\varrho(\mathrm{fin}(bx))=\varrho(\mathrm{fin}(ax))\omega(1,u)^{-1}$.
+
+(b) $\Delta(g)\overline{\Delta(g)}=\abs{\Delta(g)}^2$ is a lattice index, a natural number, which $\sigma$ fixes; and $\overline{\Delta(g)}/\Delta(g)=\upsilon(\det g)$. Hence $(\sigma\Delta/\Delta)^2=\upsilon(\det g)/\sigma\upsilon(\det g)$, a quotient of two numbers of modulus $1$.
+
+(c) The translations by the lattice fix the vacuum, and $L$ turns them into translations by $a$ times lattice vectors, which are again lattice vectors since $a$ is a unit; so $L\,\mathrm{vac}$ is fixed by the lattice translations, and in the finite part such vectors are multiples of the vacuum. For $\omega(g)$, expand $\omega(g)\mathrm{vac}$ as
+$\Delta(g)/\abs{\Delta(g)}^2$ times the sum of the translates of the vacuum by $gq$, $q$ over the cosets of $\Lambda\cap g^{-1}\Lambda$ in $\Lambda$; a unit $a$ of $\hat\OO$ permutes these cosets, so $L$ multiplies the sum by $c$, and $\sigma$ multiplies the constant by $\sigma\Delta/\Delta$. Both sides turn the translation by $x$ into that by $agx$, and the
+translates of the vacuum span the finite part.
+
+(d) By (a) apply (c) to $\omega(1,u)^{-1}L$, which scales by $a$. A Schwartz--Bruhat function above $R$ is a combination of translates of the box function (the indicator of the vectors integral at $R$), which name the translates of the vacuum; since $a=1$ on $R$, the vectors $y$ and $ay$ agree above $R$ and only the
+character sees the change, so $\sigma$ takes the translate by $y$ of the box function to its translate by $ay$. Hence $\omega(1,u)^{-1}L(\Psi\otimes\mathrm{vac})=c\,(\sigma\circ\Psi)\otimes\mathrm{vac}$.
+\end{proof}
+
+\begin{theorem}[Conjugation of jets]\label{thm:jet-conjugation}
+Let $V$ be a standard space over $E$ and $\sigma$ an automorphism of $\C$ over $K$. There are a scale $t$ with
+$\abs t^2=\Omega^{-1}$, a finite adele $b$ and a $\sigma$-semilinear map $L$ on $\mathcal S(V)$ which preserves the finite
+part, turns finite translation by $x$ into translation by $bx$, satisfies $\sigma(\psi(z))=\psi(b\bar bz)$ for the
+additive character, and maps the jets of $f$ at scale $\mathsf a$ to the $\sigma$-conjugates, with the places permuted by
+$\sigma$, of the jets of $Lf$ at scale $t$. Moreover:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $L$ is injective on the finite part, and $\sigma(f(\mathrm{fin}(x)))=(Lf)(\mathrm{fin}(bx))$;
+\item there are $c\ne0$ and a norm-one adele $u$ with $L\,\mathrm{vac}=c\,\omega(u)\mathrm{vac}$ and
+$L(\Psi\otimes\mathrm{vac})=c\,\omega(u)((\sigma\circ\Psi)\otimes\mathrm{vac})$ for all Schwartz--Bruhat $\Psi$ supported above a set
+of places disjoint from its conjugate;
+\item every value of $L\varrho(\mathrm{fin}(x))\omega(1,g)\theta^\circ$ has absolute value at most $\exp(C_0(q_1n+1)^2)$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Parameters.IsJetConjugation, New.Space.ScalesTranslations, New.Space.map_selfDualAddChar_of_isJetConjugate, New.Parameters.exists_isJetConjugation, New.Parameters.norm_multiplierRatio, New.Parameters.IsJetConjugation.eq_zero_of_map_eq_zero, New.Parameters.IsJetConjugation.map_apply_finVec, New.Parameters.IsJetConjugation.exists_map_schrodingerOp, New.Parameters.IsJetConjugation.norm_map_intVacuum_le}
+
+\begin{proof}
+\emph{Construction.} By \cref{prop:jet-conjugates} there are a vector $F$ whose finite translates span the finite part, a scale $t_\sigma$ with $\abs{t_\sigma}^2=\Omega^{-1}$, an adele $B_\sigma$ and a vector $F'_\sigma$ such that $\sigma$ maps the jets of $\varrho(\mathrm{fin}(x))F$ at scale $\mathsf a$ to those of $\varrho(\mathrm{fin}(B_\sigma x))F'_\sigma$ at scale
+$t_\sigma$, the places permuted by $\sigma$. Define $L$ on the finite part by
+\[
+  L\Bigl(\sum_xc_x\varrho(\mathrm{fin}(x))F\Bigr)=\sum_x\sigma(c_x)\varrho(\mathrm{fin}(B_\sigma x))F'_\sigma ;
+\]
+it is well defined, because a vector of the finite part is determined by its jets (\cref{lem:jet-homogeneous}) and $t_\sigma\ne0$; it is $\sigma$-semilinear and the jets of $Lf$ are the conjugates of those of $f$. The laws for translations hold on the translates of $F$, hence on their span. \emph{The additive character.} In rank one, take
+$N\ne0$ such that translation by $N$ fixes $F$ and translation by $NB_\sigma$ fixes $F'_\sigma$, and write $z=Nx$. By the Heisenberg relation the translate by $2x+N$ is $\psi$ of a multiple of $z$ times the translate by $2x$ moved by $N$; comparing the jets of the two sides, which do not vanish, before and after $\sigma$ gives
+$\sigma(\psi(z))=\psi(B_\sigma\bar B_\sigma z)$.
+
+(a) If $Lf=0$, the conjugates of the jets of $f$ vanish, so its jets vanish and $f=0$. The value of the theta function of $f$ at $\mathrm{fin}(x)$ is the constant term of the jets of $\varrho(\mathrm{fin}(x))f$, and $L\varrho(\mathrm{fin}(x))f=\varrho(\mathrm{fin}(bx))Lf$; so $\sigma$ takes it to the value of $Lf$ at $\mathrm{fin}(bx)$.
+
+(b) $L$ scales finite translations by $b$, so \cref{lem:galois-law}(d) gives $c$ and $u$; $c\ne0$, because $L$ is injective on the finite part by (a) and the vacuum is a unit vector.
+
+(c) $L$ applied to the integral vacuum is $a$ times a unit vacuum, by (b); so $\abs a^2$ is the squared norm of the image, which its values at finite points bound, and the value of $L\varrho(\mathrm{fin}(x))\omega(1,g)\theta^\circ$ is a value of a translate of a unit vacuum moved by $\omega$, times $a$. The values of a unit vacuum moved by
+$\omega(g)$ are bounded by $\exp((2d+6)(q_1n+1)^2)$: the squared modulus of a value is a theta series of matrix coefficients of the vacuum, which are Gaussians supported on a lattice of rational vectors; at a lattice point $\gamma$ the vacuum has modulus at most $\exp(-\pi\norm\gamma^2/\sqrt d)$, the squared lengths are integers (they
+are traces of values of the hermitian form, which lie in the inverse different of $E/K$), and distinct points are at distance at least $1$. A packing bound in real dimension $2nf\le2nq_1$ estimates the series, completing the square $tD\le\pi t^2/a+aD^2$ and $\sqrt d(\delta+1)^2+3\delta\le2(2d+6)(M+1)^2$ for $\delta\le2M$. With the
+bound for the vacuum scale (\cref{prop:vacuum-scale}) this gives the constant $C_0$.
+\end{proof}
+\lean{New.Parameters.norm_vacuumFn_vecAtPoint_le, New.Parameters.exists_intCast_eq_norm_archCoords_sq, New.Parameters.one_le_norm_archCoords_sub, New.exp_neg_pi_div_mul_sq_le, New.sqrt_mul_sq_add_le_of_le, New.Parameters.norm_omega_vac_le}
+
+\subsection{Archimedean size}\label{ss:kernel-size}
+A polynomial $Q$ in variables $z_i$ has \emph{conjugate growth} $(T,L,w,A)$ at $\sigma$ if
+$\abs{\sigma Q(z)}\le A\exp(w+LR)$ whenever $\sum_i\abs{\sigma z_i}^2\le T(2L+2)R$. A finite datum $f$ is a \emph{vacuum
+combination of size $B$} if $f=\sum_xr_x\,\varrho(\mathrm{fin}(x))\theta^\circ$ with $\sum_x\abs{\sigma r_x}\le B$ for every $\sigma$.
+\lean{New.HasConjugateGrowth, New.Parameters.IsVacuumCombination, New.Parameters.isVacuumCombination_of_isAdmissibleCombination, New.Parameters.isVacuumCombination_finHeisenbergOp, New.Parameters.jetSizeBound, New.Parameters.jetSizeBound_eq}
+
+\begin{theorem}[Size of jets]\label{thm:jet-size}
+Let $f$ be a vacuum combination of size $B$ on $\Hom(I_n,I_{n'})$, moved by finite points $g$, $h$ under the twisted
+Weil representation, and let $Q$ have conjugate growth $(T,L,w,A)$ at $\sigma$ with $\abs{\sigma c}^2/\Omega\le T$. Then
+\[
+  \abs{\sigma\bigl(Q(\partial)J_{c\mathsf a}(\omega(g,h)f)(0)\bigr)}\le B\,A\,e^{w}\exp\bigl(C_0(q_1nn'+1)^2\bigr)(2L+2)^{fnn'} .
+\]
+For a lift weight $\kappa$ and every $L\ge1$, the jet matrix multiplies the Gram norm of the conjugate of a vector by at most
+the same factor with $w=\frac12\sum(l/L+\log l!+l\log(\abs{\sigma c}^2/\Omega))$, the sum over the lengths $l$ of the first $n$
+rows of the diagram.
+\end{theorem}
+\lean{New.integral_exp_neg_inv_mul_normalizedVolume, New.norm_integral_normalizedVolume_le, New.norm_realVac, New.Parameters.jet_jetSeries_mul, New.Parameters.map_jet_eq_integral, New.Parameters.norm_jet_translate_le, New.Parameters.norm_map_pairChar, New.Parameters.norm_jet_le_of_isVacuumCombination, New.FitsRanks.sum_diagramWeight_eq_boxes, New.sqrt_prod_pow_le_exp, New.schurGrowthExponent, New.Parameters.hasConjugateGrowth_schurCoeffPoly, New.Parameters.sqrt_weylNormSq_schurJet_le_of_isVacuumCombination}
+
+\begin{proof}
+\emph{One translate.} Write $f$ as a combination of translates $\varrho(\mathrm{fin}(x))\omega(g)\theta^\circ$ of the integral vacuum, with coefficients of total conjugate size at most $B$; the twist by the characters contributes the values $a(\det h)b(\det g)^{-1}$, whose conjugates over $K$ have modulus $1$, and $\sigma$ may be replaced by an
+automorphism over $K$ that gives the same norms. A factor $c$ in the scale moves into the polynomial: the jet along $Q$ at scale $c\mathsf a$ is the jet along $Q(cz)$ at scale $\mathsf a$. By \cref{thm:jet-conjugation} the conjugate of the jet of a translate $F$ is the Gaussian integral
+\[
+  \int Q^\sigma(t\bar y)\,F'(y)\,e^{-\abs y^2/2}\,d\mu(y)
+\]
+of the conjugate polynomial at $t\bar y$ against $F'=L(F)$, with $\mu$ Lebesgue measure divided by $\pi$ in each complex coordinate, so that $e^{-\abs y^2}$ has integral $1$. By \cref{thm:jet-conjugation}(c), $\abs{F'}\le\exp(C_0(q_1nn'+1)^2)$. With $R=\abs y^2/(2L+2)$ the hypothesis $\abs{\sigma c}^2/\Omega\le T$ gives
+$\sum\abs{t\bar y\,\sigma c}^2\le T(2L+2)R$, so $\abs{Q^\sigma(t\bar y)}\le Ae^{w+LR}$, and $e^{LR}e^{-\abs y^2/2}=e^{-R}=e^{-\abs y^2/(2L+2)}$. A Gaussian $e^{-\abs y^2/a}$ has integral $a^{\#\text{coordinates}}$ for $\mu$, and there are $fnn'$ complex coordinates; this gives $(2L+2)^{fnn'}$. Summing over the translates
+gives the first bound.
+
+\emph{Schur matrices.} By duality it suffices to bound $\sigma(y^{\mathsf T}\mathrm{Sch}_\kappa(z)\xi)$ for covectors $y$ whose conjugates have dual Gram norm at most $1$. The Schur matrix of $\sigma z$ has squared norm at most $\prod\rho^l$, the product over the first $n$ rows of the diagram at every place of a power $\rho^l$, $l$ the row length,
+with $\sum\rho\le\sum_i\abs{\sigma z_i}^2$; the row lengths add up to the number of boxes, as no column has height strictly between $n$ and $n'$. If $\sum\rho\le e^u(2L+2)R$, then $\sqrt{\prod\rho^l}\le\exp(w+LR)$ with $2w=\sum(l/L+\log l!+lu)$: with $v=u+1/L$, $\rho^l\le l!\,e^{lv}e^{\rho e^{-v}}$, and
+$\sum\rho e^{-v}\le e^{-1/L}(2L+2)R\le2LR$ as $e^{1/L}\ge1+1/L$. With $u=\log(\abs{\sigma c}^2/\Omega)$ this is the growth condition, and the first part gives the bound for the matrix.
+\end{proof}
+
+\begin{proposition}[Normalised kernels]\label{prop:mod-kernel}
+For index sets of size at most $\Delta$ and degrees $D\le M$ there is $c\ne0$ such that, for every datum built from a
+function $\Psi$ on matrices modulo a modulus $\mathfrak m\ni qM^2$ with values integral away from $q$ and a homogeneous
+polynomial $Q$ of degree $D$: $c$ times the kernel is integral at every $p\nmid q$ at points integral above $p$ when $Q$ is
+$p$-integral; and its $\sigma$-conjugates are at most $\exp(x_1)AB$, where $A$ bounds the conjugates of $\Psi$ and $B$ bounds $\sigma Q$
+on the polydisc of radius $M^4$. Moving the points by rational elements substitutes the variables of $Q$ on both sides.
+\end{proposition}
+\lean{New.Rows.modKernelStdSpace_embFin_mul, New.Rows.blockSumOne_mem_integralAbove, New.Rows.stdEmbFin_blockSumOne, New.Rows.blockSumOne_mul_mem_integralAbove, New.Rows.modKernelScale, New.Rows.modKernelScale_ne_zero, New.Rows.jet_jetSeries_pairWeil_vacuumDatum, New.Rows.norm_modKernelScale_mul_modKernelStdSpace_le_one, New.Rows.norm_map_eval_le_of_isHomogeneous, New.Rows.norm_map_sq_div_bigOmega_mul_le, New.Rows.hasConjugateGrowth_of_isHomogeneous, New.Rows.M_pow_mul_card_mul_exp_le, New.Rows.norm_modKernelScale_mul_modKernelStdSpace_le, New.Rows.IsModKernelScale, New.Rows.exists_ne_zero_isModKernelScale, New.modKernelStdSpace, New.Rows.twoSidedSubst}
+
+\begin{proof}
+\emph{Rational points.} The kernel is invariant under the rational points; translating $g$, $h$ by rational $\gamma$, $\gamma'$ leaves the real point, which lies in the maximal compact subgroups because the spaces are definite, and acts on the Fock vector by the substitution $x_\tau\mapsto(\Phi_\tau\gamma'^{-1})^{\mathsf T}x_\tau(\Phi_\tau\gamma)^{\mathsf T}$ and by
+the scalars $\prod_\tau\Phi_\tau(\det\gamma')^{-e(\tau)}\Phi_\tau(\det\gamma)^{e'(\tau)}$.
+
+\emph{Integrality.} Let $c$ be the product of a power of $M$ that clears the denominators of the datum (\cref{prop:mod-datum}), a power of the vacuum scale and the factor $\mathsf a^{-D}$; it depends only on the ranks, the data and $D$, and $c\ne0$. The normalised kernel is a jet along $Q$ of the Taylor series of $\omega(g,h)$ applied to the
+datum, which is standard of level $\delta$ at $p$ once its denominator is cleared; the action of points integral above $p$ keeps it standard (\cref{prop:standard-stability}), and the scale of its series is $\bar\delta d\mathsf a$, so \cref{thm:jet-integrality} gives integrality when $Q$ is $p$-integral.
+
+\emph{Size.} For $Q$ homogeneous of degree $D$, a bound $B$ for $\abs{\sigma Q}$ on the polydisc of radius $M^4$ gives the bound $Bt^D$ on the polydisc of radius $tM^4$. With $T=\abs{\sigma(M^2d)}^2/\Omega$ one has $T(2D+2)\le(M^4)^2$, as $\Omega^{-1}\le x^{13}$ and $D\le M$; so $\sum\abs{\sigma z_i}^2\le T(2D+2)R$ puts $\sigma z$ in the polydisc of
+radius $e^RM^4$, and $Q$ has conjugate growth $(T,D,0,B)$. \Cref{thm:jet-size}, applied to the datum, a vacuum combination of size $A$ times the number of matrices modulo $\mathfrak m$ (\cref{prop:mod-datum}), bounds the conjugates; the three factors (the cleared denominator, the number of matrices over $\OO_E/\mathfrak m$, and the
+exponential of \cref{thm:jet-size}) are at most $\exp(x_1)$ by \cref{prop:sizes}, as the ranks are at most $\Delta$ and $D\le M$.
+\end{proof}
+
+\subsection{\texorpdfstring{$p$}{p}-adic gauges}\label{ss:gauges}
+For a prime $p$ and a $p$-adic place, the \emph{gauge} of a vector $\xi$ of a Weyl module of weight $(\kappa,e)$ at a finite point
+$g$ is the sup norm of $\rho(g^{-1})(\iota_p\circ\xi)$, where $g^{-1}$ acts through the embeddings $y\mapsto\iota_p\Phi_\tau(\bar y)$
+extended to finite adeles. A datum $\Phi$ \emph{raises gauges by at most $c$} (from base points $o$, $o'$) if for all $g$, $h$, $\xi$
+the gauge at $ho'$ of $\mathrm{jet}(\omega(g,h)\Phi)\xi$ is at most $\max(c,0)$ times the gauge at $go$ of $\xi$; these data form an
+additive monoid, because the gauge is ultrametric.
+\lean{New.weylGauge, New.weylGauge_add_le_max, New.Kernel.raises, New.Kernel.smul_mem_raises, New.Kernel.omega_mem_raises_iff, New.diagonalWeight, New.diagonalWeight_nonneg, New.diagonalWeight_one, New.integralAbove}
+
+\begin{theorem}[Gauges of one lift]\label{thm:one-lift-gauge}
+Let $\Phi$ be standard of level $\delta\ne0$ at $p$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Standard data are preserved by the Weil action of points integral above $p$.
+\item If $D_u$ is diagonal at the places above $p$ with entries $u_\tau$, $x$, $y$ are integral above $p$, and the weighted entries
+$\prod_\tau\abs{\det u_\tau}^{e_a(\tau)}\prod\abs{u_{\tau,b}}\cdot\abs{\mathrm{Sch}_\kappa(J_c(f))_{i'i}}$ of the jet matrices of all standard
+data are at most $B$, then $\omega(1,xD_uy)\Phi$ raises gauges by at most $B$; the same holds with the jets along products of minors.
+\item $\Phi$ raises gauges by at most $(\abs c/\abs{\bar\delta d})^{L}$ for the kernel of scale $c\mathsf a$, $L$ the number of boxes.
+\item If $p$ is non-split, $\delta=1$ and $c$ is integral, $\Phi$ raises gauges by at most $p^{-(D_p(\kappa)-fN^3(1+\log_p\max(L,1)))}$.
+\item If $A\cdot f$ is standard of level $N$ for an integer $A$ and $A(Nd)^L$ divides $M$, then $Mf$ does not increase gauges.
+\end{enumerate}
+\end{theorem}
+\lean{New.Parameters.pairWeil_mem_standardData, New.Parameters.omega_mem_raises_of_schurJet_le, New.Parameters.omega_mem_raises_of_jet_minorProd_le, New.Parameters.mem_raises_of_standardData, New.Parameters.mem_raises_predictedDivisibility, New.Parameters.smul_mem_raises_of_dvd}
+
+\begin{proof}
+(a) The Weil action of a pair of points integral above $p$ is $\omega$ at a finite point integral above $p$ times values of the characters, which are $p$-adic units; it maps the translates of the integral vacuum by vectors that $\delta$ makes integral above $p$ to multiples of such translates (\cref{prop:standard-stability}). The kernel is linear
+in the datum, and a scalar $z$ scales the gauge by $\norm{\iota_pz}$; translating the datum by $(g_0,h_0)$ amounts to translating the base points, as $(g,h)\mapsto(gg_0,hh_0)$ is a bijection.
+
+(b) Gauges do not change under rational points acting on both the point and the vector, nor under points integral above $p$ acting on the right. By weak approximation choose rational $\gamma$, $\varepsilon$ such that $\gamma g$, $\varepsilon g'xD_u$ and $D_u\varepsilon g'xD_u\,D_u^{-1}$ are integral above $p$; this moves the two gauges to the points $D_u^{-1}$ and
+$1$, where the claim is an entrywise bound: at the embedding $\iota_p\Phi_\tau\bar{(\cdot)}$, $D_u$ acts by the diagonal matrix $u_\tau$, so the operator from the gauge at $1$ to the gauge at $D_u^{-1}$ is the jet matrix with its rows scaled by the diagonal weights. Each entry of the jet matrix is bounded by the jet along a product of minors with the
+same rows (\cref{prop:schur-entry}), which gives the second form.
+
+(c) With $x=D_u=y=1$, the entries of the Schur matrix are homogeneous polynomials with integral coefficients, and \cref{thm:jet-integrality} bounds the jets of standard data of level $\delta$ by $(\abs c/\abs{\bar\delta d})^L$.
+
+(d) With $x=D_u=y=1$, jets along products of minors of standard data of level $1$ at a non-split $p$ have the predicted divisibility (\cref{thm:standard-divisibility}).
+
+(e) Write $M=A(Nd)^Lq$ with $q$ an integer. As $Af$ is standard of level $N$, (c) shows that it raises gauges by at most $(\abs c/\abs{Nd})^L$, which $(Nd)^L$ cancels; with $\abs c\le1$ there remains $\norm{\iota_pq}\le1$.
+\end{proof}
+
+\begin{proposition}[Data from functions modulo an ideal]\label{prop:mod-datum}
+Let $\mathfrak m$ be a modulus with $qN\in\mathfrak m$ and $\Psi$ a function on matrices modulo $\mathfrak m$ with values integral away from
+$q$. Then for every prime $l\nmid q$, $N^{2fnn'}c_{\rm vac}^{nn'}$ times the datum that is $\Psi$ at the places dividing $\mathfrak m$ and the vacuum
+elsewhere is standard of level $N$ at $l$. If $\abs{\sigma\Psi}\le A$ for all $\sigma$, this datum is a vacuum combination of size $A$ times
+the number of matrices modulo $\mathfrak m$; the indicator of one matrix gives a combination of size $1$.
+\end{proposition}
+\lean{New.Parameters.absNorm_span_natCast_eq_pow_numInfPlaces, New.Modulus.card_residueRing_le, New.Parameters.smul_schrodingerOp_mem_standardData, New.Parameters.vacuumScale_pow_smul_vacuumDatum, New.Parameters.smul_vacuumDatum_mem_standardData, New.Parameters.isAdmissibleCombination_vacuumDatum_of_sum_le, New.Parameters.isAdmissibleCombination_vacuumDatum, New.Parameters.isVacuumCombination_vacuumDatum, New.Parameters.isAdmissibleCombination_vacuumDatum_indicator, New.vacuumDatum}
+
+\begin{proof}
+\emph{Sizes.} The ideal of $\OO_E$ generated by an integer $k$ has norm $k^{2f}$, so if $k\in\mathfrak m$ the residue ring has at most $k^{2f}$ elements; for the matrices of size $n'\times n$ there are at most $k^{2fnn'}$ of them.
+
+\emph{Standardness.} By Fourier inversion modulo $\mathfrak m$ (\cref{ss:B-weil}, (W6)), the datum that is $\Psi$ at the places dividing $\mathfrak m$ and the vacuum elsewhere, applied to the integral vacuum, is a combination of translates of the integral vacuum by vectors $y$ that $N$ makes integral at the places not dividing $q$, with
+the denominator the norm of $N$ to the power $nn'$, that is $N^{2fnn'}$; the coefficients are values of $\Psi$, integral at every $l\nmid q$. A place above $l$ does not divide $q$, so these translates are standard data of level $N$ at $l$. The factor $c_{\rm vac}^{nn'}$ turns the vacuum into the integral vacuum.
+
+\emph{Size.} With $q=0$ no integrality is asked, and Fourier inversion writes the datum as a combination of translates of the integral vacuum whose coefficients, for each $\sigma$, have total absolute value at most $\sum_x\abs{\sigma\Psi(x)}$, which is at most $A$ times the number of matrices modulo $\mathfrak m$; enlarging the set of
+translations does not change this. For the indicator of one matrix $y_0$ only the vector of the entries of $y_0$ contributes, with a coefficient of absolute value $1$.
+\end{proof}

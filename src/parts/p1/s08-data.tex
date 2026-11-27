@@ -1,0 +1,342 @@
+\section{The parameters and the data}\label{sec:data}
+
+The argument works at one length $x$ of the prime sum at a time. For each large integer $x$ it
+fixes a family of objects, the \emph{data}: three scales $x\le x_1\le b$, ranks, a CM field $E$,
+two sets of infinite places of $E$ with weights, and three primes. This section defines them,
+records their sizes and proves that they exist for every large $x$.
+
+\subsection{The parameters}\label{ss:parameters}
+
+\begin{definition}\label{def:parameters}
+The \emph{parameters} are an integer $q_0$ divisible by $18480=2^4\cdot3\cdot5\cdot7\cdot11$ and a
+prime $d$ with $d\equiv q_0/2-1\pmod{q_0}$. We put $K=\Q(\sqrt{-d})\subset\C$ and let
+$\chiK=(\,\cdot\,/d)$.
+\end{definition}
+\lean{New.Parameters}
+
+The congruence says that $q_0\mid2(d+1)$ and $q_0\nmid d+1$, that is, $d+1$ is an odd multiple of
+$q_0/2$. The parameters are fixed throughout; constants that depend on them only are called
+\emph{constants}. Since $16\mid q_0$, we have $8\mid d+1$, so $d\equiv7\pmod8$; in particular
+$d\equiv3\pmod4$ and $\chiK$ is the character of $K$. Moreover $2(d+1)\ge q_0\ge18480$, so $d>64$.
+
+For $s\ge1$ let $l_0(s)=3^{\lfloor\log_3s\rfloor+4}$, the least power of $3$ exceeding $27s$; then
+$27s<l_0(s)\le81s$. Put
+\[
+  T(s)=3\,l_0(s)\,2^s,\qquad q_1=q_1(s)=q_0\,T(s),\qquad q_2=q_2(s)=(q_0d)^{s+6}.
+\]
+\lean{New.l₀, New.towerDeg, New.Parameters.q₁, New.Parameters.q₂}
+
+\begin{lemma}\label{lem:split-primes}
+Let $p$ be a prime dividing $q_1$. Then $p$ divides $(d+1)/4$ and $\chiK(p)=1$; that is, $p$ splits
+in $K$. Consequently every prime $p$ with $\chiK(p)\neq1$ satisfies $p\ge13$. Moreover $q_1$ is prime
+to $d$, and $q_1d\mid q_2$.
+\end{lemma}
+\lean{New.Parameters.dvd_d_add_one_div_four_of_dvd_q₁, New.Parameters.chiK_eq_one_of_dvd, New.Parameters.thirteen_le_of_chiK_ne_one, New.Parameters.coprime_q₁_d, New.Parameters.q₁_mul_d_dvd_q₂}
+
+\begin{proof}
+The primes dividing $T(s)$ are $2$ and $3$, which divide $q_0$, so the primes dividing $q_1$ are those
+dividing $q_0$. Since $d+1$ is an odd multiple of $q_0/2$ and $8\mid q_0/2$, every prime dividing
+$q_0$ divides $(d+1)/4$ (for $p=2$ because $16\mid q_0$). For $p=2$, $\chiK(2)=1$ since
+$d\equiv7\pmod8$. For odd $p$, quadratic reciprocity and $d\equiv3\pmod4$ give
+$\bigl(\frac pd\bigr)=\bigl(\frac{-d}{p}\bigr)$, and $-d\equiv1\pmod p$. The primes below $13$ divide
+$18480$, hence $q_1$, and split. If $d\mid q_1$ then $\chiK(d)=1$, which is false.
+\end{proof}
+
+\subsection{The field \texorpdfstring{$E$}{E} and its infinite places}\label{ss:field-E}
+Fix $s\ge1$. Let $E=K(\zeta)$, where $\zeta$ is a primitive root of unity of order $q_1$.
+
+\begin{proposition}\label{prop:field-E}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The cyclotomic polynomial of order $q_1$ is irreducible over $K$; thus
+$\Gal(E/K)\cong(\Z/q_1\Z)^\times$, $a\mapsto(\zeta\mapsto\zeta^a)$. The field $E$ embeds into
+$\Q(\zeta_{q_1d})$, so it is abelian over $\Q$, and it is a CM field.
+\item The infinite places of $E$ form a group $\Phi$ isomorphic to $\Gal(E/K)\cong(\Z/q_1\Z)^\times$:
+fix an embedding $\iota_0\colon E\to\C$ over $K$; the place attached to $g\in\Gal(E/K)$ is that of
+$\iota_0\circ g$. The embeddings $\Phi_v=\iota_0\circ g_v$, one for each place $v$, form a CM type.
+For an integer $\nu$ prime to $q_1$ we write $\nu\in\Phi$ for the place of the class of $\nu$; thus the
+automorphism attached to $\nu$ maps $\zeta$ to $\zeta^\nu$.
+\item $E$ has $f=T(s)\totient(q_0)$ infinite places, and exactly $T(s)$ of them have class $1$ modulo
+$q_0$.
+\item Every root of unity of $E$ is a power of $\zeta$.
+\item For $y\in E$, $\prod_{v\in\Phi}\Phi_v(y)=\Nm_{E/K}(y)$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Parameters.irreducible_cyclotomic, New.Parameters.toCycloField, New.Parameters.galOfPlace, New.Parameters.placeMulEquiv, New.Parameters.numInfPlaces_E, New.Parameters.card_placeClass_eq_one_eq_towerDeg, New.Parameters.exists_zeta_pow_eq, New.Parameters.prod_phi_eq_norm}
+
+\begin{proof}
+(a) Since $q_1$ is prime to $d$, the field $\Q(\zeta_d,\zeta_{q_1})$ has degree $\totient(d)\totient(q_1)$
+over $\Q$, so the cyclotomic polynomial of order $q_1$ is irreducible over $\Q(\zeta_d)$, which
+contains $K$ (by the Gauss sum $\sqrt{-d}=\sum_{a\bmod d}\chiK(a)\zeta_d^a$, as $d\equiv3\pmod4$).
+Irreducibility over $K$ follows. The element $\zeta_{q_1d}^d$ is a primitive $q_1$-th root of unity
+and $\zeta_{q_1d}^{q_1}$ a primitive $d$-th root of unity, which gives the embedding. A totally
+imaginary quadratic extension of the totally real subfield of an abelian field is CM.
+(b) is the transport of the group structure. (c) The number of places is
+$[E:K]=\totient(q_1)$, and $\totient(q_1)=T(s)\totient(q_0)$ because every prime dividing $T(s)$
+divides $q_0$; equivalently $\Phi_{q_1}(X)=\Phi_{q_0}(X^{T(s)})$ for the cyclotomic polynomials.
+The reduction $(\Z/q_1)^\times\to(\Z/q_0)^\times$ is onto, with kernel of order $T(s)$.
+(d) A root of unity $y\in E$ satisfies $y^{q_1d}=1$ through the embedding of (a). If $y^{q_1}\neq1$,
+then $y^{q_1}$ has order $d$, and $E$ would contain $\Q(\zeta_d,\zeta_{q_1})$, of degree
+$\totient(d)\totient(q_1)>2\totient(q_1)=[E:\Q]$ as $d>64$. (e) The norm is the product of the
+conjugates $g(y)$, $g\in\Gal(E/K)$, and $\iota_0(g_v(y))=\Phi_v(y)$.
+\end{proof}
+
+We write $\Phi_a\subseteq\Phi$ for the set of places of class $1$ modulo $q_0$, the
+\emph{$a$-places}; by (c), $\#\Phi_a=T(s)$ and $f=\#\Phi_a\cdot\totient(q_0)$. For $\nu\in\Z$ prime to
+$q_1$ and $\tau\in\Phi$ we write $-\nu\tau$ for the product in $\Phi$ of the place $-\nu$ and
+$\tau$; for $\nu$ not prime to $q_1$ we let $-\nu\tau=\tau$ (the convention plays no role, since such
+$\nu$ will carry the weight zero).
+\lean{New.Data.aPlaces, New.Parameters.placeOfInt, New.Data.card_aPlaces, New.Data.f_eq_card_aPlaces_mul}
+
+Let $\gamma$ be Euler's constant, $\mathrm{rd}_E=\abs{\disc E}^{1/[E:\Q]}$ the root discriminant, and
+\begin{equation}\label{eq:Omega}
+  \Omega=\exp\Bigl(\gamma-\re\frac{L'}{L}(1,\chiK)\Bigr)\frac{2\pi}{\mathrm{rd}_E}.
+\end{equation}
+This number enters through the Chowla--Selberg formula for the periods of the CM elliptic curves
+used in \cref{part:derivatives}; the constant $\gamma-\re\frac{L'}{L}(1,\chiK)$ is $-1-c_1$ by
+\cref{sec:transform}, with $c_1=\re G_1(1)$ formed with this $d$.
+\lean{New.Parameters.bigOmega, New.re_logDerivMean_one}
+
+\subsection{Sparse sets of places}\label{ss:sparse}
+The places of weight $b$ will be chosen so that no prime $\ell$ links three of them by powers of
+$\ell$. For a prime $\ell$ write $q_1^{(\ell)}$ for the part of $q_1$ prime to $\ell$.
+
+\begin{definition}\label{def:sparse}
+A set $S\subseteq\Phi$ is \emph{sparse for the primes up to $L$} if there are no prime $\ell\le L$,
+integers $0<i<j<l_0(s)$, signs $\epsilon,\epsilon'\in\{\pm1\}$ and places $\sigma,\tau,\rho\in S$
+(not necessarily distinct) with
+\[
+  \tau/\sigma\equiv\epsilon\,\ell^i\quad\text{and}\quad\rho/\sigma\equiv\epsilon'\,\ell^j
+  \pmod{q_1^{(\ell)}}.
+\]
+\end{definition}
+\lean{New.Parameters.IsSparse}
+
+\begin{lemma}[Behrend's sets]\label{lem:behrend}
+Let $n,H,L\ge1$ and let $o$ be an integer with $(LH)^n\le o$. There is a set $S$ of at least
+$H^n/(nH^2)$ integers in $[0,o)$ such that a congruence
+$(\alpha+\alpha')e_2\equiv\alpha e_1+\alpha'e_3\pmod o$ with $e_1,e_2,e_3\in S$, integers
+$\alpha,\alpha'>0$ and $\alpha+\alpha'\le L$ forces $e_1=e_2=e_3$.
+\end{lemma}
+\lean{New.exists_three_term_free, New.eq_of_add_mul_eq_of_sum_sq_eq}
+
+\begin{proof}
+The vectors of $\{0,\dots,H-1\}^n$ have squared lengths in $[0,nH^2)$, so some sphere
+$\sum_lv_l^2=k$ contains at least $H^n/(nH^2)$ of them. Let $S$ be the set of integers whose digits in
+base $LH$ form such a vector $v$: $e=\sum_lv_l(LH)^l$. These lie in $[0,o)$. In a congruence as in the
+statement both sides, $(\alpha+\alpha')e_2$ and $\alpha e_1+\alpha'e_3$, have digits below $LH$ in
+every position (their digit vectors are $(\alpha+\alpha')v$ and $\alpha u+\alpha'w$, with entries
+$<LH$) and lie in $[0,o)$; so the congruence is an equality of digit vectors,
+$(\alpha+\alpha')v=\alpha u+\alpha'w$. Then $v$ is a proper convex combination of $u$ and $w$, and
+all three have the same length; strict convexity of the sphere, in the form
+$\alpha\alpha'\abs{u-w}^2=(\alpha+\alpha')(\alpha\abs u^2+\alpha'\abs w^2)-\abs{\alpha u+\alpha'w}^2=0$,
+gives $u=v=w$.
+\end{proof}
+
+\begin{proposition}\label{prop:sparse}
+Let $n\ge1$ and $W\ge1$ with $W\le2^s\le W^n$, $(2l_0)^n\le W$ and $3l_0n2^n\le W^3$, where
+$l_0=l_0(s)$, and let $L$ satisfy $2l_0(L+1)<2^s$. There is a set $S\subseteq\Phi$ of places of
+class $-1$ modulo $q_0$ with $T(s)\le\#S\cdot W^6$ that is sparse for the primes up to $L$.
+\end{proposition}
+\lean{New.Parameters.exists_orderOf_placeClass_eq, New.Parameters.exists_large_isSparse, New.Parameters.exists_isSparse, New.two_pow_le_of_pow_eq_one, New.modEq_orderOf_of_div_pow_eq, New.Parameters.placeClass_sq_eq}
+
+\begin{proof}
+Write $q_0=2^vu$ with $u$ odd, so $v\ge4$. The integer $g=1+3l_0q_0=1+2^v(3l_0u)$ has order exactly
+$2^s$ modulo $2^{s+v}$, which divides $q_1$. Choose $H=2^k$ with $H^n\le2^s/W<(2H)^n$; then $H\le W$
+and $(2l_0H)^n\le2^s$. Let $S_0$ be a set as in \cref{lem:behrend} with $L=2l_0$ and $o=2^s$, the order
+of $g$ modulo $2^{s+v}$, and let $S$ consist of the places $-g^e$, $e\in S_0$. These are distinct
+modulo $2^{s+v}$, and of class $-1$ modulo $3l_0q_0$, hence modulo $q_0$. The count
+$\#S\ge H^n/(nH^2)\ge2^s/(W\cdot2^nnW^2)$ gives $T(s)=3l_0 2^s\le\#S\cdot W^6$ by the hypotheses.
+
+Suppose $\sigma=-g^{e_1}$, $\tau=-g^{e_2}$, $\rho=-g^{e_3}$ violate sparseness for $\ell,i,j$. If
+$\ell=2$, then modulo $3^{\lfloor\log_3s\rfloor+5}=3l_0$, which divides $q_1^{(2)}$, all places of $S$
+are $\equiv-1$, so $\tau/\sigma\equiv1$, and squaring $\tau/\sigma\equiv\pm2^i$ gives $4^i\equiv1$;
+but $4=1+3$ has order $l_0>i$ modulo $3l_0$. If $\ell$ is odd, squaring the two congruences modulo
+$2^{s+v}$, which divides $q_1^{(\ell)}$, gives
+\[
+  (g^{e_2-e_1})^{2j}\equiv\ell^{2ij}\equiv(g^{e_3-e_1})^{2i}\pmod{2^{s+v}},
+\]
+hence $(2a+2i)e_2\equiv2ae_1+2ie_3\pmod{2^s}$ with $a=j-i>0$, and $2a+2i=2j\le2l_0$. By
+\cref{lem:behrend}, $e_1=e_2=e_3$, so $\tau=\sigma$ and $\ell^{2i}\equiv1\pmod{2^{s+1}}$. By the
+lifting-the-exponent lemma at the prime $2$, if $\ell$ is odd and $\ell^o\equiv1\pmod{2^{s+1}}$ with
+$o\ge1$, then $2^s$ divides $(\ell-1)o$ or $(\ell+1)o$, and hence $2^s\le(\ell+1)o$. With $o=2i$ this
+gives $2^s\le(\ell+1)\,2i\le(L+1)\,2l_0$, against the hypothesis.
+\end{proof}
+
+\subsection{The data}\label{ss:data}
+
+\begin{definition}\label{def:data}
+The \emph{data} for the parameters consist of the following objects.
+\begin{enumerate}[label=\textup{(D\arabic*)}]
+\item \emph{Scales:} integers $x\le x_1\le b$ such that
+\[
+  (\log b)^{100}\le x,\quad x^{10^6}\le x_1,\quad x_1^{10^6}\le b,\quad(\log x_1)^6\le\log b,\quad
+  \log\log b\ge10^{12}C_0,
+\]
+where $C_0$ is the constant of \cref{rem:constant-bound}; and $q_1x_1\mid b$.
+\item \emph{Ranks:} a power $m=2^{e+1}$ of $2$ with $m\in[\sqrt x,2\sqrt x]$, a power $r$ of $3$ with
+$r\in[x^5,3x^5]$, and the exponent $s=22(e+1)$, so that $2^s=m^{22}$; we require $s\le32\log x$. We
+put $k=r+1-m$, $t=5r$, $n_j=k+j(t+1)$, $\Delta=2r^8$ (the \emph{gap}) and $a=xb$ (the \emph{long
+order}).
+\item \emph{Places and weights:} the field $E$ of \cref{ss:field-E} for this $s$, and a set
+$\Phib\subseteq\Phi$ of places of class $-1$ modulo $q_0$, the \emph{$b$-places}, with
+$T(s)\le\#\Phib\cdot\log b$, sparse for the primes up to $kt$. The \emph{weight} of $\tau\in\Phi$ is
+$\kappa(\tau)=b$ if $\tau\in\Phib$ and $\kappa(\tau)=a/x_1$ otherwise. For $j\ge0$ the \emph{lift
+weights} are $\kappa_j(\tau)=\kappa(\tau)+(j+\tfrac12)\Delta$.
+\item \emph{Primes:} distinct primes $p_0,p_1\equiv1\pmod{q_2^2}$ in $[b^{10},b^{11}]$ with
+$M=p_0p_1=\pi_M\bar\pi_M$ for some $\bar\pi_M\in\OO_K$; and a prime $N\equiv1\pmod{q_2^2}$, the
+\emph{level}, with $N=\pi_N\bar\pi_N$ for some $\pi_N\in\OO_E$ and
+\[
+  \log N_-\le\log N\le\log N_-+\sqrt{\log b},\qquad
+  N_-=\bar\kappa^{\,m}\Bigl(\frac{M\,\mathrm{rd}_E}{2\pi}\Bigr)^{m-1}b^{-15/2},
+\]
+where $\bar\kappa$ is the geometric mean of the weights $\kappa(\tau)$ over all $f$ places.
+\end{enumerate}
+\end{definition}
+\lean{New.Data, New.Data.k, New.Data.t, New.Data.n, New.Data.gap, New.Data.a, New.Data.weight_eq, New.Data.liftWeight, New.Parameters.logLevelMin}
+
+The scales in (D1) are recorded with their logarithms; the inequalities between them are the only
+facts about the scales that the argument uses. The weight $a/x_1$ is an integer since $q_1x_1\mid b$.
+
+\begin{remark}\label{rem:constant-bound}
+The constant $C_0$ is the sum of $q_0$, $2d+6$, $\abs{\gamma-\re\frac{L'}{L}(1,\chiK)}$, the sum of
+$\abs{\log\abs{\Phi_{q_0}'(w)}}$ over the complex roots $w$ of the cyclotomic polynomial
+$\Phi_{q_0}$, and a bound for the conjugates of the integral vacuum of \cref{part:derivatives}. It bounds
+every constant that the argument meets. In particular $C_0\ge\max(64,q_0,d,\totient(q_0))$.
+\end{remark}
+\lean{New.Parameters.constantBound, New.Data.le_constantBound}
+
+\begin{proposition}[Sizes]\label{prop:sizes}
+For data as in \cref{def:data}:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+quantity & size & order in $x$\\
+\midrule
+$s$, $l_0$ & $s\le32\log x$, $27s<l_0\le81s$ & $0$\\
+$\log x_1$, $\log b$ & $(\log x_1)^6\le\log b$, $(\log b)^{100}\le x$ & $\le1/100$\\
+$m$ & $x\le m^2\le4x$ & $1/2$\\
+$k$, $r$, $t$ & $k\le r\le2k$, $t=5r$ & $5$\\
+$2^s$, $f$, $q_1$ & $x^{11}\le m^{22}=2^s\le f\le q_1\le x^{12}$ & $11$\\
+$\mathrm{rd}_E$, $\Omega^{-1}$ & $x^{10}\le\mathrm{rd}_E\le x^{12}$, $1\le\Omega^{-1}\le x^{13}$ & $\approx11$\\
+$\Delta$ & $2r^8$ & $40$\\
+weights & $a/x_1\le\kappa(\tau)\le b$; $x^{999}\le a/x_1\le b/x^{999}$ & \\
+$M$ & $b^{20}\le M\le b^{22}$ & \\
+$N$ & $m\log b\le\log N\le30m\log b$; $N\ge b^{101}$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+Moreover $\log h_E\le x^{30}$ for the class number $h_E$ of $E$; the ranks $m$, $k$ are even and
+$r$, $t$ odd; $q_1d\mid N-1$ and $q_1d\mid p_i-1$.
+\end{proposition}
+\lean{New.Data.x_pow_le_x₁, New.Data.x₁_pow_le_b, New.Data.logX₁_pow_le_logB, New.Data.logB_pow_le_x, New.Data.m_sq_mem_Icc, New.Data.r_le_two_mul_k, New.Data.f_mem_Icc, New.Data.q₁_le, New.Data.log_classNumber_le, New.Data.a_div_x₁_mem_Icc, New.Data.levelPrime_mem_Ioo, New.Data.bigOmega_le_one, New.Data.log_M_div_bigOmega_mem_Icc, New.Data.log_N_mem_Icc, New.Data.N_modEq_one, New.Data.r_odd, New.Data.m_even}
+
+\begin{proof}
+We go through the table; throughout, constants are at most $C_0$, and $C_0$ is negligible against $\log\log b$ by (D1).
+
+\emph{Exponents and scales.} $s\le32\log x$ is required in (D2), and $27s<l_0\le81s$ holds by the choice of $l_0$ as the least power of $3$ above $27s$. The inequalities between $x$, $x_1$ and $b$ are those of (D1).
+
+\emph{Ranks.} $m\in[\sqrt x,2\sqrt x]$ gives $x\le m^2\le4x$. As $m\ge2$, $k=r+1-m\le r$; as $r\ge x^5\ge4\sqrt x\ge2m$, $2k=2r+2-2m\ge r$. The number $t=5r$ is a definition. The ranks are even or odd as stated: $m=2^{e+1}$ is even, $r$ is a power of $3$ and odd, $k=(r+1)-m$ is even and $t=5r$ is odd.
+
+\emph{The field.} By (D2), $2^s=m^{22}$, and $m^{22}\ge(\sqrt x)^{22}=x^{11}$. By \cref{prop:field-E}(c), $f=T(s)\totient(q_0)\ge T(s)=3l_02^s\ge2^s$, and $f=\totient(q_1)\le q_1$. Finally $q_1=3q_0l_02^s\le3q_0\cdot81s\cdot2^{22}x^{11}\le x^{12}$, because $q_0\le C_0$ and $s\le32\log x$. The different of $E$ is generated by
+$\delta_E$ with $\abs{\delta_E}_v=A_vT(s)\sqrt d$ at every infinite place, $\abs{\log A_v}\le C_0$ (\cref{rem:delta-size}), and $\mathrm{rd}_E^{\,f}=\prod_v\abs{\delta_E}_v$ (\cref{prop:delta-E}); hence $\abs{\log\mathrm{rd}_E-\log(T(s)\sqrt d)}\le C_0$, and $x^{11}\le T(s)\le x^{11.5}$ gives $x^{10}\le\mathrm{rd}_E\le x^{12}$. By \eqref{eq:Omega},
+$\Omega^{-1}=\mathrm{rd}_E\exp(-\gamma+\re\tfrac{L'}L(1,\chiK))/(2\pi)$, and the exponent is at most $C_0$ in absolute value; so $1\le\Omega^{-1}\le x^{13}$.
+
+\emph{Class number.} By Minkowski's bound and a count of the ideals of bounded norm, $h_E\le(2^n\abs{\disc E})^{n+1}$ with $n=[E:\Q]=2f$, and $\abs{\disc E}=\mathrm{rd}_E^{\,2f}$; with $f\le x^{12}$ and $\log\mathrm{rd}_E\le12\log x$ this gives $\log h_E\le(2f+1)\,2f(\log2+12\log x)\le x^{30}$.
+
+\emph{Gap and weights.} $\Delta=2r^8$ is a definition, and $r^8\in[x^{40},3^8x^{40}]$. The weights are $b$ and $a/x_1=xb/x_1$; as $x\le x_1$, $a/x_1\le b$. In logarithms, $\log(a/x_1)=\log x+\log b-\log x_1\ge(1-10^{-6})\log b\ge999\log x$, and $\log b-999\log x-\log(a/x_1)=\log x_1-1000\log x\ge0$, as $x^{10^6}\le x_1$; so $x^{999}\le a/x_1\le b/x^{999}$.
+
+\emph{Primes.} The primes $p_0$, $p_1$ lie in $[b^{10},b^{11}]$ by (D4), so $b^{20}\le M\le b^{22}$. Since $p_i\equiv1$ and $N\equiv1$ modulo $q_2^2$, and $q_1d\mid q_2$ (\cref{lem:split-primes}), $q_1d$ divides $p_i-1$ and $N-1$.
+
+\emph{The level.} By definition $\log N_-=m\log\bar\kappa+(m-1)\log(M\mathrm{rd}_E/2\pi)-\tfrac{15}2\log b$. Here $\log\bar\kappa\in[0,\log b]$, as every weight lies in $[1,b]$; and $\log(M\mathrm{rd}_E/2\pi)\in[19\log b,23\log b]$ by the bounds for $M$ and $\mathrm{rd}_E$. Hence $\log N_-\ge19(m-1)\log b-\tfrac{15}2\log b\ge m\log b$ for $m\ge2$, and $\log N_-\le m\log b+23(m-1)\log b\le24m\log b$. By (D4),
+$\log N\in[\log N_-,\log N_-+\sqrt{\log b}]$, and $\sqrt{\log b}\le6m\log b$; so $m\log b\le\log N\le30m\log b$. As $m\ge\sqrt x\ge101$, $N\ge b^{101}$.
+\end{proof}
+
+\begin{remark}[Comparison of sizes]\label{rem:magnitudes}
+Every quantity $F$ attached to the data that occurs in an inequality below has bounds
+$e^{l}\le F\le e^{l'}$ in which $l$ and $l'$ are linear combinations of $\log x$, $\log x_1$,
+$\log b$, $\log\log b$, $\log\log x_1$ and $C_0$; the bounds of products are the sums of the bounds,
+and those of sums are the maxima (plus $1$ for upper bounds). An inequality $F\le G$ is then proved by
+checking that the upper exponent of $F$ is below the lower exponent of $G$, a linear inequality in
+these six quantities that follows from (D1). In the Lean development this comparison is automatic;
+in the text we state the resulting inequalities and leave the arithmetic to the reader, indicating
+the exponents where they are not evident.
+\end{remark}
+\lean{New.Data.HasLogBound, New.Data.le_of_hasLogBound, New.Data.scale_inequalities}
+
+\subsection{Existence of the data}\label{ss:existence}
+The primes in (D4) come from short windows in which the logarithm of a prime $\equiv1$ modulo a
+large modulus is guaranteed. The following theorem, a consequence of the Siegel--Walfisz theorem
+\cite[Cor.~11.19]{MontgomeryVaughan2007}, is proved in \cref{ss:B-primes} from the zero-free region
+by Newman's contour argument.
+
+\begin{theorem}\label{thm:prime-windows}
+Let $M_0$ be a positive multiple of $4$ and $A\ge1$. For all large $W$ the following holds: for every
+$k>1$ with $M_0^k\le W^A$ and every $U\in[W,W^A]$ there is a prime $p\equiv1\pmod{M_0^k}$ with
+$\log p\in[U,U+W]$.
+\end{theorem}
+\lean{New.exists_prime_modEq_one_log_mem}
+
+\begin{lemma}\label{lem:prime-pair}
+Let $W>0$ and $L$ with $(2h_K+2)W\le L$, where $h_K$ is the class number of $K$. Suppose that every
+window $[U,U+W]$ with $10L\le U\le11L$ contains $\log p$ for a prime $p\equiv1\pmod{q_2^2}$. Then there
+are distinct such primes $p_0,p_1$ in $[e^{10L},e^{11L}]$ and $\bar\pi_M\in\OO_K$ with
+$\pi_M\bar\pi_M=p_0p_1$.
+\end{lemma}
+\lean{New.Parameters.exists_prime_pair_norm, New.exists_ne_isPrincipal_mul}
+
+\begin{proof}
+Take one prime $p_i$ from each of the $h_K+1$ disjoint windows starting at $10L+2iW$,
+$0\le i\le h_K$. Each $p_i\equiv1\pmod{q_1d}$ splits in $K$ (by \cref{lem:split-primes}
+$\chiK(p_i)=\chiK(1)=1$, as $\chiK$ has conductor $d$), say $p_i\OO_K=I_iJ_i$ with $J_i=\bar I_i$.
+Among the $h_K+1$ classes of the $I_i$ two coincide, $[I_i]=[I_j]$ with $i\ne j$; then
+$I_iJ_j=I_i\bar I_j$ is principal, since $[J_j]=[I_j]^{-1}$. A generator $\bar\pi_M$ has norm $p_ip_j$.
+\end{proof}
+
+\begin{lemma}\label{lem:level-prime}
+Let $b=e^L$ with $L\ge7$ and $W^2\le L$; let $m\ge2$, let weights $\kappa(\tau)\in[1,b]$ be given, let
+$M\in[b^{20},b^{22}]$, and let $q_1d\le b$. Suppose that every window $[U,U+W]$ with
+$mL\le U\le24mL$ contains $\log N$ for a prime $N\equiv1\pmod{q_2^2}$. Then there are such a prime $N$
+with $\log N_-\le\log N\le\log N_-+\sqrt L$ and $\pi_N\in\OO_E$ with $\pi_N\bar\pi_N=N$.
+\end{lemma}
+\lean{New.Parameters.logLevelMin_mem_Icc, New.Parameters.exists_prime_log_mem_Icc_mul_star_eq, New.Parameters.exists_mul_star_eq_prime}
+
+\begin{proof}
+By the proof of \cref{prop:sizes}, $\log N_-\in[mL,24mL]$, and $W\le\sqrt L$. A prime $N\equiv1
+\pmod4$ is a sum of two squares $u^2+v^2$ by Fermat's theorem, and $E$ contains $i=\zeta^{q_1/4}$,
+so $\pi_N=u+vi$ serves.
+\end{proof}
+
+\begin{theorem}[Existence of the data]\label{thm:data-exist}
+Let $0<\ve<1/100$. For every sufficiently large integer $x$ there are data with this $x$, with
+$x_1=\lfloor\exp(x^{\ve/6})\rfloor$, with $b$ the least multiple of $q_1x_1$ exceeding
+$\exp(x^\ve)$, with $m$ the least power of $2$ with $m\ge\sqrt x$ and $r$ the least power of $3$ with
+$r\ge x^5$. For them $x^{\ve/6}-1\le\log x_1$ and $x^\ve\le\log b\le x^\ve+1$.
+\end{theorem}
+\lean{New.Parameters.exists_eventually_isLargeScale, New.Parameters.IsLargeScale.exists_isAdmissibleData, New.Parameters.IsAdmissibleData.exists_hasFields, New.eventually_exists_data}
+
+\begin{proof}
+Put $y=\log x$ and $W=x^{\ve/6}$. Fix an integer $n\ge1$ with $99q_0d\le n\ve/6$; then
+$q_2^2\le W^n$ whenever $s\le32y$. For large $x$ the following hold: $100(6\log W+1)\le y$;
+$\log W\ge10^{12}C_0$; $W\ge2\cdot10^6y$; $W\ge2h_K+2$; $n+1\le W$; $(5184y)^n\le W$; and
+$7776\,y\,n\,2^n\le W$. These are statements that a fixed power of $y$ is small against
+$W=e^{\ve y/6}$.
+
+\emph{Ranks.} Let $m=2^{e+1}$ and $r$ be the least powers of $2$ and $3$ with $m\ge\sqrt x$, $r\ge x^5$;
+then $m\le2\sqrt x$, $r\le3x^5$, and $s=22(e+1)\le32y$. Hence $W\le\sqrt x\le m\le2^s\le W^n$.
+
+\emph{Places.} Since $l_0\le81s\le2592y$, we have $(2l_0)^n\le W$, $3l_0n2^n\le W^3$ and
+$2l_0(kt+1)<2^s=m^{22}$, as $kt\le15x^{10}$ and $m^{22}\ge x^{11}$. \Cref{prop:sparse} with $L=kt$
+gives a sparse set $\Phib$ of places of class $-1$ with $T(s)\le\#\Phib\cdot W^6$.
+
+\emph{Scales.} Let $x_1=\lfloor e^W\rfloor$ and $b$ the least multiple of $q_1x_1$ above
+$\exp(W^6)$. Since $q_1\le W^n$, $\log b\in[W^6,W^6+1]$ and $\log\log b\in[6\log W,6\log W+1]$. Then
+$\log b\ge W^6$ gives $T(s)\le\#\Phib\log b$; and the inequalities of (D1) reduce to those listed
+above, for instance $(\log b)^{100}\le e^{100(6\log W+1)}\le x$ and $x^{10^6}\le x_1$ because
+$10^6y\le W-1$.
+
+\emph{Primes.} Let $L=\log b$. Then $W^2\le L$ and $24mL\le W^{n+7}$, and the windows
+$[U,U+W]$ with $W\le U\le W^{n+7}$ contain logarithms of primes $\equiv1\pmod{(q_0d)^k}$ for every
+$k>1$ with $(q_0d)^k\le W^{n+7}$, by \cref{thm:prime-windows} (with $M_0=q_0d$, a multiple of $4$, and
+$A=n+7$), for large $x$. Since $q_2^2=(q_0d)^{2(s+6)}\le W^n$, \cref{lem:prime-pair} with
+$(2h_K+2)W\le W^2\le L$ gives $p_0,p_1,\bar\pi_M$, and \cref{lem:level-prime} gives $N$ and $\pi_N$.
+\end{proof}

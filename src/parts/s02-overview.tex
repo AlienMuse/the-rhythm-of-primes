@@ -1,0 +1,234 @@
+\section{The argument in outline}\label{sec:overview}
+
+This section sets out the chain of the proof and the part of the paper in which each step is proved, and
+describes the objects of the argument and the way the three theorems combine; precise
+definitions and statements follow in the later parts, to which we refer. Throughout, the parameters
+$q_0,d$ and the data of \cref{def:data} are fixed: scales $x\le x_1\le b$, the number $m\asymp\sqrt x$
+of lifts, ranks $r\asymp x^5$, $k=r+1-m$ and $t=5r$, the CM field $E=K(\zeta_{q_1})$ with its group
+$\Phi$ of $f$ infinite places, the weights $\kappa(\tau)$, and the primes $p_0,p_1,N$.
+
+\subsection{The chain of the proof}\label{ss:overview-chain}
+The proof is a chain of implications, each of which is a theorem proved in a definite part of the
+paper. \Cref{fig:chain} shows the chain, and \cref{tab:parts} the parts of the paper and their roles.
+
+\begin{figure}[t]
+\centering
+\small
+\begin{tikzpicture}[x=1mm,y=1mm,
+  box/.style={draw,rounded corners=1mm,line width=.4pt,align=flush center,inner sep=1.4mm,text width=#1,
+    execute at begin node={\hyphenpenalty=10000\exhyphenpenalty=10000}},
+  box/.default=33mm,
+  imp/.style={-{Stealth[length=1.7mm,width=1.3mm]},line width=.4pt}]
+\node[box=72mm,minimum height=30mm] (main) at (-21.5,0) {Theorem~\ref{thm:main-grh}:\\ the Generalized Riemann Hypothesis\\ for Dirichlet $L$-functions\\
+  Theorem~\ref{thm:grh-half-plane}, \cref{sec:main}};
+\node[box,minimum height=30mm] (rh) at (43,0) {Theorem~\ref{thm:main-rh}:\\ the Riemann\\ Hypothesis\\ Theorem~\ref{thm:zeros-on-line}, by the\\ functional equation\\ (\cref{ss:B-zero-symmetry})};
+\draw[imp] (main.east) -- (rh.west);
+\node[box] (crit) at (-43,-31) {One-sided criterion\\ \cref{thm:one-sided-criterion}\\ \S\S\ref{sec:transform}--\ref{sec:criterion}\\ \cref{ss:B-analytic-intro} ff.};
+\node[box=38mm] (bound) at (0,-31) {One-sided bound\\ $R_{q_0}(y)\le y^{-1/2+\ve}$\\ \cref{thm:one-sided-bound}};
+\node[box] (pnt) at (43,-31) {Prime number\\ theorem for the\\ remainders; the data\\ \S\S\ref{sec:pnt}, \ref{sec:data}};
+\node[box=38mm] (ineq) at (0,-55) {Main inequality\\ $m\,\rem\le fa\log^5b$\\ \cref{thm:main-inequality}; \cref{sec:lattices}};
+\node[box] (A) at (-43,-81) {Theorem~\ref{thm:A}:\\ short forms\\ \cref{part:upper}\\ \S\S\ref{sec:spaces}--\ref{sec:elementary-divisors}};
+\node[box=38mm] (C) at (0,-81) {Theorem~\ref{thm:C}:\\ integral forms are long\\ \cref{part:lower}\\ \S\S\ref{sec:one-lift-norm}--\ref{sec:theorem-C}};
+\node[box] (B) at (43,-81) {Theorem~\ref{thm:B}:\\ enough forms\\ \cref{part:spanning}\\ \S\S\ref{sec:moment}--\ref{sec:frames}};
+\node[box] (P2) at (-43,-108) {Derivatives of\\ theta functions\\ \cref{part:derivatives}\\ \S\S\ref{sec:field}--\ref{sec:sharpness}};
+\node[box=38mm] (P6) at (0,-108) {Congruences and\\ regular twists\\ \cref{part:congruences}\\ \S\S\ref{sec:galois-lifts}--\ref{sec:fit}};
+\node[box] (ds) at (43,-108) {Discrete series\\ with a large gap\\ \cref{app:ds}};
+\node[box=119mm] (bg) at (0,-130) {Background results in the form used, with their sources: \cref{app:background}\\
+  used throughout; the analytic ones, \cref{ss:B-analytic-intro}--\ref{ss:B-zero-symmetry}, are proved in full};
+\draw[imp] (crit.north) -- (crit.north|-main.south);
+\draw[imp] (bound.north) -- (bound.north|-main.south);
+\draw[imp] (pnt.west) -- (bound.east);
+\draw[imp] (ineq.north) -- (bound.south);
+\draw[imp] (A.north) |- (ineq.west);
+\draw[imp] (B.north) |- (ineq.east);
+\draw[imp] (C.north) -- (ineq.south);
+\draw[imp] (P2.north) -- (A.south);
+\draw[imp] ([xshift=11mm]P2.north) -- ++(0,3.5) -| ([xshift=-12mm]C.south);
+\draw[imp] (P6.north) -- (C.south);
+\draw[imp] ([xshift=-11mm]ds.north) -- ++(0,3.5) -| ([xshift=12mm]C.south);
+\draw[imp] (ds.north) -- (B.south);
+\end{tikzpicture}
+\caption{The chain of the proof. Arrows lead from the results used to the result proved; boxes name
+the sections containing the proofs.}\label{fig:chain}
+\end{figure}
+
+\begin{enumerate}[label=\textup{(S\arabic*)},leftmargin=2.6em]
+\item\label{it:chain-main} \emph{The main theorems.} Theorems~\ref{thm:main-grh} and~\ref{thm:main-rh}
+are \cref{thm:grh-half-plane,thm:zeros-on-line}. The second follows from the first: by the functional
+equation (\cref{ss:B-zero-symmetry}) a zero $s$ of $L(\cdot,\chi)$ with $0<\re s<1$ gives the zero
+$1-s$ of $L(\cdot,\bar\chi)$, both have real part at most $1/2$, and so $\re s=1/2$; $\zeta$ is the
+$L$-function of the character modulo $1$.
+\item \emph{Nonvanishing from a one-sided bound.} \Cref{thm:grh-half-plane} combines the criterion
+\cref{thm:one-sided-criterion}, by which $L(\rho,\psi)\ne0$ for every character $\psi$ modulo $q_0$
+and every $\rho\ne1$ with $\re\rho>\beta$ as soon as $R_{q_0}(x)\le x^{\beta-1}$ for large $x$ and for
+every prime $d$ in a residue class, with the one-sided bound \cref{thm:one-sided-bound}; passing from
+$q_0$ to the modulus of $\chi$ changes $L(s,\chi)$ by Euler factors only, and for $\re s\ge1$ the
+nonvanishing is classical. The criterion rests on
+Landau's theorem for Dirichlet series with nonnegative coefficients and on the choice of $d$
+(\cref{sec:transform,sec:criterion}).
+\item \emph{The bound at one scale.} \Cref{thm:one-sided-bound} follows from \cref{prop:R-at-x}, which
+bounds $R_{q_0}(x)$ by $\totient(q_0)\log^6b/m$ and the remainders at the second scale $x_1$. These
+are small by the prime number theorem in progressions (\cref{thm:pnt-Rq}); data with $m\ge\sqrt x$
+exist for every large $x$ (\cref{thm:data-exist}); and \cref{cor:slow-variation} passes from integers
+to all real $y$.
+\item \emph{The main inequality.} \Cref{prop:R-at-x} is the expression of $R_{q_0}(x)$ through the total
+remainder (\cref{prop:total-remainder}(c)) together with the main inequality
+$m\,\rem\le fa\log^5b$ (\cref{thm:main-inequality}).
+\item \emph{Three theorems.} Theorem~\ref{thm:B} provides a family of short forms spanning almost all
+of the target; Theorem~\ref{thm:A} bounds its covolume and its index from above, and
+Theorem~\ref{thm:C} bounds the same quantities from below. In the comparison the main amount $\hmain$
+cancels, and $m\,\rem$ remains, bounded by the errors (\cref{ss:main-inequality}).
+\item \emph{Theorem~\ref{thm:A}.} The seesaw identity (\cref{thm:seesaw}) writes the chain of lifts of a
+Poincar\'e image as a composite lift of a source form. The size of the composite lift
+(\cref{thm:composite-size}) and its divisibility (\cref{thm:divisibility}), computed from the
+derivatives of theta functions of \cref{part:derivatives}, give part~(a); part~(b) is the divisibility
+read as an index (\cref{sec:size}).
+\item \emph{Theorem~\ref{thm:B}.} By \cref{thm:one-translate,thm:few-translates} it suffices that the
+projected Poincar\'e map be a near isometry and that its translates have a small second moment; both
+are \cref{thm:spanning-inputs}, which rests on the unfolding of Poincar\'e series into Bessel periods
+(\cref{thm:unfolding}), the filling theorem (\cref{thm:filling}) with its main term and remaining terms
+(\cref{sec:main-term,sec:remaining}), and the equality of multiplicities (\cref{thm:equal-multiplicities}).
+\item \emph{Theorem~\ref{thm:C}.} It is \cref{thm:twist-for-each-prime} applied to the twisted lattice of
+the target. The inputs are auxiliary forms (\cref{thm:auxiliary-forms}); the factorisation of the
+volume of the chain into the volumes of single lifts and ratios of Hecke values
+(\cref{thm:factorisation}); and the height of each single-lift ratio (\cref{thm:cost-one-lift}) for a
+regular family of twists (\cref{thm:regular-family}), which exists by the congruences of
+\cref{part:congruences} (\cref{thm:denominator-bound,thm:fit-one-prime}).
+\end{enumerate}
+
+\emph{Closure.} Every theorem, proposition, lemma and corollary of the paper is used in the proof of
+Theorem~\ref{thm:main-grh} or Theorem~\ref{thm:main-rh}: it is reached from their proofs by following
+the references made in proofs and statements. Each of them is proved in the paper, except the
+background results, which are stated with their sources: those of \cref{app:background}, the
+analytic ones among them being proved in full there, and the facts on CM curves collected in
+\cref{thm:cm-background}. The references between proofs, followed item by item, form no cycle, so the
+statements can be proved in an order in which each proof uses only statements already proved. In
+\texttt{grh-lean} each statement corresponds to declarations listed, section by section, in
+\cref{app:lean}, among them declarations used by the five theorems of \cref{ss:intro-theorems}.
+
+\begin{table}[t]
+\centering
+\small
+\caption{The parts of the paper.}\label{tab:parts}
+\begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}>{\raggedright\arraybackslash}p{.35\textwidth}>{\raggedright\arraybackslash}p{.38\textwidth}@{}}
+\toprule
+part & results & used for\\
+\midrule
+\Cref{part:reduction}, \S\S\ref{sec:transform}--\ref{sec:main} & criterion, prime number theorem for the remainders, twisted lattices, data, main inequality & Theorems~\ref{thm:main-grh} and~\ref{thm:main-rh}\\
+\Cref{part:derivatives}, \S\S\ref{sec:field}--\ref{sec:sharpness} & divisibility of derivatives of theta functions of CM curves, and its sharpness & sizes and divisibility in Theorems~\ref{thm:A} and~\ref{thm:C}\\
+\Cref{part:upper}, \S\S\ref{sec:spaces}--\ref{sec:elementary-divisors} & spaces and chains, seesaw identity, divisibility and size of the composite lift & Theorem~\ref{thm:A}; the spaces in Theorems~\ref{thm:B} and~\ref{thm:C}\\
+\Cref{part:spanning}, \S\S\ref{sec:moment}--\ref{sec:frames} & equal multiplicities, unfolding, filling theorem, main and remaining terms & Theorem~\ref{thm:B}\\
+\Cref{part:lower}, \S\S\ref{sec:one-lift-norm}--\ref{sec:theorem-C} & Rallis' formula, exchange identity, norm of the chain, auxiliary forms, cost of one lift & Theorem~\ref{thm:C}\\
+\Cref{part:congruences}, \S\S\ref{sec:galois-lifts}--\ref{sec:fit} & Galois representations of lifts, Ribet's method, denominators, Selmer data, twisting & regular families of twists in Theorem~\ref{thm:C}\\
+\Cref{app:ds} & discrete series with a large gap & \cref{part:spanning,part:lower}\\
+\Cref{app:background} & background results with their sources & throughout\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\subsection{Spaces and forms}\label{ss:overview-spaces}
+Let $E^+$ be the maximal totally real subfield of $E$. All hermitian spaces are over $E$ and
+\emph{definite}: their unitary groups are compact at every infinite place of $E^+$. Automorphic forms on
+such a group are \emph{algebraic modular forms} in the sense of Gross: functions on a finite set of
+double cosets with values in a finite-dimensional representation, the weight. They carry a natural
+integral structure at every prime, and their spaces carry Petersson inner products given by finite
+sums.
+
+\begin{itemize}[leftmargin=1.5em]
+\item The spaces $X_0,X_1,\dots,X_m$ have ranks $n_j=k+j(t+1)$. The \emph{source} $\mathcal S$ is a
+space of forms on $\U(X_0)$ of a weight concentrated at the $a$-places, ramified at the level $N$.
+\item The spaces $Y_0,Y_1,\dots,Y_m$ have ranks $r+jt$, with $Y_m\subset X_m$ of corank one. The
+\emph{target} $\mathcal T$ is the space of \emph{good} forms on $\U(Y_0)$: forms of principal level at
+the chosen places above $p_0,p_1$ cut out by an idempotent $e_0$ of the group algebra of
+$\bar G=\prod_w\GL_r(\F_w)$, built from Green's characters of finite general linear groups.
+\item For $1\le j\le m$, the pair $(W_j,V_j)$ of spaces of ranks $r$ and $r+t$ is a \emph{descent pair}:
+$W_j$ differs from $Y_0$ only in its signs at the real places, and $V_j$ is definite.
+\end{itemize}
+
+\subsection{Maps}\label{ss:overview-maps}
+\begin{itemize}[leftmargin=1.5em]
+\item The \emph{Poincar\'e map} $\mathcal P\colon\mathcal S\to\{\text{forms on }\U(Y_0)\}$ sends a source
+form to the form that represents its Bessel period in the Petersson product. After projection by
+$e_0$, translation by $g\in\bar G$ and a normalisation, it gives the maps
+$\mathfrak p_g\colon\mathcal S\to\mathcal T$ of Theorems~\ref{thm:A} and~\ref{thm:B}.
+\item For each \emph{twist}, an anticyclotomic Hecke character $\xi$ of $E$ of weight $0$ whose tame part
+has nontrivial powers $\xi^1,\dots,\xi^m$ at the places of its modulus, the \emph{chain}
+$\Theta_\xi\colon\mathcal T\to\{\text{forms on }\U(Y_m)\}$ is the composite of the $m$ theta lifts
+$Y_{j-1}\to Y_j$ with the characters $\mu_j^0\xi^j$ of $\U(1)$, of weights $-\kappa_j$.
+\item The \emph{composite lift} $B_\xi$ on $\mathcal S$ is a finite combination of chains of theta
+lifts $X_0\to X_1\to\cdots\to X_m$, restricted to $Y_m$. The \emph{seesaw identity}
+(\cref{part:upper}) states that on ramified source forms
+\[
+  \Theta_\xi\circ\mathcal P=c_{\rm ss}\,B_\xi
+\]
+for a constant $c_{\rm ss}\neq0$ independent of $\xi$.
+\end{itemize}
+
+The two sides of the seesaw identity are read in different ways. The right side is built from theta
+functions attached to the vectors of lattices of $X_j$; its values are combinations of derivatives
+(\emph{jets}) of theta functions of CM elliptic curves, whose sizes and divisibilities can be computed.
+The left side is a chain of lifts of a target form, whose norms are governed by $L$-values.
+
+\subsection{Theorem A}\label{ss:overview-A}
+Each of the $m$ lifts of the composite lift differentiates theta functions: to order $a$ along the
+$a$-places, and to order $\kappa(\tau)$ in each of about $k$ further directions, at every place $\tau$.
+Two estimates are made for the values of $B_1$ on a source form.
+\begin{itemize}[leftmargin=1.5em]
+\item \emph{Size.} At every conjugate, a derivative of order $j$ costs at most $\sinf(j)$, with
+$\sinf$ as in \eqref{eq:sinf}.
+\item \emph{Divisibility.} At each prime $\ell$ the values are divisible by $\ell$ to the power
+$g_\ell$, the \emph{gain}, up to an error whose total, weighted by $\log\ell$, is at most the error unit.
+The gain is the sum over the lifts and the places of the local parts of the prime sums $\sfin$, so that
+$\sum_\ell g_\ell\log\ell$ is computed by prime sums.
+\end{itemize}
+Dividing $B_1$ by the rational number $\prod_\ell\ell^{g_\ell}$ gives integral forms, and the gains
+cancel between the two estimates. In the $k$ further directions the size $\sinf(\kappa(\tau))$ is
+repaid only by $\sfin(\kappa(\tau),\tau)$, which leaves the main amount
+$\hmain=mk\sum_\tau(\sinf-\sfin)$. Along the $a$-places the size is matched by the expected value
+$\smain$ of the prime sums, while the divisibility is given by the actual prime sums
+$\sfin(a,\tau)$; their difference, summed over the $a$-places and the $m$ lifts, is $m\,\rem$. The
+result is the bound $\exp(\hmain-m\,\rem+fa\log^4b)$ of Theorem~\ref{thm:A}(a). Part~(b), the index
+bound, records that the divisibility holds on a submodule of small colength in the integral source
+forms. The bookkeeping is carried out in \cref{part:upper}.
+
+\subsection{Theorem B}\label{ss:overview-B}
+Theorem~\ref{thm:B} asserts that a few translates $\mathfrak p_g(\mathcal S)$, $g\in \Sigma$, already span
+almost all of $\mathcal T$. It follows from a second-moment bound for the operators $\mathcal P^*g\mathcal P$:
+the mean over $g\in\bar G$ is close to a multiple of the projection to $\mathcal T$, by an unfolding of
+Poincar\'e series into Bessel periods, an evaluation of the main term by Siegel's formula and a sieve
+over the places, and a bound for the remaining terms by Schur's test (\cref{part:spanning}).
+
+\subsection{Theorem C}\label{ss:overview-C}
+Theorem~\ref{thm:C} is an application of \cref{thm:twist-for-each-prime} to the twisted lattice
+$\mathcal T$. Its inputs are:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item a factorisation of $Z(1)/Z(\xi)$, the ratio of the Gram determinants of the untwisted and the
+twisted chain, into the ratios $Z_j(1)/Z_j(\xi^j)$ for the single lifts $W_j\to V_j$, times a power of a
+scalar given by ratios of Hecke $L$-values (\cref{part:lower});
+\item for each prime place $\iota$, a twist $\xi_\iota$ allowed at the prime of $\iota$ such that each
+ratio $Z_j(1)/Z_j(\xi_\iota^j)$ has height at most $\dimT\bigl(fa\log^4b/m-k\,\hdir\bigr)$. The norm of
+a single lift is a Hecke $L$-value by the Rallis inner product formula; the height bound combines the
+archimedean size of this value with a bound for its denominators, obtained from congruences between
+theta lifts and the smallness of certain anticyclotomic Selmer groups (\cref{part:congruences});
+\item auxiliary forms that complete a family of integral forms to a basis at a controlled cost.
+\end{enumerate}
+Multiplying the $m$ single-lift bounds gives a height of about $-\dimT\,\hmain$ for $Z(1)/Z(\xi_\iota)$,
+and \cref{thm:twist-for-each-prime} turns it into the lower bound $c+2\delta\ge\dimT(\hmain-O(fa\log^4b))$.
+
+\subsection{Sizes}\label{ss:overview-sizes}
+The exponents are chosen so that every error is smaller than the main amount by a power of $x$, and
+so that the main inequality yields the exponent $1/2$. \Cref{prop:sizes} lists the sizes. The
+choices interact as follows.
+\begin{itemize}[leftmargin=1.5em]
+\item The main inequality has the form $m\,\rem\le fa\log^5b$, and $\rem$ is about
+$a\,\#\Phib\,R_{q_0}(x)$ with $\#\Phib\ge f/(\totient(q_0)\log b)$. Hence $R_{q_0}(x)\ll
+\log^6b/m$, and $m\ge\sqrt x$ with $\log b\le2x^\ve$ gives the exponent $-1/2+6\ve$.
+\item The number of lifts cannot exceed about $\sqrt x$: a chain of $m$ lifts adds $m$ blocks of
+$t+1$ dimensions, and the gap $\Delta=2r^8$ between the weights of consecutive lifts must dominate
+the ranks, while all lift weights stay within $x^{42}$ of $\kappa$ (\cref{ss:data}). The relation
+between $m$ and $x$ is the quantitative form of the remark, recalled in \cref{ss:intro-method}, that a
+chain of $m$ lifts plays the part of vanishing to order $m$.
+\item The second scale $x_1\ge x^{10^6}$ makes the prime sums at the places outside $\Phib$ run up to
+$x_1$, where the prime number theorem applies; the third scale $b\ge x_1^{10^6}$ makes the weights
+large against all other sizes, so that the errors are measured in the unit $\errunit=fa\log^3b$.
+\end{itemize}

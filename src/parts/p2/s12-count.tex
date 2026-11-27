@@ -1,0 +1,469 @@
+\section{Couplings, the normal form and the count}\label{sec:normal-form}
+
+We pass from one curve to products of theta functions in many variables. The variables are indexed
+by pairs $(\tau,i)$ of a place $\tau$ in a finite set $\Phi$ and a coordinate $i$ in a finite set; a
+\emph{partner rule} assigns to each exponent $e\ge0$ and place $\tau$ a place $\mathrm{pr}_e\tau$.
+In the application $\Phi$ is the group of infinite places of $E$ and $\mathrm{pr}_e\tau=-p^e\tau$.
+The main result, \cref{thm:count}, bounds from below the valuation of the derivatives at $0$ of a
+series in normal form along products of minors.
+
+\subsection{Couplings and the normal form}\label{ss:couplings}
+Let $c$ be a finite set and $z=(z_{\tau,i})_{(\tau,i)\in\Phi\times c}$. For $e\ge0$ the
+\emph{coupling} is
+\[
+  \Gamma_e=\sum_{(\tau,i)}z_{\tau,i}^{\,p^e}\,z_{\mathrm{pr}_e\tau,i},
+\]
+and for a set $S$ of exponents and numbers $\lambda=(\lambda_{ej})$ in $\OO$
+\[
+  \Xi_{S,\lambda}=\sum_{e\in S}\sum_{j\ge0}\lambda_{ej}\,\Gamma_e^{\,p^j}.
+\]
+The sum converges coefficientwise, since $\Gamma_e^{p^j}$ is homogeneous of degree
+$(p^e+1)p^j$. A series $F$ over $\Cp$ in the variables $z$ \emph{has the normal form}
+$(S,\mathrm{pr},\varpi,\lambda)$ if
+\[
+  F(\varpi z)=W\exp\bigl(c_\varpi\,\Xi_{S,\lambda}\bigr)
+\]
+for an integral series $W$, where $c_\varpi=\varpi^{p+1}/p$.
+\lean{New.coupling, New.couplingSum, New.HasNormalForm, New.hasSum_couplingSum, New.rescale_coupling, New.le_order_coupling, New.constantCoeff_couplingSum}
+
+\begin{lemma}\label{lem:exp-integral}
+Let $a\in\Cp$ and $\pi\in\OO$ with $\abs{a\pi}\le p^{-1/(p-1)}$, and let $G$ be an integral series
+without constant term whose coefficients of degree at most $B$ are divisible by $\pi$. Then $\exp(aG)$
+is integral in all degrees at most $B$.
+\end{lemma}
+\lean{New.norm_coeff_expSubst_smul_le_one}
+
+\begin{proof}
+In degrees at most $B$ the coefficients of $G^k$ are divisible by $\pi^k$, and only $k\le B$ occurs.
+The coefficients of $a^kG^k/k!$ in these degrees have valuation at least
+$k\,v(a\pi)-v(k!)\ge k/(p-1)-(k-1)/(p-1)>0$, by Legendre's formula $v(k!)=(k-s_p(k))/(p-1)$ with
+$s_p(k)\ge1$ the sum of the $p$-adic digits.
+\end{proof}
+
+\begin{proposition}\label{prop:normal-form-rules}
+Let $F$ have the normal form $(S,\mathrm{pr},\varpi,\lambda)$, and let $\pi\in\OO$ with
+$\abs{c_\varpi\pi}\le p^{-1/(p-1)}$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item\label{it:nf-mod} \emph{(Reduction modulo $\pi$.)} If $F(\varpi z)=W\exp(c_\varpi\Xi)$ with $W$,
+$\Xi$ integral, $\Xi(0)=0$ and $\Xi\equiv\Xi_{S,\lambda}\pmod\pi$, then $F$ has the normal form
+$(S,\mathrm{pr},\varpi,\lambda)$.
+\item\label{it:nf-scale} \emph{(Scaling.)} For $\alpha\in\OO$ the series $F(\alpha z)$ has the normal
+form $(S,\mathrm{pr},\varpi,\lambda')$ with $\lambda'_{ej}=\alpha^{(p^e+1)p^j}\lambda_{ej}$. If
+$\varpi\ne0$ and $\abs{\varpi'}=\abs\varpi$, then $F$ has a normal form
+$(S,\mathrm{pr},\varpi',\lambda'')$ for some $\lambda''$.
+\item\label{it:nf-subst} \emph{(Substitution.)} If $Z=(Z_x)$ are integral series without constant term
+in other variables, then $F(\varpi Z)=W'\exp\bigl(c_\varpi\,\Xi_{S,\lambda}(Z)\bigr)$ with $W'$
+integral.
+\item\label{it:nf-integral} \emph{(Integrality.)} If moreover $\pi$ divides $\Gamma_e(Z)$ for all $e\in S$
+with $p^e\le B$, then $F(\varpi Z)$ is integral in all degrees at most $B$.
+\end{enumerate}
+\end{proposition}
+\lean{New.HasNormalForm.of_dvd_sub, New.HasNormalForm.rescale, New.rescale_couplingSum, New.HasNormalForm.exists_of_norm_eq, New.HasNormalForm.exists_subst_eq_mul_expSubst, New.subst_expSubst, New.subst_coupling, New.hasSum_subst_couplingSum, New.le_order_subst_coupling_pow, New.dvd_coeff_subst_couplingSum, New.HasNormalForm.norm_coeff_subst_le_one}
+
+\begin{proof}
+(a) We have
+\[
+  F(\varpi z)=W\exp(c_\varpi\Xi_{S,\lambda})\exp\bigl(c_\varpi(\Xi-\Xi_{S,\lambda})\bigr),
+\]
+and the last factor is integral by \cref{lem:exp-integral} applied in all degrees; we absorb it into
+$W$. (b) The series $F(\alpha\varpi z)=W(\alpha z)\exp(c_\varpi\Xi_{S,\lambda}(\alpha z))$ has the
+integral factor $W(\alpha z)$, and $\Gamma_e(\alpha z)=\alpha^{p^e+1}\Gamma_e(z)$. For the second statement write $\varpi'=u\varpi$
+with $\abs u=1$; then $F(\varpi'z)=W(uz)\exp(c_{\varpi'}u^{-(p+1)}\Xi_{S,\lambda}(uz))$, which is the
+normal form with $\lambda''_{ej}=u^{(p^e+1)p^j-(p+1)}\lambda_{ej}$.
+(c) Substitute $Z$ into $F(\varpi z)=W\exp(c_\varpi\Xi_{S,\lambda})$; substitution of series without
+constant term commutes with products, with convergent sums and with the exponential.
+(d) The series $\Gamma_e(Z)^{p^j}$ has order at least $p^e+1$, so for $p^e>B$ it does not contribute
+in degrees at most $B$; for the other $e\in S$ it is divisible by $\pi$. Hence $\Xi_{S,\lambda}(Z)$ has
+coefficients divisible by $\pi$ in degrees at most $B$, and (c) and \cref{lem:exp-integral} give the
+claim.
+\end{proof}
+
+For the sharpness of the count (\cref{sec:sharpness}) we also need the derivatives of
+$\Xi_{S,\lambda}$ modulo $p$. For a variable $y=(\tau',i)$ let $\Pi_{e,y}=\sum z_x^{p^e}$, the sum over
+the $x=(\tau,i)$ with $(\mathrm{pr}_e\tau,i)=y$.
+
+\begin{lemma}\label{lem:derivative-coupling-sum}
+If $0\notin S$, then $\partial\Xi_{S,\lambda}/\partial z_y\equiv\sum_{e\in S}\lambda_{e0}\Pi_{e,y}
+\pmod p$. In particular, modulo $\mathfrak m$ the only monomials of $\partial\Xi_{S,\lambda}/\partial
+z_y$ are the $z_x^{p^e}$ with $e\in S$ and $(\mathrm{pr}_e\tau,i)=y$, with coefficient
+$\lambda_{e0}$.
+\end{lemma}
+\lean{New.partnerPowerSum, New.dvd_pderiv_pow_pow, New.dvd_pderiv_coupling_sub, New.coeff_partnerPowerSum_self, New.exists_single_of_coeff_partnerPowerSum_ne_zero, New.le_order_partnerPowerSum, New.summable_smul_partnerPowerSum, New.dvd_pderiv_couplingSum_sub, New.residue_coeff_pderiv_couplingSum_eq, New.residue_coeff_pderiv_couplingSum, New.exists_eq_single_of_residue_coeff_pderiv_ne_zero}
+
+\begin{proof}
+For $j\ge1$ the derivative of $G^{p^j}$ is $p^jG^{p^j-1}\partial G$, divisible by $p$. For $e\ge1$
+the derivative of $z_x^{p^e}z_{x'}$ is $z_x^{p^e}$ in $z_{x'}$ and divisible by $p$ in $z_x$. Hence
+$\partial\Gamma_e/\partial z_y\equiv\Pi_{e,y}$ for $e\ge1$, and only the terms $j=0$ count.
+\end{proof}
+
+\subsection{Resolutions of the identity and theta products}\label{ss:resolutions}
+Let now $\Phi$ be the group of infinite places of $E=K(\zeta)$ (for the parameters and some $s$), and
+let $n$ be a finite set. For $y\in E^n$ the linear form $y^\dagger z=\sum_{(\tau,i)}
+\overline{\Phi_\tau(y_i)}\,z_{\tau,i}$ has coefficients $y^\dagger_{\tau,i}=\overline{\Phi_\tau(y_i)}$.
+A family of vectors $u_j\in E^n$, $j\in J$, with multiplicities $m_j\in\N$ is a \emph{resolution of
+the identity} if
+\[
+  z=\sum_jm_j\,(u_j^\dagger z)\,u_j\qquad\text{for all }z\in\C^{\Phi\times n},
+\]
+where $u_j$ is read as the vector $(\Phi_\tau(u_{j,i}))_{\tau,i}$. Equivalently
+$\sum_jm_j\overline{(u_j^\dagger z')}(u_j^\dagger z)=\sum_x\overline{z'_x}z_x$ (Parseval). An element
+$y\in E$ is \emph{integral above $p$} if it is integral at every place of $E$ above $p$; then
+$y=a/N$ with $a\in\OO_E$ and $N\in\N$ prime to $p$, and $\abs{\sigma(y)}\le1$ for every embedding
+$\sigma\colon E\to\Cp$.
+\lean{New.dagger, New.daggerForms, New.IsResolution, New.IsResolution.sum_conj_mul, New.IsIntegralAbove, New.IsIntegralAbove.exists_mul_eq, New.IsIntegralAbove.norm_le_one, New.IsIntegralAbove.norm_conj_le_one, New.IsResolution.sum_smul_linearSeries}
+
+Let $C$ be a CM lattice for $d$ and $\theta$, $y$ its functions (\cref{ss:cm-curve}). For linear forms
+$\mu_j$ over $\Cp$ and multiplicities $m_j$ put
+\[
+  \Theta_{\mu,m}=\prod_j\theta(\mu_jz)^{m_j},
+\]
+and let $\OO[[y(\mu z)]]$ be the ring of series $G\bigl((y(\mu_jz))_j\bigr)$ with $G$ integral. If the
+$\mu_j$ are integral, $\OO[[y(\mu z)]]$ is stable under partial derivatives, since by
+\cref{thm:cm-background}\ref{it:cm-weierstrass} $\partial y(\mu_jz)/\partial z_x=\mu_{jx}(1+3x(\mu_jz)^2-
+a_1y(\mu_jz))$ and $x\in\OO[[y]]$; and scaling $z\mapsto az$ maps $\Theta_{\mu,m}$ to $\Theta_{a\mu,m}$
+and $\OO[[y(\mu z)]]$ to $\OO[[y(a\mu z)]]$.
+\lean{New.CMLattice.thetaProd, New.CMLattice.multiSeriesRing, New.CMLattice.mem_multiSeriesRing_iff, New.CMLattice.rescale_thetaProd, New.CMLattice.rescale_mem_multiSeriesRing, New.CMLattice.pderiv_mem_multiSeriesRing, New.CMLattice.subst_mem_multiSeriesRing, New.map_rescale, New.CMLattice.pderiv_translatedY_subst_linearSeries, New.CMLattice.pderiv_translatedX_subst_linearSeries, New.Space.jetSeries_mul_eq_rescale}
+
+For a prime $p\nmid q_1$, the \emph{partner} of $\tau\in\Phi$ at the exponent $e$ is
+$\mathrm{pr}_e\tau=(-p^e)\,\tau$, the product of $\tau$ with the place of the class of $-p^e$ modulo
+$q_1$.
+\lean{New.Parameters.partner}
+
+\begin{lemma}[Partners]\label{lem:partners}
+Let $p$ be non-split, $e\in I_p^\circ$, $\tau\in\Phi$ and $\tau'=\mathrm{pr}_e\tau$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\Phi_\tau(a)^{p^e}\equiv\overline{\Phi_{\tau'}(a)}\pmod{\pi_p}$ for $a\in\OO_E$, and
+$\overline{\Phi_\tau(y)}^{\,p^e}\equiv\Phi_{\tau'}(y)\pmod{\pi_p}$ for $y\in E$ integral above $p$.
+\item For $y\in E^n$ integral above $p$,
+$(y^\dagger z)^{p^e}\equiv\sum_{(\tau,i)}\Phi_{\mathrm{pr}_e\tau}(y_i)\,z_{\tau,i}^{p^e}\pmod{\pi_p}$.
+\item For a resolution of the identity $(u_j,m_j)$ by vectors integral above $p$,
+\[
+  \sum_jm_j\,(u_j^\dagger z)^{p^e}(u_j^\dagger z)\equiv\Gamma_e\pmod{\pi_p}.
+\]
+\end{enumerate}
+\end{lemma}
+\lean{New.piPrimeInt_dvd_iff, New.Parameters.norm_pow_sub_conj_partner_le, New.Parameters.norm_conj_pow_sub_partner_le, New.Parameters.dvd_pow_sub_sum_partner, New.Parameters.norm_daggerForms_le_one, New.Parameters.piPrimeInt_dvd_sum_linearSeries_sub_coupling}
+
+\begin{proof}
+(a) Let $\varphi\colon\OO_E\to\OO/\pi_p$ be the reduction of $\iota_p\circ\Phi_1$, a ring homomorphism to
+a ring of characteristic $p$. Since $\Phi_v=\Phi_1\circ g_v$ and complex conjugation commutes with
+$\Phi_{\tau'}$, the two sides of the first congruence are the ring homomorphisms
+$\psi_1(a)=\varphi(g_\tau a)^{p^e}$ and $\psi_2(a)=\varphi(g_{\tau'}\bar a)$. As $\OO_E=\Z[\zeta,\beta]$
+(\cref{prop:different}), it suffices to compare them at $\zeta$ and at $\sqrt{-d}$. At $\zeta$:
+$\psi_1(\zeta)=\varphi(\zeta)^{a_\tau p^e}$ and $\psi_2(\zeta)=\varphi(\zeta)^{-a_{\tau'}}$, equal since
+$a_{\tau'}\equiv-p^ea_\tau\pmod{q_1}$ (here $p\nmid q_1$). At $\sqrt{-d}$: $\psi_2(\sqrt{-d})=
+-\varphi(\sqrt{-d})$. If $p$ is inert, $\varphi(\sqrt{-d})^p=\chiK(p)\varphi(\sqrt{-d})=-\varphi(\sqrt{-d})$
+as in the proof of \cref{lem:frobenius-generators}, so $\psi_1(\sqrt{-d})=(-1)^e\varphi(\sqrt{-d})$,
+which is $\psi_2(\sqrt{-d})$ since $e$ is odd. If $p=d$, then $\varphi(\sqrt{-d})=0$ as
+$\pi_d=\sqrt{-d}$, and both sides vanish. For the second congruence apply the first to $\bar a$, where
+$y=a/N$ with $N$ prime to $p$, and use $N^{p^e}\equiv N\pmod p$.
+(b) Modulo $p$ the $p^e$-th power is additive; apply (a) to each coefficient.
+(c) By (b) the left side is congruent to
+$\sum_{(\tau,i)}z_{\tau,i}^{p^e}\sum_jm_j\Phi_{\mathrm{pr}_e\tau}(u_{j,i})(u_j^\dagger z)$, and the inner
+sum is the coordinate $(\mathrm{pr}_e\tau,i)$ of $\sum_jm_j(u_j^\dagger z)u_j=z$.
+\end{proof}
+
+\begin{lemma}\label{lem:sum-of-exponents}
+Let $\pi\mid p$ in $\OO$, let $\Xi$ be an integral series in one variable with
+$\Xi\equiv\sum_{e\in S}\sum_j\lambda_{ej}(X^{p^e}X)^{p^j}\pmod\pi$, and let $L_i$ be integral series
+without constant term, with multiplicities $m_i$, such that
+$\sum_im_iL_i^{p^e}L_i\equiv\Gamma_e\pmod\pi$ for $e\in S$. Then
+$\sum_im_i\Xi(L_i)\equiv\Xi_{S,\lambda}\pmod\pi$.
+\end{lemma}
+\lean{New.dvd_sum_subst_sub_couplingSum, New.expSubst_nsmul, New.rescale_subst_linearSeries_coe, New.seriesToCp_subst}
+
+\begin{proof}
+Substitution is continuous, so $\Xi(L_i)\equiv\sum_{e,j}\lambda_{ej}(L_i^{p^e}L_i)^{p^j}$. Modulo $p$,
+and hence modulo $\pi$, $p^j$-th powers are additive and $m^{p^j}\equiv m$ for integers $m$, so
+$\sum_im_i(L_i^{p^e}L_i)^{p^j}\equiv(\sum_im_iL_i^{p^e}L_i)^{p^j}\equiv\Gamma_e^{p^j}$.
+\end{proof}
+
+\begin{theorem}[Normal form of theta products]\label{thm:normal-form-theta}
+Let $p$ be non-split and $C=\mathcal E_0$ the CM curve fixed in \cref{ss:vacuum-scale}. There are
+$\varpi\in\Cp$ with $\abs\varpi=p^{-\rho_p}$ and $\lambda_{ej}\in\OO$, with $\lambda_{e0}$ a unit for
+odd $e$ if $p$ is inert, such that the following holds. For every resolution of the identity
+$(u_j,m_j)$ by vectors of $E^n$ integral above $p$ and every $H\in\OO[[y(u^\dagger z)]]$, the series
+$\Theta_{u^\dagger,m}\,H$ has the normal form $(I_p^\circ,\mathrm{pr},\varpi,\lambda)$.
+\end{theorem}
+\lean{New.Parameters.exists_hasNormalForm, New.CMLattice.rescale_thetaProd_eq_mul_expSubst, New.CMLattice.rescale_mem_range_of_mem_multiSeriesRing, New.coeff_subst_linearSeries, New.rescale_subst_linearSeries}
+
+\begin{proof}
+Take $\varpi$, $W$, $\Xi$, $\lambda$ from \cref{thm:exponent}. The forms $\mu_j=u_j^\dagger$ are
+integral by \cref{lem:partners}. Then
+\[
+  \Theta_{\mu,m}(\varpi z)=\prod_jW(\mu_jz)^{m_j}\cdot\exp\Bigl(c_\varpi\sum_jm_j\Xi(\mu_jz)\Bigr),
+\]
+and $H(\varpi z)$ is integral, because $y(\varpi w)=\varpi Y'(w)$ for an integral $Y'$ (write $y$ as an
+integral series in $T$ and use $T(\varpi w)=\varpi Y(w)$). By \cref{lem:partners}(c) and
+\cref{lem:sum-of-exponents} with $\pi=\pi_p$, $\sum_jm_j\Xi(\mu_jz)\equiv\Xi_{I_p^\circ,\lambda}$, and
+\cref{prop:normal-form-rules}\ref{it:nf-mod} applies, since $\abs{c_\varpi\pi_p}=p^{-1/(p-1)}$
+(\cref{rem:exponent-size}).
+\end{proof}
+
+\subsection{Products of minors and the predicted divisibility}\label{ss:minors}
+Let $n$, $n'$ be finite sets of columns and rows, $N=\#n'$, and consider variables $z_{\tau,b,a}$,
+the entries $(b,a)\in n'\times n$ of matrices $z_\tau$, one for each place $\tau$. A \emph{diagram}
+at the place $\tau$ is given by the numbers $\kappa(\tau,h)$ of its columns of height $h$; a
+\emph{filling} $i'$ puts a row $i'(\tau,h,j,b)\in n'$ into the box $b<h$ of the column $j$ of height
+$h$ at $\tau$. For matrices $y_\tau$ with rows indexed by $n$ and columns by $\N$, the \emph{product of
+minors} $P_{i',y}$ is the polynomial
+\[
+  P_{i',y}(z)=\prod_\tau\prod_{h<N}\prod_{j<\kappa(\tau,h)}
+  \det\Bigl(\bigl(z_\tau y_\tau\bigr)_{i'(\tau,h,j,b),k}\Bigr)_{b,k<h},
+\]
+the product over the columns of height below $N$ of the minor of $z_\tau y_\tau$ on the rows of the
+column and its first $h$ columns. It is homogeneous of degree $B=\sum_\tau\sum_{h<N}h\kappa(\tau,h)$,
+the number of boxes in columns of height below $N$. For a polynomial $Q$ and a series $F$ we write
+$Q(\partial)F(0)$ for the value at $0$ of $Q(\partial)F$, the \emph{jet} of $F$ along $Q$.
+\lean{New.minorProd, New.boxes, New.jet, New.DirectionVar, New.card_directionVar_le}
+
+Among the heights below $N$ let $a_\tau$ be the number of columns of height one at $\tau$, $a'_\tau$
+the number of the other columns and $l_\tau$ the number of their boxes. The \emph{predicted
+divisibility} at a non-split prime $p$ is
+\begin{multline*}
+  D_p(\kappa)=v(\pi_p)\sum_{e\in I_p}\sum_\tau\Bigl(\Bigl(\frac{a_\tau}{p^e}-a_{\tau'}-a'_{\tau'}\Bigr)_{\!+}
+  +\Bigl(\frac{l_\tau}{p^e}-l_{\tau'}\Bigr)_{\!+}-\frac{a'_\tau}{p^e}\Bigr)\\
+  -[p=d]\,\frac12\sum_\tau\bigl(\min(a_\tau,a_{\tau''}+a'_{\tau''})+a'_\tau+\min(l_\tau,l_{\tau''})\bigr),
+\end{multline*}
+where $\tau'=\mathrm{pr}_e\tau$ and $\tau''=\mathrm{pr}_0\tau$. For a set $\mathcal M$ of \emph{marked}
+places let $\kappa^\circ$ be $\kappa$ without its columns of height one at the marked places, and for
+places $\sigma$, $\sigma'$ and $e\ge0$ let the \emph{deduction term} be
+\[
+  \delta_e(\sigma,\sigma')=\min\Bigl(\frac{t_\sigma}{p^e},\,r_{\sigma'}+t_{\sigma'}\Bigr)+\frac{r_\sigma}{p^e}
+  +\min\Bigl(\frac{B_\sigma}{p^e},\,B_{\sigma'}\Bigr),
+\]
+where $t_\sigma$ is the number of columns of height one at $\sigma$ ($0$ if $\sigma$ is marked),
+$r_\sigma=a'_\sigma$ and $B_\sigma=l_\sigma$.
+\lean{New.heightOneColumns, New.lowColumnCount, New.lowBoxCount, New.predictedDivisibility, New.eraseHeightOne, New.deductionTerm, New.deductionAt, New.deductionTerm_empty, New.deductionTerm_eraseHeightOne}
+
+\begin{lemma}\label{lem:deduction-identity}
+Without marked places,
+$v(\pi_p)\sum_{e\in I_p^\circ}\sum_\tau\delta_e(\tau,\mathrm{pr}_e\tau)=\gamma_pB-D_p(\kappa)$, the
+series converging. With marked places and for every $e_0$,
+\[
+  v(\pi_p)\sum_{e\in I_p^\circ,\,e\le e_0}\sum_\tau\delta_e(\tau,\mathrm{pr}_e\tau)
+  \le\gamma_pB^\circ-D_p(\kappa^\circ),
+\]
+where $B^\circ$ is the number of boxes of $\kappa^\circ$ in columns of height below $N$.
+\end{lemma}
+\lean{New.boxes_eq_sum, New.deductionAt_nonneg, New.summable_deductionAt, New.mul_tsum_deductionAt, New.mul_sum_deductionTerm_le}
+
+\begin{proof}
+$B=\sum_\tau(a_\tau+l_\tau)$, so by \cref{lem:prime-notation}(a)
+$\gamma_pB=v(\pi_p)\sum_{e\in I_p}p^{-e}\sum_\tau(a_\tau+l_\tau)$. For $e\in I_p$ and without marks,
+$p^{-e}(a_\tau+l_\tau)-\delta_e(\tau,\tau')$ is the summand of $D_p$, by $u-\min(u,u')=(u-u')_+$; and
+for $p=d$ the term $e=0$ of $v(\pi_p)\sum\delta_e$ is the subtracted half sum. The terms are
+nonnegative and $O(p^{-e})$, which gives convergence and the identity. Marking the places of
+$\mathcal M$ changes $\delta_e$ exactly as removing their columns of height one does, and truncating
+at $e_0$ drops nonnegative terms.
+\end{proof}
+
+\subsection{Changing the directions}\label{ss:null-frames}
+Two rows of matrices at the places $\tau$ and $\tau'=\mathrm{pr}_e\tau$ are paired by
+$[\beta,\beta']_e=\sum_a\beta_a^{p^e}\beta'_a$. A pair of heights, $h$ at $\sigma$ and $h'$ at
+$\sigma'$, is \emph{exempt} for $\mathcal M$ if $h=1$ and either $\sigma\in\mathcal M$, or $h'=1$ and
+$\sigma'\in\mathcal M$.
+\lean{New.IsExemptPair, New.PairingSide, New.CongruenceChoice}
+
+\begin{lemma}[Elimination]\label{lem:elimination}
+Let $A_i\in\OO^m$ ($i\in I$, $I$ finite) and $\alpha_i\in\OO$. There is $g\in M_m(\OO)$ with
+$\det g\mid\prod_i\alpha_i$ such that $\alpha_i$ divides $(gA_i)_k$ for all $i$ and $k$.
+\end{lemma}
+\lean{New.exists_det_dvd_and_dvd_mulVec, New.exists_det_dvd_prod_and_dvd_mulVec}
+
+\begin{proof}
+For one form $A$ with values $a_k=A_k$: choose $k_0$ with $v(a_{k_0})$ least; subtracting multiples of
+row $k_0$ from the other rows makes their values $0$, and multiplying row $k_0$ by $\alpha$ makes
+it divisible by $\alpha$; the determinant of these row operations is $\alpha$. For several forms
+compose such operations; later operations are integral row operations and keep the earlier
+divisibilities, and the determinants multiply.
+\end{proof}
+
+\begin{proposition}[New directions]\label{prop:new-directions}
+Let $\pi\mid p$ in $\OO$, $S$ a finite set of exponents, $\mathcal M$ a set of places, and
+$y_\tau\in\OO^{n\times\N}$ directions at each place. There are matrices $g_{\tau,h}\in M_h(\OO)$, one
+for each place and height, such that the new directions
+$\beta_{\tau,h,k}=\sum_{k'<h}(g_{\tau,h})_{kk'}y_{\tau,\cdot,k'}$ satisfy:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $\pi$ divides $[\beta_{\tau,h,k},\beta_{\mathrm{pr}_e\tau,h',k'}]_e$ for all $e\in S$, all
+$\tau$ and all pairs of heights $(h,h')$ that are not exempt;
+\item $\abs\pi^{\sum_{e\in S}\sum_\tau\delta_e(\tau,\mathrm{pr}_e\tau)}\le
+\prod_\tau\prod_{h<N}\abs{\det g_{\tau,h}}^{\kappa(\tau,h)}$.
+\end{enumerate}
+\end{proposition}
+\lean{New.dvd_sum_pow_mul_of_root_dvd, New.dotProduct_sum_mul, New.exists_congruenceChoice_cost_eq_and_covers, New.congruenceModulus, New.norm_rpow_sum_cost_eq_prod_congruenceModulus, New.newDirection, New.exists_newDirection_dvd}
+
+\begin{proof}
+Let $\varpi_e\in\OO$ be a $p^e$-th root of $\pi$. Four kinds of congruence can be imposed on the rows
+of $g_{\tau,h}$, for a source $\sigma$ and its partner $\sigma'=\mathrm{pr}_e\sigma$:
+\begin{enumerate}[label=\textup{(\arabic*)}]
+\item\label{it:src-entries} at $\sigma$, all $h$ entries of each row $\equiv0\pmod{\varpi_e}$; then
+$\beta\equiv0\pmod{\varpi_e}$ and $\beta^{p^e}\equiv0\pmod\pi$;
+\item\label{it:src-pair} at $\sigma$, the linear form $\sum_a\varpi_e(y'_{a,0})\,\beta_a\equiv0
+\pmod{\varpi_e}$, where $\varpi_e(\cdot)$ denotes a chosen $p^e$-th root and $y'_{\cdot,0}$ is the
+direction $0$ at $\sigma'$; then $\pi\mid[\beta,y'_{\cdot,0}]_e$, because $p^e$-th powers are additive
+modulo $p$;
+\item\label{it:par-entries} at $\sigma'$, all entries of each row $\equiv0\pmod\pi$;
+\item\label{it:par-pair} at $\sigma'$, the form $\sum_ay_{a,0}^{p^e}\beta'_a\equiv0\pmod\pi$, where
+$y_{\cdot,0}$ is the direction $0$ at $\sigma$.
+\end{enumerate}
+A row of height one is a multiple of the direction $0$, so a pair of heights $(h,h')$ is
+\emph{covered}, that is $\pi\mid[\beta,\beta']_e$ for all rows of these heights, if \ref{it:src-entries}
+is imposed at height $h$, or \ref{it:par-entries} at height $h'$, or \ref{it:src-pair} at $h$ and
+$h'=1$, or \ref{it:par-pair} at $h'$ and $h=1$. Each congruence modulo $\varpi_e$ costs $v(\pi)/p^e$
+and each congruence modulo $\pi$ costs $v(\pi)$ in the determinant.
+
+For fixed $(e,\sigma)$ impose: \ref{it:src-pair} at every height $h\ne1$; \ref{it:src-entries} at
+$h=1$ if $\sigma\notin\mathcal M$ and $t_\sigma/p^e\le r_{\sigma'}+t_{\sigma'}$, and at $h\ne1$ if
+$B_\sigma/p^e\le B_{\sigma'}$; \ref{it:par-pair} at $h'$ if $t_\sigma/p^e>r_{\sigma'}+t_{\sigma'}$ and,
+for $h'=1$, $\sigma'\notin\mathcal M$; \ref{it:par-entries} at $h'\ne1$ if $B_\sigma/p^e>B_{\sigma'}$.
+Counting the congruences over all columns of height below $N$, those at $\sigma$ weighted by
+$1/p^e$, gives exactly $\delta_e(\sigma,\sigma')$: the first minimum chooses between the height-one
+rows at $\sigma$ and the pairings at $\sigma'$, the term $r_\sigma/p^e$ pays for the pairings at
+$\sigma$, and the second minimum chooses between the entries of the other rows at $\sigma$ and at
+$\sigma'$. Every pair that is not exempt is covered: if $h=1$, then $\sigma\notin\mathcal M$, and
+either \ref{it:src-entries} is imposed at height one or \ref{it:par-pair} is imposed at $h'$ (when
+$h'=1$ the pair is not exempt only if $\sigma'\notin\mathcal M$); if $h\ne1$ and $h'=1$,
+\ref{it:src-pair} covers it; if $h,h'\ne1$, the second minimum imposes \ref{it:src-entries} or
+\ref{it:par-entries}.
+
+All congruences are linear conditions on the rows of $g_{\tau,h}$ that depend on $y$ only. Collect, for
+each $(\tau,h)$, those imposed from all $(e,\sigma)$ with $\tau=\sigma$ or $\tau=\mathrm{pr}_e\sigma$,
+and apply \cref{lem:elimination}: $\abs{\det g_{\tau,h}}$ is at least the absolute value of the
+product of the moduli. Taking the product over $(\tau,h)$, once for each of the $\kappa(\tau,h)$
+columns, the absolute value of the product of all moduli is $\abs\pi$ raised to
+$\sum_{e\in S}\sum_\sigma\delta_e(\sigma,\mathrm{pr}_e\sigma)$, which is (ii).
+\end{proof}
+
+\subsection{The count}\label{ss:count}
+A family of \emph{charges} is a family of exponents $w(\tau,h,b)\ge0$ (place, height, row); it
+\emph{covers the exempt pairs} for $\mathcal M$ if for all $e\in I_p^\circ$, $\tau$, $h$ and rows $b$,
+whenever $(1,h)$ at $(\tau,\mathrm{pr}_e\tau)$ is exempt, $w(\tau,1,b)\ne0$ or
+$w(\mathrm{pr}_e\tau,h,b)\ne0$. The \emph{charge} of a filling is
+$\abs w_{i'}=\sum w(\tau,h,i'(\tau,h,j,b))$ over its boxes in columns of height below $N$.
+\lean{New.IsChargeExponent, New.fillingCharge, New.fillingCharge_zero, New.fillingCharge_congr}
+
+\begin{lemma}[Legendre's bound]\label{lem:legendre}
+Let $G$ be a series in $r$ variables over $\Cp$ that is integral in degree $l$, and $Q$ a homogeneous
+integral polynomial of degree $l$. Then $v\bigl(Q(\partial)G(0)\bigr)\ge l/(p-1)-r(1+\lfloor\log_pl
+\rfloor)$.
+\end{lemma}
+\lean{New.norm_prod_factorial_le, New.norm_jet_le_of_isHomogeneous}
+
+\begin{proof}
+$Q(\partial)G(0)=\sum_{\abs d=l}Q_d\,d!\,G_d$ with $d!=\prod_xd_x!$. By Legendre's formula
+$v(m!)=(m-s_p(m))/(p-1)\ge m/(p-1)-(1+\lfloor\log_pm\rfloor)$, since $m$ has at most
+$1+\lfloor\log_pm\rfloor$ digits. Sum over the $r$ variables.
+\end{proof}
+
+\begin{lemma}[Chain rule]\label{lem:chain-rule}
+Let $c_{\tau,h,b}$ be row factors and $g_{\tau,h}$ matrices, $\beta$ the new directions of
+\cref{prop:new-directions}, and consider variables $s_{\tau,h,k,b}$ ($h<N$, $k<h$, $b\in n'$) and the
+linear substitution
+\[
+  z_{\tau,b,a}=\sum_{h,k}c_{\tau,h,b}\,\beta_{\tau,h,k,a}\,s_{\tau,h,k,b}.
+\]
+Let $P_*(s)=\prod_{\text{columns}}\det(s_{\tau,h,k,i'(\tau,h,j,b)})_{b,k<h}$. Then for every series $F$
+\[
+  P_*(\partial_s)F(z(s))\big|_0=\prod_\tau\prod_{h<N}\prod_{j<\kappa(\tau,h)}
+  \Bigl(\det g_{\tau,h}\prod_{b<h}c_{\tau,h,i'(\tau,h,j,b)}\Bigr)\cdot P_{i',y}(\partial_z)F(0).
+\]
+\end{lemma}
+\lean{New.directionSubst, New.linSubst_directionSubst_X, New.columnDetProd, New.map_columnDetProd, New.isHomogeneous_det_directionVar, New.isHomogeneous_columnDetProd, New.jet_columnDetProd_subst, New.norm_jet_columnDetProd_subst}
+
+\begin{proof}
+For a linear substitution the derivative in $s_{\tau,h,k,b}$ acts as
+\[
+  \frac{\partial}{\partial s_{\tau,h,k,b}}=c_{\tau,h,b}\sum_a\beta_{\tau,h,k,a}\,
+  \frac{\partial}{\partial z_{\tau,b,a}} .
+\]
+For one column with rows
+$b\in R$, the matrix $\bigl(c\sum_a\beta_{k,a}\partial_{z_{b,a}}\bigr)_{b,k}$ is the matrix
+$\bigl(\sum_ay_{a,k'}\partial_{z_{b,a}}\bigr)_{b,k'}$ multiplied on the right by $g^T$ and with its rows
+scaled by the $c_{\tau,h,b}$. Taking determinants and the product over the columns gives the formula,
+since the operators commute.
+\end{proof}
+
+\begin{theorem}[The count]\label{thm:count}
+Let $p$ be non-split, $\abs\varpi=p^{-\rho_p}$, and let $F$ have the normal form
+$(I_p^\circ,\mathrm{pr},\varpi,\lambda)$ in the variables $z_{\tau,b,a}$. Let $\mathcal M$ be a set of
+places and $w$ charges that cover the exempt pairs for every $e\in I_p^\circ$ for which the heights
+concerned occur in $\kappa$. Then for every filling $i'$ and integral directions $y$,
+\[
+  v\bigl(P_{i',y}(\partial)F(0)\bigr)+\abs w_{i'}\ \ge\ D_p(\kappa^\circ)+\gamma_p(B-B^\circ)
+  -fN^3\bigl(1+\log_p\max(B,1)\bigr),
+\]
+where $f=\#\Phi$. In particular, without marked places and charges,
+$v\bigl(P_{i',y}(\partial)F(0)\bigr)\ge D_p(\kappa)-fN^3(1+\log_p\max(B,1))$.
+\end{theorem}
+\lean{New.Parameters.norm_jet_minorProd_le_of_isChargeExponent, New.Parameters.norm_jet_minorProd_le_of_charges, New.Parameters.norm_jet_minorProd_le_of_hasNormalForm, New.dvd_subst_coupling, New.dvd_subst_coupling_directionSubst, New.dvd_subst_coupling_directionSubst_of_charges}
+
+\begin{proof}
+Charges at heights that do not occur may be changed to $1$ without changing $\abs w_{i'}$, so we may
+assume that $w$ covers all exempt pairs. Let $\pi=\pi_p$, $S$ the set of $e\in I_p^\circ$ with
+$e\le\log_pB$, and $D=\sum_{e\in S}\sum_\tau\delta_e(\tau,\mathrm{pr}_e\tau)$.
+
+\emph{Step 1.} Take $g$ and $\beta$ from \cref{prop:new-directions}, and the substitution of
+\cref{lem:chain-rule} with $c_{\tau,h,b}=p^{w(\tau,h,b)}$. Let $G(s)=F(\varpi z(s))$. By
+\cref{lem:chain-rule}, with the factor $\varpi$ for each box,
+\[
+  \abs{P_*(\partial)G(0)}=\abs\varpi^Bp^{-\abs w_{i'}}\prod_{\tau,h}\abs{\det g_{\tau,h}}^{\kappa(\tau,h)}
+  \abs{P_{i',y}(\partial)F(0)}.
+\]
+\emph{Step 2: $G$ is integral in degree $B$.} By \cref{prop:normal-form-rules}\ref{it:nf-integral} it
+suffices that $\pi\mid\Gamma_e(z(s))$ for $e\in S$. Modulo $p$,
+\[
+  \Gamma_e(z(s))\equiv\sum_{o,o'}s_o^{p^e}s_{o'}\sum_xz_{x,o}^{p^e}z_{\mathrm{pr}x,o'},
+\]
+where $z_{x,o}$ is the coefficient of $s_o$ in $z_x$. Let $o=(\tau,h,k,b)$. The inner sum vanishes
+unless $o'=(\mathrm{pr}_e\tau,h',k',b)$ for some $h'$, $k'$, and then it equals
+\[
+  c_{\tau,h,b}^{p^e}\,c_{\mathrm{pr}_e\tau,h',b}\,
+  [\beta_{\tau,h,k},\beta_{\mathrm{pr}_e\tau,h',k'}]_e .
+\] For
+pairs that are not exempt the pairing is divisible by $\pi$; for exempt pairs one of the charges is a
+positive power of $p$.
+
+\emph{Step 3.} $P_*$ is homogeneous of degree $B$ in at most $fN^3$ variables, so
+\cref{lem:legendre} gives $v(P_*(\partial)G(0))\ge B/(p-1)-fN^3(1+\lfloor\log_pB\rfloor)$. By
+\cref{prop:new-directions}(ii), $v(\prod\det g^{\kappa})\le v(\pi)D$. Combining with Step 1,
+\begin{align*}
+  v\bigl(P_{i',y}(\partial)F(0)\bigr)+\abs w_{i'}&\ge\frac B{p-1}-\rho_pB-v(\pi)D-fN^3(1+\log_pB)\\
+  &=\gamma_pB-v(\pi)D-fN^3(1+\log_pB).
+\end{align*}
+Finally \cref{lem:deduction-identity} with $e_0=\lfloor\log_pB\rfloor$ gives
+$\gamma_pB-v(\pi)D\ge\gamma_pB-\gamma_pB^\circ+D_p(\kappa^\circ)$.
+\end{proof}
+
+\subsection{Entries of Schur matrices}\label{ss:schur-entries}
+For each place $\tau$ the products of minors span the module of polynomials in an $n\times\N$ array
+that are semi-invariant under upper triangular matrices acting on the columns, with the weight given
+by $\kappa(\tau,\cdot)$; a basis is formed by the products of minors of chosen standard fillings
+(\cref{ss:B-schur}). For a family $z=(z_\tau)$ of $n'\times n$ matrices, left substitution $f\mapsto
+f(zy)$ maps the module for $n$ to that for $n'$, and its matrix in the chosen bases is the \emph{Schur
+matrix} $\mathrm{Sch}_\kappa(z)$, with rows indexed by the standard fillings $i'$ for $n'$ and columns
+by those $i$ for $n$. The diagram $\kappa$ \emph{fits the ranks} if $\#n\le\#n'$ and $\kappa$ has no
+column of height strictly between $\#n$ and $\#n'$. For a series $F$ in the entries of $z$ we write
+$\mathrm{Sch}_\kappa(F)_{i'i}$ for the jet of $F$ along the polynomial entry $(i',i)$ of
+$\mathrm{Sch}_\kappa(z)$.
+\lean{New.nabla, New.nablaBasis, New.WeylIndex, New.schur, New.schurJet, New.FitsRanks, New.detPow, New.schurDetExp}
+
+\begin{proposition}\label{prop:schur-entry}
+Let $\kappa$ fit the ranks. For every series $F$ over $\Cp$ in the entries of $z$ and standard
+fillings $i'$, $i$ there are integral directions $y$ with
+$\abs{\mathrm{Sch}_\kappa(F)_{i'i}}\le\abs{P_{i',y}(\partial)F(0)}$.
+\end{proposition}
+\lean{New.minorProd_eq_sum, New.exists_norm_le_norm_sum_mul_eval, New.exists_norm_schurJet_le_norm_jet_minorProd}
+
+\begin{proof}
+By the definition of the Schur matrix,
+$P_{i',y}=\sum_i\bigl(b_i\cdot\Delta\bigr)(y)\,\mathrm{Sch}_\kappa(z)_{i'i}$, where $b_i$ is the basis
+element of the filling $i$ and $\Delta$ is the product over $\tau$ of the determinant of the first
+$\#n$ columns of $y_\tau$ raised to $\kappa(\tau,\#n)$ if $\#n<\#n'$, and $1$ otherwise. Hence
+$P_{i',y}(\partial)F(0)=\sum_i\alpha_i\,(b_i\Delta)(y)$ with $\alpha_i=\mathrm{Sch}_\kappa(F)_{i'i}$.
+The polynomials $b_i\Delta$ have integral coefficients and stay linearly independent over the residue
+field, since the basis is defined over $\Z$. Dividing by an $\alpha_{i_0}$ of largest absolute value
+and reducing, we get a nonzero polynomial over the residue field, which is algebraically closed and
+hence infinite; at an integral point $y$ where the reduction does not vanish,
+$\abs{\sum_i\alpha_i(b_i\Delta)(y)}=\abs{\alpha_{i_0}}\ge\abs{\alpha_{i}}$ for the given $i$.
+\end{proof}

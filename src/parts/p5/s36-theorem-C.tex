@@ -1,0 +1,132 @@
+\section{The cost of one lift and the proof of Theorem C}\label{sec:theorem-C}
+
+This section assembles the lower bound. The cost of one lift, the height of $Z_j(1)/Z_j(\xi^j_\iota)$, is bounded through the comparison operator for a family of twists
+with few congruences (\cref{thm:cost-one-lift}); the existence of such a family is the subject of \cref{part:congruences}. With the factorisation of the chain volume, the
+auxiliary forms and \cref{thm:twist-for-each-prime}, this proves Theorem~\ref{thm:C}.
+
+\subsection{Families of twists}\label{ss:twist-families}
+A family of twists indexed by the prime places $\iota\colon\C\simeq\bar\Q_\ell$ (\cref{def:prime-iso}) assigns an $m$-fold twist $\xi_\iota$ to each $\iota$. For a pair $p=(\nu,z)$, a tame $\vartheta$ and a sign $s$, write
+$\varrho_p(\vartheta,s)=\abs{L(z,(\nu\vartheta^s)^{-1})}/\abs{L(z,\nu^{-1})}$, both $L$-functions without the factors at the chosen places and their conjugates, the numerator also without $Q$. Numbers $e_\ell\ge0$ are \emph{negligible with
+exponent $C$} if $\sum_{\ell\in T}e_\ell\log\ell\le x^C$ for every finite set of primes. The \emph{denominator budget} is $\mathrm{budget}=fa\log^3b/(mk)$.
+\lean{New.Data.Twist.toAutChar_one, New.Data.Twist.Q_one, New.Data.MFoldTwist.toTwist_one, New.Data.toAutChar_one_and_toTwist_one_and_Q_one, New.Data.CriticalPair.ratio, New.Data.RankOneIndex, New.Data.goodLift, New.Data.CriticalPair.IsRamified, New.Data.CriticalPair.IsMainPair, New.Data.CriticalPair.IsMainPair.isRamified, New.Data.denominatorBudget, New.Data.ClearsProjection, New.Data.HasDenominatorsLe, New.Data.IsDenominatorBound, New.Data.IsNegligible, New.Data.HasSmallRatios, New.Data.IsRegularFamily}
+
+\begin{definition}[Small ratios, regular families]\label{def:small-ratios}\label{def:regular-family}
+A family $\xi_\iota$ \emph{has small ratios} if $\Nm Q(\xi_\iota)$ is prime to the prime of $\iota$ and, for $1\le j\le m$, every ramified pair $p$ and $s=\pm1$, the family of the inverse ratios $\varrho_p(\xi^j_\iota,s)^{-1}$ has height at
+most $x_1$. It is \emph{regular} if moreover, for $1\le j\le m$, there are reals $\beta_\ell$ with $\sum_{\ell\in T}\beta_\ell\le\mathrm{budget}$ for every finite set of primes such that at every $\iota$ over $\ell$ the projection to the space of
+lifts for $\xi^j_\iota$ has denominator at most $e^{\beta_\ell}$ and, for every main pair $p$ for $j$, the inner product of the projections of two test forms to the line of $\varphi_{p,\xi^j_\iota}$ has norm at most $e^{\beta_\ell}$ at $\iota$
+(\cref{ss:false-lifts}).
+\end{definition}
+
+\begin{theorem}[Twists with few congruences]\label{thm:regular-family}
+Every admissible datum has a regular family of $m$-fold twists.
+\end{theorem}
+\lean{New.exists_isRegularFamily, New.Selmer.exists_mFoldTwist_hasDenominatorsLe}
+
+\begin{proof}
+This is proved in \cref{part:congruences}, at the end of \cref{sec:fit}: for each $\ell$ and $\iota$ a Selmer group argument produces an $m$-fold twist whose first $m$ powers have
+few congruences, and the denominators summed over $\ell$ stay within the budget.
+\end{proof}
+
+\subsection{The cost of one lift}\label{ss:cost-one-lift}
+Fix $1\le j\le m$. For a twist $\vartheta$ let $\Theta_\vartheta$ be the lift of the good forms on $W_j$ (\cref{ss:norm-one-lift}), $Z_j(\vartheta)=\det(\Theta_\vartheta^*\Theta_\vartheta)$ its Gram determinant, $\mathcal Z_\vartheta$ its range, the space of lifts, and
+$\mathrm{pr}$ the orthogonal projection to $\mathcal Z_\vartheta$. For the comparison operators $U_\vartheta$ of \cref{thm:comparison-operator} put $\Delta(\vartheta)=\det(\mathrm{pr}\,U_\vartheta|_{\mathcal Z_\vartheta})$ and $A=fmb\log^2b$. The $j$-th power of the trivial
+$m$-fold twist is the trivial tame character, so $Z_j(1)$ is the untwisted determinant.
+
+\begin{lemma}[Compressions of the comparison operator]\label{lem:compression}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For an injective linear map $u$ of finite-dimensional inner product spaces, the projection $\mathrm{pr}$ to its range and an operator $T$, $\det(\mathrm{pr}\,T|_{\operatorname{im}u})\det(u^*u)=\det(u^*Tu)$.
+\item $\Theta_\vartheta$ is injective, $\dim\mathcal Z_\vartheta=\dimT$, and $Z_j(\vartheta)\Delta(\vartheta)=C\rho_\vartheta^{\dimT}$ with $C\ne0$ independent of $\vartheta$; in particular $\Delta(\vartheta)\ne0$.
+\item $\abs{\sigma\Delta(1)}\le e^{3A\dimT}$ for every automorphism $\sigma$ of $\C$.
+\item Let $\iota$ lie over $\ell\nmid\Nm Q(\vartheta)$, and let an operator $\Lambda$ on $\mathcal Z_\vartheta$ with $\abs{\iota\det\Lambda}\ge e^{-\dimT r\beta}$ make $\Lambda(\mathrm{pr}\,y)$ integral at $\iota$ for every integral $y$ orthogonal to the false lifts.
+Then $\abs{\iota\Delta(\vartheta)}\le e^{\dimT r\beta}$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Data.mFoldTwist_one_pow}
+
+\begin{proof}
+(a) $u^*$ kills the orthogonal complement of the range, so $u^*\mathrm{pr}=u^*$ and $u^*u\,(u^{-1}\mathrm{pr}\,Tu)=u^*Tu$, where $u^{-1}$ is the inverse of $u$ onto its range; take determinants.
+
+(b) Injectivity is \cref{thm:norm-one-lift}(a), and the good forms have dimension $\dimT$ (\cref{thm:equal-multiplicities}). By (a) with $u=\Theta_\vartheta$ and $T=U_\vartheta$, and by \cref{thm:comparison-operator}(a),
+$Z_j(\vartheta)\Delta(\vartheta)=\det(\Theta_\vartheta^*U_\vartheta\Theta_\vartheta)=\det(\rho_\vartheta U^\circ)=\rho_\vartheta^{\dimT}\det U^\circ$, and $C=\det U^\circ>0$ as $U^\circ$ is positive definite and independent of $\vartheta$. Since $\rho_\vartheta\ne0$ and $Z_j(\vartheta)>0$, $\Delta(\vartheta)\ne0$.
+
+(c) The lifts lie in the image of the idempotent $e_0$ of the good forms and are killed by $H_w(X_*)$ at every split $w$ off the level (\cref{thm:norm-one-lift}(d)), so \cref{prop:point-forms}(c) applies to $Z=\mathcal Z_1$. Let $z\ne0$ be an eigenvector
+of $\mathrm{pr}\,U_1$ on $\mathcal Z_1$ with eigenvalue $\lambda$. The form $U_1z$ is orthogonal to the false lifts (\cref{thm:comparison-operator}(b)), so at every $\sigma$
+\[
+  \abs{\sigma\lambda}^2\norm z_\sigma^2=\norm{\mathrm{pr}\,U_1z}_\sigma^2\le\norm{U_1z}_\sigma^2\le e^{6A}\norm z_\sigma^2,
+\]
+the last step by \cref{thm:comparison-operator}(d), where $U_1$ multiplies squared norms by at most $e^{6A}$. As $\norm z_\sigma>0$ (\cref{lem:hecke-adjoint}(d)), $\abs{\sigma\lambda}\le e^{3A}$, and $\sigma\Delta(1)$ is the product of the $\dimT$ numbers $\sigma\lambda$, eigenvalues counted with
+multiplicity.
+
+(d) The operator $\Lambda\,\mathrm{pr}\,U_\vartheta$ maps the integral lifts to integral lifts: for an integral lift $z$, $U_\vartheta z$ is integral (\cref{thm:comparison-operator}(c), as $\ell\nmid\Nm Q$) and orthogonal to the false lifts. Let $z$ be an
+eigenvector with eigenvalue $\mu$, scaled to valuation $0$ at $\iota$: $z$ is integral and $\alpha z$ is integral only if $\abs{\iota\alpha}\le1$ (divide by a coordinate of least valuation at representatives integral above $\ell$). Then
+$\mu z$ is integral, so $\abs{\iota\mu}\le1$, and $\abs{\iota\det(\Lambda\,\mathrm{pr}\,U_\vartheta)}\le1$. Dividing by $\abs{\iota\det\Lambda}\ge e^{-\dimT r\beta}$ gives the claim.
+\end{proof}
+
+\begin{theorem}[The cost of one lift]\label{thm:cost-one-lift}
+Let $\xi_\iota$ be a regular family and $1\le j\le m$. The family $Z_j(1)/Z_j(\xi^j_\iota)$ has height at most $\dimT\,k(\log b\cdot\mathrm{budget}-\hdir)=\dimT\bigl(fa\log^4b/m-k\,\hdir\bigr)$.
+\end{theorem}
+\lean{New.Data.exists_hasSmallRatios_heightLe_liftDeterminant_div}
+
+\begin{proof}
+\emph{The factorisation.} By \cref{lem:compression}(b) at $\vartheta$ and at $1$, where $\rho_1=1$,
+\[
+  \frac{Z_j(1)}{Z_j(\vartheta)}=\frac{\Delta(\vartheta)}{\Delta(1)}\,\rho_\vartheta^{-\dimT}.
+\]
+\emph{The first factor.} Let $\vartheta=\xi^j_\iota$ and let $\beta_\ell$ be the reals of the regular family, $\sum_{\ell\in T}\beta_\ell\le\mathrm{budget}$ for every finite set $T$ of primes. The modulus of $\xi_\iota$ is prime to the prime $\ell$ of $\iota$, and
+the projection to the lifts for $\xi^j_\iota$ has denominator at most $e^{\beta_\ell}$ at $\iota$; by \cref{lem:compression}(d), $\abs{\iota\Delta(\xi^j_\iota)}\le e^{\dimT r\beta_\ell}$. Take $H=\Delta(1)\ne0$ as a common multiplier: by \cref{lem:compression}(c)
+$\abs{\sigma H}\le e^{3A\dimT}$, and $\norm{H\cdot\Delta(\xi^j_\iota)/\Delta(1)}_\iota=\abs{\iota\Delta(\xi^j_\iota)}\le e^{\dimT r\beta_\ell}$. By \cref{lem:height-calculus}(d) the family $\Delta(\xi^j_\iota)/\Delta(1)$ has height at most $\dimT(3A+r\,\mathrm{budget})$.
+\emph{The second factor.} By \cref{thm:twisted-value-heights}(c) the family $\rho_{\xi^j_\iota}^{-1}=\Gamma_j(1)/\Gamma_j(\xi^j_\iota)$ has height at most $10mx_1+k(6\,\mathrm{budget}-\hdir)$, so its $\dimT$-th power has height at most $\dimT(10mx_1+k(6\,\mathrm{budget}-\hdir))$
+(\cref{lem:height-calculus}(b)).
+\emph{The sum.} Heights add, so $Z_j(1)/Z_j(\xi^j_\iota)$ has height at most $\dimT(3A+r\,\mathrm{budget}+10mx_1+6k\,\mathrm{budget}-k\,\hdir)$. By the sizes of the data (\cref{prop:sizes,rem:magnitudes}),
+\[
+  3A+r\,\mathrm{budget}+10mx_1+6k\,\mathrm{budget}\le k\log b\cdot\mathrm{budget}=fa\log^4b/m:
+\]
+indeed $r\le2k$, so $r\,\mathrm{budget}+6k\,\mathrm{budget}\le8k\,\mathrm{budget}$, which is small against $k\log b\cdot\mathrm{budget}$; $3A=3fmb\log^2b$ is small against $fa\log^4b/m=fxb\log^4b/m$ because $m^2\le4x$; and $10mx_1$ is small against
+$fa\log^4b/m$ because $a/x_1\ge x^{999}$.
+\end{proof}
+
+\subsection{The chain volume}\label{ss:chain-volume}
+
+\begin{proposition}[The inverse ratio]\label{prop:inverse-ratio}
+Let $\xi_\iota$ have small ratios, and let each family $Z_j(1)/Z_j(\xi^j_\iota)$, $1\le j\le m$, have height at most $\dimT(fa\log^4b/m-k\,\hdir)$. Then $Z(1)/Z(\xi_\iota)$ has height at most
+$\dimT(b+fa\log^4b-\hmain)$.
+\end{proposition}
+\lean{New.Data.exists_chainDeterminant_one_div_eq, New.Data.heightLe_chainDeterminant_one_div}
+
+\begin{proof}
+By \cref{thm:factorisation}, inverted,
+\[
+  \frac{Z(1)}{Z(\xi_\iota)}=s(\xi_\iota)^{-\dimT}\prod_{j=1}^m\frac{Z_j(1)}{Z_j(\xi^j_\iota)},\qquad s(\vartheta)=(\Nm Q)^{e/2}\prod_{1\le i<j\le m}\varrho_{i,j}(\vartheta),
+\]
+with $e$ independent of $\vartheta$. Each $\varrho_{i,j}$ is a product of $t$ ratios of Hecke values of a ramified pair (\cref{prop:moduli}(c)), whose inverses have height at most $x_1$ by the small ratios, and the power of $\Nm Q$,
+prime to the prime of $\iota$, costs nothing (\cref{lem:height-calculus}(c)); so $s(\xi_\iota)^{-1}$ has height at most $m^2tx_1$ (\cref{thm:factorisation}), and $m^2tx_1\le b$ by \cref{prop:sizes}. Its $\dimT$-th power has height at most $\dimT b$. The $m$
+bounds for the single lifts add up to $\dimT(fa\log^4b-mk\,\hdir)$, and $mk\,\hdir=\hmain$. Heights add under products (\cref{lem:height-calculus}(b)).
+\end{proof}
+
+\subsection{Proof of Theorem C}\label{ss:proof-C}
+
+\begin{lemma}[The cost of the completion]\label{lem:completion-cost}
+If $n\ge(1-4/b^2)\dimT$ and $\dimT=n+n'$, then $n'(2x_1^2b^2+b)\le\dimT b$.
+\end{lemma}
+\lean{New.Data.mul_completion_cost_le}
+
+\begin{proof}
+$n'\le4\dimT/b^2$, so $n'(2x_1^2b^2+b)\le4\dimT(2x_1^2+b^{-1})\le\dimT b$, because $4(2x_1^2+b^{-1})\le b$: by \cref{prop:sizes}, $\log x_1\le(\log b)^{1/6}$, so $x_1^2$ is small against $b$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\textup{\ref{thm:C}}]
+Let $y_1,\dots,y_n$ be independent target forms with $n\ge(1-4/b^2)\dimT$, of index at most $\delta$ and covolume at most $c$ in the twisted lattice $L_{\mathcal T}$ (\cref{def:twisted-lattice}).
+
+\emph{The twists.} By \cref{thm:regular-family} there is a regular family $\xi_\iota$; it has small ratios, and the modulus of $\xi_\iota$ is prime to the prime of $\iota$, so $\xi_\iota$ is allowed at that prime. By \cref{thm:cost-one-lift} each family
+$Z_j(1)/Z_j(\xi^j_\iota)$ has height at most $\dimT(fa\log^4b/m-k\,\hdir)$, and by \cref{prop:inverse-ratio} the family $Z(1)/Z(\xi_\iota)$ has height at most $b_{\rm vol}=\dimT(b+fa\log^4b-\hmain)$.
+
+\emph{The completion.} By \cref{thm:auxiliary-forms} the target is spanned by forms auxiliary for scalars $\gamma(\vartheta)\ne0$; since $y$ is independent, it can be completed to a basis by auxiliary forms $z_1,\dots,z_{n'}$, $n+n'=\dimT$. By the definition of
+auxiliary forms, $\gamma(\vartheta)\Theta_\vartheta z_i$ is integral at every $\iota$ over a prime not dividing $\Nm Q(\vartheta)$, which is condition (ii) of \cref{thm:twist-for-each-prime}, and every conjugate of $\Theta_1z_i$ has squared norm at most
+$e^{b_{\rm short}}$, $b_{\rm short}=2x_1^2b^2$, which is (iii). By \cref{thm:auxiliary-forms} the family $\abs{\gamma(\xi_\iota)}^{-1}$ has height at most $m^2tx_1$, so $\abs{\gamma(\xi_\iota)}^{-2}$ has height at most $b_{\rm den}=2m^2tx_1\le b$.
+
+\emph{The lattice.} The maps $\Theta_\vartheta$ are injective (\cref{prop:theta-triangle}(d)). \Cref{thm:twist-for-each-prime} with the twists $\xi_\iota$ gives
+\[
+  c+2\delta+n'(2x_1^2b^2+b)+\dimT(b+fa\log^4b-\hmain)\ge0.
+\]
+By \cref{lem:completion-cost} the completion costs at most $\dimT b$, and $b\le fa\log^4b$. Hence $c+2\delta\ge\dimT(\hmain-fa\log^4b-2b)\ge\dimT(\hmain-3fa\log^4b)$.
+\end{proof}

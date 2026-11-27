@@ -1,0 +1,305 @@
+\section{Prime sums, the three theorems and the main inequality}\label{sec:main}
+
+This section states the three theorems on which the argument rests, Theorems~\ref{thm:A},
+\ref{thm:B} and~\ref{thm:C}, derives from them the main inequality \cref{thm:main-inequality}, and
+deduces the main theorems of the introduction. The three theorems are proved in
+\cref{part:upper,part:spanning,part:lower,part:congruences}. We fix parameters as in
+\cref{def:parameters} and data as in \cref{def:data}.
+
+\subsection{Prime sums}\label{ss:prime-sums}
+Let $\LamK=\lambda_1$ be the weight of \cref{def:lambda} for $q=1$, that is
+$\LamK(n)=\Lam(n)(1-\chiK(n))$. For real $y$ and $\tau\in\Phi$ put
+\begin{equation}\label{eq:sfin}
+  \sfin(y,\tau)=\sum_{1\le\nu\le a}\LamK(\nu)\Bigl(\frac y\nu-\kappa(-\nu\tau)\Bigr)_{\!+},
+\end{equation}
+the \emph{prime sum} at the order $y$ and the place $\tau$, and for an integer $j\ge0$
+\begin{equation}\label{eq:sinf}
+  \sinf(j)=\log j!+j\log\frac{M}{\Omega},
+\end{equation}
+the \emph{size} charged to a derivative of order $j$. The \emph{direction amount} and the \emph{main
+amount} are
+\[
+  \hdir=\sum_{\tau\in\Phi}\bigl(\sinf(\kappa(\tau))-\sfin(\kappa(\tau),\tau)\bigr),
+  \qquad \hmain=mk\,\hdir.
+\]
+The \emph{expected value} of the prime sums is
+$\smain=a\bigl(\log(a/\bar\kappa)+c_1\bigr)$, where $\log\bar\kappa$ is the mean of $\log\kappa(\tau)$
+over all $f$ places and $c_1=\re G_1(1)$, and the \emph{total remainder} is
+\[
+  \rem=\sum_{\tau\in\Phia}\bigl(\sfin(a,\tau)-\smain\bigr).
+\]
+Finally, the \emph{unit of error} is $\errunit=fa\log^3b$.
+\lean{New.Data.primeSum, New.Data.jetSize, New.Data.directionAmount, New.Data.mainAmount, New.Data.mainPrimeSum, New.Data.totalRemainder, New.Data.errorUnit}
+
+The prime sum $\sfin(y,\tau)$ will measure a divisibility, guaranteed by \cref{part:derivatives},
+of a derivative of order $y$ of a theta function at the place $\tau$; $\sinf$ is the archimedean
+size of such a derivative. In the direction $\tau$ the difference $\sinf-\sfin$ is the cost of one
+derivative that is not repaid by divisibility.
+
+\begin{lemma}\label{lem:sum-over-a-places}
+For each $n\ge1$,
+\begin{multline*}
+  \sum_{\tau\in\Phia}\LamK(n)\Bigl(\frac an-\kappa(-n\tau)\Bigr)_{\!+}
+  =\#\Phia\,\LamK(n)\Bigl(\frac an-\frac a{x_1}\Bigr)_{\!+}\\
+  +\#\Phib\,\lambda_{q_0}(n)\Bigl[\Bigl(\frac an-\frac ax\Bigr)_{\!+}-\Bigl(\frac an-\frac a{x_1}\Bigr)_{\!+}\Bigr].
+\end{multline*}
+\end{lemma}
+\lean{New.Data.mem_aPlaces_iff_of_mul_mem_bPlaces, New.Data.card_filter_mem_bPlaces, New.Data.sum_aPlaces_lambdaKResidueClass_mul_posPart}
+
+\begin{proof}
+If $n$ is not prime to $q_1$, then $\LamK(n)=0$ unless $n$ is a power of a prime $p\mid q_1$; such
+$p$ split in $K$ (\cref{lem:split-primes}), so $\LamK(n)=0$ in all cases, and both sides vanish.
+Let $n$ be prime to $q_1$. Every $\tau$ gives the term with weight $a/x_1$, except those with
+$-n\tau\in\Phib$, which have weight $b=a/x$. Since $\Phib$ consists of places of class $-1$ and
+$\tau\in\Phia$ has class $1$ modulo $q_0$, the place $-n\tau$ has class $-n$, so $-n\tau\in\Phib$ is
+possible only if $n\equiv1\pmod{q_0}$; and then $\tau\mapsto-n\tau$ maps $\Phia$ bijectively onto the
+places of class $-1$, so exactly $\#\Phib$ places $\tau\in\Phia$ have $-n\tau\in\Phib$. For
+$n\equiv1\pmod{q_0}$ we have $\LamK(n)=\lambda_{q_0}(n)$.
+\end{proof}
+
+\begin{proposition}\label{prop:total-remainder}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The sum of the prime sums over the $a$-places is
+\begin{multline*}
+  \sum_{\tau\in\Phia}\sfin(a,\tau)
+  =a\bigl(\#\Phib(R_{q_0}(x)-R_{q_0}(x_1))+\#\Phia R_1(x_1)\bigr)\\
+  +a\Bigl(\#\Phia(\log x_1+c_1)+\#\Phib\frac{\log x-\log x_1}{\totient(q_0)}\Bigr).
+\end{multline*}
+\item $\displaystyle\#\Phia\,\smain=a\Bigl(\#\Phia(\log x_1+c_1)+\#\Phib\frac{\log x-\log x_1}{\totient(q_0)}\Bigr)$.
+\item $\rem=a\bigl(\#\Phib(R_{q_0}(x)-R_{q_0}(x_1))+\#\Phia R_1(x_1)\bigr)$.
+\end{enumerate}
+\end{proposition}
+\lean{New.sum_lambdaKResidueClass_mul_posPart, New.Data.sum_aPlaces_primeSum, New.Data.sum_log_weight, New.Data.card_aPlaces_mul_mainPrimeSum, New.Data.totalRemainder_eq}
+
+\begin{proof}
+(a) Sum \cref{lem:sum-over-a-places} over $n\le a$ and apply \eqref{eq:R-posPart} with $A=a$: for
+$0<z\le a$,
+\[
+  \sum_{n\le a}\lambda_q(n)\Bigl(\frac an-\frac az\Bigr)_{\!+}
+  =a\Bigl(R_q(z)+\frac{\log z}{\totient(q)}+c_q\Bigr),
+\]
+with $q=1$, $z=x_1$ for the first term and $q=q_0$, $z=x,x_1$ for the bracket; the constants
+$c_{q_0}$ cancel, and $\totient(1)=1$. (b) Since $\kappa=a/x$ on $\Phib$ and $a/x_1$ elsewhere,
+$\sum_\tau\log\kappa(\tau)=f(\log a-\log x_1)-\#\Phib(\log x-\log x_1)$; hence
+$\log a-\log\bar\kappa=\log x_1+\#\Phib(\log x-\log x_1)/f$, and $f=\#\Phia\totient(q_0)$. (c) is (a)
+minus (b).
+\end{proof}
+
+\begin{lemma}\label{lem:prime-sum-bounds}
+Let $0\le y\le a$ and $\tau\in\Phi$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Only the $n\le x_1$ contribute to $\sfin(y,\tau)$, and $0\le\sfin(y,\tau)\le4y\log x_1\le y\log b$.
+\item For an integer $y\le a$, $20y\log b\le\sinf(y)\le25y\log b$.
+\item $\kappa(\tau)\log b\le\sinf(\kappa(\tau))-\sfin(\kappa(\tau),\tau)\le25\kappa(\tau)\log b$.
+\item $b\,\#\Phia\le\hdir\le25fb\log b$, and $\hmain\ge x^4fa$; in particular $\hmain\ge0$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Data.lambdaKResidueClass_mul_posPart_le_ite, New.Data.primeSum_le, New.Data.primeSum_mem_Icc, New.Data.jetSize_mem_Icc, New.Data.jetSize_sub_primeSum_mem_Icc, New.Data.directionAmount_mem_Icc, New.Data.le_mainAmount, New.Data.mainAmount_nonneg}
+
+\begin{proof}
+(a) Since $\kappa\ge a/x_1\ge y/x_1$, the term of $n>x_1$ vanishes, and each term is at most
+$2y\Lam(n)/n$; by \eqref{eq:mertens-two} the sum is at most $4y\log x_1$, and $4\log x_1\le\log b$.
+(b) $\log y!\le y\log y\le y\log a\le2y\log b$, and $20\log b\le\log(M/\Omega)\le23\log b$ by
+\cref{prop:sizes}. (c) follows from (a) and (b). (d) Sum (c) over $\tau$. For the lower bound keep
+only the $b$-places: they contribute at least $\#\Phib\cdot b\log b\ge b\,\#\Phia$, by (D3). For the
+upper bound all weights are at most $b$. Finally
+$\hmain=mk\,\hdir\ge mk\,b\,f/\totient(q_0)=mk\,af/(x\totient(q_0))$, and
+$mk\ge\sqrt x\cdot x^5/2\ge2C_0x^5\ge2\totient(q_0)x^5$.
+\end{proof}
+
+\subsection{The three theorems}\label{ss:three-theorems}
+The objects in the following statements are constructed in \cref{part:upper}; we describe them
+briefly and give exact references there.
+
+\begin{itemize}[leftmargin=1.5em]
+\item The \emph{target} $\mathcal T$ is a finite-dimensional complex inner product space of
+automorphic forms on a definite unitary group $\U(Y_0)$ over the totally real subfield of $E$; its
+dimension is $\dimT\ge1$.
+\item The \emph{twists} are certain anticyclotomic Hecke characters $\xi$ of $E$ (the $m$-fold
+twists), with modulus of norm $\Nm Q(\xi)$; the trivial twist is $1$. For each twist, $\Theta_\xi$ is
+a chain of $m$ theta lifts from $\mathcal T$ to forms on $\U(Y_m)$, twisted by $\xi$. With the
+integral structures of algebraic modular forms and $\xi$ allowed at $\ell$ when $\ell\nmid\Nm
+Q(\xi)$, this makes $\mathcal T$ a twisted lattice $L_{\mathcal T}$ in the sense of
+\cref{def:twisted-lattice}.
+\item The \emph{source} $\mathcal S$ is a space of ramified algebraic modular forms on a definite
+unitary group $\U(X_0)$; $\mathcal S^{\rm int}\subseteq\mathcal S$ is the set of forms integral at
+every prime place.
+\item $\bar G=\prod_w\GL_r(\F_w)$ is a finite group, the product over the chosen places $w$ of $E$
+above $p_0$ and $p_1$, acting on forms on $\U(Y_0)$; for $g\in\bar G$, the map $\mathfrak p_g\colon
+\mathcal S\to\mathcal T$ is the translate by $g$ of a normalised, projected Poincar\'e map
+$\mathfrak p$.
+\end{itemize}
+
+\begin{mainthm}[Short forms]\label{thm:A}
+The following hold.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The space $\mathcal S$ is spanned by the forms $\varphi\in\mathcal S^{\rm int}$ such that
+\[
+  \norm{\Theta_1\mathfrak p_g\varphi}_\sigma^2\le\exp\bigl(\hmain-m\,\rem+fa\log^4b\bigr)
+\]
+for all $g\in\bar G$ and all automorphisms $\sigma$ of $\C$.
+\item For every finite set $\Sigma\subseteq\bar G$, every finite family of target forms each lying in
+$\mathfrak p_g(\mathcal S^{\rm int})$ for some $g\in \Sigma$ has index at most
+$\#\Sigma\cdot\dim\mathcal S\cdot2\errunit$ in $L_{\mathcal T}$.
+\end{enumerate}
+\end{mainthm}
+\lean{New.Data.span_short_integralRamified_eq_top, New.Data.indexLe_normalizedPoincare}
+
+\begin{mainthm}[Enough forms]\label{thm:B}
+There is a set $\Sigma\subseteq\bar G$ with
+\[
+  \#\Sigma\cdot\dim\mathcal S\le5\,\dimT\log(1+2b^2)\quad\text{and}\quad
+  \dim\sum_{g\in \Sigma}\mathfrak p_g(\mathcal S)\ge\Bigl(1-\frac4{b^2}\Bigr)\dimT.
+\]
+\end{mainthm}
+\lean{New.Data.enough_forms}
+
+\begin{mainthm}[Integral forms are long]\label{thm:C}
+Let $y_1,\dots,y_n\in\mathcal T$ be linearly independent with $n\ge(1-4/b^2)\dimT$. If $y$ has index
+at most $\delta$ and covolume at most $c$ in $L_{\mathcal T}$, then
+\[
+  c+2\delta\ge\dimT\bigl(\hmain-3fa\log^4b\bigr).
+\]
+\end{mainthm}
+\lean{New.Data.integral_forms_long}
+
+Theorem~\ref{thm:A}(a) is an upper bound for archimedean sizes in which the main amount appears with
+the remainder subtracted; Theorem~\ref{thm:C} is a lower bound in which the main amount appears alone.
+The divisibility that produces the term $-m\,\rem$ comes from \cref{part:derivatives}; the lower bound
+rests on \cref{thm:twist-for-each-prime}.
+
+\subsection{The main inequality}\label{ss:main-inequality}
+
+\begin{theorem}[Main inequality]\label{thm:main-inequality}
+$m\,\rem\le fa\log^5b$.
+\end{theorem}
+\lean{New.star_inequality}
+
+\begin{proof}
+By Theorem~\ref{thm:B} there is $\Sigma\subseteq\bar G$ with
+$\#\Sigma\dim\mathcal S\le5\dimT\log(1+2b^2)$ whose images span at least $(1-4/b^2)\dimT$ dimensions. Put
+\[
+  \beta=\hmain-m\,\rem+\ell_0,\qquad\ell_0=fa\log^4b,
+\]
+and let $\mathcal S_{\rm short}$ be the set of $\varphi\in\mathcal S^{\rm int}$ with
+$\norm{\Theta_1\mathfrak p_g\varphi}^2_\sigma\le e^\beta$ for all $g,\sigma$. By
+Theorem~\ref{thm:A}(a) these span $\mathcal S$, so the sets $\mathfrak p_g(\mathcal S_{\rm short})$,
+$g\in \Sigma$, span $\sum_{g\in \Sigma}\mathfrak p_g(\mathcal S)$. Choose among them a basis
+$y_1,\dots,y_n$ of their span; thus $(1-4/b^2)\dimT\le n\le\dimT$.
+
+\emph{Covolume.} Each $y_i$ has $\norm{\Theta_1y_i}^2_\sigma\le e^\beta$, so $y$ has covolume at most
+$n\beta$ by \cref{lem:hadamard}.
+
+\emph{Index.} By Theorem~\ref{thm:A}(b) and the bound for $\#\Sigma$, $y$ has index at most
+$\#\Sigma\dim\mathcal S\cdot2\errunit\le\dimT\cdot\iota_0$ with $\iota_0=10\log(1+2b^2)\errunit$.
+
+\emph{Comparison.} Theorem~\ref{thm:C} gives
+\[
+  \dimT(\hmain-3\ell_0)\le n\beta+2\dimT\iota_0.
+\]
+Since $\hmain+\ell_0\ge0$ (\cref{lem:prime-sum-bounds}(d)) and $n\le\dimT$, we have
+$n(\hmain+\ell_0)\le\dimT(\hmain+\ell_0)$. Subtracting,
+\[
+  n\,m\,\rem\le\dimT\,(4\ell_0+2\iota_0).
+\]
+Since $4/b^2\le1/2$, $\dimT\le2n$; dividing by $n>0$,
+$m\,\rem\le2(4\ell_0+2\iota_0)=8fa\log^4b+40\log(1+2b^2)fa\log^3b\le fa\log^5b$, as $\log b$ is
+large.
+\end{proof}
+
+The main amount, of size at least $x^4fa$, cancels between the two bounds, and only the errors
+remain; they are smaller than the main amount by a factor $x^4/\log^5b$. The table summarises the
+errors per dimension of the target.
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+source & where & amount\\
+\midrule
+size & Theorem~\ref{thm:A}(a) & $fa\log^4b$\\
+index (counted twice) & Theorems~\ref{thm:A}(b), \ref{thm:B} & $20\log(1+2b^2)\cdot fa\log^3b$\\
+covolume & Theorem~\ref{thm:C} & $3fa\log^4b$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{The one-sided bound}\label{ss:one-sided-bound}
+
+\begin{proposition}\label{prop:R-at-x}
+$R_{q_0}(x)\le\totient(q_0)\log^6b/m+\abs{R_{q_0}(x_1)}+\log b\cdot\abs{R_1(x_1)}$.
+\end{proposition}
+\lean{New.Data.primeRemainder_le}
+
+\begin{proof}
+By \cref{prop:total-remainder}(c),
+\[
+  R_{q_0}(x)=\frac{\rem}{a\#\Phib}+R_{q_0}(x_1)-\frac{\#\Phia}{\#\Phib}R_1(x_1).
+\]
+By \cref{thm:main-inequality}, $\rem/(a\#\Phib)\le fa\log^5b/(ma\#\Phib)
+=\totient(q_0)\log^5b\cdot\#\Phia/(m\#\Phib)$, and $\#\Phia=T(s)\le\#\Phib\log b$ by (D3).
+\end{proof}
+
+\begin{theorem}[One-sided bound]\label{thm:one-sided-bound}
+Let $q_0$ be a positive multiple of $18480$, let $d\equiv q_0/2-1\pmod{q_0}$ be a prime, and let
+$\ve>0$. Then $R_{q_0}(y)\le y^{-1/2+\ve}$ for all large real $y$, where $R_{q_0}$ is formed with
+$\chiK=(\,\cdot\,/d)$.
+\end{theorem}
+\lean{New.eventually_exists_data_scales, New.eventually_abs_primeRemainder_exp_le, New.eventually_primeRemainder_natCast_le, New.eventually_primeRemainder_le_rpow}
+
+\begin{proof}
+It suffices to prove the bound with $7\delta$ in place of $\ve$ for $0<\delta<1/100$. Let $x$ be a large
+integer and take the data of \cref{thm:data-exist} with $\ve=\delta$; then $\log b\le2x^\delta$,
+$m\ge\sqrt x$ and $\log x_1\ge x^{\delta/6}-1\ge x^{\delta/12}$. By \cref{thm:pnt-Rq} with an integer
+$B\ge24/\delta$, for large $x$ both $\abs{R_{q_0}(x_1)}$ and $\abs{R_1(x_1)}$ are at most
+$(\log x_1)^{-B}\le x^{-2}$; the primes $d$ here are odd and prime to $q_0$. \Cref{prop:R-at-x} gives
+\[
+  R_{q_0}(x)\le\totient(q_0)\frac{(2x^\delta)^6}{\sqrt x}+x^{-2}+2x^\delta x^{-2}
+  \le(64\totient(q_0)+3)\,x^{-1/2+6\delta}.
+\]
+For real $y\ge2$, \cref{cor:slow-variation} gives $R_{q_0}(y)\le R_{q_0}(\lfloor y\rfloor)+26/y$, and
+$\lfloor y\rfloor^{-1/2+6\delta}\le2y^{-1/2+6\delta}$. Hence
+$R_{q_0}(y)\le(128\totient(q_0)+32)\,y^{-1/2+6\delta}\le y^{-1/2+7\delta}$ for large $y$.
+\end{proof}
+
+\subsection{Proof of the main theorems}\label{ss:proof-main}
+
+\begin{theorem}\label{thm:grh-half-plane}
+For every integer $N\ge1$, every Dirichlet character $\chi$ modulo $N$ and every $s\in\C$ with
+$\re s>1/2$, one has $L(s,\chi)\neq0$, unless $\chi$ is principal and $s=1$.
+\end{theorem}
+\lean{New.grh, New.dvd_two_mul_succ_and_not_dvd_succ}
+
+\begin{proof}
+For $s=1$ and $\chi$ not principal this is Dirichlet's theorem $L(1,\chi)\ne0$; more generally
+$L(s,\chi)\neq0$ for $\re s\ge1$, $s\ne1$. Let $\rho\ne1$ with $\re\rho>1/2$, and choose $\beta$ with
+$1/2<\beta<\re\rho$. Put $q_0=18480N$ and $d_0=9240N-1=q_0/2-1$; then $d_0\equiv7\pmod8$ is odd and
+prime to $q_0=2(d_0+1)$. Every prime $d\equiv d_0\pmod{q_0}$ satisfies $d\equiv q_0/2-1\pmod{q_0}$,
+so \cref{thm:one-sided-bound}, with $\ve=\beta-1/2$, gives $R_{q_0}(x)\le x^{\beta-1}$ for all large
+$x$. By \cref{thm:one-sided-criterion}, $L(\rho,\psi)\ne0$ for every character $\psi$ modulo $q_0$; in
+particular for the character $\psi$ modulo $q_0$ induced by $\chi$. Since
+$L(s,\psi)=L(s,\chi)\prod_{p\mid q_0,\,p\nmid N}(1-\chi(p)p^{-s})$, also $L(\rho,\chi)\neq0$.
+\end{proof}
+
+\begin{theorem}\label{thm:zeros-on-line}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Every zero $s$ of a Dirichlet $L$-function $L(s,\chi)$ with $0<\re s<1$ has $\re s=1/2$.
+\item Every zero $s\neq1$ of the Riemann zeta function other than $-2,-4,-6,\dots$ has $\re s=1/2$.
+\end{enumerate}
+\end{theorem}
+\lean{New.zeros_on_line, New.zeta_zeros_on_line, New.gammaFactor_eq_zero_or_LFunction_one_sub_eq_zero}
+
+\begin{proof}
+(a) Let $L(s,\chi)=0$ with $0<\re s<1$. By \cref{thm:grh-half-plane}, $\re s\le1/2$. The functional
+equation, extended from primitive to all characters by comparing Euler factors, shows that $s$ is a
+pole of the gamma factor of $\chi$ or that $L(1-s,\bar\chi)=0$; see \cref{ss:B-zero-symmetry}. The
+gamma factor has no poles in $\re s>0$. Hence $L(1-s,\bar\chi)=0$, and \cref{thm:grh-half-plane} gives
+$\re(1-s)\le1/2$.
+
+(b) Let $\zeta(s)=0$ with $s\ne1$ and $s\notin\{-2,-4,\dots\}$. Then $s\ne0$, since $\zeta(0)=-1/2$,
+and $s$ is not a pole of $\Gamma_\R(s)=\pi^{-s/2}\Gamma(s/2)$. Hence $s$ is a zero of the completed
+zeta function $\Lambda(s)=\Gamma_\R(s)\zeta(s)$, and so is $1-s$, by $\Lambda(1-s)=\Lambda(s)$; thus
+$\zeta(1-s)=0$. Both $s$ and $1-s$ are zeros of the $L$-function of the character modulo $1$, so
+\cref{thm:grh-half-plane} gives $\re s\le1/2$ and $\re(1-s)\le1/2$.
+\end{proof}
+
+\Cref{thm:grh-half-plane,thm:zeros-on-line} are \cref{thm:main-grh,thm:main-rh} of the
+introduction.

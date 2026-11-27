@@ -1,0 +1,215 @@
+\subsection{Hecke characters of CM fields}\label{ss:B-hecke}
+Let $E$ be a CM field with a CM type $(\Phi_v)_{v}$, one embedding for each infinite place. A
+\emph{splitting character} is a unitary Hecke character $\upsilon$ of $E$ with
+$\upsilon(\bar x)=\upsilon(x)^{-1}$ that equals $\prod_v\Phi_v(x)/\abs{\Phi_v(x)}$ on the ideles whose
+finite part is a unit. Its restriction to the ideles of the maximal real subfield $E^+$ is the
+quadratic character of $E/E^+$.
+
+\begin{theorem}\label{thm:B-splitting-character}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $E$ contains a primitive root of unity of order $5040$ and every root of unity of $E$ is
+$\delta/\bar\delta$ for a unit $\delta$ of $\OO_E$ with $\prod_v\Phi_v(\delta)=1$, a splitting character
+exists.
+\item For a splitting character $\upsilon$, the character $\chi_{\mathrm f}=\upsilon\abs\cdot^{-1/2}$ of the
+finite ideles is an algebraic Hecke character: on $E^\times$ it is $x\mapsto\prod_v\Phi_v(\bar x)^{-1}$ up
+to the archimedean normalisation, and a positive power of each of its values lies in the reflex
+field.
+\item For a $p$-adic place $\iota\colon\C\to\Cp$ and a finite idele $x$,
+$\abs{\iota(\chi_{\mathrm f}(x))}=\prod_v\abs{\varphi_v(x)}$, where $\varphi_v$ is the extension to the finite
+adeles of the embedding $y\mapsto\iota(\Phi_v(\bar y))$ of $E$ into $\Cp$.
+\end{enumerate}
+\end{theorem}
+\lean{New.nonempty_splittingChar, New.SplittingChar, New.chiFin, New.WeilData.chiFinAlgebraic, New.WeilData.norm_map_chiFin}
+
+\begin{proof}[Sources and proof]
+These are characters of type $A_0$ in the sense of Weil \cite{Weil1956}. For (a), $\upsilon$ is
+prescribed as $1$ on $E^\times$, as $\prod_v x_v/\abs{x_v}$ on the ideles with unit finite part, and
+compatibly with $\upsilon(\bar x)=\upsilon(x)^{-1}$ on the norms $b\bar b$. The prescriptions are consistent:
+if $x=y\,b\bar b$ with $y\in E^\times$ has unit finite part, then $\bar y/y$ is a root of unity,
+hence $\delta/\bar\delta$ with $\prod_v\Phi_v(\delta)=1$; the element $a=y\delta$ is real, the finite part of
+$ab\bar b$ is a real unit and hence locally a norm $t\bar t$, so $a$ is a norm of an idele, hence a
+global norm from $E$ (Hasse's norm theorem for $E/E^+$) and totally positive; and then
+$\prod_vx_v/\abs{x_v}=\prod_v\Phi_v(a)/\abs{\prod_v\Phi_v(a)}=1$. The extension from the subgroup so
+generated to all ideles is the cohomological part of Weil's construction; in the Lean development it
+uses the primitive root of unity of order $5040$ in $E$. (b) and (c) are the description of the
+values of algebraic Hecke characters by their infinity type \cite{Weil1956}; (c) follows from (b) by
+writing a power of $x$ as an element of $E^\times$ times a unit idele.
+\end{proof}
+
+Let $\U(1)(\Ad)$ be the norm-one ideles. Characters of $\U(1)(\Ad)$ with a weight and a tame part are
+defined in \cref{ss:chosen}.
+
+\begin{theorem}\label{thm:B-characters-of-weight}
+Let $e\colon\Phi\to\Z$ and let $\psi=(\psi_w)$ be characters of the residue fields, trivial outside a
+finite set $S$. If $\prod_v\Phi_v(u)^{e(v)}\prod_{w\in S}\psi_w(u\bmod w)=1$ for every
+$u\in\U(1)(E)$ that is integral, there is a continuous character $\mu$ of $\U(1)(\Ad)$, trivial on
+$\U(1)(E)$, of weight $e$ and tame part $\psi$. For given $e$ and $\psi$ there are finitely many such
+characters.
+\end{theorem}
+\lean{New.AutChar, New.AutChar.HasWeight, New.AutChar.exists_hasWeight_of_prod_eq_one, New.AutChar.finite_setOf_hasWeight}
+
+\begin{proof}
+The formula defines a continuous character of the open subgroup $U_0$ of points with integral finite
+part; by hypothesis it is trivial on $\U(1)(E)\cap U_0$, so it extends to $\U(1)(E)U_0$, an open subgroup
+of finite index, and then to $\U(1)(\Ad)$, since characters of an open subgroup of a locally compact
+abelian group extend. Two characters with the same weight and tame part differ by a character of the
+compact group $\U(1)(E)\backslash\U(1)(\Ad)$ trivial on the image of the open subgroup of $u$ with
+$u_v=1$ and $u_w\equiv1\pmod w$, which has finite index; there are finitely many such characters.
+\end{proof}
+
+\subsection{Elliptic curves with complex multiplication by \texorpdfstring{$\OO_K$}{OK}}\label{ss:B-cm}
+We recall the facts of \cref{thm:cm-background} and their sources, together with three further
+inputs. Throughout $d\equiv7\pmod8$ is prime and $K=\Q(\sqrt{-d})$; then $2$ splits in $K$, the class
+number of $K$ is odd, and $\zeta_K(s)=\zeta(s)L(s,\chiK)$.
+
+\emph{Sigma, theta and the cubic.} The sigma function of a lattice $\Lambda$ is constructed as an odd
+theta function for the form $H(l,z)=\pi\bar lz/A$ and the multiplier $\chi_\sigma$; it differs from
+Weierstrass's sigma function by a factor $\exp(cz^2)$. Its addition formula
+$\sigma(u+v)\sigma(u-v)=(\wp(v)-\wp(u))\sigma(u)^2\sigma(v)^2$ and the duplication formula give the classical
+facts on $\wp$ \cite[VI]{Silverman2009}, \cite[I]{Silverman1994}. Translating the origin to the point $t$
+of order two and normalising by $\wp''(t)=2$ gives the cubic $y^2+a_1xy=x^3+x$ with origin $(0,0)$ and
+parameter $y$, and the identities of \cref{thm:cm-background}\ref{it:cm-weierstrass}; in particular
+$\theta^2=(\wp-\wp(t))\sigma^2$ off $\Lambda$ and $g''=g''(0)+x$ for $g=-\log\theta$, by differentiating the
+addition formula twice. The monomials $\theta^r\sigma^{2t'}G^u$ with $u\le1$ span the sections of each
+degree, by the description of the theta functions for $2H$ through $\wp$ and of the elliptic functions
+with poles at one point; and sections pull back along isogenies $z\mapsto az$.
+\lean{PeriodPair.σ, New.CMLattice.theta_add_mul_theta_sub, New.CMLattice.theta_sq, New.CMLattice.translatedYThetaCube, New.CMLattice.monomialSection, New.CMLattice.monomialDeg, New.QuadField.classGroup_sq_bijective, New.QuadField.eulerProd_one_eq_zeta_mul}
+
+\emph{Integral group law and isogenies.} The formal group law of the cubic, in the parameter $y$, has
+coefficients in $\Z[a_1]$ \cite[IV.1--IV.2]{Silverman2009}; here it is obtained from Euler's addition
+formula for $y(z_0+z_1)$, a polynomial in $a_1$, $x(z_i)$, $y(z_i)$ and the inverse of the unit
+$1-x(z_0)x(z_1)$. The number $a_1$ is integral at every $p$ because $a_1^4-64$, the discriminant of the
+lattice up to a unit, is a unit: these are Weber's class invariants of discriminant $-d$, integral for
+$d\equiv7\pmod8$. An isogeny of degree $N$ pulls $\theta$ back to $\theta^N$ times an integral series in $y$,
+and $y$ to an integral series in $y$ \cite[VII]{Silverman2009}; passing to limits gives
+\cref{thm:cm-background}\ref{it:cm-isogeny}.
+\lean{New.eulerAddition, New.derivation_eulerAddition, New.CMLattice.translatedY_add_mem_multiSeriesRing, New.CMLattice.norm_a₁_le_one, New.CMLattice.exists_rescale_theta_eq_theta_pow_mul, New.CMLattice.rescale_translatedY_mem_integralSeriesRing, New.CMLattice.mem_integralSeriesRing_of_mem_normPairClosure}
+
+\begin{theorem}[Torsion values]\label{thm:B-torsion-values}
+Let $C$ be a CM lattice for $d$ and $p$ a prime. For a section $h$ of degree $m$ and a torsion point
+$u$, the \emph{torsion value} $h[u]=(T^m_uh)(0)$. The monomial sections have integral torsion values
+at every $p$-adic place, and $\max(\abs{\sigma[u]},\abs{\theta[u]})=1$ at torsion points. A section with
+integral torsion values is an integral combination of monomial sections, and its Taylor series lies
+in $\theta^m\OO[[y]]$. The values $(T^1_u\theta)(0)$ are bounded in absolute value uniformly in the CM
+lattice and in $u$, and only finitely many lattices underlie CM lattices for $d$.
+\end{theorem}
+\lean{New.CMLattice.torsionValue, New.CMLattice.HasIntegralValues, New.CMLattice.max_norm_torsionValue, New.CMLattice.hasIntegralValues_monomialSection, New.CMLattice.mem_span_monomialSection, New.CMLattice.exists_taylorVia_eq_theta_pow_mul, New.CMLattice.exists_norm_twistedTranslate_theta_le, New.CMLattice.finite_range_latticeModule, New.CMLattice.theta_eq_of_latticeModule_eq}
+
+\begin{proof}[Sources and proof]
+The integrality of Siegel functions at torsion points is due to Ramachandra and Robert
+\cite{KubertLang1981}; only the points $t/2^i$ are needed, and for them it follows from the duplication
+formulas for $\theta$ and $\sigma$, which raise the maximum norm of the pair $(\theta^2,\sigma^2)$ to the fourth
+power because $a_1$ is integral and $a_1^4-64$ a unit. The integrality principle (a section with
+integral torsion values has integral expansion) is proved by writing the section as
+$\theta^m(P_0(x)+yP_1(x))$ and interpolating at the nodes $x(t/2^i)$, whose differences are units; this is
+the method of Norman and Mazur--Tate as used by Bannai and Kobayashi \cite{BannaiKobayashi2010}, here for
+all $p$ thanks to the special shape of $d$. The finiteness of the lattices is the correspondence
+between CM lattices up to homothety and ideal classes \cite[II]{Silverman1994}; the scaling
+$\wp''(t)=2$ fixes the homothety up to a fourth root of unity, and the bound for torsion values follows
+by compactness of the fundamental domain.
+\end{proof}
+
+\emph{The formal parameter.} At a prime $p$, let $T$ be the part of $y$ in the degrees $\equiv1$ modulo
+$q_p-1$. Since the roots of unity of order $q_p-1$ act on the formal group through $\OO_K$, the ring
+$\OO[[y]]$ is invariant under $z\mapsto\zeta z$ for them, and $T$ is again a parameter. Multiplication by
+$\pi_p$ is $T(\pi_pz)=g(T)$ with $g=\pi_pz+b_1z^{q_p}+\cdots$ supported in the degrees $1+i(q_p-1)$, and
+$b_1$ is a unit: this is the statement that the formal group has height $2$ at inert $p$ and that
+$\pi_p$ acts as a Lubin--Tate endomorphism \cite{LubinTate1965}; the height bound is proved from the
+inseparable degree of the reduction of multiplication by $\pi_p$. Taking $\varpi^{q_p-1}=-\pi_p/b_1$
+gives $Y=T(\varpi z)/\varpi$ integral with $Y-Y^{q_p}\equiv z$ and $Y\equiv\sum_jz^{q_p^j}$ modulo $\pi_p$,
+which is \cref{thm:cm-background}\ref{it:cm-formal}.
+\lean{New.CMLattice.insepDegree_piPrime_le, New.CMLattice.exists_rescale_piPrime_formalParam_eq, New.CMLattice.isUnit_coeff_primeNorm_of_rescale_formalParam_eq, New.CMLattice.exists_scaled_formalParam}
+
+\begin{theorem}[Chowla--Selberg]\label{thm:B-chowla-selberg}
+Let $\mathcal E_0$ be a CM lattice with lattice $\Omega_0\OO_K$. There is $u\in\C^\times$, a unit at every
+$p$-adic place of $\C$, such that for every automorphism $\sigma$ of $\C$ over $K$
+\[
+  \mathrm{area}(\mathcal E_0^\sigma)\,\abs{\sigma(u)}^2=\pi\,e^{c_K}\frac{2\pi}{\sqrt d},\qquad
+  c_K=\gamma-\re\frac{L'}L(1,\chiK).
+\]
+\end{theorem}
+\lean{New.CMLattice.chowla_selberg, New.CMLattice.sum_kronecker_terms, New.chowlaSelbergConst, New.CMLattice.galConjugate}
+
+\begin{proof}[Sources and proof]
+Kronecker's limit formula, summed over the ideal classes of $K$, computes the geometric mean of
+$\mathrm{area}\cdot\abs{\disc}^{1/6}$ over the classes in terms of $L'(1,\chiK)/L(1,\chiK)$ and
+$\gamma$ \cite{ChowlaSelberg1967}; we leave it in this form, without Gamma values. The conjugate lattices
+$\mathcal E_0^\sigma$ run through the classes (each class once up to the finite ambiguity of the
+normalisation), and the integrality of isogenies between them gives one number $u$, a unit at every
+$p$, whose conjugates scale all conjugate lattices to the mean.
+\end{proof}
+
+\begin{theorem}[Complex multiplication for translates of $\theta$]\label{thm:B-cm-reciprocity}
+Let $\mathcal E_0$ have lattice $\Omega_0\OO_K$ and let $\sigma$ be an automorphism of $\C$ over $K$.
+There are a CM lattice $\mathcal E_0^\sigma$ with $a_1(\mathcal E_0^\sigma)=\sigma(a_1)$, a period $\Omega_\sigma$
+with a multiple in its lattice and area $\abs{\Omega_\sigma}^2\sqrt d/2$, and a finite idele $\beta_\sigma$ of
+$K$ such that for every $x\in K$ and every $x'$ in a neighbourhood of $\beta_\sigma x$, $\sigma$ maps the
+Taylor series of $T^1_{x\Omega_0}\theta_{\mathcal E_0}$ at $0$ to that of $T^1_{x'\Omega_\sigma}
+\theta_{\mathcal E_0^\sigma}$.
+\end{theorem}
+\lean{New.CMLattice.IsComplexMultiplicationData, New.CMLattice.complex_multiplication_theta, New.CMLattice.exists_galConjugate_of_g₂_g₃, New.CMLattice.taylorAtZero_theta_eq_taylorVia, New.CMLattice.exists_taylorVia_twistedTranslate_theta}
+
+\begin{proof}[Sources and proof]
+This is the main theorem of complex multiplication for elliptic curves in a soft form
+\cite[Thm.~5.4]{Shimura1971}: the conjugate lattice is $\Omega\mathfrak c^2/\Nm(\mathfrak c)$ for an ideal
+$\mathfrak c$, and one finite adele describes the Galois action on torsion points. Here no reciprocity law
+is used: the conjugate lattice comes from uniformisation by $(\sigma g_2,\sigma g_3)$, the Taylor series of
+the theta function of a CM datum with invariant $\sigma(a_1)$ is the conjugate of that of $\theta$, and points
+are matched by transporting sections of each degree.
+\end{proof}
+
+\subsection{The adelic Weil representation}\label{ss:B-weil}
+The construction follows Weil \cite{Weil1964}. A Heisenberg cocycle on a locally compact abelian group
+$W$ is a continuous alternating bicharacter $\beta$; a vacuum is a function $e$ on $W$ playing the part of a
+matrix coefficient of a vacuum vector (a Gaussian at the real places, the indicator of a self-dual
+lattice times a semicharacter at the finite places). The integrable functions $v$ with
+$v(x)=\int v(y)\beta(y,x)e(x-y)\,dy$ form a Banach space with an irreducible Heisenberg representation, and
+Schur's lemma holds: an invariant form is a multiple of the inner product and a bounded operator commuting
+with the representation is a scalar. For a hermitian space with a point $V$, the adelic Heisenberg
+datum on $\Ad^n$ is the product of the real (Fock) and the finite data, and the adelic unitary group
+acts by symmetries with a multiplier, which gives the Weil representation $\omega$ with
+$\omega(g)\varrho(x)\omega(g)^{-1}=\varrho(gx)$. A theta functional exists by the theta series of the vacuum and
+is unique up to a scalar by Schur's lemma; it does not depend on the group element used to transport it
+from the standard space, because two choices differ by a rational point (Landherr's theorem gives a
+point matching the rational vectors). The finite part of the space for a standard $V$ consists of the
+vectors whose theta functions are entire, and translation by the finite image of a rational vector acts
+on $\vartheta_f$ as the twisted translation by minus its real image.
+
+Fourier inversion (W6): if $\vartheta_\varphi$ is a theta function for $\bar\delta\mathfrak a_0^n$, the signed sums
+of translates of $\varrho(-y)\varphi$ over $\mathfrak a_0^n/\bar\delta\mathfrak a_0^n$, for $y\in\delta^{-1}\mathfrak
+a_0^n/\mathfrak a_0^n$, are multiples $c_y\mathrm{vac}$ of the vacuum, and $\sum_yc_y\varrho(y)\mathrm{vac}=
+(\delta\bar\delta)^{fn}\varphi$, by the orthogonality of the characters of the finite group
+$\delta^{-1}\mathfrak a_0^n/\mathfrak a_0^n$; this is the classical fact that theta functions for a sublattice
+are spanned by the translates of the theta function of a principal polarisation
+\cite[II]{Mumford1983}.
+\lean{New.Heisenberg, New.Heisenberg.IsVacuum, New.Heisenberg.IsVacuum.Model, New.Heisenberg.IsVacuum.eq_smul_one_of_commute, New.Space.exists_isThetaFunctional, New.Space.IsThetaFunctional.eq_smul, New.Space.theta_omega_eq_of_mapsTo_ratVectors, New.Space.exists_mapsTo_ratVectors, New.Space.fourier_inversion, New.Space.exists_entireTheta_eq_of_isThetaFunction}
+
+\subsection{Schur modules}\label{ss:B-schur}
+Let $n$ be a finite set and consider polynomials in an $n\times\N$ array of variables. For a diagram
+with $\kappa(h)$ columns of height $h<\#n$, the polynomials $f$ with $f(yb)=\prod_hb_{hh}^{\,l_h}f(y)$ for
+upper triangular $b$ (with the weight $l$ determined by $\kappa$) form a module $\nabla_\kappa$ spanned by the
+products of minors along fillings of the diagram; the products of minors of the standard fillings form
+a basis over every commutative ring \cite[\S8]{Fulton1997}. The dual module is the Weyl module. Left
+substitution $f\mapsto f(zy)$ by an $n'\times n$ matrix maps $\nabla_\kappa(n)$ to $\nabla_\kappa(n')$
+(after the appropriate power of the determinant if $\#n<\#n'$); its matrix in the chosen bases is the
+Schur matrix $\mathrm{Sch}_\kappa(z)$. The Fock pairing $\langle P,Q\rangle=P(\partial)Q(0)$ is symmetric, the
+adjoint of $f\mapsto f(zy)$ is substitution by the transpose, and $\langle\bar P,P\rangle>0$ for $P\ne0$.
+\lean{New.jet, New.fockPairing, New.nabla, New.tableauPoly, New.IsTableauBasis, New.nablaBasis, New.schur, New.fockPairing_comm, New.fockPairing_rowSubst, New.fockPairing_star_self_pos}
+
+\begin{theorem}[Integral branching]\label{thm:B-branching}
+Let a weight of $\GL_{n+1}$ at each infinite place have $\kappa(h)=\gamma(h)+\kappa'(h)$ columns of height $h$, of which $\gamma(h)$ lose a box and $\kappa'(h)$ keep it, and let $\kappa_0(h)=\kappa'(h)+\gamma(h+1)$ for $0<h<n$ be the interlacing weight of $\GL_n$, with determinant exponents $e$ and $e_0=e+\kappa'(n)$; let all
+columns of height below $q$ lose a box. There is an integral matrix $\mathrm{br}$ from the Weyl module of $(\kappa,e)$ to that of $(\kappa_0,e_0)$, in the bases of standard fillings, such that:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item over every field of characteristic zero, $\mathrm{br}\,\rho(\mathrm{diag}(g,s))=\prod_\tau s_\tau^{\abs{\gamma}_\tau+e_\tau}\rho_0(g)\,\mathrm{br}$, $\abs\gamma_\tau$ the number of columns of $\gamma$ at $\tau$;
+\item its squared operator norm for the Gram norms is at most $((L^L)^3)^2$ if $L$ bounds the number of boxes of $\kappa_0$ in the columns of heights $q\le h<n$;
+\item every complex matrix equivariant for the unitary block group $\mathrm{diag}(g,1)$ is a multiple of $\mathrm{br}$.
+\end{enumerate}
+\end{theorem}
+\lean{New.GL.blockScalar.eq_unfold, New.GL.exists_cyclic_lower_triangular, New.GL.exists_int_branching_of_weylKernel, New.GL.spansBranchingMaps_of_equivariant, New.SpansBranchingMaps}
+\lean{New.GL.branchRows, New.GL.branchVector, New.GL.branchVector_eq_prod_tableauPoly, New.GL.det_mul_dotProduct_mulVec_eq_extendedTensor, New.GL.exists_minor_extremalRows_eq_smul, New.GL.exists_smul_rowSubst_extremalFilling, New.GL.exists_smul_weylKernel_mul_eq_toPoly, New.GL.extendedTensor, New.GL.extendedTensor_dotProduct, New.GL.extremalFilling, New.GL.extremalRows, New.GL.finRotate_val, New.GL.frontPermutation, New.GL.frontPermutation_val, New.GL.frontRenaming, New.GL.leadingMinorAlong, New.GL.leadingMinorAlong_newRowOrder_top, New.GL.leadingMinorAlong_newRowOrder_zero, New.GL.leadingWedge_extremalFilling, New.GL.newRowOrder, New.GL.newRowOrder_symm_of_val_eq_succAbove, New.GL.prod_det_blockScalar_branchRows, New.GL.re_dotProduct_mulVec_le_of_forall_dotProduct_eq, New.GL.rowSubst_branchVector, New.GL.rowSubst_permMatrix_minor, New.GL.span_weylEval_eq_top, New.GL.star_extendedTensor, New.GL.weylEval_dotProduct_weylGram_mulVec_weylEval, New.GL.weylKernel_mul_weylKernel_eq_prod_minor, New.GL.weylKernel_permArray_eq_prod_minor, New.GL.weylNormSq_mulVec_le_of_equivariant}
+
+\begin{proof}[Sources]
+This is the multiplicity-one branching rule from $\GL_{n+1}$ to $\GL_n$ for interlacing weights \cite[Thm.~8.1.1]{GoodmanWallach2009}, in an integral form with a norm bound; that $\mathrm{br}\ne0$ is not part of the statement. The Lean development builds $\mathrm{br}$ from its value at one point: the \emph{branching vector}, the product of the leading minors to the
+powers $\gamma$ with the new row first (so that it lies in every column of positive height) and to the powers $\kappa'$ with the new row last, transforms under $\mathrm{diag}(1,s)$ by $s^{\abs\gamma}$; an integral equivariant matrix is determined by the image of an evaluation vector at a permutation array, which is a combination of products of
+minors along one filling, and equivariance over every field follows from the Zariski density of the unitary group. The norm bound is proved through the transposed contraction with the extremal filling, whose leading minors are integral; and (c) holds because an equivariant matrix vanishing at the extremal vector vanishes.
+\end{proof}

@@ -1,0 +1,374 @@
+\section{Elementary divisors of edge Hecke operators}\label{sec:elementary-divisors}
+
+This section proves the theorem on elementary divisors used at the exceptional primes (\cref{thm:marked-colength}). A Hecke operator
+of an edge type, acting on functions on lattices with values in forms of large degree twisted by a cycle of Frobenius powers, is shown to
+be onto modulo $p^m$ up to a colength whose mean exponent per coordinate is at most $3c_{\rm div}+\theta m$, with $c_{\rm div}$ small
+(\cref{thm:elementary-divisors}). The proof factors the operator through functions on edges, $M\subseteq M_{\rm all}\subseteq M_{\rm edge}\to\mathcal N\subseteq M^\circ$, and
+bounds three things: the colength of the integral functions on lattices among the functions on edges that depend only on the origin
+(\emph{depth}, \cref{ss:depth}); the image of the adding map, through a near inverse that satisfies congruences at each edge
+(\emph{averaging}, \cref{ss:averaging}); and the number of further generators these congruences leave room for (\emph{defect count},
+\cref{ss:defect-count}), which rests on a root lemma of Stepanov type and on the volume of the cone of Pieri's inequalities.
+
+\subsection{Frobenius cycles}\label{ss:frobenius-cycles}
+
+\begin{definition}[Frobenius cycle]\label{def:frobenius-cycle}
+Let $W$ be a local ring with finite residue field and $R$ a ring. A \emph{Frobenius cycle} with $N$ letters consists of a prime $p$, an
+exponent $o$ with $P=p^o\ge5$, ring maps $\iota_s\colon W\to R$ for the \emph{letters} $s\in\Z/N$, each marked \emph{even} or \emph{odd} with
+neighbouring letters of opposite parity, and an element $w\in R$ with $w^2=p$, such that $\iota_{s+1}(x)\equiv\iota_s(x)^P\pmod p$ for all $x$ and
+the residue field of $W$ has $q=P^N$ elements.
+\end{definition}
+\lean{New.FrobeniusCycle, New.FrobeniusCycle.P, New.FrobeniusCycle.q, New.FrobeniusCycle.map, New.FrobeniusCycle.one_lt_P, New.FrobeniusCycle.one_lt_q, New.FrobeniusCycle.frobenius_pow_congr, New.FrobeniusCycle.sqrtPrime_ne_zero, New.FrobeniusCycle.finite_residueField, New.FrobeniusCycle.five_mul_P_pow_le_q, New.FrobeniusCycle.five_le_q, New.FrobeniusCycle.card_isEven_add_self, New.FrobeniusCycle.two_le_card_letters, New.FrobeniusCycle.p_dvd_embedding_of_mem_maximalIdeal}
+
+The variables are $x_{b,s}$ with $b<k$ and $s\in\Z/N$, and a \emph{form} of degree $n$ is a polynomial homogeneous of degree $n$ in each letter;
+its coefficients are indexed by the \emph{exponents}, $N$-tuples of monomials of degree $n$ in $k$ variables. An element $g\in\GL_k(W)$ acts on
+the letter $s$ through the \emph{letter matrix} $g_s=\iota_s(g)$ for even $s$ and $\iota_s({}^tg^{-1})$ for odd $s$, by the linear substitution
+$x_{c,s}\mapsto\sum_b(g_s)_{bc}x_{b,s}$; on coefficient vectors this is the Kronecker product $\rho(g)$ of the $n$-th symmetric powers of the $g_s$.
+For $0<r\le k/2$ a variable $x_{b,s}$ is \emph{deep} if $s$ is even and $b\ge r$ or $s$ is odd and $b<r$; the \emph{depth} of an exponent is its
+degree in the deep variables. For indices $a\ne a'$, a letter $i$ and $u_s=x_{a',s}$, $\bar u_s=x_{a,s}$ for even $s$ (reversed for odd $s$), the
+\emph{defect} of an exponent $\beta$ at $i$ along the root $(a,a')$ is
+\[
+  \mathrm{def}_i(\beta)=\beta(u_i)+\sum_{s\in\Z/N}\frac{P^{(s-i)\bmod N}}{q-1}\bigl(\beta(u_s)-\beta(\bar u_s)\bigr),
+\]
+a linear form in $\beta$; for $\beta$ of degree at most $d$ in each letter, $\abs{\mathrm{def}_i(\beta)}\le2d$.
+\lean{New.Exponents, New.twoBlock, New.defectThreshold, New.three_mul_le_defectThreshold, New.FrobeniusCycle.letterMatrix, New.FrobeniusCycle.polyAction, New.FrobeniusCycle.letterRep, New.FrobeniusCycle.deepIndicator, New.FrobeniusCycle.depth, New.FrobeniusCycle.rootVar, New.FrobeniusCycle.defectWeight, New.FrobeniusCycle.translatesIn, New.FrobeniusCycle.defectConditions, New.FrobeniusCycle.deepForms, New.FrobeniusCycle.polyAction_X, New.FrobeniusCycle.diagonal_pow_depth, New.FrobeniusCycle.polyAction_polyOfCoeffs, New.FrobeniusCycle.letterRep_map, New.FrobeniusCycle.one_add_val_sub_one_sub, New.FrobeniusCycle.defectWeight_sub_mem_Icc, New.FrobeniusCycle.sum_P_pow_le, New.FrobeniusCycle.abs_weight_defectWeight_le, New.FrobeniusCycle.p_dvd_letterMatrix_of_mem_parahoric_of_isEven, New.FrobeniusCycle.p_dvd_letterMatrix_of_mem_parahoric_of_not_isEven, New.FrobeniusCycle.p_dvd_letterMatrix_of_mem_parahoric}
+
+\subsection{Edges and halfway lattices}\label{ss:edges}
+An \emph{edge} is a pair of $W$-lattices $L'\subseteq L$ of rank $k$ with $\varpi L\subseteq L'$ and $\dim L/L'=r$; $L'$ is its \emph{origin}. In a basis of $L'$ adapted to the
+edge, the stabiliser of the edge is the parahoric subgroup with blocks $r$, $k-r$. The forms integral for $L'+wL$, times $w^{-nN/2}$, have the
+basis of the \emph{normalised monomials} $w^{-\mathrm{depth}\,\beta}z^\beta$; this module is the \emph{halfway lattice} of the edge. Let
+$\mathcal M_{\rm all}$ be the forms that lie in the halfway lattices of all edges from a given lattice, in the normalised coefficients of one edge.
+The lattices $H\supseteq H^\circ$ spanned by the monomials and by the divided powers $(n!^N/\beta!)z^\beta$ are stable under $\GL_k(W)$, and
+$n!^N/\beta!=\prod_s\binom{n}{\beta_s}$ has $p$-adic valuation at most $c_0=k^2\log_pq$ when $n<q$.
+\lean{New.monomialLattice, New.dividedPowerLattice, New.dividedPowerLattice_le_monomialLattice, New.dividedPowerCoeff, New.dividedPowerCoeff_eq_prod_multinomial, New.symPowMatrix_mul_multinomial, New.FrobeniusCycle.polyAction_map_monomial, New.FrobeniusCycle.polyAction_mem_monomialLattice, New.FrobeniusCycle.polyAction_mem_dividedPowerLattice, New.FrobeniusCycle.depthScaling, New.FrobeniusCycle.depthScaling_mulVec_apply, New.FrobeniusCycle.depthScaling_eq_kroneckerPi, New.FrobeniusCycle.exists_depthScaling_mul_letterRep_eq, New.FrobeniusCycle.letterMatrix_eq_zero_of_mem_levi, New.FrobeniusCycle.commute_depthScaling_letterRep, New.FrobeniusCycle.allEdgesForms, New.FrobeniusCycle.depthScaling_mulVec_mem_allEdgesForms, New.FrobeniusCycle.multinomialExponent, New.FrobeniusCycle.mem_translatesIn_iff, New.FrobeniusCycle.residue_mem_translatesIn, New.ParahoricCosets, New.exists_mul_inv_eq_mul_diagonal, New.card_le_mul_finrank_of_dual_rows, New.prod_dvd_pow_sum_card, New.pow_sub_dvd_of_pow_dvd_pow_mul, New.parahoric, New.levi}
+
+\begin{proposition}[Edges]\label{prop:edges}
+Let $R=O$ be a domain of characteristic zero.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The stabiliser of an edge preserves its halfway lattice: for $u$ parahoric, $\Delta\rho(u)=A\Delta$ with $A$ integral, $\Delta$ the diagonal of the
+$w^{\mathrm{depth}\,\beta}$.
+\item If $p$ is not a unit and $n<q$, there are weights $b$, $b'$ with $\mathrm{diag}(b)\rho({}^tg)={}^t\rho(g)\mathrm{diag}(b)$ for all $g$ and $b_\beta b'_\beta=p^{Nc_0}$:
+an \emph{edge pairing}, which pairs the halfway lattices of an edge and of the dual edge.
+\item Let $a<r$, $v\in\mathcal M_{\rm all}$ and $g$ block diagonal. If $\mathrm{def}_i(\beta)\ge3j$ along $(a,r)$, then $w^j$ divides the coefficient of $\rho(g)v$ at $\beta$;
+and if $\mathrm{def}_i(\beta)>3kc$, then $w^c$ divides the pairing of $v$ with $\rho(g)e_\beta$. In particular $\mathcal M_{\rm all}$ satisfies the \emph{defect conditions}:
+its block diagonal translates have no term of defect above $9kc$ modulo $w^c$.
+\item Suppose every edge from every origin occurs among the edges $e$, with origin $\mathrm{src}(e)$ and basis change $g_e$, and all depths are at most $x$.
+The functions on edges that depend only on the origin form a direct summand, the image of a matrix $Q$ with a left inverse; and the restriction
+of integral functions on origins is $Qd$ with $\det d\mid w^{l}$, $l=\#X\sum_{1\le\delta\le x}\dim\mathcal D_\delta$, where $\mathcal D_\delta$ is the space over the
+residue field of forms all of whose translates have depth at least $\delta$.
+\end{enumerate}
+\end{proposition}
+\lean{New.FrobeniusCycle.IsEdgePairing, New.FrobeniusCycle.IsEdgePairing.dotProduct_letterRep_mulVec, New.FrobeniusCycle.IsEdgePairing.pairing_mul_eq_pow_mul_dotProduct, New.FrobeniusCycle.exists_isEdgePairing, New.FrobeniusCycle.edgeRestriction, New.FrobeniusCycle.originFunctions, New.FrobeniusCycle.edgeRestriction_mulVec_apply, New.FrobeniusCycle.transpose_edgeRestriction_mulVec, New.FrobeniusCycle.dvd_depthScaling_mulVec_of_dvd_edgeRestriction, New.FrobeniusCycle.apply_mem_allEdgesForms, New.FrobeniusCycle.dvd_of_forall_dvd_mul_inv_apply, New.FrobeniusCycle.exists_originFunctions_factorization_det_dvd, New.FrobeniusCycle.mulVec_mulVec_eq_self_of_mem_originFunctions, New.FrobeniusCycle.pow_add_dvd_of_le_defect, New.FrobeniusCycle.pow_dvd_letterRep_mulVec_of_mem_allEdgesForms, New.FrobeniusCycle.allEdgesForms_le_defectConditions, New.FrobeniusCycle.IsEdgePairing.pow_dvd_pairing_letterRep}
+
+\begin{proof}
+(a) For a letter $s$ let $\Delta_s$ be the diagonal matrix with $w$ at the deep variables of $s$ and $1$ at the others; then $\Delta$ is the Kronecker product over the letters of the $n$-th symmetric powers of the $\Delta_s$. For $u$ parahoric, the entries of the letter matrix $u_s$ in a shallow row and a deep column are divisible by $p$: for even $s$ they come from the entries of $u$ in the positions
+$(i,j)$ with $i<r\le j$, which lie in the maximal ideal and are sent into $(p)$ by $\iota_s$, and for odd $s$ from the corresponding entries of $u^{-1}$, which is parahoric too. Hence $\Delta_su_s\Delta_s^{-1}=A_s$ is integral: its entry $(i,j)$ is $w^{d_i-d_j}(u_s)_{ij}$ with $d$ the depth indicator, and only $d_i=0$, $d_j=1$ gives a negative power, at an entry divisible by $p=w^2$. Taking symmetric powers
+and Kronecker products, $\Delta\rho(u)=A\Delta$ with $A=\bigotimes_s\mathrm{Sym}^n(A_s)$ integral.
+
+(b) Over a domain of characteristic zero the $n$-th symmetric powers of a matrix and of its transpose are transposes of each other up to the multinomial coefficients: $\langle z^\alpha,z^\alpha\rangle=\alpha!$ defines a pairing for which the substitutions by $g$ and ${}^tg$ are adjoint. In one letter take $b_0(\gamma)=p^{k\log_pq}/\binom n\gamma$, which is integral because a multinomial coefficient
+of degree $n<q$ has $p$-adic valuation at most $k\log_pq$; multiply by a fixed power of $p$ to raise the exponent to $c_0=k^2\log_pq$, and take the product over the letters. Then $\mathrm{diag}(b)\rho({}^tg)={}^t\rho(g)\mathrm{diag}(b)$, and $b'_\beta=p^{Nc_0}/b_\beta$ is integral.
+
+(c) \emph{A consequence of the root lemma.} The depth weights rise by $1$ from $\bar u_s$ to $u_s$ in each letter, and the defect weights of $u_s$ and $\bar u_s$ differ by an amount in $[0,\frac32]$ (as $5P^{(s-i)\bmod N}\le q$); so the weights $\mathrm{depth}-\frac13\mathrm{def}_i$ rise by amounts in $[\frac12,1]$. If in all translates of a polynomial by the $\mathrm{SL}_2(W)$ in the rows and columns $a$, $r$ every term has $w$-adic order
+plus depth at least $v_0$, then every term of the polynomial itself has order plus depth at least $v_0+\frac13\mathrm{def}_i$: otherwise take, among all terms of all translates, one of least order plus weight for the weights $\mathrm{depth}-\frac13\mathrm{def}_i$; by \cref{thm:root-lemma} its defect is at most $0$, so its order plus depth is below $v_0$, against the hypothesis.
+
+\emph{Application.} Write $v=w^{-m}\Delta h$ with $w^m$ dividing the normalised coefficients $w^{\mathrm{depth}\,\beta}(\rho(\gamma)h)_\beta$ for all $\gamma\in\GL_k(W)$. For $g$ block diagonal, $\rho(g)$ commutes with $\Delta$, and the $\mathrm{SL}_2(W)$ of the root is contained in $\GL_k(W)$; so the consequence above, applied to $\rho(g)h$, gives that $w^{m+j}$ divides $w^{\mathrm{depth}\,\beta}(\rho(g)h)_\beta$ when $\mathrm{def}_i(\beta)\ge3j$,
+that is, $w^j$ divides the coefficient of $\rho(g)v$ at $\beta$. For the pairing, $\langle v,\rho(g)e_\beta\rangle=b_\beta(\rho({}^tg)v)_\beta$ by (b), and ${}^tg$ is again block diagonal; a defect above $3kc\ge3c$ gives the factor $w^c$. With $j=c$ and the threshold $9kc\ge3c$ the defect conditions follow.
+
+(d) \emph{The direct summand.} Let $J$ be the matrix of the restriction $\phi\mapsto(e\mapsto\Delta\rho(g_e)\phi(\mathrm{src}(e)))$. By elementary divisors over the valuation domain (a Hermite form followed by a Smith form) there are an invertible $P$, a matrix $Q$ with a left inverse $R$ and scalars $t_i$ with $JP^{-1}=Q\,\mathrm{diag}(t)$. A function on edges that depends only on the origin has a multiple $w^m\psi$ in the image of $J$, hence in the image of $Q$,
+and $QR$ fixes it; so these functions are the image of $Q$, a direct summand, and $J=Qd$ with $d=\mathrm{diag}(t)P$.
+
+\emph{The determinant.} Since every edge from every origin occurs, every $\gamma\in\GL_k(W)$ is $ug_e$ with $u$ parahoric and $\mathrm{src}(e)$ the given origin; so by (a), if $t_i$ divides all coefficients of the restriction of the column $i$ of $P^{-1}$, it divides those of $\Delta\rho(\gamma)$ applied to its value at every origin. With $\gamma=1$ and all depths at most $x$, $t_i$ divides $w^x$ times a column
+of an invertible matrix, hence divides $w^x$. If $t_i$ does not divide $w^\delta$, then $w^{\delta+1}$ divides $w^{\mathrm{depth}\,\beta}(\rho(\gamma)P^{-1}e_i)_\beta$ for all $\gamma$ and $\beta$, so the reductions of the values of this column lie in $\mathcal D_{\delta+1}$. The columns of $P^{-1}$ are independent modulo the maximal ideal, so there are at most $\#X\dim\mathcal D_{\delta+1}$ such $i$. As
+$\det d$ is $\prod_it_i$ up to a unit, and each $t_i$ divides $w^{x}$, the product divides $w^l$ with $l$ the number of pairs $(i,\delta)$, $\delta<x$, with $t_i\nmid w^\delta$, which is at most $\#X\sum_{1\le\delta\le x}\dim\mathcal D_\delta$.
+\end{proof}
+
+\subsection{Frobenius factors}\label{ss:frobenius-factors}
+The twists $\iota_s(g)$ are not algebraic in $g$, but modulo $p$ they are entrywise $P$-th powers of one another. Take one generic $k\times k$ matrix for
+each letter (a \emph{copy}) and let the copy $s-d$, $0\le d\le\ell$, act on the letter $s$ through its entrywise $P^d$-th power, or through the cofactor
+matrix of this power if $s$ is odd, the last factor $d=\ell$ acting on the deep variables only; this is the \emph{substitution operator}. A term of an
+entry of a product of matrices belongs to a path of indices, and the \emph{weight} of a monomial in the copies is the sum of the scaled index
+weights along the path.
+\lean{New.FrobeniusCycle.frobGenericMatrix, New.FrobeniusCycle.parityCofactor, New.FrobeniusCycle.substitutionLetterMatrix, New.FrobeniusCycle.substitutionOperator, New.FrobeniusCycle.letterConj, New.rootVector, New.FrobeniusCycle.indexWeight, New.FrobeniusCycle.copyWeight, New.FrobeniusCycle.scaledIndexWeight, New.FrobeniusCycle.entryWeight, New.mul_adjugate_conj_mul, New.FrobeniusCycle.letterMatrix_mul_parityCofactor_letterConj_mul, New.FrobeniusCycle.parityCofactor_map, New.FrobeniusCycle.letterMatrix_inv_apply_eq_zero, New.FrobeniusCycle.substitutionLetterMatrix_map, New.FrobeniusCycle.substitutionOperator_map_eq_conj, New.FrobeniusCycle.substitutionOperator_frobeniusCycle_map, New.FrobeniusCycle.substitutionOperator_one, New.adjugate_transpose_mem, New.symPowMatrix_mem, New.reverse_prod_map_range_mem, New.FrobeniusCycle.parityCofactor_mem, New.FrobeniusCycle.substitutionOperator_mem, New.FrobeniusCycle.abs_indexWeight_le, New.FrobeniusCycle.mul_defectWeight_eq_indexWeight_mul, New.mem_gaussFiltration_adicFiltration_iff, New.le_weight_of_mem_gaussFiltration_zero, New.FrobeniusCycle.X_mem_gaussFiltration, New.FrobeniusCycle.p_dvd_letterConj_pow_sub, New.FrobeniusCycle.conjFrobGenericMatrix, New.FrobeniusCycle.conjFrobGenericMatrix_one, New.FrobeniusCycle.letterConj_mem_gaussFiltration, New.FrobeniusCycle.conjFrobGenericMatrix_mem_gaussFiltration, New.FrobeniusCycle.weight_entryWeight, New.FrobeniusCycle.abs_scaledIndexWeight_le, New.FrobeniusCycle.abs_entryWeight_le, New.FrobeniusCycle.abs_scaledIndexWeight_sub_scaledIndexWeight_sub_entryWeight_le, New.FrobeniusCycle.substitutionOperator_conj_mem_gaussFiltration, New.FrobeniusCycle.abs_defect_sub_mul_le_one, New.FrobeniusCycle.degree_le_of_coeff_substitutionOperator}
+
+\begin{lemma}[Weight and defect]\label{lem:weight-defect}
+Let $r=a+1$, $\ell\le N$ and $Nnk(\ell+2)\le P^\ell$, and take an entry in row $\beta$ of the substitution operator at the generic factors after a change of
+frame by a block diagonal $h$. If the coefficient of a monomial in it is not divisible by $w^c$, its weight at the copy $i$ is within $3kc$ of the defect
+of $\beta$ at the letter $i+\ell$.
+\end{lemma}
+\lean{New.FrobeniusCycle.abs_defect_sub_copyWeight_le}
+
+\begin{proof}
+\emph{Levels.} Use the Gauss filtration for the $w$-adic order, shifted by real weights of the variables: a polynomial has level $t$ if its coefficient at each monomial $\mu$ is divisible by $w^{\lceil t-\mathrm{weight}\,\mu\rceil}$. Levels add under products, a cofactor in row $b$ of a matrix whose row $b$ has level $x_b-v$ (with $\sum x_b=0$, $v\ge0$) has level $-x_b-kv$, and the $n$-th symmetric power of a matrix whose row $b$ has level $y_b$ has
+the row $\beta$ of level $\sum_b\beta_by_b$.
+
+\emph{Potentials.} Give the entry $(b,c)$ of the copy $j$ the weight $\epsilon$ times its entry weight: $\rho_b/P^\ell$ if $j=i$, and $P^{(j-i)\bmod N}(\rho_b-\rho_c)/(qP^\ell)$ otherwise, with $\rho=e_{a'}-e_a$ and $\abs\epsilon\le\frac12$. The entry $(b,c)$ of the $P^d$-th power of the copy $s-d$ then has a weight that differs by at most $1/P^\ell$ from the difference of the scaled index weights of $b$ at the exponent $d+1+m'$ and of $c$
+at the exponent $d+m$, with $s-d=i+m$, $m<N$; so the potentials telescope along the product of at most $\ell+1$ factors. The change of frame by the block diagonal $h$ does not change the levels: conjugation by $\iota(h)$ preserves each level, and the $P^d$-th power of the conjugate by $\iota_{s-d}(h)^{-1}$, conjugated back by $\iota_s(h)$, agrees modulo $p$ with the entrywise power, because $\iota_{s-d}^{P^d}\equiv\iota_s$ modulo $p$;
+the difference, a multiple of $p=w^2$, is absorbed since all weights are at least $-1$. Hence row $\beta$ of the operator has level $\sum_{b,s}\beta_{b,s}x_{b,s}-Nnk(\ell+2)/(2P^\ell)$, where $x_{b,s}$ is $\pm$ the final potential, with $+$ for even and $-$ for odd $s$ (the cofactor changes the sign and multiplies the loss by at most $k$).
+
+\emph{The defect.} For $j=i+\ell$, $(1-1/q)$ times the defect weight of $(b,s)$ is $\pm\rho_bP^{d+m}/(qP^\ell)$, the scaled index weight of the final potential, with $d=\ell+1$ or $\ell$ according to whether $(b,s)$ is deep: one of $(a,s)$, $(a',s)$ is deep and the other is not, which gives the two exponents of the defect weight. Hence row $\beta$ has level $t=\epsilon(1-1/q)\mathrm{def}_{i+\ell}(\beta)-L$ with
+$L=Nnk(\ell+2)/(2P^\ell)\le\frac12$.
+
+\emph{Conclusion.} Let $D$ be the weight of the monomial and $E=(1-1/q)\mathrm{def}_{i+\ell}(\beta)$. For $\epsilon=\pm\frac12$ the coefficient is divisible by $w^{\lceil\epsilon(E-D)-L\rceil}$; as it is not divisible by $w^c$, $\epsilon(E-D)-L\le c$, so $\abs{E-D}\le2c+1$. Since $2n\le q$, $\abs{\mathrm{def}-E}=\abs{\mathrm{def}}/q\le1$. Hence the weight is within $2c+2\le3kc$ of the defect, as $k\ge2$ and $c\ge1$.
+\end{proof}
+
+\subsection{The root lemma}\label{ss:root-lemma}
+
+\begin{lemma}[Stepanov's count]\label{lem:stepanov-count}
+Let $W$ be local with $q$ residue classes and $\iota\colon W\to R$ a ring map. If a nonzero polynomial $\Phi\in R[X]$ satisfies $X^E\mid\Phi(X+\iota x)$ for every
+$x\in W$, then $Eq\le\deg\Phi$.
+\end{lemma}
+\lean{New.stepanov_count}
+
+\begin{proof}
+Lift the residue classes to elements $\iota(x_1),\dots,\iota(x_q)$ of $R$; for $x\ne y$ the difference $\iota(x)-\iota(y)$ is the image of a unit of $W$, hence a unit, so the polynomials $(X-\iota x)^E$ are pairwise coprime. Each divides $\Phi$, so their product, monic of degree $Eq$, divides $\Phi\ne0$, and $Eq\le\deg\Phi$ \cite{Stepanov1969,Bombieri1974}.
+\end{proof}
+
+\begin{theorem}[Root lemma]\label{thm:root-lemma}
+Let $a\ne a'$, $i$ a letter, and let weights $c$ of the variables rise from $\bar u_s$ to $u_s$ by amounts in $[\frac12,1]$. Suppose that in all translates of $f$
+by the $\mathrm{SL}_2(W)$ in the rows and columns $a$, $a'$ every term has $w$-adic order plus weight at least $l+c\cdot\alpha$, and that $w^{l+1}$ does not divide
+the coefficient of $x^\alpha$ in $f$. Then $\mathrm{def}_i(\alpha)\le0$. Over a field of characteristic $p$, a term of least height among the terms of all
+translates, for heights rising by $1$, has defect at most $0$.
+\end{theorem}
+\lean{New.FrobeniusCycle.defect_nonpos_of_extreme_term, New.FrobeniusCycle.weight_defectWeight_nonpos_of_least, New.FrobeniusCycle.weight_sub_defectWeight_div_three, New.FrobeniusCycle.mem_gaussFiltration_sub_defect_div_three, New.FrobeniusCycle.totalDegree_polyAction_le, New.IsRealFiltration, New.adicFiltration, New.gaussFiltration, New.mem_gaussFiltration_iff, New.mem_adicFiltration_iff, New.mem_adicFiltration_of_nonpos, New.monomial_mem_gaussFiltration, New.C_mem_gaussFiltration, New.algHom_sub_mem_of_mem_gaussFiltration, New.rootSL, New.rootSL_le_levi, New.FrobeniusCycle.RootAt, New.FrobeniusCycle.iteratedGaussFiltration, New.FrobeniusCycle.frobeniusError, New.shiftCoeff}
+
+\begin{proof}
+\emph{Notation.} Write $X_s=\bar u_s$, $Y_s=u_s$, $P_s=P^{(s-i)\bmod N}$, and let $\nu$ be the weight of $\alpha$ for the weights $q$ at $Y_i$ and $P_s$ at $Y_s$ ($s\ne i$), and $q\nu'$ its weight for the weights $qP_s$ at $X_s$; all other variables have weight $0$. Then $\mathrm{def}_i(\alpha)=(\nu-\nu')/(q-1)$, so it suffices to show $\nu q\le q\nu'$.
+
+\emph{The auxiliary polynomial.} With a new variable $t$, substitute $Y_i\mapsto X_i$, $X_s\mapsto t^{qP_s}X_s-\epsilon_st^{P_s}Y_s$ and $Y_s\mapsto Y_s-\epsilon_sX_s$ for $s\ne i$, with $\epsilon_s=\pm1$ according to the parity of $s$ relative to $i$, and let $\Phi(t)$ be the coefficient, modulo $w^{l+1}$, of the monomial obtained from $x^\alpha$ by writing $X_i$ for $Y_i$. In the main part of the substitution the coefficient of
+$t^{q\nu'}$ in $\Phi$ is the coefficient of $x^\alpha$ in $f$, which is not divisible by $w^{l+1}$: an exponent is determined by its image under $Y_i\mapsto X_i$ together with its weight for the weights $qP_s$. Filter the polynomials over $R[t]$ by giving $w$ the weight $1$, $t$ the weight $-\rho$ with $\rho=(c(Y_i)-c(X_i))/q>0$, $X_s$ the weight $c(X_s)+qP_s\rho$ and the other variables their weights $c$. As
+$5P_s\le q$ and the increments lie in $[\frac12,1]$, the cross terms change the image of $f$ only in a level higher by $\frac1{20}$, and the hypothesis on the terms of $f$ puts the image at level $l$ plus the weight of $x^\alpha$. Hence $\Phi\ne0$ has degree at most $q\nu'$: this is the expansion at infinity.
+
+\emph{The finite points.} For $r\in W$ let $\gamma_r$ be the element of the root $\mathrm{SL}_2(W)$ that is $\begin{psmallmatrix}0&1\\-1&\pm r\end{psmallmatrix}$ in the rows and columns $a$, $a'$; it is a transposition times a transvection times a diagonal sign. It sends $X_s$ to $Y_s$ and $Y_s$ to $X_s+\epsilon_s\iota_s(r)Y_s$ up to signs. Acting by $\gamma_r$, substituting as above and replacing $t$ by $t+\iota_i(r)$
+gives, up to signs, the substitution applied to the variables with $X_s$ and $Y_s$ exchanged, plus the Frobenius errors $(t+\iota_i(r))^{P^n}-t^{P^n}-\iota_{i+n}(r)$, which are multiples of $p$ (as $\iota_{i+n}\equiv\iota_i^{P^n}$ modulo $p$) and so gain $2$ in the filtration. Applying the hypothesis to the translate of $f$ by $\gamma_r^{-1}$, in the filtration in which $t$ weighs $\rho$ and a variable $z$ weighs
+$c(z)$ minus its zero order times $\rho$, the shifted polynomial $\Phi(t+\iota_i(r))$ has its coefficients of $t^j$ divisible by $w^{l+1}$ for $j<\nu$: it vanishes to order at least $\nu$ at $t=\iota_i(r)$.
+
+\emph{Stepanov.} By \cref{lem:stepanov-count} with $E=\nu$, $\nu q\le\deg\Phi\le q\nu'$, so $\mathrm{def}_i(\alpha)\le0$. For the second statement, over a field of characteristic $p$, take $w=0$, so that orders are $0$ or infinite, and the weights the heights, which rise by $1$; a term of least height among the terms of all translates satisfies the hypothesis with $l$ its height minus its weight.
+\end{proof}
+
+\subsection{The cone of Pieri's inequalities}\label{ss:pieri}
+Vectors $\nu$ are real functions of $(b,s)$. The \emph{step map} sends $\nu$ to the signed gaps between consecutive letters, twisted by permutations, and
+the \emph{Pieri cone} is cut out by the inequalities $\mathrm{def}_i\le0$ along all simple roots $(b,b+1)$ at all letters, one half of the interlacing
+inequalities between $\nu$ and $P$ times its shift. The \emph{slab} of degrees $D$ consists of the $\beta\ge0$ whose degree in each letter $s$ lies in
+$[D_s-1,D_s]$.
+\lean{New.permStep, New.degreeSlab, New.pieriCone, New.positiveStepSet, New.detOneSubPerm, New.FrobeniusCycle.defectCone, New.FrobeniusCycle.permStep_mem_defectCone_iff, New.FrobeniusCycle.convex_defectCone_inter_degreeSlab, New.isBounded_degreeSlab, New.isBounded_inter_degreeSlab}
+
+\begin{proposition}[Volume of the cone]\label{prop:pieri-volume}
+For every slab, $\prod_{l<k}\frac{q^{l+1}-1}{q-1}\cdot\vol(\text{Pieri cone}\cap\text{slab})=\vol(\text{slab})$; that is, the cone fills the inverse of the number of
+complete flags over $\F_q$ of each slab.
+\end{proposition}
+\lean{New.FrobeniusCycle.prod_mul_volume_defectCone_inter_degreeSlab, New.prod_mul_volume_real_inter_degreeSlab, New.volume_real_inter_degreeSlab_eq_signed_sum, New.det_interlacing_indicator, New.det_one_sub_comp_comm, New.det_permStep_ne_zero, New.exists_det_permStep_eq, New.volume_positiveStepSet, New.sum_sign_indicator_pos_eq_indicator_pieriCone, New.sum_indicator_positiveStepSet, New.sum_comp_prod_ofFn, New.volume_real_degreeSlab_one_pos, New.volume_real_pieriCone_inter_degreeSlab_one}
+
+\begin{proof}
+\emph{Interlacing as a determinant.} For weakly decreasing $x$, $y\in\R^k$, the matrix with entry $1$ at $(b,c)$ if $y_c<x_b$ and $0$ otherwise has determinant $1$ if $x_0>y_0\ge x_1>y_1\ge\dots$ and $0$ otherwise, by induction on $k$: as every $x_{b+1}\le y_0$, interlacing is $y_0<x_0$ together with interlacing of the tails. Hence the indicator of the cone, read on the decreasing rearrangement $\nu'$ of each block of $\nu$, is the
+signed sum over families $\sigma$ of permutations of the indicators that all steps $\pm(P\nu(b,s+1)-\nu(\sigma_sb,s))$ are positive.
+
+\emph{Volumes.} For $P>1$ the step map with permutations $\sigma$ is invertible (in its kernel $P\nu$ would only rearrange the entries of $\nu$), and up to a constant independent of $\sigma$ its determinant is $\det(1-\bar\sigma/q)$, $\bar\sigma=\sigma_0\cdots\sigma_{N-1}$, by factoring it as a signed shift, a triangular map and a permutation of blocks that moves all twists to the last step and using $\det(1-BA)=\det(1-AB)$. The set of $\nu$ whose
+image under the step map with permutations lies in the slab and has positive entries has volume $\vol(\text{slab})/\abs{\det}$, the walls being null. Integrating the pointwise identity over $\nu$ shows that the cone fills the share
+\[
+  c=\frac{\abs{\det(1-1/q)}}{k!}\sum_\tau\frac{\mathrm{sign}\,\tau}{\abs{\det(1-\tau/q)}}
+\]
+of every slab, the sum over the permutations of $\{0,\dots,k-1\}$, after summing over the families with a given product, each product occurring $k!^{N-1}$ times.
+
+\emph{One letter.} The share depends only on $k$ and $q$, so it may be computed for one letter with the sign $+$ and $q$ in place of $P$. There the cone $\{q\beta_{b+1}\le\beta_b\}$ meets the simplex $\{\beta\ge0,\ \sum\beta_b\le1\}$ in an orthant for the coordinates $\beta_b-q\beta_{b+1}$; rescaling these coordinates by suitable factors gives a triangular map that keeps the degree $\sum_b\beta_b$, and its determinant is
+$\prod_{l<k}(q-1)/(q^{l+1}-1)$. This is the share. The comparison with the Horn problem is in \cite{Forrester2021}.
+\end{proof}
+
+\subsection{Counting forms of bounded defect}\label{ss:defect-count}
+
+\begin{theorem}[Few forms have bounded defect]\label{thm:defect-count}
+Let $K$ be a field of characteristic $p$, $a'=a+1$, $t\ge2(k+1)$, $\theta\le1$ and $8Nkt\,P^{2a'}\le\theta n$. Let $\mathcal C$ be the space of forms whose translates by
+the Levi subgroup with blocks $a'$, $k-a'$ have no term of defect above $3t$ along $(a,a')$ at any letter. Then
+\[
+  [\GL_k(W):\text{parahoric}]\cdot\dim\mathcal C\le(1+\theta)\cdot\#\{\text{exponents}\}.
+\]
+\end{theorem}
+\lean{New.FrobeniusCycle.index_mul_finrank_defectConditions_le, New.FrobeniusCycle.exists_finrank_defectConditions_le_volume, New.FrobeniusCycle.exists_coeff_ne_zero_weight_defectWeight_nonpos, New.FrobeniusCycle.index_mul_relIndex_le, New.index_borel_le, New.FrobeniusCycle.embedding_pow_q_pow, New.FrobeniusCycle.polyAction_commute_expand, New.FrobeniusCycle.sum_eq_of_coeff_polyAction_monomial, New.residueExponent, New.residueExponent_mod, New.sum_residueExponent_mem_Icc, New.powerPacking, New.expand_polyOfCoeffs, New.powerPacking_apply, New.coeff_powerPacking, New.FrobeniusCycle.polyAction_powerPacking, New.FrobeniusCycle.exists_eq_add_of_coeff_polyAction_powerPacking, New.FrobeniusCycle.sum_mem_Icc_of_coeff_polyAction_powerPacking, New.FrobeniusCycle.weight_defectWeight_le_of_coeff_polyAction_powerPacking, New.FrobeniusCycle.polyAction_X_sub_mem_gaussFiltration, New.FrobeniusCycle.coeff_polyAction_of_mem_parahoric, New.FrobeniusCycle.defectWeight_dotProduct_permStep, New.FrobeniusCycle.exists_mem_defectCone_sum_le, New.FrobeniusCycle.smul_add_mem_defectCone_inter_degreeSlab, New.FrobeniusCycle.div_mem_defectCone_inter_degreeSlab, New.FrobeniusCycle.finrank_defectConditions_mul_pow_le, New.volume_sum_mem_Icc_le, New.volume_degreeSlab_le, New.pow_div_factorial_le_card_monomials, New.FrobeniusCycle.permStep_mem_defectCone_iff, New.FrobeniusCycle.prod_mul_volume_defectCone_inter_degreeSlab}
+
+\begin{proof}
+\emph{Power packing.} Let $m$ be a power of $q$. In characteristic $p$, $\iota_s(x)^m=\iota_s(x)$ on the values of the twists, so the action of $\GL_k(W)$ commutes with the substitution $x\mapsto x^m$. For each class $u$ of exponents modulo $m$ let $\gamma_u$ be the exponent in the class $u$ whose degree in each letter lies in $[mk,mk+m]$ (add a multiple of $m$ at the index $a$ in each letter). Given forms $F_u\in\mathcal C$, one for each
+class, the packed polynomial $\sum_uF_u(x^m)x^{\gamma_u}$ determines them: its coefficient at $m\beta+\gamma_u$ is that of $F_u$ at $\beta$. Its translate by $g$ is $\sum_u(\rho(g)F_u)(x^m)\,(g\cdot x^{\gamma_u})$, so every exponent of a translate is $m\delta+\epsilon$ with $\delta$ an exponent of some $\rho(g)F_u$ and $\epsilon$ of degree in $[mk,mk+m]$ in each letter. For $g$ in the Levi subgroup, the defect of such an exponent along $(a,a')$ is at most
+$m(3t+2(k+1))\le4tm$, since $\delta$ has defect at most $3t$ and the defect of $\epsilon$ is at most twice its degree.
+
+\emph{Least height.} Give the variable $(b,s)$ the height $b$ for even $s$ and $-b$ for odd $s$. In characteristic $p$, a matrix that is lower triangular modulo the maximal ideal sends each variable to a multiple of itself plus variables of greater height, so it multiplies the coefficient of a term of least height by a product of diagonal entries. Hence a term of least height among all terms of all translates of a nonzero packed polynomial by the
+Levi subgroup occurs in the translate by a representative of a coset of the lower Iwahori subgroup in the Levi subgroup (a flag), and by \cref{thm:root-lemma} (second form) its exponent $\alpha$ has defect at most $0$ along the simple roots inside the blocks.
+
+\emph{The shift.} Let $\mu=(P^{2a},\dots,P^2,1,0,\dots,0)$, and let $\nu$ be $\mu$ at even and $P\mu$ at odd letters; then the step image $\sigma$ of $\nu$ is $(P^2-1)\mu$ at even and $0$ at odd letters, an integral vector $\ge0$ of degree at most $P^{2a'}-1$ whose defect is at most $-1$ along $(a,a')$ and at most $0$ along the other simple roots (the defect of a step image is computed by telescoping over the letters). Hence $\alpha/m+4t\sigma$
+lies in the Pieri cone, in the slab of degrees $D_s=n+k+1+\deg_s(4t\sigma)\in[1,n+4tP^{2a'}]$.
+
+\emph{The count.} Packing $m^{kN}$ elements of $\mathcal C$ and listing the coefficients of the translates by the flag representatives at the exponents $\alpha$ with $\alpha/m+4t\sigma$ in the cone and slab gives an injective linear map. Hence $m^{kN}\dim\mathcal C$ is at most the number of flags of the Levi subgroup times the number of points of $m^{-1}\Z^{kN}$ in the cone cut by the slab; dividing by
+$m^{kN}$ and letting $m$ grow, the point count tends to the volume of this bounded convex set. By \cref{prop:pieri-volume} the volume is the volume of the slab divided by the number $\prod_{l<k}(q^{l+1}-1)/(q-1)$ of complete flags, and the parahoric index times the number of flags of the Levi subgroup is at most that number. The degrees satisfy $D_s\le n+4tP^{2a'}$, as $4t\ge k+1$, so the slab has volume at most $((n+4tP^{2a'})^{k-1}/(k-1)!)^N$, and there are at least
+$(n^{k-1}/(k-1)!)^N$ exponents; the ratio is at most $(1+4tP^{2a'}/n)^{(k-1)N}\le e^{\theta/2}\le1+\theta$ because $8NktP^{2a'}\le\theta n$ and $\theta\le1$.
+\end{proof}
+
+\subsection{Few forms are deep}\label{ss:depth}
+
+\begin{lemma}[Zeros against cost]\label{lem:zeros-cost}
+Let $K$ be a field, give the variable $u$ of a polynomial ring over $K$ the cost $1/\kappa_u$ for integers $\kappa_u>0$, and let $z_t$ be at least $\prod_u\kappa_u$ distinct points at which each $X_u^{\kappa_u}$ agrees with a polynomial $g_u$ whose monomials cost less than $1$. Then every $f\ne0$ that vanishes to order $d$ at all these points has a monomial of cost at least $d$.
+\end{lemma}
+\lean{New.exists_le_weight_of_mem_vanishingIdeal_pow, New.monomial_mul_bind₁_mem_of_weight_le, New.bind₁_monomial_mem_vanishingIdeal_pow, New.coeff_translate_eq_zero_of_mem_vanishingIdeal_pow, New.exists_forall_coeff_translate_eq, New.mem_of_forall_monomial_mem, New.wellFounded_lt_of_monotone_finsupp}
+
+\begin{proof}
+Put $\psi_u=X_u^{\kappa_u}-g_u$, which vanishes at all the points, and $b_{\alpha,\gamma}=X^\alpha\psi^\gamma$. \emph{Division.} If $\mathrm{cost}(\alpha)+\abs\gamma\le R$, then $b_{\alpha,\gamma}$ is a combination of the $b_{\beta,\gamma'}$ with $\beta<\kappa$ entrywise and $\mathrm{cost}(\beta)+\abs{\gamma'}\le R$: by induction on the cost, if $\alpha_u\ge\kappa_u$ write $X^\alpha=X^{\alpha-\kappa_ue_u}(\psi_u+g_u)$; the first term raises $\abs\gamma$ by $1$ and lowers the
+cost by $1$, and the second replaces $X_u^{\kappa_u}$ by monomials of cost below $1$. \emph{Jets.} Let $J$ send a polynomial to its jets of order below $d$ at the points, the coefficients of degree below $d$ after translating each point to $0$. As the points are distinct, $J$ is onto, and $b_{\alpha,\gamma}$ with $\abs\gamma\ge d$ lies in its kernel. By division every polynomial lies in the span of the $b_{\beta,\gamma}$ with $\beta<\kappa$,
+$\abs\gamma<d$, plus the kernel of $J$; so the images under $J$ of these products span the space of jets, whose dimension is the number of points times the number of $\gamma$ with $\abs\gamma<d$, at least their number. Hence they are linearly independent. \emph{Conclusion.} If all monomials of $f$ cost less than $d$, division keeps $f$ in the span of these products, as costs are nonnegative; and $J(f)=0$, so $f=0$.
+\end{proof}
+
+\begin{theorem}[Depth]\label{thm:depth}
+Over a field of characteristic $p$, with $0<2r\le k$, for every $M$
+\[
+  \sum_{1\le\delta\le M}\dim\mathcal D_\delta\le c_{\rm div}\cdot\#\{\text{exponents}\},\qquad c_{\rm div}=Nn\bigl(P^{-2r}+r^2/(kP)\bigr).
+\]
+\end{theorem}
+\lean{New.FrobeniusCycle.sum_finrank_deepForms_le, New.FrobeniusCycle.exists_le_weight_of_mem_deepForms, New.FrobeniusCycle.divisorConstant, New.FrobeniusCycle.divisorConstant_map, New.mul_sum_exponentOf, New.finrank_le_card_of_forall_exists_ne_zero, New.FrobeniusCycle.sum_deepIndicator_div_le, New.FrobeniusCycle.deepIndicator_eq_zero_or_eq_one, New.FrobeniusCycle.sum_deepIndicator, New.FrobeniusCycle.exists_div_two_eq_and_isEven_sub, New.FrobeniusCycle.residue_eq_of_embedding_eq, New.FrobeniusCycle.deepOrder, New.FrobeniusCycle.prod_deepOrder_le, New.FrobeniusCycle.letterRep_mulVec_eq_zero_of_mem_deepForms, New.FrobeniusCycle.map_polyOfCoeffs_mem_pow_of_mem_deepForms, New.FrobeniusCycle.specializeShallow, New.FrobeniusCycle.specializeShallow_injective, New.FrobeniusCycle.specializeShallow_polyOfCoeffs_ne_zero, New.FrobeniusCycle.exists_eq_of_mem_support_specializeShallow, New.det_X_pow_ne_zero, New.FrobeniusCycle.entryRow, New.FrobeniusCycle.entryCol, New.FrobeniusCycle.entryCoeff, New.FrobeniusCycle.lowPowerForms, New.FrobeniusCycle.single_mem_lowPowerForms_of_ne_zero, New.FrobeniusCycle.single_zero_mem_lowPowerForms, New.FrobeniusCycle.mem_lowPowerForms, New.FrobeniusCycle.entryFormValue, New.FrobeniusCycle.entryFormValue_pow, New.FrobeniusCycle.exists_specializeShallow_polyAction_X_eq_sub, New.exists_eval_eq_dotProduct_of_mem_span, New.FrobeniusCycle.exists_eval_entryFormValue_eq_dotProduct, New.FrobeniusCycle.exists_eval_entryFormValue_eq_pow_deepOrder, New.FrobeniusCycle.entryFormValue_injective, New.FrobeniusCycle.specializeShallow_polyOfCoeffs_mem_vanishingIdeal_pow}
+
+\begin{proof}
+Write $k=2r+m'$. A variable $(b,s)$ is \emph{deep} if $s$ is even and $b\ge r$, or $s$ is odd and $b<r$; even and odd letters alternate, so each index is deep in $N/2$ letters. By definition $F\in\mathcal D_\delta$ when every translate of $F$
+has only monomials of degree at least $\delta$ in the deep variables.
+
+\emph{Specialisation.} Let $L$ be a field containing the polynomials over $K$ in all variables. The map that keeps the deep variables and reads the constants and the shallow variables in $L$ is injective on polynomials, so a nonzero $F$ stays
+nonzero as a polynomial $f$ in the deep variables over $L$, and each monomial of $f$ is the deep part of a monomial of $F$.
+
+\emph{Many zeros.} The \emph{positions} are the pairs $t=(a,l)$ with $a<r$ and $l\le m'$, placed in the row $a$ and the column $c_t=a+r$ if $l=0$ and $c_t=k-l\ge2r$ otherwise. For residues $y=(y_t)$ let $A$ be the matrix with lifts of the $y_t$ at the positions
+and $0$ elsewhere. Its nonzero entries lie in rows $<r$ and columns $\ge r$, so $A^2=0$ and $(1+A)^{-1}=1-A$. The translate of an even variable $X_{(b,s)}$ by $(1+A)^{-1}$ is $X_{(b,s)}-\sum_c\iota_s(A_{cb})X_{(c,s)}$, with $c<r$ in the sum, and that of an
+odd variable is $X_{(b,s)}+\sum_c\iota_s(A_{bc})X_{(c,s)}$, with $c\ge r$; in both cases a deep variable $X_v$ becomes $X_v-z_v(y)$, where $z_v(y)$ is a linear form in the twists $\iota_s$ of the lifts whose coefficients are shallow variables (up to sign).
+Let $G$ be the translate of $F$ by $1+A$; then $F$ is the translate of $G$ by $(1+A)^{-1}$, and the specialisation sends every deep variable of this translate into the ideal of the point $z(y)$. As $G$ has only monomials of deep degree at least $\delta$, the
+specialised $F$ lies in the $\delta$-th power of this ideal: $f$ vanishes to order at least $\delta$ at $z(y)$. Distinct residues give distinct points, because each $\iota_i$ of a lift is the value at $z(y)$ of a polynomial (next paragraph), and the residue of an
+element is determined by its image under $\iota_i$.
+
+\emph{Small leading powers.} Give the deep variable $v=(b,s)$ the degree $\kappa_v=P^{2r}$ if $b\ge2r$ and $\kappa_v=P$ if $b<2r$. In characteristic $p$, raising to a power $P^j$ is additive and $\iota_s(w)^{P^j}=\iota_{s+j}(w)$, so $z_v^{P^j}$ is a linear form in
+the $\iota_{s+j}$ of the lifts, with the $P^j$-th powers of the coefficients of $z_v$. Fix a letter $i$ and consider the coefficient vectors of the $z_v^{P^j}$ with $s+j=i$ and $P^j<\kappa_v$; they span all vectors indexed by the positions. Indeed, at a position $(b,l)$
+with $l\ne0$ the deep variables $(k-l,s)$ with $s$ even have $\kappa=P^{2r}$, and $z_{(k-l,s)}=\sum_{a<r}\iota_s(y_{(a,l)})X_{(a,s)}$; the $r$ shifts $j<2r$ with $i-j$ even give an $r\times r$ system with matrix $(X_{(a,i-j)}^{P^j})_{j,a}$, whose determinant
+is a signed sum of distinct monomials, as the exponents $P^j$ are distinct, hence nonzero over $L$. At a position $(b,0)$ take $j=0$ and a deep variable of the letter $i$ whose form involves $y_{(b,0)}$; its other entries lie at positions with $l\ne0$, already in the
+span. Hence every linear form in the $\iota_i(y_t)$ is the value at $z(y)$ of a polynomial, independent of $y$, whose monomials are products of powers $z_v^e$ with $e<\kappa_v$; with the variable $v$ of cost $1/\kappa_v$ these monomials cost less than $1$.
+In particular $z_v^{\kappa_v}$, a linear form in the $\iota_{s+J}$ of the lifts for $\kappa_v=P^J$, agrees at every point with such a polynomial. The product of the $\kappa_v$ is $(P^{2r})^{m'N/2}P^{2r\cdot N/2}=q^{rm'}q^r$, the number $q^{r(m'+1)}$ of families of residues at the
+positions. By \cref{lem:zeros-cost}, $f$ has a monomial of cost at least $\delta$; for $F$ this is a monomial of weight at least $\delta$ for the costs $P^{-2r}$ of the deep variables with $b\ge2r$, $P^{-1}$ of the other deep variables and $0$ of the
+shallow ones.
+
+\emph{Counting.} If every nonzero member of a space of functions is nonzero somewhere on a set $S$, the dimension is at most $\#S$, since the restriction to $S$ is injective. With $S$ the exponents of weight at least $\delta$,
+$\dim\mathcal D_\delta\le\#\{\beta:\mathrm{weight}(\beta)\ge\delta\}$. An exponent is counted for at most $\mathrm{weight}(\beta)$ values $\delta\ge1$, so $\sum_{1\le\delta\le M}\dim\mathcal D_\delta\le\sum_\beta\mathrm{weight}(\beta)$. Exchanging two indices permutes the
+exponents, so each variable has mean exponent $n/k$ over all exponents, and $\sum_\beta\mathrm{weight}(\beta)$ is $\#\{\text{exponents}\}\cdot n/k$ times the sum of the costs of all variables. At most $k$ indices have $b\ge2r$ and $2r$ have $b<2r$, each deep in
+$N/2$ letters, so the costs add up to at most $\frac N2(kP^{-2r}+2rP^{-1})\le N(kP^{-2r}+r^2P^{-1})$. Hence
+\[
+  \sum_\beta\mathrm{weight}(\beta)\le\#\{\text{exponents}\}\cdot\frac nk\,N\Bigl(\frac k{P^{2r}}+\frac{r^2}P\Bigr)=c_{\rm div}\#\{\text{exponents}\}.\qedhere
+\]
+\end{proof}
+
+\subsection{Averaging}\label{ss:averaging}
+A monomial in the entries of a matrix is \emph{bad} if its row weight $\sum\alpha_{ij}\rho_i$ exceeds a threshold.
+
+\begin{proposition}[An invariant average]\label{prop:invariant-average}
+Let $O$ be a valuation domain of characteristic $0$ in which $p$ is not a unit, $\iota\colon W\to O$ with residue field of at least $D+k$ elements, $D<p^f$, $L$ a
+Levi subgroup and $\rho$, $t$ weights and a threshold. There is a linear form $I$ on polynomials in the entries of a $k\times k$ matrix, invariant under
+conjugation by $L(W)$, vanishing on bad monomials, and congruent modulo any ideal $J$ to $p^{k^2f}\psi(1)$ on every $\psi$ of degree at most $D$ whose conjugates have
+their bad coefficients in $J$.
+\end{proposition}
+\lean{New.Average.exists_isAverage, New.Average.IsAverage, New.Average.exists_isAdjointWeight, New.Average.IsAdjointWeight, New.Average.cast_choose_dvd_pow, New.Average.cast_multinomial_dvd_pow, New.Average.prod_factorial_mul_coeff_linSubst, New.Average.coeff_linSubst_monomial_eq_zero, New.Average.conjSubst, New.Average.conjSubst_diagGL_X, New.Average.evalAtOne, New.Average.evalAtOne_apply, New.Average.evalAtOne_conjSubst, New.Average.prod_zpow_eq_zpow_sum, New.Average.conjSubst_diagGL_zpow_monomial, New.Average.apply_monomial_eq_zero_of_weight_ne, New.Average.map_C_mul_mul_C, New.Average.eq_top_of_forall_linearMap_residueField_eq_zero, New.Average.eq_top_of_eval_monomial, New.Average.leviGeneric, New.Average.leviTensor, New.Average.schurMap, New.Average.leviMonomialValues, New.Average.scaledCoeff, New.Average.dualOperator, New.Average.tensorOrbit, New.Average.largeWeightSubmodule, New.Average.finite_largeWeightSubmodule, New.Average.tensorOrbit_apply, New.Average.schurMap_mulVec_single_mem_largeWeightSubmodule, New.Average.leviTensor_apply, New.Average.scaledCoeff_apply, New.Average.dualOperator_apply, New.Average.weight_eq_of_coeff_leviTensor_ne_zero, New.Average.isHomogeneous_leviTensor, New.Average.schurMap_apply_monomial, New.Average.schurMap_aeval, New.Average.leviGeneric_map_eval, New.Average.schurMap_leviMonomialValues, New.Average.dualOperator_monomial, New.Average.dualOperator_monomial_mulVec_single_eq_zero, New.Average.trace_leviTensor, New.Average.trace_dualOperator_monomial, New.Average.ite_inv_mul_eq_of_mem_levi, New.Average.leviGeneric_map_linSubst_transpose, New.Average.dualOperator_conjSubst, New.Average.schurMap_leviMonomialValues_mul, New.Average.schurMap_leviMonomialValues_inv_mul, New.Average.isHomogeneous_det_leviGeneric, New.Average.eq_top_of_schurMap_eq_leviMonomialValues, New.Average.largeWeightSubmodule_le_of_forall_leviMonomialValues, New.Average.schurMap_mem_largeWeightSubmodule, New.Average.largeWeightRep, New.Average.coe_largeWeightRep_apply, New.Average.trace_mem_of_forall_mem_smul_top, New.Average.largeWeightTrace, New.Average.largeWeightTrace_apply, New.Average.averagePart, New.Average.averagePart_apply, New.Average.averagePart_conjSubst, New.Average.range_dualOperator_monomial_le, New.Average.dualOperator_mulVec_single_mem_smul, New.Average.dualOperator_mulVec_mem_smul, New.Average.free_largeWeightSubmodule, New.Average.averagePart_monomial_eq_zero_of_lt, New.Average.largeWeightTrace_mem, New.Average.sum_trace_dualOperator, New.linSubst, New.kroneckerPi, New.fockPairing}
+
+\begin{proof}
+\emph{Adjoint weights.} An integer $u$ prime to $p$ is a unit of $O$: in the valuation domain one of $u$, $p$ divides the other, $p\mid u$ is excluded by a relation $1=au+bp$, and then $u\mid p$ gives $u\mid1$. A binomial coefficient $\binom nj$ with
+$n<p^f$ is $p^v$ times such an integer, and $v\le f$ by Kummer's theorem, $v$ being the number of carries when $j$ and $n-j$ are added in base $p$; so it divides $p^f$ in $O$. A multinomial coefficient with at most $k^2$ parts and total degree below
+$p^f$ is a product of at most $k^2$ such binomial coefficients, so it divides $p^{k^2f}$. Put $\eta_\gamma=p^{k^2f}/\binom{\abs\gamma}\gamma$ in degree below $p^f$ and $\eta_\gamma=0$ otherwise. For the form $\langle x^\alpha,x^\alpha\rangle=\alpha!$ on polynomials, with distinct
+monomials orthogonal, the linear substitutions by a matrix and by its transpose are adjoint: written out for two monomials this is $\alpha!\,[x^\alpha]A\cdot x^\beta=\beta!\,[x^\beta]A^{\rm T}\cdot x^\alpha$, which follows from the multinomial theorem. Substitutions keep the degree, and
+$\eta_\gamma=p^{k^2f}\gamma!/\abs\gamma!$ is $\gamma!$ times a constant of degree $\abs\gamma$, so the same adjointness holds for the diagonal form $\langle x^\gamma,x^\gamma\rangle=\eta_\gamma$.
+
+\emph{The Schur algebra.} Let $U=(O^k)^{\otimes d}$, with basis tensors indexed by multi-indices $i\colon\{1,\dots,d\}\to\{1,\dots,k\}$, and let $T$ be the $d$-th tensor power of the transposed generic block matrix, whose entry at $(i,j)$ is the monomial
+$\prod_lX_{j_li_l}$ when $i_l$ and $j_l$ lie in the same block for all $l$, and $0$ otherwise. The \emph{Schur algebra} of $L$ in degree $d$ consists of the matrices obtained by applying a linear form on the monomials of degree $d$ to the entries of $T$;
+at the point $a\in L(W)$, evaluation gives $\iota(a)^{\otimes d}$. The points of $L(W)$ span the Schur algebra when the residue field has at least $d+k$ elements. By Nakayama's lemma it suffices that a form $\Phi$ of degree $d$ over the residue field
+that vanishes at all points of $L$ with unit determinant is zero; $\Phi\cdot\det$ is a form of degree $d+k$ that vanishes at all points over the residue field, which has at least $d+k$ elements, so it is zero, and $\det\ne0$ gives $\Phi=0$
+\cite{Green1980}. Consequently a submodule stable under all $\iota(a)^{\otimes d}$ is stable under the Schur algebra, and products of points are points.
+
+\emph{The dual operator.} For a polynomial $\psi$ let $\psi^\sharp_d$ be the element of the Schur algebra obtained from the linear form $\alpha\mapsto\eta_\alpha[x^\alpha]\psi$ on the monomials of degree $d$: its entry at $(i,j)$ is $\eta_\alpha$ times the coefficient in $\psi$
+of $\alpha=\prod_lX_{j_li_l}$ when the indices lie in the same blocks, and $0$ otherwise. By adjointness, moving the substitution onto the entries of $T$, the conjugate $\psi(\iota(a)^{-1}X\iota(a))$ has the dual operator
+$\iota(a)^{\otimes d}\,\psi^\sharp_d\,\iota(a^{-1})^{\otimes d}$ for $a\in L(W)$. The trace of $\alpha^\sharp_d$ for a monomial $\alpha$ of degree $d$ is $\eta_\alpha$ times the number of multi-indices $i$ with $\prod_lX_{i_li_l}=\alpha$, which is the multinomial coefficient of
+$\alpha$ when $\alpha$ is diagonal and $0$ otherwise; so $\operatorname{tr}\alpha^\sharp_d=p^{k^2f}\alpha(1)$ for $d<p^f$, and summing over $d\le D$ and the monomials of $\psi$, $\sum_{d\le D}\operatorname{tr}_U\psi^\sharp_d=p^{k^2f}\psi(1)$ when $\psi$ has degree at most $D<p^f$.
+
+\emph{The average.} The weight of a basis tensor $j$ is $\sum_l\rho_{j_l}$. Let $U_+\subseteq U$ be the submodule generated under the Schur algebra by the basis tensors of weight above $t$. It is finitely generated, being a finite sum of images of $U$, and torsion
+free, hence free over the valuation domain $O$; by the previous paragraph it is stable under the Schur algebra, and $L(W)$ acts on $U$ and on $U_+$ by automorphisms. Put
+\[
+  I(\psi)=\sum_{d\le D}\bigl(\operatorname{tr}_U\psi^\sharp_d-\operatorname{tr}_{U_+}\psi^\sharp_d\bigr).
+\]
+\emph{Invariance.} The dual operator of a conjugate is the conjugate of $\psi^\sharp_d$ by $\iota(a)^{\otimes d}$, which is an automorphism of $U$ and of $U_+$; traces are invariant under such conjugation.
+
+\emph{Bad monomials.} The operator $\alpha^\sharp_d$ kills every basis tensor $j$ whose weight differs from the row weight of $\alpha$, since a nonzero entry at $(i,j)$ requires $\alpha=\prod_lX_{j_li_l}$. If $\alpha$ is bad, $\alpha^\sharp_d$ therefore maps $U$ into $U_+$:
+the basis tensors it does not kill have weight above $t$, and their images under an element of the Schur algebra lie in $U_+$. Over the field of fractions, choose a complement of $U_+$ in $U$; in a basis adapted to it, $\alpha^\sharp_d$ is block triangular with zero block on the
+complement, so its traces on $U$ and on $U_+$ agree, and $I(\alpha)=0$.
+
+\emph{The congruence.} Let the bad coefficients of all conjugates of $\psi$ lie in $J$. By density, $U_+$ is spanned by the tensors $\iota(a)^{\otimes d}e_j$ with $a\in L(W)$ and $j$ of weight above $t$. With $\varphi$ the conjugate of $\psi$ by $a^{-1}$,
+$\psi^\sharp_d\iota(a)^{\otimes d}e_j=\iota(a)^{\otimes d}\varphi^\sharp_de_j$, and $\varphi^\sharp_de_j$ is a combination of the $\alpha^\sharp_de_j$ over the monomials $\alpha$ of row weight equal to the weight of $j$, which are bad, with coefficients in $J$; each $\alpha^\sharp_de_j$ lies in
+$U_+$. Hence $\psi^\sharp_d$ maps $U_+$ into $JU_+$, as $\iota(a)^{\otimes d}$ keeps $JU_+$. An endomorphism of a finite free module with values in $J$ times the module has its trace in $J$, so $\operatorname{tr}_{U_+}\psi^\sharp_d\in J$ and
+$I(\psi)\equiv\sum_{d\le D}\operatorname{tr}_U\psi^\sharp_d=p^{k^2f}\psi(1)$ modulo $J$.
+\end{proof}
+
+\begin{proposition}[The averaging map]\label{prop:averaging-map}
+Let $p$ be a non-unit of the valuation domain $O$ of characteristic $0$, $r=a+1$, $N=2\ell$ and $Nk(\ell+2)n+n+k<P^\ell$, and let $(b,b')$ be an edge pairing. For every $c$
+there is a matrix $\mathrm{Av}$ such that no block diagonal translate of $\mathrm{Av}\,h$ has a term of defect above $9kc$ modulo $w^c$, and
+$\langle\mathrm{Av}\,h,h'\rangle\equiv p^{Nc_0}\langle h,h'\rangle\pmod{w^c}$ for all $h$ and all $h'\in\mathcal M_{\rm all}$ of the dual edge.
+\end{proposition}
+\lean{New.FrobeniusCycle.exists_average_mem_defectConditions_and_dvd_sub, New.FrobeniusCycle.partialAverage, New.FrobeniusCycle.partialAverage_empty, New.FrobeniusCycle.partialAverage_univ_mulVec_mem_defectConditions, New.FrobeniusCycle.pow_dvd_pairing_partialAverage_insert_sub, New.FrobeniusCycle.contractOtherCopies, New.FrobeniusCycle.map_contractOtherCopies, New.FrobeniusCycle.map_contractOtherCopies_one, New.FrobeniusCycle.conjSubst_contractOtherCopies_one, New.FrobeniusCycle.contractOtherCopies_one_mem_restrictTotalDegree, New.FrobeniusCycle.abs_weight_div_sub_defect_le, New.FrobeniusCycle.lt_weight_and_lt_defect_of_not_dvd_coeff_contractOtherCopies, New.tensorDual, New.tensorDual_prod_rename, New.tensorDual_monomial, New.tensorDual_eq_sum, New.tensorDual_evalAtOne, New.tensorDualExcept, New.map_tensorDualExcept, New.exists_of_not_dvd_coeff_tensorDualExcept, New.tensorDualExcept_mem_restrictTotalDegree, New.FrobeniusCycle.frobContraction, New.FrobeniusCycle.frobContraction_evalAtOne, New.FrobeniusCycle.letterRep_mul_frobContraction, New.map_eq_sum_coeff_mul, New.dvd_map_of_forall_monomial}
+
+\begin{proof}
+\emph{Contractions.} Substitute $N$ generic matrices, one copy for each letter, in the operator of \cref{ss:frobenius-factors}, and for a set $J$ of copies let $\mathrm{Av}_J$ apply the average $I_j$ of \cref{prop:invariant-average} in the copies $j\in J$ and $p^{c_0}$ times the evaluation at $1$ in the others. At the identity matrices the substitution operator is $1$, so $\mathrm{Av}_\emptyset=p^{Nc_0}$, and $\mathrm{Av}=\mathrm{Av}_{\rm all}$.
+The averages are taken for the Levi subgroup of the blocks $r$, $k-r$, the weights $\rho=e_r-e_a$ and the threshold $2c^*P^\ell$, $c^*=3kc$; they exist because the degree in one copy is at most $Nnk(\ell+2)P^\ell$, which is small against the size of the residue field.
+
+\emph{Weight and defect in one copy.} For $g$ block diagonal, the translate by $g$ of $\mathrm{Av}\,h$ is the average $I_j$ applied to the polynomial that remains in the copy $j$ after the forms are applied in the other copies, in the frame $g$; the change of frame conjugates the remaining copy, under which $I_j$ is invariant. Let a coefficient at $\alpha$ of this polynomial in its row $\beta$ not be divisible by $w^c$. An invariant form
+kills the monomials whose row and column weights differ, so the copies other than $j$ contribute nothing to the weight, and by \cref{lem:weight-defect} the row weight of $\alpha$ over $P^\ell$ is within $c^*$ of $\mathrm{def}_{j+\ell}(\beta)$. Hence a defect above $3c^*$ makes $\alpha$ bad, and a bad $\alpha$ forces a defect above $c^*$.
+
+\emph{First property.} Modulo $w^c$, the polynomial that remains in the copy $j$, in a row $\beta$ of defect above $3c^*$ at the letter $j+\ell$, has only bad monomials, on which $I_j$ vanishes; so $w^c$ divides the coefficient of $\rho(g)\mathrm{Av}\,h$ at $\beta$.
+
+\emph{Second property.} Adding one copy $j$ to $J$ changes the pairing with $h'\in\mathcal M_{\rm all}$ by $(I_j-p^{c_0}\mathrm{ev}_1)\psi$, where $\psi$ is the pairing of $h'$ with the polynomials that remain in the copy $j$. By \cref{prop:invariant-average} it suffices that the bad coefficients of the conjugates of $\psi$ are divisible by $w^c$. Such a coefficient is a combination, with the coefficients of the remaining polynomials in the frame $g$
+as scalars, of pairings of $h'$ with translates of monomials $e_\beta$, and a nonzero scalar at a bad monomial forces $\mathrm{def}(\beta)>c^*$; by \cref{prop:edges}(c) these pairings are divisible by $w^c$. Adding the differences along a chain of subsets from $\emptyset$ to all copies gives $\langle\mathrm{Av}\,h,h'\rangle\equiv p^{Nc_0}\langle h,h'\rangle$ modulo $w^c$.
+\end{proof}
+
+\begin{proposition}[Conditions at an edge]\label{prop:edge-condition}
+Let $p$ be a non-unit of $O$, the degree be large (\cref{def:large-degree}), $(b,b')$ an edge pairing and $c=5Nc_0$. There are a module $\mathcal C$ containing
+$\mathcal M_{\rm all}$ and $w^c O^{\rm exp}$, a matrix $\mathrm{Av}$ with values in $\mathcal C$ that paired against $\mathcal M_{\rm all}$ is multiplication by $p^{Nc_0}$ modulo $w^c$, and a space $S$ over
+the residue field containing the reductions of the $h$ with $w^{c-1}h\in\mathcal C$, with $[\GL_k(W):\text{parahoric}]\dim S\le(1+\theta)\#\{\text{exponents}\}$.
+\end{proposition}
+\lean{New.FrobeniusCycle.exists_isEdgeCondition, New.FrobeniusCycle.IsEdgeCondition, New.FrobeniusCycle.mem_translatesIn_of_pow_smul_mem, New.FrobeniusCycle.sqrtPrime_mem_maximalIdeal, New.FrobeniusCycle.charP_residueField, New.FrobeniusCycle.congruencePrecision}
+
+\begin{proof}
+Let $\mathcal C$ be the defect conditions modulo $w^c$ with threshold $9kc$ along $(r-1,r)$, $S$ the defect conditions over the residue field with threshold $3t$, $t=3kc$, and $\mathrm{Av}$ the averaging map of \cref{prop:averaging-map}; its hypothesis $Nk(\ell+2)n+n+k<P^\ell$ for $N=2\ell$ follows from the large degree, as $P^\ell=\sqrt q\ge n^2$ and $n\ge(Nk)^2+2$. Then $\mathcal M_{\rm all}\subseteq\mathcal C$ by \cref{prop:edges}(c),
+multiples of $w^c$ lie in $\mathcal C$, the values of $\mathrm{Av}$ lie in $\mathcal C$ and its pairing property holds by \cref{prop:averaging-map}. If $w^{c-1}h\in\mathcal C$, the bad coefficients of the translates of $w^{c-1}h$ are divisible by $w^c$, so those of $h$ lie in the ideal generated by $w$, which lies in the maximal ideal since $p$ is not a unit; the reduction of $h$ lies in $S$. The residue field of $O$
+has characteristic $p$, and the dimension bound is \cref{thm:defect-count} with $t=3kc\ge2(k+1)$, using $8Nk(3kc)P^{2r}\le\theta n$, a consequence of the size conditions: with $u=Nk\log q\ge27Nk$ the left side is at most $180Nk^3uP^{2r}$, and $(u/\theta)^5P^{3r}\le n$.
+\end{proof}
+
+\begin{definition}[Large degree]\label{def:large-degree}
+For a Frobenius cycle, a rank $k$, a degree $n$, a block size $r$ and a proportion $\theta$, the degree is \emph{large} if $0<r$, $2r\le k$, $0<\theta\le1$, $n^4\le q$ and
+$(Nk\log q/\theta)^5P^{3r}\le n$.
+\end{definition}
+\lean{New.FrobeniusCycle.IsLargeDegree, New.FrobeniusCycle.IsLargeDegree.two_le_rank, New.FrobeniusCycle.IsLargeDegree.four_le_mul, New.FrobeniusCycle.IsLargeDegree.mul_log_le_div, New.FrobeniusCycle.IsLargeDegree.mul_pow_le_degree, New.FrobeniusCycle.IsLargeDegree.twenty_seven_le_log_q, New.FrobeniusCycle.IsLargeDegree.mul_degree_add_lt_P_pow, New.FrobeniusCycle.IsLargeDegree.one_lt_degree, New.FrobeniusCycle.IsLargeDegree.degree_lt_q, New.FrobeniusCycle.IsLargeDegree.mul_log_pow_mul_le, New.FrobeniusCycle.IsLargeDegree.multinomialExponent_mul_le_degree, New.FrobeniusCycle.IsLargeDegree.mul_multinomialExponent_le_divisorConstant, New.FrobeniusCycle.IsLargeDegree.mul_defectThreshold_le_mul_degree, New.FrobeniusCycle.two_le_mul_multinomialExponent, New.FrobeniusCycle.multinomialExponent_le_mul_log, New.FrobeniusCycle.congruencePrecision_le_mul_log, New.FrobeniusCycle.divisorConstant_nonneg}
+
+Let $X$ represent the classes of pairs of a $W$-lattice of rank $k$ and a free $O$-module with basis indexed by $H$, under a group acting freely. The \emph{edge
+coordinates} record, for an edge $(x,b)$ into $x$, the representative of its origin, a basis change $g$ at the origin, a basis change at the terminus and the
+transition matrix on $O^H$; an edge is determined by its origin and the parahoric coset of ${}^tg$. The \emph{edge Hecke operator} on functions $F\colon X\to O^I$,
+$I=\{\text{exponents}\}\times H$, is
+\[
+  (AF)(x)=\sum_{b}\bigl({}^t(\rho(g_{(x,b)})\Delta^2\rho(g'_b))\otimes\mathrm{transition}_{(x,b)}\bigr)F(\mathrm{origin}(x,b)),
+\]
+$p^{Nn/2}$ times the sum of the values at the origins carried to $x$.
+\lean{New.EdgeCoordinates, New.FrobeniusCycle.edgeHeckeOperator, New.FrobeniusCycle.edgeHeckeOperator_apply, New.FrobeniusCycle.depthPower, New.EdgeCoordinates.surjective_origin_originBasisChange}
+
+\begin{theorem}[Elementary divisors]\label{thm:elementary-divisors}
+Let $O$ be a valuation domain of characteristic zero, $T$ a Frobenius cycle with $p$ not a unit of $O$, and let the degree be large. Let $f$ be a linear map from the
+functions $X\to O^I$ to a module $M$ and $Y\in\End M$ with $Yf=fA$. Then $Y$ keeps $L=f(O^{X\times I})$, and for every $m$ the colength of $YL+p^mL$ in $L$ divides $p^l$ for
+some $l\le(3c_{\rm div}+\theta m)\,\#X\,\#I$. If $O$ is a discrete valuation ring, the length of $L/(YL+p^mL)$ is at most $l$ times that of $O/p$.
+\end{theorem}
+\lean{New.FrobeniusCycle.elementary_divisors, New.FrobeniusCycle.elementary_divisors_length, New.exists_elementary_divisors_mod_summand, New.valuedIn, New.mem_valuedIn, New.card_add_card_le_mul_finrank, New.smul_top_le_of_le_sup_smul_top, New.exists_finset_card_le_smul_top_le_sup_span, New.colengthDvd_mul_mul_of_smul_top_le, New.regroup, New.regroup_apply, New.regroup_surjective, New.edgewise, New.edgewise_mul, New.edgewise_mulVec, New.pairingMap, New.nearInverse, New.pairingMap_mul_nearInverse_apply, New.FrobeniusCycle.IsEdgePairing.transpose_mul_diagonal_mul, New.FrobeniusCycle.IsEdgePairing.edgeHeckeOperator_regroup, New.FrobeniusCycle.IsLargeDegree.exists_basis_det_dvd, New.FrobeniusCycle.IsEdgePairing.pairingMap_mul_nearInverse_one, New.FrobeniusCycle.IsEdgeCondition.pow_dvd_mul_sub_smul_one, New.FrobeniusCycle.IsEdgeCondition.exists_finset_smul_top_le_range_sup_span, New.FrobeniusCycle.exists_colengthDvd_range_pairingMap_mul_edgeRestriction}
+
+\begin{proof}
+\emph{Factorisation.} Let $\Delta$ be the depth scaling and $b$ the weights of an edge pairing (\cref{prop:edges}(b)). By the adjointness $(\Delta\rho(\gamma))^{\mathsf T}\mathrm{diag}(b)\Delta\rho({}^tg)=(\rho(g)\Delta^2\rho(\gamma))^{\mathsf T}\mathrm{diag}(b)$, on vectors multiplied by $b$ the operator $A$ is the composite of the restriction to edges, $\phi\mapsto(e\mapsto\Delta\rho(g_e)\phi(\mathrm{origin}\,e))$, with the adding map $\mathrm{Add}$, which pairs a function on
+edges with the functions restricted to the dual edges (the edges into $x$ read from the dual lattices): at $(x,i)$ both sides are sums over the edges into $x$, term by term.
+
+\emph{Two ends.} Every pair of a point of $X$ and a parahoric coset occurs among the edges, as an edge is determined by its origin and the parahoric coset of its basis change, the map being injective on a finite set; so it does among the dual edges. By \cref{prop:edges}(d) and \cref{thm:depth} (over the residue field of $O$, of characteristic $p$), the restriction is $Qd$ and the dual
+restriction is $Q'd'$, with $Q$, $Q'$ bases of the functions that depend only on the origin and $\det d$, $\det d'$ dividing $w^{l}$, $l\le c_{\rm div}\,\#X\,\#\mathrm{exp}$ per basis vector of $O^H$.
+
+\emph{Near inverse.} Let $\mathrm{Inv}$ apply the transpose of the left inverse $R'$ of $Q'$ and then, at each edge, the inverse transition, multiplication by $b'$ and the averaging map. With $1$ in place of the averaging map this is a right inverse of $\mathrm{Add}$ up to $p^{Nc_0}$, because $bb'=p^{Nc_0}$; with the averaging map, the entry of $\mathrm{Add}\circ\mathrm{Inv}$ is a sum over the edges of pairings of $\mathrm{Av}$ against the
+columns of $Q'$, whose values lie in $\mathcal M_{\rm all}$, so by \cref{prop:edge-condition} $\mathrm{Add}\circ\mathrm{Inv}\equiv p^{2Nc_0}$ modulo $w^c$ entrywise; and the values of $\mathrm{Inv}$ satisfy the conditions $\mathcal C$.
+
+\emph{Few generators.} By elementary divisors modulo the direct summand $\operatorname{im}Q$ there are an invertible $U$ and scalars $t_j$ with $\operatorname{im}Q+\operatorname{im}\mathrm{Inv}=\operatorname{im}Q+\operatorname{span}(t_jU_j)$, the left inverse of $Q$ killing the $U_j$ with $t_j\ne0$ (take a Smith form of the part of $\mathrm{Inv}$ in the complement $\ker R$). At the indices with $u=w^{c-1}\mid t_j$ the vector $t_jU_j$ is a
+multiple of $u$; at the others $0\ne t_j\mid u$, and $(u/t_j)\,t_jU_j$ has values in $\mathcal C$, so $U_j$ reduces into $S$ at every edge. The columns of $Q$ and these $U_j$ have dual rows and reduce into $S$, so they are independent modulo the maximal ideal and their number is at most $\#\text{edges}\cdot\dim S=\#X[\GL_k(W):\text{parahoric}]\dim S\le(1+\theta)\#X\#\mathrm{exp}$; as $Q$ has $\#X\#\mathrm{exp}$
+columns, at most $\theta\#X\#\mathrm{exp}$ indices are exceptional. Applying $\mathrm{Add}$, and using Nakayama's lemma with $u$ a multiple of $p^{2Nc_0}$ times the non-unit $w$ (as $c-1\ge4Nc_0+1$), $p^{2Nc_0}O^{X\times\mathrm{exp}}$ lies in the span of the image of $\mathrm{Add}\circ Q$ and of these at most $\theta\#X\#\mathrm{exp}$ further vectors.
+
+\emph{Colengths add.} If $a\,O^E$ lies in the span of the image of a matrix $B$ and of a finite set $s$, then the colength of the image of $d'^{\mathsf T}Bd$ plus $zO^E$ divides $\det d'\cdot a^{\#E}\det d\cdot z^{\#s}$. With $B=\mathrm{Add}\,Q$, $a=p^{2Nc_0}$ and $z=p^m$, the exponent of $p$ is at most $c_{\rm div}\#E+2Nc_0\#E+\theta m\#E\le(3c_{\rm div}+\theta m)\#E$, since $Nc_0\le c_{\rm div}$ under the size conditions;
+here $\#E=\#X\#\mathrm{exp}$ for each basis vector of $O^H$, so the total is at most $(3c_{\rm div}+\theta m)\#X\#I$. Carry the colength along $f$: $Yf=fA$, so $YL+p^mL=f(\operatorname{im}A+p^mO^{X\times I})$, which has colength dividing $p^l$ in $L$ by \cref{lem:colength}(d), the factored operator being $A$ on vectors multiplied by $b$. Over a discrete
+valuation ring this bounds the length of $L/(YL+p^mL)$ by $l$ times that of $O/p$.
+\end{proof}

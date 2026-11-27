@@ -1,0 +1,326 @@
+\section{Heights and twisted lattices}\label{sec:lattices}
+
+The lower bound of the argument is a size-versus-divisibility inequality for a Gram determinant, in
+the tradition of transcendence methods and of slope inequalities in Arakelov geometry; see
+Bost~\cite{Bost2001}, Laurent~\cite{Laurent1994}, Gaudron~\cite{Gaudron2008} and
+\cite[Ch.~1]{BombieriGubler2006}. Its one unusual feature is that the integral structure at each
+prime $\ell$ may be read through a different map, a \emph{twist} allowed at $\ell$, while the sizes at
+the archimedean places are read through a single untwisted map. This section sets up the language
+(heights of families indexed by $\ell$-adic places, colengths, twisted lattices) and proves the
+inequality, \cref{thm:twist-for-each-prime}.
+
+\subsection{Places of \texorpdfstring{$\C$}{C} and heights}\label{ss:heights}
+For a prime $\ell$ let $\Qlbar$ be an algebraic closure of $\Q_\ell$, with its absolute value
+extending $\abs{\ell}_\ell=\ell^{-1}$. Since $\C$ and $\Qlbar$ are algebraically closed fields of
+characteristic zero of the same uncountable cardinality, field isomorphisms $\C\to\Qlbar$ exist.
+
+\begin{definition}\label{def:prime-iso}
+A \emph{prime place} is a pair $\iota=(\ell,\iota)$ of a prime $\ell$ and a field isomorphism
+$\iota\colon\C\to\Qlbar$; we write $\iota\mid\ell$. For $z\in\C$ we put $\norm z_\iota=\abs{\iota(z)}_\ell$.
+The \emph{conjugate} prime place is $\bar\iota\colon z\mapsto\iota(\bar z)$. The ring
+$\OO_\iota=\{z\in\C:\norm z_\iota\le1\}$ is a valuation ring of $\C$.
+\end{definition}
+\lean{New.PrimePadicIso, New.PrimePadicIso.conj, New.PrimePadicIso.integers}
+
+\begin{definition}\label{def:height}
+Let $y=(y_\iota)$ be a family of complex numbers indexed by the prime places, and let $c\in\R$. We
+say that $y$ has \emph{height at most $c$}, and write $h(y)\le c$, if there are $H\in\C^\times$, a
+real number $\alpha$ and real numbers $h_\ell\ge0$, one for each prime $\ell$, such that
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $\abs{\sigma(H)}\le e^{\alpha}$ for every field automorphism $\sigma$ of $\C$;
+\item $\norm{Hy_\iota}_\iota\le\ell^{h_\ell}$ for every prime place $\iota\mid\ell$;
+\item $\alpha+\sum_{\ell\in T}h_\ell\log\ell\le c$ for every finite set $T$ of primes.
+\end{enumerate}
+\end{definition}
+\lean{New.HeightLe}
+
+The multiplier $H$, and with it the archimedean bound, is the same for all $\iota$, while $y_\iota$
+may depend on $\iota$; this is what allows each prime its own twist. Heights may be negative.
+
+\begin{lemma}\label{lem:height-calculus}
+Let $y,y'$ be families indexed by the prime places.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $h(y)\le c\le c'$ and $\norm{y'_\iota}_\iota\le\norm{y_\iota}_\iota$ for all $\iota$, then
+$h(y')\le c'$.
+\item If $h(y)\le c$ and $h(y')\le c'$, then $h(yy')\le c+c'$; hence $h(\prod_{i\in S}y^{(i)})\le
+\sum_{i\in S}c_i$ for finitely many families with $h(y^{(i)})\le c_i$, and $h(y^n)\le nc$.
+\item If $h(y)\le c\le c'$, $N_\iota$ are positive integers prime to the prime of $\iota$ and
+$e_\iota\in\Q$, then the family $N_\iota^{e_\iota}y_\iota$ has height at most $c'$.
+\item If there are $H\neq0$ and reals $\alpha$, $e_\ell$ of any sign with $\abs{\sigma H}\le e^\alpha$
+for all $\sigma$, $\norm{Hy_\iota}_\iota\le e^{e_\ell}$ for all $\iota\mid\ell$ and
+$\alpha+\sum_{\ell\in T}e_\ell\le c$ for all finite sets $T$ of primes, then $h(y)\le c$.
+\item If $H\neq0$ and $\abs{\sigma H}\le e^c$ for all $\sigma$, then the constant family $H^{-1}$
+has height at most $c$.
+\end{enumerate}
+\end{lemma}
+\lean{New.HeightLe.mono, New.HeightLe.mul, New.HeightLe.prod, New.HeightLe.pow, New.HeightLe.rpow_mul, New.HeightLe.of_mul_le, New.HeightLe.of_le, New.HeightLe.inv_const}
+
+\begin{proof}
+(a) Keep $H,\alpha,h$. (b) Multiply the multipliers and add $\alpha$ and the $h_\ell$. (c) A
+positive integral power $(N_\iota^{e_\iota})^{\mathrm{den}(e_\iota)}$ is an integral power of
+$N_\iota$, a unit at $\ell$, so $\norm{N_\iota^{e_\iota}}_\iota=1$; apply (a). (d) Take
+$h_\ell=(e_\ell)_+/\log\ell$; then $\sum_{\ell\in T}h_\ell\log\ell$ is the sum of the $e_\ell$
+over the $\ell\in T$ with $e_\ell\ge0$, which is at most $c-\alpha$ by hypothesis. (e) Apply (d)
+with $e_\ell=0$.
+\end{proof}
+
+\begin{proposition}[Product formula]\label{prop:height-nonneg}
+If the constant family $1$ has height at most $c$, then $c\ge0$. Consequently, if $z\in\C^\times$,
+the constant family $z$ has height at most $c$, and $\abs{\sigma(z)}\le e^{c'}$ for every
+automorphism $\sigma$ of $\C$, then $-c\le c'$.
+\end{proposition}
+\lean{New.log_product_formula, New.HeightLe.nonneg_of_one, New.HeightLe.neg_le_of_norm_map_le}
+
+\begin{proof}
+Let $H,\alpha,h$ witness $h(1)\le c$. For every $\ell$ and every isomorphism $\iota\colon\C\to\Qlbar$
+we have $\abs{\iota H}_\ell\le\ell^{h_\ell}$. Applied with $\ell=2$ this bound is uniform in $\iota$.
+Hence $H$ is algebraic: otherwise, fixing $t\in\overline{\Q}_2$ transcendental over $\Q$, for each
+$k$ the field isomorphism $\Q(H)\to\Q(2^{-k}t)$ with $H\mapsto2^{-k}t$ extends, by extending
+transcendence bases and passing to algebraic closures, to an isomorphism $\iota\colon\C\to
+\overline{\Q}_2$, and $\abs{\iota H}_2=2^k\abs t_2$ is unbounded in $k$. Let
+$F=\Q(H)$, of degree $n$, and let $q=\Nm_{F/\Q}(H)\in\Q^\times$. Every embedding of $F$ into $\C$ or
+into $\Qlbar$ extends to an automorphism of $\C$, respectively to an isomorphism $\C\to\Qlbar$, so
+\[
+  \log\abs q\le n\alpha,\qquad \log\abs q_\ell\le nh_\ell\log\ell\quad\text{for every prime }\ell,
+\]
+the norm being the product of the $n$ conjugates. By the product formula for $\Q$, taken over a finite
+set $T$ of primes containing those that divide the numerator or the denominator of $q$,
+\[
+  0=\log\abs q+\sum_{\ell\in T}\log\abs q_\ell\le n\Bigl(\alpha+\sum_{\ell\in T}h_\ell\log\ell\Bigr)
+  \le nc.
+\]
+For the second statement, \cref{lem:height-calculus}(e) gives $h(z^{-1})\le c'$, so
+$h(1)=h(z^{-1}z)\le c'+c$ by part (b), and the first statement applies.
+\end{proof}
+
+\subsection{Colength}\label{ss:colength}
+Let $\OO$ be a commutative ring and $V$ an $\OO$-module.
+
+\begin{definition}\label{def:colength}
+Let $M,N\subseteq V$ be submodules and $z\in\OO$. We say that \emph{the colength of $N$ in $M$
+divides $z$} if for every finite family $\Phi_1,\dots,\Phi_n$ of elements of $M$ there is a matrix
+$u\in M_n(\OO)$ with $\det u\mid z$ such that $\sum_k u_{ik}\Phi_k\in N$ for every $i$.
+\end{definition}
+\lean{New.ColengthDvd}
+
+No inclusion $N\subseteq M$ is assumed. Over a valuation ring the condition says that $N\cap M$ has
+colength at most $v(z)$ in $M$. The following properties follow directly from the definition.
+
+\begin{lemma}\label{lem:colength}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $M\subseteq N$, the colength of $N$ in $M$ divides every $z$; if it divides $z$ and $z\mid z'$,
+it divides $z'$.
+\item If the colength of $N$ in $M$ divides $z$ and that of $P$ in $N$ divides $a$, then that of $P$
+in $M$ divides $za$.
+\item Let $f\colon U\to V$ be linear and $M',N'\subseteq U$ with $f(M')\subseteq M$ and
+$\{x\in M':f(x)\in N\}\subseteq N'$. If the colength of $N$ in $M$ divides $z$, so does that of $N'$
+in $M'$.
+\item Let $f\colon V\to U$ be linear and $M',N'\subseteq U$ with $M'\subseteq f(M)+N'$ and
+$f(N)\subseteq N'$. If the colength of $N$ in $M$ divides $z$, so does that of $N'$ in $M'$.
+\end{enumerate}
+\end{lemma}
+\lean{New.ColengthDvd.of_le, New.ColengthDvd.of_dvd, New.ColengthDvd.trans, New.ColengthDvd.comap, New.ColengthDvd.map}
+
+\begin{proof}
+(a) If $M\subseteq N$, the identity matrix carries every family of $M$ into $N$, and its determinant $1$ divides every $z$. If $\det u\mid z$ and $z\mid z'$, then $\det u\mid z'$.
+
+(b) Let $\Phi_1,\dots,\Phi_n\in M$, and let $u$ with $\det u\mid z$ carry them into $N$: $\Psi_i=\sum_ku_{ik}\Phi_k\in N$. Let $u'$ with $\det u'\mid a$ carry the family $\Psi$ into $P$. Then $u'u$ carries $\Phi$ into $P$, and $\det(u'u)=\det u'\det u$ divides $az$.
+
+(c) Let $\Phi_1,\dots,\Phi_n\in M'$. Their images $f(\Phi_k)$ lie in $M$, so some $u$ with $\det u\mid z$ has $\sum_ku_{ik}f(\Phi_k)\in N$. By linearity this is $f(\sum_ku_{ik}\Phi_k)$, and $\sum_ku_{ik}\Phi_k\in M'$; by the hypothesis it lies in $N'$.
+
+(d) Let $\Phi'_1,\dots,\Phi'_n\in M'$ and write $\Phi'_k=f(\Phi_k)+\Psi_k$ with $\Phi_k\in M$, $\Psi_k\in N'$. Some $u$ with $\det u\mid z$ has $\sum_ku_{ik}\Phi_k\in N$; then $\sum_ku_{ik}\Phi'_k=f(\sum_ku_{ik}\Phi_k)+\sum_ku_{ik}\Psi_k$ lies in $f(N)+N'\subseteq N'$.
+\end{proof}
+
+\subsection{Twisted lattices}\label{ss:twisted-lattices}
+For a family $w_1,\dots,w_n$ of vectors of a complex inner product space we write
+$\operatorname{Gram}(w)=\det(\langle w_i,w_k\rangle)_{i,k}$. All inner products are linear in the
+second variable.
+
+\begin{definition}\label{def:twisted-lattice}
+Let $V$ be a complex vector space and $T$ a set with a distinguished element $1$, whose elements we
+call \emph{twists}. A \emph{twisted lattice} $L$ on $V$ consists of
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item for each $\xi\in T$ a complex inner product space $V_\xi$ and a linear map $\Theta_\xi\colon
+V\to V_\xi$;
+\item for each prime $\ell$ a subset of $T$, the twists \emph{allowed} at $\ell$;
+\item for each $\xi\in T$ and each prime place $\iota$ an $\OO_\iota$-submodule
+$\Lambda_{\xi,\iota}\subseteq V_\xi$, the vectors \emph{integral at $\iota$}, such that
+$\norm{\langle\varphi,\varphi'\rangle}_\iota\le1$ whenever $\xi$ is allowed at the prime of $\iota$,
+$\varphi\in\Lambda_{\xi,\bar\iota}$ and $\varphi'\in\Lambda_{\xi,\iota}$;
+\item a finite set $C$, a linear map $\operatorname{coord}\colon V_1\to\C^C$ and a positive definite
+rational matrix $\Gamma\in M_C(\Q)$ with $\langle\varphi,\varphi'\rangle
+={}^t\overline{\operatorname{coord}(\varphi)}\,\Gamma\,\operatorname{coord}(\varphi')$ for
+$\varphi,\varphi'\in V_1$.
+\end{enumerate}
+A vector $y\in V$ is \emph{integral at $\iota\mid\ell$} if $\Theta_\xi(y)\in\Lambda_{\xi,\iota}$ for
+every twist $\xi$ allowed at $\ell$; these vectors form an $\OO_\iota$-submodule $V_\iota^{\rm int}$
+of $V$.
+\end{definition}
+\lean{New.TwistedLattice, New.TwistedLattice.integralVectors}
+
+For an automorphism $\sigma$ of $\C$ and $y\in V$ let $\sigma\Theta_1y\in\C^C$ be the coordinate
+vector of $\Theta_1y$ with $\sigma$ applied to each entry, and
+$\norm{\Theta_1y}_\sigma^2={}^t\overline{\sigma\Theta_1y}\,\Gamma\,\sigma\Theta_1y$. Since $\Gamma$ is
+rational, these are the norms of the Galois conjugates of $\Theta_1y$ for the rational structure given
+by the coordinates.
+
+\begin{definition}\label{def:index-covolume}
+Let $y=(y_i)_{i\in S}$ be a finite family in $V$.
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item The family has \emph{index at most $\delta$} if there are reals $\delta_\ell\ge0$, one for each
+prime, with $\sum_{\ell\in U}\delta_\ell\log\ell\le\delta$ for every finite set $U$ of primes, and for
+every prime place $\iota\mid\ell$ a matrix $u\in M_S(\OO_\iota)$ with
+$\norm{\det u}_\iota\ge\ell^{-\delta_\ell}$ and $\sum_ku_{ik}y_k\in V^{\rm int}_\iota$ for all $i$.
+\item The family has \emph{covolume at most $c$} if for every automorphism $\sigma$ of $\C$,
+\[
+  \bigl\lvert\det\bigl({}^t\overline{\sigma\Theta_1y_i}\,\Gamma\,\sigma\Theta_1y_k\bigr)_{i,k}\bigr\rvert
+  \le e^c.
+\]
+\item For $\xi\in T$, when $V$ is a finite-dimensional inner product space, the \emph{volume}
+$Z(\xi)=\det(\Theta_\xi^*\Theta_\xi)$ is the Gram determinant of the images under $\Theta_\xi$ of an
+orthonormal basis of $V$.
+\end{enumerate}
+\end{definition}
+\lean{New.TwistedLattice.IndexLe, New.TwistedLattice.CovolumeLe, New.TwistedLattice.volume}
+
+Note that the matrix $u$ in (i) is the same for all twists allowed at $\ell$: the index measures one
+integral structure, read through all allowed twists at once, and the covolume refers to the trivial
+twist alone. If $\Theta_\xi$ is injective then $Z(\xi)\neq0$, and for any basis $w$ of $V$
+\begin{equation}\label{eq:gram-volume}
+  \operatorname{Gram}(\Theta_\xi w)=Z(\xi)\operatorname{Gram}(w).
+\end{equation}
+\lean{New.TwistedLattice.volume_eq_det_adjoint_comp, New.TwistedLattice.volume_ne_zero}
+
+\begin{lemma}\label{lem:index-calculus}
+Let $L$ be a twisted lattice on $V$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $y$ has index at most $\delta$ and $y'$ has index at most $\delta'$, the union of the two
+families has index at most $\delta+\delta'$.
+\item Let $\Sigma$ be a finite set, and for $s\in \Sigma$ let $A_s\subseteq V$ be a set every finite family of
+which has index at most $\delta$. A finite family each member of which lies in some $A_s$ has index
+at most $\#\Sigma\cdot\delta$.
+\item Let $\delta_\ell\ge0$ with $\sum_{\ell\in U}\delta_\ell\log\ell\le\delta$ for all finite $U$.
+If for every prime place $\iota\mid\ell$ the family $y$ lies in an $\OO_\iota$-submodule $M$ such that
+the colength of $V^{\rm int}_\iota$ in $M$ divides $\ell^j$ for some integer $j\le\delta_\ell$, then
+$y$ has index at most $\delta$.
+\end{enumerate}
+\end{lemma}
+\lean{New.TwistedLattice.IndexLe.sumElim, New.TwistedLattice.indexLe_card_mul, New.TwistedLattice.indexLe_of_colengthDvd}
+
+\begin{proof}
+(a) Add the numbers $\delta_\ell$ and put the two matrices in diagonal blocks. (b) Sort the family by
+the first $s$ whose set contains the member and apply (a) $\#\Sigma-1$ times. (c) The colength condition
+provides, at each $\iota\mid\ell$, a matrix $u$ over $\OO_\iota$ with $\det u\mid\ell^j$, carrying $y$
+into $V^{\rm int}_\iota$; then $\norm{\det u}_\iota\ge\ell^{-j}\ge\ell^{-\delta_\ell}$.
+\end{proof}
+
+\begin{lemma}[Hadamard and Fischer]\label{lem:hadamard}
+If $\norm{\Theta_1z_i}_\sigma^2\le e^h$ for $i=1,\dots,n$ and every automorphism $\sigma$, then
+$z_1,\dots,z_n$ has covolume at most $nh$. If moreover $y$ has covolume at most $c$, then the union of
+$y$ and $z$ has covolume at most $c+nh$.
+\end{lemma}
+\lean{New.TwistedLattice.covolumeLe_of_normSqAt_le, New.TwistedLattice.CovolumeLe.sumElim}
+
+\begin{proof}
+The matrices in \cref{def:index-covolume}(ii) are Gram matrices for the positive definite form
+$\Gamma$. Hadamard's inequality bounds such a determinant by the product of the diagonal entries, and
+Fischer's inequality bounds the determinant of a block matrix by the product of the determinants of
+its diagonal blocks.
+\end{proof}
+
+\begin{lemma}\label{lem:gram-conjugates}
+If $y$ has covolume at most $c$, then $\abs{\sigma\operatorname{Gram}(\Theta_1y)}\le e^c$ for every
+automorphism $\sigma$ of $\C$.
+\end{lemma}
+\lean{New.TwistedLattice.map_inner_lift_one, New.TwistedLattice.CovolumeLe.norm_map_det_gram_le}
+
+\begin{proof}
+Let $\sigma'(z)=\overline{\sigma(\bar z)}$. As $\Gamma$ is rational,
+$\sigma\langle\Theta_1v,\Theta_1w\rangle={}^t\overline{\sigma'\Theta_1v}\,\Gamma\,\sigma\Theta_1w$.
+Hence $\sigma\operatorname{Gram}(\Theta_1y)$ is the determinant of a pairing between the families
+$\sigma'\Theta_1y$ and $\sigma\Theta_1y$ under $\Gamma$. By the Cauchy--Schwarz inequality in the
+exterior power, its square is at most the product of the Gram determinants of the two families, each
+at most $e^c$.
+\end{proof}
+
+\begin{lemma}\label{lem:gram-valuation}
+Let $\iota\mid\ell$ and let $\xi$ be allowed at $\ell$. Let $y_1,\dots,y_n$ have index at most
+$\delta$, witnessed by $\delta_\ell$ and matrices $u$ at $\iota$ and $u'$ at $\bar\iota$. Let
+$\gamma\in\C$ be such that $\gamma\,\Theta_\xi z_i$ is integral both at $\iota$ and at $\bar\iota$ for
+$i=1,\dots,n'$. Then
+\[
+  \bigl\lVert\abs\gamma^{2n'}\operatorname{Gram}\bigl(\Theta_\xi(y,z)\bigr)\bigr\rVert_\iota
+  \le\ell^{2\delta_\ell},
+\]
+where $(y,z)$ is the family $y_1,\dots,y_n,z_1,\dots,z_{n'}$.
+\end{lemma}
+\lean{New.TwistedLattice.norm_det_mul_det_gram_le_one, New.TwistedLattice.exists_matrix_elim_mem_lattice, New.TwistedLattice.norm_pow_mul_det_gram_le}
+
+\begin{proof}
+Let $v$ be the block diagonal matrix with blocks $u$ and $\gamma\cdot1_{n'}$, and $v'$ the one with
+blocks $u'$ and $\gamma\cdot1_{n'}$. Then $v$ carries $\Theta_\xi(y,z)$ into $\Lambda_{\xi,\iota}$
+and $v'$ carries it into $\Lambda_{\xi,\bar\iota}$. By \cref{def:twisted-lattice}(iii), the entries of
+${}^t\bar v'\,\bigl(\langle\Theta_\xi w_i,\Theta_\xi w_k\rangle\bigr)\,v$ are integral at $\iota$, so
+$\norm{\overline{\det v'}}_\iota\norm{\operatorname{Gram}}_\iota\norm{\det v}_\iota\le1$. Here
+$\norm{\overline{\det v'}}_\iota=\norm{\det v'}_{\bar\iota}\ge\ell^{-\delta_\ell}\norm\gamma^{n'}_{\bar\iota}$
+and $\norm{\det v}_\iota\ge\ell^{-\delta_\ell}\norm\gamma^{n'}_\iota$, while
+$\norm{\abs\gamma^2}_\iota=\norm{\bar\gamma}_\iota\norm\gamma_\iota
+=\norm\gamma_{\bar\iota}\norm\gamma_\iota$.
+\end{proof}
+
+\begin{corollary}\label{cor:height-gram}
+Let $y_1,\dots,y_n$ have index at most $\delta$. For each prime place $\iota$ let $\xi_\iota$ be a
+twist allowed at the prime of $\iota$ and $\gamma_\iota\in\C$ such that $\gamma_\iota\Theta_{\xi_\iota}
+z_i$ is integral at $\iota$ and at $\bar\iota$ for all $i$. Then the family
+$\abs{\gamma_\iota}^{2n'}\operatorname{Gram}(\Theta_{\xi_\iota}(y,z))$ has height at most $2\delta$.
+\end{corollary}
+\lean{New.TwistedLattice.heightLe_pow_mul_det_gram}
+
+\begin{proof}
+The matrices of the index at $\iota$ and at $\bar\iota$ both serve for the twist $\xi_\iota$, since
+$\iota$ and $\bar\iota$ lie over the same prime and these matrices do not depend on the twist. Apply
+\cref{lem:gram-valuation} and \cref{lem:height-calculus}(d) with $H=1$, $\alpha=0$ and
+$e_\ell=2\delta_\ell\log\ell$.
+\end{proof}
+
+\subsection{A twist for each prime}\label{ss:twist-for-each-prime}
+
+\begin{theorem}\label{thm:twist-for-each-prime}
+Let $L$ be a twisted lattice on a finite-dimensional complex inner product space $V$, with all maps
+$\Theta_\xi$ injective. Let $y_1,\dots,y_n,z_1,\dots,z_{n'}$ be a basis of $V$, and for each prime
+place $\iota$ let $\xi_\iota$ be a twist allowed at the prime of $\iota$. Suppose that
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $y$ has covolume at most $c$ and index at most $\delta$;
+\item for each twist $\xi$ there is $\gamma(\xi)\neq0$ such that $\gamma(\xi)\Theta_\xi z_i$ is
+integral at every prime place $\iota\mid\ell$ for which $\xi$ is allowed at $\ell$;
+\item $\norm{\Theta_1z_i}_\sigma^2\le e^{b_{\rm short}}$ for all $i$ and all automorphisms $\sigma$
+of $\C$;
+\item the families $\abs{\gamma(\xi_\iota)}^{-2}$ and $Z(1)/Z(\xi_\iota)$ have heights at most
+$b_{\rm den}$ and $b_{\rm vol}$ respectively.
+\end{enumerate}
+Then
+\[
+  c+2\delta+n'(b_{\rm short}+b_{\rm den})+b_{\rm vol}\ge0.
+\]
+\end{theorem}
+\lean{New.TwistedLattice.covolume_add_index_nonneg}
+
+\begin{proof}
+Write $w=(y,z)$ and $\operatorname{Gram}(\xi)=\operatorname{Gram}(\Theta_\xi w)$. By
+\eqref{eq:gram-volume}, for every $\iota$,
+\[
+  \operatorname{Gram}(1)=\abs{\gamma(\xi_\iota)}^{2n'}\operatorname{Gram}(\xi_\iota)\cdot
+  \bigl(\abs{\gamma(\xi_\iota)}^{-2}\bigr)^{n'}\cdot\frac{Z(1)}{Z(\xi_\iota)}.
+\]
+By \cref{cor:height-gram}, (iv) and \cref{lem:height-calculus}(b), the constant family
+$\operatorname{Gram}(1)$ has height at most $2\delta+n'b_{\rm den}+b_{\rm vol}$. It is nonzero, since
+$\Theta_1$ is injective and $w$ is a basis. By (i), (iii) and \cref{lem:hadamard}, the family $w$ has
+covolume at most $c+n'b_{\rm short}$, so $\abs{\sigma\operatorname{Gram}(1)}\le e^{c+n'b_{\rm short}}$
+for every $\sigma$ by \cref{lem:gram-conjugates}. \Cref{prop:height-nonneg} gives
+$-(2\delta+n'b_{\rm den}+b_{\rm vol})\le c+n'b_{\rm short}$.
+\end{proof}
+
+In the application (\cref{thm:C}) the space $V$ is the space of target forms, $\Theta_\xi$ is a chain
+of $m$ theta lifts twisted by $\xi$, the family $y$ consists of the images of short integral source
+forms, the $z_i$ are auxiliary forms completing it to a basis, and $\xi_\iota$ is a twist chosen for
+each prime so that the height of $Z(1)/Z(\xi_\iota)$ is at most about $-\dimT\,\hmain$.

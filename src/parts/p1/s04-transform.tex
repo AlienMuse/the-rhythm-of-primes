@@ -1,0 +1,242 @@
+\section{A weighted prime sum and its Laplace transform}\label{sec:transform}
+
+The argument does not bound a sum over primes with sign changes. It bounds from above a sum with
+nonnegative weights, and the zeros of the Dirichlet $L$-functions are seen in the poles of its
+Laplace transform. This section defines the sum, computes the transform and its residues, and
+records the elementary bounds that the later sections use.
+
+\subsection{The weights}\label{ss:weights}
+Throughout this section $d$ is a prime and $\chiK=(\,\cdot\,/d)$ is the Legendre symbol, extended
+to $\Z$ by $\chiK(n)=0$ for $d\mid n$. For $d\equiv 3\pmod 4$ it is the quadratic character of
+$K=\Q(\sqrt{-d})$; the letter $K$ anticipates this case. Let $q\ge 1$ be an integer. For a
+Dirichlet character $\psi$ modulo $q$ we write $\psi\chiK$ for the character modulo $qd$ given by
+$n\mapsto\psi(n)\chiK(n)$, and we put
+\[
+  E_\psi(s)=
+  \begin{cases}
+    L(s,\psi) & \text{if $\psi$ is not principal,}\\
+    (s-1)L(s,\psi) & \text{if $\psi$ is principal.}
+  \end{cases}
+\]
+In both cases $E_\psi$ is entire, and $E_\psi(s)\neq0$ for $\re s\ge1$.
+
+\begin{definition}\label{def:lambda}
+For $n\ge1$ let
+\[
+  \lambda_q(n)=
+  \begin{cases}
+    \Lam(n)\bigl(1-\chiK(n)\bigr) & \text{if } n\equiv 1\pmod q,\\
+    0 & \text{otherwise,}
+  \end{cases}
+\]
+where $\Lam$ is the von Mangoldt function. Let
+\[
+  G_q(s)=\frac{1}{\totient(q)}\Bigl(\sum_{\psi\bmod q}
+    \Bigl(\frac{E_{\psi\chiK}'}{E_{\psi\chiK}}(s)-\frac{E_\psi'}{E_\psi}(s)\Bigr)-1\Bigr),
+\]
+the sum running over all Dirichlet characters modulo $q$, and let
+\begin{equation}\label{eq:Rq}
+  R_q(x)=\sum_{1\le n\le x}\lambda_q(n)\Bigl(\frac1n-\frac1x\Bigr)-\frac{\log x}{\totient(q)}-c_q,
+  \qquad c_q=\re G_q(1),
+\end{equation}
+for real $x>0$. We call $R_q$ the \emph{remainder} modulo $q$.
+\end{definition}
+\lean{New.lambdaKResidueClass, New.logDerivMean, New.primeRemainder}
+
+The weight $\lambda_q(n)$ vanishes at the prime powers $n=p^k$ with $\chiK(p^k)=1$; in particular,
+for $d\equiv 3\pmod 4$, at all powers of primes that split in $K$ and at the even powers of inert
+primes. The function $G_q$ is meromorphic, with poles at most at the zeros of the $E_\psi$ and the
+$E_{\psi\chiK}$. By \cref{lem:G-real}, $G_q(1)$ is real when $d$ is odd and prime
+to $q$, so that $c_q=G_q(1)$; and in \cref{thm:pnt-Rq} that $c_q$ is then the constant for which
+$R_q(x)\to0$.
+
+\begin{lemma}\label{lem:lambda-bounds}
+For all $n\ge1$ one has $0\le\lambda_q(n)\le2\Lam(n)\le2\log n\le 2n$, and for every integer
+$N\ge1$
+\begin{equation}\label{eq:mertens-two}
+  \sum_{1\le n\le N}\frac{\Lam(n)}{n}\le 2\log N.
+\end{equation}
+\end{lemma}
+\lean{New.lambdaKResidueClass_nonneg, New.lambdaKResidueClass_le_two_mul_vonMangoldt, New.lambdaKResidueClass_le_two_mul, New.sum_vonMangoldt_div_le}
+
+\begin{proof}
+Since $\chiK(n)\in\{-1,0,1\}$, the factor $1-\chiK(n)$ lies in $[0,2]$, which gives the first two
+inequalities; the others are $\Lam(n)\le\log n\le n$. For \eqref{eq:mertens-two} we use
+$N/n\le 2\lfloor N/n\rfloor$ for $1\le n\le N$ and the identity
+$\sum_{n\le N}\Lam(n)\lfloor N/n\rfloor=\log N!$, which follows from $\sum_{e\mid k}\Lam(e)=\log k$.
+Hence
+\[
+  N\sum_{n\le N}\frac{\Lam(n)}{n}\le 2\sum_{n\le N}\Lam(n)\Bigl\lfloor\frac Nn\Bigr\rfloor
+  =2\log N!\le 2N\log N.\qedhere
+\]
+\end{proof}
+
+For $r\in\{0,1\}$ and $y>0$ put
+\[
+  A_r(y)=y^{-r}\sum_{1\le n\le y}\lambda_q(n)\,n^{r-1}.
+\]
+Then $R_q(x)=A_0(x)-A_1(x)-\log x/\totient(q)-c_q$. The sum defining $A_r(y)$ has at most $y$ terms,
+each at most $2y^r$ by \cref{lem:lambda-bounds}, so
+\begin{equation}\label{eq:Ar-bound}
+  \abs{A_r(e^v)}\le 2e^v\qquad(v\in\R,\ r\in\{0,1\}).
+\end{equation}
+Since $v/\totient(q)\le v\le e^v$ for $v\ge0$, it follows that
+\begin{equation}\label{eq:R-growth}
+  \abs{R_q(e^v)}\le(\abs{c_q}+5)\,e^v\qquad(v\ge0).
+\end{equation}
+\lean{New.abs_lambdaKSum_exp_le, New.abs_primeRemainder_exp_le}
+
+We shall often use the following form of the definition. For $0<z\le A$ with $A$ an integer,
+\begin{equation}\label{eq:R-posPart}
+  R_q(z)=\frac1A\sum_{1\le n\le A}\lambda_q(n)\Bigl(\frac An-\frac Az\Bigr)_{\!+}
+  -\frac{\log z}{\totient(q)}-c_q,
+\end{equation}
+where $t_+=\max(t,0)$: the terms with $n>z$ vanish, and for $n\le z$ the positive part is the
+number itself.
+\lean{New.primeRemainder_eq_sum_posPart, New.primeRemainder_eq_sum}
+
+\subsection{The Dirichlet series and the transform}\label{ss:dirichlet-series}
+
+\begin{lemma}\label{lem:twist-not-principal}
+Let $d$ be an odd prime not dividing $q$. For every character $\psi$ modulo $q$ the character
+$\psi\chiK$ modulo $qd$ is not principal.
+\end{lemma}
+\lean{New.quadTwist_ne_one}
+
+\begin{proof}
+Let $a$ be a quadratic non-residue modulo $d$, and choose $n$ with $n\equiv1\pmod q$ and
+$n\equiv a\pmod d$. Then $(\psi\chiK)(n)=\psi(1)\chiK(a)=-1$, while a principal character takes
+only the values $0$ and $1$.
+\end{proof}
+
+\begin{lemma}\label{lem:dirichlet-series}
+Let $d$ be an odd prime not dividing $q$. For $\re s>1$,
+\[
+  \sum_{n\ge1}\lambda_q(n)\,n^{-s}=\frac{s}{\totient(q)(s-1)}+G_q(s).
+\]
+\end{lemma}
+\lean{New.LSeries_lambdaKResidueClass_eq_add_logDerivMean}
+
+\begin{proof}
+An integer $n\equiv1\pmod q$ is prime to $q$, and for $n$ prime to $q$ orthogonality gives
+$\sum_{\psi\bmod q}\psi(n)=\totient(q)$ or $0$ according as $n\equiv1\pmod q$ or not. Hence
+\[
+  \lambda_q(n)=\frac{1}{\totient(q)}\sum_{\psi\bmod q}
+  \bigl(\psi(n)\Lam(n)-(\psi\chiK)(n)\Lam(n)\bigr)\qquad(n\ge1).
+\]
+For a character $\chi$ and $\re s>1$ we have $\sum_n\chi(n)\Lam(n)n^{-s}=-L'(s,\chi)/L(s,\chi)$,
+which is $-E_\chi'/E_\chi(s)$ if $\chi$ is not principal and $-E_\chi'/E_\chi(s)+1/(s-1)$ if it is.
+Among the characters $\psi$ and $\psi\chiK$ only the principal character modulo $q$ is principal,
+by \cref{lem:twist-not-principal}. Summing,
+\[
+  \sum_{n\ge1}\lambda_q(n)n^{-s}
+  =\frac{1}{\totient(q)}\Bigl(\frac{1}{s-1}
+   +\sum_{\psi}\Bigl(\frac{E_{\psi\chiK}'}{E_{\psi\chiK}}(s)-\frac{E_\psi'}{E_\psi}(s)\Bigr)\Bigr)
+  =\frac{1}{\totient(q)}\Bigl(\frac{1}{s-1}+1\Bigr)+G_q(s),
+\]
+and $1/(s-1)+1=s/(s-1)$.
+\end{proof}
+
+\begin{lemma}\label{lem:transform}
+Let $d$ be an odd prime not dividing $q$. For $\re s>2$,
+\[
+  \int_0^\infty R_q(e^v)\,e^{(1-s)v}\dd v=\frac{G_q(s)/s-c_q}{s-1}.
+\]
+\end{lemma}
+\lean{New.LSeries_lambdaKResidueClass, New.integral_primeRemainder}
+
+\begin{proof}
+Write $D(s)$ for the Dirichlet series of \cref{lem:dirichlet-series}. Partial summation applied
+to the coefficients $\lambda_q(n)n^{r-1}$ at the point $s+r-1$, followed by the substitution
+$t=e^v$, gives
+\[
+  D(s)=(s+r-1)\int_0^\infty A_r(e^v)\,e^{(1-s)v}\dd v\qquad(r\in\{0,1\},\ \re s>2);
+\]
+the integrals converge absolutely by \eqref{eq:Ar-bound}, and the partial sums of the coefficients
+are $O(y^{1+r})$, which is what partial summation needs on $\re(s+r-1)>1+r$. Since
+$\int_0^\infty v^k e^{(1-s)v}\dd v=k!/(s-1)^{k+1}$, we obtain
+\[
+  \int_0^\infty R_q(e^v)e^{(1-s)v}\dd v
+  =\frac{D(s)}{s-1}-\frac{D(s)}{s}-\frac{1}{\totient(q)(s-1)^2}-\frac{c_q}{s-1}.
+\]
+By \cref{lem:dirichlet-series}, $D(s)\bigl(\frac1{s-1}-\frac1s\bigr)=\frac{D(s)}{s(s-1)}
+=\frac{1}{\totient(q)(s-1)^2}+\frac{G_q(s)}{s(s-1)}$, and the assertion follows.
+\end{proof}
+
+\begin{lemma}\label{lem:G-real}
+Let $d$ be an odd prime not dividing $q$. Then $G_q$ is holomorphic on $\re s\ge1$, and $G_q(1)$
+is real; thus $c_q=G_q(1)$.
+\end{lemma}
+\lean{New.analyticAt_logDerivMean_of_one_le_re, New.ofReal_re_logDerivMean_one}
+
+\begin{proof}
+The functions $E_\psi$ and $E_{\psi\chiK}$ have no zeros on $\re s\ge1$, so $G_q$ is holomorphic
+there, and $F(s)=G_q(s)/s-c_q$ is holomorphic on a neighbourhood of $[1,\infty)$. For real $x>2$,
+\cref{lem:transform} expresses $F(x)$ as $(x-1)$ times the integral of a real function, so $F$ is
+real on $(2,\infty)$. The function $x\mapsto\im F(x)$ is real analytic on $[1,\infty)$ and vanishes
+on $(2,\infty)$, hence on $[1,\infty)$. At $x=1$ this says $\im G_q(1)=0$.
+\end{proof}
+
+\subsection{Residues}\label{ss:residues}
+For a function $f$ meromorphic at $\rho$ we write $\ord_\rho f$ for the order of vanishing of $f$
+at $\rho$ when $f$ is holomorphic there; all orders below are of entire functions, hence
+nonnegative.
+
+\begin{lemma}\label{lem:residue-G}
+For every $\rho\in\C$,
+\[
+  \lim_{z\to\rho}(z-\rho)\,G_q(z)=\frac{1}{\totient(q)}\sum_{\psi\bmod q}
+  \bigl(\ord_\rho E_{\psi\chiK}-\ord_\rho E_\psi\bigr).
+\]
+Consequently, for every constant $\kappa$ and every $\rho\neq0,1$,
+\[
+  \lim_{z\to\rho}(z-\rho)\,\frac{G_q(z)/z-\kappa}{z-1}
+  =\frac{1}{\totient(q)\,\rho(1-\rho)}\sum_{\psi\bmod q}
+  \bigl(\ord_\rho E_{\psi}-\ord_\rho E_{\psi\chiK}\bigr).
+\]
+\end{lemma}
+\lean{New.tendsto_sub_mul_logDerivMean, New.tendsto_logDerivMean_residue}
+
+\begin{proof}
+For an entire function $f\not\equiv0$, $(z-\rho)f'(z)/f(z)\to\ord_\rho f$ as $z\to\rho$. Summing over
+$\psi$ gives the first limit; the term $-1/\totient(q)$ contributes nothing since $z-\rho\to0$. The
+second limit is the first divided by $\rho(\rho-1)$, the constant $\kappa$ again contributing
+nothing.
+\end{proof}
+
+The transform of $R_q$ thus continues to a meromorphic function whose poles in the right half-plane
+sit at zeros of the $E_\psi$ and the $E_{\psi\chiK}$. We record exactly what will be used.
+
+\begin{definition}\label{def:polar}
+Let $E\colon\R\to\R$ and $r\colon\C\to\C$. We say that $E$ is \emph{polar with residues $r$} if
+$E$ is measurable, there are a constant $C$ with $\abs{E(v)}\le Ce^v$ for $v\ge0$ and a meromorphic
+function $\Phi$ on $\C$ with
+\[
+  \Phi(s)=\int_0^\infty E(v)\,e^{(1-s)v}\dd v\qquad(\re s>2),
+\]
+and $(z-\rho)\Phi(z)\to r(\rho)$ as $z\to\rho$, $z\neq\rho$, for every $\rho$ with $\re\rho>0$.
+\end{definition}
+\lean{New.IsPolar}
+
+In particular $\Phi$ has at most simple poles in $\re s>0$, and $r(\rho)=0$ where $\Phi$ is
+holomorphic. For $E(v)=R(e^v)$ the integral is $\int_1^\infty R(y)y^{-s}\dd y$.
+
+\begin{proposition}\label{prop:polar}
+Let $d\equiv7\pmod8$ be a prime not dividing $q$. Then $v\mapsto R_q(e^v)$ is polar with residues
+\[
+  r_q(s)=\frac{1}{\totient(q)\,s(1-s)}\sum_{\psi\bmod q}
+  \bigl(\ord_s E_\psi-\ord_s E_{\psi\chiK}\bigr)\quad(s\neq0,1),\qquad r_q(1)=0.
+\]
+\end{proposition}
+\lean{New.isPolar_primeRemainder}
+
+\begin{proof}
+Measurability is clear, and the growth bound is \eqref{eq:R-growth}. Put
+$\Phi(s)=(G_q(s)/s-c_q)/(s-1)$, a meromorphic function on $\C$; by \cref{lem:transform} it is the
+transform for $\re s>2$. At $\rho\ne1$ with $\re\rho>0$ the residue is given by
+\cref{lem:residue-G}. At $\rho=1$ the numerator $F(s)=G_q(s)/s-c_q$ is holomorphic and vanishes, by
+\cref{lem:G-real}; so $(z-1)\Phi(z)=F(z)\to0$.
+\end{proof}
+
+The sign of $r_q$ on the real axis is the key to the next section: for real $x\in(0,1)$ the factor
+$x(1-x)$ is positive, and if no twist $E_{\psi\chiK}$ vanishes at $x$, then $r_q(x)\ge0$.

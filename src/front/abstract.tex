@@ -1,0 +1,17 @@
+% Abstract (at most 250 words; gate).
+We give a complete account of a proof, due to L.~Alp\"oge working with Claude, that no Dirichlet
+$L$-function vanishes in the half-plane $\re s>1/2$; in particular every nontrivial zero of the Riemann
+zeta function has real part $1/2$. The proof was found and formalised in Lean~4;
+we follow the shorter formalisation \texttt{grh-lean}, which we rebuilt and checked, and
+each statement of the paper is tied to the Lean declarations that prove it. The argument is a
+descendant of Stepanov's method for curves over finite fields. A one-sided bound for a weighted sum
+of the von Mangoldt function over a residue class, whose weights $1-\chi_K(n)$ come from an imaginary
+quadratic field, excludes zeros by Landau's theorem on Dirichlet integrals of one sign. The bound is
+proved by comparing two estimates for chains of $m\asymp\sqrt x$ theta lifts between definite unitary
+groups over a CM field: an upper bound, in which the divisibility of derivatives of theta functions of
+CM elliptic curves at each prime reproduces the prime sums, and a lower bound from a product formula
+for Gram determinants, in which each prime reads the integral structure through its own twist and the
+norms of the lifts are Hecke $L$-values controlled by the Rallis inner product formula and by
+congruences, bounded through Selmer groups of anticyclotomic twists. A second-moment estimate shows that few translates of a Poincar\'e series span the
+space of target forms. The main term cancels between the two estimates, and the remainder is bounded
+by $x^{-1/2+\ve}$.

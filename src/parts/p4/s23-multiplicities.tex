@@ -1,0 +1,79 @@
+\section{Equality of multiplicities}\label{sec:multiplicities}
+
+The spaces $Y_0$ and $W_1,\dots,W_m$ have the same rank, level and parameter and differ only in their signs at the real places
+(\cref{def:spaces-Y}); $W_m$ is definite. This section proves that their good forms have the same Hecke eigensystems with the same
+multiplicities (\cref{thm:equal-multiplicities}). The tool is a comparison of simple trace formulas for a test function that is cuspidal at one split
+place (\cref{ss:B-trace-comparison}): the good idempotent $e_0$ is a sum of idempotents of tuples of labels, one of which is primitive, and the
+idempotent of a primitive label is cuspidal. This is the analogue of the Jacquet--Langlands correspondence for a definite inner form, and is used twice:
+for the dimension of the target (\cref{thm:spanning-inputs}(a)) and, in \cref{part:lower}, for the determinants of Rallis' operators.
+
+\subsection{Spherical Hecke operators away from the level}\label{ss:hecke-away}
+A finite place $w$ is \emph{split off the level} if $\bar w\ne w$ and neither $w$ nor $\bar w$ is a chosen place. Let $G^M$ be the finite adelic points that are $1$ at the chosen
+places. An element $a$ of the group algebra of $G^M$ is \emph{spherical} if in every representation of $G_{\rm f}$ it maps vectors fixed by the principal level $J_M$ to such
+vectors. The \emph{Hecke algebra} $\mathcal H$ consists of the families of operators on the forms of principal level of all hermitian spaces $V$ of rank $r$ given by one
+spherical element; it contains the operators $T_{w,i}$ for $w$ split off the level. For an \emph{eigensystem} $p$, a function of pairs $(w,i)$, the \emph{eigenpart} of $V$ is the
+space of forms on which each $T_{w,i}$ acts by $p(w,i)$.
+\lean{New.Data.IsSplitOffLevel, New.Data.IsSplitOffLevel.star, New.Data.offLevelGroup, New.Data.IsSplitOffLevel.ofSplitPlace_mem, New.Data.sphericalAlgebra, New.Data.mem_sphericalAlgebra, New.Data.mem_sphericalAlgebra_of_mem_universalLevelAlgebra, New.Data.heckeAlgebra, New.Data.mem_heckeAlgebra, New.Data.exists_heckeAlgebra_eq_asAlgebraHom, New.Data.exists_asAlgebraHom_eq_heckeSplit, New.Data.principalHeckeSplit, New.Data.coe_principalHeckeSplit_apply, New.Data.principalHeckeSplit_mem_heckeAlgebra, New.Data.heckeOperator, New.Data.coe_heckeOperator_apply, New.Data.eigenPart, New.Data.mem_eigenPart, New.mem_levelSpace_iff_forall_apply_eq, New.commute_asAlgebraHom_mapDomain_trivialOn, New.mapDomain_mem_universalLevelAlgebra, New.universalLevelAlgebra}
+
+\begin{proposition}[Hecke algebra and eigensystems]\label{prop:hecke-eigen}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Forms of principal level are spherical at every place split off the level, and $T_{w,i}$ preserves them. The group algebra of $\bar G$ acts through integral lifts and
+commutes with $\mathcal H$; so $\mathcal H$ acts on the good forms.
+\item The eigenparts are independent, finitely many meet a finite-dimensional space, and they span the forms of principal level when these are finite-dimensional; a
+form that is an eigenvector of all $T_{w,i}$ lies in an eigenpart, on which the Hecke polynomials act by the corresponding scalars.
+\item For an eigensystem $q$ and a finite set $F$ of eigensystems there is $T\in\mathcal H$ that is $1$ on the $q$-eigenpart and $0$ on the $d$-eigenparts, $d\in F\setminus\{q\}$, of
+all spaces at once; eigenparts are stable under $\bar G$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.principalForms_le_sphericalAt, New.Data.heckeSplit_mem_principalForms, New.Data.coe_principalRep_apply, New.Data.liftGroupAlgebra, New.Data.liftGroupAlgebra_add, New.Data.coe_principalRep_asAlgebraHom_apply, New.Data.liftResidue_apply_mem_levelSpace, New.Data.liftGroupAlgebra_mem_universalLevelAlgebra, New.Data.commute_heckeAlgebra_principalRep, New.Data.heckeOnGood, New.Data.coe_heckeOnGood_apply, New.Data.principalRep_mem_eigenPart, New.Data.iSupIndep_eigenPart, New.Data.finite_setOf_inf_eigenPart_ne_bot, New.Data.exists_mem_eigenPart_of_heckeSplit_eq_smul, New.Data.iSup_eigenPart_eq_top, New.Data.hasHeckePolynomial_of_mem_eigenPart, New.Data.smul_mul_heckeOperator_sub_smul_apply, New.Data.exists_hecke_proj_eigenPart}
+
+\begin{proof}
+(a) \emph{Sphericity.} Let $w$ be split off the level. The principal level $J_M$ consists of the integral points that reduce to $1$ at the chosen places, so it contains every integral point supported at $w$ and $\bar w$; hence a form of principal level is fixed by the part of the maximal compact subgroup supported there, that is, it is spherical at $w$. The operator $T_{w,i}$ is the
+sum of the translates by representatives $g$ of the cosets $gK_w$ in the double coset of $\mathrm{diag}(\varpi1_i,1)$, placed at $w$ and $\bar w$; these elements are $1$ at the chosen places, so they commute with the parts of $J_M$ at the chosen places, and the part of $J_M$ at $w$ permutes the cosets. Hence $T_{w,i}$ preserves the forms of principal level, and one element of the group algebra of $G^M$ acts
+as $T_{w,i}$ in every representation: its value at $1$ in the regular representation of $G^M$. Hence the $T_{w,i}$ lie in $\mathcal H$.
+
+\emph{The group $\bar G$.} An element $g$ of $\bar G=\prod_x\GL_r(\F_x)$ acts on forms of principal level through an integral lift that is $1$ off the chosen places; the lift normalises $J_M$, so it maps vectors fixed by $J_M$ to such vectors, and two lifts differ by an element of $J_M$. An element of the group algebra of $\bar G$ acts through the corresponding combination of lifts. A spherical element is supported on $G^M$,
+whose elements are $1$ at the chosen places, while the lifts are $1$ off them; elements supported at disjoint sets of places commute, so $\mathcal H$ commutes with the group algebra of $\bar G$, in particular with the idempotent $e_0$, and preserves its image, the good forms.
+
+(b) \emph{Independence.} Eigenparts for different eigensystems are joint eigenspaces of the commuting family $T_{w,i}$ for different joint eigenvalues, so their sum is direct; in a finite-dimensional subspace only finitely many of them can be nonzero. \emph{Spanning.} The operators $T_{w,i}$ commute (\cref{ss:B-hecke-transfer}), and $T_{\bar w,i}$, the operator of the inverse double coset, is the adjoint of $T_{w,i}$ for the Petersson product;
+so on a finite-dimensional space of forms of principal level they form a commuting family of normal operators, which by the spectral theorem has a basis of joint eigenvectors. A joint eigenvector $y$ lies in the eigenpart of the system $p(w,i)$ of its eigenvalues. On such a $y$ the Hecke polynomial $\sum_{i\le r}(-X)^i\Nm w^{\binom i2}T_{w,i}$ acts by $\sum_i(-X)^i\Nm w^{\binom i2}p(w,i)$.
+
+(c) For each $d\in F\setminus\{q\}$ choose a pair $x=(w,i)$ with $d(x)\ne q(x)$, and let $T$ be the product over these $d$ of the operators $(T_x-d(x))/(q(x)-d(x))$. On a form with eigensystem $e$, the factor of $d$ acts by $(e(x)-d(x))/(q(x)-d(x))$, which is $1$ for $e=q$ and $0$ for $e=d$. The product lies in $\mathcal H$, which is an algebra, and acts in this way on all spaces at once. Eigenparts are stable under
+$\bar G$ because $\bar G$ commutes with every $T_{w,i}$.
+\end{proof}
+
+\subsection{Equal traces}\label{ss:equal-traces}
+
+\begin{theorem}[Equal multiplicities]\label{thm:equal-multiplicities}
+Let $V$, $V'$ be hermitian spaces of rank $r$ over $E$ with signs for which the doubled parameter $2\varsigma$ has gap $\Delta$ at every infinite place.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For every $T\in\mathcal H$, $\operatorname{tr}(T\mid e_0\mathcal A(V))=\operatorname{tr}(T\mid e_0\mathcal A(V'))$; hence the two actions have the same characteristic polynomials and
+determinants.
+\item For every eigensystem $q$, $\dim(e_0\mathcal A(V)\cap\text{eigenpart }q)=\dim(e_0\mathcal A(V')\cap\text{eigenpart }q)$.
+\item $\dimT=\dim e_0\mathcal A(W_j)$ for $1\le j\le m$.
+\item The series of Rallis' inner product formula (\cref{part:lower}) acts on the forms of principal level of $V$ and of $V'$ as one element of $\mathcal H$; in particular it
+preserves the good forms and has the same determinant on $e_0\mathcal A(V)$ and on $e_0\mathcal A(V')$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Data.trace_heckeOnGood_eq, New.Data.charpoly_heckeOnGood_eq, New.Data.det_heckeOnGood_eq, New.Data.finrank_goodForms_inf_eigenPart_eq, New.Data.goodForms_inf_eigenPart_eq_bot_of_eq_bot, New.Data.targetDim_eq_finrank_goodForms_spaceW, New.Data.trace_heckeOnGood_eq_sum, New.Data.trace_mul_tupleIdem_eq, New.Data.exists_isPrimitivePolynomial, New.Data.trace_heckeOnGood_eq_finrank, New.Data.exists_heckeAlgebra_inner_eq_inner_translate, New.Data.exists_rallisTerm_eq_inner, New.Data.exists_heckeAlgebra_eq_mul_inner_of_hasSum_rallisTerm, New.Data.exists_hecke_eq_rallisOperator, New.Data.rallisOnGood, New.Data.coe_rallisOnGood_apply, New.Data.det_rallisOnGood_eq}
+
+\begin{proof}
+(a) \emph{Reduction to the labels.} The idempotent $e_0$ is the sum of the idempotents $e_c$ of the good tuples of labels (\cref{prop:e0}); as $T$ commutes with $e_0$ and $e_0$ projects onto the good forms, $\operatorname{tr}(T\mid e_0\mathcal A(V))=\operatorname{tr}(Te_0\mid\mathcal A(V))=\sum_c\operatorname{tr}(Te_c\mid\mathcal A(V))$, the traces taken on the forms of principal level.
+
+\emph{Cuspidality.} A good tuple $c$ has at each of the primes $p_0$, $p_1$ monic allowed polynomials of degree $r$ at the chosen places, one of which is primitive: irreducible, with a root that generates the units of the extension of degree $r$ of the residue field (\cref{lem:primitive-label}). Let $x$ be a chosen place with a primitive label. Green's class function of a monic irreducible polynomial of degree $r$ is cuspidal: it has mean zero over the unipotent radical of every
+proper parabolic subgroup of $\GL_r(\F_x)$ cut out by coordinates (\cref{thm:B-green}). The idempotent $e_c$ is the product of the label idempotents, so the element of the group algebra of the finite points that acts as $Te_c$ on every space, the spherical element of $T$ times the lifts of $e_c$, is a test function that is cuspidal at the split place $x$.
+
+\emph{Comparison.} The archimedean part of the kernel is the product of the discrete series idempotents of the type, whose doubled parameters have the gap $\Delta$ at every infinite place, for the signs of $V$ and of $V'$. The comparison of simple trace formulas (\cref{thm:B-trace-comparison}) shows that the trace of such a test function on the forms of principal level depends neither on the space nor on its signs. Summing over $c$ gives the equality of traces. Applied to the powers
+$T^j$, which lie in $\mathcal H$, it gives the equality of the traces of all powers, hence of the characteristic polynomials (over a field of characteristic zero the power sums determine the characteristic polynomial), hence of the determinants.
+
+(b) Finitely many eigensystems occur in the good forms of $V$ or of $V'$, which are finite-dimensional; let $F$ be the set of them together with $q$. By \cref{prop:hecke-eigen}(c) one $T\in\mathcal H$ is $1$ on the $q$-eigenpart and $0$ on the other eigenparts in $F$ of both spaces, and also on the eigenparts outside $F$, which are zero in the good forms. As the eigenparts span and are stable under $\bar G$, $T$ acts on $e_0\mathcal A(V)$ as the projection onto
+$e_0\mathcal A(V)\cap(\text{eigenpart }q)$, whose trace is the dimension; the same holds for $V'$, and (a) gives the equality.
+
+(c) Apply (a) to the identity, which lies in $\mathcal H$: the traces are the dimensions of the good forms of $Y_0$ and of $W_j$. The doubled parameter has the gap $\Delta$ for the signs of $Y_0$ and of every $W_j$ (\cref{def:spaces-Y}), and $\dimT$ is the dimension of the good forms of $Y_0$.
+
+(d) \emph{One term.} A term of the series is a vacuum coefficient of the Weil representation times $\langle z,\gamma y\rangle$ for a representative $\gamma$ of a coset, divided by the number of matrices over the residue ring of the modulus. The representative is supported away from the places of the modulus, so it is $1$ at the chosen places. For such $\gamma$, let $K=K_0\cap G^M$ and $H=K\cap\gamma K\gamma^{-1}$, open in the compact group $K$; the mean
+of the translations by $k\gamma$ over the cosets $kH$ is a spherical element, and since $K$ acts unitarily and fixes $z$, all its terms have the same inner product with $z$: it gives an element $p_\gamma\in\mathcal H$ with $\langle z,p_\gamma y\rangle=\langle z,\gamma y\rangle$ on every space. The vacuum coefficient does not depend on the space.
+
+\emph{The series.} Let the series, times $a$ on $V$ and $a'$ on $V'$, converge to $B$ and $B'$. The pairs of functions $(z,y)\mapsto(a\langle z,py\rangle,a'\langle z,py\rangle)$ with one $p\in\mathcal H$ form a finite-dimensional, hence closed, subspace, since the forms of principal level are finite-dimensional; it contains the pair of every partial sum, hence the pair $(B,B')$. Hence one element of $\mathcal H$ acts as the series on both spaces. It preserves the good forms by
+\cref{prop:hecke-eigen}(a), and (a) gives the equality of the determinants.
+\end{proof}

@@ -1,0 +1,255 @@
+\section{Terms, cells and the filling theorem}\label{sec:terms}
+
+The blocks of $P^*sP$ are sums of amplitudes over rational terms $\gamma$ (\cref{thm:unfolding}). This section sorts the terms by the position of the frame
+$f=(e_1,\dots,e_\varrho,z)$ relative to $\gamma f$, isolates those in the Bessel subgroup, which give the operators $r_\psi(s)$ of a twisted translation, and assembles the
+\emph{filling theorem} (\cref{thm:filling}) from three bounds: the terms near the Bessel subgroup (\cref{thm:near-bessel}), the remaining terms
+(\cref{sec:remaining}) and the main term (\cref{sec:main-term}).
+
+\subsection{Frames, links and cells}\label{ss:links}
+Let $A=\langle e_1,\dots,e_\varrho\rangle$, $A^+=A+Ez$, and for a rational isometry $\gamma$ let $Z(\gamma)$ be the matrix of products $h(f_a,\gamma f_b)$, with leading minors $D_l$. The
+\emph{discriminant} of $\gamma$ is $\mathfrak g(\gamma)=\abs{D_{\varrho+1}}^2-N^2\abs{D_\varrho}^2$. For $t$ orthogonal to $A$ and $\gamma A$ the middle coordinates of $t$ and $\gamma^{-1}t$ in
+$A^\perp/A=X_0\perp Ez$ form a pair; these pairs are the \emph{link} of $\gamma$. A \emph{norm-one pair occurs from} $j$ if for some $\zeta$ with $\zeta\bar\zeta=1$ and every index $a\ge j$ some
+combination of $f$ equals some combination of $\gamma f$, both without coefficients above $a$ and with coefficients $\zeta$ and $1$ at $a$. The element $\gamma$ has \emph{cell rank} $j\le\varrho+1$ if a
+norm-one pair occurs from $j$, $D_j\ne0$, and $j=\varrho+1$ exactly when $\mathfrak g(\gamma)\ne0$. It \emph{agrees} if $\psi_U(u)=\psi_U(u')$ for rational $u$, $u'\in U$ with $u\gamma=\gamma u'$. A term is
+\emph{near} if some boxed point $y$ (\cref{prop:packing}(c)) has $\gamma^{-1}y$ boxed.
+
+For a stable set $T$ of terms and $\Omega\subseteq\bar G$, the \emph{link second moment} of $T$ over $\Omega$ is the sum of $\norm{A_{T_\Lambda}(c,s,c')}^2$, for the cut function, over the
+links $\Lambda$, the pairs of classes $(c,c')$ and the $s\in\Omega$; here $T_\Lambda$ is the set of terms of $T$ with link $\Lambda$. An element $s\in\bar G$ is \emph{open} if at some chosen place
+above $p_0$ no proper leading minor of the Gram matrix of the frame products of $s$ vanishes. For a set $S_g$ of chosen places above $p_0$ and, at each $w\in S_g$, a nonzero vector $d_w$ of
+the span of the frame modulo $w$ or modulo $\bar w$, the \emph{fixer} $\mathrm{fixer}(S_g,d)$ is the subgroup of the $s\in\bar G$ that fix every $d_w$.
+\lean{New.Filling.secondMoment, New.Filling.linkSecondMoment, New.Filling.chosenPlaces}
+\lean{New.Filling.zRowBlockDiagonal, New.commonLink, New.PairOccursAt, New.NormOnePairOccursFrom, New.Filling.ratGram, New.Filling.linkForm, New.Filling.classCoord, New.Filling.classCoordX₀, New.Filling.pairCountScale, New.Filling.HasCellRank, New.Filling.termDiscNorm, New.Filling.IsNear, New.Filling.CharsAgree, New.frameImage, New.Filling.linkIsometry, New.Filling.linkSource, New.Filling.linkTarget, New.Filling.positiveGram, New.Filling.isotropicSpan, New.Filling.commonIsotropic, New.Filling.isotropicPerp, New.Filling.perpToPositive, New.Filling.frameSum, New.Filling.framePerp, New.Filling.framePerpToX₀, New.Filling.linkedX₀, New.Filling.flagSpan, New.Filling.remainingTerms, New.Filling.mem_remainingTerms_iff}
+
+Here $s\in\bar G$ acts modulo a place $w$ above $M$ by its component at $w$, and modulo $\bar w$ by the inverse adjoint of that component; $s$ \emph{meets} at a place if, modulo it, the span of the frame and its image under $s$ share a nonzero
+vector, and the \emph{meeting norm} $\mathrm{mn}(s)$ is the norm of the product of the places where $s$ meets. An element fixing a nonzero vector of the span of the frame modulo a place meets there, and the reduction $\bar H$ of $\U(X_0)$ fixes the
+frame, hence lies in every fixer.
+
+\begin{lemma}[The link as an isometry]\label{lem:link-isometry}
+Let $z^+$ be a vector of norm $N$ and $X_0\perp Ez^+$ the positive space with the coordinates of $X_0\perp Ez$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A vector $t$ is orthogonal to $A$ and $\gamma A$ exactly when the coordinates of $t$ and $\gamma^{-1}t$ at the $e^*_a$ vanish. The link is the image of $(A+\gamma A)^\perp$ under $t\mapsto([t],[\gamma^{-1}t])$, it has rank $k+1$, and
+$I_\gamma=A\cap\gamma A$ is the kernel; so the link has the rank of $(A+\gamma A)^\perp/I_\gamma$.
+\item For a pair $(y_0+\lambda'z,\,y'_0+\lambda z)$ of the link put $\mathrm{src}=y_0+\lambda z^+$ and $\mathrm{tgt}=y'_0+\lambda'z^+$. Both maps are bijections from the link onto $X_0\perp Ez^+$, and $\Upsilon_\gamma=\mathrm{tgt}\circ\mathrm{src}^{-1}$ is an
+isometry of the positive space whose graph is the link; two elements have the same link exactly when they have the same $\Upsilon$.
+\item On the big cell, for $\sigma$ fixing the hyperbolic planes and the Weyl element $w_p\colon e_a\mapsto p_ae^*_a$, the matrix $Z(w_p\sigma)$ is diagonal with entries $p_a$ and $t=h(z,\sigma z)$, so $\mathfrak g(w_p\sigma)=d\bar d(t\bar t-N^2)$ with
+$d=\prod_ap_a$; the link of $w_p\sigma$ is the graph of the middle block of $\sigma$, so $w_p\sigma$ and $w_q\tau$ have the same link exactly when $\sigma=\tau$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The products of $t$ with $e_a$ read off the coordinate of $t$ at $e^*_a$; those with $\gamma e_a$ are the products of $\gamma^{-1}t$ with $e_a$, $\gamma$ being an isometry. The map to pairs is linear on $(A+\gamma A)^\perp$; its kernel consists of the $t$
+whose middle and last blocks vanish together with those of $\gamma^{-1}t$, that is $A\cap\gamma A$. Since $\gamma A$ has rank $\varrho$ (the first $\varrho$ rows of $\gamma^{-1}$ are a left inverse of its first columns), the ranks of $A+\gamma A$ and $I_\gamma$ add up to
+$2\varrho$, and those of $A+\gamma A$ and its orthogonal add up to $r$; so the link has rank $r-2\varrho=k+1$. (b) For $y$, $y'$ in $(A+\gamma A)^\perp$ their product is that of their middle coordinates in $X_0\perp Ez$ (the hyperbolic terms vanish), and the
+same holds for $\gamma^{-1}y$, $\gamma^{-1}y'$. Comparing the two and moving the terms in $z$, which have norm $-N$, to the other side gives $\langle\mathrm{src}\,p,\mathrm{src}\,q\rangle=\langle\mathrm{tgt}\,p,\mathrm{tgt}\,q\rangle$ in the positive space. The positive form is
+anisotropic (at an infinite place it is a sum of squares with positive weights), so a pair vanishes as soon as one of its images does; hence both maps are injective on the link, which has the dimension $k+1$ of the positive space, and bijective.
+(c) $w_p\sigma$ maps $e_a$ to $p_ae^*_a$ and fixes $z$ up to $\sigma$; read off the products. For the link take $a=0$ in the description by coordinates: the pairs are $(\sigma_{\rm mid}y,y)$.
+\end{proof}
+
+\begin{lemma}[Common vectors of the two flags]\label{lem:common-vectors}
+Let $\gamma$ agree.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $\mu$, $\mu'$ are the coefficients at $j$ of a vector common to the flags of $f$ and $\gamma f$ (both without coefficients above $j$), they are the coefficients at every $l\ge j$ of such a common vector, and $\mu\bar\mu=\mu'\bar\mu'$.
+\item If a nonzero common vector has top index $j$ (the least index above which its coordinates in both frames vanish), its two coordinates there have the same nonzero norm.
+\item If $\mathfrak g(\gamma)=0$, $\gamma$ has a cell rank $j\le\varrho$: with $j$ the least index from which one pair $(\zeta,1)$, $\zeta\bar\zeta=1$, occurs, the leading minor $D_j$ is nonzero.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) It suffices to go one step up. A common vector at $j+1$ with coefficients $\mu$, $\mu'$ exists if every linear form $m$ killing $f_b$ and $\gamma f_b$ for $b\le j$ takes the same value on $\mu f_{j+1}$ and $\mu'\gamma f_{j+1}$. Let $x$, $y$ be the coordinates of the common vector
+at $j$ in the two frames; for $r\in E$ the Eichler maps $u$ along $r\cdot(fx)$ and $w$ along $r\cdot(\gamma f\,y)$ with the vector representing $m$ lie in $U$, and as $fx=\gamma fy$ they satisfy $u\gamma=\gamma w$. Their characters are $\psi_{\rm f}$ at $r$ times the values of $m$ on the two shifted vectors
+(\cref{lem:eichler-elements}, the factor $r$ cancelling the constants); agreement gives equality of $\psi_{\rm f}(rm(\cdot))$ for all $r$, hence of the two values. For the norms: at the last index the common vector is a multiple of $z$ in one frame and of $\gamma z$ in the
+other, with norms $-N\mu\bar\mu$ and $-N\mu'\bar\mu'$. (b) Scale the pair at the top index; by (a) it recurs at the last index, where (a) gives equal norms; the coordinate in the first frame is nonzero because the vector is. (c) A norm-one pair occurs vacuously
+from $\varrho+1$; $\mathfrak g=0$ gives a common nonzero vector, so by (b) a pair of nonzero coordinates with equal norms occurs at its top index $l\le\varrho$ and, scaled to $(\zeta,1)$, at all higher indices; so $j\le\varrho$. If $D_j=0$, some $y\ne0$ vanishing from $j$ on is killed by the
+first $j$ rows of $Z(\gamma)$; the remaining rows kill $y$ too, because for every $w$ some vector shared by $f$ and $\gamma^{-1}f$ has coordinates $\bar w$ from $j$ on, and its pairing with $y$ is a multiple of $y_{\rm top}=0$. Then $\gamma fy$ lies in the span of $f$ although $y$
+vanishes from $j$ on, which contradicts the minimality of $j$ by (b).
+\end{proof}
+
+\begin{lemma}[Meeting places]\label{lem:meeting-places}
+Let $k$ be integral with agreeing reduction, and let $w$ be a place above $M$ where the spans of $f$ and $kf$ share a nonzero vector modulo $w$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Some common vector modulo $w$ has last coordinates $\mu$, $\mu'$ not both zero.
+\item Let $t$ be an integral matrix with two columns such that $P=(f\,|\,kf)^*t$ vanishes except in the two rows of the last vectors of $f$ and $kf$, whose $2\times2$ determinant $\delta$ is a finite idele. Then $\mathrm{mn}(k)\le[\hat\OO:\delta\hat\OO]$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) As in \cref{lem:common-vectors}(a), modulo $w$: lift the data to $\hat\OO$ and compare the unipotent character on the Eichler maps $u$, $u'$ with $uk\equiv ku'$ modulo $M$; since $\hat\OO$ is self-dual for $x\mapsto\psi_{\rm f}(-x/\varpi)$, testing against every $r\in\hat\OO$ shows that
+$M$ divides the difference of the lifted values, so the coefficients move up one index modulo $w$. Start at the top index of the shared vector and go up to the last index. (b) Modulo $w$, $P^*$ kills $(x,-y)$ for the common vector of (a), and only the two last columns of $P^*$ take part;
+so $\delta\equiv0$ modulo $w$ at every place where $k$ meets. The index $[\hat\OO:\delta\hat\OO]$ is $\#\hat\OO/\delta$, which maps onto the product of the residue fields at those places.
+\end{proof}
+
+\begin{proposition}[Links and cells]\label{prop:links}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item After exchanging the $z$-coordinates of the members of each pair, the link is the graph of an isometry $\Upsilon_\gamma$ of the positive space $X_0\perp Ez^+$, $h(z^+,z^+)=N$. The link,
+$\mathfrak g$, the norm-one pair condition and the cells are unchanged under $\gamma\mapsto u^{-1}\gamma u'$, $u,u'\in U$, and under inversion; so each cell is a stable set.
+\item $\mathfrak g(\gamma)=0$ exactly if $A^+$ and $\gamma A^+$ meet nonzero; $\mathfrak g(\gamma)$ is totally positive or zero, by a norm identity at each infinite place; and for a term over a block the
+entries of $Z(\gamma)$ are algebraic integers, of absolute value at most $b^{134n}$ when $\gamma$ is near.
+\item If $\gamma$ agrees and $\mathfrak g(\gamma)=0$, then $\gamma$ has a cell rank $j\le\varrho$, and $j+\dim(A\cap\gamma A)=\varrho$; then $A=A_{\le j}\oplus I_\gamma$ and $\gamma A=\gamma A_{\le j}\oplus I_\gamma$ with
+$I_\gamma=A\cap\gamma A$, and $(A^+_\gamma)^\perp/I_\gamma$ is isometric to $X_0\cap\Upsilon_\gamma^{-1}X_0$.
+\item A stable set none of whose elements agrees has vanishing blocks. If the reduction $s$ of an integral $k$ agrees and the spans of $f$ and $sf$ meet modulo a place above $M$, a common vector
+with last entries not both zero exists there; and the norm of the product of the places where they meet is at most the generalised index of a $2\times2$ determinant of products
+with $k f$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Filling.mem_link_iff_linkIsometry, New.Filling.link_inv_mul_mul_of_mem_besselU, New.Filling.frameDisc_frameGram_inv_mul_mul_of_mem_besselU, New.NormOnePairOccursFrom.besselU_mul, New.NormOnePairOccursFrom.inv, New.Filling.isStable_hasCellRank, New.Filling.frameDisc_weylElem_mul, New.Filling.link_weylElem_mul_eq_iff, New.Filling.mem_link_weylElem_mul_iff, New.Filling.linkIsometry_frameImage_mulVec, New.Filling.mul_dotProduct_comp_indexX₀_eq_sub, New.Filling.termDisc_eq_zero_iff, New.Filling.termDisc_eq_zero_iff_exists, New.Filling.map_termDisc_eq_norm, New.Filling.norm_sq_middle_part_eq, New.Filling.termDisc_pos_or_eq_zero, New.Filling.isIntegral_frameProducts, New.Filling.IsNear.norm_frameProducts_le, New.Filling.IsNear.norm_map_leadingMinor_sq_le, New.Filling.CharsAgree.exists_hasCellRank, New.Filling.CharsAgree.hasCellRank_of_add_finrank_eq, New.Filling.HasCellRank.le_of_termDisc_eq_zero, New.Filling.HasCellRank.flagSpan_one_sup_commonIsotropic, New.Filling.HasCellRank.flagSpan_coe_sup_commonIsotropic, New.Filling.range_framePerpToX₀, New.Filling.ker_framePerpToX₀, New.Filling.form_framePerpToX₀, New.Filling.amplitudeSum_eq_zero_of_not_charsAgree, New.Filling.exists_pairOccursInColumnsAt_top_of_meetsAt, New.Filling.meetNorm_le_genIndex_det, New.Filling.le_genIndex_det_of_le_meetNorm, New.Filling.charsAgree_mul_mul_iff_of_mem_besselU, New.Filling.isStable_remainingTerms, New.Filling.MeetsAt, New.Filling.meetNorm, New.Filling.fixer, New.Filling.vectorFixer, New.Filling.FrameVector, New.Filling.IsOpenElement, New.Filling.InScalarCoset, New.Filling.mem_vectorFixer, New.Filling.reducedImage_besselH_le_fixer, New.Filling.integral_besselKernel_eq_zero_of_not_charsAgree, New.Filling.inclHFin_mem_latticeStabilizer_iff, New.Filling.mem_congruenceGL_iff_isIntMatrix_scaleAt, New.Filling.CharsAgree.mul_star_eq_of_pairOccursAt, New.Filling.mul_star_eq_and_pairOccursAt_of_le, New.Filling.CharsAgree.leadingMinor_ne_zero}
+
+\begin{proof}
+(a) is \cref{lem:link-isometry}(b). An element $v$ of $U$ is block unitriangular and fixes the last two blocks of a vector whose last block vanishes; so $t\mapsto vt$ carries the vectors that define the link of $\gamma$ to those that define the link of $u^{-1}\gamma u'$. It acts on the span of
+the frame by the unitriangular matrix $m(v)$, so $Z(u^{-1}\gamma u')=m(u)^*Z(\gamma)m(u')$ has the same leading minors and the same $\mathfrak g$, and a common vector of the two flags with coefficients vanishing above $a$ keeps its coefficients at $a$. For inversion,
+apply $\gamma^{-1}$ to the shared vector, exchange the two sides and scale by $\bar\zeta=\zeta^{-1}$.
+
+(b) By \cref{prop:length-frames}(c) (with the middle block $-N$ at $z$) the Gram determinant of $(f,\gamma f)$ is $(-1)^n\mathfrak g(\gamma)$, and it vanishes exactly when the spans meet. For the sign, Cramer's rule gives $y$ with $Z(\gamma)y=(0,\dots,0,\det Z(\gamma))$
+and last coordinate $D_\varrho$. The vector $t=\gamma fy$ is orthogonal to $e_1,\dots,e_\varrho$ and has product $\det Z$ with $z$; hence it has no part along the $e^*_a$, its $z$-coordinate is $-\det Z/N$, and, $\gamma$ being an isometry, at each infinite place
+\[
+  N\cdot\norm{t_{X_0}}^2=\abs{\det Z}^2-N^2\abs{D_\varrho}^2,
+\]
+the image of $\mathfrak g(\gamma)$. Hence $\mathfrak g(\gamma)$ is real and nonnegative at every infinite place, and it is totally positive unless it vanishes (if $\det Z=0$, the same identity gives $-N^2\abs{D_\varrho}^2\ge0$, so $\mathfrak g=0$). Integrality: the Gram matrix of
+$h_c^{-1}\gamma h_{c'}$ in the lattice basis is that of $\gamma$, the frame belongs to the lattice basis, and $h_c^{-1}\gamma h_{c'}$ is integral. For a near term, at an infinite place $w$ the entry $(i,j)$ of $Z(\gamma_w)$ is $\kappa_w^{(\varrho-i)+(\varrho-j)}/N$ times that of $Z(\gamma)$, and
+it is at most the product of the norms of the frame vectors of $y$ and $\gamma^{-1}y$ (\cref{lem:frame-vectors}(b)), both at most $b^{37n}$; with $1\le\abs{\kappa_w}$ and $N\le b^{60n}$ this gives $b^{134n}$.
+
+(c) The cell rank is \cref{lem:common-vectors}(c). Let $j$ be the cell rank and $I_\gamma=A\cap\gamma A$. The common vectors with coefficients $(\zeta,1)$ at the indices $a\ge j$, minus their parts in $A_{\le j}$, lie in $I_\gamma$, and they are independent modulo $A_{\le j}$; hence $\dim I_\gamma\ge\varrho-j$, and
+$D_j\ne0$ makes $A_{\le j}\cap I_\gamma=0$, so $A=A_{\le j}\oplus I_\gamma$, and likewise for $\gamma A$. For the isometry: the map $y\mapsto y_0$ from $(A^+_\gamma)^\perp$ to $X_0$ has kernel $I_\gamma$, sends the form of the whole space to the standard form of $X_0$ (the $z$-part of $y$ vanishes),
+and has image $X_0^\gamma=X_0\cap\Upsilon_\gamma^{-1}X_0$: every $v\in X_0$ is the $X_0$-part of some $y$ orthogonal to $A$ and $\gamma A$ with $\lambda=0$, and the coefficient of $\Upsilon_\gamma v$ at $z^+$ is $\lambda'$. Here $\lambda=\bar\zeta\lambda'$ for every such $y$, because the pair $(\zeta,1)$ occurs at the
+last index; with $\lambda=0$ this forces $\lambda'=0$, so $X_0^\gamma=X_0$ when $\mathfrak g(\gamma)=0$. A dimension count then gives $j+\dim I_\gamma=\varrho$.
+
+(d) For a stable set of terms none of which agrees, compute the block with a weight adapted to the stabilisers of the cosets $\gamma\,U_{c'}(M)$ (\cref{prop:blocks}(b)): the term of each $\gamma$ is a multiple of the integral of the kernel against a cutoff for the stabiliser
+$\Gamma$ of the coset. The kernel is invariant under $\Gamma$, so this is its integral over the quotient by $\Gamma$; and some $u\in\Gamma$ twists the kernel by the scalar $\psi_U(u)^{-1}\psi_U(u')\ne1$ (by (b) of \cref{lem:unipotent-character}), so the integral vanishes. The rest is
+\cref{lem:meeting-places}.
+\end{proof}
+
+\subsection{The Bessel subgroup and its neighbourhood}\label{ss:near-bessel}
+For $s\in\bar G$ let $r_\psi(s)$ be the operator on the source whose blocks are the conjugates of the amplitude sums of the terms in the Bessel subgroup, divided by $\nu$. For $s$ in the reduction
+$\bar R_0$ of the Bessel subgroup it is the translation by $s$ twisted by the character, unitary, with $r_\psi(1)=1$ and $r_\psi(st)=r_\psi(s)r_\psi(t)$; it vanishes off $\bar R_0$. A set $\Omega\subseteq\bar G$
+\emph{avoids the scalar cosets} if it meets no coset $\zeta\bar R_0$ for an integral $\zeta\ne1$ with $\zeta\bar\zeta=1$ (a root of unity, by Kronecker's theorem). Let $\psi_U^\natural$ be the mean of the
+character $\psi_U$ of the integral unipotent elements, read in $\bar G$ and extended by $0$, over the conjugacy class.
+\lean{New.Filling.besselTranslate, New.Filling.besselTranslate_eq_zero, New.Filling.besselTranslate_apply, New.Filling.besselTranslate_one, New.Filling.besselTranslate_mul, New.Filling.besselTranslate_mul_left, New.Filling.adjoint_besselTranslate, New.Filling.hilbertSchmidtNorm_besselTranslate_comp, New.Filling.trace_besselTranslate, New.Filling.AvoidsScalarCosets, New.scalarIsometry, New.Filling.reducedChar, New.Filling.reducedCharMean, New.Filling.reducedCharMean_conj, New.Filling.trace_besselTranslate_eq_mul_reducedChar, New.Filling.amplitudeSum_besselS_apply, New.Filling.amplitudeSum_besselS_inv, New.Filling.amplitudeSum_besselS_eq_zero, New.Filling.isStable_compl_besselS, New.Filling.exists_besselS_mem_termsOver, New.mem_besselS_of_pairOccursAt, New.Filling.exists_scalar_mul_besselS}
+
+\begin{lemma}[The twisted translation]\label{lem:bessel-translate}
+Let the data be admissible and $E$ contain a primitive $5040$th root of unity, and let $P$ have amplitude blocks for a representation $\rho$ of $\bar G$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item An element $\gamma$ of $R(E)$ acts on the values of the Bessel function by a unitary matrix $M_\gamma$: $W(\gamma_\infty y)=M_\gamma W(y)$, with $M_\gamma$ a scalar of modulus one times a tensor product of the local representations. If $\gamma$ is a term over $(c,s,c')$, the block of
+the Bessel subgroup over $(c,s,c')$ is $\nu M_\gamma$, and that over $(c,s,d)$ vanishes for $d\ne c'$; the block over $(d,s^{-1},c)$ is its adjoint.
+\item $r_\psi(s)=0$ for $s\notin\bar R_0$; for $s\in\bar R_0$, $(r_\psi(s)\phi)_c=\overline{M_\gamma}\,\phi_{c'}$ for any term $\gamma\in R(E)$ over $(c,s,c')$, which exists for every $c$ (\cref{lem:unipotent-character}(d)). Hence $r_\psi(1)=1$, $r_\psi(st)=r_\psi(s)r_\psi(t)$, $r_\psi(ts)=r_\psi(t)r_\psi(s)$ for
+$t\in\bar R_0$, $s\in\bar G$, and $r_\psi(s)^*=r_\psi(s^{-1})$.
+\item For $t\in\bar R_0$: $P^*\rho(st)P=(P^*\rho(s)P)\,r_\psi(t)$, $\rho(t)P=P\,r_\psi(t)$ when $\rho$ is unitary, and $P^*\rho(ts)P=r_\psi(t)\,P^*\rho(s)P$.
+\item $\norm{P^*\rho(s)P-r_\psi(s)}^2$ is the second moment at $s$ of the terms off the Bessel subgroup, and $\operatorname{tr}r_\psi(s)=D_X\psi_U(s)$ when $s$ is $1$ above one of the primes.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Write $\gamma=u\eta$ with $u\in U(E)$ and $\eta_v$ acting on $X_0$ by $k_v\in\U(\kappa)$; left translation multiplies the Bessel function by $\otimes_v\pi_v(k_v)$ divided by $\psi_U(u)$ (\cref{lem:unipotent-character}(b)). Translation by $\gamma$ moves the block $(c',1,d)$ of
+the Bessel subgroup to $(c,s,d)$ and acts on the kernel by $M_\gamma\otimes1$; the block $(c',1,d)$ is $\nu\,\delta_{c'd}$ times the identity (\cref{prop:blocks}(d)). The block at $(d,s^{-1},c)$ uses the inverse term, and the kernel of $\gamma^{-1}$ is the adjoint.
+(b) If $\gamma$ is over $(c,s,c')$ and $\delta$ over $(c',t,c'')$, then $\gamma\delta$ is over $(c,st,c'')$ and $M_{\gamma\delta}=M_\gamma M_\delta$; the adjoint is (a). (c) A term $\delta$ of the Bessel subgroup over $(d,t^{-1},d')$ gives the column $(d,j)$ of $r_\psi(t)$; the blocks of all terms
+transform in the same way under right translation by $\delta$, because the set of all terms is stable (\cref{prop:blocks}(b), moving blocks). This gives the first identity; the second follows because the difference $\rho(t)P-Pr_\psi(t)$ is orthogonal to all translates of the image
+of $P$, hence to itself; the third is the adjoint of the second applied to $t^{-1}$. (d) The blocks of $P^*\rho(s)P-r_\psi(s)$ are the amplitude sums of the terms off the Bessel subgroup. For the trace, the diagonal blocks of the Bessel subgroup at $s$ that is $1$ above one
+prime come from the unipotent terms over $(c,s,c)$, whose kernels are $\psi_U^{-1}$ times the identity.
+\end{proof}
+
+\begin{lemma}[Scalar cosets]\label{lem:scalar-cosets}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If a term $\gamma$ over $(c,s,c')$ has a norm-one pair occurring from $0$, then $\gamma\in\zeta R(E)$ and $s\in\zeta\bar R_0$ for an integral $\zeta$ with $\zeta\bar\zeta=1$; if a common vector with coefficients $1$, $1$ occurs at every index, $\gamma\in R(E)$.
+\item An integral $\zeta$ with $\zeta\bar\zeta=1$ that is $1$ modulo every chosen place above one prime is $1$. The elements of a scalar coset $\zeta\bar R_0$ are not open, and there are at most $M^f\#\bar R_0$ of them in all scalar cosets.
+\item The set of $s$ that coincide with an element of $\bar R_0$ above $p_i$ avoids the scalar cosets, and each such $s$ meets at the $f$ chosen places above $p_i$ and their conjugates.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) At the index $0$ the common vector gives $\gamma e_1=\zeta e_1$, so $\zeta$ is the diagonal entry of $\gamma$ at $e_1$, an entry of the integral matrix $h_c^{-1}\gamma h_{c'}$. Then $\zeta^{-1}\gamma$ has common vectors with coefficients $1$, $1$ at every index; by induction $\zeta^{-1}\gamma e_b$ is
+$e_b$ plus earlier frame vectors, so $\zeta^{-1}\gamma$ lies in $R$, and the scalar $\zeta$ is an element of the lattice stabiliser whose reduction is the residue of $\zeta$. (b) View $\zeta$ as an isometry of the standard lattice of rank one and apply the freeness of
+\cref{lem:unipotent-character}(e). An element of $\bar R_0$ fixes $e_1$ modulo every chosen place, so for $s\in\zeta\bar R_0$ the frame vector $e_1$ is mapped to a multiple of itself, and the leading minors of positive size of the frame Gram matrix vanish ($e_1$ is
+orthogonal to the frame). An element $\zeta t$ is determined by the residues of $\zeta$ at the chosen places and by $t$. (c) Such an $s$ fixes $e_1$ above $p_i$, so $\zeta\equiv1$ there and $\zeta=1$ by (b); and $e_1$ is a common vector.
+\end{proof}
+
+\begin{theorem}[Near the Bessel subgroup]\label{thm:near-bessel}
+Let the data be admissible and $E$ contain a primitive $5040$th root of unity.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Expansion of the squares.) If $\Omega$ avoids the scalar cosets and the link second moment of the terms with $\mathfrak g\ne0$ over $\Omega$ is at most $C\nu^2$, then
+$\bigl(\sum_{s\in\Omega}\norm{P_s-r_\psi(s)}^2\bigr)^{1/2}\le C^{1/2}+b^{-15}\mathcal D_{\rm id}^{1/2}$.
+\item For $\Omega$ the set of $s$ that coincide with an element of $\bar R_0$ above $p_i$, $\sum_{s\in\Omega}\norm{P_s-r_\psi(s)}^2\le b^{-12}\mathcal D_{\rm id}$.
+\item (Near isometry.) $\norm{P^*P-1}^2\le b^{-12}D_X$.
+\item (Induced character.) $\sum_{s\in\bar G}\abs{\psi_U^\natural(s)}^2\le2$; for a central idempotent $x$ of the factor above $p_i$ with $\re x(1)\le b^{-8}/2$, $\re\operatorname{tr}r_\psi(x)\le b^{-4}D_X$ and
+$\norm{xP}^2\le2b^{-4}D_X$.
+\item For $e_0=g_0\otimes g_1$ with central idempotents $g_i$ such that $\re(1-g_i)(1)\le b^{-8}/2$: $\norm{(1-e_0)P}^2\le4b^{-4}D_X$, and $e_0P$ is a near isometry with error $5b^{-4}$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Filling.sqrt_secondMoment_compl_besselS_le, New.Filling.secondMoment_compl_besselS_le, New.Filling.HasAmplitudeBlocks.sum_hilbertSchmidtNorm_sub_besselTranslate_sq_le, New.Filling.HasAmplitudeBlocks.hilbertSchmidtNorm_sub_one_sq_le, New.Filling.sum_norm_reducedCharMean_sq_le, New.Filling.re_sum_coeff_mul_trace_besselTranslate_le, New.Filling.HasAmplitudeBlocks.hilbertSchmidtNorm_asAlgebraHom_comp_sq_le, New.Filling.HasAmplitudeBlocks.hilbertSchmidtNorm_one_sub_piTensorElem_comp_sq_le, New.Filling.HasAmplitudeBlocks.isNearIsometry_piTensorElem_comp, New.Filling.HasAmplitudeBlocks.hilbertSchmidtNorm_sum_smul_sub_besselTranslate_sq_le, New.Filling.HasAmplitudeBlocks.hilbertSchmidtNorm_sub_besselTranslate_sq, New.Filling.HasAmplitudeBlocks.rep_comp_eq_comp_besselTranslate, New.Filling.HasAmplitudeBlocks.adjoint_comp_rep_mul_right, New.Filling.HasAmplitudeBlocks.adjoint_comp_rep_mul_left, New.Filling.HasAmplitudeBlocks.hilbertSchmidtNorm_adjoint_comp_sq_le, New.Filling.AvoidsScalarCosets.amplitudeSum_compl_besselS_eq, New.Filling.AvoidsScalarCosets.not_normOnePairOccursFrom_zero, New.Filling.avoidsScalarCosets_setOf_exists_apply_eq, New.Filling.M_div_b_le_levelPrime_sq, New.Filling.prod_levelPrime_le_meetNorm_of_eq, New.Filling.sum_norm_sq_coeff_of_isCentralProj, New.Filling.integral_extendedBesselChar_conj_eq, New.Filling.sum_sq_norm_integral_extendedBesselChar_conjugate_le, New.Filling.extendedBesselChar_toPlaces_eq_reducedChar, New.Filling.mem_besselU_of_reduction_eq_one, New.Filling.inv_ideleM_mem_integralOff, New.Filling.finrank_source_eq_sourceDim, New.Filling.hilbertSchmidtNorm_one_sq_eq_sourceDim, New.Filling.le_sourceDim_div_of_card_nsmul_le, New.IsCentralProj.isSymmetricProjection}
+
+\begin{proof}
+(a) By \cref{lem:bessel-translate}(d) the left side is the square root of the second moment over $\Omega$ of the terms off $R$. Over $s\in\Omega$ these have the same blocks as the remaining terms $\Gamma^*$ of \cref{sec:remaining}: the terms off $R$ and off $\Gamma^*$ that do
+not agree form a stable set with vanishing blocks (\cref{prop:links}(d)), and one that agrees, with $\mathfrak g=0$ and $A=\gamma A$, has a norm-one pair from $0$ by \cref{prop:links}(c) and so lies over no block at $s\in\Omega$ (\cref{lem:scalar-cosets}(a)). Split the second moment of
+$\Gamma^*$ into the pairs of terms with the same link, which give the link second moment for the cut function, at most $C\nu^2$, and the pairs with different links or with $\mathfrak g=0$, at most $b^{-kf}\mathcal D_{\rm id}\nu^2$ by \cref{thm:remaining}. Passing from the cut to the full
+function costs $b^{-20}\mathcal D_{\rm id}^{1/2}$ in the square root, by \cref{prop:blocks}(b); and $\sqrt{x+y}\le\sqrt x+\sqrt y$.
+
+(b) Every $s\in\Omega$ meets at the $f$ chosen places above $p_i$ and at their conjugates (\cref{lem:scalar-cosets}(c)), so $\mathrm{mn}(s)\ge p_i^{2f}\ge(M/b)^f$, since each level prime is at most $b$ times the other. The link second moment over $\Omega$ is then at most
+$(b^{2f}/\mathrm{mn})^k\mathcal D_{\rm main}\nu^2$ by \cref{thm:remaining}(c), and with $m=kf$ and $\mathcal D_{\rm main}\le(M/b^6)^m\mathcal D_{\rm id}$ this is at most $(b^3/M)^m(M/b^6)^m\mathcal D_{\rm id}=b^{-3m}\mathcal D_{\rm id}\le b^{-30}\mathcal D_{\rm id}$. Since $\Omega$ avoids the scalar cosets, (a) gives the bound.
+
+(c) For $s\in\bar R_0$, $P_s-r_\psi(s)=(P^*P-1)r_\psi(s)$ by \cref{lem:bessel-translate}(c), which has the norm of $P^*P-1$ because $r_\psi(s)$ is unitary. Summing (b) over $s\in\bar R_0$, which lies in $\Omega$, gives $\#\bar R_0\norm{P^*P-1}^2\le b^{-12}\mathcal D_{\rm id}=b^{-12}\#\bar R_0D_X$.
+
+(d) \emph{The induced character.} Let $T$ be the set of the chosen places and their conjugates, $K_T$ and $K_T(M)$ the integral points and the principal congruence subgroup of level $M$ at $T$, and $\chi_M$ the function equal to $\psi(\sigma(u)/M)$ on $uK_T(M)$, $u\in U$, and $0$ off $UK_T(M)$.
+For $l$ in the lattice stabiliser, $\chi_M(l_T)$ is $\psi_U$ at the reduction of $l$, and $a(z)=\int_{K_T}\chi_M(yzy^{-1})\,dy$ is $\vol(K_T)$ times $\psi^\natural_U$ at the reduction of $z$ (translate $y$ by lifts of the elements of $\bar G$ and sum). The function $a$ is constant on the
+cosets $\sigma(s)K_T(M)$ of lifts $\sigma(s)$ of the $s\in\bar G$, which are disjoint, so $\sum_s\abs{a(\sigma(s))}^2$ is at most $\int\abs a^2/\vol K_T(M)$. The completions at $T$ carry a large lattice datum of modulus $M$, with $3\varrho+6$ hyperbolic pairs and $k-(6\varrho+13)$
+orthonormal vectors, and the mass bound at the finite places (\cref{thm:finite-mass} with $Q=2$) bounds this integral by $2\vol(K_T)^2$. Dividing by $\vol(K_T)^2$ gives $\sum\abs{\psi^\natural_U}^2\le2$.
+
+\emph{The trace.} For a central idempotent $x$ of the factor above $p_i$, each $s$ in its support is $1$ above the other prime, so $\operatorname{tr}r_\psi(x)=D_X\sum_sx(s)\psi_U(s)=D_X\sum_sx(s)\psi^\natural_U(s)$ ($x$ is a class function). By Cauchy--Schwarz, with $\sum_s\abs{x(s)}^2=\re x(1)\le b^{-8}/2$ (compare the
+coefficients of $1$ in $x^2=x$, using $x(s^{-1})=\overline{x(s)}$), $\re\operatorname{tr}r_\psi(x)\le D_X(b^{-8}/2\cdot2)^{1/2}=b^{-4}D_X$.
+
+\emph{One prime.} $x$ acts through $\rho$ as an orthogonal projection, so
+\[
+  \norm{xP}^2=\operatorname{tr}(P^*xP)=\operatorname{tr}r_\psi(x)+\operatorname{tr}P'_x,\qquad P'_x=\sum_tx(t)\bigl(P_t-r_\psi(t)\bigr).
+\] The map $F\mapsto\sum_tx(t)F(\cdot\,t)$ is a contraction on functions on the group; applied to $P_s-r_\psi(s)$ cut down to
+$\Omega=\bar R_0G_i$, whose value at $s\in\bar R_0$ is $r_\psi(s)P'_x$ of norm $\norm{P'_x}$, it gives $\#\bar R_0\norm{P'_x}^2\le\sum_{s\in\Omega}\norm{P_s-r_\psi(s)}^2\le b^{-12}\mathcal D_{\rm id}$ by (b). Hence $\abs{\operatorname{tr}P'_x}\le\norm1\norm{P'_x}\le D_X^{1/2}(b^{-12}D_X)^{1/2}=b^{-6}D_X$, and $\norm{xP}^2\le2b^{-4}D_X$.
+
+(e) $1-e_0=(1-g_0)+g_0(1-g_1)$ with orthogonal ranges, so $\norm{(1-e_0)P}^2\le\norm{(1-g_0)P}^2+\norm{(1-g_1)P}^2\le4b^{-4}D_X$ by (d) for the central idempotents $1-g_i$. By (c) and \cref{lem:near-isometry}(a), $P$ is a near isometry with error $b^{-6}$, and by
+\cref{lem:near-isometry}(b) $e_0P$ is one with error $b^{-6}+4b^{-4}\le5b^{-4}$.
+\end{proof}
+
+\subsection{The filling theorem}\label{ss:filling-theorem}
+
+\begin{theorem}[Filling theorem]\label{thm:filling}
+Let $E$ carry Weil data and the filling data be admissible. Let $\rho$ be a unitary representation of $\bar G$ and $P$ a linear map from the source whose blocks are the amplitude sums
+(\cref{thm:unfolding}(e)). Then
+\[
+  \sum_{s\in\bar G}\norm{P^*\rho(s)P}^2\le(1+9b^{-4})\,\mathcal D_{\rm main},
+\]
+$\norm{P^*P-1}^2\le b^{-12}D_X$, and for central idempotents $g_i$ as in \cref{thm:near-bessel}(e), $e_0P$ is a near isometry with error $5b^{-4}$.
+\end{theorem}
+\lean{New.Filling.HasAmplitudeBlocks.sum_hilbertSchmidtNorm_sq_le, New.Filling.sum_secondMoment_le, New.Filling.secondMoment_singleton, New.Filling.secondMoment_eq_sum_secondMoment_singleton, New.Filling.secondMoment_univ_eq_secondMoment_compl_besselS, New.Filling.card_inScalarCoset_le, New.Filling.pow_mul_identitySecondMoment_le_mul_mainSecondMoment, New.Filling.levelPrime_pow_le_meetNorm_of_mem_fixer, New.Filling.sum_secondMoment_inScalarCoset_le, New.Filling.eight_mul_M_pow_mul_identitySecondMoment_le, New.Filling.div_levelPrime_pow_mul_mainSecondMoment_le, New.Filling.secondMoment_fixer_univ_le, New.Filling.secondMoment_fixer_isOpenElement_le, New.Filling.levelPrime_pow_mul_sqrt_le, New.Filling.sum_leadingMinor_eq_zero_le, New.Filling.sum_not_isOpenElement_le, New.Filling.le_one_add_nine_mul_of_le_add}
+
+The proof uses the following bounds.
+
+\begin{lemma}[Fixers]\label{lem:fixers}
+Let $\beta(s)=\norm{P^*\rho(s)P}^2$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\beta$ is of positive type, so $\beta(s)\le\beta(1)\le2D_X$.
+\item If $\#S_g=f$, then $\sum_{s\in\mathrm{fixer}(S_g,d)}\beta(s)\le b^{-6kf}\mathcal D_{\rm main}$.
+\item Over the open elements of $\mathrm{fixer}(S_g,d)$, $\sum\beta(s)\le(1+4b^{-4})b^{-6k\#S_g}\mathcal D_{\rm main}$.
+\item Let $\Gamma$ be a subgroup and $w$ a chosen place above $p_0$ such that the stabiliser in $\Gamma$ of every nonzero vector of the span of the frame modulo $w$ or $\bar w$ carries at most a share $b^{-6k}$ of $\sum_\Gamma\beta$. Then the elements of $\Gamma$ that are not open carry
+at most a share $b^{-4}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By the computation in the proof of \cref{thm:one-translate}, $\beta(a^{-1}b)=\langle u_a,u_b\rangle$ with $u_a=aPP^*a^{-1}$ in the Hilbert--Schmidt space, and a real function of positive type is largest at $1$ by Cauchy--Schwarz. By \cref{thm:near-bessel}(c),
+$\norm{P^*P}\le\norm{P^*P-1}+\norm1\le(1+b^{-6})D_X^{1/2}$, so $\beta(1)\le2D_X$.
+
+(b) Every $s$ in the fixer meets at all $f$ places above $p_0$, so $\mathrm{mn}(s)\ge p_0^f$. The scalar cosets of $\bar R_0$ contain at most $M^f\#\bar R_0$ elements (\cref{lem:scalar-cosets}(b)), each with $\beta\le2D_X$, which is at most $2M^f\mathcal D_{\rm id}\le\frac14b^{-6kf}\mathcal D_{\rm main}$
+because $8M^f\le b\,b^{23f}$, $23f+1\le5kf$ and $b^{11kf}\mathcal D_{\rm id}\le\mathcal D_{\rm main}$. Off the scalar cosets the expansion of the squares (\cref{thm:near-bessel}(a)) applies with the link second moment of \cref{thm:remaining}(c) for $z=p_0^f$,
+$(b^{2f}/p_0^f)^k\mathcal D_{\rm main}\le\frac18b^{-6kf}\mathcal D_{\rm main}$ as $b^{10}\le p_0$; with $b^{-15}\mathcal D_{\rm id}^{1/2}$ small, and the contribution $\norm{r_\psi(s)}^2=0$ off $\bar R_0$, the total is at most $b^{-6kf}\mathcal D_{\rm main}$.
+
+(c) No open element lies in a scalar coset (\cref{lem:scalar-cosets}(b)), so the expansion of the squares applies with the link second moment of the main term (\cref{thm:main-term}), $C=(1+b^{-4})b^{-6k\#S_g}\mathcal D_{\rm main}$; with $x=b^{-4}$, $(1+x)^{1/2}\le1+x/2$ and
+$b^{-15}\mathcal D_{\rm id}^{1/2}\le\frac x2C^{1/2}$, which follows from $b^{5kf}\mathcal D_{\rm id}\le b^{-6k\#S_g}\mathcal D_{\rm main}$, the square of the bound is at most $(1+4x)b^{-6k\#S_g}\mathcal D_{\rm main}$.
+
+(d) Let $l<n$ and $\delta_l$ the leading minor of size $l$ of the frame Gram matrix at $w$; it is the determinant of the pairings of the first $l$ frame vectors with their images, ${}^t(Je)\,s\,e$ with $e$ the first $l$ frame vectors. Apply \cref{lem:singular-minors} to $\Gamma$ acting on the lattice
+modulo $w$, a field with $p_0$ elements, with $A_0=e$, $A_1=Je$ and $\Theta=\beta$: the stabiliser of a vector $A_0v$ under $s$, and that of the form $A_1v$ under the contragredient, fix a nonzero vector of the span of the frame modulo $w$ or $\bar w$, so their masses are at most
+$Y=b^{-6k}\sum_\Gamma\beta$. Hence $p_0\sum_{\delta_l=0}\beta\le2\sum_\Gamma\beta+p_0^{l+r/2}Y$, and $p_0^{l+r/2}\le b^{6k}$ (square, and use $p_0\le b^{11}$, $r=k+2n-1$ and $2000n\le k$) gives a share at most $3b^{-10}$. Summing over the $n$ minors, $3n\le3b\le b^6$, the elements that are not
+open carry at most $b^{-4}$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:filling}]
+A \emph{choice} is a set $S_g$ of chosen places above $p_0$ with, at each $w$, a nonzero vector $d_w$ of the span of the frame modulo $w$ or modulo $\bar w$; its \emph{mass} is $\mu(S_g,d)=\sum_{s\in\mathrm{fixer}(S_g,d)}\beta(s)$. Choose $(S_g,d)$ maximising $b^{6k\#S_g}\mu(S_g,d)$. Since the
+fixer of the empty choice is $\bar G$, it suffices to show $\mu(S_g,d)\le(1+9b^{-4})b^{-6k\#S_g}\mathcal D_{\rm main}$.
+
+If $S_g$ consists of all $f$ places, this is \cref{lem:fixers}(b). Otherwise take $w\notin S_g$. For every vector $d'$ at $w$, the stabiliser of $d'$ in the fixer is the fixer of $(S_g\cup\{w\},d\cup\{d'\})$, so by maximality it carries at most a share $b^{-6k}$ of $\mu(S_g,d)$. By
+\cref{lem:fixers}(d) the elements of the fixer that are not open carry at most $x\mu$, $x=b^{-4}$, and by \cref{lem:fixers}(c) the open elements contribute at most $(1+4x)C$ with $C=b^{-6k\#S_g}\mathcal D_{\rm main}$. Hence $\mu\le(1+4x)C+x\mu$, and since $0\le x\le1/10$,
+$(1-x)(1+9x)-(1+4x)=x(4-9x)\ge0$ gives $\mu\le(1+9x)C$. The other two statements are \cref{thm:near-bessel}(c),(e).
+\end{proof}

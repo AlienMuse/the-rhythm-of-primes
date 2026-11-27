@@ -1,0 +1,316 @@
+\section{The theta function of a CM curve at a non-split prime}\label{sec:one-curve}
+
+The divisibility of the derivatives of theta functions of hermitian spaces over $E$ is reduced, in
+\cref{sec:normal-form}, to the behaviour of one theta function of one elliptic curve with complex
+multiplication by $\OO_K$, read in $\Cp$. This section treats that curve. Its main result,
+\cref{thm:exponent}, writes $\theta(\varpi z)$, for a suitable $\varpi$ of positive valuation, as an
+integral series times the exponential of a large multiple of an explicit series, the exponent.
+
+\subsection{Conventions at a prime}\label{ss:conventions-prime}
+Fix a prime $p$ and a ring homomorphism $\iota_p\colon\C\to\Cp$ (a \emph{$p$-adic place} of $\C$);
+complex numbers are read in $\Cp$ through $\iota_p$, usually without notation. Let $v$ be the
+valuation of $\Cp$ with $v(p)=1$, so that $\abs x=p^{-v(x)}$, let $\OO$ be its valuation ring and
+$\mathfrak m$ the maximal ideal. A power series over $\Cp$ is \emph{integral} if its coefficients lie
+in $\OO$, and \emph{integral in degree $n$} if its coefficients of total degree $n$ do. For a series
+$G$ without constant term, $\exp G$ is the exponential series evaluated at $G$.
+
+\begin{definition}\label{def:prime-notation}
+For a prime $p$ put $q_p=p^2$ if $\chiK(p)=-1$ and $q_p=p$ otherwise, and $\pi_p=\sqrt{-d}$ if $p=d$,
+$\pi_p=p$ otherwise. Let $v(\pi_p)$ be $1/2$ if $p=d$ and $1$ otherwise, and
+\[
+  \rho_p=\frac{v(\pi_p)}{q_p-1},\qquad \gamma_p=\frac1{p-1}-\rho_p .
+\]
+The set $I_p^\circ$ of \emph{partner exponents} is the set of odd integers $e\ge1$ if $\chiK(p)=-1$,
+the set of all $e\ge0$ if $p=d$, and empty if $\chiK(p)=1$; $I_p=I_p^\circ\setminus\{0\}$. The prime
+$p$ is \emph{non-split} if $\chiK(p)\ne1$.
+\end{definition}
+\lean{New.primeNorm, New.piPrime, New.piPrimeValuation, New.varpiValuation, New.gammaPrime, New.partnerExponents, New.positivePartnerExponents, New.piPrimeInt}
+
+\begin{lemma}\label{lem:prime-notation}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\rho_p$ is $1/(p-1)$, $1/(p^2-1)$, $1/(2p-2)$ and $\gamma_p$ is $0$, $p/(p^2-1)$, $1/(2p-2)$ for
+$p$ split, inert, ramified in $K$; in all cases $0\le\gamma_p\le1/(p-1)$ and
+\[
+  \gamma_p=v(\pi_p)\sum_{e\in I_p}p^{-e}.
+\]
+\item For non-split $p$: $p\ge13$, $\pi_p\bar\pi_p=q_p$, $\abs{\pi_p}=p^{-v(\pi_p)}=
+\bigl(p^{-\rho_p}\bigr)^{q_p-1}$, $\pi_p\mid p$ in $\OO$, and $\abs{\pi_p}\le\abs n$ for $0<n<q_p$.
+\end{enumerate}
+\end{lemma}
+\lean{New.varpiValuation_of_split, New.varpiValuation_of_inert, New.varpiValuation_self, New.gammaPrime_of_split, New.gammaPrime_of_inert, New.gammaPrime_self, New.gammaPrime_nonneg, New.gammaPrime_le_one_div, New.hasSum_gammaPrime, New.piPrime_mul_conj, New.norm_piPrime, New.norm_piPrime_eq_rpow_pow, New.piPrimeInt_dvd_natCast, New.norm_piPrime_le_norm_natCast, New.Parameters.thirteen_le_of_chiK_ne_one}
+
+\begin{proof}
+(a) If $p$ splits, $q_p=p$ and $v(\pi_p)=1$, so $\rho_p=1/(p-1)$, $\gamma_p=0$, and $I_p$ is empty. If $p$ is inert, $q_p=p^2$ and $v(\pi_p)=1$, so $\rho_p=1/(p^2-1)$ and $\gamma_p=1/(p-1)-1/(p^2-1)=p/(p^2-1)=\sum_{e\text{ odd}}p^{-e}$. If $p=d$, $q_p=p$ and $v(\pi_p)=1/2$, so $\rho_p=1/(2p-2)$ and $\gamma_p=1/(2p-2)=\frac12\sum_{e\ge1}p^{-e}$, the sum over $I_p$. In all cases $0\le\gamma_p\le1/(p-1)$.
+ (b) $p\ge13$ is \cref{lem:split-primes}. If $p$ is inert, $\pi_p\bar\pi_p=p^2$; if $p=d$,
+$\sqrt{-d}\cdot\overline{\sqrt{-d}}=d$. For $0<n<q_p$ we have $v(n)\le1$ if $q_p=p^2$ and $v(n)=0$ if
+$q_p=p$, and $v(n)\le v(\pi_p)$ in both cases except when $p=d$ and $p\mid n$, which cannot happen for
+$n<p$.
+\end{proof}
+
+\subsection{The curve and its functions}\label{ss:cm-curve}
+A \emph{CM lattice} for $d$ is a lattice $\Lambda\subset\C$ stable under multiplication by $\OO_K$,
+with a point $t$ of order two modulo $\Lambda$ such that neither $\beta t$ nor $\bar\beta t$ lies in
+$\Lambda$, scaled so that $\wp''(t)=2$, together with a square root $a_1$ of $12\wp(t)$. Let $A$ be
+the area of a fundamental parallelogram and $H(l,z)=\pi\bar lz/A$. The sigma function $\sigma$ of
+$\Lambda$ is the odd theta function for $(H,\chi_\sigma)$ with $\sigma'(0)=1$, where
+$\chi_\sigma(l)=1$ if $l/2\in\Lambda$ and $-1$ otherwise. The \emph{theta function} $\theta$ of the
+lattice is the twisted translate of $\sigma$ by $t$, normalised by $\theta(0)=1$:
+\[
+  \theta(z)=\frac{\exp\bigl(-\pi(z\bar t+\abs t^2/2)/A\bigr)\sigma(z+t)}
+  {\exp\bigl(-\pi\abs t^2/(2A)\bigr)\sigma(t)} .
+\]
+It is even, a theta function for $(H,\chi)$ for a multiplier $\chi$ of modulus one, and its zeros
+are the points of $t+\Lambda$, all simple. Put
+\[
+  x(z)=\wp(z+t)-\wp(t),\qquad y(z)=\tfrac12\bigl(\wp'(z+t)-a_1x(z)\bigr),\qquad g=-\log\theta ,
+\]
+the last one as a power series at $0$ with $g(0)=0$. More generally, the \emph{twisted translate}
+of a function $h$ by $u\in\C$ in degree $m$ is
+\[
+  (T^m_uh)(z)=\exp\bigl(-m\pi(z\bar u+\abs u^2/2)/A\bigr)h(z+u),
+\]
+and a \emph{section of degree $m$} is an entire function $h$ with $T^m_lh=\chi(l)^mh$ for $l\in\Lambda$.
+\lean{New.CMLattice, New.CMLattice.θ, New.CMLattice.translatedX, New.CMLattice.translatedY, New.CMLattice.negLogTheta, New.CMLattice.twistedTranslate, New.CMLattice.sections, New.CMLattice.multiplier}
+
+The following facts are classical; their proofs are recalled in \cref{ss:B-cm}.
+
+\begin{theorem}[Background on the curve]\label{thm:cm-background}
+Let $C$ be a CM lattice for $d$.
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item\label{it:cm-weierstrass} The point $(x,y)$ lies on the cubic $y^2+a_1xy=x^3+x$; moreover
+$x'=2y+a_1x$, $y'=1+3x^2-a_1y$, $x'^2=4x^3+a_1^2x^2+4x$ and $x''=6x^2+a_1^2x+2$. As power series,
+$x=z^2+O(z^4)$, $y=z+O(z^2)$, and $g''=g''(0)+x$; in particular $g$ is even and $g(z)=g_2z^2+O(z^4)$.
+\item\label{it:cm-sections} For $a\in\OO_K\setminus\{0\}$, $z\mapsto\theta(az)$ is a section of degree
+$a\bar a$. The monomials $\theta^{r}\sigma^{2t'}G^{u}$ with $u\le1$ and $r+2t'+3u=m$ span the sections
+of degree $m$, where $G$ is the entire function equal to $y\theta^3$ away from the poles of $y$. If
+$\delta\in\OO_K\setminus\{0\}$ and $\delta u\in\Lambda$, then $z\mapsto(T^1_u\theta)(\bar\delta z)$ is
+a section of degree $\delta\bar\delta$.
+\end{enumerate}
+Let now $p$ be a prime and $\OO[[y]]$ the ring of series $G(y)$ with $G\in\OO[[X]]$, where $y$ also
+denotes the Taylor series of $y$ at $0$ read in $\Cp$.
+\begin{enumerate}[label=\textup{(\roman*)},resume]
+\item\label{it:cm-group-law} (Integral group law.) $x\in\OO[[y]]$, and $y(z_0+z_1)$ is an integral
+series in $y(z_0)$ and $y(z_1)$.
+\item\label{it:cm-isogeny} (Integrality along isogenies.) Let $(\delta,s)\in\Cp^2$ be a limit of pairs
+$(\alpha,\alpha\bar\alpha)$ with $\alpha\in\OO_K$. Then $y(\delta z)\in\OO[[y]]$ and
+$\exp\bigl(s\,g(z)-g(\delta z)\bigr)\in\OO[[y]]$. If $\zeta^{q_p-1}=1$, then $(\zeta,\zeta^{p+1})$ is
+such a limit. Moreover $\sqrt{-d}\,g''(0)\in\OO$.
+\item\label{it:cm-formal} (The formal parameter.) Let $T$ be the part of $y$ in the degrees $\equiv1$
+modulo $q_p-1$. Then $T=z+\cdots$, $\OO[[y]]=\OO[[T]]$, and the coefficients of every element of
+$\OO[[y]]$ in degrees below $q_p$ are integral. There are $\varpi\in\Cp$ with $\abs\varpi=p^{-\rho_p}$
+and an integral series $Y$ with $T(\varpi z)=\varpi Y(z)$, $Y-Y^{q_p}\equiv z$ and
+$Y\equiv\sum_{j\ge0}z^{q_p^j}$ modulo $\pi_p$. For every $\varpi'$ with $\abs{\varpi'}\le p^{-\rho_p}$
+and every $G\in\OO[[y]]$, the series $G(\varpi'z)$ is integral.
+\end{enumerate}
+\end{theorem}
+\lean{New.CMLattice.weierstrass_equation, New.CMLattice.deriv_translatedX_sq, New.CMLattice.deriv_translatedY_eq, New.CMLattice.derivative_taylorVia_translatedX_sq, New.CMLattice.derivative_derivative_taylorVia_translatedX, New.CMLattice.derivative_derivative_negLogTheta, New.CMLattice.coeff_two_taylorVia_translatedX, New.CMLattice.coeff_one_negLogTheta, New.CMLattice.comp_mul_mem_sections, New.CMLattice.twistedTranslate_comp_mem, New.CMLattice.sections_le_span_monomialSection, New.CMLattice.translatedY_add_mem_multiSeriesRing, New.CMLattice.rescale_translatedY_mem_of_mem_normPairClosure, New.CMLattice.expSubst_sub_rescale_mem, New.mem_normPairClosure_of_pow_eq_one, New.CMLattice.norm_sqrt_mul_coeff_two_negLogTheta_le_one, New.CMLattice.formalParam, New.CMLattice.isSeriesGenerator_formalParam, New.CMLattice.norm_coeff_le_one_of_lt, New.CMLattice.exists_scaled_formalParam, New.CMLattice.rescale_mem_range_seriesToCp, New.CMLattice.exists_rescale_piPrime_formalParam_eq}
+
+\begin{proof}[Sources]
+These are classical facts on the curve with complex multiplication by $\OO_K$ attached to $C$: the equation and the
+expansions in \ref{it:cm-weierstrass} come from the Laurent series of the Weierstrass function \cite[Ch.~VI]{Silverman2009};
+\ref{it:cm-sections} is the description of theta functions with complex multiplication as sections \cite{Shimura1976};
+\ref{it:cm-group-law} is the integrality of the formal group law \cite[Ch.~IV]{Silverman2009}; and \ref{it:cm-isogeny},
+\ref{it:cm-formal} come from the theory of complex multiplication \cite[Ch.~II]{Silverman1994} and of formal groups with
+complex multiplication \cite{LubinTate1965}. All five are proved in the Lean development.
+For non-split $p$ the curve has supersingular reduction at $p$ if $p$ is inert, and additive
+reduction becoming supersingular over a ramified extension if $p=d$; \ref{it:cm-formal} is the
+statement that multiplication by $\pi_p$ on the formal group is a Lubin--Tate endomorphism of height
+two (inert $p$) or one (over the ramified extension), and $\varpi$ is a root of
+$\varpi^{q_p-1}=-\pi_p/b_1$ for the unit $b_1$ in $T(\pi_pz)=\pi_pT+b_1T^{q_p}+\cdots$.
+\end{proof}
+
+\subsection{The Frobenius congruence}\label{ss:frobenius-congruence}
+
+\begin{theorem}[Frobenius congruence]\label{thm:frobenius-congruence}
+Let $p$ be non-split and $\pi=\pi_p$, $q=q_p$. There are $H,H'\in\OO[[y]]$ with
+\[
+  \theta(\pi z)=\theta(z)^q\,(1+\pi H),\qquad q\,g(z)-g(\pi z)=\pi H' .
+\]
+\end{theorem}
+\lean{New.CMLattice.exists_rescale_theta_eq_pow_mul_aeval, New.CMLattice.norm_piPrime_mul_coeff_negLogTheta_le_one, New.CMLattice.norm_coeff_smul_negLogTheta_sub_rescale_le, New.CMLattice.exists_rescale_theta_eq_pow_mul_one_add_smul, New.CMLattice.exists_negLogTheta_frobenius_congruence, New.ne_two_of_chiK_ne_one, New.odd_primeNorm, New.norm_primeNorm, New.norm_piPrime_le_rpow, New.norm_piPrime_le_norm_mul_succ, New.norm_piPrime_le_norm_sqrt_neg}
+
+\begin{proof}
+\emph{Step 1: a polynomial in $x$.} By \cref{thm:cm-background}\ref{it:cm-sections},
+$z\mapsto\theta(\pi z)$ is a section of degree $\pi\bar\pi=q$, as is $\theta^q$. Their quotient is
+therefore an elliptic function for $\Lambda$; it is even, since $\theta$ is, and its poles lie at the
+zeros $t+\Lambda$ of $\theta$, with order at most $q$. An even elliptic function whose only poles lie
+on $t+\Lambda$ is a polynomial in $x(z)=\wp(z+t)-\wp(t)$, of degree at most half the order of the
+pole. Indeed, let $h$ be such a function with a pole of order $2D'$ at $t$ (even, as $h$ is even about the point $t$ of order two: $h(t+u)=h(-t-u)=h(t-u)$ since $2t\in\Lambda$); as $x$ has a double pole at $t$ and no other pole modulo $\Lambda$, subtracting a multiple of $x^{D'}$ lowers the order of the pole, and an even elliptic function without poles is constant. As $q$ is odd ($p\ne2$ by \cref{lem:prime-notation}(b)), the order of the pole of $\theta(\pi z)/\theta(z)^q$ at $t$, an even number at most $q$, is at most $q-1$, and we get $\theta(\pi z)=\theta(z)^qR(x(z))$
+with a polynomial $R$ over $\C$ of degree $D$, $2D<q$. The constant term of $R$ is $1$: at $z=0$, $x(0)=0$ and $\theta(0)=1$. Comparing logarithms,
+\[
+  R(x)=\exp\bigl(qg(z)-g(\pi z)\bigr).
+\]
+\emph{Step 2: the coefficients of $g$ below $q$.} Write $g=\sum_ng_nz^n$, so $g_0=g_1=0$. We claim
+$\abs{\pi g_n}\le1$ for $n<q$. For $n=2$, $\abs{\sqrt{-d}\,g''(0)}\le1$ by
+\cref{thm:cm-background}\ref{it:cm-isogeny}, $g''(0)=2g_2$ with $2$ a unit, and $\abs\pi\le
+\abs{\sqrt{-d}}$. For $3\le n<q$, comparing coefficients in $g''=g''(0)+x$ gives
+$n(n-1)g_n=x_{n-2}$, where $x_{n-2}$ is integral because $x\in\OO[[y]]$ and $n-2<q$
+(\cref{thm:cm-background}\ref{it:cm-group-law},\ref{it:cm-formal}); and one of $n$, $n-1$ is prime
+to $p$ while the other is below $q$, so $\abs{n(n-1)}\ge\abs\pi$ by \cref{lem:prime-notation}(b).
+Next, for $2\le n<q$ the coefficient $(q-\pi^n)g_n$ of $qg(z)-g(\pi z)$ satisfies
+$\abs{(q-\pi^n)g_n}\le\abs{\pi}^2\abs{\pi}^{-1}=\abs\pi$, since $v(q)=2v(\pi)$ and $v(\pi^n)\ge2v(\pi)$.
+
+\emph{Step 3: the congruence for $\theta$.} Let $G=qg-g(\pi z)$. In degrees below $q$, $G$ has
+coefficients in $\pi\OO$ and no terms of degree below two. Hence in degrees below $q$ the series
+$\exp G=\sum_kG^k/k!$ involves only $k<q/2$, and $\pi^k/k!\in\pi\OO$ for $k\ge1$ because
+$v(k!)\le(k-1)/(p-1)\le(k-1)v(\pi)$. Hence $R(x)-1$ has coefficients in $\pi\OO$ in degrees below $q$.
+Write $R(X)-1=\sum_{j\le D}r_jX^j$. The coefficient of $z^{2j}$ in $R(x)-1$ is
+$r_j+\sum_{i<j}r_i[z^{2j}]x^i$, because $x^i=z^{2i}+\cdots$; the numbers $[z^{2j}]x^i$ are integral
+as $2j<q$. By induction on $j$ every $r_j$ lies in $\pi\OO$. Then
+$H=\sum_j(r_j/\pi)x^j\in\OO[[y]]$, and $\theta(\pi z)=\theta^q(1+\pi H)$.
+
+\emph{Step 4: the logarithm.} $qg(z)-g(\pi z)=\log(1+\pi H)=\sum_{k\ge1}(-1)^{k-1}\pi^kH^k/k$, and
+$\pi^{k-1}/k\in\OO$ because $v(k)\le\log_pk\le(k-1)/2\le(k-1)v(\pi)$. The ring $\OO[[y]]=\OO[[T]]$ is
+closed under such convergent sums, so $H'=\sum_k(-1)^{k-1}\pi^{k-1}H^k/k\in\OO[[y]]$.
+\end{proof}
+
+\begin{lemma}[The supersingular coefficient]\label{lem:supersingular}
+Let $p$ be inert. The coefficient of $z^{p-1}$ in $x$ is a unit of $\OO$.
+\end{lemma}
+\lean{New.CMLattice.derivative_pow_mul_derivative_taylorVia_translatedX, New.CMLattice.norm_coeff_pow_taylorVia_translatedX_recursion_lt_one, New.CMLattice.coeff_two_mul_taylorVia_translatedX_pow, New.CMLattice.norm_coeff_pow_taylorVia_translatedX_lt_one, New.CMLattice.norm_coeff_taylorVia_translatedX_eq_one, New.lt_primeNorm_of_chiK_eq_neg_one}
+
+\begin{proof}
+Let $h_n=[z^{p-1}]x^n$; these are integral, since $x\in\OO[[y]]$ and $p-1<q_p=p^2$. From the
+identities of \cref{thm:cm-background}\ref{it:cm-weierstrass},
+\[
+  (x^nx')'=(4n+6)x^{n+2}+(n+1)a_1^2x^{n+1}+(4n+2)x^n .
+\]
+The coefficient of $z^{p-1}$ in a derivative $F'$ is $p\,[z^p]F$, and $x^nx'$ is integral in degree
+$p<q_p$; so $(4n+6)h_{n+2}+(n+1)a_1^2h_{n+1}+(4n+2)h_n\in\mathfrak m$ for all $n$. Write $p=2m+1$;
+then $h_0=0$, and $h_m=[z^{2m}]x^m=1$ since $x=z^2+\cdots$. Suppose $h_1\in\mathfrak m$. For
+$n+2\le m$ the number $4n+6=2(2n+3)$ is a unit, as $2n+3<p$; so by induction $h_n\in\mathfrak m$ for
+all $n\le m$, contradicting $h_m=1$. Hence $h_1=[z^{p-1}]x$ is a unit.
+\end{proof}
+
+\subsection{The exponent}\label{ss:exponent}
+Let $p$ be non-split, $q=q_p$, $\pi=\pi_p$, and let $i_0$ be the least positive integer
+$\equiv p+1\pmod{q-1}$: $i_0=p+1$ if $p$ is inert and $i_0=2$ if $p=d$. In both cases $i_0<q-1$.
+For $\varpi\in\Cp^\times$ put
+\[
+  c_\varpi=\frac{\varpi^{p+1}}p .
+\]
+Let $g^\flat$ be the part of $g$ in the degrees $\equiv p+1\pmod{q-1}$, and
+$\Xi_1=-g^\flat(\varpi z)/c_\varpi$, the \emph{exponent}.
+\lean{New.leastFlatDegree, New.leastFlatDegree_lt, New.add_one_modEq_leastFlatDegree, New.ramified_or_inert, New.CMLattice.negLogThetaPart, New.CMLattice.exponentSeries, New.CMLattice.smul_exponentSeries, New.CMLattice.constantCoeff_negLogThetaPart}
+
+\begin{lemma}[Averaging]\label{lem:averaging}
+$\exp(g^\flat-g)\in\OO[[y]]$. Consequently, if $\abs\varpi\le p^{-\rho_p}$, then
+$\theta(\varpi z)=W\exp(c_\varpi\Xi_1)$ for an integral series $W$.
+\end{lemma}
+\lean{New.CMLattice.expSubst_negLogThetaPart_sub_mem, New.CMLattice.exists_rescale_theta_eq_mul_expSubst, New.CMLattice.expSubst_rescale_sub_mem_of_pow_eq_one}
+
+\begin{proof}
+Let $\zeta$ run over the $(q-1)$-th roots of unity in $\Cp$. By orthogonality,
+$g^\flat(z)=\frac1{q-1}\sum_\zeta\zeta^{-(p+1)}g(\zeta z)$, so
+\[
+  \exp(g^\flat-g)^{q-1}=\prod_\zeta\exp\bigl(\zeta^{-(p+1)}g(\zeta z)-g(z)\bigr).
+\]
+In the variable $w=\zeta z$ a factor reads $\exp(s\,g(w)-g(\delta w))$ with $\delta=\zeta^{-1}$ and
+$s=\delta^{p+1}$, which lies in $\OO[[y]]$ by \cref{thm:cm-background}\ref{it:cm-isogeny}, since
+$\delta^{q-1}=1$; and the substitution $w=\zeta z$ preserves $\OO[[y]]$, because $y(\zeta z)\in
+\OO[[y]]$ by the same item. Hence every factor lies in $\OO[[y]]$. The series
+$F=\exp(g^\flat-g)$ has constant term $1$ and $F^{q-1}\in\OO[[y]]=\OO[[T]]$. Since $q-1$ is prime to
+$p$, the binomial series $(1+X)^{1/(q-1)}=\sum_k\binom{1/(q-1)}kX^k$ has coefficients in $\Z_p$: the binomial coefficients $\binom ak$ are continuous in $a$ and integral for $a\in\N$, and $1/(q-1)$ is a $p$-adic integer, a limit of natural numbers. Write $F^{q-1}=1+h$ with $h\in\OO[[T]]$ without constant term; then $(1+h)^{1/(q-1)}$ is a convergent series in $\OO[[T]]$, and it equals $F$, because both have constant term $1$ and the same $(q-1)$-th power, and a series $1+u$ with $(1+u)^{q-1}=1$ and $u(0)=0$ has $u=0$ ($(q-1)u+\dots=0$ forces the lowest term of $u$ to vanish, as $q-1\ne0$). Hence $F$
+lies in $\OO[[T]]$. For the second statement write $\theta=\exp(-g)=\exp(g^\flat-g)\exp(-g^\flat)$ and
+substitute $\varpi z$: $\exp(g^\flat-g)(\varpi z)$ is integral by
+\cref{thm:cm-background}\ref{it:cm-formal}, and $\exp(-g^\flat(\varpi z))=\exp(c_\varpi\Xi_1)$.
+\end{proof}
+
+\begin{lemma}[The functional equation]\label{lem:functional-equation}
+Let $\abs\varpi=p^{-\rho_p}$ and let $Y$ be integral with $T(\varpi z)=\varpi Y$. There is
+$\lambda\in\OO$ such that for all $n$
+\[
+  \Bigl(1-\frac{\pi^n}q\Bigr)[z^n]\Xi_1\equiv\lambda\,[z^n]Y^{i_0}\pmod{\pi\OO}.
+\]
+\end{lemma}
+\lean{New.CMLattice.exists_congruencePart_eq_smul_formalParam_pow_add, New.exists_congruencePart_eq_smul_X_pow_add, New.CMLattice.exists_smul_negLogThetaPart_sub_rescale_eq, New.CMLattice.exists_smul_rescale_negLogThetaPart_sub_rescale_eq, New.CMLattice.exists_functional_equation_exponentSeries, New.norm_piPrime_mul_pow_leastFlatDegree_div}
+
+\begin{proof}
+By \cref{thm:frobenius-congruence}, $qg(z)-g(\pi z)=\pi G$ with $G\in\OO[[T]]$. Taking parts in the
+degrees $\equiv p+1\equiv i_0\pmod{q-1}$ commutes with $z\mapsto\pi z$, which multiplies the
+coefficient of degree $n$ by $\pi^n$. Write $G=\sum_kc_kT^k$ with $c_k\in\OO$; since $T$ has terms
+only in degrees $\equiv1$, the power $T^k$ has terms only in degrees $\equiv k$, and the part of $G$ in
+the degrees $\equiv i_0$ is $\sum_{k\equiv i_0}c_kT^k=\lambda'T^{i_0}+T^{i_0+q-1}H$ with
+$\lambda'=c_{i_0}$ and $H\in\OO[[T]]$ (here $i_0<q-1$ is used). Thus
+\[
+  qg^\flat(z)-g^\flat(\pi z)=\pi\bigl(\lambda'T^{i_0}+T^{i_0+q-1}H\bigr).
+\]
+Substitute $\varpi z$ and use $T(\varpi z)=\varpi Y$: with $f(z)=g^\flat(\varpi z)$,
+\[
+  qf(z)-f(\pi z)=\pi\varpi^{i_0}\bigl(\lambda'Y^{i_0}+\varpi^{q-1}R\bigr),\qquad
+  R=Y^{i_0+q-1}H(\varpi z)\ \text{integral}.
+\]
+Comparing coefficients of $z^n$ and dividing by $-qc_\varpi$ gives
+\[
+  \Bigl(1-\frac{\pi^n}q\Bigr)[z^n]\Xi_1=u\bigl(\lambda'[z^n]Y^{i_0}+\varpi^{q-1}[z^n]R\bigr),\qquad
+  u=-\frac{\pi\varpi^{i_0}}{qc_\varpi}.
+\]
+Here $v(u)=v(\pi)+i_0\rho_p-v(q)-(p+1)\rho_p+1$. For inert $p$, $i_0=p+1$, $v(\pi)=1$ and $v(q)=2$, so $v(u)=1+0-2+1=0$; for $p=d$, $i_0=2$, $v(\pi)=\frac12$, $v(q)=1$ and $\rho_p=1/(2p-2)$, so $v(u)=\frac12+2\rho_p-1-(p+1)\rho_p+1=\frac12-(p-1)\rho_p=0$. Moreover $\abs{\varpi^{q-1}}=\abs\pi$ by
+\cref{lem:prime-notation}(b). Hence $\lambda=u\lambda'$ serves.
+\end{proof}
+
+For a set $S$ of exponents put
+\[
+  \Pi_S(z)=\sum_{i\in S}z^{p^i}.
+\]
+Over a ring of characteristic $p$ the following identities hold, where the sums run over $j\ge0$:
+\begin{align}
+  \Pi_{\mathrm{odd}}\,\Pi_{\mathrm{even}}&=\sum_{e\text{ odd}}\sum_j\bigl(z^{p^e}z\bigr)^{p^j},
+  \label{eq:odd-even}\\
+  \Pi_{\N}^2-\tfrac12z^2&=\tfrac12z^2+\sum_{j\ge1}(zz)^{p^j}+2\sum_{e\ge1}\sum_j\bigl(z^{p^e}z\bigr)^{p^j}.
+  \label{eq:all-square}
+\end{align}
+Indeed, the products $z^{p^a}z^{p^b}$ with $a$ odd and $b$ even are the terms $(z^{p^e}z)^{p^j}$
+with $e=\abs{a-b}$ and $j=\min(a,b)$, and each pair $(e,j)$ with $e$ odd arises exactly once (from
+$a=j+e$ if $j$ is even, from $b=j+e$ if $j$ is odd); and $\Pi_\N^2=\sum_iz^{2p^i}+2\sum_{i<i'}
+z^{p^i+p^{i'}}$.
+\lean{New.hasSum_primePowerSeries_odd_mul_even, New.hasSum_primePowerSeries_univ_sq_sub, New.coeff_primePowerSeries_odd_mul_even, New.coeff_primePowerSeries_univ_sq, New.map_reducePiPrime_eq_primePowerSeries, New.C_dvd_pow_sub_primePowerSeries_odd_mul_even, New.C_dvd_sq_sub_primePowerSeries_univ_sq}
+
+\begin{theorem}[The exponent on one curve]\label{thm:exponent}
+Let $C$ be a CM lattice for $d$ and $p$ a non-split prime. There are $\varpi\in\Cp$ with
+$\abs\varpi=p^{-\rho_p}$, integral series $W$ and $\Xi$ with $\Xi(0)=0$, and numbers
+$\lambda_{ej}\in\OO$ ($e\in I_p^\circ$, $j\ge0$) such that
+\[
+  \theta(\varpi z)=W\exp(c_\varpi\Xi),\qquad
+  \Xi\equiv\sum_{e\in I_p^\circ}\sum_{j\ge0}\lambda_{ej}\bigl(z^{p^e}z\bigr)^{p^j}\pmod{\pi_p}.
+\]
+If $p$ is inert, the $\lambda_{e0}$ with $e$ odd are units.
+\end{theorem}
+\lean{New.CMLattice.exists_exponent_tsum, New.CMLattice.coeff_exponentSeries_eq_zero_of_lt, New.CMLattice.norm_coeff_exponentSeries_sub_le, New.CMLattice.exists_seriesToCp_eq_exponentSeries_of_inert, New.CMLattice.exists_seriesToCp_eq_exponentSeries_of_ramified, New.CMLattice.norm_coeff_exponentSeries_eq_one, New.CMLattice.exists_eq_exponentSeries_dvd_sub_tsum_of_inert, New.CMLattice.exists_exponentSeries_tsum_of_ramified, New.exists_seriesToCp_eq_and_C_dvd_sub, New.summable_smul_X_pow_mul_X_pow, New.norm_piPrime_pow_div_le, New.piPrime_sq_of_ramified}
+
+\begin{proof}
+Take $\varpi$ and $Y$ as in \cref{thm:cm-background}\ref{it:cm-formal}. By \cref{lem:averaging}
+we have $\theta(\varpi z)=W\exp(c_\varpi\Xi_1)$ with $W$ integral, and $\Xi_1$ has no terms below degree
+$i_0$, since its terms have degrees $\equiv i_0$ modulo $q-1>i_0$. Let $\lambda$ be as in
+\cref{lem:functional-equation}. For $n>2$ we have $\abs{\pi^n/q}\le\abs\pi$, so the factor
+$1-\pi^n/q$ is $\equiv1$; for $n<i_0$ both sides of the functional equation vanish (also
+$[z^n]Y^{i_0}=0$, as $Y=z+\cdots$).
+
+\emph{Inert $p$.} Then $i_0=p+1>2$, so every $n$ satisfies $n<i_0$ or $n>2$, and
+$[z^n]\Xi_1\equiv\lambda[z^n]Y^{p+1}$ for all $n$. In particular $\Xi_1=\Xi$ is integral, and
+$\Xi\equiv\lambda Y^{p+1}$. Since $Y\equiv\Pi_{\mathrm{even}}$ modulo $\pi=p$ (as $q=p^2$),
+$Y^{p+1}=Y^pY\equiv\Pi_{\mathrm{odd}}\Pi_{\mathrm{even}}$, and \eqref{eq:odd-even} gives the
+congruence with $\lambda_{ej}=\lambda$. The coefficient of $z^{p+1}$ in
+$\Pi_{\mathrm{odd}}\Pi_{\mathrm{even}}$ is $1$ (the term $e=1$, $j=0$), so $\lambda\equiv[z^{p+1}]\Xi$.
+Finally $[z^{p+1}]\Xi_1=-(p/\varpi^{p+1})\varpi^{p+1}g_{p+1}=-pg_{p+1}$, and comparing coefficients of
+$z^{p-1}$ in $g''=g''(0)+x$ gives $[z^{p-1}]x=(p+1)p\,g_{p+1}$; as $p+1$ is a unit,
+\cref{lem:supersingular} shows that $[z^{p+1}]\Xi$ is a unit, hence so is $\lambda$.
+
+\emph{$p=d$.} Then $q=p$, $\pi^2=-p$, $i_0=2$. For $n\ne2$ we get $[z^n]\Xi_1\equiv\lambda[z^n]Y^2$ as
+before. For $n=2$ the factor is $1-\pi^2/p=2$, so $2[z^2]\Xi_1\equiv\lambda c$ with $c=[z^2]Y^2$; since
+$Y\equiv\Pi_\N$ we have $c\equiv1$, and hence $[z^2]\Xi_1\equiv\lambda(c-\frac12)$. Thus $\Xi_1=\Xi$ is
+integral and $\Xi\equiv\lambda(Y^2-\frac12z^2)\equiv\lambda(\Pi_\N^2-\frac12z^2)$, and
+\eqref{eq:all-square} gives the congruence with $\lambda_{00}=\lambda/2$, $\lambda_{0j}=\lambda$ for
+$j\ge1$ and $\lambda_{ej}=2\lambda$ for $e\ge1$. The integrality of $\Xi$ in both cases uses that a
+series congruent modulo $\pi$ to an integral one is integral: its coefficients differ from integral numbers by multiples of $\pi$, which are integral. In both cases $\Xi(0)=0$, as $\Xi_1$ has no terms below degree $i_0\ge2$.
+\end{proof}
+
+\begin{remark}\label{rem:exponent-size}
+The factor $c_\varpi$ has valuation $(p+1)\rho_p-1<0$, and $c_\varpi\pi_p$ has valuation
+$(p+1)\rho_p-1+v(\pi_p)=1/(p-1)$ in both cases. This is the threshold below which the exponential
+series is integral: if $\abs{c\pi}\le p^{-1/(p-1)}$ and $G$ has coefficients in $\pi\OO$, then
+$\exp(cG)$ is integral. \Cref{thm:exponent} therefore says that the obstruction to the integrality
+of $\theta(\varpi z)$ is carried by the reduction of $\Xi$ modulo $\pi_p$, which is the explicit
+series of couplings $z^{p^e}z$.
+\end{remark}
+\lean{New.Parameters.norm_pow_succ_div_mul_piPrimeInt, New.norm_coeff_expSubst_smul_le_one}

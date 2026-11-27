@@ -1,0 +1,57 @@
+\section{Notation and conventions}\label{sec:notation}
+
+\subsection{General}\label{ss:notation-general}
+$\Lam$ is the von Mangoldt function, $\totient$ Euler's function, $t_+=\max(t,0)$, and $\log$ the
+natural logarithm. For a finite set $S$, $\#S$ is its cardinality. Inner products are linear in the
+second variable. A \emph{prime place} is a pair of a prime $\ell$ and a field isomorphism
+$\iota\colon\C\to\Qlbar$ (\cref{def:prime-iso}); automorphisms of $\C$ are written $\sigma$. A
+statement holds \emph{for large $x$} if it holds for all $x$ beyond some bound that depends only on the
+parameters and on the other fixed quantities named in the statement.
+
+\subsection{The letters of the argument}\label{ss:notation-letters}
+The following letters are fixed by the parameters (\cref{def:parameters}) and the data
+(\cref{def:data}); the second column gives the place where each is defined.
+
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{.17\textwidth}>{\raggedright\arraybackslash}p{.53\textwidth}>{\raggedright\arraybackslash}p{.22\textwidth}@{}}
+\toprule
+letter & meaning & defined in\\
+\midrule\endhead
+$q_0$, $d$ & the modulus, a multiple of $18480$, and the prime $d\equiv q_0/2-1\pmod{q_0}$ & \cref{def:parameters}\\
+$K$, $\chiK$ & $\Q(\sqrt{-d})$ and its quadratic character $(\,\cdot\,/d)$ & \cref{def:parameters}\\
+$s$, $l_0$, $T(s)$ & the exponent with $2^s=m^{22}$, the least power of $3$ above $27s$, and $3l_02^s$ & \cref{ss:parameters}\\
+$q_1$, $q_2$ & $q_0T(s)$, the order of $\zeta$; and $(q_0d)^{s+6}$ & \cref{ss:parameters}\\
+$E$, $\Phi$, $f$ & $K(\zeta_{q_1})$, its group of infinite places, and their number & \cref{ss:field-E}\\
+$\Phia$, $\Phib$ & the $a$-places (class $1$ modulo $q_0$) and the $b$-places & \cref{ss:field-E,ss:data}\\
+$x$, $x_1$, $b$ & the three scales & \cref{def:data}\\
+$a$ & the long order $xb$ & \cref{def:data}\\
+$m$, $r$, $k$, $t$ & the number of lifts, the rank of the target, $r+1-m$, and $5r$ & \cref{def:data}\\
+$n_j$, $\Delta$ & $k+j(t+1)$, and the gap $2r^8$ & \cref{def:data}\\
+$\kappa(\tau)$, $\kappa_j(\tau)$ & the weight of a place and the lift weights $\kappa+(j+\frac12)\Delta$ & \cref{def:data}\\
+$p_0$, $p_1$, $M$, $N$ & the primes of the principal level, $M=p_0p_1$, and the level & \cref{def:data}\\
+$\Omega$, $\mathrm{rd}_E$ & the period constant \eqref{eq:Omega} and the root discriminant & \cref{ss:field-E}\\
+$C_0$ & the bound for constants & \cref{rem:constant-bound}\\
+$\LamK$ & $\Lam(n)(1-\chiK(n))$ & \cref{ss:prime-sums}\\
+$\lambda_q$, $R_q$, $c_q$, $G_q$ & the weights, the remainder, its constant and the function of \cref{def:lambda} & \cref{def:lambda}\\
+$\sfin$, $\sinf$ & the prime sum and the size of a derivative & \cref{ss:prime-sums}\\
+$\hdir$, $\hmain$ & the direction amount and the main amount $mk\hdir$ & \cref{ss:prime-sums}\\
+$\smain$, $\rem$ & the expected value of the prime sums and the total remainder & \cref{ss:prime-sums}\\
+$\errunit$ & the error unit $fa\log^3b$ & \cref{ss:prime-sums}\\
+$\mathcal S$, $\mathcal T$, $\dimT$ & the source, the target and its dimension & \cref{ss:three-theorems}\\
+$\bar G$, $\mathfrak p_g$ & $\prod_w\GL_r(\F_w)$ and the normalised projected Poincar\'e maps & \cref{ss:three-theorems}\\
+$\Theta_\xi$, $Z(\xi)$ & the chain of $m$ lifts twisted by $\xi$, and $\det(\Theta_\xi^*\Theta_\xi)$ & \cref{ss:three-theorems}\\
+\bottomrule
+\end{longtable}
+
+\subsection{Sizes}\label{ss:notation-sizes}
+Inequalities between quantities attached to the data are proved by comparing logarithmic bounds, as
+explained in \cref{rem:magnitudes}. When an inequality between such quantities is stated without
+proof, it is of this kind: both sides are products of powers of $x$, $x_1$, $b$, $\log b$, $\log x_1$
+and constants, and the inequality follows from the scale inequalities (D1) by comparing exponents.
+
+\subsection{The Lean development}\label{ss:notation-lean}
+Statements are anchored to the Lean development \texttt{grh-lean} as described in \cref{app:lean}. A
+name such as \texttt{New.star\_inequality} refers to a declaration of that development; all
+declarations of the argument are in the namespace \texttt{New}. The development uses its own names for
+the objects above; the supplement described in \cref{app:lean} lists, statement by statement, the
+declarations that correspond to each statement. When a statement below is a weaker or
+differently arranged form of the corresponding Lean statement, the difference is noted after it.

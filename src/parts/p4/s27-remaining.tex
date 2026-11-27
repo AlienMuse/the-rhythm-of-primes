@@ -1,0 +1,830 @@
+\section{The remaining terms}\label{sec:remaining}
+
+The \emph{remaining terms} $\Gamma^*$ are the rational $\gamma$ with $\mathfrak g(\gamma)\ne0$, together with those that agree, have $\mathfrak g(\gamma)=0$ and move $A$. This section bounds their contribution
+to the second moment (\cref{thm:remaining}). A block of $\Gamma^*$ is bounded, orbit by orbit under the unipotent elements $U^0_c$ that fix the frame, by Schur's test with a weight made of
+volume ratios at the real places (\cref{thm:schur-orbit}); its \emph{size} depends on the cell rank and on a \emph{gauge} of the term. Squaring and summing over pairs of near terms, a pair gains
+from the discriminant of its \emph{common lattice} in $X_0$ (\cref{thm:gain}); and lattices of given corank and small discriminant, and frames over them, are few
+(\cref{thm:frame-count}). Pairs whose links differ are negligible; pairs with equal links gain the norm of the places where the block meets.
+
+\emph{Conventions.} Throughout the data are admissible (\cref{ss:filling-data}) and $E$ contains a primitive $5040$th root of unity. We write $f$ for the number of infinite places of $E$, $k=\dim X_0$,
+$n=\varrho+1$, $\tau=b^{kf/4}$, so that $\tau^4=b^{kf}$, and $n_p=\#\bar R_0\,n_XN^{-kf}$, with $n_X$ the number of classes. Since $k\ge1000(2\varrho+2)^9$, every power $b^e$ with $e\le10^5n^9f$
+is at most $\tau$, and so is the number $n^3+1$. For a finite idele $a$ the \emph{generalised index} $[a]$ is the inverse of the factor by which multiplication by $a$ scales Haar measure on the finite
+adeles, and $[a]=0$ if $a$ is not a unit; for integral $a$ it is $\#\hat\OO/a\hat\OO$, and for $a\in E^\times$ it is $\mathrm{Nm}(a)=\abs{\mathrm N_{E/\Q}(a)}=\prod_v\abs a_v^2$, the product over the infinite places with the
+chosen embeddings. For the discriminant $\mathfrak g(\gamma)$, which is fixed by complex conjugation, $\mathfrak g_{\rm Nm}=\prod_v\abs{\mathfrak g(\gamma)}_v$; it is a positive integer when $\mathfrak g(\gamma)\ne0$.
+The lattice of a class $c$ is written $\Lambda$, and vectors are written in its coordinates, in which $h_c^{-1}\gamma h_{c'}$ is the matrix of a term.
+\lean{New.genIndex, New.submoduleIndex, New.colLattice, New.Filling.finAdeleMatrix, New.Filling.finAdeleMatrix_conjTranspose, New.Filling.finAdeleMatrix_smul, New.Filling.map_conjTranspose, New.Filling.finAdeleMatrix_mul, New.Filling.finAdeleMatrix_add}
+
+\subsection{Lattices over the finite adeles}\label{ss:lattices}
+Let $\hat\OO$ be the ring of integral finite adeles of $E$. A \emph{lattice of rank $r$} in $\Ad_f^\kappa$ is the $\hat\OO$-span $L$ of the columns of $xa$, where $x$ is a $\kappa\times r$ matrix over $E$ with
+independent columns and $a\in\GL_r(\Ad_f)$; its \emph{discriminant} is $\disc L=[\det((xa)^*(xa))]^{1/2}$. For a matrix $H$ over $\Ad_f$ with a left inverse (the passage to the coordinates of a lattice) and
+a subspace $V$ of $E^\kappa$, the \emph{saturated lattice} $\Lambda_V$ is the set of points of the adelic span of $V$ that $H$ makes integral; its discriminant is written $d_H(V)$.
+\lean{New.Filling.IsLatticeOfRank, New.Filling.discriminant, New.Filling.saturatedLattice, New.Filling.sublatticeBasis, New.Filling.sublatticeDiscriminant, New.Filling.sublatticeIndex}
+
+\begin{lemma}[Discriminants]\label{lem:lattice-disc}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The discriminant does not depend on the basis $xa$ of $L$, and it is positive.
+\item If $M\subseteq L$ is an $\hat\OO$-submodule of finite index, then $M$ is a lattice of rank $r$ and $\disc M=[L:M]\disc L$.
+\item A matrix $\eta$ over $E$ with a left inverse maps lattices of rank $r$ to lattices of rank $r$; if $\eta^*\eta=1$, it keeps the discriminant.
+\item $\Lambda_V$ is a lattice of rank $\dim V$, and $d_H(V)\ge1$ if every adelic matrix $m$ with $Hm$ integral has an integral Gram matrix $m^*m$. If $H$ maps a lattice $L$ of rank $r$ into
+integral vectors, then for the span $W$ of $L$ one has $L\subseteq\Lambda_W$ with finite index $i$, and $\disc L=i\,d_H(W)$.
+\item Every ideal of finite index of $\hat\OO$ is principal.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.genIndex_det_gram_eq_of_colLattice_eq, New.Filling.discriminant_colLattice, New.Filling.IsLatticeOfRank.discriminant_pos, New.Filling.det_gram_ne_zero, New.Filling.hasLeftInv_finAdeleMatrix_mul, New.Filling.exists_colLattice_fromCols_eq, New.Filling.exists_colLattice_eq_of_submoduleIndex_ne_zero, New.Filling.sqrt_genIndex_det_gram_mul, New.Filling.exists_colLattice_mul_eq_of_le, New.Filling.IsLatticeOfRank.of_submoduleIndex_ne_zero, New.Filling.IsLatticeOfRank.discriminant_eq_mul_submoduleIndex, New.Filling.IsLatticeOfRank.of_le_and_discriminant_eq_mul_index, New.Filling.colLattice_le_preimageLattice_iff, New.Filling.map_colLattice_finAdeleMatrix_mul, New.Filling.IsLatticeOfRank.map_of_hasLeftInv, New.Filling.IsLatticeOfRank.discriminant_map_of_unitary, New.Filling.IsLatticeOfRank.map_of_unitary, New.Filling.saturatedLattice_le, New.Filling.isLatticeOfRank_saturatedLattice, New.Filling.discriminant_saturatedLattice, New.Filling.one_le_sublatticeDiscriminant, New.Filling.IsLatticeOfRank.exists_eq_colLattice_sublatticeBasis_mul, New.Filling.isPrincipal_of_cardQuot_ne_zero, New.Filling.colLattice_mul, New.Filling.exists_isIntMatrix_mul_eq, New.Filling.colLattice_mul_le, New.Filling.exists_range_eq_colLattice, New.IsValuationPair.exists_square_colLattice_eq, New.IsValuationPair.isBezout, New.Filling.exists_isPrimitiveMatrix_mul_finAdeleMatrix, New.Filling.isPrimitiveMatrix_mul_sublatticeBasis, New.Filling.exists_sublatticeBasis_eq_finAdeleMatrix_mul, New.Filling.exists_finAdeleMatrix_mul_eq_sublatticeBasis_mul, New.Filling.sublatticeDiscriminant_sq_mul_genIndex_sq, New.Filling.sublatticeDiscriminant_pos, New.Filling.sublatticeDiscriminant_mul_index_sq_le}
+
+\begin{proof}
+(a) Two adelic bases $B$, $C$ of the same $\hat\OO$-module, $B$ with a left inverse, satisfy $C=BU$ and $B=CU'$ with $U$, $U'$ integral, so $U$ lies in $\GL_r(\hat\OO)$ and $[\det U]=1$. Since
+$\det(C^*C)=\overline{\det U}\det U\det(B^*B)$ and the generalised index is multiplicative, the two Gram determinants have the same index. Positivity: at a complex embedding the Gram matrix of $r$
+independent vectors is positive definite, so $\det(x^*x)\ne0$, and $[\det((xa)^*(xa))]=\mathrm{Nm}(\det x^*x)[\det a]^2>0$.
+
+(b) Over each completion $\hat\OO_v$ is a principal ideal domain, and $\hat\OO$ satisfies the following exchange property: any $a$, $b$ are multiples of $(1-e)a+eb$ for an idempotent $e$. Column operations over $\hat\OO$
+therefore bring a generating matrix $(C\mid R)$ of a module of finite index in $\hat\OO^r$ to a square matrix; hence $M$ has a basis $BA$ with $A$ integral and invertible over $\Ad_f$, and
+$[L:M]=[\hat\OO^r:A\hat\OO^r]=[\det A]$. Then $\disc M^2=[\det A]^2\disc L^2$.
+
+(c) The image of the span of the columns of $xa$ is the span of the columns of $(\eta x)a$, and $\eta x$ has independent columns. If $\eta^*\eta=1$ the Gram matrix does not change.
+
+(d) There are a basis $y$ of $V$ and $a\in\GL_s(\Ad_f)$, $s=\dim V$, such that $Hya$ is primitive, that is integral with an integral left inverse $p$ (take a basis of the integral points of the span locally at each
+place); the columns of $m=ya$ span $\Lambda_V$, because a point $mt$ of $\Lambda_V$ has $t=p(Hmt)$ integral. If $Hm$ integral forces $m^*m$ integral, the Gram determinant of $m$ is a nonzero integral idele, whose
+index is at least $1$. Finally let $L$ have the basis $xa$ and let $W$ be the span of $x$, with chosen basis $S=yb$ of $\Lambda_W$. Then $x=yT$ with $T$ invertible over $E$, and $xa=SA$ with $A=b^{-1}Ta$; the
+matrix $A=p\,H(xa)$ is integral, so $L\subseteq\Lambda_W$ with index $[\det A]$, and $\disc L=[\det A]\,d_H(W)$ as in (b).
+
+(e) An ideal $I$ of finite index contains its index, a nonzero integer $m$. Hence $I$ is determined by its images in the finitely many factors $\hat\OO_v$ with $v\mid m$, each a power of the maximal ideal,
+and the idele that is a uniformiser to that power at these places and $1$ elsewhere generates it.
+\end{proof}
+
+For an $R$-module $X$ let $\zeta_X(s)=\sum_M[X:M]^{-s}$, the sum over the submodules of finite index.
+\lean{New.Filling.submoduleZeta, New.Filling.submoduleZeta_anti, New.Filling.cardQuot_comap, New.Filling.cardQuot_comap_of_surjective, New.Filling.tsum_relIndex_range_le_submoduleZeta, New.Filling.submoduleZeta_le_of_surjective, New.Filling.cardQuot_eq_cardQuot_map_fst_mul_comap_inr, New.Filling.eq_span_sup_of_map_fst_eq_span, New.Filling.tsum_quotient_cardQuot_inv_pow}
+
+\begin{lemma}[Sums over sublattices]\label{lem:sublattice-zeta}
+Let $R$ be a commutative ring whose ideals of finite index are principal.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\zeta_{R\times N}(s+1)\le\zeta_R(s+1)\,\zeta_N(s)$ for every $R$-module $N$.
+\item $\zeta_{R^r}(r+\mu)\le\zeta_R(\mu)^r$.
+\item For a lattice $L$ of rank $r$ over $\hat\OO$, $\sum_M[L:M]^{-(r+\mu)}\le\zeta_{\hat\OO}(\mu)^r$. For $\mu=2\varrho+4$ one has $\zeta_{\hat\OO}(\mu)\le2$, so the sum is at most $2^r\le2^k$ when $r\le k$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.submoduleZeta_prod_le, New.Filling.submoduleZeta_pi_le, New.Filling.tsum_submoduleIndex_colLattice_inv_pow_le, New.Filling.IsLatticeOfRank.tsum_submoduleIndex_inv_pow_le, New.Filling.tsum_index_saturatedLattice_le}
+
+\begin{proof}
+(a) Let $M\subseteq R\times N$ have finite index. Its first coordinates form an ideal $I=(g)$ of finite index, and with $M'=M\cap N$ and any $n$ with $(g,n)\in M$, the module $M$ is spanned by $(g,n)$
+and $M'$; the class of $n$ modulo $M'$ determines $M$. The index is $[R\times N:M]=[R:I]\,[N:M']$, and there are $[N:M']$ classes. Hence
+\[
+  \zeta_{R\times N}(s+1)\le\sum_I\sum_{M'}[N:M']\,\bigl([R:I][N:M']\bigr)^{-(s+1)}=\zeta_R(s+1)\,\zeta_N(s).
+\]
+(b) Induction on $r$, with $R^r=R\times R^{r-1}$: by (a), $\zeta_{R^r}(r+\mu)\le\zeta_R(r+\mu)\zeta_{R^{r-1}}(r-1+\mu)\le\zeta_R(\mu)\cdot\zeta_R(\mu)^{r-1}$, since $\zeta_R$ decreases in $s$.
+(c) A lattice of rank $r$ is isomorphic to $\hat\OO^r$ through its basis, and the ideals of finite index of $\hat\OO$ are principal (\cref{lem:lattice-disc}(e)). Contraction to $\OO_E$ is injective on ideals
+of finite index and keeps the index, so $\zeta_{\hat\OO}(\mu)$ is at most the Dedekind zeta value $\zeta_E(\mu)$, an Euler product; for $\mu=2\varrho+4$ and $(\varrho+1)[E:\Q]\le2^{2\varrho}$ its logarithm
+is at most $(\log2)/(\varrho+1)$, so $\zeta_{\hat\OO}(\mu)^{\varrho+1}\le2$ and $\zeta_{\hat\OO}(\mu)\le2$.
+\end{proof}
+
+Fix $u$ in the finite adelic unitary group of $X_0=E^\kappa$ and consider the unimodular lattice $u\hat\OO^\kappa$ and the rational lattice $E^\kappa\cap u\hat\OO^\kappa$. For a subspace $T$ let $d(T)$ be the
+discriminant of $T\cap u\hat\OO^\kappa$, a saturated lattice for $H=u^{-1}$, and write $\norm X$ for the Euclidean length of a vector over all infinite places together; $\mathrm{rd}_E$ is the root
+discriminant.
+
+\begin{proposition}[Siegel's lemma]\label{prop:siegel-lemma}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Jacobi.) $d(T)=d(T^\perp)$ for every subspace $T$.
+\item (Siegel's lemma.) A subspace $T$ of codimension $s$ is the orthogonal of $s$ nonzero vectors $X_1,\dots,X_s$ of $E^\kappa\cap u\hat\OO^\kappa$ with
+\[
+  \Bigl(\prod_i\norm{X_i}\Bigr)^{2f}\le(8fs\,\mathrm{rd}_E)^{fs}\,d(T).
+\]
+\item $\sum_Td(T)^{-(k+1)}\le(200fk\,\mathrm{rd}_E)^{f(k+1)s}$, the sum over the subspaces $T$ of codimension $s$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Filling.siegel_lemma, New.Filling.tsum_sublatticeDiscriminant_inv_le, New.Filling.genIndex_sq_mul_abs_norm_eq, New.Filling.exists_det_ne_zero_prod_frameLength_le, New.Filling.one_le_ideleAbs_det_mul_sqrt, New.Filling.norm_archCoords_mulVec, New.Filling.frameLength_mkAdelicGL, New.Filling.mulVec_mem_baseLattice, New.Filling.one_le_norm_archCoords, New.Filling.exists_inv_sublatticeDiscriminant_pow_le_prod, New.Filling.finrank_ker_conjTranspose, New.Filling.ker_conjTranspose_mul_transpose, New.Filling.jacobi_perp_discriminant, New.Filling.IsKernelExtension, New.Filling.exists_isKernelExtension, New.Filling.mul_eq_zero_of_colSpan_le_ker, New.Filling.IsKernelExtension.colSpan_fromCols, New.Filling.IsKernelExtension.colSpan_le, New.Filling.IsKernelExtension.eq_zero_of_mulVec_mem, New.Filling.IsKernelExtension.finrank_eq, New.Filling.IsKernelExtension.hasLeftInv, New.Filling.IsKernelExtension.mul_eq_zero}
+
+\begin{proof}
+(a) Let $xb$ and $ya$ be the chosen bases of $T\cap u\hat\OO^\kappa$ and $T^\perp\cap u\hat\OO^\kappa$; the matrices $u^{-1}xb$ and $u^{-1}ya$ are primitive and $x^*y=0$. In the unimodular lattice $\hat\OO^\kappa$ two
+orthogonal primitive sublattices of complementary ranks have Gram determinants of the same index: complete $u^{-1}xb$ to a basis of $\hat\OO^\kappa$; the inverse of its Gram matrix is integral and its block on the
+complement is the inverse of the Gram matrix of the dual basis, which spans the projection of $u^{-1}ya$; this is Jacobi's identity for complementary minors of a unimodular matrix. As $u^{-1}$ is unitary it drops
+out of the Gram matrices, which gives $[\det a]^2\,\mathrm{Nm}(\det y^*y)=[\det((xb)^*(xb))]$.
+
+(b) Take $y$ and $a$ as in (a) for $T^\perp$, which has dimension $s$, and at each infinite place $v$ an $r_v\in\GL_s(\C)$ with $(y_vr_v)^*(y_vr_v)=1$. The adelic matrix $(r,a)$ has
+$\abs{\det(r,a)}\cdot d(T)\ge1$: its infinite part cancels the norm of $\det y^*y$, and its finite part the index of $\det a$, by (a). Minkowski's second theorem over $E$ \cite{BombieriVaaler1983}, in its adelic
+form for $(r,a)$, gives an invertible $B$ over $E$ with $a^{-1}B^{\rm T}$ integral and
+\[
+  \abs{\det(r,a)}\prod_i\ell(B_i)^{2f}\le(2fs\,\mathrm{rd}_E)^{fs},
+\]
+where $\ell(B_i)$ is the Euclidean length of the vectors $r_v^{-1}B_i$ at all places together. Put $X_i=yB_i$. Then $u^{-1}yB^{\rm T}=(u^{-1}ya)(a^{-1}B^{\rm T})$ is integral, so $X_i$ lies in $E^\kappa\cap u\hat\OO^\kappa$; $X_i\ne0$
+because $B$ is invertible and $y$ has a left inverse; the $X_i$ span $T^\perp$, whose orthogonal is $T$; and $\norm{X_i}=\ell(B_i)$, because $y_vr_v$ is an isometry. Multiplying by $\abs{\det(r,a)}d(T)\ge1$ gives the bound,
+with $2\le8$.
+
+(c) Raise (b) to the power $k+1$: with $m=f(k+1)$ and $C=(8fk\,\mathrm{rd}_E)^m$, $d(T)^{-(k+1)}\le\prod_i C\norm{X_i}^{-2m}$. The subspace $T$ is recovered from the tuple $(X_i)$ as its orthogonal, so the sum over
+$T$ is at most the $s$th power of $C\sum_X\norm X^{-2m}$ over the nonzero lattice vectors. These have length at least $1$ (an algebraic integer whose conjugates are all smaller than $1$ in modulus is $0$), so
+they are $1$-separated, and since $2m$ exceeds the real dimension $2fk$ by at least $2$, a packing count over the shells $2^t\le\norm X<2^{t+1}$ gives $\sum_X\norm X^{-2m}\le5^{2m}$. As $200=5^2\cdot8$, this is the bound.
+\end{proof}
+
+\subsection{Schur's test for one orbit}\label{ss:schur-orbit}
+For $\gamma\in G_1$ and $y$, let $\nu_\gamma(y)$ be the ratio of the volumes of the projections of $\gamma f$ and of $f$ to the negative space $yV_-$ of $J_1$. A term of cell rank $j$ has $i=\min(\varrho,j)$, and
+its \emph{Schur weight} at $y$ is the boxed cutoff at $\gamma^{-1}y$ times $\prod_v\nu_\gamma(y_v)^{-(k+i)}$.
+\lean{New.frameVolume, New.volumeRatio, New.volumeRatio_pos, New.volumeRatio_inv, New.volumeRatio_mul_left, New.measurable_volumeRatio, New.continuous_frameVolume, New.frameVolume_pos, New.frameVolume_mul_left, New.Filling.boxCutoff, New.Filling.besselCutNormSq, New.Filling.schurWeight, New.Filling.schurIntegral, New.Filling.measurable_boxCutoff, New.Filling.measurable_besselCutNormSq, New.Filling.measurable_schurWeight}
+
+\begin{lemma}[Boxed points and integral vectors]\label{lem:box-integral}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $A$ maps injectively to vectors in $E^\iota$ whose entries are algebraic integers of modulus at most $r$ at every infinite place, then $\#A\le(1+2r)^{2\#\iota f}$.
+\item The boxed points form a measurable set, invariant under left multiplication by unipotent elements fixing every frame vector at every place. At a boxed point $y$ the entries of the
+Gram--Schmidt matrix have modulus at most $b^{26}$, and $y_v$ lies in the frame box of radius $b^{27}\ell(y_v)\le b^{37n}$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.encard_le_of_isIntegral_norm_le, New.Filling.finite_setOf_levelMultiples_add_le, New.Filling.mem_levelMultiples, New.Filling.mem_boxedPoints_of_reducedIndicator_ne_zero, New.Filling.mul_mem_reducedPoints_iff, New.Filling.norm_basisScale_div_le_one, New.Filling.ratTriangle_eq_one_apply_of_le, New.exists_measurableSet_existsUnique_add_mem}
+
+\begin{proof}
+(a) Embed $A$ into $\C^{\iota\times\{v\}}$, a real space of dimension $2\#\iota f$. The image lies in the ball of radius $r$ for the maximum norm, and distinct points are at distance at least $1$, because a
+nonzero algebraic integer has a conjugate of modulus at least $1$. Balls of radius $1/2$ around the points are disjoint and lie in the ball of radius $r+1/2$, which gives the count. (b) The reduced points are
+defined by the entries above the diagonal of the triangular matrix, a measurable function, lying in a measurable set $D$ (\cref{prop:packing}(c)); such a $D$ exists because in each coset of $M\OO_E$ a measurable
+injection to $\R$ picks a least point of a bounded set meeting the coset in a finite nonempty set. A unipotent $s$ fixing the frame leaves the frame vectors $y^{-1}f_a$ and the triangular matrix unchanged, and
+it does not change the length. The scale of the frame vector of index $a$ is $\kappa_v^{\varrho-a}/\sqrt N$ with $\abs{\kappa_v}\ge1$, so ratios of later to earlier scales are at most $1$; a frame vector is a sum of
+at most $\varrho+1\le b$ orthogonal vectors, each not longer than $\ell(y_v)$, with coefficients of modulus at most $b^{26}$. Hence its norm is at most $b^{27}\ell(y_v)$, and in the cut $b^{27}b^{6n+2}\le b^{37n}$.
+\end{proof}
+
+\begin{lemma}[A triangular basis of the negative space]\label{lem:triangular-basis}
+Let $\gamma,y\in G_1$, let a norm-one pair occur for $\gamma$ from $j$, $i=\min(\varrho,j)$, and let the block $B$ of $Z(\gamma)$ on the subframe $e_1,\dots,e_i,z$ be invertible. There are vectors
+$\omega_0,\dots,\omega_i$ of $yV_-$ with Gram matrix $-1$ whose products with the subframe form a lower triangular invertible matrix $L$ and whose products with the frame are those of the basis of the span
+of $\gamma e_1,\dots,\gamma e_i,\gamma z$ dual to the subframe, times $L$. For such $(\omega,L)$:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\omega$ is a basis of $yV_-\cap I_\gamma^\perp$ pairing perfectly with the subframe, $I_\gamma=A\cap\gamma A$;
+\item $\abs{\det L}\le\rho^{i+1}$ if the frame vectors of $y$ have norm at most $\rho$, and $\abs{\det L}=\abs{\det L_1}\abs{L_{zz}}$ for the leading block $L_1$;
+\item with $\omega'=\gamma(e_1,\dots,e_i,z)B^{-1}L$ and $v$ the parts in $X_0$ of the columns of $\omega'-\omega$, the differences $\omega'-\omega$ are orthogonal to the frame and have the Gram matrix of $v$;
+\item if $y$ has length at most $\theta$, then $\abs{L_{zz}}^2\le\theta^{2(j-i)}(1+\abs{v_z}^2)$, with equality $\abs{L_{zz}}^2=1+\abs{v_z}^2$ when $j\le\varrho$;
+\item $\abs{\det B}=\abs{D_j}$ for the leading minor $D_j$ of order $j$ of $Z(\gamma)$.
+\end{enumerate}
+\end{lemma}
+\lean{New.RealPlace.exists_isTriangularBasis, New.RealPlace.IsTriangularBasis.isNegativeBasis, New.RealPlace.IsTriangularBasis.norm_det_le, New.RealPlace.IsTriangularBasis.norm_det_eq_mul_norm_last, New.RealPlace.IsTriangularBasis.conjTranspose_frameCols_mul_J₁_mul_sub_eq_zero, New.RealPlace.IsTriangularBasis.gram_differenceX₀, New.RealPlace.IsTriangularBasis.norm_last_le, New.RealPlace.IsTriangularBasis.norm_last_sq_eq_one_add_dotProduct_differenceX₀, New.RealPlace.IsTriangularBasis.norm_last_sq_le, New.RealPlace.IsTriangularBasis.apply_eq_frameVector_dotProduct, New.RealPlace.IsTriangularBasis.norm_dotProduct_J₁_mul_col_le_norm, New.RealPlace.IsTriangularBasis.conjTranspose_subframeCols_mul_J₁_mul_eq, New.RealPlace.IsTriangularBasis.det_ne_zero, New.RealPlace.IsTriangularBasis.gram_eq_neg_one, New.RealPlace.IsTriangularBasis.products_eq, New.RealPlace.IsTriangularBasis.triangular, New.RealPlace.IsTriangularBasis.J₁_mul, New.RealPlace.IsNegativeBasis.J₁_mul, New.RealPlace.IsNegativeBasis.det_ne_zero, New.RealPlace.IsNegativeBasis.orthogonal, New.RealPlace.inclMatrix_mul_dualProducts, New.RealPlace.frameCols_mul_mul_subframeCols, New.RealPlace.subframeIndex, New.RealPlace.subframeIndex_castSucc, New.RealPlace.subframeIndex_last, New.RealPlace.subframeIndex_injective, New.RealPlace.subframeIndex_self, New.RealPlace.le_and_ne_top_of_notMem_range, New.RealPlace.J₁_mulVec_eq_self, New.RealPlace.form_frameCols_mulVec, New.RealPlace.posSemidef_neg_gram_mul_frameCols, New.RealPlace.gram_definiteCols_mul_eq, New.RealPlace.J₁_mul_coe, New.RealPlace.J₁_mul_one_sub_J₁_mul, New.RealPlace.J₁_mul_inv_conjTranspose, New.RealPlace.J₁_mul_frameLeftInverse_conjTranspose, New.RealPlace.exists_eq_one_sub_J₁_mul, New.RealPlace.eq_mul_of_J₁_mul_eq_neg, New.RealPlace.frameLeftInverse, New.RealPlace.frameLeftInverse_mul_frameCols, New.RealPlace.frameCols_J₁_gram, New.RealPlace.realFrameGram_eq, New.RealPlace.conjTranspose_realFrameGram_mulVec}
+
+\begin{proof}
+The space $V_-$ is spanned by the columns of $(1-J_1)f$, and $yV_-$ is negative definite of dimension $\varrho+1$; a vector of $yV_-$ is determined by its products with the frame $f$, since the frame pairs perfectly
+with $yV_-$ (the form is $\le0$ on the span of $f$, and $-\abs{x_z}^2$ on $fx$). Let $\omega_0$ be the vectors of $yV_-$ whose products with the frame are those of the dual basis
+$\gamma(e_1,\dots,e_i,z)B^{-1}$; Gram--Schmidt for the negative form applied to $\omega_0$ gives $\omega=\omega_0L$ with $L$ lower triangular, invertible, and Gram matrix $-1$; the products of the subframe with
+$\omega$ form $L$, because those with $\omega_0$ form the identity.
+
+(a) A vector of $I_\gamma$ lies in $\gamma A$, so it is orthogonal to the frame of $\gamma$, hence to $\omega$; and the products with the subframe form the invertible $L$. As $\dim yV_-\cap I_\gamma^\perp=\varrho+1-\dim I_\gamma=i+1$,
+$\omega$ is a basis. (b) $L_{al}$ is the product of $y^{-1}$ applied to the $a$th subframe vector with the unit vector $y^{-1}\omega_l$ of $V_-$, so $\abs{L_{al}}\le\rho$; Hadamard's inequality on the triangular $L$ gives
+$\abs{\det L}\le\prod_a\abs{L_{aa}}\le\rho^{i+1}$, and the determinant of a triangular matrix is the product of the leading block and the last entry.
+(c) The products of $\omega'$ and of $\omega$ with the frame coincide by construction, so $\omega'-\omega$ is orthogonal to the frame; a vector orthogonal to the frame has vanishing coordinates at the $e^*_a$
+and at $z$ and its form is that of its part in $X_0$, up to the isotropic coordinates, which pair to zero.
+(d) If $j\le\varrho$ the flags of $f$ and $\gamma f$ share a vector $fx=\gamma f x'$ with $x'_z=1$ and $\abs{x_z}=1$; it is a combination of the image of the subframe, and $\omega'_z$ is a multiple of it, hence lies in the span of
+$f$, where it is orthogonal to the difference $\omega'_z-\omega_z$ (which is orthogonal to the frame). Therefore
+\[
+  -1=\langle\omega_z,\omega_z\rangle=\langle\omega'_z,\omega'_z\rangle+\abs{v_z}^2=-\abs{L_{zz}}^2+\abs{v_z}^2.
+\]
+At the top level $i=\varrho$ take $u$ unipotent with $\norm{uy}\le\theta$; as $\omega_z$ is orthogonal to $A$, its product with $z$ is that with $u^{-1}z$, so $\abs{L_{zz}}\le\norm{uy}\le\theta$, and $1+\abs{v_z}^2\ge1$.
+(e) If $j=\varrho+1$ the subframe is the whole frame and $B=Z(\gamma)$. Otherwise $i=j$, and the shared vector at the index of $z$, corrected by the shared vectors at the indices from $i$ to $\varrho-1$, is a vector
+$fx=\gamma fx'$ with $x'$ supported on the subframe, $x'_z=1$ and $\abs{x_z}=1$; its products with the subframe are $(0,\dots,0,-x_z)$, because the $e_a$ are isotropic and orthogonal to every frame vector, and $z$ has norm $-1$
+for $J_1$. By Cramer's rule, replacing the last column of $B$ by $Bx'$ leaves the determinant unchanged, since $x'_z=1$; expanding along this column, $\abs{\det B}$ is the modulus of the leading
+minor of order $i$.
+\end{proof}
+
+\begin{proposition}[The weight at one real place]\label{prop:volume-ratio}
+Let a norm-one pair occur for $\gamma_0$ from $j$, $i=\min(\varrho,j)$, $Z$ the frame products of $\gamma_0$ with $\delta=\det$ of its block on the subframe $e_1,\dots,e_i,z$ nonzero, and let $y$ have length at most $\theta$
+and frame vectors of norm at most $\rho$, $k\ge7$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\nu_\gamma(y)$ is the modulus of the determinant of the products of a negative basis of $yV_-\cap I_\gamma^\perp$ with $\gamma e_1,\dots,\gamma e_i,\gamma z$, divided by that with $e_1,\dots,e_i,z$; and
+$\nu_\gamma(y)\ge2^{-i-1}\abs\delta\det(1+vv^*)/\abs{\det L}^2$ for a triangular basis $(\omega,L)$, with $v$ the parts in $X_0$ of the differences of two bases, which move affinely when $y$ is moved by a
+unipotent element fixing the frame.
+\item There is a measurable $\phi$ on $X_0^i$ with $\int\phi\le(2\rho^2)^{(i+1)i}(2^{i+1}\theta^{2(j-i)})^k/\abs\delta^{k+i}$ and $\nu_\gamma^{-(k+i)}\le\phi(A)$ whenever $\gamma$ has the same $Z$ and norm-one pairs from $j$, and
+its subframe differs in $X_0$ from that of $\gamma_0$ by ${}^t\bar A$ times the first $i$ rows of the block.
+\end{enumerate}
+\end{proposition}
+\lean{New.RealPlace.IsNegativeBasis.volumeRatio_eq, New.RealPlace.IsTriangularBasis.norm_det_mul_le_volumeRatio, New.RealPlace.differenceX₀_eq_add, New.RealPlace.exists_majorant_volumeRatio_inv_pow, New.RealPlace.IsNegativeBasis, New.RealPlace.IsTriangularBasis, New.RealPlace.exists_isTriangularBasis, New.RealPlace.differenceX₀, New.RealPlace.subframeCols, New.RealPlace.subframeBlock, New.RealPlace.volumeRatio_eq_norm_det, New.RealPlace.norm_det_subframeBlock, New.RealPlace.exists_common_vector_of_normOnePairOccursFrom, New.RealPlace.frameX₀Part, New.RealPlace.frameX₀Part_unipotentOf_inv_mul, New.RealPlace.imageBasis, New.RealPlace.dualProducts}
+
+\begin{proof}
+(a) Let $N$ be the matrix of the projection of $\gamma f$ to $yV_-$ in the basis given by the projection of $f$; then $\nu_\gamma(y)=\abs{\det N}$. Let $\omega$ be a negative basis of $yV_-\cap I_\gamma^\perp$ and $P$ the matrix of
+the products of the frame with $\omega$; then $P(B_\omega)^{-1}$, with $B_\omega$ the rows of the subframe, holds the products with the basis dual to the subframe. For an index $b$ outside the subframe the
+flags of $f$ and $\gamma f$ share a vector at $b$ with leading coefficients $\zeta$ and $1$, $\abs\zeta=1$, and the part of $N$ at these indices is unitriangular up to these factors; two triangular changes of basis
+reduce $\abs{\det N}$ to the determinant of the products of $\omega$ with $\gamma e_1,\dots,\gamma e_i,\gamma z$ divided by that with $e_1,\dots,e_i,z$. For the lower bound take a triangular basis
+(\cref{lem:triangular-basis}) and $K=\omega^*J_1\omega'$. The products of $\omega$ with the image of the subframe are $KL^{-1}B$ and those with the subframe are $L^*$, so
+\[
+  \nu_\gamma(y)=\abs{\det K}\,\abs\delta/\abs{\det L}^2.
+\]
+Expanding the form on $\omega'-\omega$, whose Gram matrix is $v^*v$ (\cref{lem:triangular-basis}(c)), gives $v^*v=\omega'^*J_1\omega'-1-K-K^*\le-1-K-K^*$, as the form is $\le0$ on the span of $\gamma f$. Thus the hermitian part of
+$-K$ is at least $\frac12(1+v^*v)$, and the Ostrowski--Taussky inequality \cite{OstrowskiTaussky1951} gives $\abs{\det K}\ge\det(\frac12(1+v^*v))=2^{-i-1}\det(1+vv^*)$. If the part in $X_0$ of the image of the subframe
+moves by ${}^t\bar A$ times the first $i$ rows of $B$, then $\omega'$ moves accordingly and $v$ moves by ${}^t\bar A$ times the first $i$ rows of $L$; the last column of $v$ does not move, since $L$ is lower
+triangular. Left multiplication by a unipotent $u=u(a,b)$ fixing the frame adds ${}^t\bar a$ times the isotropic rows of $Z$ to the part in $X_0$ of $\gamma f$, which is a move of this kind.
+
+(b) Fix a triangular basis at $y$ for $Z$ and write $v_0$ for the differences at $\gamma_0$, $L_1$ for the leading block of $L$, $c$ for the conjugate transpose of the first $i$ columns of $v_0$,
+$G=1+v_{0,z}v_{0,z}^*$ and $C=(2^{i+1}\abs{\det L}^2/\abs\delta)^{k+i}$. Put
+\[
+  \phi(A)=C\,\bigl\lvert\det\bigl(G+(L_1^*A+c)^*(L_1^*A+c)\bigr)\bigr\rvert^{-(k+i)}.
+\]
+At a translate by $A$ the matrix $1+vv^*$ is $G+(L_1^*A+c)^*(L_1^*A+c)$, because the last column of $v$ is that of $v_0$ and the others are $v_0$'s plus ${}^t\bar A$ times the first $i$ rows of $L$; so (a)
+gives $\nu_\gamma^{-(k+i)}\le\phi(A)$. Hua's bound \cite{Hua1963} for the integral of a negative power of $\abs{\det(G+Y^*Y)}$ over the rows of $Y=SA+c$, $S$ invertible and at least seven columns, gives
+\[
+  \int\phi\le C\,\abs{\det L_1}^{-2k}(\det G)^{-k}=\frac{(2^{i+1}\abs{\det L}^2)^i\,\bigl(2^{i+1}\abs{L_{zz}}^2/\det G\bigr)^k}{\abs\delta^{k+i}},
+\]
+with $\abs{\det L}=\abs{\det L_1}\abs{L_{zz}}$. Finally $\abs{\det L}\le\rho^{i+1}$ and $\abs{L_{zz}}^2/\det G\le\theta^{2(j-i)}$ (\cref{lem:triangular-basis}(b), (d)), since $\det G=1+\abs{v_{0,z}}^2$.
+\end{proof}
+
+\begin{lemma}[The lattice of columns]\label{lem:column-lattice}
+For a class $c$ and a finite set $\iota$, the image of the $\iota$-tuples of vectors of $\Lambda\cap X_0$ under the conjugated embeddings is a discrete subgroup spanning $\prod_v(\C^\kappa)^\iota$ over $\R$; it has a
+measurable fundamental domain of finite measure at least $1$.
+\end{lemma}
+\lean{New.Filling.mem_columnLattice, New.Filling.conjColumnsAtInfinity_apply, New.Filling.conjColumnsAtInfinity_injective, New.Filling.denseRange_conjColumnsAtInfinity, New.Filling.isIntegral_conjTranspose_mul, New.Filling.span_columnLattice, New.Filling.exists_int_eq_sum_re}
+
+\begin{proof}
+Hermitian products of vectors of $\Lambda\cap X_0$ are algebraic integers, as the basis of $X_0$ is orthonormal for the integral Gram matrix of the lattice. A nonzero vector has squared length an algebraic integer
+whose conjugates are not all less than $1$, so the image is discrete. Every tuple of vectors of $X_0$ has a nonzero integer multiple in $\Lambda\cap X_0$ (clear the finitely many denominators), and $E$ is dense in
+$\prod_v\C$, so the span is dense and closed, hence everything. The Euclidean product of two lattice points is $\sum_v\re\Phi_v(x)$ for the hermitian product $x$ of the two tuples, an algebraic integer. Let
+$\iota\in E$ with $\iota^2=-1$ and let $t_v$ be the image of $x$ under the embedding at $v$ that sends $\iota$ to $\sqrt{-1}$; then $\re t_v=\re\Phi_v(x)$, and $t=\sum_vt_v$ is an algebraic integer equal to $(p-q\sqrt{-1})/2$, for the
+traces $p$ of $x$ and $q$ of $\iota x$. Its squared modulus $(p^2+q^2)/4$ is an algebraic integer and rational, hence an integer, so $p$ and $q$ are even and $\sum_v\re\Phi_v(x)=p/2$ is an integer. The lattice therefore
+has an integral Gram matrix in a basis, and its covolume is the square root of a positive integer.
+\end{proof}
+
+\begin{lemma}[Cauchy--Schwarz and integration in stages]\label{lem:schur-cs}
+For classes $c$, $c'$ and a rational $\gamma$ write $I(c,c',\gamma,i)$ for the integral of the boxed cutoff of $c$ times the squared norm of the cut Bessel function times the Schur weight for $(c',\gamma)$ with
+exponent $i$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The square of the amplitude majorant of $\gamma$ for the cut Bessel functions is at most $I(c,c',\gamma,i)\,I(c',c,\gamma^{-1},i)$.
+\item $\int\beta_c\norm{W^\flat}^2\le\nu\,\#I$, with $\#I$ the number of Bessel coordinates.
+\item Let $F$ be measurable and invariant under $U^0_c(M)$, let $s$ be measurable with values in the fixer of the frame, and $B$ of finite positive measure. If $\int_BF(us(x)y)\,dx\le\abs BC$ for all $u$ in the fixer
+and all boxed $y$, then $\int F\cdot\text{(boxed cutoff of $c$)}\cdot\norm{W^\flat}^2\le C\nu\,\#I$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.inCut_of_besselKernel_ne_zero, New.Filling.lintegral_cutoff_mul_eq_mul_right, New.Filling.lintegral_cutoff_mul_le_of_average, New.Filling.enorm_besselSystem_cut_mul}
+
+\begin{proof}
+(a) Where the integrand of the majorant,
+\[
+  \beta_c(y)\,\beta_{c'}(\gamma^{-1}y)\,\norm{W^\flat(y)}\,\norm{W^\flat(\gamma^{-1}y)},
+\]
+is nonzero, every local factor is nonzero, each vanishes outside the cut, and by the definition of
+the reduced points $y$ and $\gamma^{-1}y$ are boxed, so the cutoffs equal the boxed cutoffs. Write the integrand as the geometric mean of $\beta_c(y)\norm{W^\flat(y)}^2\nu(y)^{-(k+i)}\beta_{c'}(\gamma^{-1}y)$ and
+$\beta_{c'}(\gamma^{-1}y)\norm{W^\flat(\gamma^{-1}y)}^2\nu(y)^{k+i}\beta_c(y)$; since $\nu_{\gamma^{-1}}(\gamma^{-1}y)=\nu_\gamma(y)^{-1}$ (exchanging the frames inverts the ratio), the substitution $y\mapsto\gamma y$ turns the integral of the
+second into $I(c',c,\gamma^{-1},i)$, and Cauchy--Schwarz gives (a).
+(b) The norm of $W^\flat$ is invariant under $U_\infty$, which acts on $W^\flat$ by a unitary character. Integrate over the orbits of $U_\infty$: the integral of $\beta_c$ over an orbit is $\nu$
+(\cref{prop:blocks}(a)), and $\int_{U\backslash G}\norm{W^\flat}^2\le\#I$ (\cref{thm:bessel-schur}).
+(c) Unfold along the fixer $G^0$ of the frame at the infinite places: the integral is an integral over orbits $G^0a$ with a measure of total mass one on each orbit. On an orbit inside the boxed points the
+Bessel norms and all factors of the boxed cutoff are constant except the cutoff $p$ for $U^0_c(M)$; for a $\Gamma$-invariant $F$ and a cutoff $p$ of a countable group $\Gamma$ acting on a unimodular group,
+$\int Fp$ does not change when $F$ is translated on the right (insert the sum of the translates of $p$ and substitute in each term). Averaging over the translations $s(x)$, $x\in B$, bounds the $p$-weighted
+integral of $F$ over the orbit by $C$ times that of $p$; integrating over the orbits and using (b) gives the bound.
+\end{proof}
+
+For a term $\gamma$ of cell rank $j$ over $(c,s,c')$, $i=\min(\varrho,j)$, a term $p$ of its orbit is a \emph{lattice translate} of $p_0$ with parameter $l$, a matrix with columns in $\Lambda\cap X_0$, if modulo the isotropic space
+the frame of $p$ is that of $p_0$ moved in $X_0$ by $M\,l$ times the first $i$ isotropic rows of $Z(\gamma)$. The \emph{Eichler shift} with parameter $x\in\prod_v(\C^\kappa)^i$ is the unipotent element that acts on $X_0$
+by the product of the Eichler maps along $e_1,\dots,e_i$ with the parameters $\overline{M/\mathrm{sc}_v(e_l)}\,x_l$, $\mathrm{sc}_v$ the scales of the normalised basis. The \emph{isotropic row index}
+$\mathrm{iri}(\gamma)$ is the index, in the lattice spanned by the products of $\Lambda\cap A$ with the frame of $h_c^{-1}\gamma h_{c'}$, of the sublattice coming from the $e_a$ with $a<j$.
+\lean{New.Filling.IsLatticeTranslate, New.Filling.eichlerShift, New.Filling.shiftScaling, New.Filling.kernelBound, New.Filling.initialIsotropicIndex, New.Filling.isotropicRowsIndex, New.Filling.measurable_eichlerShift, New.Filling.eichlerShift_mem, New.Filling.IsLatticeTranslate.frameX₀Part_eq, New.Filling.frameMiddle_translateByClassReps_sub, New.Filling.HasCellRank.det_subframeBlock_ne_zero, New.Filling.HasCellRank.norm_det_subframeBlock, New.Filling.HasCellRank.of_mem_doubleCoset, New.Filling.frameProducts_eq_of_mem_doubleCoset, New.Filling.termsOver.of_mem_doubleCoset, New.Filling.col_frameMiddle_sub_mem, New.Filling.col_conjTranspose_mul_mem, New.Filling.realFrameGram_ratToInf_congr, New.Filling.realFrameGram_inv_mul_ratToInf, New.Filling.norm_det_submatrix_realFrameGram, New.Filling.norm_det_shiftScaling, New.Filling.kernelBound_le, New.Filling.kernelBound_nonneg}
+
+\begin{lemma}[The orbit as lattice translates]\label{lem:orbit-translates}
+Let $\gamma$ be a term of cell rank $j\ge1$ over $(c,s,c')$ and $i=\min(\varrho,j)$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The terms of the orbit $U^0_c\gamma U^0_{c'}$ lie over $(c,s,c')$, have the cell rank $j$ and the matrix of products $Z(\gamma)$, and the middle parts of their frames differ from that of $\gamma$, row by row, by
+$M$ times $\hat\OO$-combinations of the conjugates of the isotropic rows of the products of the frame of $h_c^{-1}\gamma h_{c'}$.
+\item The orbit is the union of at most $\mathrm{iri}(\gamma)^k$ sets each consisting of lattice translates of one of its points.
+\item At a place $v$ the local kernel of \cref{prop:volume-ratio}(b), in the parameters of the Eichler shift, has integral at most
+\[
+  \mathrm{kb}_v=\Bigl(\frac{(2\rho^2)^{i+1}N^j}{\abs{D_j}_v}\Bigr)^i\Bigl(\frac{(b^{13}/M^2)^iN^{(j-\varrho)_+}}{\abs{D_j}_v}\Bigr)^k,\qquad\rho=b^{37n},
+\]
+and $\prod_v\mathrm{kb}_v\le\tau\,(b^{13}/M^2)^{ikf}\mu_j^{-k/2}$, with $\mu_j=\mathrm{Nm}(D_j)$ divided by $N^{2f}$ at the top cell rank.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.HasCellRank.exists_isLatticeTranslate, New.Filling.tsum_orbit_le_of_isLatticeTranslate, New.Filling.HasCellRank.exists_majorant_lintegral_le_kernelBound, New.Filling.frameX₀Part_eichlerShift_inv_mul, New.Filling.prod_kernelBound_le, New.RealPlace.frameX₀Part_unipotentOf_inv_mul}
+
+\begin{proof}
+(a) Write $\delta=u\gamma x$ with $u\in U^0_c$, $x\in U^0_{c'}$. Moves fix the frame and keep the products, the cell rank, and the block (a move of $c$ is a term over $(c,1,c)$). The new frame is $u'=h_c^{-1}uh_c$ times the
+old one in the lattice basis, and $M^{-1}(u'-1)$ is integral; off its last block of columns a row of $u'$ agrees with the identity, and the products of $e_a$ with the frame of $h_c^{-1}\gamma h_{c'}$ are the coordinates
+of that frame along $e^*_a$. (b) The middle parts of two frames of the orbit differ by $k$ rows, which in a basis of $\Lambda\cap X_0$ lie in $M$ times the lattice spanned by all isotropic rows; colour each term by the
+classes of these rows modulo $M$ times the sublattice of the rows $a<j$, at most $\mathrm{iri}^k$ colours. Two terms of one colour differ by $M$ times that sublattice; the rows of the leading block are independent, so the
+adelic coefficients come from a rational $l$ with columns in $\Lambda\cap X_0$, and the terms are lattice translates. (c) With $\delta_u$ the leading minor in the unit frame, $\abs{\delta_u}=\abs{\kappa_v}^{2w}\abs{D_j}_v/N^j$
+for $w=\sum_{a<j}(\varrho-a)$, and the shift scaling has $\abs{\det}=(M\sqrt N)^i/\abs{\kappa_v}^w$ (\cref{ss:filling-data}). Dividing the bound of \cref{prop:volume-ratio}(b) by the Jacobian $\abs{\det}^{2k}$ of the passage to the shift
+parameters, the power of $\abs{\kappa_v}$ cancels in the $k$th power and may be dropped in the $i$th power ($\abs{\kappa_v}\ge1$); with $\theta=b^{6n+2}$ one has $2^{i+1}\theta^{2(j-i)}\le b^{13i}$ (as $i\ge1$, and $i=\varrho$ is
+large when $j>i$). For the product, $\prod_v\abs{D_j}_v=\mathrm{Nm}(D_j)^{1/2}=N^{f(j-\varrho)_+}\mu_j^{1/2}$, and $D_j$ is a nonzero algebraic integer, so $\prod_v\abs{D_j}_v^{-i}\le1$; the remaining factor
+$\bigl((2\rho^2)^{i+1}N^j\bigr)^{if}$ is at most $\tau$ because $N\le b^{60n}$.
+\end{proof}
+
+\begin{theorem}[Schur's test for one orbit]\label{thm:schur-orbit}
+Let $\gamma$ be a term of cell rank $j\ge1$ over $(c,s,c')$, $i=\min(\varrho,j)$. Then:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Cauchy--Schwarz.) The square of the amplitude majorant of $\gamma$ (with the cut Bessel functions) is at most the product of the Schur integrals for $(c,c',\gamma)$ and $(c',c,\gamma^{-1})$.
+\item (Orbit.) The frames of the orbit $U^0_c\gamma U^0_{c'}$ lie in at most $\mathrm{iri}^k$ cosets of a lattice, $\mathrm{iri}$ the isotropic row index of the term; summing the Schur weights over a lattice
+translate and integrating in stages,
+\[
+  \sum_{\text{orbit}}\text{Schur integral}\le\nu\,\#I\cdot\tau^2(b^{13}/M^2)^{ikf}\bigl(\mathrm{iri}/\sqrt{\mu_j}\bigr)^k,\qquad\tau=b^{kf/4},
+\]
+with $\mu_j$ the normalised norm of the leading minor of order $j$.
+\item Hence the square of the sum over the orbit of the absolute amplitudes is at most $(\nu\,\#I\,\tau^2(b^{13}/M^2)^{ikf})^2(N^f/\mathsf g^\sharp)^k$, with $\#I$ the number of Bessel coordinates and $\mathsf g^\sharp$ the
+minor gauge ($N^f\mu_j$ divided by the two isotropic row indices).
+\end{enumerate}
+\end{theorem}
+\lean{New.Filling.amplitudeMajorant_sq_le, New.Filling.lintegral_boxCutoff_le_of_average, New.Filling.tsum_orbit_le_of_isLatticeTranslate, New.Filling.exists_tsum_schurWeight_le, New.Filling.tsum_schurIntegral_le, New.Filling.sq_tsum_amplitudeMajorant_doubleCoset_le, New.Filling.tsum_amplitudeMajorant_orbit_le, New.Filling.HasCellRank.exists_majorant_lintegral_le_kernelBound, New.Filling.frameX₀Part_eichlerShift_inv_mul, New.Filling.eichlerShift, New.Filling.shiftScaling, New.Filling.kernelBound, New.Filling.IsLatticeTranslate, New.Filling.HasCellRank.exists_isLatticeTranslate, New.Filling.tsum_schurWeight_fibre_le, New.Filling.prod_kernelBound_le, New.Filling.tsum_schurWeight_ratToInf_mul, New.Filling.columnLattice, New.Filling.exists_isAddFundamentalDomain_columnLattice, New.Filling.integralColumns, New.Filling.conjColumnsAtInfinity, New.Filling.initialIsotropicIndex, New.Filling.lintegral_eq_lintegral_orbit, New.Filling.lintegral_classCutoff_mul_sq_le, New.Filling.div_tailScale_pow_mul_identitySecondMoment_le_cellRankSecondMoment, New.Filling.b_pow_div_M_sq_le}
+
+\begin{proof}
+(a) is \cref{lem:schur-cs}(a) with $i=\min(\varrho,j)$.
+
+(b) Let $F$ be the sum of the Schur weights (exponent $i$) over the orbit. It is invariant under $U^0_c$, which permutes the orbit and fixes the frame, and the sum of the Schur integrals over the orbit is
+$\int F\cdot(\text{boxed cutoff of }c)\cdot\norm{W^\flat}^2$. Fix $u$ in the fixer of the frame and a boxed $y$, and let $s(x)$ be the Eichler shift with parameter $x$. By \cref{lem:orbit-translates}(b) the
+orbit is the union of at most $\mathrm{iri}^k$ sets $B$ of lattice translates of a point $p_0\in B$. \emph{Fibres.} Terms of $B$ with the same parameter $l$ have frames that differ only in the isotropic space, so the
+points $p^{-1}y$ differ by elements of the space $V$ of $n$-tuples of isotropic vectors seen from $y$, of real dimension $2n\varrho f$; by packing (\cref{prop:packing}(b), with $R=1$ at boxed points) their weights add up
+to at most $(b^{6n^2})^{\dim V}\le\tau$ times a common bound for $\prod_v\nu^{-(k+i)}$. \emph{From cosets to the lattice.} Let $\phi=\prod_v\phi_v$ be the product of the local kernels of
+\cref{lem:orbit-translates}(c) for the base point $u^{-1}p_0$. By the formula for the parts in $X_0$ of the frames after an Eichler shift (\cref{prop:volume-ratio}(a)), at the point $us(x)y$ a term with parameter $l$ is a
+translate of $u^{-1}p_0$ by the rescaled point $x+l$, so its ratio of volumes is bounded by $\phi(x+l)$; hence the sum of the weights over $B$ at $us(x)y$ is at most $\tau\sum_{q\in x+(\Lambda\cap X_0)^i}\phi(q)$.
+\emph{From the lattice to an integral.} The mean of $x\mapsto\sum_q\phi(x+q)$ over a fundamental domain $D$ of the lattice of columns is $\int\phi/\abs D\le\prod_v\mathrm{kb}_v$, as $\abs D\ge1$ (\cref{lem:column-lattice}).
+Hence the mean of $F(us(x)y)$ over $x\in D$ is at most $C=\mathrm{iri}^k\tau\prod_v\mathrm{kb}_v$, and \cref{lem:schur-cs}(c) gives the bound $C\nu\,\#I$; insert \cref{lem:orbit-translates}(c).
+
+(c) By (a) the square of the sum over the orbit of the majorants is at most the product of the two sums of Schur integrals over the orbits of $\gamma$ and $\gamma^{-1}$; inversion maps the first orbit onto the
+second, which has the same cell rank and the same $\mu_j$ (the products of $\gamma^{-1}$ are the conjugate transpose), and its isotropic row index is the other index of $\gamma$. Multiplying the two bounds of (b),
+$\mathrm{iri}(\gamma)\mathrm{iri}(\gamma^{-1})/\mu_j=N^f/\mathsf g^\sharp$.
+\end{proof}
+
+\subsection{The size of a block}\label{ss:block-size}
+For a term $\gamma$ of cell rank $j$ over $(c,s,c')$ put $i=\min(\varrho,j)$ and $k_\gamma=h_c^{-1}\gamma h_{c'}$. Let $\mu_j(\gamma)=\mathrm{Nm}(D_j)$, divided by $N^{2f}$ if $j=\varrho+1$; let the \emph{subframe minor} $\delta_*(\gamma)$ be the
+determinant of the products of the subframe $e_1,\dots,e_j,z$ (the whole frame if $j\ge\varrho$) with its image under $\gamma$; let $\mathrm{iri}(k_\gamma)$ be the isotropic row index (\cref{ss:schur-orbit}) and
+$t(k_\gamma)$, the \emph{torsion index}, the index of $\Lambda\cap A+k_\gamma(\Lambda\cap A)$ in $\Lambda\cap(A+k_\gamma A)$. The gauges of $\gamma$ are
+\[
+  \mathsf g^\sharp=\frac{\mathrm{Nm}(\delta_*)}{\mathrm{iri}(k_\gamma)\,\mathrm{iri}(k_\gamma^{-1})\,N^f},\qquad\mathsf g^{\max}=\max(\mathsf g^\sharp,\mathfrak g_{\rm Nm}),\qquad\mathsf g^*=M^{2if}\,\mathsf g^{\max},
+\]
+the minor gauge, the maximal gauge and the \emph{level gauge}. The \emph{cell second moment} $\mathcal D_j$ is $\mathcal D_{\rm main}$ at the top cell rank and $\tau^{-16}\mathcal D_{\rm id}$ below; the \emph{orbit bound} at gauge $x$ is
+$\mathrm{ob}_j(x)=\tau^2(\mathcal D_j/(n_p(M^{2if}x)^k))^{1/2}$, and the \emph{size} of the orbit of $\gamma$ is $\mathrm{size}(\gamma)=\mathrm{ob}_j(\mathsf g^{\max})=\tau^2(\mathcal D_j/(n_p\mathsf g^{*k}))^{1/2}$, in units of $\nu$. A
+\emph{near representative} of a set $T$ over $(c,s,c')$ is a near term of $T$ over the block that has a cell rank, is the chosen element of its orbit $U^0_c\gamma U^0_{c'}$, and lies over an agreeing $s$.
+\lean{New.Filling.cellRankSecondMoment, New.Filling.orbitBound, New.Filling.termSize, New.Filling.levelGauge, New.Filling.minorGauge, New.Filling.maxGauge, New.Filling.minorNorm, New.Filling.isotropicRowsIndex, New.Filling.torsionIndex, New.Filling.latticeDisc, New.Filling.IsNearRepresentative, New.Filling.IsNearTermAt, New.Filling.IsNearRepresentativeAtCellRank, New.Filling.nearRepresentativesOver, New.Filling.cellRank, New.Filling.discriminantBound, New.Filling.secondMoment, New.Filling.linkSecondMoment, New.Filling.pairingBoundConst}
+
+\begin{lemma}[Cell rank, minors and the subframe]\label{lem:padded}
+Let $\gamma$ have cell rank $j$ and let $P_j$ be the matrix made of the first $j$ rows of $Z=Z(\gamma)$ and of rows of the identity below them.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\gamma$ has no other cell rank, $\gamma^{-1}$ has the cell rank $j$, and $\mu_j(\gamma^{-1})=\mu_j(\gamma)$.
+\item $\det P_j=D_j\ne0$, and for $b\ge j$ the combination of $\gamma f$ with the coefficients of column $b$ of $P_j^{-1}$ lies in the span of $f$.
+\item $\mathrm{Nm}(\delta_*)=N^{2f}\mu_j$; in particular $\delta_*\ne0$.
+\item The subframe is a basis of $A^+/I_\gamma$, and its image under $\gamma$ a basis of $\gamma A^+/I_\gamma$.
+\item $\mathsf g^\sharp=N^f\mu_j/(\mathrm{iri}(k_\gamma)\mathrm{iri}(k_\gamma^{-1}))$ and $\mathsf g^{\max}=\max(N^f\mu_j,\mathfrak g_{\rm Nm})/(\mathrm{iri}(k_\gamma)\mathrm{iri}(k_\gamma^{-1}))$; at the top cell rank both indices are $1$. The gauges are positive.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.HasCellRank.inv, New.Filling.minorNorm_inv, New.Filling.HasCellRank.paddedLeading_mul_inv, New.Filling.HasCellRank.abs_norm_det_updateRow_paddedLeading, New.det_updateRow_of_mulVec_eq_single, New.Filling.isotropicRowsIndex_top, New.Filling.isotropicRows_conjTranspose_mul_eq, New.Filling.HasCellRank.cellRank_eq, New.Filling.HasCellRank.hasCellRank_cellRank, New.Filling.HasCellRank.frameProducts_mulVec_eq_zero_of_shared, New.Filling.HasCellRank.eq_zero_of_frameProducts_mulVec_eq_zero, New.Filling.HasCellRank.eq_zero_of_mem_commonIsotropic, New.Filling.HasCellRank.exists_mem_commonIsotropic, New.Filling.frameImage_one_mulVec_mem_commonIsotropic_iff, New.linearIndependent_mkQ_col_and_colSpan_sup_eq, New.mulVec_eq_submatrix_mulVec_of_eq_zero_off, New.Filling.isIntMatrix_conjTranspose_mul_of_classCoordX₀, New.Filling.one_le_latticeDisc, New.Filling.card_eq_finrank_colSpan, New.Filling.classCoord_eq_fromBlocks, New.Filling.classCoord_gram, New.Filling.classCoord_mul_framePair, New.Filling.classCoord_mul_isotropicFramePair, New.Filling.framePair_translateByClassReps_mul_classCoord, New.Filling.gram_classCoordX₀, New.Filling.isIntMatrix_framePair}
+
+\begin{proof}
+(a) Let $j<j'$ both be cell ranks. Then $j'\le\varrho$, since the top rank is decided by $\mathfrak g\ne0$. The shared vector at the index $j'-1\ge j$ is $fx=\gamma fy$ with $y$ supported on the first $j'$ indices and
+$y_{j'-1}=1$; its products with $e_a$, $a<j'$, vanish because $A$ is totally isotropic and orthogonal to $z$, so the leading block of order $j'$ of $Z$ kills the nonzero vector $y$, against $D_{j'}\ne0$. The
+products of $\gamma^{-1}$ form $Z(\gamma)^*$, so its leading minors are the conjugates, $\mathfrak g$ is unchanged, and a shared vector $fx=\gamma fy$ gives $\gamma^{-1}fx'=fy'$ after exchanging the roles of the two frames.
+(b) Expanding along the rows of the identity leaves the leading minor. For $b\ge j$, combining the shared vectors at the indices $j,\dots,\varrho$ (each with coefficient $1$ at its top index) gives $y$ with
+$y_l=\delta_{lb}$ for $l\ge j$ and $\gamma fy$ in the span of $f$; as in (a) the first $j$ entries of $Zy$ vanish, so $P_jy$ is the $b$th unit vector.
+(c) At the top rank $\delta_*=D_{\varrho+1}$. Below it, $\delta_*$ is the determinant of $P_j$ with its last row replaced by the last row of $Z$. The last column $y$ of $P_j^{-1}$ gives a shared vector
+$\gamma z+\dots=\zeta z+\dots$ with $\zeta\bar\zeta=1$, and the last row of $Z$ sends $y$ to $h(z,\zeta z)=-N\zeta$; replacing a row of a matrix whose inverse has $y$ as that column multiplies the determinant by the new row
+applied to $y$. Hence $\delta_*=-N\zeta D_j$ and $\mathrm{Nm}(\delta_*)=N^{2f}\mathrm{Nm}(D_j)$.
+(d) Let $\gamma fx'\in I_\gamma$ with $x'$ supported on the subframe. It lies in $\gamma A$, and the columns of $\gamma f$ are independent, so $x'_z=0$; it lies in $A$, so its products with $e_a$, $a<j$, which are the
+entries $(Zx')_a$, vanish; as $D_j\ne0$, $x'=0$. Coefficients outside the subframe are absorbed by $I_\gamma$: if $\mathfrak g=0$, $A=A_{\le j}+I_\gamma$ and $\gamma A=\gamma A_{\le j}+I_\gamma$ (\cref{prop:links}(c)), and if
+$\mathfrak g\ne0$ there are none. The statement for $A^+$ follows by applying this to $\gamma^{-1}$, which carries $I_{\gamma^{-1}}$ to $I_\gamma$.
+(e) is (c) and the definitions; at the top rank all isotropic vectors are counted, and $\mathfrak g\ne0$ there. The indices are finite, hence positive (\cref{thm:link-lattice} below), and $\mu_j>0$ by (b).
+\end{proof}
+
+\begin{lemma}[Orbit bounds]\label{lem:orbit-bound}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\abs{\mathfrak g(\gamma)}_v\le\abs{D_{\varrho+1}}_v^2$, and for a near term $\mathfrak g_{\rm Nm}\le b^{270n^2f}$ and $\mathsf g^*\le b^{n^3f}$.
+\item $\mathcal D_j\le\mathcal D_{\rm main}$, $n_p\le\mathcal D_{\rm main}$, and $\mathcal D_j\ge\tau^{8-32i}\mathcal D_{\rm id}$ for $j\ge1$.
+\item If $\gamma$ is near and $\mathfrak g_{\rm Nm}\ge1$, then $\mathrm{ob}_{\varrho+1}(\mathfrak g_{\rm Nm})\ge b^{-k^3f}$, and the product over the infinite places of the local bounds of \cref{thm:open-cell}(b) at $\gamma$ is at
+most $(\nu\,\mathrm{ob}_{\varrho+1}(\mathfrak g_{\rm Nm})/2)^2$.
+\item If $\gamma$ has cell rank $j\ge1$, lies over $(c,s,c')$ and $\mathfrak g_{\rm Nm}\le N^f\mu_j$, then the absolute amplitudes of its orbit add up to at most $\nu\,\mathrm{ob}_j(\mathsf g^{\max})$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.norm_map_termDisc_le, New.Filling.IsNear.termDiscNorm_le, New.Filling.IsNear.levelGauge_le, New.Filling.cellRankSecondMoment_nonneg, New.Filling.orbitBound_top, New.Filling.pairCountScale_le_mainSecondMoment, New.Filling.div_tailScale_pow_mul_identitySecondMoment_le_cellRankSecondMoment, New.Filling.cellRankSecondMoment_le_mainSecondMoment, New.Filling.IsNear.inv_pow_le_orbitBound, New.Filling.pairingBoundConst, New.Filling.prod_pairingBoundSq_eq, New.Filling.prod_frameScaleSq_bounds, New.Filling.pairingBoundConst_le_mul, New.Filling.two_pow_mul_pairCountScale_mul_le, New.Filling.pairingBoundConst_le, New.Filling.prod_pairingBoundSq_le, New.Filling.b_pow_div_M_sq_le, New.Filling.tsum_amplitudeMajorant_orbit_le}
+
+\begin{proof}
+(a) $\mathfrak g=\abs{D_{\varrho+1}}^2-N^2\abs{D_\varrho}^2$ is a difference of two nonnegative numbers at each place, and it is $\ge0$ (\cref{prop:links}(b)). For a near term the entries of $Z$ are at most $b^{134n}$
+(\cref{prop:links}(b)), so by Hadamard's inequality the squares of its minors are at most $b^{270n^2}$ at every place; the indices in the gauges are at least $1$, and $M^{2if}N^f\le b^{(46n+60n)f}$, with
+$46n+60n+270n^2\le n^3$. (b) $\tau^{-16}\mathcal D_{\rm id}\le\mathcal D_{\rm id}\le\tau^{44}\mathcal D_{\rm id}\le\mathcal D_{\rm main}$ by admissibility, $n_p\le\mathcal D_{\rm id}$ as $\#I\ge1$, and for $i\ge1$, $\tau^{8-32i}\le\tau^{-24}\le\tau^{-16}$,
+while $\mathcal D_{\rm main}\ge\mathcal D_{\rm id}$.
+(c) Comparing squares, the pair count $n_p$ cancels against $n_p\le\mathcal D_{\rm main}$, and it remains that $M^{2\varrho fk}\mathfrak g_{\rm Nm}^k\le b^{(23\cdot2\varrho+270n^2)fk}\le b^{2k^3f}$, since $\varrho+1\le n\le k$. For the
+local bounds: their product is a constant $C_{\rm pb}$ divided by $\mathfrak g_{\rm Nm}^{10^5n^4+k-1}\ge\mathfrak g_{\rm Nm}^k$. At a place the squared scales $s_a=\kappa_v^{2(\varrho-a)}/N$ of the frame have product between $b^{-60n^2}$ and
+$b^{46n^2}$, and $\rho^{9n}/s^2\le b^{453n^2}$ for $\rho=b^{37n}$; with $(453\cdot10^5+92+184)n^6f\le10^5n^9f$ this gives
+$C_{\rm pb}\le2^{kf}\tau(\#I)^2/(\deg\,c_G^f\Lambda^2)$, and with the bound for the scaled Siegel constant of admissibility (\cref{prop:filling-admissible}) and $2^{kf}n_pM^{2\varrho fk}\le\tau a_*\vol(\hat\OO)^n$, one gets
+$C_{\rm pb}\le(\nu\tau^2/2)^2\mathcal D_{\rm main}/(n_pM^{2\varrho fk})$; dividing by $\mathfrak g_{\rm Nm}^k$ gives the claim.
+(d) By \cref{thm:schur-orbit}(c), and as $\mathsf g^{\max}=\mathsf g^\sharp$ under the hypothesis, it suffices that $(\#I)^2(b^{13}/M^2)^{2ikf}N^{kf}\le\mathcal D_j/(n_pM^{2ikf})$. Since $b^{19}\le M$, $b^{13}/M^2\le(b^4M)^{-1}$, so the left side
+is at most $(\#I)^2N^{kf}b^{-8ikf}M^{-2ikf}$. By (b), $\mathcal D_j/n_p\ge b^{2kf-8ikf}\mathcal D_{\rm id}/n_p=b^{2kf-8ikf}\#I\,N^{kf}$, as $\mathcal D_{\rm id}=\#\bar R_0n_X\#I$; and $\#I\le b^{2kf}$ by admissibility.
+\end{proof}
+
+\begin{theorem}[Size of a block]\label{thm:block-size}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The second moment of the difference between the blocks of $U$ and those for the cut functions is at most $b^{-40}\mathcal D_{\rm id}$; $\sqrt{\text{second moment}}$ is subadditive.
+\item (Open cell.) For a near term with $\mathfrak g\ne0$ and a measurable weight $\omega\le1$ invariant under the fixer of the frame and zero at the points in the cut but not in the box, the integral of $\omega$
+times the cut kernel has norm at most the root of the product of the local bounds of \cref{thm:open-cell}(b), plus the integral of $\omega$ times the difference of the kernels; and this is at most the
+orbit bound at the top cell rank.
+\item For a stable $T\subseteq\Gamma^*$, the cut block of $T$ over $(c,s,c')$ is at most $\nu$ times the sum of the sizes of the near representatives over the block (the near terms that are the chosen
+element of their orbit and have a cell rank); there are none unless $s$ agrees.
+\end{enumerate}
+\end{theorem}
+\lean{New.Filling.secondMoment_sub_cut_le, New.Filling.sqrt_secondMoment_add_le, New.Filling.secondMoment_nonneg, New.Filling.sum_norm_amplitudeSum_sub_cut_le, New.Filling.card_residueGL_mul_b_pow_le, New.Filling.enorm_integral_besselKernel_le, New.Filling.enorm_amplitudeSum_le_orbitBound_top, New.Filling.enorm_amplitudeSum_le_orbitBound, New.Filling.enorm_amplitudeSum_le_tsum_termSize, New.Filling.enorm_amplitudeSum_le_of_termDiscNorm_le, New.Filling.hasSum_amplitudeSum_fibre, New.Filling.enorm_amplitudeSum_le_tsum_fibre, New.Filling.hasCellRank_cellRank_of_mem, New.Filling.isNear_of_amplitudeMajorant_ne_zero, New.Filling.exists_isNearRepresentative_of_besselKernel_ne_zero, New.Filling.tsum_ite_representative_eq_one, New.Filling.tsum_representative_weight_eq_one, New.Filling.isIntegral_termDisc, New.Filling.eq_one_of_mul_eq_mul_of_termDisc_ne_zero, New.Filling.toReal_smul_besselKernel_eq_zero, New.Filling.amplitudeSum_eq_inter_compl_add_inter, New.Filling.IsNear.inv_pow_le_orbitBound, New.Filling.prod_pairingBoundSq_le, New.Filling.prod_pairingBoundSq_eq, New.Filling.prod_frameScaleSq_bounds, New.Filling.pairingBoundConst_le_mul, New.Filling.two_pow_mul_pairCountScale_mul_le, New.Filling.pairingBoundConst_le, New.Filling.norm_map_termDisc_le, New.Filling.IsNear.termDiscNorm_le, New.Filling.cellRankSecondMoment_nonneg, New.Filling.orbitBound_top, New.Filling.pairCountScale_le_mainSecondMoment}
+
+\begin{proof}
+(a) For fixed $c$ and $s$ the norms of the differences of the blocks, summed over $c'$, are at most $\eta=\nu b^{-k^3f}/2$ (\cref{prop:blocks}(b)); so the sum of their squares is at most $\eta^2$. Summing over $s\in\bar G$ and over the
+$n_X\le\mathcal D_{\rm id}$ classes $c$ and dividing by $\nu^2$ gives at most $\#\bar G\,b^{-2k^3f}\mathcal D_{\rm id}/4$. The group $\bar G$ is a product of $f$ general linear groups of degree $2\varrho+k+1$ over each of the two residue fields
+of order at most $p_i$, so $\#\bar G\le M^{(2\varrho+k+1)^2f}\le b^{23(2\varrho+k+1)^2f}$, and $23(2\varrho+k+1)^2f+40\le2k^3f$. The square root of the second moment is a multiple of the norm in an $\ell^2$ space of blocks, hence
+subadditive.
+
+(b) The first statement is \cref{thm:open-cell}(c) for the weight $\omega$. As $\mathfrak g$ is a nonzero algebraic integer, $\mathfrak g_{\rm Nm}\ge1$; by \cref{lem:orbit-bound}(c) the root of the product of the local bounds is
+at most $\nu\,\mathrm{ob}_{\varrho+1}(\mathfrak g_{\rm Nm})/2$, and the integral of $\omega$ times the difference of the kernels is at most $\nu b^{-k^3f}/2\le\nu\,\mathrm{ob}_{\varrho+1}(\mathfrak g_{\rm Nm})/2$.
+
+(c) \emph{Terms with $\mathfrak g\ne0$ throughout.} If $p\gamma=\gamma w$ with $p\in U^0_c$, $w\in U_{c'}$ and $\mathfrak g(\gamma)\ne0$, then $w$ fixes the frame of $\gamma^{-1}$, whose matrix of products with $f$ is invertible; so $w$ fixes vectors
+whose dual coordinates form the identity matrix, $w=1$ and $p=1$. Hence in each double coset $U^0_c\gamma U_{c'}$ exactly one pair $(a,b)$ carries $\gamma$ to the chosen representative $a\gamma b^{-1}$, where the representative is chosen
+to be a near representative if the double coset contains one. The weight $\phi_\gamma(y)=[\gamma\text{ is the representative}]\,\omega(y)$, $\omega$ the indicator of the reduced points, then has orbit sums $1$ (the reduced
+indicator is a partition of unity in boxes, \cref{prop:packing}(c)), and \cref{prop:blocks}(b) lets it replace $\beta_c(y)\beta_{c'}(\gamma^{-1}y)$. If the representative $\gamma$ is a near representative, (b) bounds its integral by $\nu\,\mathrm{ob}_{\varrho+1}(\mathfrak g_{\rm Nm})$. Otherwise the cut
+kernel of $\gamma$ vanishes at every reduced point: if it did not vanish at a reduced $y$, translating $\gamma^{-1}y$ into the boxed points by some $u\in U_{c'}$ (\cref{prop:packing}(c)) and taking the chosen element of the
+orbit of $\gamma u^{-1}$ would give a near representative in the double coset.
+
+\emph{Terms of one cell rank.} Let $T$ be stable with all elements of cell rank $j$ and none of cell rank $0$ over the block. On the stable part $K$ where $\mathfrak g_{\rm Nm}>N^f\mu_j$ the cell rank is the top one,
+the indices are $1$ and $\mathsf g^{\max}=\mathfrak g_{\rm Nm}$, so the previous paragraph applies with $\mathrm{ob}_{\varrho+1}(\mathfrak g_{\rm Nm})=\mathrm{ob}_j(\mathsf g^{\max})$. Off $K$, sum the absolute amplitudes orbit by orbit: an orbit
+whose sum is nonzero contains a term with a nonzero majorant, which is near (otherwise the boxed cutoffs at $y$ and $\gamma^{-1}y$ are never both nonzero and the Schur integrals vanish), and its chosen element is a near
+representative, whose orbit contributes at most $\nu\,\mathrm{ob}_j(\mathsf g^{\max})$ by \cref{lem:orbit-bound}(d). The blocks vanish unless $s$ agrees (\cref{prop:blocks}(c)).
+
+\emph{Sorting by the cell rank.} Every element of $\Gamma^*$ has a cell rank (\cref{lem:common-vectors}(c) for $\mathfrak g=0$; the top rank for $\mathfrak g\ne0$), the parts of $T$ of one cell rank are stable (\cref{prop:links}(a)), and
+none has cell rank $0$, since a norm-one pair from $0$ would put $\gamma$ off $\Gamma^*$. The norm of the block is at most the sum of the norms of the blocks of these parts.
+\end{proof}
+
+\subsection{The lattice of a link and the gain}\label{ss:gain}
+For a term $\gamma$ over $(c,s,c')$ let $\Lambda$ be the lattice of $c$. The vectors of $\Lambda$ orthogonal to $A$ and $\gamma A$ give a lattice $L^1_\gamma$ in the link; those whose $A$-part is divisible by $M$ give
+$L^+_\gamma$; and the \emph{lattice of the term} $L_\gamma\subseteq\Lambda\cap X_0$ consists of the $v$ for which some vector of $v+M(\Lambda\cap A)$ is orthogonal to $\gamma f$. For two terms, their \emph{common link} is the
+subspace of $X_0$ sent by both links to one vector of $X_0$, and their \emph{common lattice} $L_{12}$ is the part of $L_\gamma\cap L_{\gamma'}$ in it; its corank $l$ is $k$ minus its rank.
+\lean{New.Filling.classLatticeX₀, New.Filling.termLattice, New.Filling.commonPart, New.Filling.pairLattice, New.Filling.pairDiscriminant, New.Filling.linkCorank, New.Filling.HasIntegralLifts, New.Filling.HasLevelLifts, New.Filling.linkMetric, New.Filling.linkDiscSq, New.Filling.linkMetric_posDef, New.Filling.LinkSplitting, New.Filling.linkVectors, New.Filling.linkVectorPairs, New.Filling.IsOrthogonalLift, New.Filling.subframeMinor, New.Filling.subframeIndices, New.Filling.paddedLeading, New.Filling.det_paddedLeading, New.Filling.isotropicRows, New.Filling.frameMiddle, New.Filling.IndexBelow, New.Filling.IndexNotBelow, New.submoduleIndex, New.colLattice, New.genIndex}
+
+On pairs of middle coordinates $X_0\oplus Ez$ write $T=\mathrm{diag}(1,-N)$ for the middle Gram matrix, $\mathrm{lf}=\mathrm{diag}(T,-T)$ for the \emph{link form} and
+$Q=\frac12\mathrm{diag}(T,T)+N^{-1}L^*L$, with $L$ the two $z$-rows of $T$, for the \emph{link metric}. For a matrix $v$ with columns in the link and $e\in\GL(\Ad_f)$ write $\mathrm{lds}(v,e)=\mathrm{Nm}(\det v^*Qv)[\det e]^2$, the
+squared discriminant of the lattice with basis $ve$ for $Q$. The \emph{$z$-forms} of a pair are the products of its two members with $z$.
+\lean{New.Filling.zFormIndex, New.Filling.zFormIndex_injective, New.Filling.lastFramePair, New.Filling.lastPair, New.Filling.listPair, New.Filling.eStarCols, New.Filling.classOf, New.Filling.sourceCols}
+
+\begin{lemma}[Link forms and Liouville]\label{lem:liouville}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $t$ orthogonal to $A$, $\gamma A$ and $t'$ orthogonal to $A$, $\gamma'A$, the pairs $p$, $p'$ of $t$ and $t'$ in the links of $\gamma$ and $\gamma'$ have $\mathrm{lf}(p,p')=h(t,t')-h(t,\gamma\gamma'^{-1}t')$; in particular the link is
+isotropic for the link form.
+\item $Q$ is the mean of the forms of $X_0\perp Ez^+$ on the two images $\mathrm{src}$ and $\mathrm{tgt}$ of a pair; on the link it is the form of $X_0\perp Ez^+$ on the source; it is positive definite at every infinite
+place, and independent columns have a nonzero Gram determinant.
+\item (Liouville.) Let $Q'$ be positive definite at every infinite place, $a$, $b$ matrices over $E$ with $\det(a^*Q'b)\ne0$, $v$, $v'$ invertible finite adelic matrices, and $0\le x\le[\det(v^*(a^*Q'b)v')]$. Then
+\[
+  x^2\le[\det v]^2\,\mathrm{Nm}(\det a^*Q'a)\,\mathrm{Nm}(\det b^*Q'b)\,[\det v']^2.
+\]
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.liouville_gram, New.Filling.gram_linkMatrix_mul, New.Filling.framePair_last_eq_zRowBlockDiagonal_mul, New.Filling.dotProduct_linkMetric_mulVec, New.Filling.linkMetric_form_of_mem_link, New.Filling.linkMetric_eq_smul_fromBlocks, New.Filling.det_gram_linkMetric_ne_zero, New.Filling.positiveGram_posDef, New.Filling.gram_finAdeleMatrix_mul, New.Filling.conjTranspose_mul_mul_apply_eq_dotProduct, New.Filling.gram_linkMetric_eq_gram_sourceCols, New.Filling.gram_linkForm_eq_gram_sourceCols_sub}
+
+\begin{proof}
+(a) The columns of $t$ and $\gamma^{-1}t$ have vanishing coordinates at the $e^*_a$, and on such vectors the form is $T$ on the middle coordinates; so $\mathrm{lf}(p,p')=h(t,t')-h(\gamma^{-1}t,\gamma'^{-1}t')$, and $h(\gamma^{-1}t,\gamma'^{-1}t')=h(t,\gamma\gamma'^{-1}t')$
+since $\gamma$ is an isometry. For $\gamma'=\gamma$ the two terms cancel. (b) Expand: $\frac12(T\oplus T)$ gives the mean of the forms of the two members, and $N^{-1}\abs{\text{$z$-form}}^2$ on each half turns $-N\abs\lambda^2$ into
+$+N\abs\lambda^2$ after the exchange of the $z$-coordinates that defines $\mathrm{src}$ and $\mathrm{tgt}$. On the link $\mathrm{src}$ and $\mathrm{tgt}$ differ by the isometry $\Upsilon_\gamma$ (\cref{lem:link-isometry}). In the coordinates $Q$ is
+diagonal with entries $1/2$ on $X_0$ and $N/2$ at $z$. (c) At each place the Gram matrix of the columns of $(a\mid b)$ for $Q'$ is positive semidefinite, which gives
+$\abs{\det a^*Q'b}_v^2\le\det(a^*Q'a)_v\det(b^*Q'b)_v$; multiplying over the places and squaring, $\mathrm{Nm}(\det a^*Q'b)^2\le\mathrm{Nm}(\det a^*Q'a)\mathrm{Nm}(\det b^*Q'b)$. Since $[\det(v^*Xv')]=[\det v]\mathrm{Nm}(\det X)[\det v']$ for $X$ over $E$,
+the hypothesis gives $x\le[\det v]\mathrm{Nm}(\det a^*Q'b)[\det v']$.
+\end{proof}
+
+\begin{lemma}[The vectors $z^+$ and $\Upsilon_\gamma^{-1}z^+$]\label{lem:link-vectors}
+Let $\gamma$ be a term over $(c,s,c')$ and $X_0^\gamma=X_0\cap\Upsilon_\gamma^{-1}X_0$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The products of $a\in X_0\perp Ez^+$ with $z^+$ and $\Upsilon_\gamma^{-1}z^+$ are $N$ times the $z^+$-coordinates of $a$ and $\Upsilon_\gamma a$; the vectors orthogonal to both are those of $X_0^\gamma$. For $y$ orthogonal to $A$ and $\gamma A$
+with source $a$, these products are minus the products of $y$ with $\gamma z$ and $z$.
+\item The products of $z^+$ and $\Upsilon_\gamma^{-1}z^+$ with the images of vectors of $\Lambda$ orthogonal to $A$ and $\gamma A$ are integral.
+\item A vector $v\in X_0$ lies in $L^+_\gamma\cap X_0^\gamma$ if and only if $v\in\Lambda$ and some vector of $v+M(\Lambda\cap A)$ is orthogonal to $\gamma f$; hence $L_\gamma=L^+_\gamma\cap X_0^\gamma$.
+\item Let $\gamma$ have cell rank $j$ and let $u$ be the $z^+$-coordinate of $\Upsilon_\gamma^{-1}z^+$. Then $\mathfrak g=\abs{D_j}^2(1-\abs u^2)$; the Gram matrix of $z^+$, $\Upsilon_\gamma^{-1}z^+$ is $N\bigl(\begin{smallmatrix}1&u\\\bar u&1\end{smallmatrix}\bigr)$, with
+determinant $N^2\mathfrak g/\abs{D_j}^2$. If $\mathfrak g=0$, $\Upsilon_\gamma^{-1}z^+$ is a multiple of $z^+$; if $\mathfrak g\ne0$, the two are independent and the product over the places of the moduli of their Gram
+determinant is $N^f\mathfrak g_{\rm Nm}/\mathsf g^\sharp$.
+\item The pairs $\varepsilon$ of the link with sources $-\Upsilon_\gamma^{-1}z^+$ and $-z^+$ represent the $z$-forms: $\varepsilon^*Qw$ is the matrix of the $z$-forms of the columns $w$ of the link, and the Gram matrix of $\varepsilon$ for
+$Q$ is that of $\Upsilon_\gamma^{-1}z^+$, $z^+$ in $X_0\perp Ez^+$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.linkVectors_mulVec, New.Filling.frameImage_conjTranspose_mulVec_eq_zero_iff, New.Filling.linkIsometry_perpToPositive_apply, New.Filling.linkVectors_mulVec_perpToPositive, New.Filling.isIntMatrix_lastFramePair_mul, New.Filling.elim_mem_preimageLattice_classCoord_iff, New.Filling.HasCellRank.termDisc_eq_mul_linkIsometry_symm, New.Filling.gram_linkVectors, New.Filling.HasCellRank.det_gram_linkVectors_mul, New.Filling.HasCellRank.norm_det_gram_linkVectors, New.Filling.prod_norm_det_gram_linkVectors, New.Filling.linkVectorPairs, New.Filling.col_linkVectorPairs_mem, New.Filling.linkSource_col_linkVectorPairs, New.Filling.conjTranspose_linkVectorPairs_mul_mulVec_apply, New.Filling.col_mem_of_colSpan_le, New.Filling.linkVectorPairs_mul_linkMetric_mul, New.Filling.gram_linkVectorPairs, New.Filling.linkVectors}
+
+\begin{proof}
+(a) The first statement is the definition of the positive form, in which $z^+$ has norm $N$, and of $\Upsilon_\gamma$, an isometry. For $y$ in $(A+\gamma A)^\perp$ with pair $([y],[\gamma^{-1}y])$, the $z^+$-coordinate of the source
+is the $z$-coordinate of $\gamma^{-1}y$ and that of the target, $\Upsilon_\gamma a$, is the $z$-coordinate of $y$; the products of $y$ with $z$ and of $\gamma^{-1}y$ with $z$ are $-N$ times these. (b) In the lattice basis, where the middle
+block of the Gram matrix is integral, the linear forms $x\mapsto h(x,k_\gamma z)$ and $x\mapsto h(x,z)$ have integral coefficients when $k_\gamma$ stabilises the standard lattice. (c) Write the vector as $a+v$ with $a\in A$ and
+$v\in X_0$; it lies in $\Lambda$ exactly when $a$ has integral coordinates and $v\in\Lambda\cap X_0$. A vector of $X_0$ in $X_0^\gamma$ has vanishing $z$-forms, and a lift $y=v-Ma$ orthogonal to $A$ and $\gamma A$ with
+vanishing $z$-coordinate in $\gamma^{-1}y$ is orthogonal to $\gamma f$. (d) If $\mathfrak g=0$, then $X_0^\gamma=X_0$ (\cref{prop:links}(c)), so $\Upsilon_\gamma^{-1}z^+$ is orthogonal to $X_0$, hence $\mu z^+$, and $\abs\mu=1$ because $\Upsilon_\gamma$ is an isometry; both sides of the identity
+vanish. If $\mathfrak g\ne0$, then $j=\varrho+1$ and $D=\det Z\ne0$; Cramer's rule gives $y$ with $Zy=De_z$ and $y_z=D_\varrho$, and the combination $\gamma fy$, which is orthogonal to the $e_a$ and has product $D$ with
+$z$, shows that the link sends $y_0+D_\varrho z^+$, for some $y_0\in X_0$, to $-(D/N)z^+$. Hence $u=-ND_\varrho/D$ and $\abs D^2(1-\abs u^2)=\abs D^2-N^2\abs{D_\varrho}^2=\mathfrak g$. The Gram matrix follows from (a), and its determinant is
+$N^2(1-\abs u^2)$. If $\mathfrak g\ne0$, $\abs u\ne1$ and the vectors are independent; at the top cell rank
+$\mathsf g^\sharp=\mathrm{Nm}(D_{\varrho+1})/N^f$, and the product of $N^2\abs{\mathfrak g}_v/\abs{D_{\varrho+1}}_v^2$ over the places is $N^{2f}\mathfrak g_{\rm Nm}/\mathrm{Nm}(D_{\varrho+1})=N^f\mathfrak g_{\rm Nm}/\mathsf g^\sharp$. (e) By (b) of \cref{lem:liouville}
+on the link $Q$ is the positive form on the sources, and by (a) the products of the source of a pair with $-\Upsilon_\gamma^{-1}z^+$ and $-z^+$ are its two $z$-forms.
+\end{proof}
+
+An \emph{orthogonal lift} of a basis $v$ of the link of $\gamma$ at cell rank $j$ is a matrix $u$ whose columns are orthogonal to $A$ and $\gamma A$, whose first columns, one for each $b\ge j$, are dual to the
+$e^*_b$ and sent to $0$ in the link (they are a basis of $I_\gamma$), and whose other columns are orthogonal to the $e^*_b$ and sent to the columns of $v$.
+\lean{New.Filling.IsOrthogonalLift, New.Filling.HasCellRank.exists_isotropic_inter_vector, New.Filling.IsOrthogonalLift.apply_inl, New.Filling.IsOrthogonalLift.conjTranspose_isotropicRows_mul_eq_zero, New.Filling.IsOrthogonalLift.dual, New.Filling.IsOrthogonalLift.gram_add_border, New.Filling.IsOrthogonalLift.linkMatrix_mul, New.Filling.IsOrthogonalLift.linkMatrix_mul_toCols₁, New.Filling.IsOrthogonalLift.orthogonal, New.Filling.IsOrthogonalLift.orthogonal_toCols₁, New.Filling.IsOrthogonalLift.toCols₁_eq_fromRows, New.Filling.IsOrthogonalLift.toCols₁_mul_framePair, New.Filling.IsOrthogonalLift.toCols₁_mul_self, New.Filling.toRows₁_gram_framePair_isotropicFramePair, New.Filling.toRows₂_gram_framePair_isotropicFramePair, New.Filling.submoduleIndex_colLattice_dvd_preimageLattice, New.Filling.IsOrthogonalLift.exists_basis_orthogonal, New.Filling.classCoord_orthogonal, New.Filling.gram_classOf, New.Filling.IsOrthogonalLift.toCols₁_mul_toCols₂, New.Filling.IsOrthogonalLift.toCols₁_mul_isotropicFramePair, New.Filling.IsOrthogonalLift.toCols₁_mul_lastPair, New.Filling.classCoord_mul_listPair, New.Filling.IsOrthogonalLift.exists_mul_classOf_eq_and_linkMatrix_mul_eq, New.Filling.IsOrthogonalLift.col_mem_colLattice_isotropicFramePair, New.Filling.IsOrthogonalLift.gram_classOf_add_border, New.Filling.IsOrthogonalLift.eq_mul_of_isotropicRows_mul_eq_zero}
+
+\begin{theorem}[The lattice of a link]\label{thm:link-lattice}
+Let $\gamma$ be a term of cell rank $j$ over $(c,s,c')$, $i=\min(\varrho,j)$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\gamma$ has orthogonal lifts of a basis of its link, isometric to it for the link metric after a correction by the products with $z$ and $\gamma z$; adjoining two vectors of norm $N$ gives isotropic
+lists $(e_a,z+z')$, $(\gamma e_a,\gamma z+z'')$, $a<j$, whose Gram determinant has norm the square of the norm of the subframe minor $\delta_*(\gamma)\ne0$ (Jacobi's identity in the quotient).
+\item There is a basis of the link in $L^+_\gamma$ whose torsion index times discriminant is at most $M^{2if}\mathsf g^\sharp/N^f$.
+\item The products of $z^+$ and $\Upsilon_\gamma^{-1}z^+$ with $L^1_\gamma$ are integral; their orthogonal complement is $X_0\cap\Upsilon_\gamma^{-1}X_0$; they are proportional if $\mathfrak g=0$ and independent otherwise,
+with an explicit Gram determinant.
+\end{enumerate}
+Moreover the indices $\mathrm{iri}(k_\gamma)$, $\mathrm{iri}(k_\gamma^{-1})$ and $t(k_\gamma)$ are finite, and $\mathrm{iri}(k_\gamma)\mathrm{iri}(k_\gamma^{-1})t(k_\gamma)$ divides the index of the integral classes of the two lists.
+\end{theorem}
+\lean{New.Filling.exists_orthogonal_lift, New.Filling.IsOrthogonalLift.linkDiscSq_mul_sq_eq, New.Filling.exists_lifts_linkDiscSq_le, New.Filling.exists_hasLevelLifts_linkDiscSq_le, New.Filling.abs_norm_det_gram_eq_abs_norm_subframeMinor_sq, New.Filling.isotropicRowsIndex_mul_dvd_submoduleIndex, New.Filling.torsionIndex_dvd_submoduleIndex, New.Filling.HasCellRank.subframeMinor_ne_zero, New.Filling.HasCellRank.linearIndependent_mkQ_frameImage_and_sup_eq, New.Filling.HasCellRank.linearIndependent_mkQ_frameImage_one_and_sup_eq, New.Filling.HasCellRank.linearIndependent_mkQ_frameImage_coe_and_sup_eq, New.Filling.linkVectors_mulVec_perpToPositive_mem, New.Filling.linkVectors_mulVec_eq_zero_iff, New.Filling.exists_lift_mem_linkedX₀_iff_exists_orthogonal, New.Filling.HasCellRank.exists_linkIsometry_symm_eq_smul, New.Filling.linearIndependent_linkVectors_and_prod_norm_det, New.Filling.linearIndependent_linkVectors, New.Filling.prod_norm_det_gram_linkVectors, New.Filling.linkVectorPairs_mul_linkMetric_mul, New.Filling.gram_linkForm_eq_zero_of_le_link, New.Filling.HasCellRank.exists_shared_frame_vector, New.Filling.HasCellRank.minorGauge_eq, New.Filling.HasCellRank.maxGauge_eq, New.Filling.HasCellRank.abs_norm_subframeMinor, New.Filling.HasCellRank.minorNorm_pos, New.Filling.HasCellRank.unique, New.Filling.levelGauge_pos, New.Filling.isotropicRowsIndex_pos, New.Filling.torsionIndex_pos, New.Filling.maxGauge_pos}
+
+\begin{proof}
+(a) \emph{Lifts.} The three conditions on a column of $u$ form one linear system. For a column of $(0\mid v)$ in the link there is $t\in(A+\gamma A)^\perp$ with that image; a vector of $I_\gamma$ with prescribed coordinates at the
+indices $b\ge j$ exists by \cref{prop:links}(c) (the shared vectors at these indices lie in $I_\gamma$ with leading coefficient $1$), and subtracting it corrects the products with the $e^*_b$, which read off the coordinates
+at $e_b$. The first columns are orthogonal to both frames and to all columns. \emph{Isometry.} On vectors orthogonal to $A$ and $\gamma A$ the form factors through the map to pairs; by \cref{lem:liouville}(a) with $\gamma'=\gamma$
+and (b), the Gram matrix of the lifts plus $N^{-1}$ times the products of their two $z$-forms is the $Q$-Gram matrix of $v$. \emph{The lists.} Order the vectors $e_a$, $\gamma e_a$ ($a<j$), $z$, $\gamma z$ list by list and
+add $N$ to the diagonal entries of $z$ and $\gamma z$, which amounts to adjoining $z'$, $z''$ of norm $N$ orthogonal to everything. The two lists are isotropic, and exchanging the two halves of the rows turns the
+Gram matrix into a block antidiagonal matrix whose off-diagonal block is the matrix of products of the subframe with its image; its determinant is $\pm\abs{\delta_*}^2$, and $\delta_*\ne0$ by \cref{lem:padded}(c).
+
+(b) Pass to the quotient $(\Lambda\cap I_\gamma^\perp)/(\Lambda\cap I_\gamma)$, which is unimodular, with a basis $B$ and coordinates $q$; the classes of rational vectors orthogonal to $I_\gamma$ have the products of the
+vectors (the first columns of a lift being a basis of $I_\gamma$, orthogonal to the others). Choose $e\in\GL(\Ad_f)$ so that the classes of the lifts of $ve$ form a primitive matrix, the lattice of the vectors whose lifts have
+integral classes. In the quotient enlarged by $z'$, $z''$ of norm $N$, the classes of the lifts of $ve$ are orthogonal to the two lists, and with the border of (a) their Gram matrix is that of $ve$ for $Q$; the ranks add up,
+since the rank of the quotient is twice the number of $a<j$ plus $k+1$. Jacobi's identity, applied in this enlarged lattice to the primitive lattice of the lifted classes of $ve$ and the lattice of the two lists,
+compares $\mathrm{lds}(v,e)$ with the norm $(N^{2f}\mu_j)^2$ of the Gram determinant of the lists (by (a) and \cref{lem:padded}(c)); the enlargement contributes the factor $[N]^2=N^{4f}$, and the lattice of the lists has
+index $\mathrm{ind}$ in the integral vectors of its span, finite because $\delta_*\ne0$. This gives $\mathrm{lds}(v,e)\cdot\mathrm{ind}^2=\mu_j^2$. The classes of the $e_a$, $\gamma e_a$ with $a<j$ span the classes of all of them. The chain of lattices obtained by adding in turn the classes of the $e_a$, those of the $k_\gamma e_a$, and the integral vectors of their span has indices divisible by
+$\mathrm{iri}(k_\gamma)$, $\mathrm{iri}(k_\gamma^{-1})$ and $t(k_\gamma)$ respectively: the first two through the products with the two frames, which are defined on classes, and the third because a vector of the span differs
+from the representative of its class by a vector of $I_\gamma$ in the lattice of the $e_a$ and $k_\gamma e_a$. Hence the product $w$ of the three indices divides $\mathrm{ind}$, is nonzero, and
+$\mathrm{lds}(v,e)w^2\le\mu_j^2$. \emph{The level.} The lifts $tw$ of $ve$ have integral parts $m$ in $A$; the vectors $x$ for which $m x$ is congruent modulo $A\cap\gamma A$ to $M$ times a vector of $\Lambda\cap A$ form a
+submodule of the integral vectors with a basis $B'$ of index dividing the index of $M\,L$ in $L$, where $L$ is the lattice of the isotropic rows of $Z(k_\gamma)$, a copy of $(\Lambda\cap A)/(\Lambda\cap I_\gamma)$ generated up to finite index by
+$i$ vectors; so $[\det B']\le M^{2if}$. The lattice of $veB'$ lies in $L^+_\gamma$ (adding vectors of $I_\gamma$ makes the parts in $A$ divisible by $M$), and
+\[
+  t^2\,\mathrm{lds}(v,eB')=t^2\mathrm{lds}(v,e)[\det B']^2\le\frac{M^{4if}\mu_j^2}{(\mathrm{iri}\,\mathrm{iri}')^2}=\Bigl(\frac{M^{2if}\mathsf g^\sharp}{N^f}\Bigr)^2.
+\]
+(c) is \cref{lem:link-vectors}(b), (a), (d).
+\end{proof}
+
+\begin{lemma}[The cut]\label{lem:cut}
+Let $\gamma$ be a term of cell rank $j$ over $(c,s,c')$ with $s$ agreeing, $x\le\mathrm{mn}(s)$ a positive integer, and $G=\max(\mathfrak g_{\rm Nm},N^f\mu_j)$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A principal minor of order $r\le1+(j-\varrho)_+$ of the Gram matrix of $z^+$, $\Upsilon_\gamma^{-1}z^+$ has $\mathrm{Nm}\le(G/\mu_j)^2$.
+\item If the columns of $w$ have integral lifts (they are images of vectors of $\Lambda$ that are adelic combinations of rational vectors orthogonal to $A$ and $\gamma A$), a minor of the matrix of the $z$-forms of $w$
+that is a unit has generalised index at least $x$, provided both forms are chosen unless $x=1$.
+\item Let the $r$ columns of $y$ lie in the link, $r\le1+(j-\varrho)_+$ and $r=2$ unless $x=1$, let the $z$-forms be injective on their span, and let them take on the basis $yv$ the values they take on a matrix with
+integral lifts. Then $x^2\mu_j^2\le\mathrm{lds}(y,v)\,G^2$.
+\item Let $m$ have a left inverse, columns in the link on which both $z$-forms vanish, and let $ma$ lie in $L^+_\gamma$. Then the span $V$ of the parts in $X_0$ of $m$ has dimension $\#\text{columns}$, the lattice
+$\Lambda_V\cap L_\gamma$ is a lattice of rank $\dim V$, and its squared discriminant is at most $\mathrm{lds}(m,a)$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.HasCellRank.abs_norm_minor_gram_linkVectors_mul_le, New.Filling.HasIntegralLifts.le_genIndex_det_zRowBlockDiagonal, New.Filling.minorNorm_sq_le_linkDiscSq_mul, New.Filling.HasLevelLifts.discriminant_sq_le, New.Filling.zRowBlockDiagonal_mul_linkMatrix_mul_classCoord, New.Filling.isotropicFramePair_mul_classCoord_eq_zero, New.Filling.toRows_classCoord_mul, New.Filling.submoduleIndex_termLattice, New.Filling.toRows₁_mul_eq_fromRows_zero, New.Filling.gram_linkMetric_eq_gram_toRows₁, New.Filling.HasLevelLifts.hasIntegralLifts, New.Filling.HasLevelLifts.mul, New.Filling.HasLevelLifts.submatrix, New.Filling.hasLevelLifts_of_col_mem, New.Filling.exists_basis_mulVec_mem_ideleM_smul, New.Filling.submoduleIndex_ideleM_smul_isotropicRows_dvd, New.Filling.submoduleIndex_ideleM_smul_eq, New.Filling.submoduleIndex_inf, New.Filling.submoduleIndex_inf_of_le, New.Filling.submoduleIndex_inf_comap, New.Filling.isotropicRowsIndex_mul_torsionIndex_ne_zero, New.Filling.isotropicRowsIndex_inv_pos}
+
+\begin{proof}
+(a) The minor is $1$, $N$ or the Gram determinant. $1\le(G/\mu_j)^2$ and $\mathrm{Nm}(N)=N^{2f}\le(G/\mu_j)^2$ because $G\ge N^f\mu_j$. For $r=2$, $j=\varrho+1$ and by \cref{lem:link-vectors}(d) the determinant has modulus
+$N^2\abs{\mathfrak g}_v/\abs{D_j}_v^2$ at each place, so its norm is $N^{4f}\mathfrak g_{\rm Nm}^2/\mathrm{Nm}(D_j)^2=(\mathfrak g_{\rm Nm}/\mu_j)^2\le(G/\mu_j)^2$. (b) The values of the $z$-forms are the products of the integral lifts $n$ with $z$
+and $k_\gamma z$ in the lattice basis, which are integral; if both are chosen, the lifts are orthogonal to $A$ and $k_\gamma A$, so their products with $(f\mid k_\gamma f)$ vanish except in the two rows of $z$ and $k_\gamma z$, and
+\cref{lem:meeting-places}(b) bounds $\mathrm{mn}(s)$ by the index of the $2\times2$ determinant. (c) By \cref{lem:link-vectors}(e) the $z$-forms are the products with the pairs $\varepsilon$; choose $r$ of them that pair
+nondegenerately with $y$, say $e$. The pairing $e^*Qyv$ is the minor of the $z$-forms, and its index is at least $x$ by (b); Liouville's inequality (\cref{lem:liouville}(c)) gives $x^2\le\mathrm{lds}(y,v)\,\mathrm{Nm}(\det e^*Qe)$, and by (a) and
+\cref{lem:link-vectors}(e), $\mathrm{Nm}(\det e^*Qe)\mu_j^2\le G^2$. (d) Where both $z$-forms vanish the first halves of the pairs lie in $X_0$, the two halves have equal Gram matrices, and $Q$ is the standard Gram
+matrix of the parts in $X_0$. The integral lifts $n$ of $ma$ show that the columns of the parts $pa$ lie in $L_\gamma$: $n$ is orthogonal to both frames, so the products of its middle part with the frame of $k_\gamma$
+are those of its part in $A$, up to sign, and this part is divisible by $M$. Hence $\Lambda_V\cap L_\gamma$ contains the lattice of $pa$ with finite index in $\Lambda_V$, and its discriminant is at most that of $pa$
+(\cref{lem:lattice-disc}(b)).
+\end{proof}
+
+\begin{lemma}[Splitting a link along a second one]\label{lem:link-splitting}
+Let $\gamma$ be as in \cref{lem:cut}, $\gamma'$ any rational element, and let $x=1$ unless $j=\varrho+1$ and the links of $\gamma$ and $\gamma'$ are equal. The dimension of the intersection of the two links exceeds that of the
+common link by at most $1+(j-\varrho)_+$, and by exactly $2$ if $j=\varrho+1$ and the links are equal. There are a basis of a complement of the intersection in the link of $\gamma$, of rank the corank $c^+$, and a lattice in
+the complement whose basis vectors, moved along the intersection, have integral lifts, with squared discriminant $D$, such that the part of $L_\gamma$ in the common link is a full lattice there, of discriminant $d$, and
+\[
+  (t(k_\gamma)\,d\,x)^2D\le\mathsf g^{*2}.
+\]
+\end{lemma}
+\lean{New.Filling.nonempty_linkSplitting, New.Filling.LinkSplitting, New.Filling.HasCellRank.finrank_link_inf_le, New.Filling.HasCellRank.finrank_link_inf_eq_add_two, New.Filling.HasLevelLifts.exists_orthogonal_split, New.Filling.IsKernelExtension.card_add_eq_finrank, New.Filling.LinkSplitting.CommonIndex, New.Filling.LinkSplitting.colSpan_common, New.Filling.LinkSplitting.colSpan_compl_le, New.Filling.LinkSplitting.colSpan_fromCols, New.Filling.LinkSplitting.commonCols, New.Filling.LinkSplitting.complCols, New.Filling.LinkSplitting.complLattice, New.Filling.LinkSplitting.complShear, New.Filling.LinkSplitting.discriminant_sq_mul_le, New.Filling.LinkSplitting.eq_zero_of_mulVec_mem, New.Filling.LinkSplitting.fintypeCommonIndex, New.Filling.LinkSplitting.hasIntegralLifts, New.Filling.LinkSplitting.isLatticeOfRank_commonPart, New.Filling.LinkSplitting.ctorIdx, New.Filling.LinkSplitting.mk.inj, New.Filling.LinkSplitting.mk.injEq, New.Filling.LinkSplitting.mk.sizeOf_spec}
+
+\begin{proof}
+\emph{Dimensions.} $\dim X_0^\gamma+(j-\varrho)_+=k$, and a vector of the intersection of the links whose $z$-forms vanish is the pair of a vector of the common link; the $z$-forms are two linear forms, of which only one is
+independent of the other below the top rank (\cref{lem:link-vectors}(d)). If the links are equal at the top rank, the intersection is the whole link, of dimension $k+1$, and the common link is $X_0^\gamma$, of dimension $k-1$.
+\emph{Splitting.} Take a basis of the link of $\gamma$ in three parts: $m$ spans the kernel of the two $z$-forms in the intersection, $m$ and $u$ together span the intersection, and $y$ completes them. Apply
+\cref{thm:link-lattice}(b) to this basis: for some $\phi$ the lattice of $(m\mid u\mid y)\phi$ lies in $L^+_\gamma$ with $t^2\,\mathrm{lds}\le(M^{2if}\mathsf g^\sharp/N^f)^2$. Two integral changes of basis make $\phi$ block
+triangular, which splits the squared discriminant into the product $\mathrm{lds}(m,a)\,\mathrm{lds}(u,v_0)\,\mathrm{lds}(y,v)$ of three graded pieces, each moved along the earlier pieces by shears and still with integral lifts.
+The part $m$: its parts in $X_0$ span the common link, and \cref{lem:cut}(d) gives $d^2\le\mathrm{lds}(m,a)$. The part $u$ has rank $r$ at most $1+(j-\varrho)_+$, with $r=2$ when $x\ne1$, and the $z$-forms are injective on its span;
+\cref{lem:cut}(c) gives $x^2\mu_j^2\le\mathrm{lds}(u,v_0)G^2$. The part $y$ has rank $c^+$, by the count of dimensions. Hence
+\[
+  (t\,d\,x)^2D\,\mu_j^2\le t^2\,\mathrm{lds}(m,a)\,\mathrm{lds}(u,v_0)\,\mathrm{lds}(y,v)\,G^2\le\Bigl(\frac{M^{2if}\mathsf g^\sharp G}{N^f}\Bigr)^2=\mathsf g^{*2}\mu_j^2,
+\]
+using $\mathsf g^\sharp G/(N^f\mu_j)=\mathsf g^{\max}$ (\cref{lem:padded}(e)).
+\end{proof}
+
+\begin{lemma}[The congruence and the index]\label{lem:congruence}
+Let $\gamma$, $\gamma'$ be terms over one block $(c,s,c')$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $w$, $w'$ have integral lifts for $\gamma$, $\gamma'$, then $w^*(M^{-1}\mathrm{lf})w'$ is integral.
+\item If $b'$, $b$ are $i$ columns of $X_0\perp Ez^+$ with the same Gram matrix, then $\mathrm{Nm}(\det(b-b')^*(b-b'))\le4^{2if}\mathrm{Nm}(\det b^*b)$.
+\item If $y$, $y'$ have columns in the links of $\gamma$, $\gamma'$, $\mathrm{lf}$ pairs them nondegenerately, and $v^*(M^{-1}y^*\mathrm{lf}\,y')v'$ is integral, then $1\le(2/M)^{4if}\,\mathrm{lds}(y,v)\,\mathrm{lds}(y',v')$.
+\item The part of $L_\gamma$ in the common link contains $L_{12}$ with an index dividing $t(k_{\gamma'})$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.HasIntegralLifts.isIntMatrix_linkForm, New.Filling.abs_norm_det_gram_sub_le, New.Filling.one_le_mul_linkDiscSq, New.Filling.LinkSplitting.one_le_mul_linkDiscSq, New.Filling.det_conjTranspose_mul_linkForm_mul_ne_zero, New.Filling.abs_norm_det_smul, New.Filling.submoduleIndex_pairLattice_dvd_torsionIndex, New.Filling.map_commonPart_le, New.Filling.pairLattice_eq_commonPart_inf, New.Filling.frameImage_conjTranspose_mulVec, New.Filling.mulVec_sub_mem_colSpan_isotropicFramePair, New.Filling.exists_sub_one_mul_eq_isotropicFramePair_mul_add, New.Filling.translateByClassReps_mul_classCoord, New.Filling.sub_one_mulVec_mem_colSpan_isotropicFramePair, New.Filling.levelGauge_pos}
+
+\begin{proof}
+(a) The element $\delta=\gamma\gamma'^{-1}$ is a term over $(c,1,c)$, so its matrix $k$ in the lattice basis is congruent to $1$ modulo $M$. By \cref{lem:liouville}(a) the pairing of the lifts $n$, $n'$ is
+$M^{-1}(n^*Jn'-n^*Jkn')=-n^*J\bigl(M^{-1}(k-1)\bigr)n'$ with the integral Gram matrix $J$ of the lattice, which is integral. (b) The Gram matrices of $b-b'$ and $b+b'$ are positive semidefinite and add up to $4$ times that of
+$b$, which is $\Theta+\Theta^*$ for $\Theta$ twice the Gram matrix of $b$; so at each place the first is at most $\Theta+\Theta^*$ minus a positive semidefinite matrix, and its determinant is at most $2^i\abs{\det\Theta}$ (Ostrowski--Taussky,
+\cite{OstrowskiTaussky1951}), that is $4^i$ times the determinant of the Gram matrix of $b$; take the product over the places. (c) Let $a$, $b$ be the sources of $y$, $y'$ and $u=\Upsilon_\gamma^{-1}\Upsilon_{\gamma'}$. By
+\cref{lem:liouville}(a), (b) the link form pairs $y$ with $y'$ as $a$ with $(1-u)b$ in the positive space, so $M^{-1}a$ and $(1-u)b$ pair integrally after $v$, $v'$ and nondegenerately. Liouville's inequality gives
+$1\le[\det v]^2\mathrm{Nm}(\det(M^{-1}a)^*(M^{-1}a))\,\mathrm{Nm}(\det((1-u)b)^*((1-u)b))[\det v']^2$, and with $\mathrm{Nm}(M^{-1})^{2i}=M^{-4if}$ and (b) this is at most $(2/M)^{4if}\mathrm{lds}(y,v)\,\mathrm{lds}(y',v')$.
+(d) The common lattice $L_{12}$ is the intersection of $L_{\gamma'}$ with the part of $L_\gamma$ in the common link. A vector $v$ of that part has a lift $y=v-Ma$, $a\in\Lambda\cap A$, orthogonal to the frame of $\gamma$.
+Let $m=\gamma'\gamma^{-1}$, which is $\equiv1$ modulo $M$ in the lattice basis. Then $my$ is orthogonal to the frame of $\gamma'$, since $h(my,\gamma'f)=h(\gamma^{-1}y,f)=h(y,\gamma f)=0$; and $(m-1)y$ lies in $A+\gamma'A$, because the
+link isometries of $\gamma$ and $\gamma'$ agree on $v$: if $t'\in v+A$ is orthogonal to $A$ and $\gamma'A$, then $\gamma^{-1}y-\gamma'^{-1}t'\in A$ and $(m-1)y=(t'-y)+\gamma'(\gamma^{-1}y-\gamma'^{-1}t')$. Hence
+$v=Ma+Mw+my$ with $w=-M^{-1}(m-1)y$ in $\Lambda\cap(A+k_{\gamma'}A)$, and the products of $v$ with the frame of $k_{\gamma'}$ are $M$ times those of $a+w$. The vectors of $k_{\gamma'}(\Lambda\cap A)$ have products $0$ with that
+frame ($A$ is totally isotropic and orthogonal to $z$). Let $\pi(x)$ be the vector of the products of $x$ with the frame of $k_{\gamma'}$. The homomorphism $v\mapsto M^{-1}\pi(v)$ modulo $\pi(\Lambda\cap A)$ takes values in
+$\pi(\Lambda\cap(A+k_{\gamma'}A))/\pi(\Lambda\cap A)$, a quotient of $\Lambda\cap(A+k_{\gamma'}A)/(\Lambda\cap A+k_{\gamma'}(\Lambda\cap A))$, whose order is $t(k_{\gamma'})$; its kernel is $L_{12}$, by the definition of $L_{\gamma'}$. The
+index of $L_{12}$ is the order of the image, a divisor of $t(k_{\gamma'})$. Positivity of the gauges: the indices are finite by \cref{thm:link-lattice}.
+\end{proof}
+
+\begin{theorem}[Gain]\label{thm:gain}
+Let $\gamma$, $\gamma'$ be terms of cell ranks $j$, $j'$ over one block $(c,s,c')$ with $s$ agreeing, and $x\le\mathrm{mn}(s)$. Then
+\[
+  \disc(L_{12})^2\le(2/M)^{2c^+f}\,\mathsf g^*(\gamma)\mathsf g^*(\gamma'),
+\]
+$c^+$ the codimension of the intersection of the two links in each; if $c^+=0$ and $\gamma$ has the top rank, the bound may be divided by $x^2$.
+\end{theorem}
+\lean{New.Filling.pairDiscriminant_sq_le, New.Filling.LinkSplitting.one_le_mul_linkDiscSq, New.Filling.nonempty_linkSplitting, New.Filling.torsionIndex_mul_discriminant_commonPart_le, New.Filling.submoduleIndex_pairLattice_dvd_torsionIndex, New.Filling.minorNorm_sq_le_linkDiscSq_mul, New.Filling.HasCellRank.abs_norm_minor_gram_linkVectors_mul_le, New.Filling.HasLevelLifts.discriminant_sq_le, New.Filling.HasIntegralLifts.isIntMatrix_linkForm, New.Filling.isLatticeOfRank_and_pairDiscriminant_le, New.Filling.isLatticeOfRank_pairLattice, New.Filling.one_le_pairDiscriminant, New.Filling.pairLattice_comm, New.Filling.pairDiscriminant_comm, New.Filling.IsNear.levelGauge_le, New.Filling.commonLink_comm, New.Filling.linkCorank_comm, New.Filling.linkCorank_eq_zero_iff, New.Filling.le_finrank_commonLink_add, New.Filling.termDisc_eq_zero_iff_of_link_eq, New.Filling.one_le_mul_linkDiscSq, New.Filling.map_commonPart_le, New.Filling.pairLattice_eq_commonPart_inf}
+
+\begin{proof}
+Let $X=x$ if $c^+=0$ and $j=\varrho+1$, and $X=1$ otherwise. If $X\ne1$ the links are equal, so $\mathfrak g$ vanishes for both or for neither (the link determines $X_0^\gamma$, which is $X_0$ if $\mathfrak g=0$ and a hyperplane
+otherwise, \cref{lem:link-vectors}(d)); hence $\gamma'$ has the top rank as well. \emph{Congruence.} Split both links along their intersection by \cref{lem:link-splitting}, with complements $y$, $y'$ of rank $c^+$ and
+squared discriminants $D$, $D'$. A vector of the complement of $\gamma'$ orthogonal for $\mathrm{lf}$ to the complement of $\gamma$ is orthogonal to the whole link of $\gamma$ (it is orthogonal to the intersection as well, since the intersection lies in the
+link of $\gamma'$, which is isotropic for $\mathrm{lf}$), and that link is its own orthogonal, so it lies in both links and vanishes; the pairing is nondegenerate, and the terms along the intersection vanish. By \cref{lem:congruence}(a), (c),
+$1\le(2/M)^{4c^+f}DD'$. \emph{Cut.} \cref{lem:link-splitting} gives $(t\,d\,X)^2D\le\mathsf g^{*2}$ and $(t'\,d'\,X)^2D'\le\mathsf g^{*\prime2}$, with $d$, $d'$ the discriminants of the parts of $L_\gamma$ and $L_{\gamma'}$ in the common link.
+Multiplying and using the congruence,
+\[
+  (t\,d\,t'\,d'\,X^2)^2\le\bigl((2/M)^{2c^+f}\mathsf g^*\mathsf g^{*\prime}\bigr)^2.
+\]
+\emph{Index.} By \cref{lem:congruence}(d) and \cref{lem:lattice-disc}(b), $\disc(L_{12})\le d\,t'$ and, exchanging the two terms, $\disc(L_{12})\le d'\,t$. Hence $(\disc(L_{12})X)^2\le t\,d\,t'\,d'\,X^2\le(2/M)^{2c^+f}\mathsf g^*\mathsf g^{*\prime}$.
+\end{proof}
+
+\subsection{Counting lattices and frames}\label{ss:frame-count}
+A class $c$ has the lattice $\Lambda\cap X_0$ of the vectors $v$ for which $g^{-1}v$ is integral with entry $k_0$ divisible by $\bar\pi$, $g$ the chosen representative of $c$. The \emph{lattice stabiliser cosets} are the cosets, in the
+stabiliser of the standard lattice of $X_0$, of the subgroup of the elements whose row $k_0$ is congruent to that of $1$ modulo $\bar\pi$; by admissibility there are at least $(N^k/b)^f$ of them. Write $H=b^{n^3f}$.
+\lean{New.Filling.InverseRowsCongruent, New.Filling.LatticeStabilizerCoset, New.Filling.BoundedDiscSublattice, New.Filling.unimodularLattice, New.Filling.RowVanishesModPiN, New.Filling.discWeightIfRowVanishes, New.Filling.subspaceDiscWeight, New.Filling.ClassBoundedDiscLattice, New.Filling.discriminantBound}
+
+\begin{proposition}[Lattices of given corank]\label{prop:lattices-corank}
+Let $r+l=k$. The sum of $\disc(L)^{-k}$ over all classes $c$ and all lattices $L\subseteq\Lambda\cap X_0$ of rank $r$ with $\disc L\le H$ is at most $\tau^{l+1}n_XN^{-kf}$.
+\end{proposition}
+\lean{New.Filling.sum_discriminant_inv_le, New.Filling.sum_classes_le_of_sum_translates_le, New.Filling.inv_mul_mem_of_inverseRowsCongruent, New.Filling.exists_mk_out_eq_embFin_mul, New.Filling.map_le_and_rowVanishesModPiN_of_out_eq, New.Filling.tsum_discriminant_inv_le_of_out_eq, New.Filling.genIndex_piN_eq_pow, New.Filling.mem_smul_intVectors_iff, New.Filling.sub_mem_smul_intVectors_of_values, New.Filling.encard_le_of_vecMul_mem_smul, New.Filling.encard_rowVanishesModPiN_le, New.Filling.exists_saturatedLattice_encard_rowVanishesModPiN_le, New.Filling.mul_inv_pow_le_of_mul_le, New.Filling.one_le_sublatticeDiscriminant_unimodular, New.Filling.sum_discWeightIfRowVanishes_eq_encard_mul, New.Filling.exists_sum_discWeightIfRowVanishes_le, New.Filling.sum_tsum_discWeightIfRowVanishes_le, New.Filling.tailScale_nonneg, New.Filling.add_mul_succ_pow_three_le, New.Filling.pow_mul_discriminantBound_pow_le, New.Filling.pow_mul_mul_rootDiscr_pow_le_tailScale, New.Filling.mul_rootDiscr_pow_le_tailScale_pow_div}
+
+\begin{proof}
+\emph{Means over the classes.} Let $A$ be a finite set mapped by $\varphi\mapsto a_\varphi$ into the finite adelic unitary group of $X_0$, and $F\ge0$ a function on the classes. If $\sum_{\varphi\in A}F(\text{class of }ua_\varphi)\le\#A\cdot B$ for every
+$u$, then $\sum_cF(c)\le n_XB$: the defect $B-F$, a function on the double cosets, has nonnegative sums over the translates, and its integral over the double coset space, a weighted sum of its values with
+the weights of the classes, is translation invariant; as the level fixes it, the integral is $\sum_c(B-F(c))$ up to the common weight. Apply this with the lattice stabiliser cosets, $a_\varphi$ an element of $\varphi$.
+
+\emph{Unimodular lattices.} The chosen representative of the class of $ua_\varphi$ is $\eta uy$ with $\eta$ rational and $y$ in the coset $\varphi$, because the level is the preimage of $K(M)$. If $L$ lies in the lattice of that class, then
+$\eta^{-1}L$ lies in $u\hat\OO^\kappa$ and the linear form \emph{row $k_0$ of $y^{-1}u^{-1}$}, the \emph{form} of $\varphi$, vanishes on it modulo $\bar\pi$; the rational isometry $\eta^{-1}$ keeps discriminants
+(\cref{lem:lattice-disc}(c)). Hence the sum over the lattices of the class of $ua_\varphi$ is at most the sum over the lattices $L\subseteq u\hat\OO^\kappa$ of rank $r$, $\disc L\le H$, on which the form of $\varphi$ vanishes modulo $\bar\pi$.
+
+\emph{Few forms vanish on a lattice.} Let $L\subseteq u\hat\OO^\kappa$ have rank $r$. By \cref{lem:lattice-disc}(d) it has a finite index $i$ in the saturated lattice $\Lambda_V$ of its span $V$, with basis $mA$ for a basis $m$ of
+$\Lambda_V$, $[\det A]=i$, and $\disc L=i\,d(V)$. Extend $u^{-1}m$ to a basis $U$ of $\hat\OO^\kappa$. Integral forms whose values on $mA$ are divisible by an integral idele $d$ and which are pairwise incongruent modulo $d$ are at most
+$[\det A]\,[d]^l$ in number: write the values on $mA$ as $dW$; the class of $W$ modulo the rows of $A$, of which there are $[\det A]$, fixes the values on $m$ modulo $d$, and the values on the other $l$ basis vectors have $[d]^l$
+classes. Two cosets whose forms are congruent modulo $\bar\pi$ are equal (their inverses have congruent rows $k_0$). With $d=\bar\pi$ and $[\bar\pi]=N^f$, at most $i(N^f)^l$ cosets $\varphi$ have a form vanishing on $L$.
+
+\emph{Summing.} Each such $\varphi$ contributes $(d(V)i)^{-k}$, and for $d(V)$, $i\ge1$ with $d(V)i\le H$ and $r\le k$,
+\[
+  i\,(d(V)i)^{-k}\le H^{\mu+2}d(V)^{-(k+1)}i^{-(r+\mu)},
+\]
+since $d(V)\,i^{1+\mu}\le H^{1+\mu}$. Sort the lattices $L$ by their span $V$; with $\mu=2\varrho+4$, \cref{lem:sublattice-zeta}(c) sums over the sublattices of $\Lambda_V$ and \cref{prop:siegel-lemma}(c) over the subspaces
+of codimension $l$:
+\[
+  \sum_\varphi\sum_L\disc(L)^{-k}\le(N^f)^lH^{2\varrho+6}\,(200fk\,\mathrm{rd}_E)^{f(k+1)l}\,2^k.
+\]
+\emph{Constants.} $b^fH^{2\varrho+6}2^k\le\tau$, as $1+n^3(2\varrho+6)+1\le10^5n^9$; and $N^f(200fk\,\mathrm{rd}_E)^{f(k+1)}\le\tau$, comparing thousandth powers with $(200fk\,\mathrm{rd}_E)^{1000}\le b$ and $N\le b^{60n}$. Hence the right side is
+at most $\tau^{l+1}/b^f$. Dividing by the number of cosets, at least $(N^k/b)^f$, the mean is at most $\tau^{l+1}N^{-kf}$, and the first step gives the claim.
+\end{proof}
+
+For a term $\gamma$ of cell rank $j$ let $\Xi_0$ be the first $\varrho$ rows of $Z=Z(\gamma)$, $\mathrm{fm}_j(Z)=M\det(P_jP_j^*)$ the \emph{frame modulus}, and let the \emph{shared vectors} be the coordinates in $A$ of the columns $b\ge j$
+of $\gamma f\cdot\operatorname{adj}P_j$ (the others set to $0$). A \emph{move} is an element of $U^0_c(M)$. The \emph{part in $X_0$} of the frame of $\gamma$ is the matrix of the coordinates in $X_0$ of the vectors $\gamma f_a$.
+\lean{New.Filling.sharedVectors, New.Filling.frameModulus, New.Filling.framePartX₀, New.Filling.IsLift, New.Filling.complementLattice, New.Filling.skewSolution, New.Filling.IsFrameSet}
+
+\begin{lemma}[Short vectors and moves]\label{lem:frame-moves}
+Let $\gamma$, $\gamma'$ have cell rank $j$ over blocks with first class $c$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $b\ge j$ or $b$ the last index, the combination of $\gamma f$ with the coefficients of column $b$ of $P_j^{-1}$ has no coordinates at the $e^*_a$, and its part in $X_0$ has squared length at most $1/5$ at every
+place. A vector of $\Lambda\cap X_0$ of squared length less than $1$ at every place is $0$.
+\item If $\gamma$ is near, the entries of $\operatorname{adj}P_j$ are at most $b^{(2+134n)\varrho}$ and those of the shared vectors at most $b^{182n^2}$ at every place; $[MD_j]\le b^{2n^3f}$ and $[\mathrm{fm}_j(Z)]\le b^{2n^3f}$.
+\item Moves fix the frame, keep the products, the cell rank, the shared vectors and the blocks. Near terms with the same label whose frames agree after moves are equal.
+\item If $Z(\gamma')=Z(\gamma)$ is integral, the shared vectors agree, the frames agree outside the isotropic space and their isotropic rows differ by $\mathrm{fm}_j(Z)X$ with $X$ integral, then a move carries the frame of $\gamma$ to
+that of $\gamma'$.
+\item For a matrix $\eta$ with columns in $\Lambda\cap X_0$ there is a move subtracting $M\eta\Xi_0$ from the part in $X_0$ of every frame. If $Z(\gamma')=Z(\gamma)$ is integral and the parts in $X_0$ are congruent modulo
+$MD_j(\Lambda\cap X_0)$, they differ by $M\eta\Xi_0$ for such an $\eta$, and a move makes them equal.
+\item If the lattice $L$ with basis $ya$ lies in $L_\gamma$, it has a rational lift: a matrix $w$ with $wa$ integral such that every vector of $L$ plus $M$ times the corresponding combination of the $e_a$ is orthogonal to $\gamma f$.
+Two lifts whose rows are congruent modulo the rows of the Gram matrix of $ya$, a lattice of index $\disc(L)^2$ in the integral rows, are joined by a move. The lattice $\Lambda\cap X_0\cap L^\perp$ has rank $l=k-r$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.HasCellRank.mulVec_eStar_eq_zero_and_sum_indexX₀_le, New.Filling.col_eq_zero_of_norm_lt_one, New.Filling.IsNearTermAt.eq_of_frameImage_eq, New.Filling.norm_adjugate_le, New.Filling.norm_adjugate_le_pow, New.Filling.norm_coeff_le_norm_sum_frameVector, New.Filling.sum_smul_frameVector_eq, New.Filling.norm_basisScale_besselFrame_le, New.Filling.norm_sum_div_basisScale_smul_frameVector_le, New.Filling.IsNear.norm_adjugate_paddedLeading_le, New.Filling.HasCellRank.exists_frameImage_one_mulVec_eq, New.Filling.frameProducts_mul_of_mem_besselU0, New.Filling.HasCellRank.sharedVectors_mul_of_mem_besselU0, New.Filling.HasCellRank.norm_sharedVectors_le, New.Filling.conjTranspose_skewSolution, New.Filling.skewSolution_mul, New.Filling.isIntMatrix_skewSolution, New.Filling.isStarStable_comap_Ô, New.Filling.frameModulus_ne_zero, New.Filling.isIntMatrix_paddedLeading, New.Filling.mul_paddedLeading_eq_submatrix_mul_isotropicRows, New.Filling.mul_adjugate_mul_isotropicRows, New.Filling.mulVec_adjugate_top_eq_zero, New.Filling.inclMatrix_conjTranspose_mul_frameImage, New.Filling.conjTranspose_mul_isotropicRows_eq_neg, New.Filling.frameImage_sub_mul_adjugate_apply_eq_zero, New.Filling.exists_frameImage_mul_eq_add_fromRows, New.Filling.exists_mem_classUnipotent₀_frameImage_mul_eq, New.Filling.exists_framePartX₀_mul_eq_sub_smul, New.Filling.HasCellRank.exists_framePartX₀_sub_eq, New.Filling.HasCellRank.exists_framePartX₀_mul_eq_of_sub_mem, New.Filling.HasCellRank.sum_norm_sq_sub_mul_inv_lt_one, New.Filling.exists_isLift, New.Filling.IsLift.exists_conjTranspose_framePartX₀_mul_eq_neg, New.Filling.IsLift.isIntMatrix, New.Filling.IsLift.orthogonal, New.Filling.exists_conjTranspose_mul_eq_of_row_mem, New.Filling.submoduleIndex_gram_eq_discriminant_sq, New.Filling.submoduleIndex_colLattice_gram_transpose, New.Filling.coe_mem_complementLattice, New.Filling.submoduleIndex_smul_complementLattice, New.Filling.IsNear.genIndex_M_mul_leadingMinor_le, New.Filling.IsNear.genIndex_frameModulus_le, New.Filling.genIndex_algebraMap_le_pow_of_norm_sq_le, New.Filling.frameModulus_mem_integralAdeles_of_isIntegral, New.Filling.frameProducts_castSucc_apply, New.Filling.frameProducts_top_apply, New.Filling.apply_inr_besselFrame_eq, New.Filling.frameMiddle_translateByClassReps, New.Filling.frameMiddle_translateByClassReps_mul_classCoordX₀, New.Filling.col_framePartX₀_sub_mem, New.Filling.exists_mul_eq_of_finAdeleMatrix_mul_eq, New.Filling.exists_isIntMatrix_mul_eq_of_col_mem, New.Filling.colLattice_smul, New.Filling.injective_restrictScalars_mulVecLin, New.Filling.isIntMatrix_mul_finAdeleMatrix_inv_smul, New.Filling.submoduleIndex_colLattice_mul, New.Filling.coe_mem_saturatedLattice, New.Filling.submoduleIndex_smul_saturatedLattice}
+
+\begin{proof}
+(a) For $b\ge j$ the vector lies in the span of $f$ (\cref{lem:padded}(b)), where the coordinates at the $e^*_a$ and in $X_0$ vanish. For the last index below $j$ we have $j=\varrho+1$, $P_j=Z$ and $Zx=e_z$; the vector
+$y=\gamma fx$ is orthogonal to the $e_a$, so it has no coordinates at the $e^*_a$, and $h(z,y)=1$, so its coordinate along $z$ is $-1/N$. Comparing $h(y,y)=\abs{y_0}^2-1/N$, with $y_0$ the part in $X_0$, with
+$h(y,y)=h(fx,fx)=-N\abs{x_z}^2$ gives $N\abs{y_0}^2=1-\abs{Nx_z}^2\le1$ at every place, and $N\ge5$. The squared length of a vector of $\Lambda\cap X_0$ is an algebraic integer; if all its conjugates are less than $1$ it is $0$, and the form is definite on $X_0$.
+(b) Entries of an adjugate are minors of order $\varrho$ up to sign, so they are at most $(n^2B)^n$ if the entries are at most $B$; the entries of $Z$ are at most $b^{134n}$ for a near term. For the shared vectors, write the
+vector as $\gamma fx=fw$ with $x$ a column of $\operatorname{adj}P_j$. At the boxed point $\gamma^{-1}y$ its length is bounded because $x$ is: with scales of the frame differing by at most $b^{23\varrho}$ and frame vectors of
+length at most $b^{37n}$, it is at most $b^{(2+134n)\varrho}b^{1+23\varrho+37n}$ divided by a scale. At the boxed point $y$, a coefficient of a combination of the frame vectors is at most $b^{46n^2}$ times its length:
+take $u$ unipotent with $uy$ small; its unitriangular matrix $T$ on the frame and $Tx$ are small, and $x=\operatorname{adj}T\,(Tx)$. The exponents add up to at most $182n^2$. For the indices: an element of $E$ whose squared
+modulus is at most $b^e$ at every place has generalised index at most $b^{ef}$; and $\abs{MD_j}^2$, $\abs{\mathrm{fm}_j}^2\le b^{2n^3}$ at every place.
+(c) A move $u$ fixes every frame vector, so $Z(u\gamma)=Z(\gamma)$, and the columns $b\ge j$ of $\gamma f\operatorname{adj}P_j$ lie in the span of $f$, which $u$ fixes; $h_c^{-1}uh_c$ is in the principal congruence subgroup, so $u$ is a
+term over $(c,1,c)$. If $u\gamma$ and $u'\gamma'$ have equal frames, the reductions of the two terms lie in one coset of $\bar R_0$, and their labels are equal, so they have the same reduction; the classes agree, the terms lie in
+one double coset, and both are its chosen element.
+(d) With $P=\Xi_0$, $\delta=\det P_j$ and $\alpha$ the first $\varrho$ columns of $\operatorname{adj}P_j$, the difference of the isotropic rows is $\xi=\mathrm{fm}_jX$, and $\xi^*P$ is skew-hermitian because both frames have the Gram matrix of
+$f$. The columns $b\ge j$ of $X\operatorname{adj}P_j$ vanish, as the shared vectors agree, and at the top cell rank the last column vanishes too (a matrix $\mu$ with $P^*\mu$ skew-hermitian kills the last column of $\operatorname{adj}Z$);
+hence $X\alpha P=\delta X$. The matrix $\sigma=\bar\delta X\alpha-\delta(X\alpha)^*-\alpha^*P^*X\alpha$ is skew-hermitian, integral, and solves $\sigma P=\delta\bar\delta X$. An Eichler element of level $M$ with matrix $\sigma$ and zero part in the lattice of
+$c$ fixes $f$ and adds $M\sigma P=\xi$ to the isotropic rows of every frame (\cref{lem:eichler-elements}).
+(e) The Eichler map made from $\eta$, orthogonal to the frame, fixes the frame; in the coordinates of $X_0$ it subtracts $M\eta$ times the products with the $e_a$, which are the rows $\Xi_0$. If the difference $v$ of the parts in
+$X_0$ is congruent to $0$ modulo $MD_j$, then $vP_j^{-1}=M\eta'$ with columns of $\eta'$ in $\Lambda\cap X_0$; the last column and the columns $b\ge j$ of $vP_j^{-1}$ are differences of two vectors of squared length at most $1/5$ by
+(a), so their squared length is less than $1$, and by (a) they vanish. Hence $v=M\eta\Xi_0$ with $\eta$ the remaining columns, and the move of the first statement makes the parts equal.
+(f) By the definition of $L_\gamma$ each basis vector has a lift over the finite adeles; the lifts solve a rational linear system, so there is a rational solution near any adelic one. Two lifts give maps $L\to M(\Lambda\cap A)$
+whose difference, if each row is an integral combination of the rows of $(ya)^*(ya)$, is given by the products with a row $\eta$ of rational vectors of $L\subseteq\Lambda\cap X_0$ ($\eta=y(y^*y)^{-1}w^*$); by (e) a move
+removes it. The rows of the Gram matrix span the image of $L$ in its dual, of index $\disc(L)^2$. The last statement is the rank of an orthogonal complement in a definite space.
+\end{proof}
+
+\begin{proposition}[Frames over a lattice]\label{prop:frames-over-lattice}
+Let $L\subseteq\Lambda\cap X_0$ be a lattice of corank $l$ with $\disc L\le H$, and $B$ a set of near terms over blocks with first class $c$, with frames distinct modulo moves, each of some cell rank and with $L\subseteq L_\gamma$.
+Then $\#B\le b^{2000n^6(l+1)f}$. In particular at most $b^{2000n^6(l+1)f}$ near representatives of a given label over $c$ have $L\subseteq L_\gamma$.
+\end{proposition}
+\lean{New.Filling.IsFrameSet.encard_le, New.Filling.encard_setOf_isNearTermAt_and_le_termLattice_le, New.Filling.IsFrameSet.encard_le_of_le_termLattice, New.Filling.IsFrameSet.encard_le_of_conjTranspose_mul_eq, New.Filling.IsFrameSet.encard_le_of_framePartX₀_eq, New.Filling.IsFrameSet.encard_le_of_sharedVectors_eq, New.Filling.IsFrameSet.encard_range_frameProducts_le, New.Filling.IsFrameSet.encard_range_sharedVectors_le, New.Filling.IsFrameSet.isIntegral_frameProducts, New.Filling.IsFrameSet.mem_termsOver, New.Filling.IsFrameSet.mono, New.Filling.IsFrameSet.near, New.Filling.IsFrameSet.separated, New.Filling.encard_le_of_colouring, New.Filling.encard_le_of_encard_range_le, New.Filling.isIntegral_sharedVectors}
+
+\begin{proof}
+Colour the terms successively; if every set of terms of one colour has at most $x$ elements and there are at most $C$ colours, there are at most $Cx$ terms, and colouring families of vectors of a module $K'$ modulo a module $K$
+uses at most $[K':K\cap K']^{\#\text{family}}$ colours. \emph{Cell rank and products.} There are $\varrho+2\le b^{2f}$ cell ranks. The matrices $Z$ have integral entries of modulus at most $b^{134n}$, so by \cref{lem:box-integral}(a) there are
+at most $(1+2b^{134n})^{2n^2f}\le b^{270n^3f}$ of them. Fix $j$ and $Z$, with $d=MD_j$ and $d'=\mathrm{fm}_j(Z)$. \emph{First round: the lift of $L$.} Colour the terms by the rows of their lifts of $L$ (\cref{lem:frame-moves}(f)) modulo the
+lattice spanned by the Gram matrix of a basis of $L$; there are at most $(\disc L^2)^\varrho$ colours, and in one colour a move gives every frame the lift of one of them. \emph{Second round: the part in $X_0$.} With equal
+lifts, the parts in $X_0$ of the frames have the same products with the basis of $L$, so they differ from that of one of them by vectors of $\Lambda\cap X_0\cap L^\perp$, of rank $l$; sort them modulo $d$ times this lattice,
+$[d]^{ln}$ classes; in one class the parts are congruent modulo $d(\Lambda\cap X_0)$ and a move makes them equal (\cref{lem:frame-moves}(e)). \emph{Third round: the isotropic part.} The shared vectors are integral with entries at most
+$b^{182n^2}$, so they take at most $b^{366n^4f}$ values; with equal shared vectors and equal parts in $X_0$, a term is determined by the isotropic rows of its moved frame modulo $d'$ (\cref{lem:frame-moves}(d)), which have
+$[d']^{n\varrho}$ classes. With $\disc L\le H$ and $[d]$, $[d']\le b^{2n^3f}$ (\cref{lem:frame-moves}(b)) the three rounds give at most $b^{(366n^4+2n^3(\varrho+ln+n\varrho))f}$ terms, and
+$2+270n^3+366n^4+2n^3(\varrho+ln+n\varrho)\le2000n^6(l+1)$. Near representatives of one label over $c$ have frames distinct modulo moves by \cref{lem:frame-moves}(c).
+\end{proof}
+
+\begin{theorem}[Counting]\label{thm:frame-count}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Sublattices.) Over a ring whose ideals of finite index are principal, $\sum_L[\Lambda:L]^{-(r+\mu)}$ over the sublattices of finite index of a free module of rank $r$ is at most $\zeta(\mu)^r$, a power of the
+sum over the ideals (an upper bound in the direction of Hey's formula); for subspaces $T$ of codimension $s$, $\sum_Td(T)^{-(k+1)}\le(200fk\,\mathrm{rd}_E)^{f(k+1)s}$, by Siegel's lemma (a subspace of codimension $s$
+is cut out by $s$ lattice vectors whose norms have a bounded product times its discriminant, Bombieri--Vaaler).
+\item (Lattices of corank $l$.) $\sum_c\sum_L\operatorname{disc}(L)^{-k}$, over the lattices $L\subseteq\Lambda\cap X_0$ of corank $l$ and discriminant at most $b^{n^3f}$, is at most $\tau^{l+1}n_XN^{-kf}$.
+\item (Frames over a lattice.) Near terms with a cell rank, different modulo moves, whose lattices contain a given $L$ of corank $l$ and discriminant at most $b^{n^3f}$, are at most $b^{2000n^6(l+1)f}$
+in number: sorted by the matrix of products, the shared vectors, the part in $X_0$ and the part in the isotropic space, each round costs a bounded power.
+\item (Pairs.) The sum of $\operatorname{disc}(L_{12})^{-k}$ over near pairs over agreeing blocks with corank $l\le n^3$ and discriminant at most $b^{n^3f}$ is at most $\tau^{l+2}n_p$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Filling.sum_discriminant_inv_le, New.Filling.encard_le_of_vecMul_mem_smul, New.Filling.IsFrameSet.encard_le, New.Filling.IsFrameSet, New.Filling.IsFrameSet.encard_le_of_framePartX₀_eq, New.Filling.IsFrameSet.encard_le_of_conjTranspose_mul_eq, New.Filling.IsFrameSet.encard_le_of_le_termLattice, New.Filling.encard_setOf_isNearTermAt_and_le_termLattice_le, New.Filling.sum_pairDiscriminant_inv_le, New.Filling.siegel_lemma, New.Filling.tsum_sublatticeDiscriminant_inv_le, New.Filling.sublatticeBasis, New.Filling.sublatticeDiscriminant, New.Filling.submoduleZeta, New.Filling.tsum_submoduleIndex_colLattice_inv_pow_le, New.Filling.IsLatticeOfRank.tsum_submoduleIndex_inv_pow_le, New.Filling.discriminant, New.Filling.saturatedLattice, New.Filling.IsLatticeOfRank, New.Filling.jacobi_perp_discriminant, New.Filling.exists_mem_classUnipotent₀_frameImage_mul_eq, New.Filling.IsNearTermAt.eq_of_frameImage_eq, New.Filling.HasCellRank.norm_sharedVectors_le, New.Filling.sharedVectors, New.Filling.frameModulus, New.Filling.exists_framePartX₀_mul_eq_sub_smul, New.Filling.exists_isLift, New.Filling.complementLattice, New.Filling.framePartX₀, New.Filling.HasCellRank.exists_framePartX₀_sub_eq, New.Filling.IsNear.genIndex_frameModulus_le, New.Filling.IsLabelledPair, New.Filling.exists_isLabelledPair_of_isNearPairOverAgreeingBlock, New.Filling.ClassBoundedDiscLattice, New.Filling.boundedDiscNearPairs, New.Filling.sum_pairDiscriminant_inv_le_tsum, New.Filling.tsum_le_tsum_mul_of_encard_le, New.Filling.two_mul_count_exponent_le, New.Filling.BoundedDiscSublattice, New.Filling.unimodularLattice, New.Filling.RowVanishesModPiN, New.Filling.tsum_discriminant_inv_le_of_out_eq, New.Filling.encard_rowVanishesModPiN_le}
+
+\begin{proof}
+(a) is \cref{lem:sublattice-zeta}(b), (c) and \cref{prop:siegel-lemma}(c). (b) is \cref{prop:lattices-corank}, and (c) is \cref{prop:frames-over-lattice}.
+
+(d) If $l>k$ there are no lattices of corank $l$ and the sum is empty; let $l\le k$ and $r=k-l$. Fix $c$.
+
+\emph{A pair determines a label and a lattice.} Let $(\gamma,\gamma')$ be a near pair over $(c,s,c')$ with $s$ agreeing. Both terms lie over the same block, so they have the same label $t$, the component of $s$ in its coset of $\bar R_0$, and both are near terms at $t$.
+Their common lattice $L_{12}$ is cut out of $L_\gamma\cap L_{\gamma'}$, so it lies in the lattices of both terms and in $\Lambda\cap X_0$, and it is a lattice of rank the dimension of the common link, here $r$; by hypothesis $\disc L_{12}\le b^{n^3f}$.
+Hence the map that sends $(c',\gamma,\gamma')$ to the label $t$ and the lattice $L=L_{12}$ lands in the set of pairs $(t,L)$ with $L\subseteq\Lambda\cap X_0$ of rank $r$ and $\disc L\le b^{n^3f}$, and the weight $\disc(L_{12})^{-k}$ of the pair is the weight $\disc(L)^{-k}$ of its image.
+
+\emph{The fibres.} For a pair $(t,L)$ let $T(t,L)$ be the set of near representatives $(c',\gamma)$ of the label $t$ over $c$ with $L\subseteq L_\gamma$. If $(c',\gamma,\gamma')$ lies over $(t,L)$, both $(c',\gamma)$ and $(c',\gamma')$ lie in $T(t,L)$, and the triple is determined by these two
+elements. Hence the fibre over $(t,L)$ has at most $\#T(t,L)^2$ elements, and by (c), as $L$ has corank $l$ and discriminant at most $b^{n^3f}$,
+\[
+  \#T(t,L)^2\le\bigl(b^{2000n^6(l+1)f}\bigr)^2\le b^{10^5n^9f}\le\tau,
+\]
+since $l+1\le2n^3$ gives $2\cdot2000n^6(l+1)\le8000n^9$, and every power $b^e$ with $e\le10^5n^9f$ is at most $\tau$.
+
+\emph{The sum.} If every element of a set is sent to an element of the same weight, and each fibre has at most $x$ elements, the sum of the weights is at most $x$ times the sum over the images. Therefore
+\[
+  \sum_{c'}\sum_{\text{pairs over }(c,c')}\disc(L_{12})^{-k}\le\tau\cdot\#\bar R_0\cdot\sum_L\disc(L)^{-k},
+\]
+the last sum over the lattices $L\subseteq\Lambda\cap X_0$ of rank $r$ with $\disc L\le b^{n^3f}$. Summing over $c$ and applying (b),
+\[
+  \sum_c\sum_{c'}\sum_{\text{pairs}}\disc(L_{12})^{-k}\le\#\bar R_0\,\tau\,\tau^{l+1}n_XN^{-kf}=\tau^{l+2}n_p,
+\]
+with $n_p=\#\bar R_0\,n_XN^{-kf}$.
+\end{proof}
+
+\subsection{The remaining terms}\label{ss:remaining-sum}
+
+Two terms lie in the same \emph{link class} if $\mathfrak g$ vanishes for neither and their links are equal.
+\lean{New.Filling.InSameLinkClass, New.Filling.Piece, New.Filling.piece, New.Filling.piece_eq_some_iff, New.Filling.IsStable.inter_piece, New.Filling.IsNearPairOverAgreeingBlock.mem_boundedDiscNearPairs, New.Filling.IsNearPairOverAgreeingBlock.ofReal_termSize_mul_le, New.Filling.IsNearPairOverAgreeingBlock.one_le_pairDiscriminant, New.Filling.boundedDiscNearPairs, New.Filling.eq_of_mem_termsOver, New.Filling.isNearPairOverAgreeingBlock_of_mem_nearRepresentativesOver, New.Filling.mem_of_mem_nearRepresentativesOver, New.Filling.mem_termsOver_of_mem_nearRepresentativesOver, New.Filling.IsLabelledPair, New.Filling.IsLabelledPair.isLatticeOfRank, New.Filling.IsLabelledPair.isNearTermAt_left, New.Filling.IsLabelledPair.isNearTermAt_right, New.Filling.IsLabelledPair.le_classLatticeX₀, New.Filling.IsLabelledPair.le_termLattice_left, New.Filling.IsLabelledPair.le_termLattice_right}
+
+\begin{lemma}[Pairs of near terms]\label{lem:pair-sum}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For a near pair over $(c,c')$, the corank $l$ of the common lattice is at most $n^3$ and $\disc L_{12}\le H$.
+\item If $(\disc L_{12}\,\eta)^2\le\mathsf g^*(\gamma)\mathsf g^*(\gamma')$ with $\eta>0$, both cell second moments are at most $D$, and $\tau^{l+6}D\eta^{-k}\le B$, then
+$\mathrm{size}(\gamma)\mathrm{size}(\gamma')\le B\disc(L_{12})^{-k}/(\tau^{l+2}n_p)$.
+\item If every pair of a family of near pairs, one family for each two classes, satisfies the hypotheses of (b) with some $\eta$ and $D$ and a common $B\ge0$, then the products of the sizes over all the families add up to
+at most $\tau B$.
+\item For a stable $T\subseteq\Gamma^*$, the squared norm of the cut block of $T$ over $(c,s,c')$ is at most the sum over the links $\Lambda$ of the squared norms of the blocks of the terms of $T$ with $\mathfrak g\ne0$ and link $\Lambda$, plus
+$\nu^2$ times the sum of $\mathrm{size}(\gamma)\mathrm{size}(\gamma')$ over the pairs of near representatives of $T$ over the block that do not lie in the same link class.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.IsNearPairOverAgreeingBlock.corank_le_and_pairDiscriminant_le, New.Filling.cube_add_one_le_tailScale, New.Filling.exists_isLabelledPair_of_isNearPairOverAgreeingBlock, New.Filling.sum_pairDiscriminant_inv_le_tsum, New.Filling.tsum_le_tsum_mul_of_encard_le, New.Filling.two_mul_count_exponent_le, New.Filling.enorm_amplitudeSum_sq_le, New.Filling.enorm_amplitudeSum_mul_le}
+
+\begin{proof}
+(a) Let $i=c^+$ and $d=\disc L_{12}\ge1$. By \cref{thm:gain} and \cref{lem:orbit-bound}(a), $d^2\le(2/M)^{2if}H^2$, and $2/M\le b^{-18}$ because $2b\le b^{19}\le M$; so $b^{18if}d\le H$, which gives $d\le H$ and $18i\le n^3$. The corank of the common
+lattice is at most $i+(j-\varrho)_+\le i+1$ (\cref{lem:link-splitting}), and $i+1\le n^3$.
+(b) By definition $\mathrm{size}^2\le\tau^4D/(n_p\mathsf g^{*k})$, so $\mathrm{size}(\gamma)\mathrm{size}(\gamma')\le\tau^4D/(n_p(\mathsf g^*\mathsf g^{*\prime})^{k/2})\le\tau^4D\eta^{-k}d^{-k}/n_p$, and $\tau^4D\eta^{-k}\le B\tau^{-(l+2)}$.
+(c) Sort the pairs by the corank $l\le n^3$ of their common lattice. By (b) and \cref{thm:frame-count}(d) the pairs of corank $l$ contribute at most $B\tau^{-(l+2)}n_p^{-1}\cdot\tau^{l+2}n_p=B$, and there are at most $n^3+1\le\tau$ coranks.
+(d) Split $T$ into its pieces: one for each link $\Lambda$, consisting of the terms with $\mathfrak g\ne0$ and link $\Lambda$, and one for the terms with $\mathfrak g=0$. The pieces are stable, since $\mathfrak g$ and the link are invariant
+(\cref{prop:links}(a)). By the triangle inequality the squared norm of the block is at most the sum over pairs of pieces of the products of their norms. The squares of the pieces with $\mathfrak g\ne0$ remain. Every other
+product is at most $\nu^2$ times the sum of the products of the sizes of the near representatives of the two pieces (\cref{thm:block-size}(c) for each piece), and a pair of near representatives determines its two pieces;
+such a pair does not lie in the same link class, since the pieces differ or one of them is the piece of $\mathfrak g=0$.
+\end{proof}
+
+\begin{theorem}[Remaining terms]\label{thm:remaining}
+Let the data be admissible and $E$ contain a primitive $5040$th root of unity.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Pairs of near terms over agreeing blocks whose links differ, or for one of which $\mathfrak g=0$, contribute $\sum\mathrm{size}(\gamma)\mathrm{size}(\gamma')\le b^{-kf}\mathcal D_{\rm id}$.
+\item Pairs with equal links and $\mathfrak g\ne0$ over blocks with $\mathrm{mn}(s)\ge z$ contribute at most $(b^{2f}/z)^k\mathcal D_{\rm main}$.
+\item If the terms with $\mathfrak g\ne0$, taken link by link, have link second moment at most $w\nu^2$ over $\Omega$, the second moment over $\Omega$ of $\Gamma^*$ for the cut function is at most
+$w+b^{-kf}\mathcal D_{\rm id}$; and if $\mathrm{mn}(s)\ge z$ on $\Omega$, the link second moment over $\Omega$ is at most $(b^{2f}/z)^k\mathcal D_{\rm main}\nu^2$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Filling.sum_termSize_mul_not_inSameLinkClass_le, New.Filling.sum_termSize_mul_inSameLinkClass_le, New.Filling.secondMoment_remainingTerms_le, New.Filling.linkSecondMoment_le_of_le_meetNorm, New.Filling.sum_termSize_mul_le, New.Filling.InSameLinkClass, New.Filling.termSize_sq_le, New.Filling.IsNearPairOverAgreeingBlock, New.Filling.IsNearPairOverAgreeingBlock.termSize_mul_le, New.Filling.IsNearPairOverAgreeingBlock.pairDiscriminant_sq_le, New.Filling.IsNearPairOverAgreeingBlock.corank_le_and_pairDiscriminant_le, New.Filling.cube_add_one_le_tailScale, New.Filling.cellRankSecondMoment_le_mainSecondMoment, New.Filling.pow_mul_mainSecondMoment_div_le, New.Filling.Piece, New.Filling.piece, New.Filling.enorm_amplitudeSum_mul_le, New.Filling.enorm_amplitudeSum_sq_le}
+
+\begin{proof}
+(a) Apply \cref{lem:pair-sum}(c) with $B=\tau^{-10}\mathcal D_{\rm id}$; then $\tau B=\tau^{-9}\mathcal D_{\rm id}\le\tau^{-4}\mathcal D_{\rm id}=b^{-kf}\mathcal D_{\rm id}$. Let $(\gamma,\gamma')$ be a pair as in (a), of cell ranks $j$, $j'$, with $i=c^+$. By \cref{lem:link-splitting}
+the corank of the common lattice is at most $i+(j-\varrho)_+$. \emph{Equal links.} If $i=0$ the links are equal, so $\mathfrak g$ vanishes for both or for neither (\cref{lem:link-vectors}(d)); as the pair is not in one link class,
+it vanishes for both, both terms lie below the top cell rank, the corank is $0$, and $\mathcal D_j=\mathcal D_{j'}=\tau^{-16}\mathcal D_{\rm id}$. Take $\eta=1$, $D=\tau^{-16}\mathcal D_{\rm id}$: \cref{thm:gain} gives
+$\disc(L_{12})^2\le\mathsf g^*\mathsf g^{*\prime}$, and $\tau^6D=\tau^{-10}\mathcal D_{\rm id}=B$. \emph{Different links.} If $i\ge1$, take $\eta=(M/2)^{if}$ and $D=\mathcal D_{\rm main}\ge\mathcal D_j,\mathcal D_{j'}$ (\cref{lem:orbit-bound}(b)); by \cref{thm:gain}
+$(\disc(L_{12})\eta)^2\le\mathsf g^*\mathsf g^{*\prime}$, and the corank $l$ is at most $i+1$. Put $m=kf$ and $x=\tau(2/M)^m$; since $2b\le M$, $x\le\tau^4(2/M)^m=(2b/M)^m\le1$. Then, with $\mathcal D_{\rm main}\le(M/b^6)^m\mathcal D_{\rm id}$,
+\begin{align*}
+  \tau^{l+6}\mathcal D_{\rm main}\eta^{-k}&\le\tau^7x^i\mathcal D_{\rm main}\le\tau^7x\,(M/b^6)^m\mathcal D_{\rm id}=\tau^8(2/b^6)^m\mathcal D_{\rm id}\\
+  &\le\tau^8(b/b^6)^m\mathcal D_{\rm id}=\tau^{-12}\mathcal D_{\rm id}\le B.
+\end{align*}
+(b) Here the links are equal and $\mathfrak g\ne0$, so both terms have the top cell rank, $c^+=0$, and \cref{thm:gain} with $x=z\le\mathrm{mn}(s)$ gives $(\disc(L_{12})z)^2\le\mathsf g^*\mathsf g^{*\prime}$. The corank is at most $1$, and the
+cell second moments are $\mathcal D_{\rm main}$. Take $\eta=z$, $D=\mathcal D_{\rm main}$ and $B=\tau^7\mathcal D_{\rm main}z^{-k}$ in \cref{lem:pair-sum}(c): the total is at most $\tau^8\mathcal D_{\rm main}z^{-k}=(b^{2f}/z)^k\mathcal D_{\rm main}$, as
+$\tau^8=b^{2kf}$.
+(c) By \cref{lem:pair-sum}(d), summing over $c$, $c'$ and $s\in\Omega$, the second moment of $\Gamma^*$ is at most the link second moment of the terms with $\mathfrak g\ne0$, divided by $\nu^2$, plus the sum of the products of
+the sizes over the pairs of near representatives that do not lie in one link class; a pair determines its $s$, so each such pair occurs once, and by (a) their sum is at most $b^{-kf}\mathcal D_{\rm id}$. For the second
+statement apply \cref{lem:pair-sum}(d) to the stable sets of the terms with $\mathfrak g\ne0$ and a fixed link: the square of the block of one link is at most $\nu^2$ times the sum over pairs of its near representatives, which lie in the
+same link class; a pair determines its $s$ and its link, and (b) bounds the sum.
+\end{proof}

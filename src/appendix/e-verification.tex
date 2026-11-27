@@ -1,0 +1,48 @@
+\section{Record of the formal verification}\label{app:verification}
+This appendix records how the Lean development on which the paper rests was rebuilt and checked for the present text. The development is the readable edition \texttt{grh} of the archive
+\cite{GRHLean2026}, distributed under the Apache License~2.0; the argument it formalises is due to Alp\"oge and Claude \cite{Alpoge2026}. Nothing in it was changed.
+
+\subsection{Versions and hashes}\label{ss:E-versions}
+\begin{center}\small
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{.62\textwidth}@{}}
+\toprule
+item & value\\
+\midrule
+Lean & 4.35.0, commit \texttt{eb6cafb7290e8bd5f2937\allowbreak 522d8d804f58f02bafc}\\
+Lake & 5.0.0 (Lean 4.35.0)\\
+Mathlib & commit \texttt{56a005855ea17e0b0958\allowbreak f73ec801ae140b0a1679}\\
+Lean sources & 803 files under \texttt{src}\\
+\texttt{src/Statements.lean} & SHA-256 \texttt{79ef7ca7\dots f33b47bf}\\
+\texttt{src/Main.lean} & SHA-256 \texttt{40da180a\dots 1a67a17c6d}\\
+all of \texttt{src} & SHA-256 of the sorted list of the SHA-256 sums, \texttt{5ef6bb24\dots c334d2eea}\\
+\bottomrule
+\end{tabular}
+\end{center}
+The full hashes are in the files \texttt{ledger/\allowbreak statements.sha256} and \texttt{ledger/\allowbreak sources.sha256} of the source repository; the first two agree with the files of the rebuilt archive.
+
+\subsection{Statements}\label{ss:E-statements}
+The Lean statements of the five theorems behind \cref{thm:main-grh,thm:main-rh} are in the file \texttt{src/\allowbreak Statements.lean}. It imports only Mathlib and states them in terms of Mathlib's \texttt{riemannZeta} and \texttt{DirichletCharacter.\allowbreak LFunction}. The file
+\texttt{Challenge.lean} repeats the five statements with \texttt{sorry} in place of the proofs and imports only \texttt{Statements}; it is the input of a comparison tool that checks that the theorems proved in
+\texttt{Main} have exactly these statements and use only the permitted axioms \texttt{propext}, \texttt{Quot.sound} and \texttt{Classical.choice}.
+
+\subsection{Build and axioms}\label{ss:E-build}
+On 26 November 2026 the archive was built from these sources with \texttt{lake exe cache get} (the Mathlib cache of the pinned commit) and \texttt{lake build}, with five concurrent Lean processes. The build
+completed all $9852$ jobs without error in two hours and thirty-seven minutes. The command \texttt{lake env lean scripts/PrintAxioms.lean} then printed, for each of the five theorems,
+\begin{center}\small
+\texttt{depends on axioms: [propext, Classical.choice, Quot.sound]}.
+\end{center}
+In particular none of the five depends on \texttt{sorryAx} or on an axiom introduced by the archive.
+
+\subsection{Kernel replay}\label{ss:E-replay}
+The kernel of Lean checks every declaration when it is added; a replay checks the stored environment again, independently of the elaborator and of the build. The command
+\begin{center}\small
+\texttt{lake env leanchecker --fresh Main}
+\end{center}
+replays every constant of the environment of \texttt{Main}, including Lean's core library, Mathlib and all modules of the archive, into a fresh environment through the kernel.
+It was run on the rebuilt archive on 26 and 27 November 2026, as a single process; it finished after fifty-three minutes with exit status $0$ and reported no error, so every constant of the
+environment, among them the five theorems and everything they depend on, was accepted by the kernel a second time.
+
+\subsection{The anchors of the paper}\label{ss:E-anchors}
+From the built environment every declaration of the modules of the archive was exported with its module, its type and the declarations it uses. Every name in an anchor
+(\cref{app:lean}) is a declaration of this export. The \emph{cone} of the five theorems, the declarations on which they depend, has $49822$ members, of which $9621$ lie in the modules under \texttt{New}; the anchors of the paper,
+together with the declarations of the same module folders that they use, cover $98.7$ per cent of these. The remaining declarations are auxiliary lemmas of the module folders, used only inside proofs.

@@ -1,0 +1,719 @@
+\section{Cup products of crystalline classes}\label{sec:crystalline}
+
+The local loss of \cref{sec:local-loss} rests on explicit powers of $p$ that make the cup products of crystalline cocycles of a lattice with those of congruent dual lattices
+vanish (\cref{thm:cup-exponents}). Here $p$ is the residue characteristic (the prime $\ell$ of the previous sections). The lattices have Hodge--Tate jumps in two windows:
+a low window near $0$ and far windows near $\pm b$, small against $p$ or controlled by the valuations of the integers near $b$. The proofs work with Kisin modules on
+\emph{Kummer charts} and move pairs of points of extensions along Frobenius orbits by \emph{safe moves}.
+
+\subsection{Kummer charts, sides and safe moves}\label{ss:kummer-charts}
+Let $\Gamma$ be a group over $G_p$ with open image. A \emph{Kummer chart} $k$ consists of a ring $\Lambda[\![z]\!]\subseteq A_{\inf}$, $\Lambda=W(\F_{p^f})$, a distinguished element $E$ (with $E=z+p$ if the chart is \emph{unramified}, of ramification index
+$e=1$), and a subgroup $\Gamma'$ of index prime to $p$ fixing $\Lambda$; its \emph{letters} are the units of $\F_{p^f}$, permuted by $i\mapsto i^p$, and $i.\mathrm{back}(a)$ is the letter $a$ Frobenius steps before $i$. The coefficients
+$O$ carry $\zeta$ with $\zeta^{p^f-1}=1$, which assigns the embeddings of $O$ to the letters. A \emph{side} $S$ consists of lattices $Y$ and $C$, an $O$-linear map from $C$ to the crystalline cocycles $Z_f(Y)$ (hence an extension $\tilde Y$ of
+the trivial lattice $C$ by $Y$), and at each letter a finite set of integers containing $0$, the jumps. A point of the extension has \emph{orders} $o(l,u)$ if its value at $\varphi^l(E)$ on the forms of jump $u$ is divisible by
+$t^{o(l,u)}$ in $B_{\rm dR}^+$, and \emph{depth} $o$ if its differences with its translates by $\Gamma'$ have orders $o$. A \emph{pairing} of two sides modulo $p^m$ is an $O$-linear map $\psi\colon Y\otimes L\to O(1)$ with
+$g\psi-\psi=p^m\cdot$(a crystalline cocycle); a move of one point, with the other at rest, is \emph{safe} for $\kappa$ if $p^\kappa$ times the pairing of the move with the change of the point at rest under each $g\in\Gamma'$ lies in the
+image of $W(\mathfrak m^\flat)$. The jumps \emph{fit windows} $(\eta,\varepsilon,b,W)$ if they lie in $[-\eta,\eta]\cup\varepsilon[b,b+W]$.
+\lean{New.Lift.KummerChart.PairingSide, New.Lift.KummerChart.PairingSide.extensionLattice, New.Lift.KummerChart.PairingSide.trivialLattice, New.Lift.KummerChart.PairingSide.projTrivial, New.Lift.KummerChart.PairingSide.wittFst, New.Lift.KummerChart.PairingSide.tensorLattice, New.Lift.Pairing.tateDualSide, New.Lift.Pairing.wittPairing, New.Lift.Pairing.IsSafe, New.Lift.Pairing.IsSafeMoveFst, New.Lift.Pairing.IsSafeMoveSnd, New.Lift.Pairing.IsSafePath, New.Lift.Pairing.IsScaledCupCoboundary, New.Lift.wittFst_smul, New.Lift.Pairing.smul_wittPairing, New.Lift.Pairing.isCupCoboundary_of_eq_coboundary, New.Lift.smul_smul_frobGroup_comm, New.Lift.eventually_smul_sub_mem_smallPart, New.Lift.Pairing.phi_smul_sub_mem_smallPart, New.Lift.Pairing.nsmul_modPairing_eq_coboundary, New.Lift.Pairing.IsScaledCupCoboundary.of_isSafePath, New.Lift.KummerChart.PairingSide.add_add_padicValNat_factorial_le, New.Lift.KummerChart.JumpLattice.tau_pow_smul_mem_ainfLattice_of_eq_chi_pow_smul, New.Lift.KummerChart.JumpLattice.kisinModule_eq_span_of_trivial, New.Lift.KummerChart.mul_add_pow_mem_of_mul_pow_mem, New.Lift.KummerChart.PairingSide.constantAt, New.Lift.KummerChart.PairingSide.liftIdeal, New.Lift.KummerChart.PairingSide.KillsCokernel, New.Lift.KummerChart.PairingSide.mem_liftIdeal_iff, New.Lift.KummerChart.PairingSide.p_pow_mem_liftIdeal_self, New.Lift.KummerChart.PairingSide.phi_pow_smul_constantAt, New.Lift.KummerChart.PairingSide.mul_E_pow_mem_liftIdeal_one, New.Lift.KummerChart.PairingSide.liftIdeal_le_of_p_pow_mem, New.Lift.KummerChart.PairingSide.killsCokernel_of_p_pow_mem_liftIdeal, New.Lift.KummerChart.PairingSide.constantAt_mem_stdOrdersPart, New.Lift.KummerChart.PairingSide.phi_pow_smul_mem_liftIdeal_iff, New.Lift.KummerChart.PairingSide.p_pow_mul_z_pow_mem_liftIdeal_iff, New.Lift.KummerChart.PairingSide.exists_lift_of_mem_liftIdeal, New.Lift.KummerChart.PairingSide.smul_sub_mem_withOrders_of_stdOrders_one, New.Lift.KummerChart.PairingSide.stdOrders_one_le_add, New.Lift.KummerChart.PairingSide.mem_liftIdeal_of_mul_eq_mul_smul_sub, New.Lift.KummerChart.PairingSide.mem_liftIdeal_of_eq_zTau_mul_smul_sub, New.Lift.KummerChart.PairingSide.mem_liftIdeal_of_eq_mul_smul_sub, New.Lift.KummerChart.PairingSide.mem_liftIdeal_zero_of_mem_liftIdeal_one_letterFrob, New.Lift.KummerChart.PairingSide.mem_liftIdeal_of_mul_E_pow, New.Lift.KummerChart.PairingSide.p_pow_mul_z_pow_pred_mem_liftIdeal, New.Lift.KummerChart.PairingSide.p_pow_mul_z_pow_mem_liftIdeal_of_le, New.Lift.KummerChart.PairingSide.p_pow_mul_z_pow_div_mem_liftIdeal, New.Lift.KummerChart.PairingSide.exists_forall_z_pow_mem_liftIdeal, New.Lift.KummerChart.PairingSide.exists_z_pow_mem_liftIdeal, New.Lift.KummerChart.PairingSide.killsCokernel_zero_zero_of_small_jumps, New.Lift.KummerChart.PairingSide.killsCokernel_of_isUnramified, New.Lift.KummerChart.PairingSide.exists_p_pow_mul_z_pow_mem_liftIdeal_and_le, New.Lift.KummerChart.PairingSide.killsCokernel_zero_of_jumps_le}
+\lean{New.Lift.KummerChart.cost, New.Lift.KummerChart.associated_pow_natAbs_sub_one, New.Lift.KummerChart.zTau_dvd_sub_one_of_mul_eq_smul_E, New.Lift.KummerChart.theta_sub_one_dvd_pow_mul_theta_zTau, New.Lift.KummerChart.p_mul_theta_mul_theta_z_dvd_pow, New.Lift.KummerChart.theta_zTau_dvd_pow_mul_thetaPhiInv, New.Lift.KummerChart.IsDepthStep, New.Lift.KummerChart.exists_isDepthStep, New.Lift.KummerChart.exists_smul_frobE_eq_mul_and_zTau_mul_eq, New.Lift.KummerChart.isPrimitiveRoot_thetaPhiInv_teichmuller_epsTilt, New.Lift.KummerChart.sum_pow_eq_zero_of_isPrimitiveRoot, New.Lift.KummerChart.exists_frobE_dvd_smul_sum_sub_sum, New.Lift.KummerChart.JumpLattice.withOrders, New.Lift.KummerChart.JumpLattice.stdOrdersPart, New.Lift.KummerChart.JumpLattice.valueAt_def, New.Lift.KummerChart.JumpLattice.valueAt_zero, New.Lift.KummerChart.JumpLattice.mem_kisinLocAinf_of_smul_of_dvd_frobE, New.Lift.KummerChart.JumpLattice.frobE_smul_mem_kisinLocAinf_iff, New.Lift.KummerChart.JumpLattice.mem_kisinLocAinf_of_mem_kisinLoc, New.Lift.KummerChart.JumpLattice.kisinModule_le_kisinLoc, New.Lift.KummerChart.JumpLattice.kisinLoc_induction, New.Lift.KummerChart.JumpLattice.frobEUnit_zpow_smul_mem_kisinLoc_iff, New.Lift.KummerChart.JumpLattice.Hom.wittMap_mem_kisinLocAinf, New.Lift.KummerChart.JumpLattice.Hom.wittMap_mem_kisinLoc, New.Lift.KummerChart.JumpLattice.galMonoid_smul_mem_kisinAinf, New.Lift.KummerChart.JumpLattice.galMonoid_smul_frobE_dvd_frobE, New.Lift.KummerChart.JumpLattice.galMonoid_smul_mem_kisinLocAinf, New.Lift.KummerChart.JumpLattice.mem_withOrders_iff, New.Lift.KummerChart.JumpLattice.withOrders_le_kisinLocAinf, New.Lift.KummerChart.JumpLattice.withOrders_le_letterPart, New.Lift.KummerChart.JumpLattice.valueAt_mem_hodgeFil_of_mem_withOrders, New.Lift.KummerChart.JumpLattice.mem_withOrders_of_mem_hodgeFil, New.Lift.KummerChart.JumpLattice.mem_withOrders_of_le, New.Lift.KummerChart.JumpLattice.valueAt_mem_hodgeFil_of_mem_ainfLattice, New.Lift.KummerChart.JumpLattice.Hom.wittMap_mem_withOrders, New.Lift.KummerChart.JumpLattice.mem_withOrders_of_smul, New.Lift.KummerChart.JumpLattice.frobEUnit_zpow_smul_mem_withOrders_add, New.Lift.KummerChart.JumpLattice.frobEUnit_zpow_smul_mem_withOrders, New.Lift.KummerChart.JumpLattice.frobEUnit_zpow_smul_mem_withOrders_add_iff, New.Lift.KummerChart.JumpLattice.prod_frobEUnit_zpow_smul_mem_withOrders_add_iff, New.Lift.KummerChart.JumpLattice.prod_frobEUnit_zpow_smul_mem_kisinLoc_iff, New.Lift.KummerChart.JumpLattice.kisinLocAinf_le_fracSpan, New.Lift.KummerChart.JumpLattice.valueAt_smul_sub, New.Lift.KummerChart.JumpLattice.smul_sub_mem_withOrders, New.Lift.KummerChart.JumpLattice.galMonoid_smul_eq_toGp_smul, New.Lift.KummerChart.JumpLattice.exists_zTau_smul_eq_smul_sub, New.Lift.KummerChart.JumpLattice.zTauUnit_inv_smul_sub_mem_kisinLocAinf, New.Lift.KummerChart.JumpLattice.frobEUnit_pow_smul_phi_smul_mem_kisinModule, New.Lift.KummerChart.JumpLattice.phi_smul_mem_kisinLoc, New.Lift.KummerChart.JumpLattice.phi_pow_smul_mem_kisinLoc, New.Lift.KummerChart.JumpLattice.span_kisinModule, New.Lift.KummerChart.JumpLattice.span_kisinLoc, New.Lift.KummerChart.JumpLattice.sum_map_smul_eq_zero_of_mem_valueFieldPoints, New.Lift.KummerChart.JumpLattice.sum_map_smul_eq_zero_of_mem_kisinLoc, New.Lift.KummerChart.JumpLattice.tau_pow_smul_mem_kisinAinf, New.Lift.KummerChart.JumpLattice.valueAt_mem_valueField, New.Lift.KummerChart.JumpLattice.exists_coordRetract, New.Lift.KummerChart.JumpLattice.coordRetract, New.Lift.KummerChart.JumpLattice.coordRetract_smul, New.Lift.KummerChart.JumpLattice.coordRetract_sum, New.Lift.KummerChart.JumpLattice.coordRetract_of_mem_kisinLoc, New.Lift.KummerChart.JumpLattice.Hom.wittMap_coordRetract, New.Lift.KummerChart.JumpLattice.valueAt_mem_of_hodgeFil_le, New.Lift.KummerChart.JumpLattice.zTauUnit_inv_smul_sub_mem_withOrders, New.Lift.KummerChart.JumpLattice.locKisinPart, New.Lift.KummerChart.JumpLattice.invariantsMod, New.Lift.KummerChart.JumpLattice.cost_le_of_isUnramified, New.Lift.KummerChart.JumpLattice.improvedOrders, New.Lift.KummerChart.JumpLattice.improvedOrders_le, New.Lift.KummerChart.JumpLattice.min_pos_of_improvedOrders_pos, New.Lift.KummerChart.JumpLattice.exists_const_sub_mem_hodgeFil_of_smul_sub_mem, New.Lift.KummerChart.JumpLattice.exists_valueAt_sub_mem_hodgeFil, New.Lift.KummerChart.JumpLattice.galMonoid_smul_localFieldOf, New.Lift.KummerChart.JumpLattice.valueAt_smul_sub_mem_hodgeFil_of_sub_const_mem, New.Lift.KummerChart.JumpLattice.mem_invariantsMod_withOrders_iff, New.Lift.KummerChart.JumpLattice.mem_withOrders_improvedOrders, New.Lift.KummerChart.JumpLattice.smul_sub_mem_hodgeFil_one_of_mem_valueField, New.Lift.KummerChart.JumpLattice.smul_sub_phiInvToBdR_mul_mem_hodgeFil_succ, New.Lift.KummerChart.JumpLattice.depthStepOperator, New.Lift.KummerChart.JumpLattice.depthStepOperator_apply, New.Lift.KummerChart.JumpLattice.depthStepOperator_singleton, New.Lift.KummerChart.JumpLattice.exists_valueAt_depthStepOperator_sub_smul_mem, New.Lift.KummerChart.JumpLattice.exists_valueAt_sub_mem_hodgeFil_succ}
+\lean{New.Lift.KummerChart.JumpLattice.wittPairing, New.Lift.KummerChart.JumpLattice.IsEquivariantPairing, New.Lift.KummerChart.JumpLattice.wittPairing_letterProj_left, New.Lift.KummerChart.JumpLattice.wittPairing_mem_saturateBy, New.Lift.KummerChart.JumpLattice.shiftedOrders, New.Lift.KummerChart.JumpLattice.ShiftsHodgeFil, New.Lift.KummerChart.JumpLattice.RespectsGaloisAction, New.Lift.KummerChart.JumpLattice.apply_mem_hodgeFil_of_forall_formsOfType, New.Lift.KummerChart.JumpLattice.valueAt_coordRetract_sub_mem_hodgeFil, New.Lift.KummerChart.JumpLattice.valueAt_coordRetract_mem_hodgeFil, New.Lift.KummerChart.JumpLattice.coordRetract_mem_withOrders, New.Lift.KummerChart.JumpLattice.apply_phi_pow_succ_smul_mem_hodgeFil_zero, New.Lift.KummerChart.JumpLattice.phi_pow_smul_mem_withOrders, New.Lift.KummerChart.JumpLattice.smul_mem_ainfLattice_of_frobE_smul_mem, New.Lift.KummerChart.JumpLattice.mem_saturateBy_powers_of_mem_withOrders, New.Lift.KummerChart.JumpLattice.mem_withOrders_stdOrders_iff, New.Lift.KummerChart.JumpLattice.mem_stdOrdersPart_iff, New.Lift.KummerChart.JumpLattice.prod_frobEUnit_zpow_smul_mem_withOrders_stdOrders_add_iff, New.Lift.KummerChart.JumpLattice.prod_frobEUnit_zpow_smul_mem_kisinLoc_and_withOrders_iff, New.Lift.KummerChart.JumpLattice.letterProj_mem_withOrders, New.Lift.KummerChart.JumpLattice.letterProj_mem_stdOrdersPart, New.Lift.KummerChart.JumpLattice.frobEUnit_pow_smul_mem_frobKisinAinf_one, New.Lift.KummerChart.JumpLattice.apply_smul_wittPairing_mem_hodgeFil, New.Lift.KummerChart.JumpLattice.wittPairing_mem_ainfLattice, New.Lift.KummerChart.JumpLattice.wittPairing_mem_kisinAinf, New.Lift.KummerChart.JumpLattice.wittPairing_mem_withOrders, New.Lift.KummerChart.JumpLattice.raiseOrder, New.Lift.KummerChart.JumpLattice.raiseOrdersAt, New.Lift.KummerChart.JumpLattice.exists_thetaBdR_sub_sum_smul_eq_zero, New.Lift.KummerChart.JumpLattice.exists_sub_sum_smul_mem_withOrders_raiseOrder, New.Lift.KummerChart.JumpLattice.exists_eq_one_and_sum_smul_eq_zero, New.Lift.KummerChart.JumpLattice.exists_sub_smul_one_eq_E_mul, New.Lift.KummerChart.JumpLattice.exists_sum_smul_mem_locKisinPart_sup}
+\lean{New.Lift.FitsWindows, New.Lift.twoWindows, New.Lift.mem_twoWindows, New.Lift.NoMultipleNear, New.Lift.NoMultipleNear.eq_zero_of_dvd, New.Lift.card_filter_dvd_Icc_le, New.Lift.sum_padicValInt_Icc_le, New.Lift.sum_twoWindows_le, New.Lift.KummerChart.tateLattice, New.Lift.KummerChart.JumpLattice.mem_withOrders_raisedOrdersAtZero_of_gap, New.Lift.KummerChart.PairingSide.stepBack_zero, New.Lift.KummerChart.PairingSide.inclKer, New.Lift.KummerChart.PairingSide.localizedProjTrivial, New.Lift.KummerChart.PairingSide.deepElements, New.Lift.KummerChart.PairingSide.kerWithOrders, New.Lift.KummerChart.PairingSide.IsOperatorOfCost, New.Lift.KummerChart.PairingSide.SidePairing, New.Lift.KummerChart.PairingSide.pointsOver, New.Lift.KummerChart.PairingSide.standardDepth, New.Lift.KummerChart.PairingSide.plainDepth, New.Lift.KummerChart.PairingSide.stopOrders, New.Lift.KummerChart.PairingSide.ruleBound, New.Lift.KummerChart.PairingSide.standardPoints, New.Lift.KummerChart.PairingSide.stopPoints, New.Lift.KummerChart.PairingSide.LiesOver, New.Lift.KummerChart.PairingSide.wittFst_inclKer, New.Lift.KummerChart.PairingSide.wittPairing_wittFst_mulZeta, New.Lift.KummerChart.PairingSide.isUnit_letterTeich_sub, New.Lift.KummerChart.PairingSide.wittPairing_wittFst_eq_zero_of_ne, New.Lift.KummerChart.PairingSide.isSafe_sum, New.Lift.KummerChart.PairingSide.exists_mem_form_cocycle_eq_coboundary, New.Lift.KummerChart.PairingSide.exists_linearMap_form_cocycle_eq_coboundary, New.Lift.KummerChart.PairingSide.exists_extend_form, New.Lift.KummerChart.PairingSide.IsOperatorOfCost.apply_mem_of_kerWithOrders_le, New.Lift.KummerChart.PairingSide.locKisinPart_kerWithOrders_le_deepElements, New.Lift.KummerChart.PairingSide.IsOperatorOfCost.mem_deepElements, New.Lift.KummerChart.PairingSide.IsOperatorOfCost.comp, New.Lift.KummerChart.PairingSide.mem_kisinLocAinf_of_inclKer, New.Lift.KummerChart.PairingSide.mem_letterPart_of_inclKer, New.Lift.KummerChart.PairingSide.mem_withOrders_of_inclKer, New.Lift.KummerChart.PairingSide.mem_kisinLoc_of_inclKer, New.Lift.KummerChart.PairingSide.exists_inclKer_eq_of_kerWithOrders, New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_killsCokernel, New.Lift.KummerChart.PairingSide.depthOperator, New.Lift.KummerChart.PairingSide.depthOperator_apply, New.Lift.KummerChart.PairingSide.depthOperator_mem_withOrders, New.Lift.KummerChart.PairingSide.projTrivial_depthOperator_eq_zero, New.Lift.KummerChart.PairingSide.depthOperator_mem_kerWithOrders, New.Lift.KummerChart.PairingSide.exists_isOperatorOfCost_mem_hodgeFil_succ, New.Lift.KummerChart.PairingSide.exists_isOperatorOfCost_and_mem_deepElements, New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_costs, New.Lift.KummerChart.PairingSide.zTauUnit_inv_smul_sub_mem_kerWithOrders, New.Lift.KummerChart.PairingSide.sub_mem_kerWithOrders_of_pointsOver, New.Lift.KummerChart.PairingSide.phi_pow_smul_mem_pointsOver, New.Lift.KummerChart.PairingSide.wittPairing_constantAt_one, New.Lift.KummerChart.PairingSide.map_wittPairing_extensionForm}
+
+The proofs of this section are long chains of explicit inequalities between systems of orders, and the bookkeeping is fixed once and for all in the following definition. Throughout, $k$ is a Kummer chart with
+coordinate $z=[\varpi^\flat]$ (a Teichm\"uller lift that is not a unit), $\tau=[\varepsilon^{1/p}]-1$, $\mu=[\varepsilon]-1$, $p_a=\varphi^a(E)$ for $a\ge0$, and $\theta_a=\theta\circ\varphi^{-a}\colon A_{\inf}\to O_{\C_p}$, whose kernel is generated by $p_a$. The element $z\tau$ is
+written $\delta$; no $p_a$ divides it, since $\theta_a(z)\ne0$ and $\theta_a(\tau)=\zeta_{p^{a+1}}-1\ne0$. The \emph{different bound} of $k$ is $d=0$ if $e=1$ and $d=v_p(e)+1$ otherwise; on an unramified chart $d=0$. Every lattice $L$ carries a finite set of jumps at each letter, containing
+its Hodge--Tate jumps above the letter; $L_{\rm amb}=W(C^\flat)\otimes L$, the letter projectors $e_i$ split $L_{\rm amb}$, and a \emph{form} is an $A_{\inf}$-linear map $L_{\rm amb}\to B_{\rm dR}$ that is $\Gamma'$-equivariant on $1\otimes L$; it has \emph{type} $u$ at $i$ if it maps
+$e_i(1\otimes L)$ into $t^{-u}B_{\rm dR}^+$. The Kisin module $\mathcal N$ of $L$ is the $\mathfrak S$-module of the $x\in A_{\inf}[1/\tau]\otimes L$ with $\mu(\varphi^nx)\in B_{\rm dR}^+$ for all forms and all $n\ge1$ on which all forms take values in the field $\mathcal K_0$ that the chart generates over the
+fixed field of $\Gamma'$; $\mathcal N_{\rm loc}$ is $\mathcal N$ with all $p_a$ inverted, and $\mathcal N^{A}_{\rm loc}$ its $A_{\inf}$-span. The basic properties of these modules (the frame theorem) are \cref{thm:B-kisin}.
+
+\begin{definition}[Orders, points and moves]\label{def:chart-orders}
+A \emph{system of orders} is a function $o(a,u)$ of a level $a\ge0$ and an integer $u$; $o\le o'$ means $o(a,u)\le o'(a,u)$ at the jumps $u$ at $i.\mathrm{back}(a)$.
+\begin{enumerate}[label=\textup{(O\arabic*)}]
+\item An element $x\in\mathcal N^A_{\rm loc}$ at the letter $i$ has \emph{orders} $o$ if $\mu(\varphi^{-a}x)\in t^{o(a,u)}B_{\rm dR}^+$ for every $a$, every jump $u$ at $i.\mathrm{back}(a)$ and every form $\mu$ of type $u$ at $i.\mathrm{back}(a)$; it is \emph{invariant modulo} the orders $o'$ if every
+$gx-x$, $g\in\Gamma'$, has orders $o'$.
+\item The \emph{standard} orders of level $l$ are $\mathrm{std}_l(a,u)=0$ for $a<l$ and $-u$ for $a\ge l$; the orders \emph{raised by $t$ at $E$} are $\varrho_t(a,u)=t[a=0]-u$, so that orders $\varrho_{-s}$ mean a pole of order at most $s$ at $E$. The \emph{shift} by $l$ levels with
+value $n$ is $\mathrm{sh}^n_l(c)(a,u)=n$ for $a<l$ and $c(a-l,u)$ for $a\ge l$. The \emph{improvement} of $o_1$ by $o_2$ is $\mathrm{imp}(o_1,o_2)(a,u)=o_2(a,u)$ if $o_1(a,u)>0$ and $\min(o_2(a,u),0)$ otherwise.
+\item The \emph{cost} of the step $n\in\Z$ at the level $a$ is $c_a(n)=v_p(n)+d+3a$, with $v_p(0)=0$.
+\item For a side $S$ and $c\in C$, $\mathcal P_i(c,e;o,o')$ is the set of the $x\in\mathcal N_{\rm loc}$ of the extension at $i$ that lie \emph{over} $p^ec$ (their image in the trivial lattice is $p^e$ times the constant $e_i(1\otimes c)$), have orders $o$ and are invariant
+modulo $o'$, the \emph{depth}. $\mathcal K_i(o)$ is the set of the vectors over $0$ with orders $o$, and $\mathcal D_i(o)$ the set of the elements over some constant with depth $o$.
+\item The \emph{standard depth} is $\mathrm{sd}_{t,\eta,l}(a,u)=-u+t[a=0]+\eta[a<l]$, the \emph{plain depth} $\mathrm{pd}_{t,\eta,l,h_0}=\mathrm{sd}_{t,\eta,l}+h_0[a=l]$, the \emph{stop orders} $\mathrm{so}_{\eta,l}(a,u)=\max(\mathrm{std}_l(a,u),-u-\eta[a<l])$, and the \emph{rule bound}
+$\mathrm{rb}_{l,t}(a,s)=1$ for $a<l$, $t-s$ for $a=l$ and $-s$ for $a>l$. The standard points are $\mathcal P^{\rm st}_i(c,e;t,\eta,l)=\mathcal P_i(c,e;\varrho_{-\eta},\mathrm{sd}_{t,\eta,l})$ and the stops $\mathcal P^{\rm stop}_i(c,e;\eta,l)=\mathcal P_i(c,e;\mathrm{so}_{\eta,l},\mathrm{so}_{\eta,l})$.
+\item An additive map $A$ on $\mathcal N_{\rm loc}$ of the extension is an \emph{operator of cost $e$} if, for every letter, all orders $o$ and every $x\in\mathcal D_i(o)$, $Ax-p^ex\in\mathcal K_i(o)$.
+\item A pair $(w,y)$ of vectors of the two extensions is \emph{safe} for $\kappa$ if $p^\kappa$ times the pairing of their components in $Y$, $Y'$ lies in the image of $W(\mathfrak m^\flat)$. The move of the first side by $y$ with $x'$ at rest is safe if all $(y,gx'-x')$, $g\in\Gamma'$, are safe;
+the move of the second side by $y'$ with $x$ at rest is safe if all $(gx-x,gy')$ are. A \emph{safe path} from $(y,y')$ to $(x,x')$ through $w,w'$ consists of the four safe moves $(y-w;y')$, $(w;y'-w')$, $(w-x;w')$, $(x;w'-x')$.
+\item The ideal $J^r_l(i)$ of $A_{\inf}$ is generated by $r$ and by the $s$ such that $s\,e_i(1\otimes c)$ lifts, for every $c\in C$, to an element of the extension with the standard orders of level $l$ at $i$; $p^\kappa E^s$ \emph{kills the cokernel at $i$} if $p^\kappa E^s\in J^0_0(i)$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}[Orders]\label{lem:orders}
+Let $L$ be a lattice over the chart, $i$ a letter and $x\in\mathcal N^A_{\rm loc}$ at $i$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Gap rule.) If $x$ has orders $c$ and $W\subseteq B_{\rm dR}$ is a $B_{\rm dR}^+$-module containing $t^{c(a,v)}B_{\rm dR}^+$ for every jump $v\le u$ at $j=i.\mathrm{back}(a)$, then $\mu(\varphi^{-a}x)\in W$ for every form $\mu$ of type $u$ at $j$, whether or not $u$ is a jump.
+\item (Frobenius.) If $x$ has orders $c$ at $i.\mathrm{back}(l)$, then $\varphi^lx$ has orders $\mathrm{sh}^0_l(c)$ at $i$; and $\varphi^l$ maps $\mathcal P_{i.\mathrm{back}(l)}(c,e;o,o')$ into $\mathcal P_i(c,e;\mathrm{sh}^0_l(o),\mathrm{sh}^1_l(o'))$.
+\item (Exponents add.) Let $b\colon A\times L\to C$ be an equivariant bilinear map of lattices. If $y$, $x$ have orders $c'$, $c$ at $i$, then $b(y,x)$ has orders $c''$ whenever $c''(a,v)\le c(a,u')+c'(a,u)$ for all jumps $u$ of $A$, $u'$ of $L$ and $v$ of $C$ at $i.\mathrm{back}(a)$ with
+$u+u'\le v$.
+\item (Improvement.) If $x$ has orders $o_1$ and is invariant modulo $o_2$, it has orders $\mathrm{imp}(o_1,o_2)$.
+\item (Galois action.) For $g\in\Gamma'$ and $x\in\mathcal N_{\rm loc}$, $\delta^{-1}(gx-x)\in\mathcal N^A_{\rm loc}$, and if $gx-x$ has orders $c$, so does $\delta^{-1}(gx-x)$. Elements of $\Gamma'$ preserve $\mathcal N^A_{\rm loc}$ and orders.
+\item (Strictness.) A vector of the extension of a side over $0$ with orders $o$ is the image of a vector of $Y$ with orders $o$, in $\mathcal N_{\rm loc}(Y)$ if it lies in $\mathcal N_{\rm loc}$ of the extension; two points over the same constant with orders $o_1$, $o_2$ differ by an element of $\mathcal K_i(\min(o_1,o_2))$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) If $v$ is not a jump at $j$, a form of type $v$ is of type $v-1$, as the Hodge--Tate decomposition of $e_j(1\otimes L)$ has no part of weight $v$ (\cref{thm:B-kisin}(c)). Let $v$ be the largest jump at $j$ with $v\le u$. If it exists, $\mu$ is of type $v$, so
+$\mu(\varphi^{-a}x)\in t^{c(a,v)}B_{\rm dR}^+\subseteq W$. If it does not, $\mu$ is of every type $n\le u$; take $r\ne0$ in $A_{\inf}$ with $rx\in A_{\inf}\otimes L$ (\cref{thm:B-kisin}(a)). Then $\mu(\varphi^{-a}(rx))$ lies in $t^nB_{\rm dR}^+$ for all $n$, hence vanishes; it is $\varphi^{-a}(r)\mu(\varphi^{-a}x)$, and $\varphi^{-a}(r)\ne0$ in the field $B_{\rm dR}$, so
+$\mu(\varphi^{-a}x)=0\in W$.
+
+(b) The value of $\varphi^lx$ at the level $a$ is $\mu(\varphi^{l-a}x)$. For $a\ge l$ this is the value of $x$ at the level $a-l$ at the letter $i.\mathrm{back}(l).\mathrm{back}(a-l)=i.\mathrm{back}(a)$, which has order $c(a-l,u)$. For $a<l$, the exponent $l-a$ is positive; a product of the $p_b$ multiplies $x$ into the
+$A_{\inf}$-span of $\mathcal N$, where $\mu(\varphi^{m+1}\cdot)\in B_{\rm dR}^+$ by definition, and $\varphi^{l-a}$ carries the factor $p_b$ to $p_{b+l-a}$, which $E$ does not divide; so the factor can be cancelled in $B_{\rm dR}^+$ and the order is at least $0$. The letter, the Kisin
+module with the $p_a$ inverted and the constant below are carried along, since $\varphi$ fixes $1\otimes c$. For the depth, $g\varphi^lw-\varphi^lw=\varphi^l(gw-w)$ as $\Gamma'$ commutes with $\varphi$; by (e) $gw-w=\delta w_1$ with $w_1$ of orders $o'$, and $\varphi^l(\delta)$
+vanishes under $\theta_a$ for $a<l$, because $\theta(\varphi(\tau))=\theta([\varepsilon])-1=0$; so at the levels below $l$ the order rises from $0$ to $1$, and above it is $o'(a-l,u)$.
+
+(c) It is enough to bound $\eta(b(y,x))$ for a form $\eta$ of type $v$ on $C$. Expand the second variable in an invariant Hodge basis of $L$, $\mathrm{hodge}=P\,\mathrm{diag}(t^{\kappa_m})$ with $P$ invertible over $B_{\rm dR}^+$, and let $\nu_m$ be the dual forms, which are equivariant because the rows of
+$\mathrm{hodge}^{-1}\mathrm{hodge}$ are fixed. Then $\eta(b(y,x))=\sum_mD_m(\beta_y)\,\nu_m(x)$, where $\beta_y=\eta(b(y,\cdot))$ and $D_m$ pairs the values of a functional with the $m$th column of $\mathrm{hodge}$; $D_m\circ\beta$ is a form $\sigma_m$ on $A$, equivariant as $b$ and $\eta$
+are, of type $v-\kappa_m$, because $D_m$ shifts the Hodge filtration by $\kappa_m$. Hence the summand is a product of a value of a form of type $v-\kappa_m$ at $y$ and of a form of type $\kappa_m$ at $x$; by the gap rule (a) the first lies in $t^{c'(a,u)}B_{\rm dR}^+$ for the largest jump $u\le v-\kappa_m$ of $A$ and
+the second in $t^{c(a,u')}B_{\rm dR}^+$ for the largest jump $u'\le\kappa_m$ of $L$; then $u+u'\le v$ and the product has order at least $c''(a,v)$.
+
+(d) Fix $a$, a jump $u$ and a form $\mu$ of type $u$, and let $v=\mu(\varphi^{-a}x)$. As $g(v)-v\in t^{o_2(a,u)}B_{\rm dR}^+$ for all $g\in\Gamma'$, $v$ is congruent modulo $t^{o_2(a,u)}B_{\rm dR}^+$ to a constant $y$ of the fixed field $K'$ of $\Gamma'$ (\cref{thm:B-kisin}(g)). The constant lies in $B_{\rm dR}^+$, so $v\in t^{\min(o_2,0)}B_{\rm dR}^+$. If $o_1(a,u)>0$ and $o_2(a,u)>0$, then $y=v-(v-y)$ lies in $tB_{\rm dR}^+\cap K'=0$, so $v\in t^{o_2(a,u)}B_{\rm dR}^+$; if $o_2(a,u)\le0$, then $\min(o_2,0)=o_2$.
+
+(e) Divisibility by $\delta$ is tested with crystalline forms: the values of such a form on $x\in\mathcal N$ lie in the ring $S_B$ of the chart up to a power $E^n$ (\cref{thm:B-kisin}(b)), and $g\in\Gamma'$ moves elements of $S_B$, times $E^{2n}$, by multiples of $\delta$, since $g$ fixes $\Lambda$ and
+multiplies $z$ by $[\varepsilon]^m$; this gives $gx-x=\delta y$ with $y$ in the $A_{\inf}$-span of $\mathcal N$, and on $\mathcal N_{\rm loc}$ one clears the inverted $p_a$, which $g$ multiplies by units. As $\theta_a(\delta)\neq0$, $\delta$ is a unit of $B_{\rm dR}^+$ at every level, so the orders do
+not change. Equivariance of the forms gives $\mu(\varphi^{-a}gx)=g\,\mu(\varphi^{-a}x)$, and $g$ preserves each $t^nB_{\rm dR}^+$.
+
+(f) An invariant form $\mu$ on $Y$ with values in a $B_{\rm dR}^+$-module $W$ on $1\otimes Y$ extends to the extension: restricted to $\Gamma'$, $\mu$ sends the cocycle of $c$ to the coboundary of an element of $W$, since the cocycle is the coboundary of a period $v$ over $B_{\max}$ and the extension $\Lambda$ of $\mu$ to
+$B_{\max}$ gives $\Lambda(v)$ congruent modulo $W$ to a constant; choosing these elements linearly in a basis of $C$ gives a linear $f\colon C\to W$, and $(y,c)\mapsto\mu(y)-f(c)$ is an invariant form on the extension with values in $W$ that restricts to $\mu$. Applied to the letter part of a form of type $u$ (with
+$W=t^{-u}B_{\rm dR}^+$), this shows that the orders of a vector of $Y$ equal those of its image; membership in $\mathcal N^A_{\rm loc}$ and in $\mathcal N_{\rm loc}$ pass to $Y$ by projecting to the first factor and by the coordinate retraction (\cref{thm:B-kisin}(d)), which commutes with the
+inclusion. The last claim follows, as the difference lies over $0$ and the orders of a difference are the minimum.
+\end{proof}
+
+\begin{lemma}[The depth step]\label{lem:depth-step}
+Let $a\ge0$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $n\ne0$ there are $g\in\Gamma'$, a unit $\omega$ of $A_{\inf}$ and $\upsilon,X\in A_{\inf}$ with $gp_a=\omega p_a$, $g\equiv1$ on $\mathfrak S$ modulo $p_a$, $\delta X=\omega^n-1$ and $\upsilon X\equiv p^{c_a(n)}$ modulo $p_a$.
+\item There are $p^{c_a(0)}$ elements $t_l\in\Gamma'$ such that $g\sum_lt_ls\equiv\sum_lt_ls$ modulo $p_a$ for every $s\in\mathfrak S$ and $g\in\Gamma'$.
+\item Let $x\in\mathcal N_{\rm loc}$ and let $\mu$ be a form with $\mu(\varphi^{-a}x)$ congruent modulo $t^nB_{\rm dR}^+$ to a constant $\gamma\in K'$. With the data of (a) for $n\ne0$, the value of $D_nx=p^{c_a(n)}x-\upsilon\delta^{-1}(gx-x)$ is congruent to $p^{c_a(n)}\gamma$ modulo
+$t^{n+1}B_{\rm dR}^+$; with the data of (b) for $n=0$, the value of $D_0x=\sum_lt_lx$ is a constant modulo $tB_{\rm dR}^+$.
+\item For a side $S$ and a step $(a,n)$ there is an operator $B$ of cost $c_a(n)$ such that, for every invariant form $\mu$ on the extension, if the values $\mu(\varphi^{-a}(gx-x))$ lie in $t^nB_{\rm dR}^+$ for all $g\in\Gamma'$, then those of $Bx$ lie in $t^{n+1}B_{\rm dR}^+$.
+Operators of costs $e$, $e'$ compose to an operator of cost $e+e'$, and an operator of cost $e$ maps $\mathcal D_i(o)$ into itself.
+\item For a finite set $I$ of steps there is an operator of cost $\sum_{(a,n)\in I}c_a(n)$ that maps $\mathcal D_i(o)$ into $\mathcal D_i(o')$ whenever $I$ contains every step $(a,n)$ with $o(a,u)\le n<o'(a,u)$ for a jump $u$ at $i.\mathrm{back}(a)$.
+\item Consequently, if $x\in\mathcal P_i(c,e;o_1,o)$, $I$ is as in (e) and $e'\ge e+\sum_Ic_a(n)$, then $\mathcal P_i(c,e';\mathrm{imp}(o_1,o'),o')$ is not empty.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Take $g\in\Gamma'$ with $gz=[\varepsilon]^{p^a}z$, which the chart provides, and $\omega_0$ with $gE=\omega_0E$. Then $\omega=\varphi^a\omega_0$ satisfies $gp_a=\omega p_a$, as $\Gamma'$ commutes with $\varphi$, and $g\equiv1$ on $\mathfrak S$ modulo $p_a$, because $g$ fixes $\Lambda$ and $g(z)-z=([\varepsilon]^{p^a}-1)z$ with
+$\theta_a([\varepsilon]^{p^a})=1$. As $\delta\mid\omega_0-1$ and $\delta\mid\varphi^a(\delta)$, $\delta$ divides $\omega^n-1$; write $\omega^n-1=\delta X$. The estimate of $\theta_a(X)$ has three factors. Taylor's formula at $z$ for a polynomial $F$ with $F(z)=EG$ and $\theta F'(z)\mid p^d$ (the different), divided by $E$,
+gives $\theta(\omega_0-1)\mid p^{d+a}\theta(\delta)$. The lifting of the exponent, valid because $p\,\theta(r)\theta(z)\mid\theta(r)^p$ for every $r$ divisible by $\delta$ (as $(\theta\tau+1)^p=1$ gives $p\theta\tau\mid\theta\tau^p$), gives $\theta(\omega_0^{\abs n}-1)\mid p^{v_p(n)}\theta(\omega_0-1)$, and
+$\omega_0^n-1$ and $\omega_0^{\abs n}-1$ are associated. Finally $\theta(\delta)\mid p^{2a}\theta_a(\delta)$. As $\theta_a(\omega^n-1)=\theta(\omega_0^n-1)$ and $\theta_a(\delta)\ne0$, cancelling gives $\theta_a(X)\mid p^{v_p(n)+d+3a}$, and $\upsilon$ lifts the quotient.
+
+(b) Take $t_l\in\Gamma'$ multiplying $z$ by $[\varepsilon]^l$ for $l<p^{c_a(0)}$. Modulo $p_a$, that is after $\theta_a$, write $s=\sum_mw_mz^m$ with $w_m\in\Lambda$. The element $\zeta=\theta_a([\varepsilon])$ is a primitive $p^a$th root of unity, and $t_l$ multiplies $\theta_a(w_mz^m)$ by $\zeta^{ml}$; as $p^a$
+divides $p^{c_a(0)}$, the sum over $l$ of $\zeta^{ml}$ vanishes unless $p^a\mid m$. For $p^a\mid m$, $z^m=\varphi^a(z^{m/p^a})$ has image $\theta(z)^{m/p^a}$, which $\Gamma'$ fixes; so $\Gamma'$ fixes the image of $\sum_lt_ls$.
+
+(c) For $n\ne0$ put $y=\mu(\varphi^{-a}x)-\gamma\in t^nB_{\rm dR}^+$ and $w=\delta^{-1}(gx-x)$. The element $y$ lies in the field $\mathcal K_a$ of the chart (\cref{thm:B-kisin}(b)), and writing $y=\pi^ny_0$ with $\pi$ the image of $p_a$, $y_0\in B_{\rm dR}^+\cap\mathcal K_a$ is fixed by $g$ modulo $tB_{\rm dR}^+$, because
+$g$ acts as the identity on $\mathfrak S$ modulo $p_a$; as $g\pi^n=\omega^n\pi^n$, $gy\equiv\varphi^{-a}(\omega^n)y$ modulo $t^{n+1}B_{\rm dR}^+$. Since $g$ fixes $\gamma$, $\varphi^{-a}(\delta)\mu(\varphi^{-a}w)=gy-y$, and $\delta X=\omega^n-1$ gives $\mu(\varphi^{-a}w)\equiv\varphi^{-a}(X)y$; with
+$\upsilon X\equiv p^{c_a(n)}$ the value of $D_nx$ is $p^{c_a(n)}(\gamma+y)-\varphi^{-a}(\upsilon X)y\equiv p^{c_a(n)}\gamma$ modulo $t^{n+1}B_{\rm dR}^+$. For $n=0$, the value of $D_0x$ is $\sum_lt_l(\gamma+y)$ up to $t$, and by (b) applied to the elements of $\mathfrak S$ and of $\mathcal K_0$ that make up $y$ it is
+fixed modulo $tB_{\rm dR}^+$ by $\Gamma'$, hence a constant modulo $t$ by the argument of \cref{lem:orders}(d). In both cases $D_nx=p^{c}x+\upsilon'\sum(t_l-1)\delta^{-1}x$ with $c=c_a(n)$.
+
+(d) Let $B$ be $D_n$ followed by the coordinate retraction $\mathcal N^A_{\rm loc}\to\mathcal N_{\rm loc}$ of \cref{thm:B-kisin}(d), which keeps the values of forms modulo $t^{n+1}$ when they are constants of $\mathcal K_a$. The hypothesis says that the value at $x$ is invariant modulo $t^n$, hence a constant
+modulo $t^n$ (\cref{thm:B-kisin}(g)); (c) makes the value of $D_nx$ a constant modulo $t^{n+1}$, the retraction keeps this, and so the values at $gBx-Bx$ lie in $t^{n+1}B_{\rm dR}^+$. If $x$ lies over a constant and has depth $o$, then $Bx-p^cx$ is the retraction of $\upsilon'\delta^{-1}\sum(t_l-1)x$: it lies over $0$, as $t_l$ fixes the constant
+below $x$ and the projection commutes with the retraction, and by \cref{lem:orders}(e) it has orders $o$. Composition: $BA x-p^{e+e'}x=B(Ax)-p^{e'}Ax+p^{e'}(Ax-p^ex)$, and both terms lie in $\mathcal K_i(o)$, since $Ax$ is again deep for $o$ ($Ax-p^ex$ has orders $o$ and
+is deep for $o$ by \cref{lem:orders}(e)).
+
+(e) Induction on $I$: remove a step $(a,n)$ with $n$ largest, and lower $o'(a,u)$ from $n+1$ to $n$ on the lines $u$ where $o'(a,u)=n+1$; the remaining set covers the steps to the lowered depth (a step $(b,m+1)$ with $m+1<o'(b,u)$ in $I$ would contradict the choice of $n$). Compose the operator for the rest
+with the operator $B$ of (d) for the step $(a,n)$, which raises the order on these lines from $n$ to $n+1$ and keeps the others.
+
+(f) Apply the operator $A$ of (e) to $p^{s}x$, where $s=e'-e-\sum_Ic_a(n)$. As $p^sx$ is deep for $o$, $Ap^sx-p^{\sum c}p^sx$ lies in $\mathcal K_i(o)$; so $Ap^sx$ lies over $p^{e'}c$ and keeps the orders $o_1$ where $o_1\le o$, and has depth $o'$; \cref{lem:orders}(d) improves its orders
+to $\mathrm{imp}(o_1,o')$.
+\end{proof}
+
+\begin{lemma}[The ideals $J^r_l(i)$]\label{lem:lift-ideal}
+Let $S$ be a side and $i$ a letter.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $s\in J^r_l(i)$ if and only if, for some $t\in A_{\inf}$, $(s-rt)e_i(1\otimes c)$ lifts for every $c$ to an element of the extension with the standard orders of level $l$ at $i$; for $s\in\mathfrak S$ the witness $t$ and the lifts can be taken in $\mathfrak S$ and in $\mathcal N_{\rm loc}$. Always
+$r\in J^r_l(i)$, and $J^r_l(i)$ grows with $r$.
+\item (Nakayama.) If $p^c\in J^{p^{c+1}}_l(i)$, then $J^{p^{c+1}}_l(i)\subseteq J^0_l(i)$; in particular $p^\kappa\in J^{p^{\kappa+1}}_0(i)$ means that $p^\kappa$ kills the cokernel at $i$.
+\item (Frobenius.) $\varphi^ls\in J^r_l(i^{p^l})$ if and only if $s\in J^r_0(i)$; in particular $p^cz^{pa}\in J^r_1(i^p)$ if and only if $p^cz^a\in J^r_0(i)$.
+\item (Up a level.) If $s\in J^r_0(i)$ and the jumps at $i$ are at most $n$, then $sE^n\in J^r_1(i)$.
+\item (Operators.) Let $f\in\mathfrak S$ lie in $J^r_l(i)$ and $g\in\Gamma'$. If $\delta(s+\beta f)=\alpha(gf-f)$ with $\alpha,\beta,s\in A_{\inf}$, then $s\in J^r_l(i)$; if $l=1$ and $\delta E(s+\beta f)=\alpha(gf-f)$, then $s\in J^r_1(i)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) is the definition: an element of the ideal is $rt$ plus an exact multiplier, and exact multipliers form an ideal because lifts can be multiplied and added. For $s\in\mathfrak S$, write $s=rt+s'$ and apply to the lift of $s'e_i(1\otimes c)$ the retraction induced by the $\mathfrak S$-linear coordinate
+$\lambda_0\colon A_{\inf}\to\mathfrak S$ that is the identity on $\mathfrak S$; it sends $ax$ to $\lambda_0(a)x$ for $x\in\mathcal N_{\rm loc}$ and commutes with the projection to the trivial lattice, on which the action is trivial, and $\lambda_0(s')=s-r\lambda_0(t)$.
+
+(b) The hypothesis puts the ideal $(p^c)$ inside $J^0_l(i)+(p)(p^c)$. As $p$ lies in the Jacobson radical of $A_{\inf}$, Nakayama's lemma for the finitely generated ideal $(p^c)$ modulo $J^0_l(i)$ gives $(p^c)\subseteq J^0_l(i)$, so $p^{c+1}$ lies there as well and the modulus can be dropped.
+
+(c) $\varphi^l$ carries the part at the letter $i$ to the part at $i^{p^l}$ and the standard orders of level $0$ to those of level $l$ (\cref{lem:orders}(b)), and it fixes the constants up to the change of letter: $\varphi^le_i(1\otimes c)=e_{i^{p^l}}(1\otimes c)$. Hence substitute $\varphi^lt$ for the witness and
+$\varphi^lx$ for each lift. Conversely an element of the standard orders of level $l$ at $i^{p^l}$ is $\varphi^l$ of an element of the Kisin module at $i$ (\cref{thm:B-kisin}(e)). The second claim is the first with $s=p^cz^a$, as $\varphi z=z^p$.
+
+(d) Multiply the lifts by $E^n$. At the level $0$ the order $-u$ becomes $n-u\ge0$, which is the standard order of level $1$ there; at the levels $a\ge1$ the orders do not change, as $E$ is a unit there.
+
+(e) Lift $(f-rt)e_i(1\otimes c)$ to some $x$. Since $g$ fixes the constant, $\alpha\delta^{-1}(gx-x)$ lies over $\alpha\delta^{-1}(gf-f-r(gt-t))e_i(1\otimes c)=(s+\beta f-r\alpha v)e_i(1\otimes c)$, with $gt-t=\delta v$ (\cref{lem:orders}(e) on $\mathfrak S$), and has the orders of $x$; subtracting $\beta x$ gives a
+lift of $(s-r(\alpha v-\beta t))e_i(1\otimes c)$. For $l=1$, by \cref{lem:orders}(e) and the triviality of $g$ on $\mathfrak S$ modulo $E$, $gx-x$ has order at least $1$ at the level $0$ and $-u$ above (the standard orders of level $1$ allow one division by $E$); so $\delta^{-1}E^{-1}(gx-x)$ still has the standard
+orders of level $1$.
+\end{proof}
+
+\begin{lemma}[Powers of $z$ and the cokernel]\label{lem:z-powers}
+Let $S$ be a side, $i$ a letter, $r$ a modulus and $d$ the different bound.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $p^cz^n\in J^r_0(i)$ with $n\ge1$, then $p^{c+v_p(n)+1}z^{n-1}\in J^r_0(i)$; hence if $m\le n$ and $c+n+v_p(n!)\le\kappa+m+v_p(m!)$, then $p^\kappa z^m\in J^r_0(i)$.
+\item If $p^cz^n\in J^r_1(i^p)$, $pa\le n$ and $c+v_p(n!)\le\kappa+v_p((pa)!)$, then $p^\kappa z^a\in J^r_0(i)$. If $p^cz^aE^n\in J^r_1(i)$, $c+dn+v_p(n!)\le b$ and $a+n\le\kappa$, then $p^bz^\kappa\in J^r_1(i)$.
+\item If the jumps at $i^p$ are at most $\omega$ and $p^cz^n\in J^r_0(i^p)$, then $p^{c'}z^{\lfloor(n+\omega)/p\rfloor}\in J^r_0(i)$, where $c'=c+d\omega+v_p(\omega!)$.
+\item For every $\kappa$ some power of $z$ lies in $J^{p^\kappa}_0(i)$ for every letter. If all jumps are at most $\omega$, there is $a$ with $(p-1)a\le e(\omega+\kappa)$ and $z^a\in J^{p^{\kappa+1}}_0(i)$ for every letter. In particular, if $e\omega\le p-2$, then $1$ kills every cokernel.
+\item If $z^a\in J^r_0(j)$ for every letter and the jumps at the $J$ letters $i^{p^t}$, $1\le t\le J$, are at most $\omega$, then $p^cz^n\in J^r_0(i)$ for some $c\le J(d\omega+v_p(\omega!))$ and $n\le a/p^J+\omega/(p-1)$.
+\item (Unramified charts.) If $k$ is unramified, $p\ge5$ and all jumps are at most $(p-3)(s+t)$, then $p^sE^t$ kills the cokernel at every letter.
+\item (Weights.) Let the jumps be at most $\omega$ everywhere and at most $\omega'$ at the $J$ letters after $i$, and let $8e\le p^{J+1}$. If $\kappa\ge2Jd\omega'+(2J+4)\omega'/(p-1)+8e\omega/p^{J+1}$, then $p^\kappa$ kills the cokernel at $i$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Take $g\in\Gamma'$ with $gz=[\varepsilon]z$ and put $v=v_p(n)$. The chart provides $\alpha,\beta\in A_{\inf}$ with $\tau E(p^v+\beta z)=\alpha([\varepsilon]^n-1)$, and as $z$ divides $E-p$ this becomes an identity $\tau(p^{v+1}+z\beta')=\alpha([\varepsilon]^n-1)$;
+multiplied by $p^cz^n$ it reads $\delta(p^{c+v+1}z^{n-1}+\beta'p^cz^n)=\alpha(g-1)(p^cz^n)$, and \cref{lem:lift-ideal}(e) applies. Iterating from $n$ down to $m$ costs $\sum_{m<j\le n}(v_p(j)+1)=n-m+v_p(n!)-v_p(m!)$.
+
+(b) For the first claim induct from $n$ down to $pa$ at the level one: with $gz=[\varepsilon]z$, the identity $\tau E(p^{v_p(n+1)}+\beta z)=\alpha([\varepsilon]^{n+1}-1)$ of (a) and \cref{lem:lift-ideal}(e) for $l=1$ lower $z^{n+1}$ to $z^n$ at the cost $p^{v_p(n+1)}$, and $v_p((n+1)!)=v_p(n+1)+v_p(n!)$; then \cref{lem:lift-ideal}(c) passes from
+$z^{pa}$ at the level one at $i^p$ to $z^a$ at the level $0$ at $i$. For the second claim one step trades a factor $E$ for a factor $z$: choose $g$ with $gE=\omega E$ and $\delta q=\omega^{n+1}-1$, $\upsilon q=p^{c_0(n+1)}+Eb_1$ (\cref{lem:depth-step}(a)); $g$ multiplies $z$ by $1+\tau Ev$, hence $z^a$
+by $1+\tau Evb_2$, and the derivation by $g$ with multiplier $z\upsilon$ gives $\delta E(p^{c_0(n+1)}z\cdot p^cz^aE^n+\beta f)=\alpha(gf-f)$ for $f=p^cz^aE^{n+1}$, the terms in $b_2$ cancelling; the cost of a step is $v_p(n+1)+d$, and $\sum_{j\le n}(v_p(j)+d)=dn+v_p(n!)$.
+
+(c) Multiply by $E^\omega$ to reach the level one (\cref{lem:lift-ideal}(d)), trade the $\omega$ factors $E$ for factors $z$ by (b), at the cost $d\omega+v_p(\omega!)$, and come down by Frobenius with the first claim of (b) from $z^{n+\omega}$ to $z^{pa}$, $a=\lfloor(n+\omega)/p\rfloor$, which costs nothing more: no multiple of $p$ lies in $(pa,n+\omega]$, so $v_p((n+\omega)!)=v_p((pa)!)$.
+
+(d) By the frame theorem $\tau^h$ multiplies $A_{\inf}\otimes L$ into the $A_{\inf}$-span of $\mathcal N$, $h$ the jump bound, so $\tau^h e_i(1\otimes c)$ lifts to the letter part of $\tau^h(1\otimes(0,c))$; the ideals contain $p^\kappa$ and a power of $\tau$, and $z$ lies in the radical of $(p,\tau)$. For the second claim take the
+least $a$ with $z^a$ in all the ideals modulo $p^{\kappa+1}$. As $z^e\in(E,p)$, write $z^e=uE+vp$; then $z^{a+e(\omega+\kappa)}=z^a(uE+vp)^{\omega+\kappa}$, and every monomial $E^{a'}p^{b'}$ with $a'+b'=\omega+\kappa$ has $a'\ge\omega$ or $b'\ge\kappa+1$, so the power lies in $J^{p^{\kappa+1}}_1(j)$
+by \cref{lem:lift-ideal}(d). Coming down by Frobenius (\cref{lem:lift-ideal}(c)) gives $z^{\lfloor(a+e(\omega+\kappa))/p\rfloor}$ in all ideals of level $0$, and minimality gives $pa\le a+e(\omega+\kappa)$. If $e\omega\le p-2$, take $\kappa=0$: $(p-1)a\le e\omega<p-1$ forces $a=0$, and (b) of \cref{lem:lift-ideal}
+drops the modulus $p$.
+
+(e) Come back to $i^p$ from the $J-1$ letters after it by (c), and then to $i$ by one more step: each step costs at most $d\omega+v_p(\omega!)$ and divides the exponent by $p$ up to adding $\omega$, so the final exponent is at most $a/p^J+\omega(1/p+\dots+1/p^J)\le a/p^J+\omega/(p-1)$.
+
+(f) Let $b$ be given by (d) for $\kappa=s+t$ and $\omega=(p-3)(s+t)$: $z^b$ lies in all ideals modulo $p^{s+t+1}$ and $(p-1)b\le(p-2)(s+t)$, as $e=1$. Legendre's formula $(p-1)v_p(b!)\le b$ gives $(p-2)(b+v_p(b!))\le(p-1)b\le(p-2)(s+t)$, so $b+v_p(b!)\le s+t$. By (a), lowering $z^{\max(b,m)}$ to $z^m$ costs at most $s+t-m$,
+so $p^{s+t-m}z^m$ lies in the ideal modulo $p^{s+t+1}$ for every $m$; by Nakayama (\cref{lem:lift-ideal}(b)) the modulus can be dropped, and $p^s(z+p)^t=\sum_m\binom tmp^{s+t-m}z^m$ lies in $J^0_0(i)$.
+
+(g) By (d) with this $\kappa$ there is $z^a$ in all ideals modulo $p^{\kappa+1}$ with $(p-1)a\le e(\omega+\kappa)$; by (e) some $p^cz^n$ with $c\le J(d\omega'+v_p(\omega'!))$ and $n\le a/p^J+\omega'/(p-1)$ lies in $J^{p^{\kappa+1}}_0(i)$. The arithmetic: $c+n+v_p(n!)\le J(d\omega'+\omega'/(p-1))+2n$ and
+$a/p^J\le2e\omega/p^{J+1}+\kappa/4$, as $8e\le p^{J+1}$; the bound on $\kappa$ gives $c+n+v_p(n!)\le\kappa$. Then (a) removes the power of $z$, giving $p^\kappa\in J^{p^{\kappa+1}}_0(i)$, and Nakayama concludes.
+\end{proof}
+
+\begin{lemma}[One step on a line]\label{lem:one-step}
+Let $L$ be a lattice over the chart, $o$ a system of orders, $i=l.\mathrm{back}(b)$ and $u$ a jump at $i$ with $o(b,u)<o(b,v)$ for the jumps $v<u$ at $i$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Among elements $x_j$ with orders $o$ at $l$ there are at most $\mathrm{mult}_i(u)$ of them, $x_{s_1},\dots,x_{s_m}$, such that every $x_j$ is an $A_{\inf}$-combination of the $x_{s_k}$ modulo an element with orders $o$ raised by one at $(b,u)$.
+\item Any $fn+1$ vectors of $W(\F_{p^f})^m$, $m\le n$, satisfy a $\Z_p$-linear relation in which one coefficient is $1$.
+\item On an unramified chart, if $u$ has multiplicity at most $n$ at $i$, any $fn+1$ elements of $\mathcal N_{\rm loc}$ with orders $o$ at $l$ have a $\Z_p$-combination with one coefficient $1$ that is the sum of an element of $\mathcal N_{\rm loc}$ with all orders at the level $0$ raised by one and one
+with the order at $(b,u)$ raised by one.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Modulo forms of type $u-1$, the forms of type $u$ at $i$ are spanned over $\bar\Q_p$ by $m\le\mathrm{mult}_i(u)$ of them, $\nu_1,\dots,\nu_m$ (\cref{thm:B-kisin}(c)); forms of type $u-1$ already have the larger orders, by the gap rule and the hypothesis $o(b,u)<o(b,v)$ for $v<u$. The leading terms
+$t^{-o(b,u)}\nu_k(\varphi^{-b}x_j)$ form a matrix over $B_{\rm dR}^+$ with $m$ columns; by Auerbach's lemma applied to the column space of its image under $\theta$, which has a basis with integral entries whose coordinates are the entries at some rows $s_1,\dots,s_{m'}$, $m'\le m$, every row is modulo
+$\ker\theta$ an $A_{\inf}$-combination of these rows. Then the leading terms of the $\nu_k$ cancel on $x_j-\sum_k\alpha_{jk}x_{s_k}$, which therefore has order $o(b,u)+1$ on the line $u$ at the level $b$.
+
+(b) $W(\F_{p^f})^m$ is free of rank $fm\le fn$ over $\Z_p$, so $fn+1$ vectors satisfy a nontrivial relation; divide it by the coefficient of least valuation.
+
+(c) By (a) each $x_j$ is $\sum_k\alpha_{jk}x_{s_k}$ plus an element with orders raised at $(b,u)$, and the retraction of \cref{thm:B-kisin}(d) replaces the $\alpha_{jk}$ by elements of $\mathfrak S$ keeping orders. On an unramified chart every element of $\mathfrak S$ is congruent modulo $E$ to a constant of $W(\F_{p^f})$:
+$\alpha_{jk}=w_{jk}+Ey_{jk}$. By (b) the $fn+1$ vectors $(w_{jk})_k$ satisfy a relation $\sum_j\beta_jw_{jk}=0$ with some $\beta_{j_0}=1$; then $\sum_j\beta_jx_j=E\sum_{j,k}\beta_jy_{jk}x_{s_k}+(\text{an element with orders raised at }(b,u))$, and multiplication by $E$ raises all orders at the level
+$0$ by one.
+\end{proof}
+
+\begin{lemma}[Cochains of a safe path]\label{lem:cup-cochain}
+Let $P$ be a pairing modulo $p^m$ of two sides, $x,w$ over $p^{e_1}c$ and $x',w'$ over $p^{e_2}c'$, and $B(z)=p^{e_3}\psi(\mathrm{pr}_Yz,\cdot)$. Let $y$ satisfy $(\varphi-1)y=B(w)(\varphi x'-w')+B(x)(w'-x')$, and put, for $n$ in $\Z\times\Gamma$,
+$f(n)=B(nx)(nx')-n\bigl(B(x)(x')-y\bigr)-B(x)(nx'-x')-y$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The $Y$-component of $nx$ is $n$ applied to the $Y$-component of $x$ plus the cocycle of the $\Gamma$-component of $n$ at the $C$-component of $nx$; the extended pairing commutes with $\Z\times\Gamma$.
+\item If the four moves of a safe path from $(\varphi x,\varphi x')$ to $(x,x')$ through $w,w'$ are safe for $e_3$, then $(\varphi-1)f(g)$ lies in the image of $W(\mathfrak m^\flat)$ for $g\in\Gamma'$.
+\item If moreover the moves by $hx'-x'$, $h\in\Gamma'$, are safe with $x$ at rest, $f(g)=1\otimes\kappa(g)$ up to a small element, and $p^e=p^{e_1+e_2+e_3}r$, then on $\Gamma'$ the cup product of the cocycles of $c$ and $c'$, times $p^e$, is $r$ times the coboundary of $\kappa$.
+\item If the cup product of two crystalline cocycles is, on $\Gamma'$, the coboundary of a function vanishing near $1$, it is a continuous coboundary on $\Gamma$ in $\bar\Q_p^\times$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Both sides are additive in $x$; on a pure tensor this is the formula for the action on the extension $Y\times C$, $g(y,c)=(gy+a_c(g),c)$. The pairing is the $W(C^\flat)$-bilinear extension of an equivariant pairing into $\Z/p^m(1)$.
+
+(b) As $g$ commutes with $\varphi$, the defining equation of $y$ rewrites the part of $(\varphi-1)f(g)$ that contains $y$: $(\varphi-1)(gy-y)=(g-1)\bigl(B(w)(\varphi x'-w')+B(x)(w'-x')\bigr)$. Inserting this and expanding by bilinearity, $(\varphi-1)f(g)$ becomes the signed sum
+\begin{align*}&B(\varphi x-w)(g\varphi x'-\varphi x')+B(gw-w)(g(\varphi x'-w'))\\&\qquad+B(w-x)(gw'-w')+B(gx-x)(g(w'-x')),\end{align*}
+up to terms in which a vector over $0$ is paired with a vector over $0$ and cancels; these are the pairings of the four safe moves, each in the image of $W(\mathfrak m^\flat)$.
+
+(c) Expand the coboundary of $f$ on $\Gamma'$: by (a) it is $p^{e_1+e_2+e_3}\psi(a_c(g),ga_{c'}(h))$ plus $B(gx-x)(g(hx'-x'))$, which is small by hypothesis. Replace $f$ by the constants $1\otimes\kappa$; the error $\delta(g)=f(g)-1\otimes\kappa(g)$ is small, so $g\delta(h)-\delta(gh)+\delta(g)$ is small,
+and the difference of the two expressions is a small constant of $W(C^\flat)\otimes\Z/p^m(1)$, hence $0$ (a constant in the image of $W(\mathfrak m^\flat)$ vanishes). Multiplying by $r$ gives the claim.
+
+(d) Read the cup product $b$ in $\bar\Q_p^\times$ through $\Z/p^m(1)\to\mu_{p^m}$, a discrete $\Gamma$-module. Near $1$ the cocycle values are multiples of $p^m$, so $b$ is locally constant, and the function is locally constant as it vanishes near $1$. The class of $b$ restricts to zero on $\Gamma'$, so it is killed by the index
+of $\Gamma'$ (corestriction), which is prime to $p$; it is also killed by $p^m$, so it vanishes.
+\end{proof}
+
+Together these lemmas give the tools of the walk.
+
+\begin{proposition}[The pairing lemma and depth]\label{prop:pairing-lemma}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Pairing lemma.) Let $x,w$ lie over $p^{e_1}c$ and $x',w'$ over $p^{e_2}c'$. If the moves by $hx'-x'$, $h\in\Gamma'$, are safe with $x$ at rest, and four safe moves lead from $(\varphi x,\varphi x')$ by $w$, $w'$ to $(x,x')$, then for
+$e\ge e_1+e_2+e_3$ the cup product of the cocycles of $c$ and $p^ec'$ is a coboundary.
+\item (Depth lemma.) An operator $p^c+\upsilon\sum(t_l-1)/\delta$, $t_l\in\Gamma'$, $\delta=z\tau$, sends elements of depth $n$ at $\varphi^a(E)$ to elements whose value is constant modulo $t^{n+1}B_{\rm dR}^+$; the cost is
+$c=v_p(n)+d+3a$, with $d=0$ if $e=1$ and $d=v_p(e)+1$ otherwise.
+\item (Cokernels.) $p^\kappa E^s$ kills the cokernel at a letter (multiplies the letter part of $A_{\inf}\otimes C$ into the image of the standard module of level $0$ of the extension) with $r=0$; on an unramified chart with
+$p\ge5$ this holds when the jumps are at most $(p-3)(s+t)$; and $z^a$ does with $r=p^{\kappa+1}$ when $(p-1)a\le e(\omega+\kappa)$ for jumps at most $\omega$.
+\item (One step on a line.) On an unramified chart, any $fn+1$ elements with given orders at a letter have a $\Z_p$-combination with one coefficient $1$ that splits into a part with all orders at level $0$ raised and a part with the
+order at one line raised.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Let $B$ and $f$ be as in \cref{lem:cup-cochain}, with $y$ a solution of $(\varphi-1)y=B(w)(\varphi x'-w')+B(x)(w'-x')$, which exists because $\varphi-1$ is surjective on $W(C^\flat)\otimes\Z/p^m$ ($C^\flat$ is algebraically closed). By \cref{lem:cup-cochain}(b), $(\varphi-1)f(g)$ is small for $g\in\Gamma'$; as the kernel
+of $\varphi-1$ on $W(C^\flat)\otimes\Z/p^m$ modulo the small part is the image of $\Z/p^m$, $f(g)=1\otimes\kappa(g)$ up to a small element. With $p^e=p^{e_1+e_2+e_3}r$, \cref{lem:cup-cochain}(c) shows that on $\Gamma'$ the cup product of the cocycles of $c$ and $p^ec'$ is the coboundary of
+$r\kappa$. Near $1$ the group fixes each element of $W(C^\flat)\otimes\Z/p^m(1)$ up to the small part, since the cyclotomic character is trivial modulo $p^m$ near $1$; the cocycle terms of $f$ there are multiples of $p^m$, which kills the target, so $f$ and hence $\kappa$ vanish near $1$. Then
+\cref{lem:cup-cochain}(d) makes the cup product a continuous coboundary on $\Gamma$.
+
+(b) is \cref{lem:depth-step}(a), (c) and (d): $c=c_a(n)$, and the operator is $D_n$ (or $D_0$), followed by the retraction.
+
+(c) The first statement is the definition of $J^0_0(i)$ (\cref{lem:lift-ideal}); the bound for unramified charts is \cref{lem:z-powers}(f), and the bound $(p-1)a\le e(\omega+\kappa)$ with modulus $p^{\kappa+1}$ is \cref{lem:z-powers}(d).
+
+(d) is \cref{lem:one-step}(c), with $n$ the multiplicity of the jump.
+\end{proof}
+
+\subsection{Walks and cuts}\label{ss:walks}
+\lean{New.Lift.KummerChart.PairingSide.wittPairing_constantAt_and_extensionForm, New.Lift.KummerChart.PairingSide.antitone_shiftedOrders, New.Lift.KummerChart.PairingSide.z_mem_wittOfMaxIdeal, New.Lift.KummerChart.PairingSide.z_smul_map_mem_smallPart, New.Lift.KummerChart.PairingSide.SidePairing.isSafe_of_orders, New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveFst_of_orders, New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveSnd_of_orders, New.Lift.KummerChart.PairingSide.mem_letterPart_of_mem_pointsOver, New.Lift.KummerChart.PairingSide.eq_ite_add_one_of_isLeast_cut, New.Lift.KummerChart.PairingSide.liesOver_of_mem_pointsOver, New.Lift.KummerChart.PairingSide.liesOver_phi_pow_smul, New.Lift.KummerChart.PairingSide.projTrivial_sum_of_liesOver, New.Lift.KummerChart.PairingSide.mem_pointsOver_of_le, New.Lift.KummerChart.PairingSide.mem_pointsOver_of_exponent_le, New.Lift.KummerChart.PairingSide.mem_pointsOver_raisedOrdersAtZero_of_gap, New.Lift.KummerChart.PairingSide.mem_stopPoints_of_le, New.Lift.KummerChart.PairingSide.mem_stopPoints_of_mem_pointsOver, New.Lift.KummerChart.PairingSide.shiftedOrders_raisedOrdersAtZero_add_ruleBound, New.Lift.KummerChart.PairingSide.raisedOrdersAtZero_mono, New.Lift.KummerChart.PairingSide.antitone_raisedOrdersAtZero, New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveFst_of_killsCokernel, New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveSnd_of_killsCokernel, New.Lift.KummerChart.PairingSide.ruleBound_le_inf_add_shiftedOrders, New.Lift.KummerChart.PairingSide.ruleBound_zero_le_inf_add_standardDepth, New.Lift.KummerChart.PairingSide.SidePairing.exists_isSafePath_of_stop, New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveSnd_cocycle, New.Lift.KummerChart.PairingSide.isSafePath_refl, New.Lift.KummerChart.PairingSide.smul_sub_mem_letterPart, New.Lift.KummerChart.PairingSide.isSafeMoveFst_sum, New.Lift.KummerChart.PairingSide.isSafeMoveSnd_sum, New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_isSafePath, New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_stops, New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_stops_at_all_letters, New.Lift.KummerChart.PairingSide.forall_mem_U_stepBack_of_lt_one, New.Lift.KummerChart.PairingSide.mem_stopPoints_of_down, New.Lift.KummerChart.PairingSide.ruleBound_zero_le_inf_add_plainDepth, New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveFst_of_neg_le_jumps, New.Lift.KummerChart.PairingSide.SidePairing.isSafeMoveSnd_of_up, New.Lift.KummerChart.PairingSide.mem_standardPoints_of_plainDepth, New.Lift.KummerChart.PairingSide.SidePairing.exists_mem_stopPoints_isSafeMoveSnd, New.Lift.KummerChart.PairingSide.SidePairing.exists_mem_stopPoints_isSafeMoveFst, New.Lift.KummerChart.PairingSide.low_or_far_of_fitsWindows, New.Lift.KummerChart.PairingSide.jump_le_of_fitsWindows, New.Lift.KummerChart.PairingSide.neg_le_jump_of_fitsWindows}
+\lean{New.Lift.KummerChart.Letter.IsNearestCut, New.Lift.KummerChart.Letter.HasSignBefore, New.Lift.KummerChart.Letter.IsLongGap, New.Lift.KummerChart.Letter.HasThinSuccessors, New.Lift.KummerChart.Letter.hasThinSuccessors_stepBack_add, New.Lift.KummerChart.CutSizes, New.Lift.KummerChart.Letter.IsKillingCut.shift_eq_zero_or_lt, New.Lift.KummerChart.cutOrders, New.Lift.KummerChart.longGapDepth, New.Lift.KummerChart.Letter.windowSteps, New.Lift.KummerChart.CutSizes.sum_cost_windowSteps_le, New.Lift.FitsWindows.le_add, New.Lift.KummerChart.PairingSide.killsCokernel_zero_of_next_le, New.Lift.KummerChart.PairingSide.killsCokernel_of_isKillingCut, New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_sum_cost_le, New.Lift.KummerChart.PairingSide.pointsOver_cutOrders_nonempty, New.Lift.KummerChart.PairingSide.mem_pointsOver_plainDepth_of_cutOrders, New.Lift.KummerChart.PairingSide.pointsOver_longGapDepth_nonempty, New.Lift.KummerChart.PairingSide.ruleBound_le_inf_add_longGapDepth, New.Lift.KummerChart.PairingSide.exists_mem_pointsOver_ruleBound_le_of_isLongGap, New.Lift.KummerChart.PairingSide.SidePairing.exists_stop_of_isLongGap, New.Lift.KummerChart.PairingSide.SidePairing.exists_stop_of_hasSignBefore, New.Lift.KummerChart.PairingSide.SidePairing.jumps_le_of_fitsWindows, New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_cut_windows, New.Lift.KummerChart.cutSizes_zero_shift, New.Lift.KummerChart.IsUnramified.eight_mul_e_le_sq, New.Lift.KummerChart.Letter.hasSignBefore_or_isLongGap, New.Lift.KummerChart.Letter.exists_hasThinSuccessors_stepBack, New.Lift.KummerChart.Letter.IsNearestCut.eq_zero_or_add_eq_of_hasThinSuccessors, New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_sparse_thick, New.Lift.KummerChart.cutSizes_of_isUnramified, New.Lift.KummerChart.Letter.isLongGap_two_zero, New.Lift.KummerChart.Letter.letterFrob_stepBack_succ, New.Lift.KummerChart.Letter.cut_stepBack_one_or_two, New.Lift.KummerChart.Letter.IsNearestCut.hasSignBefore_or_isLongGap_of_two_sizes, New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_any_pattern}
+\lean{New.Lift.KummerChart.JumpLattice.shiftedStdOrders, New.Lift.KummerChart.JumpLattice.constantsModE, New.Lift.KummerChart.JumpLattice.mem_withOrders_shiftedStdOrders_of_le, New.Lift.KummerChart.JumpLattice.frobEUnit_zpow_smul_mem_withOrders_shiftedStdOrders, New.Lift.KummerChart.JumpLattice.shiftedStdOrders_zero, New.Lift.KummerChart.JumpLattice.wittFq_smul_mem_constantsModE, New.Lift.KummerChart.JumpLattice.Hom.wittMap_mem_constantsModE, New.Lift.KummerChart.JumpLattice.frobEUnit_zero_smul, New.Lift.KummerChart.JumpLattice.mem_withOrders_of_add_E_smul_mem, New.Lift.KummerChart.JumpLattice.mem_withOrders_of_expansion_mem, New.Lift.KummerChart.JumpLattice.letterProj_mem_constantsModE, New.Lift.KummerChart.exists_expansion_pow_E, New.Lift.KummerChart.JumpLattice.exists_taylor_expansion_of_mem_stdOrdersPart, New.Lift.KummerChart.JumpLattice.frobEUnit_zpow_natCast_smul, New.Lift.KummerChart.JumpLattice.exists_isMonicOfDegree_aeval_smul_mem, New.Lift.KummerChart.PairingSide.projTrivial_coeff_sub_mem_withOrders, New.Lift.KummerChart.PairingSide.exists_lift_pow_smul_of_killsCokernel_stepBack, New.Lift.KummerChart.PairingSide.exists_wittMap_sub_smul_constantAt_mem_of_long_gap, New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_long_gap}
+\lean{New.Lift.KummerChart.PairingSide.sum_cost_le_of_noMultipleNear, New.Lift.KummerChart.PairingSide.mem_twoWindows_union_iff, New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_steps_level_zero, New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_noMultipleNear, New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_gap, New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_gap, New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_near_steps, New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_fitsWindows, New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_jumps_nonpos, New.Lift.KummerChart.PairingSide.pointsOver_stopOrders_nonempty, New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_jumps_nonpos, New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_killsCokernel}
+\lean{New.Lift.KummerChart.PairingSide.deepConstants, New.Lift.KummerChart.PairingSide.negativeWindowDepth, New.Lift.KummerChart.PairingSide.fewLowJumpsDepth, New.Lift.KummerChart.PairingSide.mem_locKisinPart_kerWithOrders_iff, New.Lift.KummerChart.PairingSide.mem_deepElements_iff_mem_range_and_invariantsMod, New.Lift.KummerChart.PairingSide.natCast_dvd_frobE_zero_pow_sub_frobE, New.Lift.KummerChart.PairingSide.exists_isOperatorOfCost_zero_mem_deepElements, New.Lift.KummerChart.PairingSide.exists_sub_mem_deepElements_of_smul_sub_mem, New.Lift.KummerChart.PairingSide.exists_isOperatorOfCost_mem_deepElements_raiseOrder, New.Lift.KummerChart.PairingSide.exists_sum_smul_sub_mem_deepElements, New.Lift.KummerChart.PairingSide.relLength_deepConstants_raiseOrder_le, New.Lift.KummerChart.PairingSide.sigma_Ico_raiseOrder, New.Lift.KummerChart.PairingSide.relLength_deepConstants_le_sum_cost, New.Lift.KummerChart.PairingSide.relLength_deepConstants_le, New.Lift.KummerChart.PairingSide.pointsOver_raisedOrdersAtZero_nonempty, New.Lift.KummerChart.PairingSide.pointsOver_raisedOrdersAtZero_nonempty_of_fitsWindows, New.Lift.KummerChart.PairingSide.pow_smul_constantAt_mem_deepConstants, New.Lift.KummerChart.PairingSide.relLength_deepConstants_add_one_le, New.Lift.KummerChart.PairingSide.relLength_constantAt_range_deepConstants_le, New.Lift.KummerChart.PairingSide.sum_cost_zero_eq_padicValNat_factorial, New.Lift.KummerChart.PairingSide.sum_cost_zero_le, New.Lift.KummerChart.PairingSide.sum_cost_zero_Ico_multiple_le, New.Lift.KummerChart.PairingSide.sum_cost_one_Ico_negativeWindowDepth_le, New.Lift.KummerChart.PairingSide.relLength_deepConstants_negativeWindowDepth_le, New.Lift.KummerChart.PairingSide.relLength_constantAt_deepConstants_le, New.Lift.KummerChart.PairingSide.tateDualSide_jump_near, New.Lift.KummerChart.PairingSide.tateDualSide_jump_le, New.Lift.KummerChart.PairingSide.improvedOrders_add_negativeWindowDepth_one_pos, New.Lift.KummerChart.PairingSide.isSafeMoveFst_of_negativeWindowDepth, New.Lift.KummerChart.PairingSide.relLength_iInf_comap_deepConstants_le, New.Lift.KummerChart.PairingSide.exists_relLength_le_and_isScaledCupCoboundary}
+\lean{New.Lift.TameChart.conjForm_mem_crysForms, New.Lift.TameChart.sum_coeff_smul_conjForm_apply_eq_zero, New.Lift.TameChart.exists_z_smul_eq_sum_tameGen, New.Lift.TameChart.aeval_linearFrob_extensionLattice_eq_zero, New.Lift.TameChart.count_constantCoeff_aeval_tameMultiplier_pow_le, New.Lift.TameChart.aeval_tameMultiplier_pow_mul_mem_liftIdeal, New.Lift.TameChart.killsCokernel_of_isKilledBy, New.Lift.exists_normal_fixer_index_coprime, New.Lift.exists_chart_untilt_varpiFlat_eq, New.Lift.exists_inertia_smul_z_eq_teichmuller, New.Lift.fixesLambda_of_mem_inertiaGroup, New.Lift.exists_inertia_smul_z_eq_teichmuller_mul, New.Lift.pow_smul_z_eq_pow_mul, New.Lift.exists_coe_eq_of_pow_eq_p, New.Lift.exists_tameChart}
+
+A walk moves two points, one of each side, from their Frobenius images at one letter to their own points at the next, one side at a time, so that every move is safe; \cref{prop:pairing-lemma}(a) then turns the walk into a scaled cup coboundary. A move is
+certified safe by pairing it against a point of the Tate dual side, which exists as soon as the cokernel of that side is killed; the resulting \emph{rule} is a sum of orders.
+
+\begin{lemma}[The rule]\label{lem:rule}
+Let $P$ pair the sides $S$, $S'$ modulo $p^m$, and let $\hat S$ be its Tate dual side, with lattice $\Hom(Y\otimes Y',O(1))$ extended by $O$ through the cocycle of $P$ and jumps $0$ and $-u-u'-1$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $\nu$ be a point of $\hat S$ over $p^\kappa$ at $i.\mathrm{back}(l)$ with orders $o_\nu$ antitone in the jump, and let $w\in\mathcal K_i(o_w)$, $y\in\mathcal K_i(o_y)$ lie in the two extensions. If $\mathrm{sh}^0_l(o_\nu)(a,-u-u'-1)+o_w(a,u)+o_y(a,u')>0$ for all levels $a$ and jumps $u$ of $S$,
+$u'$ of $S'$ at $i.\mathrm{back}(a)$, then $(\delta w,y)$ and $(w,\delta y)$ are safe for $\kappa$.
+\item With $\nu$ as in (a), let $w\in\mathcal K_i(o_w)$ and $x'$ a point of $S'$ at $i$ of depth $d'$. If $\mathrm{sh}^0_l(o_\nu)(a,-u-u'-1)+o_w(a,u)+d'(a,u')>0$ at all jumps, the move by $w$ with $x'$ at rest is safe; symmetrically for the second side.
+\item (The rule.) If $p^\kappa E^t$ kills the cokernel of $\hat S$ at $i.\mathrm{back}(l)$, $y\in\mathcal K_i(o)$ and $x'$ has depth $d'$ at $i$, and $\mathrm{rb}_{l,t}(a,u+u')\le o(a,u)+d'(a,u')$ at all jumps, then the move by $y$ with $x'$ at rest is safe for $\kappa$; symmetrically.
+\item (Letters.) Vectors of the two extensions at distinct letters are orthogonal under $P$. Hence pairs, moves and paths that are safe letter by letter are safe for the sums over the letters.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By \cref{lem:orders}(f), $w$ and $y$ are images of vectors of $Y$ and $Y'$ with the same orders, and $\varphi^l\nu$ lies over $p^\kappa$ at $i$ with orders $\mathrm{sh}^0_l(o_\nu)$ (\cref{lem:orders}(b)). By \cref{lem:orders}(c) applied to $Y\times Y'\to Y\otimes Y'$, $w\otimes y$ has orders
+$o_w(a,u)+o_y(a,u')$ on the jump $v$ for $u+u'\le v$; pairing it with $\varphi^l\nu$ by the extension form $(\lambda,o)\mapsto p^m\lambda+o\psi$, which is equivariant, gives an element $\xi$ of $O(1)_{\rm amb}$, whose only jump is $-1$. Again by \cref{lem:orders}(c), with the jump $v$ of $\hat S$ satisfying
+$-v-1\le-u-u'-1$ and the antitonicity of $o_\nu$, $\xi$ has order at least $1=\mathrm{std}_0(a,-1)$ at every level: $\xi$ has the standard orders of level $0$. As $\Gamma$ acts on $O(1)$ through the cyclotomic character, whose only jump is $-1$, the frame theorem gives $\tau\xi\in A_{\inf}\otimes O(1)$
+(\cref{thm:B-kisin}(a)). Reduced modulo $p^m$ through the linear map $O\to\Z_p$ of $P$, the term $p^m\lambda$ disappears, and $\xi$ becomes the pairing of $w$ with $y$ multiplied by the projection of $\varphi^l\nu$ to $W(C^\flat)\otimes O$, which is $p^\kappa e_i$; as $w$ lies at $i$, this is
+$p^\kappa\psi(w,y)$. Finally $z$ lies in $W(\mathfrak m^\flat)$, so $z\tau$ times the $A_{\inf}$-span of $O(1)$ reduces into the image of $W(\mathfrak m^\flat)$: $\delta p^\kappa\psi(w,y)$ is small, which is both claims.
+
+(b) For $g\in\Gamma'$, $\delta^{-1}(gx'-x')\in\mathcal K_i(d')$ (\cref{lem:orders}(e)), and $gx'-x'=\delta\cdot\delta^{-1}(gx'-x')$; apply the second claim of (a). For the second side the pairs are $(gx-x,gy')=(\delta\cdot\delta^{-1}(gx-x),gy')$, and $gy'$ has the orders of $y'$; apply the first claim.
+
+(c) Lift $p^\kappa E^t$ times the constant $1$ of $\hat S$ at $i.\mathrm{back}(l)$ to the extension and divide by $E^t$: this is a point $\nu$ over $p^\kappa$ with orders and depth $\varrho_{-t}$, which are antitone in the jump. For all $l,t,a,u,u'$ one has the identity
+$\mathrm{sh}^0_l(\varrho_{-t})(a,-u-u'-1)+\mathrm{rb}_{l,t}(a,u+u')=1$: at the levels below, at and above $l$ the first term is $0$, $t+u+u'+1$, $u+u'+1$ and the second $1$, $t-u-u'$, $-u-u'$. Hence the hypothesis gives the positivity of (b).
+
+(d) The root of unity $\zeta$ of $O$ acts at a letter by its Teichm\"uller lift, and the pairing is balanced for multiplication by $\zeta$; for $w$ at $j$ and $y$ at $i\ne j$ this gives $([j]-[i])\psi(w,y)=0$, and $[j]-[i]$ is a unit of $\mathfrak S$, as the letters are distinct in $\F_{p^f}$. Hence the
+pairing of the sums is the sum of the pairings at each letter, and the image of $W(\mathfrak m^\flat)$ is a group. For moves one also uses that $g\in\Gamma'$ preserves letters.
+\end{proof}
+
+\begin{lemma}[The walk]\label{lem:walk}
+Let $P$ pair $S$ and $S'$, let some letters be \emph{cuts}, and let the last cut before each letter $i$ lie $l(i)\ge1$ steps back. At each cut $i$ let $p^\kappa E^{t(i)}$ kill the cokernel of $\hat S$, let $x(i)$, $x'(i)$ be standard points
+$\mathcal P^{\rm st}_i(c,e;t(i),\eta,l(i))$, $\mathcal P^{\rm st}_i(c',e';t(i),\eta,l(i))$, and let one side have a stop at $i$: a point $q\in\mathcal P^{\rm stop}_i(c,e;\eta,l(i))$ at which the move of the second side by $\varphi^{l(i)}x'(i.\mathrm{back}(l(i)))-x'(i)$ is safe, or symmetrically.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item At a cut $i$ with predecessor $l$ steps back and the cut before that $l_0$ steps further back, four safe moves lead from $(\varphi^lx_0,\varphi^lx'_0)$ to $(x,x')$, with $x_0,x'_0$ the standard points at $i.\mathrm{back}(l)$.
+\item For standard points $x$, $x'$ at the letter $d$ steps before $i$ and $g\in\Gamma'$, the move of the second side by $g\varphi^dx'-\varphi^dx'$ is safe with $\varphi^dx$ at rest.
+\item For $N\ge e+e'+\kappa$ the cup product of the cocycles of $c$ and $p^Nc'$ is a continuous coboundary.
+\item In particular, if every letter is a cut and $t(i)=t$, $l(i)=1$, (c) holds as soon as each letter has a stop.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By \cref{lem:orders}(b) $\varphi^lx_0$ has orders $\mathrm{sh}^0_l(\varrho_{-\eta})$ and depth $\mathrm{sh}^1_l(\mathrm{sd}_{t_0,\eta,l_0})$, and likewise $\varphi^lx'_0$. Suppose the first side has the stop $q$. The path is $(\varphi^lx_0,\varphi^lx'_0)\to(q,\varphi^lx'_0)\to(q,x')\to(x,x')$, the last move being zero.
+\emph{First move}: $\varphi^lx_0-q$ lies over $0$ with orders $\min(\mathrm{sh}^0_l(\varrho_{-\eta}),\mathrm{so}_{\eta,l})$, and $\varphi^lx'_0$ rests with depth $\mathrm{sh}^1_l(\mathrm{sd}_{t_0,\eta,l_0})$; the rule for $l$ and $t_0$ holds (\cref{lem:rule}(c)), as $p^\kappa E^{t_0}$ kills the cokernel at $i.\mathrm{back}(l)$:
+below $l$ the orders are $\min(0,\max(0,-u-\eta))=0$ and the depth $1$, which add up to $1$; at the level $l$ the orders are $\min(-\eta-u,-u)=-\eta-u$ and the depth $-v+t_0+\eta$ (as $l_0>0$), which add up to $t_0-u-v$; above, $-u$ and at least $-v$. \emph{Second move}: the hypothesis. \emph{Third move}: $q-x$ has orders
+$\min(\mathrm{so}_{\eta,l},\varrho_{-\eta})$ and $x'$ rests with depth $\mathrm{sd}_{t,\eta,l}$; the rule for $0$ and $t$ holds, as $p^\kappa E^t$ kills the cokernel at $i$: at the level $0$ the orders are $\min(\max(0,-u-\eta),-u-\eta)=-u-\eta$ and the depth $-v+t+\eta$; at the levels $0<a<l$ the orders
+are at least $-u-\eta$ and the depth is $-v+\eta$; above, $-u$ and $-v$; in each case the sum is at least $\mathrm{rb}_{0,t}$. If the second side has the stop the argument is symmetric.
+
+(b) By \cref{lem:orders}(b) $\varphi^dx'$ has depth $\mathrm{sh}^1_d(\mathrm{sd}_{t,\eta,l})$, so the move $g\varphi^dx'-\varphi^dx'$ lies over $0$ with these orders, and $\varphi^dx$ rests with the same depth; with $p^\kappa E^t$ killing the cokernel of $\hat S$ at the cut $i.\mathrm{back}(d)$, the rule for $d$ and $t$ holds, since below $d$ the sum is $2\ge1$, at $d$ it is
+$-u-u'+2t+2\eta[l>0]\ge t-u-u'$, and above it is at least $-u-u'$.
+
+(c) For a letter $i$ let $d(i)=0$ if $i$ is a cut and $d(i)=l(i)$ otherwise, so that $i.\mathrm{back}(d(i))$ is always a cut, and put $\tilde x(i)=\varphi^{d(i)}x(i.\mathrm{back}(d(i)))$, $\tilde x'(i)$ likewise. These lie over $p^ec$, $p^{e'}c'$ at $i$ (\cref{lem:orders}(b)). The minimality of $l$ gives $l(i)=d(i.\mathrm{back}(1))+1$, and as $\varphi$ sends
+the letter $i.\mathrm{back}(1)$ to $i$,
+\[\varphi\sum_i\tilde x(i)=\sum_i\varphi^{l(i)}x(i.\mathrm{back}(l(i))),\]
+the sum of the Frobenius images with the last cut \emph{strictly} before each letter. At a letter that is not a cut both terms are $\tilde x(i)$, and the path that stays there is safe, its moves being zero; at a cut, (a) gives a safe path from $\varphi^{l(i)}x(i.\mathrm{back}(l(i)))$ to $x(i)$. By (b) the cocycle moves are
+safe. Summing over the letters (\cref{lem:rule}(d)) gives the hypotheses of \cref{prop:pairing-lemma}(a) for $\sum_i\tilde x(i)$, $\sum_i\tilde x'(i)$, which lie over $p^ec$ and $p^{e'}c'$ because the letter parts of the constants add up to the constants.
+
+(d) is (c) with $d\equiv0$.
+\end{proof}
+
+\begin{lemma}[Plain cuts]\label{lem:plain-cuts}
+Let $0<l$ and let $i$ be a letter.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Down.) If the jumps of $S$ at the $l$ letters up to $i$ are at most $\eta$, every standard point $\mathcal P^{\rm st}_i(c,e;t,\eta,l)$ is a stop $\mathcal P^{\rm stop}_i(c,e;\eta,l)$.
+\item (Up.) If the jumps of $S$ at $i.\mathrm{back}(a)$, $a<l$, are at least $-\eta$, $x_0\in\mathcal P_{i.\mathrm{back}(l)}(c,e;\varrho_{-\eta_0},\cdot)$, $x\in\mathcal P_i(c,e;\varrho_{-\eta},\cdot)$, $p^\kappa E^t$ kills the cokernel of $\hat S$ at $i$, and $q'$ is a point of $S'$ at $i$ of depth $\mathrm{pd}_{t,\eta,l,\eta_0}$, then the
+move by $\varphi^lx_0-x$ with $q'$ at rest is safe; symmetrically for the second side.
+\item A point of depth $\mathrm{pd}_{t,\eta,l,\eta_0}$ and orders $\varrho_{-\eta}$ is standard.
+\item (Plain cut.) If at the $l$ letters up to $i$ the jumps of $S$ are at most $\eta$ and those of $S'$ at least $-\eta$, and $x\in\mathcal P_i(c,e;\varrho_{-\eta},\mathrm{pd}_{t,\eta,l,\eta_0})$, then $x$ is a stop of $S$ at which the move of $S'$ by $\varphi^lx'_0-x'$ is safe, for any $x'_0$, $x'$ with poles of order at
+most $\eta_0$, $\eta$; symmetrically.
+\item (Windows.) A jump in the windows $[-\eta,\eta]\cup\sigma[\beta,\beta+V]$ is low, lies in $[\beta,\beta+V]$, or its negative does. The side is down (jumps $\le\eta$) where $\sigma=-1$ or $\beta+V\le\eta$, and up (jumps $\ge-\eta$) where $\sigma=1$ or $\beta+V\le\eta$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By \cref{lem:orders}(d) the point has orders $\mathrm{imp}(\varrho_{-\eta},\mathrm{sd}_{t,\eta,l})$. Below $l$ the depth is $-u+t[a=0]+\eta\ge0$, as $u\le\eta$; if $\varrho_{-\eta}(a,u)>0$ the improved order is this depth, which is at least $\max(0,-u-\eta)$, and otherwise it is $0$ and $-u-\eta\le\varrho_{-\eta}(a,u)\le0$. From $l$
+on the improved order is $-u$. Hence the orders are at least $\mathrm{so}_{\eta,l}$, and a point with orders $\mathrm{so}_{\eta,l}$ is also of depth $\mathrm{so}_{\eta,l}$, since $g$ preserves orders.
+
+(b) The move lies over $0$ (\cref{lem:orders}(f)) with orders $\min(\mathrm{sh}^0_l(\varrho_{-\eta_0}),\varrho_{-\eta})$; apply the rule for $0$ and $t$ (\cref{lem:rule}(c)). At the level $0$ the orders are $\min(0,-\eta-u)=-\eta-u$, as $u\ge-\eta$, and the depth is $-v+t+\eta$; at $0<a<l$ the orders are $\min(0,-u)\ge-u-\eta$ and the depth
+$-v+\eta$; at $a=l$ the orders are $-\eta_0-u$ and the depth $-v+\eta_0$; above, $-u$ and $-v$. In each case the sum is at least $\mathrm{rb}_{0,t}(a,u+v)$.
+
+(c) $\mathrm{pd}_{t,\eta,l,\eta_0}\ge\mathrm{sd}_{t,\eta,l}$.
+
+(d) By (c) and (a) $x$ is a stop, and by the symmetric form of (b) for $S'$, which is up, the move is safe with $x$ at rest.
+
+(e) Immediate from the definition; for instance where $\sigma=-1$ a jump is in $[-\eta,\eta]$ or in $-[\beta,\beta+V]$, hence at most $\eta$.
+\end{proof}
+
+The walk needs a stop at each cut. Between two cuts the sides may change roles (which one is down); a cut is \emph{plain} if no change occurs, and otherwise the walk needs a \emph{long gap}: a letter whose far window starts so far out that the
+pole of a point there can be removed by an expansion in powers of $E$ (\cref{lem:long-gap}). The following definitions describe the cuts.
+
+\begin{definition}[Cuts]\label{def:cuts}
+Let $\varepsilon(i)=\pm1$ be signs, $\beta(i)$ the starts of the far windows of width $V$, $s(i)$ the \emph{shifts} (the pole order allowed at a cut), and $W$, $J$, $G$, $s_0$, $\kappa$, $X$, $\delta$, $b$, $n$ natural numbers.
+\begin{enumerate}[label=\textup{(C\arabic*)}]
+\item $i.\mathrm{back}(l)$ is the \emph{nearest cut} before $i$ if $l>0$, it is a cut, and no letter strictly between is one. It has \emph{sign $\rho$ before $i$} if each of the $l$ letters $i.\mathrm{back}(a)$, $a<l$, has $\varepsilon=\rho$ or $\beta+V\le\eta$.
+\item There is a \emph{long gap} with pivot $i.\mathrm{back}(t)$ if the chart is unramified, $p\ge5$, $s(i.\mathrm{back}(l))=0$, $t+J+1=l$, $s_0+\omega\sum_{a\le J}p^a<\beta(i.\mathrm{back}(t))$, every other letter $a<l$ has $\varepsilon\ne\varepsilon(i.\mathrm{back}(t))$ or $\beta+V\le\eta$, $\eta\le\omega$, and the far windows of the letters
+$t<a<l$ end at or below $\omega$.
+\item A letter has \emph{thin successors} for a property $T$ if none of the $J$ letters after it has $T$.
+\item A \emph{killing cut} is a letter with $s(i)=0$ whose $J$ successors have $\beta+W\le G$, or, on an unramified chart with $p\ge5$, a letter with $s_0-\kappa\le s(i)<\beta(i)$.
+\item The \emph{size conditions} are $n+\lfloor\log_p2b\rfloor+(J+1+d)W+dG\le X$, $12((J+1)X+\delta)<\kappa$, $e\cdot2b\le p^{J+1}\delta$, $8e\le p^{J+1}$, $\beta(i)+s(i)+W\le2b$, $G\le(p-1)n$, and $\beta(i)+W\le(p-3)s_0$ if $p\ge5$.
+\item The \emph{cut orders} are $\mathrm{co}_{s,\eta,l}=\mathrm{imp}(\varrho_{-s},\mathrm{sd}_{s,\eta,l+1})$, and the \emph{long gap depth} is $\mathrm{lg}_{l,t,r}(a,u)=r$ for $a=t$, $1$ for other $a<l$, and $-u$ for $a\ge l$. The \emph{window steps} at $i$ are the pairs $(a,m)$ with $a<2J+2$ and $m$ within $s(i)[a=0]+W$ of $0$ or of
+$\mp\beta(i.\mathrm{back}(a))$.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}[Cuts and their points]\label{lem:cut-points}
+Assume the size conditions, $\eta\ge1$, $V+4\eta\le W$ and $s(i)+W\le pn$, and let the jumps of $S$ lie in $[-\eta,\eta]\cup\sigma(j)[\beta(j),\beta(j)+V]$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $W\ge4$ and $s(i)=0$ or $d=0$, then $\kappa+4\delta+\sum c_a(m)\le25\kappa$, the sum over the window steps at $i$.
+\item If the jumps are at most $\beta+W$ and $\beta+W\le G$ at the $J$ letters after $i$, then $p^\kappa$ kills the cokernel at $i$. At every killing cut, $p^\kappa E^{s(i)}$ kills the cokernel.
+\item At a killing cut $i$ whose nearest cut before is $l\le2J+1$ steps back, there is a point over $p^{25\kappa}c$ with orders $\mathrm{co}_{s(i),\eta,l}$ and depth $\mathrm{sd}_{s(i),\eta,l+1}$; such a point has orders $\varrho_{-\eta}$ and depth $\mathrm{pd}_{s(i),\eta,l,\eta}$, so it is a standard point.
+\item (Long gap stop.) Let the nearest cut $i.\mathrm{back}(l)$, $l\le2J+1$, be a killing cut followed by a long gap with pivot $i.\mathrm{back}(t)$ where $\sigma=-1$, and let the jumps at the other letters $a<l$ be at least $-\eta$. Then there is a point over $p^{25\kappa}c$ with orders $\mathrm{so}_{\eta,l}$ and depth
+$\mathrm{lg}_{l,t,2b}$.
+\item For $t<l$, $r>0$, $u\le\eta$ at $t\ne a<l$ and $u<\eta+r$ at $a=t$, the orders $\min(\mathrm{co}_{s,\eta,l},\mathrm{sh}^0_l(\mathrm{co}_{0,\eta,l_0}))$ at $u$ and the depth $\mathrm{lg}_{l,t,r}$ at any $v$ add up to at least $\mathrm{rb}_{l,0}(a,u+v)$.
+\item If the jumps of two paired sides at $i$ lie in $[-\eta,\eta]$ and in opposite far windows $\mp\varepsilon(i)[\beta(i),\beta(i)+V]$, then the jumps of the two sides and of $\hat S$ at $i$ are at most $\beta(i)+W$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) At a level $a<2J+2$ the window steps are the integers within $r+W$ of $0$ or of $\mp\beta$, where $r=s(i)[a=0]$, and $r+W\le pn$ and $\beta+r+W\le2b$. Counting the multiples of $p^{j+1}$ in each window, $j<\log_p2b$, the valuations of the integers within $n'$ of $c$ add up to at most $4m+\lfloor\log_pH\rfloor$ when
+$n'\le pm$ and $\abs c+n'\le H$; hence the costs of the steps at the level $a$ add up to at most $8n+2\lfloor\log_p2b\rfloor+(4(r+W)+2)(d+3a)$. At $a=0$ either $r=0$ or $d=0$, and for $a\ge1$, $r=0$; with $W\ge4$, $a\le2J+1$ and the first size condition this is at most $30X$. Hence the sum is at most
+$(2J+2)30X$, and $\kappa+4\delta+60(J+1)X\le25\kappa$ as $\kappa>12((J+1)X+\delta)$.
+
+(b) All jumps are at most $\beta+W\le2b$, and those at the $J$ letters after $i$ at most $G$. By \cref{lem:z-powers}(g) with $\omega=2b$ and $\omega'=G$ it suffices that $\kappa\ge2JdG+(2J+4)G/(p-1)+8e\cdot2b/p^{J+1}$; the size conditions give $dG\le X$, $G/(p-1)\le n\le X$ and $e\cdot2b/p^{J+1}\le\delta$, so
+the right side is at most $(4J+4)X+8\delta<\kappa$. At a killing cut of the first kind this applies with $s(i)=0$. At one of the second kind the chart is unramified, $p\ge5$ and all jumps are at most $\beta+W\le(p-3)s_0\le(p-3)(\kappa+s(i))$, and \cref{lem:z-powers}(f) gives $p^\kappa E^{s(i)}$.
+
+(c) By (b) and the lift-and-divide argument of \cref{lem:rule}(c) there is a point over $p^\kappa c$ with orders and depth $\varrho_{-s(i)}$. The steps from this depth to $\mathrm{sd}_{s(i),\eta,l+1}$ are, on the line $u$, the $m$ with $-s(i)-u\le m<-u+s(i)+\eta$ at the level $0$ and $-u\le m<-u+\eta$ at the levels $1\le a\le l$; as $u$ is
+within $\eta$ of $0$ or within $V$ of $\pm\beta$, they are within $s(i)[a=0]+\eta+\max(\eta,V)\le s(i)[a=0]+W$ of $0$ or of $\mp\beta$, and $l\le2J+1$: they are window steps. At a killing cut, $s(i)=0$ or $d=0$ (in the second kind the chart is unramified). By \cref{lem:depth-step}(f) and (a) there is the point
+with orders $\mathrm{co}$ and depth $\mathrm{sd}$ over $p^{25\kappa}c$. Its pole has order at most $\eta$: no jump at $i$ lies in $[-s(i),-\eta)$, since a jump below $-\eta$ lies in $-[\beta,\beta+V]$ and $s(i)<\beta(i)$ or $s(i)=0$; so a line $u<-s(i)$ has the positive order $-s(i)-u$, which improves to the depth
+$-u+s(i)+\eta\ge-u$, and a line $u\ge-\eta$ has order at least $\min(\mathrm{sd},0)\ge-\eta-u$. Finally $\mathrm{sd}_{s,\eta,l+1}=\mathrm{pd}_{s,\eta,l,\eta}$, and (c) of \cref{lem:plain-cuts} applies.
+
+(d) Write $l=t+J+1$. By (b), $p^\kappa$ kills the cokernel at the cut $i.\mathrm{back}(l)$, which lies $J+1$ steps before the pivot and has shift $0$; and $E^{s_0}$ kills it at the pivot, by \cref{lem:z-powers}(f), as all jumps are at most $(p-3)s_0$. The jumps at the $J+1$ letters up to the pivot are at most $\omega$: at the pivot
+$\sigma=-1$ makes them at most $\eta\le\omega$, and at the others the far windows end at or below $\omega$. Put $N=s_0+\omega\sum_{a\le J}p^a<\beta(i.\mathrm{back}(t))$ and $A=2b$, so $A\le p^{J+1}\delta$ ($e=1$) and $3\le p^{J+1}$. \Cref{lem:long-gap}(e) gives a point $x$ at the pivot over $p^{\kappa+4\delta}c$
+with the standard orders of level $J+1$, raised by $2b$ at $E$ on the lines $u<-N$, and of depth the standard orders raised by $2b$ at $E$ everywhere. Carry it to $i$ by $\varphi^t$ (\cref{lem:orders}(b)): its orders become $0$ below $t$, at $t$ the value $2b$ on the lines $u<-N$ and $0$ on the others, $0$ for
+$t<a<l$, and $-u$ from $l$ on; its depth becomes $1$ below $t$, $2b$ at $t$, $0$ for $t<a<l$ and $-u$ from $l$ on. Raise the depth from $0$ to $1$ at the levels $t<a<l$: the steps $(a,0)$ are window steps, so by (a) and \cref{lem:depth-step}(f) this gives a point over $p^{25\kappa}c$ with
+depth $\mathrm{lg}_{l,t,2b}$. Its orders are at least $\mathrm{so}_{\eta,l}$: at the levels $a\ne t$ below $l$ the jumps are at least $-\eta$, so $\mathrm{so}=0$; at the pivot a jump is in $[-\eta,\eta]$, where $\mathrm{so}=0$, or in $-[\beta,\beta+V]$, where $u\le-\beta<-N$ and the order $2b\ge\beta+V\ge-u-\eta$.
+
+(e) Below $l$ and off $t$, both cut orders are at least $0$, as $u\le\eta$ makes the depth $-u+s[a=0]+\eta$ nonnegative, so the minimum is $0$ and the depth $1$ gives the sum $1$. At $a=t$ the orders are at least $\min(-u+\eta,0)>-r$, so with the depth $r$ the sum is at least $1$. At $a=l$ the shifted cut
+orders are those of $\mathrm{co}_{0,\eta,l_0}$ at the level $0$, at least $-u$, and $\mathrm{co}_{s,\eta,l}(l,u)\ge-u$; with the depth $-v$ the sum is at least $-(u+v)$; above $l$ likewise.
+
+(f) A jump of a side is at most $\eta$ or $\beta+V$. The jumps of $\hat S$ are $0$ and $-(u+u')-1$; as the far windows have opposite signs, $u$ and $u'$ are not both below $-\eta$, and neither is below $-(\beta+V)$; so $-(u+u')-1\le\beta+V+\eta\le\beta+W$.
+\end{proof}
+
+\begin{lemma}[Stops at cuts]\label{lem:stops}
+Let $P$ pair sides whose jumps lie in $[-\eta,\eta]$ and in opposite far windows $\mp\varepsilon(j)[\beta(j),\beta(j)+V]$, and let $i.\mathrm{back}(l)$ be the nearest cut before $i$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $i.\mathrm{back}(l)$ has sign $\rho$ before $i$, the points have poles of order at most $\eta$, and $x$, $x'$ at $i$ have depth $\mathrm{pd}_{s,\eta,l,\eta}$, and $p^\kappa E^s$ kills the cokernel of $\hat S$ at $i$, then one side has a stop at which the other moves safely from $\varphi^l$ of its point at the cut
+to its point at $i$.
+\item If the cut has shift $0$, is followed by a long gap, and $p^\kappa$ kills the cokernel of $\hat S$ there, and the size conditions hold with $l\le2J+1$, then the same conclusion holds for points with the cut orders at these cuts and any depths.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The side whose far window has sign $-\rho$, together with the small windows, has its jumps at most $\eta$ at the $l$ letters (\cref{lem:plain-cuts}(e)): it is down, and the other is up. \Cref{lem:plain-cuts}(d) gives the stop and the safe move.
+
+(b) The side $R$ whose far window at the pivot is negative leads. At the letters $a\ne t$ below $l$ the far windows of $R$ are small or of the sign opposite to that at the pivot, so $R$ is up there, and \cref{lem:cut-points}(d) gives a stop $q$ of $R$ with depth $\mathrm{lg}_{l,t,2b}$. The other side $R'$ has, at the pivot, its
+jumps in $[-\eta,\eta]\cup[\beta,\beta+V]$, so $u\le\beta+V<\eta+2b$, and at the other letters below $l$ it is down. Its move from $\varphi^l$ of its point at the cut to its point at $i$ has orders $\min(\mathrm{co}_{s,\eta,l},\mathrm{sh}^0_l(\mathrm{co}_{0,\eta,l_0}))$, by \cref{lem:orders}(b) and (f); \cref{lem:cut-points}(e)
+with $r=2b$ gives the rule for $l$ and $0$, which applies because $p^\kappa=p^\kappa E^0$ kills the cokernel of $\hat S$ at the cut (\cref{lem:rule}(c)). One lemma serves both sides by symmetry.
+\end{proof}
+
+\begin{lemma}[Patterns of cuts]\label{lem:cut-patterns}
+Let $T$ be a property of letters (the \emph{thick} letters), and suppose that no three letters with $T$ follow one another along Frobenius with both gaps between $1$ and $J$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $i.\mathrm{back}(r)$ has $T$ but not thin successors, then $i.\mathrm{back}(r+J+1)$ has thin successors. One of the $2J+1$ letters before $i$ has thin successors.
+\item If $i.\mathrm{back}(l)$ is the nearest letter before $i$ with thin successors, a thick letter $i.\mathrm{back}(r)$ with $r<l$ has $r=0$ or $r+J+1=l$.
+\item (Sparse thick letters.) Let the far windows start at $b$ at the thick letters and at $G$ at the others, $\eta\ge1$, $G+V\le\eta$, and let either the chart be unramified with $p\ge7$ and $10p^J\eta\le b$, or the sign be constant. If $i.\mathrm{back}(l)$ is the nearest letter with thin successors, then for some pivot the
+$l$ letters have the sign of the pivot up to small windows, or there is a long gap with all shifts $0$, $s_0=\lfloor(b+10\eta)/(p-3)\rfloor+1$ and $\omega=\eta$.
+\item (Two sizes, $J=1$.) Let the chart be unramified, $p\ge7$, the far windows start at $b$ at the thick letters and at $G$ at the thin ones, $0<G$, $b<Kp^2$, $V+4\eta\le W\le K$, and let the shifts be at most $\lfloor b/p\rfloor-7K$, and $0$ at the letters with a thin successor. Let the cuts be the letters whose shift is less than the start of
+their far window. Then the thick letters and the letters with a thin successor are cuts; every letter has a cut one or two steps back; and if $i.\mathrm{back}(l)$ is the nearest cut, the $l$ letters have the sign of $i$ up to small windows, or there is a long gap with pivot $i$, $J=1$, $s_0=\lfloor b/p\rfloor+12K$ and
+$\omega=G+W$.
+\item (Sizes.) With all shifts $0$ and $\beta(i)\le\max(b,W)$, the size conditions hold with $\kappa=12((J+1)X+\delta)+1$, $b+W$ for $b$, $n=G=2W$ and $s_0=\lfloor(b+2W)/(p-3)\rfloor+1$, provided $8e\le p^{J+1}$, $2e(b+W)\le p^{J+1}\delta$ and $4(J+1+d)W+\lfloor\log_p2(b+W)\rfloor\le X$. In the
+situation of (d), they hold with $J=1$, $X=3K+\lfloor\log_p2(b+W)\rfloor$, $\delta=4K$, $\kappa=12(2X+\delta)+1$, $n=K$, $s_0=\lfloor b/p\rfloor+12K$, and $b+W$, $G+W$ for $b$, $G$, if $2G<Kp$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) If one of the $J$ letters after $i.\mathrm{back}(r+J+1)$, that is $i.\mathrm{back}(r+J+1-s')$ with $1\le s'\le J$, had $T$, then with a thick letter among the $J$ after $i.\mathrm{back}(r)$ there would be three thick letters with both gaps in $[1,J]$. For the second claim, if $i.\mathrm{back}(J+1)$ fails, a letter
+$i.\mathrm{back}(r)$ with $1\le r\le J$ has $T$; it has thin successors, or by the first claim $i.\mathrm{back}(r+J+1)$, with $r+J+1\le2J+1$, does.
+
+(b) Let $0<r<l$ with $T$. As $i.\mathrm{back}(r)$ is not a cut, it does not have thin successors, so $i.\mathrm{back}(r+J+1)$ has them by (a), and nearness gives $r+J+1\ge l$. The cut $i.\mathrm{back}(l)$ has thin successors, so $r\notin[l-J,l-1]$, and $r+J+1\le l$.
+
+(c) If every thick letter among the $l$ has the sign of $i$, the letters have the sign of $i$ up to the thin letters, whose windows end at $G+V\le\eta$. Otherwise by (b) the thick letter with a different sign is the pivot $i.\mathrm{back}(t)$ with $t+J+1=l$, which excludes the case of constant sign. The letters other than $i$ and the pivot
+are thin, with small windows, and $i$ has the sign opposite to the pivot. With $p\ge7$, $\sum_{a\le J}p^a\le2p^J$ and $s_0\le(b+10\eta)/4+1$, and $(b+10\eta)/4+1+2p^J\eta<b$ as $10p^J\eta\le b$ and $\eta\ge1$: the gap is long, with $\omega=\eta$ bounding the low window and the windows of the thin letters before the
+pivot.
+
+(d) A thick letter has shift at most $b/p<b$, and a letter with a thin successor has shift $0<G\le\beta$; so both are cuts. If $i.\mathrm{back}(1)$ is not a cut, its successor $i$ is thick, and if $i.\mathrm{back}(1)$ is not thick either, $i.\mathrm{back}(2)$ has the thin successor $i.\mathrm{back}(1)$: a cut lies one or two steps back. If
+$l=1$ the condition on signs concerns $i$ alone. If $l=2$, $i.\mathrm{back}(1)$ is not a cut, hence thin with $0<G\le s(i.\mathrm{back}(1))\le\lfloor b/p\rfloor-7K$, and $i$ is thick. If $i.\mathrm{back}(1)$ has the sign of $i$ or a small window, the sign condition holds. Otherwise the gap is long with pivot $i$: the cut $i.\mathrm{back}(2)$ has
+the thin successor $i.\mathrm{back}(1)$, so shift $0$; the windows before $i$ end at or below $G+V\le G+W=\omega$; and $s_0+\omega(1+p)\le b/p+12K+(b/p-6K)(p+1)=(p+2)b/p-(6p-6)K<b$, as $2b/p<2Kp\le(6p-6)K$.
+
+(e) The first set of conditions is a direct check: $n+\lfloor\log_p2(b+W)\rfloor+(J+1+d)W+2dW\le X$ follows from the bound on $X$, $\beta+W\le2(b+W)$, $2W\le(p-1)2W$, $\beta+W\le b+2W\le(p-3)s_0$, and $\kappa>12((J+1)X+\delta)$. In the second, $d=0$, $K+\lfloor\log_p2(b+W)\rfloor+2W\le X$, $2(b+W)\le4Kp^2$ as $b<Kp^2$, $8\le p^2$,
+$\beta+s+W\le2(b+W)$, $G+W<Kp/2+K\le(p-1)K$, and $b+W\le(p-3)s_0$ because $b-(p-3)\lfloor b/p\rfloor<3\lfloor b/p\rfloor+p\le4pK$ and $4pK+K\le12(p-3)K$.
+\end{proof}
+
+\begin{lemma}[The scheme of cuts]\label{lem:cut-scheme}
+Let paired sides have jumps in $[-\eta,\eta]$ and in opposite far windows $\mp\varepsilon(i)[\beta(i),\beta(i)+V]$, with $\eta\ge1$, $V+4\eta\le W$, $s(i)+W\le pn$ and the size conditions.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If every cut is a killing cut, every letter has a cut at most $2J+1$ steps back, and after each nearest cut the letters have the sign of some pivot up to small windows or there is a long gap, then the cup product of the cocycles of $c$ and $p^ec'$ is a coboundary for every $e\ge51\kappa$.
+\item (Sparse thick letters.) In the situation of \cref{lem:cut-patterns}(c), with $J\ge1$, $8e\le p^{J+1}$ in the case of constant sign, $2e(b+5\eta)\le p^{J+1}\delta$ and $20(J+1+d)\eta+\lfloor\log_p2(b+5\eta)\rfloor\le X$, the exponent $10^3(\delta+(J+1)X)$ works.
+\item (Any pattern.) In the situation of \cref{lem:cut-patterns}(d) with $0<G\le b$ and $2G<Kp$, the exponent $10^4(K+\lfloor\log_p2(b+W)\rfloor)$ works.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Let $l(i)\le2J+1$ be the distance to the nearest cut. At a cut $i$, $p^\kappa E^{s(i)}$ kills the cokernel of $\hat S$, by \cref{lem:cut-points}(b) and (f), and both sides have standard points over $p^{25\kappa}c$, $p^{25\kappa}c'$ with the cut orders (\cref{lem:cut-points}(c)). The stops are given by \cref{lem:stops}: at a
+plain cut, the leading side's own point; at a long gap, the point of \cref{lem:cut-points}(d), the cut before a long gap having shift $0$. \Cref{lem:walk}(c) applies with $e+e'+\kappa=51\kappa$.
+
+(b) Take all shifts $0$, the cuts at the letters with thin successors, $W=5\eta$, $\beta(i)=b$ or $G$, and $\kappa=12((J+1)X+\delta)+1$. The size conditions hold by \cref{lem:cut-patterns}(e) (with $G_{\rm cut}=10\eta$, and $8e\le p^{J+1}$ on an unramified chart because $e=1$); the cuts are killing cuts of the first kind, as the
+$J$ thin successors have $\beta+W=G+5\eta\le10\eta$; every letter has a cut within $2J+1$ steps (\cref{lem:cut-patterns}(a)); and the condition on signs is \cref{lem:cut-patterns}(c). Finally $51\kappa\le10^3(\delta+(J+1)X)$ as $X\ge20$.
+
+(c) Take $J=1$, shifts $\lfloor b/p\rfloor-7K$ at the letters whose successor is thick and $0$ otherwise, and the cuts of \cref{lem:cut-patterns}(d). A cut with a thin successor has shift $0$ and is a killing cut of the first kind ($\beta+W\le G+W$ at its successor); one whose successor is thick is of the second kind, as
+$s(i)<\beta(i)$ and $s_0=\lfloor b/p\rfloor+12K\le\kappa+s(i)$. The size conditions are \cref{lem:cut-patterns}(e), $s(i)+W\le\lfloor b/p\rfloor-6K\le pK$, and $51\kappa\le10^4(K+\lfloor\log_p2(b+W)\rfloor)$.
+\end{proof}
+
+\begin{lemma}[Long gaps]\label{lem:long-gap}
+Let the chart be unramified, $0<l$, and let $\mathrm{std}_l+A[a=0]$ denote the standard orders of level $l$ raised by $A$ at $E$. An element $\xi$ with the standard orders of level $l$ at $i$ is a \emph{constant modulo $E^A$} if every $g\xi-\xi$, $g\in\Gamma'$, has the orders $\mathrm{std}_l+A[a=0]$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Constants modulo $E^A$ form a $\Z_p$-module stable under $W(\F_{p^f})$ and under maps of lattices whose jump sets shrink. The projection to the letter $i$ of an element of $\varphi^l$ of the $A_{\inf}$-span of $\mathcal N$ on which all forms take values in $\mathcal K_0$ and are fixed by $\Gamma'$ modulo
+$t^AB_{\rm dR}^+$ is a constant modulo $E^A$.
+\item Every $s\in\mathfrak S$ has an expansion $s\equiv\sum_{n<N}E^nw_n$ modulo $E^N$ for all $N$, with $w_n\in W(\F_{p^f})$.
+\item (Taylor expansion.) If $3\le p^l$, $A\le p^l\delta$ and $x$ has the standard orders of level $l$ at $i$, there are constants $\xi_n$ modulo $E^A$ such that for every $N$, $p^{4\delta}x=\sum_{n<N}E^n\xi_n+E^Ny$ with $y$ of standard orders of level $l$.
+\item (Peeling.) If $\xi_n$ are constants modulo $E^A$, $y$ has standard orders and $\sum_{n\le N}E^n\xi_n+E^{N+1}y$ has the standard orders raised by $o(u)\le A$ at $E$, then $\xi_N$ has them raised by $A$ on the lines with $N<o(u)$.
+\item (The long gap lemma.) Let $3\le p^l$, $A\le p^l\delta$, let $p^\kappa$ kill the cokernel at $i.\mathrm{back}(l)$ and $E^s$ the cokernel at $i$, let the jumps at the $l$ letters up to $i$ be at most $g$, and let $N=s+g\sum_{a<l}p^a<A$. Then for each $c$ the extension has a point at $i$ over $p^{\kappa+4\delta}c$
+with the standard orders of level $l$ raised by $A$ at $E$ on the lines $u<-N$, all of whose differences $\gamma x-x$, $\gamma\in\Gamma'$, have the standard orders raised by $A$ at $E$ on every line.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The group $\Gamma'$ fixes $W(\F_{p^f})$, and equivariant maps of lattices whose jump sets shrink keep orders (\cref{lem:orders}(c)). For the second claim, the projection has the standard orders of level $l$ (\cref{thm:B-kisin}(e)), the difference $gy-y$ keeps them (\cref{lem:orders}(e)), and its value at the level $0$ under a form $\mu$ of type $u$ is the
+value of $g\mu'(y)-\mu'(y)$ for the form $\mu'=\mu\circ e_i$, which lies in $t^AB_{\rm dR}^+$; so only the exponent $A$ at $E$ is new.
+
+(b) As $e=1$ and $E=z+p$, division by $E$ in $\Lambda[\![z]\!]$ leaves a remainder in $\Lambda$ ($\mathfrak S/E\cong\Lambda$); dividing the quotients repeatedly, the remainders are the digits $w_n$.
+
+(c) By the frame theorem (\cref{thm:B-kisin}(f)), with $3e\le p^l$ and $eA\le p^l\delta$, $p^{4\delta}x$ is an $\mathfrak S$-combination $\sum_ar_av_a$ of elements fixed by $\Gamma'$ modulo $t^A$ of the kind in (a); projecting to the letter $i$, where $x$ lies, $p^{4\delta}x=\sum_ar_ab_a$ with constants $b_a$ modulo $E^A$.
+Expand each $r_a=\sum_{n<N}E^nw_{a,n}+E^Nt_{a,N}$ by (b) and collect: $\xi_n=\sum_aw_{a,n}b_a$, which are constants modulo $E^A$ by (a), and $y=\sum_at_{a,N}b_a$.
+
+(d) First the case $N=0$: if $\xi+Ey$ has the orders $\mathrm{std}_l+o[a=0]$, then, as $Ey$ has the orders $\mathrm{std}_l+1[a=0]$ ($l>0$), $\xi$ has $\mathrm{std}_l+\min(1,o)[a=0]$, and being invariant modulo $\mathrm{std}_l+A[a=0]$ its positive exponents at $E$ improve to $A$ (\cref{lem:orders}(d)). In general
+peel off $\xi_0$, which by this case has the exponent $A\ge o$ wherever $o>0$, and divide by $E$, a unit away from the level $0$; this lowers $N$ and $o$ by one, and induction concludes.
+
+(e) First a Taylor coefficient. From $E^s$ killing the cokernel at $i$ there is a point $y$ over $c$ with orders $\varrho_{-s}$ (\cref{lem:rule}(c)). Put $f(E)=E^s\prod_{a<l}(\varphi^aE)^g$; it is monic of degree $N$ in $E$, as $\varphi^aE=(E-p)^{p^a}+p$. Multiplication by $(\varphi^aE)^g$ raises the orders at the level $a$ by $g$,
+so $f(E)y$ has the orders $g-u\ge0$ at the levels $a<l$ (the jumps there being at most $g$) and $-u$ above: it has the standard orders of level $l$, raised at $E$ by $\min(A,g-u)$. By (c), $p^{4\delta}f(E)y=\sum_{n\le N}E^n\xi_n+E^{N+1}y'$, and by (d) $\xi_N$ has the standard orders raised by $A$ on the lines
+with $N<\min(A,g-u)$, which contain the lines $u<-N$. Projecting to the trivial lattice, $p^{4\delta}f(E)e_i(1\otimes c)=\sum_{n\le N}E^nf_np^{4\delta}e_i(1\otimes c)$ with $f_N=1$, and the differences of the coefficients are constants modulo $E^A$ of the trivial lattice forming an expansion of $0$; by (d), as $N<A$,
+$\mathrm{pr}(\xi_N)-p^{4\delta}e_i(1\otimes c)$ has the standard orders raised by $A$ everywhere. It remains to remove this error $w$: $E^{-A}w$ has the standard orders of level $l$, and $\varphi^l$ carries the ideal of the killers at $i.\mathrm{back}(l)$ to that of level $l$ at $i$ (\cref{lem:lift-ideal}(c)), so $p^\kappa E^{-A}w$
+lifts to some $x$ with the standard orders of level $l$ at $i$. Then $p^\kappa\xi_N-E^Ax$ lies over $p^{\kappa+4\delta}c$, has the orders of $p^\kappa\xi_N$ (those of $E^Ax$ being larger), and its differences under $\Gamma'$ are those of $p^\kappa\xi_N$, raised by $A$ at $E$, and $E^A(\omega^Agx-x)$, which have them
+too.
+\end{proof}
+
+\begin{lemma}[Deep points]\label{lem:deep-points}
+Let $P$ pair $S$ and $S'$, and let $n$ be such that $p$ divides no nonzero integer within $n$ of $0$, $b$ or $-b$ (the \emph{gap condition}).
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The costs $c_0(y)=v_p(y)+d$ of the integers within $n$ of $0$, $b$ or $-b$ add up to at most $(8n+4)d$; on an unramified chart they vanish.
+\item If all steps from the depth $o$ to $o'$ lie at the level $0$ within $n$ of $0$ or $\pm b$, a point over $p^\kappa c$ with orders $o_1$ and depth $o$ gives one over $p^{\kappa+(8n+4)d}c$ with depth $o'$ and orders $\mathrm{imp}(o_1,o')$; on an unramified chart, over $p^\kappa c$ with any orders at most these.
+\item (Gap below $0$.) If $p^\kappa E^a$ kills the cokernel at $i$, no jump lies in $[-a,0)$, and a set of steps containing $[-u-a,a+\eta-u)$ for every jump has total cost at most $C$, there is a point over $p^{\kappa+C}c$ without pole and of depth $\mathrm{pd}_{a,\eta,1,0}$.
+\item (Unramified, windows.) If the chart is unramified, $p^\kappa E^a$ kills the cokernel at $i$, the jumps lie in $[-\eta,\eta]\cup\sigma[\beta,\beta+W]$, $a\le t$, and the gap condition holds with $n\ge a+t+\eta+W$, there is a point over $p^\kappa c$ with orders $\varrho_{-t}$ and depth $\mathrm{pd}_{a,t,1,0}$; if the jumps lie in $[-\eta,0]$
+and $n\ge a+t+\eta$, there is one over $c$ without pole and of the same depth.
+\item (Stops, nonpositive jumps.) On an unramified chart with the jumps of $S'$ in $[-\eta,0]$, $\eta\le t$ and $n\ge a+t+\eta$, a point of $S'$ over $c'$ at $i.\mathrm{back}(1)$ without pole and of depth $a+t-u$ at the level $0$ gives a point at $i$ over $c'$ with orders $\mathrm{so}_{t,1}$ and depth $\mathrm{pd}_{a,t,1,t}$.
+\item Let $p^\kappa E^a$ kill the cokernels of $S$, $S'$ and $\hat S$ at every letter, let the gap condition hold with $n=6(a+\eta+W)$ around $b_i$, and let the jumps lie in $[-\eta,\eta]$ and in the opposite far windows $\mp\varepsilon(i)[b_i,b_i+W]$. If no jump lies in $[-a,0)$, or the chart is unramified and the jumps of $S'$ lie in
+$[-\eta,0]$, then the cup product of the cocycles of $c$ and $p^Hc'$ is a coboundary for $H\ge3(\kappa+(8n+4)d)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The integers within $n$ of $0$, $b$ or $-b$ form at most four intervals of $2n+1$ integers; by the gap condition each is $0$ or prime to $p$, so costs $d$. On an unramified chart $d=0$.
+
+(b) is \cref{lem:depth-step}(f) with $I$ the set of (a), or, on an unramified chart, with the free steps of cost $0$; in the second case the point stays over $p^\kappa c$.
+
+(c) Lifting and dividing gives a point over $p^\kappa c$ with orders and depth $\varrho_{-a}$ (\cref{lem:rule}(c)). Deepen it at the level $0$ along the steps, from $-a-u$ to $a+\eta-u$ (\cref{lem:depth-step}(f)). The improved orders have no pole: a line $u<-a$ has the positive order $-a-u$, which improves to the depth $a+\eta-u\ge-u$; a line
+$u\ge0$ has the order $\min(a+\eta-u,0)\ge-u$; and no jump lies in between.
+
+(d) Deepen as in (c) from $-a-u$ to $a+t-u$; the steps lie within $a+t+\eta+W$ of $0$ or $\pm\beta$, as $u$ is within $\eta$ of $0$ or within $W$ of $\pm\beta$, and are free by (a). A line $u<-a$ improves to $a+t-u\ge-t-u$, a line $u\ge-a$ has order at least $\min(a+t-u,0)\ge-t-u$, since $a\le t$. If the jumps are at most $0$, then
+$1=p^0E^0$ kills the cokernel (\cref{lem:z-powers}(d) with $\omega=0$), and the same deepening from $-u$ to $a+t-u$ gives a point over $c$ whose orders improve to $-u$.
+
+(e) Frobenius carries the point to $i$ with orders $\mathrm{sh}^0_1(-u)$ and depth $\mathrm{sh}^1_1$ of its depth: $1$ at the level $0$, $a+t-u\ge t-u$ at the level $1$, and $-u$ above (\cref{lem:orders}(b)). Raise the depth at the level $0$ from $1$ to $a+t-u$; the steps lie within $a+t+\eta$ of $0$ and are free. The orders are
+$\mathrm{so}_{t,1}$: at the level $0$, $\max(0,-u-t)=0$ as $u\ge-\eta\ge-t$, and $-u$ above.
+
+(f) \emph{No jump in $[-a,0)$.} The steps $[-u-a,a+\eta-u)$ lie within $n$ of $0$ or $\pm b_i$, so by (a) they cost at most $C=(8n+4)d$; by (c) both sides have points without pole and of depth $\mathrm{pd}_{a,\eta,1,0}=\mathrm{sd}_{a,\eta,1}$ over $p^{\kappa+C}c$, $p^{\kappa+C}c'$ at every letter: standard points. At each
+letter the side whose far window is negative is down and the other up (\cref{lem:plain-cuts}(e)), so \cref{lem:plain-cuts}(d) with $l=1$ gives the stop, and \cref{lem:walk}(d) with every letter a cut gives the exponent $2(\kappa+C)+\kappa\le H$. \emph{Nonpositive jumps of $S'$.} Put $t=a+\eta$; then $a+t+\eta+W\le n$. By (d)
+$S$ has points over $p^\kappa c$ with orders $\varrho_{-t}$ and depth $\mathrm{pd}_{a,t,1,0}$, and $S'$ points over $c'$ without pole and of the same depth; the jumps of $S'$ lie in $[-t,t]$. Where the far window of $S$ is negative, $S$ is down and $S'$ up, and $S$ provides the stop; elsewhere $S$ is up and $S'$, whose jumps are at most
+$0$, is down: (e) gives a stop $q'$ of $S'$ of depth $\mathrm{pd}_{a,t,1,t}$, and the move of $S$ by $\varphi x(i.\mathrm{back}(1))-x(i)$ is safe with $q'$ at rest by \cref{lem:plain-cuts}(b). The walk gives the exponent $\kappa+0+\kappa=2\kappa\le H$.
+\end{proof}
+
+\begin{lemma}[Few low jumps]\label{lem:few-low-jumps}
+Let the chart be unramified and $p\ge5$. For a side $S$, a letter $i$, $t\in\Z$ and a depth $c$, let $\mathcal C_i(t,c)$ be the module of the constants at $i$ below elements of the extension with orders $\varrho_t$ and depth $c$, and let $\ell(M,N)$ be the length of $M/(M\cap N)$. Let $f$ be the residue degree and
+$\mathrm{mult}_j(u)$ the multiplicity of the jump $u$ at $j$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Division by $p$.) If no multiple of $p$ lies strictly between $c(0,v)$ and $c(0,v)+p^a$ for any $v$, $x$ has depth $c$, $w$ lies over $0$ with orders $c$ raised by $1$ at the level $0$, and $px-w$ has the depth $c$ raised by one at $(a,u)$, then so has $x-m$ for some $m$ over $0$ with orders $c$.
+\item (One step.) If $c(l,v)\ge-v$ on the jumps, $c(a,u)<c(a,v)$ for the jumps $v<u$ at $i.\mathrm{back}(a)$, and no multiple of $p$ lies strictly between $c(0,v)$ and $c(0,v)+p^a$, raising $c(a,u)$ by one shrinks $\mathcal C_i(0,c)$ by a module of length at most $c_a(c(a,u))\,f\,\mathrm{mult}_{i.\mathrm{back}(a)}(u)$.
+\item (One level.) Under the same hypotheses on $c$, if $c'\le c$ off the level $a$ and $c'(a,\cdot)$ is antitone on the jumps, then $\ell(\mathcal C_i(0,c),\mathcal C_i(0,c'))$ is at most the sum, over the steps $(u,m)$ with $c(a,u)\le m<c'(a,u)$, of $c_a(m)\,f\,\mathrm{mult}(u)$.
+\item (Removing the pole.) Let $b_j+W+\eta\le(p-3)a$, $6(a+\eta+W)<b_j$ and the gap condition with $6(a+\eta+W)$ around $b_j$ hold at every letter, and let the jumps lie in $[-\eta,\eta]\cup\varepsilon(j)[b_j,b_j+W]$. Then all constants at $i$ lie, up to length $a\,n_i$, in $\mathcal C_i(0,\varrho_{2a+\eta})$, where $n_i$
+bounds $f$ times the number of jumps in $[-\eta,\eta]$ at $i$.
+\item (The depth at a negative window.) Under the hypotheses of (d) with $\varepsilon(i)=-1$, let $\mathrm{nw}(0,u)=b_i+W+a+\eta$, $\mathrm{nw}(1,u)=W+1-u+2a[\abs u\le\eta]$ and $\mathrm{nw}(a',u)=-u$ for $a'\ge2$. Then $\ell(\mathcal C_i(0,\varrho_{2a+\eta}),\mathcal C_i(0,\mathrm{nw}))\le(a+1)n_i+3(W+1)r_m+6an_m$, where $m=i.\mathrm{back}(1)$ and $r_j$ bounds $f$ times the number of all jumps at $j$.
+\item (The submodule.) Let $\mathrm{fl}_i=\varrho_{2a+\eta}$ if $\varepsilon(i)=1$ and $\mathrm{nw}$ if $\varepsilon(i)=-1$. The $d\in C$ whose constant at every letter $i$ lies in $\mathcal C_i(0,\mathrm{fl}_i)$ form a submodule $V$ with $\ell(C,V)\le11\sum_i(n_i(a+1)+r_i(W+1))$.
+\item (Cupping to zero.) If $\eta\ge1$ and $T$ is a second side with jumps in $[-\eta,\eta]\cup-\varepsilon(i)[b_i,b_i+W]$, paired with $S$, then for $c\in C_T$ and $d\in V$ the cup product of the cocycles of $c$ and $d$ is a coboundary, with exponent $0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Write $\varrho^N$ for $c$ raised by $N$ at the level $0$. Free steps (no multiple of $p$ among them; \cref{lem:deep-points}(a)) give an operator $A$ of cost $0$ that takes elements of depth $\varrho^1$ to elements of depth $\varrho^{p^a}$. As $\varphi^aE\equiv E^{p^a}$ modulo $p$ on an unramified chart, write
+$E^{p^a}=\varphi^aE+pr$. Then $Aw=E^{p^a}w'$ with $w'$ over $0$ of orders $c$, so $Aw=(\varphi^aE)w'+prw'$, and $p(Ax-rw')=A(px-w)+(\varphi^aE)w'$: the first term has the depth $c$ raised at $(a,u)$ because $A$ keeps depths, and the second has the orders $c$ raised by one at the level $a$; so $p(Ax-rw')$ has
+that depth. No $\varphi^lE$ divides $p$, so the factor $p$ can be cancelled (the action of $\Gamma'$ commutes with $p$), and $Ax-x$ lies over $0$ with orders $c$ since $A$ has cost $0$ (as $0$ is not among the steps, the depth of $Aw$ gives it the same orders). Take $m=x-Ax+rw'$.
+
+(b) Let $X(o)$ be the elements without pole and of depth $o$, and $M$ the elements over $0$ with orders $c$; $M$ lies over $0$, so it is enough to bound the quotient of $X(c)$ by $X(c^+)+M$, $c^+$ the raised depth. The operator of \cref{lem:depth-step}(d) for the step $(a,c(a,u))$ takes $x\in X(c)$ into $X(c^+)$ with
+$Ax-p^{c_a(c(a,u))}x\in M$, so the quotient is killed by $p^{c_a(c(a,u))}$. Any $f\,\mathrm{mult}(u)+1$ elements $x_j$ killed by $p$ satisfy a primitive relation: write $px_j=x'_j+m_j$ with $x'_j\in X(c^+)$ and $m_j\in M$ the image of $y_j\in Y$ with orders $c$ (\cref{lem:orders}(f)); by \cref{lem:one-step}(c) a combination
+$\sum\beta_jy_j$ with some $\beta_{j_0}=1$ is $w+z$ with $w$ of orders $c$ raised at the level $0$ and $z$ of orders $c^+$; then $p\sum\beta_jx_j-w=\sum\beta_jx'_j+z$ has depth $c^+$, and (a) divides by $p$. A $\Z_p$-module killed by $p^k$ in which any $N+1$ elements killed by $p$ have a primitive relation has length
+at most $kN$.
+
+(c) Induction on the steps left, taking the first step on the least line that is not yet at its target; the raised depth still satisfies the hypotheses (antitonicity keeps $c(a,u)<c(a,v)$ for $v<u$), and has one step less.
+
+(d) Every constant has a deep point with a pole of order at most $a$, by \cref{lem:z-powers}(f): all jumps are at most $b_j+W+\eta\le(p-3)a$, so $E^a$ kills the cokernels. Deepening at the level $0$ to $\varrho_{2a+\eta}$ is free, and as no jump lies in $[-a,-\eta)$ (the far windows start beyond $6(a+\eta+W)$), the pole has order at
+most $\eta$. Then lower the pole order step by step from $-\eta$ to $0$: from $t$ to $t+1$, only the line $u=t$ changes (the other lines improve by the depth $\varrho_{2a+\eta}$, as in \cref{lem:deep-points}(c)), $p^a$ times every constant lies in $\mathcal C_i(t+1,\varrho_{2a+\eta})$ (a point over $p^a$ has no pole), and the
+argument of (b), on the line $t$ at the level $0$, shows that the step loses at most $a\,f\,\mathrm{mult}_i(t)$; as $t\ne0$, the extension has no more jumps $t$ than $Y$. Summing over $t\in[-\eta,-1]$ gives $a\,n_i$.
+
+(e) Use (c) twice. First change the depth at the level $0$ to $qp$, the least multiple of $p$ that is at least $b_i+W+a+\eta$: on a far line $u\in-[b_i,b_i+W]$ every step $y<qp$ divisible by $p$ would satisfy $y\le qp-p$ and lie near $b_i$, where the gap condition leaves only $0$, so the steps are free; on a low line the steps
+lie in $[0,qp)$ and $qp\le(p-1)(a+1)$, so by Legendre's formula they cost at most $v_p((qp)!)\le a+1$. This costs at most $(a+1)n_i$. Then raise the depth at the level $1$, at the letter $m$, from $-u$ to $\mathrm{nw}(1,u)$: no multiple of $p$ lies strictly between $qp$ and $qp+p$, the line has $W+1$ steps, $2a$ more if it is
+low, and each step is $0$ or prime to $p$ (the gap condition), so costs at most $3$; this costs at most $3(W+1)r_m+6an_m$. The new depth is at least $\mathrm{nw}$.
+
+(f) By (d) and, where $\varepsilon(i)=-1$, (e), the constants at $i$ lie in $\mathcal C_i(0,\mathrm{fl}_i)$ up to length $(2a+1)n_i+3(W+1)r_m+6an_m$. Sum over the letters; $i\mapsto i.\mathrm{back}(1)$ permutes them, and $(8a+1)n_i+3(W+1)r_i\le11(n_i(a+1)+r_i(W+1))$.
+
+(g) Let $d\in V$. At every letter $S$ has a point over the constant of $d$ without pole and of depth $\mathrm{fl}_i$; it is standard for $(a,\eta,1)$, since $\mathrm{fl}_i(0,u)\ge a+\eta-u$ ($-u\le b_i+W$ on the far lines). By \cref{lem:z-powers}(f) $E^a$ kills the cokernels of $T$ and of $\hat S$, whose jumps are $0$ and
+$-(u+v)-1\le(p-3)a$, so $T$ has points over $c$ with orders $o=\mathrm{imp}(\varrho_{-a},\varrho_{2a+\eta})$ and depth $\varrho_{2a+\eta}$ (deepening is free), whose pole has order at most $\eta$ as no jump of $T$ lies in $[-a,-\eta)$. Apply the walk at all letters with $t=a$ (\cref{lem:walk}(d)). Where $\varepsilon(i)=1$, $T$ is down and $S$ up,
+and \cref{lem:plain-cuts}(d) gives the stop of $T$. Where $\varepsilon(i)=-1$, $S$ is down: its point improves to a stop (at the level $0$ the depth $b_i+W+a+\eta$ is positive), and the move of $T$ by $\varphi x_0-x$ is safe with it at rest. For this apply \cref{lem:rule}(b) with $\varphi$ of a point of $\hat S$ at $i.\mathrm{back}(1)$ deepened to
+$\varrho_a$ by free steps (its jumps lie near $0$ and $\pm b$), whose orders are $e_a(w)=\mathrm{imp}(\varrho_{-a},\varrho_a)(0,w)$; with $m(u)=\min(-u,e_{2a+\eta}(u))$ the orders of the move at the level $1$ and $w=-u-v-1$, positivity at the level $1$ reads $\Sigma=e_a(w)+m(u)+\mathrm{nw}(1,v)>0$. Here $e_a(w)+w$ equals $a$ for $\abs w>a$ and
+$w$ for $\abs w\le a$, $m(u)+u$ equals $u$ for $u\in[-a,0)$ and $0$ otherwise, and $\mathrm{nw}(1,v)=W+2+w+u+2a[\abs v\le\eta]$; so $\Sigma=(e_a(w)+w)+(m(u)+u)+W+2+2a[\abs v\le\eta]$. If $v$ is low, $\Sigma\ge-a-a+W+2+2a>0$. If $v\le-b_i$ and $u$ is low, $w\ge b_i-\eta-1>a$, so $e_a(w)+w=a$ and $\Sigma\ge W+2$; if $v\le-b_i$ and
+$u\ge b_i$, then $w\ge-W-1$, $m(u)+u=0$ and $\Sigma\ge\min(w,a)+W+2>0$. At the level $0$ the depth $b_i+W+a+\eta$ exceeds the pole, and above the orders are standard, with sum $1$. All points lie over the constants themselves, so the exponent is $0$.
+\end{proof}
+
+\begin{lemma}[Tame charts]\label{lem:tame-charts}
+A \emph{tame chart} is a Kummer chart with $\Gamma'$ normal, $p\nmid e$, a root $\varpi^e=p$ fixed by $\Gamma'$, and an inertia element $s$ whose powers fix $\Lambda$ and with $s^kz=\xi^kz$, where $\xi\in\Lambda$ is a primitive $e$th root of unity modulo $p$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Conjugates $x\mapsto g^{-1}\mu(gx)$ of crystalline forms are crystalline. If $q=\sum q_kX^k$ kills the operator $\beta$ induced by $s$ on $B_{\max}\otimes L$, then $\sum_kq_k\mu_k(x)=0$ for $x$ in the $A_{\inf}$-span of $\mathcal N$, $\mu_k$ the conjugate of $\mu$ by $s^k$; and $\sum_kq_ks^kx\in z\,\mathcal N^A$ for $x\in\mathcal N$.
+\item If $q$ kills $\beta$ on $Y$, then $q(X-1)$ kills it on the extension $\tilde Y$.
+\item For a monic $Q$ over $\Z_p$ and $\nu\le e$, at most $\deg Q$ of the $k<\nu$ make $Q(\xi^k)$ a non-unit.
+\item If $Q(1)=0$, $Q$ kills $s$ on $B_{\max}\otimes\tilde Y$ and $p^tz^{k+1}\in J^r_0(i)$, then $Q(\xi^{k+1})p^tz^k\in J^r_0(i)$.
+\item If all jumps of $S$ are at most $n$, $Y$ is potentially crystalline and a monic $q$ kills $s$ on $B_{\max}\otimes Y$, $e\le p^m$, $m(\deg q+1)\le\kappa$ and $n+\kappa+2<p$, then $p^\kappa$ kills the cokernel at $i$.
+\item If $\Gamma\to G_p$ is onto, $f$ is prime to $p$ and $e\mid p^f-1$, there is a tame chart of ramification index $e$; in particular, for $r<p$, one with $e=\operatorname{lcm}(p^i-1)_{1\le i\le r}\le p^{r^2}$, and its different bound is at most $1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The values of the conjugate on $1\otimes L$ come from the conjugate $t\mapsto g^{-1}l(gt)$ of the map $l\colon L\to B_{\max}$. The conjugates define linear forms $\ell_g$ on $B_{\max}\otimes L$ with $\ell_1\circ\beta^k=\ell_{s^k}$, tested on the vectors fixed near $1$, which span (it suffices to take $g\in\Gamma'$, which contains
+the elements near $1$, and $\ell_{s^k}(y)$ is fixed near $1$, hence by the inertia element $s^k$); so $q(\beta)=0$ gives $\sum q_k\ell_{s^k}=0$, which is carried back to the $\mu_k$; forms that agree on $1\otimes L$ agree on the $A_{\inf}$-span of $\mathcal N$. For the last claim, $\mu(\sum q_ks^kx)=\sum q_ks^k\mu_k(x)=\sum q_k(s^k-1)\mu_k(x)$
+by the relation, and $s^k-1$ produces a factor $z$ on the values, which lie in $S_B$ up to powers of $E$ (\cref{thm:B-kisin}(b)), once the denominators are cleared; the divisibility criterion of the frame theorem (\cref{thm:B-kisin}(a)) gives the factor $z$ in $\mathcal N^A$.
+
+(b) $\beta-1$ maps $B_{\max}\otimes\tilde Y$ into $B_{\max}\otimes Y$, as $\beta=1$ on the trivial quotient, and there $q(\beta)=0$; the inclusion of $Y$ commutes with $\beta$.
+
+(c) The residues of $\xi^k$, $k<\nu\le e$, are distinct, and $Q$ modulo $p$ has at most $\deg Q$ roots.
+
+(d) Lift $(p^tz^{k+1}-ru)c$ to $x$, with $u\in A_{\inf}$, apply $Q(s)$ and divide by $z$, using (a) for $\tilde Y$. Write $u=w+zv$ with $w\in\Lambda$; $s^j$ sends $u$ to $w+\xi^jz\,s^jv$, fixes the constant $c$ and $w$, and multiplies $z^{k+1}$ by $\xi^{j(k+1)}$; the terms in $w$ cancel because $Q(1)=0$. Hence $Q(s)x$ lies over
+$(Q(\xi^{k+1})p^tz^{k+1}-rz(\dots))c$, and $Q(s)x=zy$ with $y$ of the standard orders; as $z$ is a unit of $W(C^\flat)$, $y$ is a lift of $(Q(\xi^{k+1})p^tz^k-r(\dots))c$.
+
+(e) By \cref{lem:z-powers}(d) some $z^\nu$ lies in the ideal of modulus $p^{\kappa+1}$ with $(p-1)\nu\le e(n+\kappa)<e(p-1)$, so $\nu<e$. Lower the exponent one step at a time with $Q=q(X-1)$, which kills $s$ on $\tilde Y$ by (b): the step from $k+1$ is free by (d) if $Q(\xi^{k+1})$ is a unit; otherwise use \cref{lem:z-powers}(a), at the
+cost $v_p(k+1)+1\le m$, as $k+1<e\le p^m$. By (c) at most $\deg Q=\deg q+1$ steps are costly, so $p^t\in J^{p^{\kappa+1}}_0(i)$ with $t\le m(\deg q+1)\le\kappa$; then $p^\kappa$ lies there, and Nakayama's lemma removes the modulus.
+
+(f) Take a root $\varpi$ of $X^e-p$ and a primitive $e$th root of unity $a\in\F_{p^f}$, and let $U$ be the stabiliser of $\varpi$ in the fixer of the $(p^f-1)$th roots of unity. It is open, and normal: an element $n$ of $U$ fixes $\varpi$ and the root of unity $g^{-1}\varpi/\varpi$, hence $g^{-1}\varpi$. Its index is prime to $p$: every $g$ raises the roots of unity of order prime to $p$ to a power $p^n$, so $g^f$ lies in the fixer as $p^f\equiv1$; an element $v$ of the fixer multiplies
+$\varpi$ by the root of unity $v\varpi/\varpi$, which it fixes, so $v^e\in U$; hence the finite group $G_p/U$ has exponent dividing $fe$, which is prime to $p$. Take a chart with $\varpi^\flat$ untilting to $\varpi$; then $U$ is the set of the elements fixing $\Lambda$ and $\theta(z)$, and its preimage is $\Gamma'$. Inertia permutes the
+towers of $e$th roots of $p$ transitively, so for every $l$ there is an inertial $t$ with $tz=[\varepsilon]^lz$, which fixes the constants (inertia fixes $W(\F_{p^f})$) and $\theta(z)$, as $\theta([\varepsilon])=1$: these are the Kummer elements. An inertial $s$ multiplies $z$ by the Teichm\"uller lift $[a]$, of order $e$; its powers
+multiply $z$ by $[a]^k$ and fix $\Lambda$. For $r<p$ take $f=\operatorname{lcm}(1,\dots,r)$, prime to $p$; then $p^i-1\mid p^f-1$ for $i\le r$, and $\operatorname{lcm}(q^i-1)_{i\le r}\le\prod_{i\le r}q^i\le q^{r^2}$. As
+$p\nmid e$, $d=v_p(e)+1\le1$.
+\end{proof}
+
+The tools of this subsection give the walks.
+
+\begin{proposition}[Walks]\label{prop:walks}
+Let two paired sides have jumps in opposite windows and killed cokernels.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (The rule and the walk.) A move is safe if a power of $p$ times a power of $E$ kills the cokernel of the Tate dual side and the orders of the move and the depth of the point at rest add up to the rule bound;
+standard points at cuts are carried along by Frobenius, and at each cut one side moves to a stop, rests while the other moves, and goes on. This derives the scaled cup coboundary condition.
+\item (Cuts.) A cut $1$ to $2J+1$ letters back from each letter gives the bound, for two sizes of far windows (sparse thick letters, or any pattern).
+\item (Long gap.) If $E^s$ kills the cokernel at $i$ and $p^\kappa$ at $i.\mathrm{back}(l)$, the jumps at $i$ and the $l-1$ letters before it are at most $g$, $3\le p^l$, $A\le p^l\delta$ and $N=s+g\sum_{a<l}p^a<A$, then $p^{4\delta}$ times a constant of the side lifts to a constant modulo
+$E^A$ of the extension whose orders at $E$ are raised by $A$ at the jumps $u<-N$.
+\item (Deep points.) If every step occurs at $E$ within distance $n$ of $0$, $b$ or $-b$, and $p$ divides no nonzero integer within $n$ of these, the depth can be raised at a cost of $p^{(8n+4)d}$; this gives the cup condition when no jump
+lies in $[-a,0)$, or the chart is unramified and the jumps of the second side lie in $[-\eta,0]$.
+\item (Few low jumps.) On an unramified chart, a side with few jumps in the low window has a submodule of bounded colength of constants with deep points, which satisfy the cup condition with exponent $0$.
+\item (Tame charts.) If a monic $q$ over $\Z_p$ kills the operator induced by an inertia element $s$ with $s(z)=\xi z$, then $p^\kappa$ kills the cokernel as soon as $m(\deg q+1)\le\kappa$, $e\le p^m$ and $p$ is large against $\kappa$ and the
+jumps; and tame charts of every ramification index $e\mid p^f-1$ exist when $\Gamma\to G_p$ is onto and $p\nmid f$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The rule is \cref{lem:rule}(c), and the walk, with its moves at each cut, is \cref{lem:walk}; at a plain cut, where one side is down and the other up, a deep enough standard point is a stop (\cref{lem:plain-cuts}(d)), and the scaled cup coboundary condition is \cref{lem:walk}(c).
+
+(b) is \cref{lem:cut-scheme}(b), (c): the cuts are the letters with thin successors, at most $2J+1$ letters apart (\cref{lem:cut-patterns}(a)), or the letters whose shift is less than the start of their far window, one or two letters apart (\cref{lem:cut-patterns}(d)); the costs are \cref{lem:cut-points}(a).
+
+(c) is \cref{lem:long-gap}(e), whose proof multiplies a lift by $f(E)$ with $f$ monic of degree $N$ and takes the $N$th Taylor coefficient of $p^{4\delta}$ times the product.
+
+(d) is \cref{lem:deep-points}(b) for the deepening and \cref{lem:deep-points}(f) for the cup condition.
+
+(e) is \cref{lem:few-low-jumps}(f), (g).
+
+(f) is \cref{lem:tame-charts}(e), (f).
+\end{proof}
+
+\subsection{Cup exponents}\label{ss:cup-exponents}
+\lean{New.Lift.IsTameType, New.Lift.KummerChart.letterJumps, New.Lift.KummerChart.universalSide, New.Lift.KummerChart.mem_letterJumps, New.Lift.KummerChart.fitsWindows_letterJumps, New.Lift.FitsWindows.neg_add_sub_one_le, New.Lift.KummerChart.le_of_mem_jumpSet_tateDualSide, New.Lift.KummerChart.sum_card_algHom_le_finrank, New.Lift.length_quotient_mul_length_residueField, New.Lift.InClass.sum_jump_le_finrank, New.Lift.lcm_pow_sub_one_le, New.Lift.KummerChart.sum_jumpMultiplicity_le, New.Lift.KummerChart.pow_smul_mem_cupOrthogonal_of_isScaledCupCoboundary, New.Lift.KummerChart.crysCocycles_le_cupOrthogonal_of_no_small_neg_jump, New.Lift.KummerChart.dualDefect_le_of_few_low_weights, New.Lift.KummerChart.dualDefect_eq_zero_and_dualDefect_le, New.Lift.KummerChart.hasCupExponent_any_pattern, New.Lift.KummerChart.hasCupExponent_sparse_thick, New.Lift.KummerChart.linearFrob_comp_subtype, New.Lift.TameChart.linearFrob_eq_one, New.Lift.TameChart.inClass_of_pow_sub_one, New.Lift.exists_tameChart_e_eq_lcm, New.Lift.TameChart.differentBound_le_one, New.Lift.noMultipleNear_of_add_lt, New.Lift.FitsWindows.le_add_add, New.Lift.FitsWindows.neg_add_le_of_opposite, New.Lift.hasCupExponent_of_isTameType}
+
+\begin{lemma}[From sides to lattices]\label{lem:universal-side}
+Let $\Gamma\to G_p$ be an open embedding and $\zeta$ assign the embeddings of $O$ to the letters; the jump set at the letter $i$ is $\{0\}$ together with the sets $U(g)$ of the embeddings $g$ with $g\zeta=\theta(\omega(i))$, $\omega(i)$ the Teichm\"uller lift.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (The universal side.) For $L$ in the class, the lattice $L$ with parameter lattice $Z_f(L)$ (all crystalline cocycles, a finitely generated module as $L$ is potentially crystalline) and these jump sets is a side. If for all $Y$ of a class, all pairings and all crystalline cocycles $c$ of $Y$ the cup product of
+$c$ and $p^ex$ is a coboundary, then $p^ex$ is orthogonal to the class.
+\item (Counting.) An embedding lies over at most one letter, so the numbers of embeddings over the letters add up to at most $\rank_{\Z_p}O$, which is $f_O\cdot\length(O/p)$; the jumps of $L$ in a finite set at one embedding number at most $\rank_OL$; and the multiplicity of a jump at a letter is at most its multiplicity at each
+embedding times the number of embeddings over the letter.
+\item (Windows.) If the sets $U(g)$ lie in $[-\eta,\eta]\cup\varepsilon[b,b+W]$, so do the jump sets at the letters; for opposite windows, $-(v+v')-1\le b+W+\eta$ and $-(v+v')\le b+W+2\eta$; and $b+n<q$ gives the gap condition for $q$ with radius $n$ around $b$.
+\item (Tame descent.) Let $\Gamma\to G_p$ be bijective and $d$ a tame chart. If $X^e-1$ kills the operators of inertia on the periods of a potentially crystalline $Y$, then the inertia elements of $\Gamma'$ act as the identity on the periods, and $Y$ is crystalline over $\Gamma'$ with the same jumps.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Crystalline cocycles of a potentially crystalline lattice form a finitely generated module (\cref{thm:B-padic}(a)); the side is formed by the identity of $Z_f(L)$. The second claim is the definition of the orthogonal, applied to the universal side and to the universal side of each $Y$ paired with it.
+
+(b) Distinct letters have Teichm\"uller lifts that differ by a unit, so their images under $\theta$ differ, and $g\zeta$ determines the letter. Over $\Z_p$, $O/p$ is a vector space over $\F_p$ of dimension $\rank_{\Z_p}O$, which is its length over $O$ times the residue degree of $O$. The sum of the Hodge--Tate multiplicities at one embedding is
+$\rank_OL$. The last claim is the definition of the multiplicity at a letter as a sum over the embeddings above it.
+
+(c) The first claim holds since the jump set at a letter is a union of the $U(g)$ and $0$. For the second, $v$ and $v'$ cannot both lie in $-[b,b+W]$, as the windows are opposite, so at most one is below $-\eta$ and neither below $-(b+W)$. The third is immediate.
+
+(d) On inertia, the map $s\mapsto\beta_s$ to the operators on the periods is a homomorphism with open kernel, and $\beta_s^e=1$; by tame inertia theory it is the identity on the stabiliser of $\varpi$ in inertia, which contains the inertia elements of $\Gamma'$. Restricting $Y$ to $\Gamma'$ does not change $\beta$. A potentially crystalline lattice whose periods are fixed by inertia is
+crystalline, with the same Hodge--Tate jumps.
+\end{proof}
+
+\begin{theorem}[Cup exponents]\label{thm:cup-exponents}
+Let $\Gamma\to G_p$ be an open embedding, $\zeta$ assign the embeddings of $O$ to the letters of a chart $k$, and let $L$ be crystalline with jumps in $U'$, where $U$ and $U'$ lie at each letter in $[-\eta,\eta]$ and in opposite far
+windows.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Generic primes.) If $k$ is unramified, $p\ge5$, $b_i+W+\eta\le(p-3)a$, $6(a+\eta+W)<b_i$ and $p$ divides no nonzero integer within $6(a+\eta+W)$ of $0$ or $\pm b_i$, then the defect of $L$ for the crystalline lattices with jumps in $U$
+vanishes if $U$, $U'$ avoid $[-a,0)$ or $U'\subseteq[-\eta,0]$, and is at most $11f(m(a+1)+\operatorname{rk}L\cdot(W+1))$ times the length of $O/p$ if $L$ has at most $m$ jumps in $[-\eta,\eta]$ at each embedding.
+\item (Any pattern.) If $k$ is unramified, $p\ge7$, the far windows of width $V$ start at $b$ at the b-letters and at $G$ at the others, $0<G\le b$, $V+4\eta\le M$, $b<Kp^2$, $2G<Kp$ and $M\le K$, then $p^{10^4(K+\lfloor\log_p2(b+M)\rfloor)}$ times
+any crystalline cocycle of $L$ is orthogonal under cup products to the crystalline lattices with jumps in $U$.
+\item (Sparse thick letters.) If no three b-letters follow one another along Frobenius orbits with both gaps between $1$ and $J$, and either $k$ is unramified with $p\ge7$ and $10p^J\eta\le b$, or the sign is constant and
+$8e\le p^{J+1}$, then with $2e(b+5\eta)\le p^{J+1}\delta$ and $20(J+1+d)\eta+\lfloor\log_p2(b+5\eta)\rfloor\le M$, the exponent $10^3(\delta+(J+1)M)$ works.
+\item (Tame types.) If $\Gamma\to G_p$ is onto, each inertia condition $K(s)$ is a tame type (it holds for $X^{e}-1$, $e=\operatorname{lcm}(p^i-1)_{i\le r}$, and for a monic polynomial of degree at most $N$), and
+$p>b+6(W+\eta)+r^2(N+1)^2+2$, then $p^{3r^2(N+1)^2+150(\eta+W+1)}$ times any crystalline cocycle of $L$ cups to a coboundary with every crystalline cocycle of a lattice in the class.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) Let $S$ be the universal side of $L$ (\cref{lem:universal-side}(a)). \emph{Vanishing.} All jumps of $S$, of the universal side of a lattice $Y$ with jumps in $U$, and of the Tate dual side are at most $b_i+W+\eta\le(p-3)a$ (\cref{lem:universal-side}(c)), so $E^a$ kills the three cokernels (\cref{lem:z-powers}(f)); as the
+chart is unramified, $d=0$, and \cref{lem:deep-points}(f) gives the exponent $H=0$: every crystalline cocycle of $L$ is orthogonal, so the defect vanishes. The two cases pass from the embeddings to the letters by (c) of \cref{lem:universal-side}. \emph{Few low jumps.} \Cref{lem:few-low-jumps}(f), (g) give a $\Z_p$-submodule $V$ of
+$Z_f(L)$ that satisfies the cup condition with exponent $0$, so lies in the orthogonal, of colength at most $11\sum_i(n_i(a+1)+r_i(W+1))$. By \cref{lem:universal-side}(b), $n_i\le f\,m\,d_i$ and $r_i\le f\rank_OL\,d_i$ with $d_i$ the number of embeddings over $i$, and $\sum_id_i\le\rank_{\Z_p}O$; passing from lengths over $\Z_p$
+to lengths over $O$ divides by the residue degree of $O$, which gives $11f(m(a+1)+\rank_OL\,(W+1))$ times the length of $O/p$.
+
+(b), (c) Apply \cref{lem:cut-scheme}(c), with $M$ for $W$, and \cref{lem:cut-scheme}(b) to the universal sides of $L$ and of the lattices with jumps in $U$; \cref{lem:universal-side}(a) turns the scaled cup coboundaries into orthogonality.
+
+(d) By \cref{lem:tame-charts}(f) there is a tame chart $d$ with $e=\operatorname{lcm}(p^i-1)_{i\le r}\le p^{r^2}$, as $r\le r^2(N+1)^2<p$. Since each $K(s)$ allows $X^e-1$, all lattices of the class and $L$ become crystalline over $\Gamma'$ with the same jumps (\cref{lem:universal-side}(d)), and the jump sets at the letters lie in the windows with $\zeta=1$.
+The tame generator is killed on the lattices of the class by a monic $q$ of degree at most $N$, and on $L$ by a monic $q'$ of degree at most $N$ (from $K(s^{-1})$); on the Tate dual of $Y\otimes L$ it is killed by a monic $q''$ of degree at most $N^2$, whose roots are the products of those of $q$ and $q'$. All jumps of the three sides are at most
+$b+6(W+\eta)$ (\cref{lem:universal-side}(c)). \Cref{lem:tame-charts}(e) with $m=r^2$ and $\kappa=r^2(N+1)^2\ge r^2(\deg+1)$ for the three polynomials, and $b+6(W+\eta)+\kappa+2<p$, shows that $p^\kappa$ kills the three cokernels. The gap condition with radius $6(\eta+W)$ around $b$ holds by \cref{lem:universal-side}(c), as
+$b+6(\eta+W)<p$. \Cref{lem:deep-points}(f) with $a=0$, for which no jump lies in $[-a,0)=\emptyset$, and $d\le1$, gives the exponent $3(\kappa+(48(\eta+W)+4))\le3r^2(N+1)^2+150(\eta+W+1)$.
+\end{proof}

@@ -1,0 +1,304 @@
+\section{Chains of lifts, the composite lift and the Poincar\'e map}\label{sec:chains}
+
+This section defines the two maps whose comparison is the seesaw identity: the \emph{lower chain}
+$\iota_\mu$, a chain of $m$ theta lifts from the target forms on $Y_0$ to forms on $Y_m$, and the
+\emph{composite lift} $B_\vartheta$, a combination of chains of theta lifts $X_0\to X_1\to\dots\to X_m$ of source
+forms, restricted to $Y_m$; and the Poincar\'e map $\mathcal P$ from source forms to forms on $Y_0$. The
+theta kernels used here are those of \cref{ss:B-weil}; for definite spaces they are reviewed in
+\cref{sec:kernels}.
+
+\subsection{Chains of theta lifts}\label{ss:chain-lifts}
+Let $n_0,n_1,\dots$ be finite index sets, $K_j$ open compact subgroups of the finite adelic unitary groups
+$\U_{n_j}(\Ad_{\mathrm f})$ of the standard definite spaces, and for each $j$ a \emph{theta kernel} $k_j$ from
+algebraic forms of stage $j$ (weight with $\kappa(\tau,h)$ columns and determinant power $e_j(\tau)$, level
+$K_j$) to algebraic forms of stage $j+1$: a space $S_j$ of data, an action $\omega$ of
+$\U_{n_j}(\Ad_{\mathrm f})\times\U_{n_{j+1}}(\Ad_{\mathrm f})$ on $S_j$, and a linear map $\mathrm{jet}$ sending a
+datum to a linear map between the Weyl modules, such that the lift
+\[
+  (k_j(\Phi)\varphi)(g')=\sum_{g}\mathrm{jet}\bigl(\omega(g,g')\Phi\bigr)\,\varphi(g),
+\]
+the sum over the double cosets of the level, is an algebraic form of stage $j+1$. The \emph{chain} with data
+$\Phi_0,\Phi_1,\dots$ is $\mathrm{chain}_j=k_{j-1}(\Phi_{j-1})\circ\dots\circ k_0(\Phi_0)$; it extends to a linear
+map on the tensor product $S_{j-1}\otimes\dots\otimes S_0$.
+\lean{New.Kernel, New.Kernel.lift, New.chain, New.TensorChain, New.TensorChain.lift, New.TensorChain.map, New.doubleLiftChain, New.twoKernelAction, New.kernelProduct, New.kernelProduct_succ, New.classPoints, New.classPoints_of_le, New.sum_classPoints_succ}
+
+\begin{proposition}[Chains]\label{prop:chains}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item \emph{(Equivariance.)} Moving each factor $j$ of a tensor of data by $\omega(a_j,a_{j+1})$ and the form by
+$a_0$ moves the chain by $a_m$. If $\omega(z_i,z_{i+1})=1$ for all $i$ and $\omega(1,z_{j+1})$ fixes the tensor
+on factor $j$, then the chain does not see the translation of the form by $z_0$.
+\item \emph{(Linearity.)} The value at $g$ of the chain of a form is a linear function of the pure tensor of the
+data.
+\item \emph{(Plain sums.)} Let $\sum_xL_x\otimes\Phi_x$ be \emph{jointly invariant}: unchanged when $a_j\in K_j$
+($j<m$, $a_m=1$) move each $\Phi_{x,j}$ by $\omega(a_j,a_{j+1})$. If the levels $K_j$, $j<m$, are \emph{free}
+(the stabilisers of the cosets $gK_j$ in the rational unitary group are trivial), then for a form $\varphi$ of
+level $K_0$
+\[
+  \sum_xL_x\bigl(\mathrm{chain}(\Phi_x)\varphi(g_m)\bigr)
+  =\sum_{c}\sum_xL_x\bigl(\mathrm{jet}(\Phi_{x,m-1})\circ\dots\circ\mathrm{jet}(\Phi_{x,0})\,\varphi\bigr),
+\]
+the outer sum over tuples of double cosets, each factor moved by the representatives (the \emph{kernel
+product}). Consequently any property of vectors preserved by every kernel and satisfied by the values of
+$\varphi$ holds termwise, and a multiplicative size bound on each kernel bounds the kernel product by the product
+of the bounds.
+\end{enumerate}
+\end{proposition}
+\lean{New.TensorChain.lift_kernelLift_map_omega, New.TensorChain.lift_algFormRep_of_map_eq, New.chain_equivariant, New.exists_linearMap_chain_eq_apply_pure, New.IsJointlyInvariant, New.IsJointlyInvariant.sum_chain_eq_sum_kernelProduct, New.kernelProduct_induction, New.apply_kernelProduct_le_prod_mul, New.IsJointlyInvariant.sum_chain_mem_nsmul}
+
+\begin{proof}
+(a) Each lift is equivariant: $k(\omega(a,a')\Phi)(a\varphi)=a'\,k(\Phi)\varphi$, because $\omega$ is a representation, the double coset sum is invariant under translation and $\mathrm{jet}$ intertwines. For a tensor of length $0$ (a scalar) the claim is the translation of $\varphi$; for a longer tensor both sides are linear in the tensor, and on a
+pure tensor $s\otimes r$ the claim follows from the claim for $r$ and the equivariance of the last lift. For the second claim, $\omega(1,z_{j+1})$ on factor $j$ is, as all $\omega(z_i,z_{i+1})$ are trivial, the joint action of the tuple that is $z_i^{-1}$ up to stage $j$ and $1$ after it; by the first claim this moves the chain by $1$ at the
+end and the form by $z_0^{-1}$.
+
+(b) The value at $g$ of the chain is obtained by applying the lifts one after the other; each lift is linear in its datum, so the value is the image of the pure tensor $\Phi_{j-1}\otimes\dots\otimes\Phi_0$ under the linear map that the chain defines on the tensor product, followed by evaluation at $g$.
+
+(c) Induct on the length of the chain, integrating one variable at a time. The last lift is the integral over $\U(\Ad_{\mathrm f})$ of the integrand
+\[a\mapsto\sum_xL_x\bigl(\mathrm{jet}(\omega(a,g_m)\Phi_{x,m-1})\,\mathrm{chain}_{m-1}(\Phi_x)\varphi(a)\bigr),\]
+which is left invariant under the rational points and, by joint invariance for an element
+$b\in K_{m-1}$ placed in slot $m-1$ alone, right invariant under $K_{m-1}$. As the level is free, each double coset $\Gamma aK_{m-1}$ has volume $1$ for the counting normalisation, so the integral is the sum over $\Gamma\backslash\U(\Ad_{\mathrm f})/K_{m-1}$ of the values at the representatives, and each value is a shorter chain whose last
+kernel has been absorbed into the coefficients $L_x$. The induction gives the sum over tuples of double cosets of the kernel products, factor $j$ being $\mathrm{jet}$ of $\Phi_{x,j}$ moved by the pair of representatives. If a property of vectors holds for the values of $\varphi$ and is preserved by every kernel, it holds for every kernel
+product, by induction on the number of factors; and if each kernel multiplies a size by at most $r_j$, the kernel product has size at most $\prod_jr_j$ times the size of the values of $\varphi$.
+\end{proof}
+
+\begin{proposition}[Free levels]\label{prop:free-levels}
+For an index set of rank at most $2n_m$ and $K\subseteq K_0$ reducing to $1$ at the chosen places (\emph{the
+chosen level}), all stabilisers $\Gamma\cap gKg^{-1}$ are trivial; the same holds in rank at most $4n_m$ if
+$K$ reduces to $1$ at the chosen places above one of $p_0,p_1$. For every integral level in rank at most
+$2n_m$, the stabilisers have order dividing $\#\prod_w\GL_{rt}(\F_w)$, whose logarithm is at most $x^{32}$.
+\end{proposition}
+\lean{New.Data.nonempty_infinitePlace_equiv_chosenPlace, New.Data.chosenEquiv, New.Data.card_chosenPlace, New.Data.v_N_eq_exp_neg_one, New.Data.piN_mul_star_eq_N_mul_one, New.Data.intValuation_piN, New.Data.intValuation_piM, New.Data.chosenGroupOrder, New.Data.prod_q_chosenPlace, New.Data.card_GL_resField_eq_card_GL_zmod, New.Data.card_pi_GL_chosenPlace, New.Data.chosenLevel, New.Data.isChosen_star_iff, New.Data.card_GL_dvd_chosenGroupOrder, New.Data.isConjApart_chosenPlace, New.Data.range_chosenPlace, New.Data.principalLevel_le_chosenLevel, New.Data.classAut_eq_bot_of_le_levelOf_chosenPlace, New.Data.classAut_eq_bot_of_le_chosenLevel, New.Data.card_classAut_dvd_chosenGroupOrder, New.Data.IsChosen.not_star, New.Data.chiMLocal_zpow_ne_one_iff_isChosen, New.Data.log_chosenGroupOrder_le, New.classAut}
+
+\begin{lemma}[Minkowski for definite unitary groups]\label{lem:minkowski-unitary}
+Let $E$ be a CM field with at least two infinite places, $V$ the standard definite hermitian space of rank $n$, and $w_1,\dots,w_s$ distinct finite places with $\prod_i\Nm w_i>(2n)^{[E:\Q]}$. If $K$ is a subgroup of the integral finite adelic unitary group whose elements reduce to $1$ modulo every $w_i$, then for every $g$ the stabiliser
+$\Gamma\cap gKg^{-1}$ of the coset $gK$ in the rational unitary group is trivial.
+\end{lemma}
+\lean{New.Variety.classAut_eq_bot, New.Variety.eq_one_of_reduceAt_eq_one}
+
+\begin{proof}
+Let $\gamma\in\Gamma\cap gKg^{-1}$. Then $g^{-1}\gamma g\equiv1$ modulo the kernel $J$ of the reduction at all $w_i$, and $J$ meets $\OO_E$ in $\prod_iw_i$; hence the number $\tr(\gamma-1)=\tr(g^{-1}\gamma g-1)$, an integer of $E$ ($\gamma$ is integral, lying in a compact open subgroup), lies in $\prod_iw_i$. At each infinite place $v$ the image of $\gamma$ is
+unitary for the positive definite form, so its entries have modulus at most $1$ and $\abs{v(\tr(\gamma-1))}\le2n$. If $\tr(\gamma-1)\ne0$, its norm would be at least $\prod_i\Nm w_i$ and at most $(2n)^{[E:\Q]}$, a contradiction. Hence $\tr\gamma=n$, and $\tr\bigl((\gamma-1)^{\mathsf H}(\gamma-1)\bigr)=2n-2\re\tr\gamma=0$ at any infinite place: $\gamma=1$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:free-levels}]
+The chosen places above $p_i$ are $f$ in number, each of norm $p_i$, and $[E:\Q]=2f$; so \cref{lem:minkowski-unitary} applies to an index set of rank $n\le4n_m$ as soon as $p_i>(2n)^2$, which holds because $p_i\ge b^{10}$ and $n_m\le40r^2$ (\cref{prop:sizes}). Levels reducing to $1$ at all chosen places reduce to $1$ at those above
+$p_0$. For an integral level $K$ and rank at most $2n_m$, conjugate by $g^{-1}$ into $K\subseteq K_0$ and reduce at the chosen places: the kernel of the reduction on $\Gamma\cap gKg^{-1}$ lies in the stabiliser for the chosen level, which is trivial, so the stabiliser embeds into $\prod_w\GL_n(\F_w)$; as $n\le\mathrm r\mathrm t$, the embedding
+$h\mapsto\mathrm{diag}(h,1)$ shows that its order divides $\prod_w\#\GL_{\mathrm r\mathrm t}(\F_w)$, the chosen group order. A group $\GL_l$ over a field with $q$ elements has at most $q^{l^2}$ elements, so the logarithm of the chosen group order is at most $f(\mathrm r\mathrm t)^2\log M\le x^{32}$ by \cref{prop:sizes}.
+\end{proof}
+
+\subsection{Lift laws modulo the level}\label{ss:lift-laws}
+Let $P$ consist of one place of each conjugate pair above the level $N$; these places are split of degree
+one, and $N$ is a uniformiser at each (\cref{lem:chosen}). At $P$ we work in bases adapted to a marked lattice:
+a lattice $L$ with a vector $\varepsilon\in L/NL$ nonzero at every place, written as the last basis vector. The
+\emph{mirabolic} group is the stabiliser of $(L,\varepsilon)$, and $D=\mathrm{diag}(1,\dots,1,N^{-1})$ takes $L$ to
+$L^+=L+\OO\varepsilon/N$. For matrices $T$ at $P$ define
+\begin{itemize}[leftmargin=1.5em]
+\item the \emph{direct datum} $\mathbf1[T\text{ integral},\ T\varepsilon\equiv\varepsilon']$;
+\item the \emph{mirror datum} $\mathbf1[T\text{ integral}]\,\psi_N(T_{\rm corner})$, with $\psi_N(c)=\psi(-c/N)$;
+\item the \emph{glued datum} of a pair $(T,R)$: $\psi_N$ of the corner entry of $RT$ on integral pairs;
+\item the operator $\mathrm{Up}=\pi(D)\sum_y\psi_N(y_{\rm last})\pi(k_y)$, the sum over the vectors $y$ modulo $N$
+with unit last entry and $k_y$ an integral matrix with last row and last column $y$.
+\end{itemize}
+A vector is \emph{ramified} if at each $w\in P$ it is $\psi-x\psi$ for an integral unit scalar $x$ that is $1$
+modulo $N$ off $w$. A lift $L(\Psi)\colon\pi\to\pi'$, linear in the datum $\Psi$, obeys the \emph{lift law} with
+factor $\gamma$ if integral invertible matrices move freely between the datum and the two representations,
+and $\pi'(D)L(\text{last-row datum})=\gamma\,L(\text{direct datum})\pi(D)$.
+\lean{New.IsSplitLevel, New.residueOverN, New.residueOverN_apply, New.idem_mul_residueOverN, New.IsSplitLevel.diagN, New.IsSplitLevel.residueEquiv, New.IsSplitLevel.reduction, New.IsSplitLevel.reduction_eq_iff, New.IsSplitLevel.reduction_surjective, New.IsSplitLevel.inclGL, New.IsSplitLevel.reductionGL, New.IsSplitLevel.liftGL, New.IsSplitLevel.reductionGL_liftGL, New.IsSplitLevel.diagNInv, New.IsSplitLevel.psiN, New.IsSplitLevel.lastBasisVector, New.IsSplitLevel.exists_GL_last_col_and_row, New.IsSplitLevel.lastRowColGL, New.IsSplitLevel.lastRowColGL_col_and_row, New.IsSplitLevel.lastRowColGL_smul_lastBasisVector, New.IsSplitLevel.lastBasisVector_vecMul_lastRowColGL, New.IsSplitLevel.upOperator, New.IsSplitLevel.mirabolic, New.IsSplitLevel.mem_mirabolic, New.IsSplitLevel.ramified, New.IsSplitLevel.liftFn, New.IsSplitLevel.liftFn_comp_mul, New.IsSplitLevel.liftFn_inclGL, New.IsSplitLevel.lastRowDatum, New.IsSplitLevel.lastColDatum, New.IsSplitLevel.charDatum, New.IsSplitLevel.directDatum, New.IsSplitLevel.mirrorDatum, New.IsSplitLevel.gluedDatum, New.IsSplitLevel.gluedDatum_eq_sum, New.IsSplitLevel.primitiveVectors, New.IsSplitLevel.LiftLaw}
+
+\begin{theorem}[All lifts become direct]\label{thm:lift-laws}
+Let the lifts obey the lift law and let $\varphi$ be ramified.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Integral matrices and the mirabolic group fix the direct and the mirror data; $\mathrm{Up}$ preserves the
+mirabolic invariants, commutes with every endomorphism commuting with the representation, and preserves
+ramified vectors.
+\item A lift by a datum that is invariant under the unit scalars supported at one place annihilates $\varphi$;
+in particular the mirror lift may be restricted to unit corner entries.
+\item $\pi'(D)L(\text{mirror})\varphi=\mathrm{Up}\,L(\text{direct})\varphi=\gamma\,L(\text{direct})\mathrm{Up}\,\varphi$.
+\item The glued double lift $\sum_yL'(\psi_N\langle\cdot,y\rangle)L(\mathbf1[\text{last column }y])\varphi$ is the
+number of primitive vectors times $L'(\text{mirror})L(\text{direct})\varphi$; moved by $D$ it is a scalar times
+two direct lifts of $\mathrm{Up}\,\varphi$.
+\item For a chain, the composite of $p$ glued double lifts takes $\varphi$ to
+\[
+  \prod_{i<p}\Bigl(d_i\cdot\#\{\text{primitive vectors}\}\cdot\prod_{l<2i+2}\gamma_l\Bigr)
+\]
+times the composite of $2p$ direct lifts of $\mathrm{Up}^p\varphi$.
+\end{enumerate}
+\end{theorem}
+\lean{New.IsSplitLevel.reduction_eq_zero_iff, New.IsSplitLevel.reduction_eq_one_iff, New.IsSplitLevel.reduction_comp_eq_lastBasisVector_iff, New.IsSplitLevel.liftFn_indicator_apply, New.IsSplitLevel.lastRowDatum_apply, New.IsSplitLevel.directDatum_apply, New.IsSplitLevel.lastRowDatum_conj_diagNInv, New.IsSplitLevel.exists_inclGL_eq, New.IsSplitLevel.directDatum_ne_zero_of_mem_mirabolic, New.IsSplitLevel.exists_inclGL_eq_conj_diagNInv, New.IsSplitLevel.directDatum_mul_mul_of_mem_mirabolic, New.IsSplitLevel.mirrorDatum_mul_mul_of_mem_mirabolic, New.IsSplitLevel.mirabolic_fix_upOperator, New.IsSplitLevel.commute_upOperator, New.IsSplitLevel.scalar_commute_upOperator, New.IsSplitLevel.map_mem_ramified, New.IsSplitLevel.upOperator_mem_ramified, New.IsSplitLevel.upOperator_pow_mem_ramified, New.IsSplitLevel.liftFn_comp_eq_sum_smul, New.IsSplitLevel.exists_GL_smul_lastBasisVector, New.IsSplitLevel.LiftLaw.mem_ramified, New.IsSplitLevel.LiftLaw.apply_liftFn_eq_zero_of_smul_invariant, New.IsSplitLevel.LiftLaw.apply_liftFn_indicator_eq_zero, New.IsSplitLevel.LiftLaw.inclGL_lastColDatum, New.IsSplitLevel.LiftLaw.charDatum_inclGL, New.IsSplitLevel.LiftLaw.mirrorDatum_eq_unitCorner, New.IsSplitLevel.LiftLaw.mirror_eq_upOperator_direct, New.IsSplitLevel.LiftLaw.mirror_eq_direct_upOperator, New.IsSplitLevel.LiftLaw.upOperator_direct, New.IsSplitLevel.LiftLaw.sum_charDatum_lastColDatum, New.IsSplitLevel.LiftLaw.glued_eq_direct_direct_upOperator, New.IsSplitLevel.compUpTo_direct_mem_ramified, New.IsSplitLevel.upOperator_compUpTo_direct, New.IsSplitLevel.gluedLift, New.IsSplitLevel.compUpTo_gluedLift_eq_smul}
+
+\begin{proof}
+\emph{Valuations.} An integer at $P$ reduces to $0$ (resp.\ $1$) modulo $N$ exactly when $N$ divides it (resp.\ it minus $1$) at every place, and an integral vector is the last basis vector modulo $N$ exactly when $N$ divides its other entries and its last entry minus $1$. Hence the direct datum is the indicator of the integral $T$ whose last column is $\equiv\varepsilon$, and the
+last-row datum that of the integral $T$ whose last row is $\equiv\varepsilon^{\mathsf T}$. Conjugation by $D$ multiplies the last row off the corner by $N$ and the last column off the corner by $N^{-1}$; hence $D^{-1}TD$ is integral with last row $\equiv\varepsilon^{\mathsf T}$ exactly if $T$ is integral with last column $\equiv\varepsilon$.
+
+(a) If the lift by $\mathbf1[\cdot]$ of a function of matrices modulo $N$ is nonzero at $g$ and $g^{-1}$, then $g$ is integral invertible. For $g$, $h$ mirabolic, i.e.\ integral invertible with last column $\equiv\varepsilon$, the matrix $h^{-1}Tg$ is integral with last column $\equiv\varepsilon$ exactly when $T$ is; so the direct datum is invariant under
+$T\mapsto h^{-1}Tg$. For the mirror datum read in the bases of $L$ and $L'^+$, $D^{-1}h^{-1}D$ is integral and fixes the last coordinate form modulo $N$, so the corner entry modulo $N$ is unchanged. For $g$ mirabolic, $k=D^{-1}gD$ is integral with last row $\equiv\varepsilon^{\mathsf T}$; both $k\,k_y$ and $k_{ky}$ have last column $ky$
+modulo $N$, so they differ by a mirabolic element, and $g$ permutes the terms of the sum defining $\mathrm{Up}$ by $y\mapsto ky$, with $\psi_N$ of the last entry unchanged; so $\mathrm{Up}$ preserves the mirabolic invariants. An endomorphism commuting with all matrices commutes with every term; integral unit scalars commute with $\mathrm{Up}$,
+and a map commuting with them preserves ramified vectors, since $\varphi=\psi-x\psi$ goes to $T\psi-xT\psi$.
+
+(b) Let the datum be invariant under the unit scalars that are $1$ away from $w$, and $\varphi=\psi-x\psi$ with such an $x$. By the lift law the scalar $x$ moves through the datum, so the lifts of $\psi$ and $x\psi$ agree and the lift of $\varphi$ vanishes. If $r$ maps matrices modulo $N$ to vectors and commutes with scalars, and $y$ vanishes at $w$, the
+datum $\mathbf1[r(T)=y]$ is invariant under these scalars. The mirror datum is $\psi_N$ of the corner entry $t$; sorting by $t$ modulo $N$, the terms with $t$ vanishing at some place die, so it may be restricted to unit corner entries.
+
+(c) Sort the mirror datum, moved by $D$, by the last column $y$ of $T$ modulo $N$ (a datum is a sum over the values of a function with finitely many values of the indicators of its fibres). The terms whose $y$ vanishes at some place die by (b). For the others, $y$ has unit last entry (by (b), restricting to unit corner entries), and the term is the translate by
+$k_y$, an integral invertible matrix with last column and last row $y$ modulo $N$, of the direct lift, times $\psi_N(y_{\rm last})$: this is $\mathrm{Up}\,L(\text{direct})\varphi$. Sorting instead by the last row $y$, the term is the lift by the last-row datum after $k_y$, and the lift law, which moves $D$ from the target to the source at the cost $\gamma$
+and turns the last-row datum into the direct datum, gives $\gamma\,L(\text{direct})\mathrm{Up}\,\varphi$.
+
+(d) The glued datum is $\sum_y\mathbf1[\text{last column of }T\equiv y]\cdot\psi_N(\langle r(R),y\rangle)$. A term whose $y$ vanishes at some place dies by (b). The integral invertible matrices act transitively on the primitive vectors (each is the image of $\varepsilon$ under an invertible matrix modulo $N$, assembled place by place), and an integral $k$
+moves the term of $y$ to that of $ky$ by cancelling between the two lifts (it moves through the first datum by $\mathbf1[\text{last column }ky]$ and through the second by $\psi_N\langle\cdot,k^{-1}\cdot\rangle$); so all primitive terms equal that of $\varepsilon$, which is $L'(\text{mirror})L(\text{direct})\varphi$. Moved by $D$, (c) replaces the mirror lift by a direct lift
+after $\mathrm{Up}$ at the cost $\gamma'$, and (c) again moves $\mathrm{Up}$ through the first direct lift at the cost $\gamma$.
+
+(e) Induct on $p$. The composite of direct lifts preserves ramified vectors, and $\mathrm{Up}$ moves through a composite of $j$ direct lifts at the cost $\prod_{l<j}\gamma_l$ by (c). The last glued double lift is, by (d), $d_p$ times the number of primitive vectors times $\gamma_{2p+1}\gamma_{2p}$ times two direct lifts after $\mathrm{Up}$; moving
+this $\mathrm{Up}$ through the earlier $2p$ direct lifts to the source costs $\prod_{l<2p}\gamma_l$, and the product of these factors is the stated scalar.
+\end{proof}
+
+\subsection{Source forms, chain data and the composite lift}\label{ss:composite-lift}
+The level of stage $j$ is the subgroup of the chosen level of $\U(X_j)$ whose elements have last row
+$\equiv(0,\dots,0,1)$ modulo $\pi_N$; it contains the principal congruence subgroup of level $\pi_M\pi_N$ and is free
+in stage $0$. The \emph{source forms} $\mathcal S$ are the algebraic forms on $X_0$ of weight $(c_\tau,e_0)$ and this
+level; $\mathcal F(X_j)$ denotes the smooth algebraic forms on $X_j$ of weight $(c_\tau,e_j)$. A \emph{ramified} source
+form is one whose translates by $z_v^k$, $0\le k<N-1$, sum to $0$ for each place $v\mid\pi_N$, where $z_v$ is a fixed
+scaling at $v$: an integral norm-one idele, $1$ off $v$ and $\bar v$, of order $N-1$ modulo $v$.
+\lean{New.Data.levelX, New.Data.principalLevel_le_levelX, New.Data.isLevel_levelX, New.Data.lastIndexEquiv, New.Data.card_X, New.Data.card_Y_m, New.Data.classAut_levelX_zero_eq_bot, New.Data.SourceForm, New.Data.FormX, New.Data.ramifiedSourceForms, New.Data.scalingGenerator, New.Data.IsScalingAt}
+
+\begin{proposition}[Branching map]\label{prop:branching}
+There is an integral matrix $\mathrm{br}$ from the Weyl module of $\mu(X_m)$ to that of $\mu(Y_m)$ which, over every
+field of characteristic zero, intertwines $\mathrm{diag}(g,z)$ with $g$ up to the character
+$\prod_\tau z_\tau^{n_\tau}$ (\cref{prop:weight-Y}(c)), spans the equivariant maps for $\mathrm{diag}(g,1)$ over $\C$,
+and has squared operator norm at most $\exp(x^{70})$.
+\end{proposition}
+\lean{New.Data.IsBranchingMap, New.Data.exists_sum_columnsY_le_and_pow_le_exp, New.Data.exists_isBranchingMap, New.Data.branching, New.Data.isBranchingMap_branching, New.exists_branching_matrix}
+
+\begin{proof}
+Apply \cref{thm:B-branching} at each infinite place to $\kappa=c_\tau$, the columns of $\mu(X_m)$, with $\kappa'=c^{\rm kept}$, $\gamma=c_\tau-c^{\rm kept}$ and $\kappa_0=c^Y_\tau$ (\cref{prop:weight-Y}(a)); the determinant exponents are both $e_m$, as no column of height $n_m-1$ keeps its height, and all columns of height below $k$ lose a box, so $q=k$.
+The character of $\mathrm{diag}(g,z)$ has the exponent $\abs\gamma_\tau+e_m(\tau)=n_\tau$ by \cref{prop:weight-Y}(c). The boxes of $\kappa_0$ in the columns of heights $k\le h<n_m-1$, summed over $\tau$, number at most $l=fn_m^2\Delta$, since there are at most $\Delta$ columns of each such height (\cref{prop:weight-Y}(b)) and at most
+$n_m$ heights of at most $n_m$ boxes each. The squared norm is at most $((l^l)^3)^2$, and $\log$ of this is at most $6l\log l\le x^{70}$ by \cref{prop:sizes}.
+\end{proof}
+
+The \emph{restriction} from $X_m$ to $Y_m$ restricts a form to the points $\mathrm{diag}(h,1)$, applies $\mathrm{br}$, and
+multiplies by $\prod_\tau\Phi_\tau(\bar\pi_N)^{-n_\tau}$. The kernel of lift $j+1$, from $X_j$ to $X_{j+1}$, is the
+theta kernel of the pair of standard definite spaces with the characters given by the twists of
+$\mu_{j+1}^0\vartheta^{j+1}$ by the ranks, and with derivatives scaled by $\pi_M\mathsf a$; its weight is a lift weight
+because no column has height strictly between $n_j$ and $n_{j+1}$ (\cref{prop:weights-X}).
+\lean{New.Data.borderU, New.Data.restrictToY, New.Data.isLiftWeight_columnCount, New.Data.homX, New.Data.liftKernel, New.Data.Translations, New.Data.translateDatum, New.Data.chainCombination, New.Data.restrictedChain, New.IsLiftWeight}
+
+For a tuple $x=(x_j)$ of finite adelic matrices, the $j$-th translated datum is the integral vacuum of
+$\Hom(X_j,X_{j+1})$ translated by the finite Heisenberg operator of $x_j$. For a double lift $X_{2i}\to
+X_{2i+1}\to X_{2i+2}$ the \emph{gluing} replaces $v_{2i}\otimes v_{2i+1}$ by the sum over $y$ modulo $N$ of the
+translates of $v_{2i}$ by the last column $-y/N$ at the places $w\mid\pi_N$ and of $v_{2i+1}$ by the last row
+$-\bar y/N$ at their conjugates.
+\lean{New.Seesaw.poleColumn, New.Seesaw.poleRow, New.Seesaw.poleColumn_apply_eq_zero, New.Seesaw.poleRow_apply_eq_zero, New.Seesaw.doubleLiftGluing, New.Data.gluedDoubleLiftDatum, New.Space.vacuumProjFinPart}
+
+\begin{definition}[Chain data]\label{def:chain-datum}
+Let $\vartheta$ be a twist with modulus $Q$ and $q=\prod_{w\in Q}\Nm w$. A \emph{chain datum} for $\vartheta$ is a finitely
+supported function $\Psi$ on tuples of translations such that: the translations in its support vanish at the
+places prime to $Mq$ and, multiplied by $\pi_M$, become integral at the places prime to $q$; its values are
+integral away from $q$; if $Q=\emptyset$, then $\sum_x\abs{\sigma\Psi(x)}\le M^{3fmn_m^2}$ for every automorphism
+$\sigma$; and the glued tensor $\sum_x\Psi(x)\bigotimes_j\mathrm{Glue}(\text{translated data})$ is jointly invariant
+under the levels of $X_0,\dots,X_{m-1}$. The \emph{composite lift} $B_\vartheta=B_{\vartheta,\Psi}$ is the chain of double
+lifts with the glued tensor as data, followed by the restriction to $Y_m$. A \emph{weak chain datum} has the same
+conditions without gluing, with denominators allowed above $N$ and size $\exp(x^{60})$.
+\end{definition}
+\lean{New.Data.admissibleTranslations, New.Data.ChainTensor, New.Data.ChainTensor.IsInvariant, New.Data.gluedVacuum, New.Data.plainTensor, New.Data.gluedTensor, New.Data.supportedTranslations, New.Data.IsChainDatum, New.Data.IsChainDatum.mem_admissibleTranslations, New.Data.restrictToYOfEq, New.Data.restrictToYOfEq_apply, New.Data.chainOfTensor, New.Data.compositeLift, New.Data.IsWeakChainDatum, New.Seesaw.IsAdmissibleCoeffs}
+
+\begin{proposition}[The glued datum]\label{prop:glued-datum}
+Let $P$, $S$ each contain one place of every conjugate pair above $N$. In the Schr\"odinger model at $P$, the
+gluing of vacuum-averaged data is the sum over $z$ modulo $N$ of the data $\mathbf1[\text{last column of
+}T\,\mathrm{diag}(1,\dots,N)_S\equiv z]\otimes\psi_N\langle r(\mathrm{diag}(1,\dots,N)_{P\setminus S}R),z\rangle$; the sum of
+translates equals the glued datum, with no constant. The Weil action of elements supported above $N$ with
+components $g$, $k$ at $P$ moves a Schr\"odinger datum $\Psi$ to $T\mapsto\Psi(k^{-1}Tg)$ times a quotient of
+determinant characters, which are trivial on integral matrices if the characters are unramified at $P$.
+\end{proposition}
+\lean{New.scalarFin_atPlace, New.Seesaw.pairWeilFinite_scalarFin, New.IsSplitLevel.detCharAt, New.IsSplitLevel.schrodingerOpAt, New.IsSplitLevel.embedGL, New.IsSplitLevel.atPlaces_embedGL, New.IsSplitLevel.atPlace_embedGL_diagN, New.IsSplitLevel.embedGL_mem_supportedOn, New.IsSplitLevel.isConjDisjoint, New.IsSplitLevel.natCast_level_mem, New.IsSplitLevel.mem_integralAbove_of_inclGL_eq, New.IsSplitLevel.reduction_eq_iff_idem_mul_mem, New.IsSplitLevel.exists_embedGL_scalar_eq_scalarFin, New.IsSplitLevel.liftFn_eq_residueDatum, New.IsSplitLevel.isSchwartzBruhat_liftFn, New.IsSplitLevel.isSchwartzBruhat_liftFn_mul, New.IsSplitLevel.pairWeilFinite_schrodingerOpAt, New.IsSplitLevel.detCharAt_inclGL, New.IsSplitLevel.norm_detCharAt_diagN_anti, New.IsSplitLevel.diagN_eq_sdiff_mul, New.IsSplitLevel.exists_sub_residueOverN_mem_iff, New.IsSplitLevel.star_residueOverN_mul_self, New.IsSplitLevel.idem_add_star_eq, New.IsSplitLevel.exists_sub_mem_and_sub_star_mem_iff, New.IsSplitLevel.sum_translate_eq_gluedDatum, New.IsSplitLevel.doubleLiftGluing_eq_sum_schrodingerOpAt}
+
+\begin{proof}
+\emph{Integrality at $P$.} Let $p_S$ be $N$ at the places of $S$ and $1$ elsewhere. An adele $z$ is integral at $P$ if $\mathbf1_Pz$ is integral; if $Nz$ is integral at $P$, then $z-y/N$ is integral at $P$ for exactly one class $y$ modulo $N$ (the residue of $Nz$), and for none otherwise. Combining a place of $P$ with the conjugate place: if $tp_S$ and
+$(N+1-p_S)s$ are integral at $P$, then $t-y/N$ and $s-\bar y/N$ are both integral at $P$ for exactly one class $y$, and otherwise for none, because integrality of an adele and of its conjugate at $P$ is integrality at all places above $N$, and $(y/N)^*(y/N)=0$.
+
+\emph{The sum of translates.} A translate of the indicator of the integral matrices by the last column $-y/N$ at $S$ is the indicator of the matrices integral up to the pole $y/N$ in the last column; the translate of the second datum by the conjugate last row contributes, by the Heisenberg cocycle, $\psi_0$ of the pairing with $y/N$
+(\cref{ss:B-weil}). For a pair $(T,R)$ let $t$ be the last column of $T$ and $r$ the last row of $R$; by the previous paragraph at most one class $y$ makes $t-y/N$ and $r-\bar y/N$ integral at $P$, after the multiplications by $\mathrm{diag}(1,\dots,N)_S$ and $\mathrm{diag}(1,\dots,N)_{P\setminus S}$, and its term is $\psi_0(-r\cdot t)$, because
+$(t-y/N)\cdot(r-\bar y/N)-(r\cdot t-c/N)$ is integral at $P$ for the residue $c$ of the corner. Hence the sum is $\psi_N$ of the corner of $R'T'$ on the integral pairs and zero elsewhere: the glued datum, with no constant. Averaging over the Heisenberg operators of the integral vectors supported above $N$ gives the projection to the
+vacua, which is the same for $P$ and $S$; this gives the stated sum over $z$ in any model.
+
+\emph{Weil action.} Read the elements supported above $N$ through their components at $P$; the Weil action of an element supported at $P$ on a Schr\"odinger datum is the substitution $T\mapsto k^{-1}Tg$ times the values of the determinant characters $x\mapsto\chi(\det x)\abs{\det x}^{-l/2}$ (\cref{ss:B-weil}); if the characters are
+unramified at $P$, these are trivial on integral invertible matrices, whose determinants are units.
+\end{proof}
+
+\begin{proposition}[Characters above the level]\label{prop:characters-N}
+For a twist $\vartheta$ and $j\ge1$, the character $\mu^0_j\vartheta^j$ twisted by the rank is unramified at every place above
+$N$, and its base change through the rank twist is $x\mapsto\mu(x/\bar x)$. Each lift commutes with the scalings at the
+places $w\mid\pi_N$, and if $\omega(1,z_w)$ fixes the data of one lift in a chain, the chain annihilates the ramified
+source forms; likewise for chains of double lifts.
+\end{proposition}
+\lean{New.Data.charUnramifiedAt_rankTwist_of_N_mem, New.Data.spaceChar_rankTwist, New.Data.liftKernel_omega_scaling, New.Data.liftKernel_lift_scaling, New.Data.liftKernel_lift_sub_scaling, New.Data.liftKernel_lift_sub_scaling_eq_zero, New.Data.tensorChainLift_sub_scaling_eq_zero, New.Data.tensorChainLift_eq_zero_of_ramified, New.Data.doubleLiftChain_eq_zero_of_ramified}
+
+\begin{proof}
+The tame part of the character of a lift is supported on the chosen places and on $Q$, and a place above $N$ is neither chosen nor in $Q$, nor is its conjugate; the rank twists multiply by powers of the splitting character $\upsilon$, unramified above $N$; so the base change of the twisted character is trivial on the local units above $N$. As the rank
+$\#X_j$ is even, the rank twist followed by the space character in rank $\#X_j$ is $x\mapsto\nu(x/\bar x)$. A scaling $z$ at $w\mid\pi_N$ is a scalar of norm one; the pair $(z,z)$ fixes every linear map $X_j\to X_{j+1}$ and acts by the quotient of the characters at $\det z$, which is $1$, so $\omega(z,z)=1$ and each lift commutes with
+$z$ by \cref{prop:chains}(a); hence the lift of $\psi-z\psi$ is $\chi-z\chi$ for the lift $\chi$ of $\psi$. If $\omega(1,z)$ fixes a datum $\Phi$, it translates the lift by $z$ and fixes it, so the lift of $\psi-z\psi$ vanishes. For a chain, $\omega(1,z)$ on factor $j$ inserts $z$ after lift $j$, and it can be moved to the source; so the chain
+sends $\psi-z\psi$ to $0$. A ramified source form is a sum of such differences for $z=z_w$, as $\sum_kz_w^k\varphi=0$; for chains of double lifts regroup the data into single factors.
+\end{proof}
+
+\subsection{The lower chain}\label{ss:lower-chain}
+For $j<m$ the lift from $Y_j$ to $Y_{j+1}$ is the theta lift with the datum $\varphi_{\rm harm}\otimes\Upsilon_{j+1}$: at
+infinity the product over $\tau$ of the joint harmonics of the parameters of $Y_j$ and $Y_{j+1}$
+(\cref{prop:grids}(c)), and at the finite places the indicator of the inclusion matrix modulo the level places and
+the vacuum elsewhere; it is multiplied by the index in $K_0$ of the level. The \emph{lower chain}
+$\iota_\mu=\iota_{\vartheta}$ is the composite of the $m$ lifts from forms of principal level on $Y_0$ to forms on $Y_m$,
+read as algebraic forms of weight $\mu(Y_m)$.
+\lean{New.blockNumber, New.blockNumber_eq_zero_iff, New.Data.FormY, New.Data.harmonicY, New.Data.datumY, New.Data.paramsCorrespond_paramY, New.Data.isArrow_datumY, New.Data.isArrow_thetaKernelY_datumY, New.Data.isArrow_swap_thetaKernelY_datumY, New.Data.liftY, New.Data.inclY, New.Data.liftTamePart_eq_of_mem_Q, New.Data.levelY, New.Data.levelY_le_chosenLevel, New.Data.LevelReductionsY, New.Data.pointDatumY, New.Data.thetaKernelY, New.Data.chainTamePart, New.Data.thetaKernelY_omega_pointDatumY_eq_smul, New.Data.lowerChainUpTo, New.Data.lowerChain}
+
+\begin{proposition}[The lower chain]\label{prop:lower-chain}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Each datum $\varphi_{\rm harm}\otimes\Upsilon_{j+1}$ is an \emph{arrow} in both directions: its lifts take forms of the type
+of $Y_j$ to forms of the type of $Y_{j+1}$, and conversely for the conjugate types.
+\item If $k\in K_0$ on $Y_m$ has block upper triangular reductions at the level places with first block $s\in\bar G$ at the
+chosen places, then $k\,\iota_\mu(y)=c\,\iota_\mu(sy)$, where $c$ is the product over the level places and $l<m$ of the
+tame characters of lift $l+1$ at the determinant of the diagonal block $l+1$.
+\item Hence $\iota_\mu$ takes values in the forms of level $J_m$ (the elements of $K_0$ that are $1$ at the chosen places and
+block upper triangular at $Q$) with the character $k\mapsto\prod_w\prod_{l<m}\psi_{l,w}(\det k_w^{(l+1)})$; and
+$\iota_\mu(sy)$ is the translate of $\iota_\mu(y)$ by an element of $K_0$ reducing to $\mathrm{diag}(s,1)$ at the chosen
+places and to $1$ at $Q$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.lastResidueLevel, New.Data.mem_lastResidueLevel, New.Data.eq_one_of_mem_lastResidueLevel, New.Data.mem_parabolic_of_mem_lastResidueLevel, New.Data.lastLevel, New.Data.det_toSquareBlock_toBlocks₁₁, New.Data.det_eq_det_toBlocks₁₁_mul, New.Data.formRep_liftY, New.Data.formRep_lowerChainUpTo_eq_lowerChainUpTo_smul, New.Data.algFormRep_lowerChain, New.Data.lastLevelChar, New.Data.lowerChain_mem_levelSpace, New.Data.lowerChainAtLevel, New.Data.firstBlockLift, New.Data.lowerChain_principalRep}
+
+\begin{proof}
+(a) By \cref{prop:grids}(c), with the node $(0,j)$ of grid $Y$ as $Y_j$, the parameters of $Y_j$ and $Y_{j+1}$ correspond for the weights of the characters of lift $j+1$; so the joint harmonic is a nonzero vector of the two lowest $K$-types, harmonic on both sides, that is, an edge (\cref{ss:B-discrete-series}), and an edge tensored with a finite datum
+is an arrow in both directions, the second for the swapped Weil representation.
+
+(b) Let $(k,k')$ be integral points of $\U(Y_{j+1})$, $\U(Y_j)$ whose reductions $g$, $g'$ at the level places satisfy $g\iota=\iota g'$, $\iota$ the inclusion matrix. They fix the inclusion matrix modulo the product of the level places, so the Weil action multiplies the finite datum $\Upsilon_{j+1}$ by the quotient of the tame characters of the lift at
+the determinants, the tame parts being trivial off the level places; hence the translate by $k$ of the lift of $z$ is the lift of the translate of $z$ by $k'$, times $\prod_w\psi(\det g_w)/\psi(\det g'_w)$. Induct on $j$: for $k$ block upper triangular with first block $s$ at the chosen places, the upper left block $A$ of $g$ has the
+diagonal blocks of $g$ except the last, and the lower left block vanishes, so $g\iota=\iota A$; the new factor is the tame character of lift $j$ at the determinant of the last diagonal block, as the determinant of a block triangular matrix is that of its upper left corner times that of its last diagonal block. On $Y_0$ the element reduces to $s$
+and acts as the chosen lift of $s$. Passing from forms to algebraic forms commutes with translation.
+
+(c) For $k$ in $J_m$ the reduction is $1$ at the chosen places and block triangular at $Q$; (b) with $s=1$ gives the character $\prod_w\prod_{l<m}\psi_{l,w}(\det k_w^{(l+1)})$. For $s\in\bar G$ apply (b) to the chosen element reducing to $\mathrm{diag}(s,1)$ at the chosen places and to $1$ at $Q$: an entry below the diagonal blocks lies in a row
+outside block $0$, so all diagonal blocks after the first are $1$ and all character values are $1$.
+\end{proof}
+
+\subsection{The Poincar\'e map}\label{ss:poincare}
+The space $Y_0$ carries a grading whose Bessel subgroup $R_0=U\rtimes\U(X_0)$ is the stabiliser of the flag
+$\langle e_1\rangle\subset\dots\subset\langle e_1,\dots,e_\varrho\rangle$ together with the generic character $\psi_U$ of its
+unipotent radical (\cref{ss:B-bessel}). For a source form $\varphi$ and a linear form $t$ on its values, the function
+$\mathcal W_\varphi(uh)=\psi_U(u)\,t(\rho(h_\infty^{-1})\varphi(h_{\mathrm f}))$ on $R_0(\Ad)$ is continuous, left invariant under
+$R_0(E^+)$ and $\psi_U$-equivariant; for forms $y$ on $Y_0$ the \emph{Bessel period}
+$\int_{[R_0]}\mathcal W_\varphi(r)\overline{y(rg)}\,dr$ converges.
+\lean{New.Data.gradingY, New.Grading.besselGroup, New.Grading.besselMeasure, New.Grading.sourceFn, New.Grading.IsEquivariant, New.Grading.IsEquivariant.integrable_mul, New.Data.isEquivariant_sourceFn, New.Data.besselPeriod, New.Data.besselPeriod_apply}
+
+\begin{definition}[Poincar\'e map]\label{def:poincare}
+For an archimedean point $g$ of $\U(Y_0)$ and a linear form $t$, $\mathcal P=\mathcal P_{g,t}\colon\mathcal S\to\mathcal A(Y_0)$ is the
+map such that $\langle y,\mathcal P\varphi\rangle$ is the Bessel period of $\varphi$ against $y$, for all $y\in\mathcal A(Y_0)$.
+\end{definition}
+\lean{New.Data.poincareAt, New.rieszMap, New.inner_rieszMap, New.bijective_flip_innerₛₗ}
+
+\begin{proposition}\label{prop:poincare}
+$\mathcal P$ exists and is linear in $\varphi$ and in $t$. For a form $z$ of level $J$ and conjugate type,
+\[
+  [J_M:J\cap J_M]\int_{[\U(Y_0)]}z\cdot\mathcal P\varphi=\sum_{\gamma\in J_M/(J\cap J_M)}\int_{[R_0]}\mathcal W_\varphi(r)\,z(rg\gamma)\,dr .
+\]
+\end{proposition}
+\lean{New.Data.inner_poincareAt, New.Data.poincareAt_smul, New.Data.integral_mul_poincareAt, New.Space.Form.levelTrace, New.Space.Form.levelTrace_apply, New.Space.Form.hasLevel_levelTrace, New.Space.Form.integral_levelTrace_mul, New.Space.Form.add_apply, New.Space.Form.smul_apply}
+
+\begin{proof}
+On a finite-dimensional inner product space every conjugate linear form is $y\mapsto\langle y,z\rangle$ for a unique $z$ (Riesz). The space $\mathcal A(Y_0)$ is finite-dimensional (\cref{prop:target-finite}), and for fixed $\varphi$ the Bessel period is conjugate linear in $y$; it converges because $r\mapsto\mathcal W_\varphi(r)\overline{y(rg)}$ is continuous on the
+compact quotient $[R_0]$ and invariant under the rational points. Hence there is a unique $\mathcal P\varphi$, linear in $\varphi$; scaling $t$ scales $\mathcal W_\varphi$ and hence $\mathcal P\varphi$, so a change of Haar measure is absorbed in $t$. For the formula, let $z$ be of level $J$ and let $\mathrm{tr}\,z=\sum_{\gamma}z(\cdot\gamma)$ over representatives of
+$J_M/(J\cap J_M)$; it has level $J_M$, as left multiplication by an element of $J_M$ permutes the cosets, and its integral against a form of level $J_M$ is $[J_M:J\cap J_M]$ times that of $z$, by the invariance of the integral under right translation. Its conjugate lies in $\mathcal A(Y_0)$; the definition of $\mathcal P$, applied to it,
+gives the formula.
+\end{proof}

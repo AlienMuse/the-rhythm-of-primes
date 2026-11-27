@@ -1,0 +1,719 @@
+\section{Local band limits}\label{sec:frames}
+
+The sieve of \cref{thm:sieve} asks, at each place, for a system of forms on pairs of heads: each form the integral of the next over a common entry, with decay in the
+frequency, a mass close to $1/\deg$ at the bottom, and a positive top form. This section constructs these forms and proves the bounds, at a real place for the cut
+Bessel functions of \cref{sec:bessel} (\cref{thm:local-band-limits}) and at a finite set of places for the finite Bessel vectors (\cref{thm:finite-decay,thm:finite-mass}).
+Both cases rest on one abstract argument: the forms are integrals over a position and two frames of products of correlations; Cauchy--Schwarz pairs each frame with
+itself; a weight made of \emph{depths} separates the two frames; and the gains from a frequency, from two different heads or from a deep vector, integrated over dyadic
+shells of positions, give the decay.
+
+The abstract part (\cref{ss:place-data,ss:floor-forms,ss:frame-tools,ss:frames-gains}) is proved for a place, a place datum and a gauge; the two kinds of place supply these
+data in \cref{ss:real-place} and \cref{ss:finite-data}. The order of the argument is: sizes and lengths; the forms as integrals over a position and two frames; Plancherel's
+formula on quadrics; depth; one frame; the separation of the two frames and the gains at one position; and the sum over the shells of positions.
+
+\subsection{Places, place data and floors}\label{ss:place-data}
+A \emph{place} is a locally compact ring $A$ with involution and Haar measure, with a trace-one element $\tau$, a skew unit $\delta$, a multiplicative \emph{modulus} $\abs u$ (the factor by which
+$u$ scales the volume), a Haar measure on the skew elements, a character $\psi$ and a constant $c_A\ge1$ in Plancherel's formula. Two kinds occur: the complex place $\C$, with $\tau=\frac12$,
+$\delta=i/2$, modulus $\abs x^2$, character $x\mapsto e^{x-\bar x}$ and $c_\C=\pi^2$; and an \emph{integral place}, a finite set of finite places read as one ring, with an open compact self-dual subring
+$R$ of volume one.
+
+Let $V$ be the space with basis $e_a$, $e^*_a$ ($a<\varrho$, hyperbolic pairs), the middle vectors and $z$, with Gram matrix of $\varrho$ hyperbolic planes and a middle block; $G$ is its unitary group and
+$n=\varrho+1$. The vectors $e_a$, $e^*_a$ have \emph{floor} $a$, $z$ has floor $\varrho$ and the other middle vectors floor $\varrho+1$. Write $G^{(l)}$ for the isometries fixing the basis vectors of floor
+below $l$, $R^{(l)}$ for those unitriangular on the first $l$ frame vectors $f_0=e_0,\dots,f_{\varrho-1}=e_{\varrho-1}$, $f_\varrho=z$, and $H=G^{(\varrho+1)}$. The \emph{Heisenberg group} of floor $a$ moves
+$e^*_a$ by a vector of the higher floors and a skew multiple of $e_a$; it carries a Haar measure $\eta_a$. The Heisenberg element with vector $\omega$ and skew parameter $\beta$ sends $e^*_a$ to
+$e^*_a+\omega+(\beta-\tau h(\omega,\omega))e_a$. Write $U_{(<l)}$ for the isometries unitriangular when all basis vectors of floor at least $l$ are put on one middle level, and $Y^{(l)}$ for the vectors orthogonal to
+$e_b$, $b<l$, modulo the span of these.
+
+\begin{definition}[Place datum]\label{def:place-datum}
+A \emph{place datum} $F$ consists of a basis of the middle block made of $m+1$ hyperbolic pairs and orthonormal vectors indexed by $\iota$, a self-adjoint unit $M$ (the \emph{level}), an open set of
+\emph{close pairs} of vectors containing $0$ with compact closure, a compact \emph{box} $K\subseteq G$, a measurable set of \emph{positions}, a measure on $G^{(\varrho)}$ carried to the measure of the top
+quadric by $\sigma\mapsto\sigma^{-1}z$, and a right $H$-invariant measure $\mu_H$ carried by $H$ such that, for every $g$, the $h$ with $uhg\in K$ for some $u\in U$ have $\mu_H$-mass at most $1$.
+\end{definition}
+\lean{New.Floors.PlaceData.boxSet, New.Floors.PlaceData.closePairs, New.Floors.PlaceData.levelUnit, New.Floors.PlaceData.measureH, New.Floors.PlaceData.positions, New.Floors.PlaceData.topFloorMeasure, New.Floors.PlaceData.toHyperbolicBasis, New.Floors.PlaceData.isCompact_boxSet_and_measurableSet_positions, New.Floors.PlaceData.isOpen_closePairs_and_zero_mem_and_isCompact_closure, New.Floors.PlaceData.measureH_mem_and_invariant_and_le_one, New.Floors.PlaceData.neZero_measureH, New.Floors.PlaceData.sFinite_measureH, New.Floors.PlaceData.sFinite_topFloorMeasure, New.Floors.PlaceData.star_levelUnit, New.Floors.PlaceData.topFloorMeasure_mem_and_map_eq}
+The \emph{floor measure} $\theta_l$ is carried by $G^{(l)}$; for $l\le\varrho$ the map $\sigma\mapsto\sigma^{-1}f_l$ carries it to the measure of the quadric through $f_l$, for $l<\varrho$ it lives on the big cell,
+$\theta_{\varrho+1}=\mu_H$, and higher floors carry a unit mass at $1$. The \emph{group measure} is $\mathsf M=(\eta_{\varrho+1}*\theta_{\varrho+1})*\dots*(\eta_0*\theta_0)$, and $\mathsf m_j$ is the same convolution over the floors
+below $j$. A point $g$ is \emph{near at $j$} if $R^{(j)}g$ meets $K$. A vector $\omega$ of $Y^{(l)}$ (the vectors orthogonal to the $e_b$, $b<l$, modulo their span) is \emph{stable} at $g$, $g'$ if
+$(g^{-1}\omega,g'^{-1}\omega')$ is a close pair for some lift $\omega'$; $\mathfrak d_a(x,y)$ is the set of products $h(e_a,\omega)$ with $\omega\in Y^{(a)}$ stable at $x$ and $xy$, and the \emph{depth} of
+$e_a$ is $\mathrm{dp}_a(x,y)=\vol(\mathfrak d_a(x,y))^{-1}$. With $X'$ the span of the orthonormal vectors outside two blocks of rank $2m+2$ and the \emph{volume exponent} $s=\dim X'-(3n+1+m)$, the
+\emph{depth weight} of length $j$ is $\wp_j(x,y)=\prod_{a<j}\mathrm{dp}_a(x,y)^{-s}$.
+\lean{New.Floors.PlaceData, New.Floors.PlaceData.ae_topFloorMeasure_mem_floorGroup, New.Floors.PlaceData.map_orbitPoint_topFloorMeasure, New.Floors.PlaceData.ae_measureH_mem_besselH, New.Floors.PlaceData.measureH_mconv_dirac, New.Floors.PlaceData.measureH_setOf_mul_mem_boxSet_le_one, New.Floors.PlaceData.floorMeasure, New.Floors.PlaceData.partialGroupMeasure, New.Floors.PlaceData.groupMeasure, New.Floors.PlaceData.quotientMeasureFrom, New.Floors.PlaceData.IsNear, New.Floors.PlaceData.blockRank, New.Floors.PlaceData.FreeIndex, New.Floors.PlaceData.freeIndex, New.Floors.PlaceData.orthonormalPart, New.Floors.PlaceData.IsShortFrom, New.Floors.PlaceData.IsStable, New.Floors.PlaceData.stableProducts, New.Floors.PlaceData.depth, New.Floors.PlaceData.volumeExponent, New.Floors.PlaceData.depthWeight, New.Floors.PlaceData.commonVectors, New.Floors.PlaceData.productDifferences, New.Floors.PlaceData.IsCommonBound, New.Floors.PlaceData.floorModulus, New.Floors.PlaceData.floorIndexEnum, New.Floors.PlaceData.upperGram, New.Floors.PlaceData.floorIndexEnum_injective, New.Floors.PlaceData.mem_range_floorIndexEnum, New.Floors.PlaceData.gram_inclMatrix_floorIndexEnum, New.Floors.PlaceData.floorQuadricMeasure_castSucc_eq_map, New.Floors.PlaceData.inclMatrix_mulVec_flatChart_eq_heisenbergElem_mulVec, New.Floors.PlaceData.measurePreserving_orbitPoint, New.Floors.PlaceData.measurePreserving_mulVec_orbitPoint, New.Floors.PlaceData.ae_floorMeasure_mem, New.Floors.PlaceData.lintegral_floorMeasure_congr, New.Floors.PlaceData.floorMeasure_top, New.Floors.PlaceData.quotientMeasureFrom_eq_succ_mconv, New.Floors.PlaceData.descConv_floorMeasure_succ, New.Floors.PlaceData.weylRatio_succ_mul_floorWeyl_inv, New.Floors.PlaceData.lintegral_weylRatio_mul, New.Floors.PlaceData.lintegral_floorMeasure_mul_right, New.Floors.PlaceData.ae_partialGroupMeasure_mem, New.Floors.PlaceData.partialGroupMeasure_mconv_dirac, New.Floors.PlaceData.isMulRightInvariant_groupMeasure, New.Floors.PlaceData.partialGroupMeasure_zero_eq, New.Floors.PlaceData.floorMeasure_ne_zero, New.Floors.PlaceData.partialGroupMeasure_ne_zero, New.Floors.PlaceData.lintegral_mul_left_eq_of_factor, New.Floors.PlaceData.lintegral_partialGroupMeasure_weylElem_inv_mul}
+
+\begin{proposition}[Floor measures]\label{prop:floor-measures}
+Let $F$ be a place datum.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $l\le\varrho$ and $s\in G^{(l)}$, $\sigma\mapsto s\sigma^{-1}f_l$ carries $\theta_l$ to the quadric measure of floor $l$; for $l<\varrho$, $\theta_{l+i}*\dots*\theta_l$ is the convolution of a law on the Weyl
+elements of floor $l$, the floors above, and $\eta_l$.
+\item For $l+i=\varrho+2$ the partial group measure from floor $l$ on is right invariant under $G^{(l)}$; in particular $\mathsf M$ is right invariant.
+\item Left translation by the diagonal element $w_q^{-1}w_p$ multiplies integrals for $\theta_{\varrho+1}*\dots*\theta_0$ by $\prod_{a<j}\abs{p_a/q_a}^{k+2(\varrho-a)}$.
+\item If $\mathsf M$ is a Haar measure and $\Phi\ge0$ is left invariant under $G^{(j)}$, then $\Phi(w_p^{-1}g)$ and $\Phi(g)$ have the same integral for $\mathsf m_j$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Let $V_l$ be the span of the basis vectors of floor at least $l$, enumerated as the pair $e_l$, $e^*_l$ followed by the higher floors; in this basis the form is a hyperbolic plane plus the form of the
+higher floors, the pair of floor $l$ being orthogonal to the higher pairs. For $l<\varrho$ the quadric $h(v,v)=0$ of $V_l$ has the flat chart $((t,tu),\beta)$, $t$ a unit, $u$ a vector of the higher floors and $\beta$ skew,
+and this point is the image of $e_l$ under the Heisenberg element of $(u,\beta)$ times the Weyl element $w_l(t)$ of floor $l$ (with $c=h(u,u)$ the products agree, $h(tu,tu)=\bar ttc$). Disintegrations of the volume of
+$V_l$ along $h(v,v)$ are unique, and both the quadric measure and the image of the chart measure are members of such a disintegration at $0$. A chart point is the value of $\sigma\mapsto\sigma^{-1}f_l$ at a point of the
+big cell, the inverse of $w_l(t)$ times a Heisenberg element; the inverse of the Heisenberg element of $(u,\beta)$ has parameters $(-u,c-\beta)$ with $c$ independent of $\beta$, and scaling the higher floors by $t$ has
+modulus $\abs t$ to the power of their dimension, both changes of variables keeping the measure. For $s\in G^{(l)}$: $s$ preserves the volume of $V_l$ and the form, hence the disintegration. The same computation
+writes $\theta_{l+i}*\dots*\theta_l$ as the law on the inverse Weyl elements of floor $l$, which commutes with the higher floors (carried by $G^{(l+1)}$), convolved with the higher floors and $\eta_l$.
+(b) By induction on the number of floors. Write the measure as $\rho*\theta_l$; for a test function, the $\rho$-average is left invariant under $R^{(l+1)}\cap G^{(l)}$, and its $\theta_l$-integral does not change under right
+translation by $R^{(l)}\cap G^{(l)}$: in $x\gamma\nu=((x\gamma)\nu(x\gamma)^{-1})x\gamma$ the factor $\nu$ drops out because the function is invariant under the conjugate, and $\gamma$ and $\gamma^{-1}$ carry the floor measure to the same
+quadric measure. An element of $R^{(l+1)}\cap G^{(l)}$ is $un$ with $u\in G^{(l+1)}$, absorbed by induction, and $n$ in the Heisenberg group of floor $l$, absorbed by $\eta_l$. Since $G^{(0)}=G$, $\mathsf M$ is right invariant.
+(c) The quotient $w_q^{-1}w_p$ is diagonal, with entry $p_a/q_a$ at $e_a$ and the conjugate inverse at $e^*_a$ for $a<j$. By induction it suffices to compare the translations by the elements of lengths $j+1$ and $j$: they
+differ by a factor that takes $w_j((p_j/q_j)c)^{-1}$ to $w_j(c)^{-1}$; split off the Weyl element of floor $j$, integrate first over its parameter $c$, and substitute $rc$ for $c$, which costs $\abs r$ to the power of the
+dimension $k+2(\varrho-j)$ of the free variables of floor $j$; almost every parameter is a unit.
+(d) Factor $\mathsf M=\rho*\nu$, with $\rho$ the floors $j,\dots,\varrho+1$, carried by $G^{(j)}$, right invariant and commuting with $w_p$ (the floors from $j$ on are fixed by $w_p$). Take $f>0$ integrable for $\mathsf M$; for any $\mu$
+with $\mathsf M=\rho*\mu$, the integral of $\Phi$ for $\mu$ is the integral of $\Phi f$ for $\mathsf M$ divided by the $\rho$-average of $f$, an expression that does not mention $\mu$. The translate of $\nu$ by $w_p$ is such a $\mu$, as
+$\mathsf M$ is left invariant.
+\end{proof}
+
+A \emph{gauge} for $F$ is a filtration of $A$ by compact sets $\mathrm{Sz}_j$ (\emph{numbers of size $j$}, at most $L^j$ in modulus at a real place, with $L^jx$ integral at the finite places for a scale
+$L$), with a constant $\Lambda\ge2$ whose powers bound moduli and volumes, such that $m\le9n$; a vector or matrix has size $j$ if all its entries have. A sequence $p$ of units is a \emph{head of length
+$j$} if $(p_0\cdots p_{l-1})^{-1}$ has size $1$ for $l\le j$. The \emph{position ball} is the set of positions $x$ with $(x-1)/M$ of size $99n$.
+\lean{New.Floors.Size, New.Floors.weylRatio, New.Floors.coe_weylRatio, New.Floors.weylRatio_inv, New.Floors.card_subtype_succ_le_floorOf_eq, New.Floors.IsOrthogonalBelow, New.Floors.CongrBelow, New.Floors.le_level_eStar, New.Floors.exists_eq_inl_of_level_lt, New.Floors.CongrBelow.refl, New.Floors.CongrBelow.symm, New.Floors.CongrBelow.trans, New.Floors.CongrBelow.apply_eStar, New.Floors.IsOrthogonalBelow.of_congrBelow, New.Floors.IsOrthogonalBelow.smul, New.Floors.CongrBelow.smul, New.Floors.IsOrthogonalBelow.mulVec, New.Floors.CongrBelow.mulVec, New.Floors.IsOrthogonalBelow.congrBelow_mulVec, New.Floors.CongrBelow.form_eq_left, New.Floors.CongrBelow.form_eq_right, New.Floors.CongrBelow.sub_smul, New.Floors.CongrBelow.form_sub_form, New.Floors.Size.vecsOfSize, New.Floors.Size.HasMatrixSize, New.Floors.Size.LengthLeAt, New.Floors.Size.InducedLengthLe, New.Floors.Size.IsBalanced, New.Floors.Size.AgreesModulo, New.Floors.Size.GaugesDifferLe, New.Floors.Size.HasShortDual, New.Floors.Size.IsHead, New.Floors.Size.IsHead.star_head, New.Floors.Size.mem_ofSize_mono, New.Floors.Size.neg_mem_ofSize, New.Floors.Size.star_mem_ofSize, New.Floors.Size.neg_one_pow_mul_mem_ofSize, New.Floors.Size.sum_fin_mem_ofSize, New.Floors.Size.sub_mem_ofSize, New.Floors.Size.HasMatrixSize.mono, New.Floors.Size.HasMatrixSize.one, New.Floors.Size.HasMatrixSize.sub, New.Floors.Size.hasMatrixSize_splitGram, New.Floors.Size.dotProduct_mem_ofSize, New.Floors.Size.HasMatrixSize.mulVec, New.Floors.Size.HasMatrixSize.mul, New.Floors.Size.mem_vecsOfSize_mono, New.Floors.Size.smul_mem_vecsOfSize, New.Floors.Size.sub_mem_vecsOfSize, New.Floors.Size.single_mem_vecsOfSize, New.Floors.Size.lengthLeAt_one_iff, New.Floors.Size.lengthLeAt_mulVec_iff, New.Floors.Size.form_mem_ofSize, New.Floors.Size.form_sub_form_mem_ofSize, New.Floors.Size.det_mem_ofSize, New.Floors.Size.det_mem_ofSize_of_last_row, New.Floors.Size.adjoint_apply_mem_ofSize, New.Floors.Size.HasMatrixSize.inv}
+\lean{New.Floors.PlaceData.FloorMassLe, New.Floors.PlaceData.partialCorrelation, New.Floors.PlaceData.IsPairingKernel, New.Floors.PlaceData.invDepthWeight, New.Floors.PlaceData.pivotL1Norm, New.Floors.PlaceData.weightedSquare, New.Floors.PlaceData.weightedSquareSum, New.Floors.PlaceData.weightedSquareIntegral, New.Floors.Gauge, New.Floors.Gauge.one_le_loss, New.Floors.Gauge.leadingMinor_mem_ofSize_of_isNear, New.Floors.Gauge.positionsOfSize, New.Floors.PlaceData.isNear_mul_iff, New.Floors.PlaceData.IsNear.anti, New.Floors.PlaceData.IsNear.of_floorGroup_mul, New.Floors.PlaceData.measurableSet_isNear, New.Floors.PlaceData.quotientMeasureFrom_isNear_le, New.Floors.Size.mem_vecsOfSize_of_congrBelow_heisenbergElem, New.Floors.isOrthogonalBelow_single_eStar, New.Floors.congrBelow_sub_one_mulVec, New.Floors.Size.mem_vecsOfSize_and_mem_ofSize_of_heisenbergElem, New.Floors.Gauge.measurableSet_vecsOfSize, New.Floors.Gauge.isBalanced_of_isNear, New.Floors.Gauge.orbitPoint_mem_vecsOfSize, New.Floors.Gauge.measurableSet_positionsOfSize, New.Floors.PlaceData.IsPairingKernel.stronglyMeasurable_partialCorrelation, New.Floors.PlaceData.IsPairingKernel.mono, New.Floors.PlaceData.IsPairingKernel.integrable_quotientMeasureFrom, New.Floors.PlaceData.IsPairingKernel.integrable_quotientMeasureFrom_mconv_floorMeasure, New.Floors.PlaceData.IsPairingKernel.integrable_partialCorrelation_succ, New.Floors.PlaceData.IsPairingKernel.partialCorrelation_eq_integral_floorMeasure, New.Floors.PlaceData.IsPairingKernel.partialCorrelation_eq_integral_succ, New.Floors.PlaceData.IsPairingKernel.enorm_partialCorrelation_le, New.Floors.PlaceData.IsPairingKernel.partialCorrelation_mul_left}
+\lean{New.Floors.Gauge.exists_blockKernel, New.Floors.Gauge.exists_commonBound, New.Floors.Gauge.exists_unit_smul_mem_closePairs, New.Floors.Gauge.hasMatrixSize_basisMatrix, New.Floors.Gauge.hasMatrixSize_boxSet, New.Floors.Gauge.isCompact_ofSize, New.Floors.Gauge.levelUnit_mem_ofSize, New.Floors.Gauge.loss, New.Floors.Gauge.loss_ne_top, New.Floors.Gauge.mem_vecsOfSize_of_mem_closePairs, New.Floors.Gauge.modulus_le, New.Floors.Gauge.one_le_kernelBound, New.Floors.Gauge.pairs_le, New.Floors.Gauge.toSize, New.Floors.Gauge.traceOne_div_mem_ofSize, New.Floors.Gauge.two_le_loss, New.Floors.Gauge.two_mul_blockRank_le, New.Floors.Gauge.volume_ofSize_le, New.Floors.Size.IsBalanced.exists_dual, New.Floors.Size.IsBalanced.inducedLengthLe, New.Floors.Size.mul_mem_ofSize, New.Floors.Size.neg_mem_iff_and_star_mem_iff, New.Floors.Size.ofSize, New.Floors.Size.splitGram_and_inv_mem, New.Floors.Size.sum_mem_ofSize, New.Floors.Size.zero_one_mem_ofSize}
+
+\begin{lemma}[Sizes and lengths]\label{lem:sizes}
+For a gauge:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Sizes add under products, a sum of at most $r+1$ terms of size $i$ has size $i+1$, and $-x$, $\bar x$ have the size of $x$; the Gram matrix and its inverse have size $1$. A matrix of size $i$ maps vectors of size $j$
+to vectors of size $i+j+1$, the product of matrices of sizes $i$ and $j$ has size $i+j+1$, and if an isometry has size $i$, its inverse has size $i+4$.
+\item If $v$, $w$ have sizes $i$, $j$, then $h(v,w)$ has size $i+j+3$; if moreover $(v-v')/r$ and $(w-w')/r$ have sizes $i$, $j$ for a self-adjoint unit $r$ of size $1$, then $(h(v',w')-h(v,w))/r$ has size $i+j+6$.
+\item A square matrix of order $j\le\varrho$ and size $7$ has determinant of size $8j$; of order $j+1$ with last row of size $9$, of size $9(j+1)$.
+\item The quotient $w_q^{-1}w_p$ of two Weyl elements is diagonal; the number of basis vectors of floor at least $a+1$ is $k+1+2(\varrho-a-1)$. The group $R^{(j)}$ keeps $Y^{(l)}$ and congruence modulo the $e_b$, $b<l\le j$,
+and $U_{(<l)}$ acts as $1$ on $Y^{(l)}$; the form $h(\omega,o)$ with $o\in Y^{(l)}$ depends only on the class of $\omega$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Floors.Size.mem_ofSize_mono, New.Floors.Size.neg_mem_ofSize, New.Floors.Size.star_mem_ofSize, New.Floors.Size.neg_one_pow_mul_mem_ofSize, New.Floors.Size.sum_fin_mem_ofSize, New.Floors.Size.sub_mem_ofSize, New.Floors.Size.HasMatrixSize.mono, New.Floors.Size.HasMatrixSize.one, New.Floors.Size.HasMatrixSize.sub, New.Floors.Size.hasMatrixSize_splitGram, New.Floors.Size.dotProduct_mem_ofSize, New.Floors.Size.HasMatrixSize.mulVec, New.Floors.Size.HasMatrixSize.mul, New.Floors.Size.mem_vecsOfSize_mono, New.Floors.Size.smul_mem_vecsOfSize, New.Floors.Size.sub_mem_vecsOfSize, New.Floors.Size.single_mem_vecsOfSize, New.Floors.Size.lengthLeAt_one_iff, New.Floors.Size.lengthLeAt_mulVec_iff, New.Floors.Size.form_mem_ofSize, New.Floors.Size.form_sub_form_mem_ofSize, New.Floors.Size.det_mem_ofSize, New.Floors.Size.det_mem_ofSize_of_last_row, New.Floors.Size.adjoint_apply_mem_ofSize, New.Floors.Size.HasMatrixSize.inv}
+
+\begin{proof}
+(a) The first three statements are axioms of a gauge, as are the sizes of $0$, $1$, of the Gram matrix $J$ and of $J^{-1}$; a number of size $i$ has every larger size, and a difference of two numbers of size $i$ has size $i+1$. An entry of $Av$, for $A$ of
+size $i$ and $v$ of size $j$, is a sum of $r$ products of size $i+j$, hence of size $i+j+1$; an entry of a product of two matrices is such a sum as well. For an isometry $x$ of $J$ we have $Jx^{-1}=x^*J$, so $x^{-1}=J^{-1}(x^*J)$: the matrix $x^*$ has size
+$i$, the product $x^*J$ size $i+1+1$, and $J^{-1}(x^*J)$ size $1+(i+2)+1=i+4$.
+
+(b) The form is $h(v,w)=v^*(Jw)$. The vector $Jw$ has size $1+j+1$, and the product with $v^*$, whose entries have the size $i$ of those of $v$, has size $i+(j+2)+1=i+j+3$. For the difference, $v'=v-r\cdot(v-v')/r$ has size $(1+i)+1=i+2$, and, as $r$ and
+$r^{-1}$ are self-adjoint,
+\[
+  \frac{h(v',w')-h(v,w)}r=-h\Bigl(v',\frac{w-w'}r\Bigr)-h\Bigl(\frac{v-v'}r,w\Bigr).
+\]
+The first term has size $(i+2)+j+3=i+j+5$, the second size $i+j+3$, which is at most $i+j+5$, and the difference costs one more: $i+j+6$.
+
+(c) Induction on $j$. For $j=0$ the determinant is $1$, of every size. For $j\ge1$ expand along the first row: $\det Z=\sum_b(-1)^bZ_{0b}\det Z^{(0b)}$, where the minor $Z^{(0b)}$ of order $j-1$ has size $7$ and, by induction, determinant of size $8(j-1)$. Signs do not
+change sizes, so each of the $j\le\varrho+1$ terms has size $7+8(j-1)$, and the sum has size $7+8(j-1)+1=8j$. For the second statement expand along the last row: each term is an entry of size $9$ times a minor of order $j$ with rows of size $7$, of size $8j$,
+hence of size $9+8j$, and the sum has size $8j+10\le9(j+1)$ when $j\ge1$; for $j=0$ there is one term, $Z_{00}$, of size $9$.
+
+(d) Column by column, $w_p$ sends $e_a$ to $p_ae^*_a$ and $e^*_a$ to $(\bar p_a)^{-1}e_a$ for $a<j$, and $w_q^{-1}$ sends them back with the factors of $q$; so $w_q^{-1}w_p$ is diagonal, with entry $p_a/q_a$ at $e_a$ and its conjugate inverse at $e^*_a$.
+The basis vectors of floor at least $a+1$ are the $e_b$ and $e^*_b$ with $b>a$, $2(\varrho-a-1)$ in number, and the $k+1$ vectors of the middle block. An element $s$ of $R^{(j)}$ changes each $e_b$, $b<j$, by a combination of earlier ones. If $\omega$ is orthogonal
+to the $e_b$, $b<l\le j$, so is $s\omega$, because $h(e_b,s\omega)=h(s^{-1}e_b,\omega)$ and $s^{-1}e_b$ is again a combination of the $e_c$, $c\le b$. If $\omega-\omega'$ is a combination of the $e_b$, $b<l$, so is $s(\omega-\omega')$: in a row of $s$ of level at least $l$ only
+the columns $e_b$, $b<l$, can contribute, and there the entries of $s$ vanish. For $u\in U_{(<l)}$ and $\omega$ orthogonal to the $e_b$, $b<l$, the coordinates of $u\omega$ of level at least $l$ are those of $\omega$: an index of level at least $l$ is some $e^*_b$ or has
+floor at least its level, and $u$ acts as $1$ there. Finally, if $o$ is orthogonal to the $e_b$, $b<l$, then $h(\omega+\sum_{b<l}c_be_b,o)=h(\omega,o)$.
+\end{proof}
+
+\begin{proposition}[Two gauges, balanced frames]\label{prop:two-gauges}
+Let $\Gamma$ be a gauge for $F$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $g$ is near at $j$, each $e_a$, $a<j$, is balanced at $g$ with exponent $5$: some lift and some dual of $e_a$ are moved by $g^{-1}$ to vectors of size $5$.
+\item Let $g$, $g'$ be isometries, $r$ a self-adjoint unit of size $1$, and suppose that the lengths at $g$ and $g'$ differ by at most $L^t$ modulo $r$ on $Y^{(j)}$, and that for $a<j$ the class of
+$e_a$ has lifts of size $c$ at both points and a short dual that looks nearly the same from both points. Then they differ by at most $L^{t+(4c+12)j}$ modulo $r$ on the whole space, and
+$(g'g^{-1}-1)/r$ has bounded size.
+\item The leading minors of the matrix of frame products of a point near at $n$ have size $9n$; over a head $p$ of length $j$ the products $p_0\cdots p_{l-1}$ times the duals have bounded size,
+and so do $g$ and $w_p^{-1}g$ (Cramer's rule).
+\end{enumerate}
+\end{proposition}
+\lean{New.Floors.Size.leadingMinor_mem_ofSize, New.Floors.Size.GaugesDifferLe.of_succ, New.Floors.Size.GaugesDifferLe.on_whole_space_of_hasShortDual, New.Floors.Size.GaugesDifferLe.hasMatrixSize_sub_one, New.Floors.Size.head_prod_mul_dual_mem_ofSize, New.Floors.Size.head_products_mem_ofSize, New.Floors.Size.dual_mem_vecsOfSize, New.Floors.Size.head_entries_mem_ofSize, New.Floors.Size.hasMatrixSize_weylElem_inv, New.Floors.Size.hasMatrixSize_inv_of_mem_unipotentBelow, New.Floors.Size.hasMatrixSize_of_isHead}
+
+\begin{proof}
+(a) If $\xi g$ lies in the box for some $\xi\in R^{(j)}$, take the lift $\xi^{-1}e_a$ and the dual $\xi^{-1}e^*_a$; read at $g$ they are columns of $(\xi g)^{-1}$, which has size $1+4$ by \cref{lem:sizes}(a), the box having size $1$.
+
+(b) \emph{One step.} Suppose the lengths differ by at most $L^t$ modulo $r$ on $Y^{(a+1)}$, that $e_a$ has lifts $f$, $f'$ of size $c$ at $g$, $g'$, and a dual $\zeta$ in $Y^{(a)}$ with $h(e_a,\zeta)=1$, $g^{-1}\zeta$ and
+$(g^{-1}\zeta-g'^{-1}\zeta')/r$ of size $c$ for a lift $\zeta'$. For $\omega\in Y^{(a)}$ with $g^{-1}\omega$ of size $i$ write $\omega=\alpha\zeta+\omega_0$ with $\alpha=h(e_a,\omega)$, so that $\omega_0$ is orthogonal to $e_a$. The class of $\omega_0$ in
+$Y^{(a+1)}$ has a lift $\omega_0'$ with $g'^{-1}\omega_0'$ close to $g^{-1}\omega_0$ modulo $r$. Let $\mu$ be the coefficient of $e_a$ in $\omega_0'-\omega_0$; pairing with the dual $\zeta$ bounds $\mu/r$ by \cref{lem:sizes}(b), and $\alpha\zeta'+\omega_0'-\mu f'$
+is a lift of $\omega$ whose reading at $g'$ is close to $g^{-1}\omega$ modulo $r$. The sizes add up to $i+t+4c+12$. \emph{Descent.} Apply the step for $a=j-1,\dots,0$. \emph{The matrix.} On the whole space a class has one lift, so the
+columns of $g$ read at $g'$ give those of $(1-x^{-1})/r$ for $x=g^{-1}g'$, and $(x-1)/r$ is the adjoint of $(x^{-1}-1)/r$ for the form, of size four more.
+
+(c) \emph{Minors.} If $\xi g$ and $\xi'\gamma^{-1}g$ lie in the box with $\xi,\xi'\in R^{(l)}$, then $x=(\xi g)(\xi'\gamma^{-1}g)^{-1}=\xi\gamma\xi'^{-1}$ has size $7$, and the matrix of frame products of $x$ has the same leading minors of order at
+most $l$ as that of $\gamma$; in $Jx$ the row of $e_a$ is the row of $e^*_a$ of $x$, and all rows of a leading minor but the last belong to the $e_a$, $a<\varrho$. By \cref{lem:sizes}(c) the minors have size $9n$. \emph{Cramer.} Let
+$sg$ and $\eta w_p^{-1}g$ lie in the box with $s,\eta\in R^{(j)}$, and $a<j$. The block of $sw_p\eta^{-1}$ on the rows $e^*_b$ ($b<a$) and $i$ and the columns $e_d$ ($d\le a$) has size $7$, being part of
+$(sg)(\eta w_p^{-1}g)^{-1}$, and it factors as $LC$ with $L$ the same block of $sw_p$, lower triangular with the $p_b$ on the diagonal (the row of $s$ at $e^*_b$ agrees with that of $1$ outside the columns $e^*_d$, $d<b$), and
+$C$ the block of $\eta^{-1}$ on $e_0,\dots,e_a$, unitriangular. Hence $p_0\cdots p_a$ times the $i$th entry of $se^*_a$ is a minor of size $8\varrho$. For a head the inverses of the partial products have size $1$, so the entries of $se^*_a$
+have size $8\varrho+1$, and $p_a$, $p_a^{-1}$, quotients of consecutive partial products, have size $10n$. Then $w_p^{-1}$ has size $10n$ (its entries are $0$, $1$, $\bar p_a$, $p_a^{-1}$), and if $s$ also lies in $U_{(<j)}$, comparing the
+gauges at $1$ and $s^{-1}$ by (b) (they agree on $Y^{(j)}$, where $s$ acts as $1$, and the $e^*_a$ are short duals) bounds $s^{-1}$; writing $g=s^{-1}(sg)$ gives size $60n^2$ for $g$ and $99n^2$ for $w_p^{-1}g$.
+\end{proof}
+
+\subsection{Floor forms}\label{ss:floor-forms}
+A function $W\colon G\to\C^I$ is a \emph{Bessel function of frequency $\eta$} if it is bounded, measurable and $W(ux)=\psi(\eta\sigma(u))W(x)$ for $u\in U$, $\sigma(u)$ the sum of the entries above the diagonal
+of the frame block; it is a \emph{cut Bessel function} for $F$ if its frequency is $M^{-1}$ and $W(x)\ne0$ forces $ux\in K$ for some $u\in U$. The \emph{correlation from floor $j$ on} of a kernel $k$ is
+$k_j(g,y)=\int k(\sigma g,\sigma y)\,d(\theta_{\varrho+1}*\dots*\theta_j)(\sigma)$. For heads $p$, $q$ the \emph{head density} is $\kappa_j(p,q)=\prod_{a<j}\abs{p_aq_a}^{d_a/2}$, $d_a=k+1+2(\varrho-a-1)$, and
+\begin{gather*}
+  \mathcal I_j(p,q;\omega)=\kappa_j(p,q)\int\!\!\int\Phi_j(x,g;\omega)\,d\mathsf m_j(g)\,d\mathsf M(x),\\
+  \Phi_j(x,g;\omega)=\iint\omega(\sigma\tau^{-1})\,k_{j+1}(\sigma g,\sigma gx)\,\overline{k'_{j+1}(\tau w_p^{-1}g,\tau w_p^{-1}gx)}\,d\theta_j(\tau)\,d\theta_j(\sigma),
+\end{gather*}
+is the \emph{form of floor $j$} with weight $\omega$, where $k(g,y)=\langle W(g),W(y)\rangle$ and $k'$ is the same kernel twisted by $w_q^{-1}w_p$. Its integrand at a position $x$ has an $L^1$ norm
+$\mathsf F_j(x;\omega)$, bounded by the \emph{majorant} $\mathsf F^\sharp_j(x)$, the integral over $\mathsf m_j$ of the product of the two integrals over floor $j$ of the moduli of the correlations. A point $y$ is
+\emph{active} at $x$ if its correlation with $yx$ is nonzero and both points are near at $j$ after the Weyl elements are undone; $x$ has a \emph{deep vector} of depth $D$ if every active point has an $e_a$,
+$a\ge j$, of depth at least $D$.
+\lean{New.Floors.PlaceData.headDensity, New.Floors.Place.IsBessel, New.Floors.PlaceData.IsCut, New.Floors.PlaceData.pairingNormSq, New.Floors.PlaceData.partialCorrelationProduct, New.Floors.PlaceData.formIntegrand, New.Floors.PlaceData.floorForm, New.Floors.PlaceData.formIntegrandL1Norm, New.Floors.PlaceData.formMajorant, New.Floors.Gauge.weightedSquareProduct, New.Floors.PlaceData.IsActive, New.Floors.PlaceData.HasDeepVector, New.Floors.PlaceData.hasDeepVector_inv_iff, New.Floors.frameGram_diag_mul, New.Floors.PlaceData.enorm_floorForm_le, New.Floors.PlaceData.partialGroupMeasure_top, New.Floors.Gauge.isCompact_hasMatrixSize, New.Floors.Place.IsBessel.besselOrbitalIntegral_besselU_mul, New.Floors.PlaceData.IsCut.isNear_of_ne_zero, New.Floors.Gauge.leadingMinor_mem_ofSize_of_besselOrbitalIntegral_ne_zero, New.Floors.PlaceData.IsCut.formIntegrandL1Norm_le_formMajorant, New.Floors.Gauge.hasMatrixSize_of_ne_zero, New.Floors.Gauge.inner_besselOrbitalIntegral, New.Floors.Gauge.isPairingKernel_frameCorrelation, New.Floors.Gauge.isPairingKernel_frameCorrelation_one, New.Floors.PlaceData.partialCorrelationProduct_eq, New.Floors.PlaceData.floorForm_zero_eq_integral, New.Floors.PlaceData.integrable_and_integral_succ_eq_mul_floorForm, New.Floors.Gauge.integral_weight_mul_floorForm_succ, New.Floors.Gauge.integral_psi_mul_floorForm_succ}
+\lean{New.Floors.Place.IsBessel.map_unipotent_mul, New.Floors.Place.IsBessel.toIsBoundedMeasurable, New.Floors.PlaceData.IsActive.inner_ne_zero, New.Floors.PlaceData.IsActive.isNear_left, New.Floors.PlaceData.IsActive.isNear_right, New.Floors.PlaceData.IsCut.exists_mul_mem_box, New.Floors.PlaceData.IsCut.toIsBessel, New.Floors.frameCorrelation}
+
+\begin{lemma}[Pairing kernels and partial correlations]\label{lem:pairing-kernel}
+Let $W$ be a cut Bessel function and $w=w_q^{-1}w_p$. The kernel $k(g,y)=\langle W(g),W(wy)\rangle$ is a \emph{pairing kernel} at floor $j$: it is measurable; for $n,n'\in U_{(<l)}$, putting $n$ before $g$ and $n'$ before $y$ multiplies
+the correlation from floor $l+1$ on by $\psi((\sigma_0(wn'w^{-1})-\sigma_0(n))/M)$; $w$ commutes with $G^{(j)}$; the integral of $\abs{k(xg,xy)}$ over the floors from $l$ on is bounded independently of $g$, $y$; and a nonzero
+correlation from floor $l$ on forces $g$ near at $l$. For a pairing kernel:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item the correlation from floor $l$ on is an absolutely convergent integral, jointly measurable, equal to the integral over $\theta_l$ of the correlation from floor $l+1$ on, and its modulus is at most the integral over
+$\theta_l$ of the modulus of the next one;
+\item the correlation from floor $l\ge j$ on is invariant under left translation of both points by the same element of $R^{(l)}\cap G^{(j)}$;
+\item if the $\sigma$ on each floor $a<n$ with $\sigma g$ near at $a+1$ have mass at most $V$ for $\theta_a$, then for every $c$ the $g$ with $gc$ near at $\varrho+2$ have mass at most $V^{n-l}$ for the floors from $l$ on.
+\end{enumerate}
+\end{lemma}
+\lean{New.Floors.PlaceData.IsPairingKernel.conj_eq_self, New.Floors.PlaceData.IsPairingKernel.equivariance, New.Floors.PlaceData.IsPairingKernel.exists_lintegral_le, New.Floors.PlaceData.IsPairingKernel.isNear_of_partialCorrelation_ne_zero, New.Floors.PlaceData.IsPairingKernel.measurable}
+
+\begin{proof}
+For the cut Bessel function: conjugation by an element of the floor group keeps the entries summed by $\sigma_0$, and $w$ is diagonal; the first scalar leaves the inner product conjugated, that is inverted. The bound of the mass
+comes from the floor masses (\cref{prop:quadric-plancherel}(a) below gives a finite $V$), and a nonzero value forces nearness because $W$ vanishes off the translates of the box. (a) The measure of the floors from $l$ on is that from
+$l+1$ on convolved with $\theta_l$, and the claim is Fubini's theorem on the product, the integrand being integrable by the mass bound. (b) Descending induction on $l$: above the top floor the measure is the unit mass and
+$s\in U$ commutes with $w$, so the character of the equivariance is $1$; below, the correlation is the integral of a function invariant by induction, and by \cref{prop:floor-measures}(b) the translate by $s$ has the same law.
+(c) Induction on the number of floors: peel off the lowest floor $l$, of mass at most $V$; if $\sigma c$ is not near at $l+1$, no point $x\sigma c$ with $x$ on the higher floors is near; at the top only $\mu_H$ is left, of mass at most $1$ on near points.
+\end{proof}
+
+\begin{theorem}[Descent and mass]\label{thm:floor-descent}
+Let $F$ have a gauge and $W$ be a cut Bessel function; let $p$, $q$ be sequences of units.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\abs{\mathcal I_j(p,q;\omega)}\le\kappa_j(p,q)\int\mathsf F_j(x;\omega)\,d\mathsf M(x)$, and $\mathsf F_j(x;\omega)\le\mathsf F^\sharp_j(x)$ if $\abs\omega\le1$.
+\item (Descent.) Let $a<\varrho$, let the majorant of floor $a$ be integrable for $\mathsf M$, and let $\varphi$ be measurable with $\abs\varphi\le1$. Then $c\mapsto\varphi(c)\,\mathcal I_{a+1}((p,c),(q,c);1)$, with the entry
+$a$ of both heads replaced by $c$, is integrable, and its integral is $\mathcal I_a(p,q;\varphi(Z_{aa}))$, where $Z_{aa}(x)=h(f_a,xf_a)$. In particular this holds for $\varphi(c)=\psi(\eta c)$.
+\item (Mass.) $\mathcal I_0(p,q;1)=\int\abs{k_0(1,y)}^2\,d\mathsf M(y)$.
+\item (Orbital integrals.) If $\mu$ is a Haar measure, $W$ is continuous, $p$, $q$ are heads of length $\varrho$ and $x\in G^{(\varrho)}$, then $\langle J(w_px),J(w_qx)\rangle$, with $J(\gamma)=\int W(y)\otimes W(\gamma^{-1}y)^*d\mu(y)$,
+is the double integral of $\langle W(y),W(y')\rangle$ times the conjugate of $\langle W((w_px)^{-1}y),W((w_qx)^{-1}y')\rangle$. If $J(\gamma)\ne0$, the leading minors of the frame products of $\gamma$ have size $9n$, and
+if $W(y)W((w_px)^{-1}y)\ne0$ the entries of $y$ have size $60n^2$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) is the triangle inequality, the majorant bounding the double integral over floor $j$ by the product of the moduli (the integrands of the two factors of the majorant are the moduli of the two correlations).
+
+(b) \emph{The chart.} By \cref{prop:floor-measures}(a), $\theta_a$ is the law of $(w_a(c))^{-1}n$ for $c$ with a density $\rho$ and $n$ under $\eta_a$ times a measure $\zeta$ carried by $R^{(a+1)}\cap G^{(a)}$. \emph{The weight.} For $x$ in
+$R^{(a+1)}\cap G^{(a)}$, which fixes $f_a$, multiplying $y$ by $x$ on either side leaves $Z_{aa}(y)=h(f_a,yf_a)$ unchanged; and $w_a(c)$ has the Gram entry $c$. Hence the weight $\varphi(Z_{aa})$ becomes $\varphi(c)$ after the substitution
+$\tau=(w_a(c))^{-1}n\sigma$, $g'=n\sigma g$. \emph{The integrands.} The Weyl element of floor $a+1$ of the head with entry $c$ is $w_ap\cdot w_a(c)$, the twist $w_q^{-1}w_p$ is unchanged, and the new factor of the head density gives the density
+$\rho(c)$; with these, the integrand of $\mathcal I_{a+1}$ at the heads with entry $c$ and the integrand of $\mathcal I_a$ have the same image measure. Fubini applies because the majorant is integrable and $\abs\varphi\le1$, the integral
+of the modulus being at most that of the majorant.
+
+(c) Below floor $0$ there is only the point $1$, and the Weyl elements of length $0$ are trivial, so the two factors of the integrand are complex conjugates and the form is the integral of $\abs{k_0(1,y)}^2$.
+
+(d) The coordinate $i$ of $J(w_rx)$ is the integral of $W(y)_i\overline{W((w_rx)^{-1}y)}$; for a head $r$ the integrand is continuous by hypothesis and vanishes off the compact set of points of size $60n^2$, so Fubini gives the double
+integral. If $J(\gamma)\ne0$, then $W(y)$ and $W(\gamma^{-1}y)$ are both nonzero for some $y$, so unipotent translates of $y$ and $\gamma^{-1}y$ lie in the box, and \cref{prop:two-gauges}(c) bounds the minors. If $W(y)\ne0$ and
+$W((w_px)^{-1}y)\ne0$, the factor $x^{-1}\in G^{(\varrho)}$ does not affect nearness at $\varrho$, and \cref{prop:two-gauges}(c) solves the unipotent factors from the minors of the head.
+\end{proof}
+
+\subsection{Quadrics, depth and the gains}\label{ss:frame-tools}
+The equation of a quadric is solved in a block of orthonormal coordinates: a measure $\rho$ on $V_b$ is \emph{solved} in a block if it is the volume in the coordinates off the block times measures in the block,
+each of mass at most a bound on the vectors whose block coordinates have given size. A \emph{section} of the isotropic cone of $Y^{(a)}$ is the set $h(e_a,y)=c$ for a unit $c$; its points are $c\,n^{-1}e^*_a$ for $n$ in the Heisenberg
+group of floor $a$, and it carries the measure $dy/dc=\abs c^r\,dn$, $r$ the rank of $Y^{(a+1)}$.
+\lean{New.Floors.Place.IsDisintegration.continuous_integral}
+
+\begin{lemma}[Volumes on quadrics and sections]\label{lem:quadric-volumes}
+Let $\Gamma$ be a gauge with constant $\Lambda$, and let $y_X$ denote the vector of products of the basis vectors of $X'$ with $y$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The orthonormal basis vectors contain two disjoint blocks of $2m+2$ vectors, disjoint from the basis of $X'$. The volume of $V_b$ and the quadric measure of floor $b$ are solved in every such block, with mass at most
+$\Lambda^{(2m+2)(j+1)}$ on the points of size $j$; and the volume of the numbers of size $j$ raised to the number of coordinates off $X'$ and off one block, times this bound, is at most $\Lambda^{99n(j+2)}$.
+\item If $\varphi$ has integral at most $B$ over the vectors of size $j+4$ of $X'$, then $\varphi(y_X)$ has integral at most $\Lambda^{99n(j+6)}B$ over the vectors of size $j$ for either measure.
+\item A set of skew elements whose differences, divided by $u$, have size $j+1$ has measure at most $\abs u^{1/2}\Lambda^{j+2}$. On the Heisenberg group of floor $a$: if $\Phi(n)\ne0$ forces a lift of $(n^{-1}-1)e^*_a$ divided by $u$ to have size
+$j$ and $\Phi(n)\le C\Psi(\omega/u)$, and $\Psi$ has integral at most $I$ over the vectors of size $j$, then $\int\Phi\,d\eta_a\le C\abs u^{r+1/2}\Lambda^{j+2}I$.
+\item The quadric measure of the isotropic cone of $Y^{(a)}$ is $dc$ times the section measures; for a unit $c$ and $\varphi$ with integral at most $B$ over the vectors of size $j+5$ of $X'$, $\varphi(y_X)$ has integral at most
+$\abs c^{-1/2}\Lambda^{j+3}\Lambda^{99n(j+7)}B$ over the points of size $j$ of the section; and for a head $p$ of length $a+1$, $y$ in the box and $w_pn\nu y$ near at $a+1$, the section point $\bar p_an^{-1}e^*_a$ has size $20n$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Floors.Gauge.mem_vecsOfSize_of_floorBasis_mulVec, New.Floors.Gauge.exists_blocks, New.Floors.Gauge.exists_isSolvedIn, New.Floors.Gauge.volume_pow_mul_le, New.Floors.Gauge.setLIntegral_map_floorBasis_le, New.Floors.Gauge.setLIntegral_orthonormalPart_le, New.Floors.Gauge.skewMeasure_le_of_sub_mem_ofSize, New.Floors.Gauge.lintegral_heisenbergElem_skewMeasure_le, New.Floors.Gauge.lintegral_heisenbergMeasure_le, New.Floors.sectionPoint, New.Floors.sectionMeasure, New.Floors.measurable_sectionPoint, New.Floors.orbitPoint_floorWeyl_inv_mul, New.Floors.PlaceData.lintegral_floorQuadricMeasure_eq, New.Floors.exists_sectionPoint_heisenbergElem_eq, New.Floors.sectionPoint_apply_eq_zero_of_floorOf_lt, New.Floors.Size.sectionPoint_mem_vecsOfSize, New.Floors.weylElem_mulVec_eStar, New.Floors.orbitPoint_weylElem_mul, New.Floors.congrBelow_sectionPoint_orbitPoint, New.Floors.CongrBelow.orthonormalPart_conjTranspose_mulVec_eq, New.Floors.Gauge.sectionPoint_mem_vecsOfSize_of_isNear, New.Floors.Gauge.setLIntegral_sectionMeasure_le}
+
+\begin{proof}
+(a) Number the orthonormal indices with those of $X'$ first and the two blocks in the last $2(2m+2)$ places. Each entry of the floor basis is $0$, $1$ or an entry of the basis matrix, of size $1$, so coordinates cost four
+more than vectors; the Gram matrix of the floor basis swaps the two entries of each pair and fixes the others. The equation of the quadric is solved in a block by the gauge axiom on the quadrics of a block (a disintegration
+of the volume of the block along the standard form with masses at most $\Lambda^{(2m+2)(j+1)}$ in size $j$). There are at most $99n$ coordinates off $X'$, each costing at most $\Lambda^{j+1}$. (b) Pairing with the basis of $X'$ reads
+off coordinates; solve the equation in a block disjoint from $X'$ and integrate the free coordinates. (c) For two differences $d_1$, $d_2$ the number $(\tau\delta^{-1}d_1+d_2)/u$ has size $j+3$, so the squared mass of the set is at most $\abs u$ times
+the volume of the numbers of size $j+3$. On the Heisenberg group, $\eta_a$ is the image of $d\omega\,d\beta$; on the support the vector $\omega/u$ has size $j$, and so has $(c-\beta)/u$ with $c$ independent of $\beta$; integrate first over
+$\beta$, then scale the coordinates $\omega$ by $u$, which costs $\abs u^r$. (d) The cone measure is the image under $\sigma\mapsto\sigma^{-1}e_a$ of the floor measure, which is the Weyl law convolved with $\eta_a$; the point
+$(w_a(c)^{-1}n)^{-1}e_a$ is $cn^{-1}e^*_a$, and almost every $c$ is a unit. For the bound, integrate over the Heisenberg group at the scale $-1/c$ by (c): the power of $\abs c$ in the section measure cancels against that in
+$\abs{c^{-1}}^{r+1/2}$, leaving $\abs c^{-1/2}$. For the size: $(w_pn\nu)^{-1}e_a$ is congruent to $\bar p_an^{-1}e^*_a$ modulo the $e_b$, $b<a$, as $w_p$ sends $e_a$ to $p_ae^*_a$; for the head $\bar p$ the entry $\bar p_a$ and $(n\nu)^{-1}e^*_a$ have size
+$10n$ by \cref{prop:two-gauges}(c), and coordinates of floor below $a$ of a section point vanish.
+\end{proof}
+
+\begin{proposition}[Plancherel's formula on quadrics]\label{prop:quadric-plancherel}
+Let $\Gamma$ be a gauge, $\Lambda$ its constant and $c=c_A$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The volume of $Y^{(b)}$ and the measure of the quadric of floor $b$ are \emph{solved} in every block of $2m+2$ orthonormal basis vectors: the other coordinates are free, and over each value of them
+the points of the block with coordinates of size $j$ have mass at most $\Lambda^{(2m+2)(j+1)}$. A section $h(e_a,y)=c$ of the isotropic cone, for a unit $c$, is an orbit of the Heisenberg group of floor $a$.
+\item The kernel $\psi(\xi h(v,y))$ from the vectors $y$ of size $j$ on the quadric of floor $b$ to the vectors $v$ of size $i$ multiplies square norms by at most
+\[
+  \Lambda^{99n(i+6)}\,\Lambda^{99n(j+6)}\,(c/\abs\xi)^{\dim X'}.
+\]
+\item (Parseval along a Heisenberg group.) If the characters of two points differ by the invertible frequency $\xi$ on the Heisenberg group $N$ of floor $a$, the integral over $N$ of the squared correlation from
+floor $a+1$ on is at most $(c/\abs{\xi u})^{\dim X'}\abs u^{r_a+1/2}\Lambda^{100n(i+j+31)}$ times the integral over floor $a+1$ of the squared correlation from floor $a+2$ on, for suitable sizes $i$, $j$ and scaling
+unit $u$; here $r_a$ is the rank of the vector part of $N$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Floors.Gauge.mem_vecsOfSize_of_floorBasis_mulVec, New.Floors.Gauge.exists_blocks, New.Floors.Gauge.exists_isSolvedIn, New.Floors.Gauge.volume_pow_mul_le, New.Floors.Gauge.setLIntegral_map_floorBasis_le, New.Floors.Gauge.setLIntegral_orthonormalPart_le, New.Floors.Gauge.skewMeasure_le_of_sub_mem_ofSize, New.Floors.Gauge.lintegral_heisenbergElem_skewMeasure_le, New.Floors.Gauge.lintegral_heisenbergMeasure_le, New.Floors.sectionPoint, New.Floors.sectionMeasure, New.Floors.measurable_sectionPoint, New.Floors.orbitPoint_floorWeyl_inv_mul, New.Floors.PlaceData.lintegral_floorQuadricMeasure_eq, New.Floors.exists_sectionPoint_heisenbergElem_eq, New.Floors.sectionPoint_apply_eq_zero_of_floorOf_lt, New.Floors.Size.sectionPoint_mem_vecsOfSize, New.Floors.weylElem_mulVec_eStar, New.Floors.orbitPoint_weylElem_mul, New.Floors.congrBelow_sectionPoint_orbitPoint, New.Floors.CongrBelow.orthonormalPart_conjTranspose_mulVec_eq, New.Floors.Gauge.sectionPoint_mem_vecsOfSize_of_isNear, New.Floors.Gauge.setLIntegral_sectionMeasure_le}
+\lean{New.Floors.Gauge.floorMassLe_of_chart, New.Floors.Gauge.floorMassLe_one_of_le, New.Floors.Gauge.floorMassLe_one, New.Floors.Gauge.fourierSqNormLe_floorQuadricMeasure, New.Floors.Gauge.correlation_support, New.Floors.Gauge.correlation_plancherel, New.Floors.Gauge.partialCorrelation_heisenbergElem_eq_integral, New.Floors.Gauge.simpleRootSum_weylRatio_conj, New.Floors.Gauge.partialCorrelation_weylRatio_heisenbergElem, New.Floors.Gauge.parseval_heisenbergMeasure_le}
+
+\begin{proof}
+(a) is \cref{lem:quadric-volumes}(a), (d). For the floor masses: if $f$ is left invariant under $R^{(b+1)}$ and $f(\sigma g)\le\Psi(\sigma^{-1}f_b)$ with $\Psi$ of integral at most $C$ over the vectors of size $7$ of the quadric, then the integral of
+$f(\sigma g)$ over the $\sigma$ with $\sigma g$ near at $b+1$ is at most $C$: replace $g$ by $\xi g$ in the box, $\xi\in R^{(b)}$, and note that the vectors $\sigma^{-1}f_b$ that count have size $1+6$. With (a) this gives floor masses at most $\Lambda^{99\cdot13n}$ times
+the volume of the vectors of size $11$ of $X'$.
+
+(b) In the coordinates of the floor basis, solve for $v$ and $y$ in two different blocks (\cref{lem:quadric-volumes}(a)); the kernel then acts on the orthonormal coordinates of $X'$, off both blocks, where $\psi(\xi h(v,y))$ is a
+character in $y_X$ with frequency $\xi v_X$, and Plancherel's formula on $X'$ bounds it by $(c/\abs\xi)^{\dim X'}$ on square norms. Cauchy--Schwarz in the fibres of the blocks costs the masses of the blocks, $\Lambda^{99n(i+6)}$ and
+$\Lambda^{99n(j+6)}$ by \cref{lem:quadric-volumes}(b).
+
+(c) \emph{Correlations along $N$.} Let $n$ be the Heisenberg element of $(\omega,\beta)$. Moving $n$ to the left of $\sigma$ and applying the equivariance of the correlation to $\sigma n\sigma^{-1}$ (\cref{lem:pairing-kernel}), the correlation from floor $a+1$
+on at $(n^\varepsilon x,ny)$ is the integral over floor $a+1$ of $\psi(-\xi h(\omega,\sigma^{-1}f_{a+1}))$ times the correlation from floor $a+2$ on at $(\sigma x,\sigma y)$; for the twist $w_q^{-1}w_p$ conjugation multiplies $\sigma_0$ on $N$ by $p_a/q_a$ if
+$a<j$, so the frequency is $(p_a/q_a-\varepsilon)/M$ or $(1-\varepsilon)/M$. \emph{Parseval.} The correlation along $N$ is therefore a Fourier transform in the next frame vector. Fix $n_0$ in the support, write the element that moves
+$x$ to bounded size as $tr$ with $t\in R^{(a+1)}\cap G^{(a)}$, $r\in U_{(<a+1)}$, and substitute $n=r^{-1}t^{-1}n(v)trn_0$; the measure is invariant under the group on both sides and under conjugation by $t$, the vector part of $n(v)$ is
+$t^{-1}v+z$, and a lift of $(n(v)^{-1}-1)e^*_a/u$ has size $j$. Plancherel's bound (b) on floor $a+1$ at the frequency $-\xi\bar u$, with the measure of the Heisenberg group from \cref{lem:quadric-volumes}(c), gives the claim.
+\end{proof}
+
+\begin{lemma}[Stable vectors and the depth]\label{lem:stable}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A vector orthogonal to the $e_b$, $b<l$, and short from $g$ and $g'$ is stable at $g$, $g'$ with the same lift. The sets $\mathfrak d_a(x,y)$ form an open family in $(x,y)$, have nonzero finite volume, are unchanged when both points
+are moved by an element of $R^{(a+1)}$ or the second point alone by an element of $U_{(<a)}$; hence so are the depths, which are measurable, nonzero and finite.
+\item $\wp_{a+1}=\wp_a\cdot\mathrm{dp}_a^{-s}$, the weights are nonzero, finite, measurable and invariant under $R^{(j)}$ on both points, and the inverse weight (set to $0$ off the points near at $j$) is left invariant under $R^{(j)}$.
+\item (Common bounds.) Let $W$ be the set of vectors of $X'$ killed by the rows of a matrix $v$ and short from $g$ and $gx$, and let $\varphi(u)$ bound $1/\vol\langle u,W\rangle$ and the volume of the $c$ with $\langle cu,W\rangle$ inside the
+product differences. If $\sigma$ moves $W$ to vectors orthogonal to the $e_b$, $b<a$, then $\mathrm{dp}_a(\sigma g,\sigma gx)\le\varphi(y_X)$ for $y=\sigma^{-1}e_a$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Floors.PlaceData.depthWeight_mul_left, New.Floors.PlaceData.depthWeight_ne_zero_and_ne_top, New.Floors.PlaceData.measurable_depth, New.Floors.measurable_depthWeight, New.Floors.PlaceData.IsCommonBound.inv_volume_le, New.Floors.PlaceData.IsCommonBound.lintegral_le, New.Floors.PlaceData.IsCommonBound.measurable, New.Floors.PlaceData.IsCommonBound.volume_le}
+
+\begin{proof}
+(a) By definition a vector $\omega$ orthogonal to the $e_b$, $b<a$, is \emph{stable} at $x$ and $x'$ if the pair $(x^{-1}\omega,x'^{-1}\omega')$ is close for some lift $\omega'$ of its class; if $\omega$ is short from both points, $\omega'=\omega$ is such a lift. \emph{Openness.} Let $c=h(e_a,\omega)$
+with $\omega$ stable at $x$, $xy$ and lift $\omega'$. The product $h(e_a,\omega)$ is the coordinate of $\omega$ at $e^*_a$; adding the same multiple of $e^*_a$ to $\omega$ and to $\omega'$ keeps the orthogonality to the $e_b$, $b<a$, and the congruence, and changes $c$
+by that multiple. Close pairs form an open set and the readings at the two points are continuous in $(x,y)$, so all $c'$ near $c$ lie in $\mathfrak d_a(x',y')$ for $(x',y')$ near $(x,y)$. \emph{Volume.} The pair $(0,0)$ is close, so $0\in\mathfrak d_a(x,y)$, and the set is open,
+hence of positive volume. It is bounded: $c=h(x^{-1}e_a,x^{-1}\omega)$ lies in the image of the compact closure of the close pairs under a continuous map, so the volume is finite. \emph{Invariance.} For $\xi\in R^{(a+1)}$ the vectors $\xi\omega$ and $\xi\omega'$ are read
+at $\xi x$ and $\xi xy$ as $\omega$ and $\omega'$ are at $x$ and $xy$; they are orthogonal to the $e_b$, $b<a$, and congruent (\cref{lem:sizes}(d)); and $h(e_a,\xi\omega)=h(\xi^{-1}e_a,\omega)=h(e_a,\omega)$, as $\xi^{-1}e_a$ is $e_a$ plus a combination of the $e_b$, $b<a$,
+which are orthogonal to $\omega$. For $\nu\in U_{(<a)}$ acting on the second point alone, replace the lift $\omega'$ by $\nu\omega'$, a lift of the same class since $\nu$ acts as $1$ on $Y^{(a)}$; its reading at $\nu z$ is that of $\omega'$ at $z$. The depth
+$\mathrm{dp}_a=1/\vol\mathfrak d_a$ is therefore nonzero, finite and invariant in the same way; it is measurable because $\{(x,y,c):c\in\mathfrak d_a(x,y)\}$ is open, so the volume of its sections is lower semicontinuous.
+
+(b) The weight of length $j$ is by definition $\wp_j=\prod_{a<j}\mathrm{dp}_a^{-s}$, which gives the recursion; each factor is nonzero, finite and measurable by (a). An element of $R^{(j)}$ lies in $R^{(a+1)}$ for $a<j$, so every factor, and the weight, is invariant
+when both points are moved by it. Nearness at $j$ is invariant under $R^{(j)}$, a group, so the inverse weight, extended by $0$, is left invariant under $R^{(j)}$.
+
+(c) Let $w\in W$. The vector $\sigma w$ is orthogonal to the $e_b$, $b<a$, by hypothesis, and its readings at $\sigma g$ and $\sigma gx$ are $g^{-1}w$ and $(gx)^{-1}w$, a close pair, as $w$ is short from $g$ and $gx$. By (a) it is stable at $\sigma g$, $\sigma gx$, and
+$h(e_a,\sigma w)=h(\sigma^{-1}e_a,w)=h(y,w)$. Hence $\mathfrak d_a(\sigma g,\sigma gx)$ contains $\langle y,W\rangle=\{h(y,w):w\in W\}$, which depends only on $y_X$, as $W\subseteq X'$. Hence $\vol\mathfrak d_a\ge\vol\langle y_X,W\rangle\ge1/\varphi(y_X)$, and
+$\mathrm{dp}_a(\sigma g,\sigma gx)\le\varphi(y_X)$.
+\end{proof}
+
+\begin{proposition}[Depth]\label{prop:depth}
+Let $\Gamma$ be a gauge, $x$ a position and $s$ the volume exponent.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Deep vectors are rare.) For every $g$ the integral of $\mathrm{dp}_a(\sigma g,\sigma gx)^s$ for $\theta_a$ over the $\sigma$ with $\sigma g$ near at $a+1$ is at most $\Lambda^{10^4n}$.
+\item (Long coordinates force depth.) If $g\in K$ and $g^{-1}y$ lies in the position ball, the integral of $\mathrm{dp}_a(g,ny)^{-s}$ over the $n$ in the Heisenberg group of floor $a$ with $ny$ close below
+$a$ at $g$ is at most $\abs M^{r_a+1/2}\Lambda^{4600n}$.
+\item (The weights.) For a head $p$ of length $j$ and $g$ near at $j$, the integral of the inverse weight $\wp_j^{-1}$ at $w_p\nu g$ over the Heisenberg measures below $j$ is at most $\Lambda^{10^6n^3}\prod_{a<j}\abs{p_a}^{-(r_a+1/2)}$;
+and the integral of $\wp_j$ over the $\nu$ with $g^{-1}\nu y$ in the position ball is at most a product of constants $\Lambda^{O(n^2)}$, one for each floor.
+\item (Bounded depths bound the position.) If $x$, $xy$, $w_p^{-1}x$, $w_q^{-1}xy$ are near at $j$ for heads $p$, $q$ of length $j$ and $M^{-1}$ has size $1$, then for $a<j$ the set $\mathfrak d_a(x,y)$ contains a unit
+whose inverse has size $10n$; and if every $\mathfrak d_a$, $a\ge j$, contains such a unit, then $(y-1)/M$ has size $99n$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Floors.PlaceData.IsShortFrom.isStable, New.Floors.PlaceData.isOpen_setOf_mem_stableProducts, New.Floors.PlaceData.stableProducts_mul_left, New.Floors.PlaceData.stableProducts_unipotentBelow_mul, New.Floors.PlaceData.volume_stableProducts_ne_zero_ne_top, New.Floors.PlaceData.depth_ne_zero, New.Floors.PlaceData.depth_ne_top, New.Floors.PlaceData.depth_mul_left, New.Floors.PlaceData.depth_unipotentBelow_mul, New.Floors.PlaceData.le_depth_iff, New.Floors.PlaceData.IsCommonBound.depth_le, New.Floors.PlaceData.depthWeight_succ, New.Floors.PlaceData.depthWeight_div_succ, New.Floors.PlaceData.invDepthWeight_mul_left, New.Floors.PlaceData.measurable_invDepthWeight, New.Floors.Gauge.isOrthogonalBelow_orthonormalPart_mulVec, New.Floors.Gauge.floorMassLe_depth_pow, New.Floors.Gauge.floorsConst, New.Floors.Gauge.mulVec_apply_inl_of_mem_floorGroup, New.Floors.Gauge.lintegral_depth_pow_section_le, New.Floors.Gauge.lintegral_invDepthWeight_succ_le, New.Floors.Gauge.lintegral_invDepthWeight_le, New.Floors.Gauge.lintegral_mul_invDepthWeight_le, New.Floors.Gauge.floorConst, New.Floors.Gauge.form_sub_form_heisenbergElem_inv_mulVec, New.Floors.Gauge.closeBelow, New.Floors.Gauge.hasMatrixSize_mul_inv_sub_one, New.Floors.Gauge.exists_lift_of_mem_closeBelow, New.Floors.Gauge.form_inv_mulVec_inv_mulVec_cancel, New.Floors.Gauge.star_smul_orthonormalPart_dotProduct, New.Floors.Gauge.lintegral_heisenbergMeasure_inv_depth_le, New.Floors.Gauge.lintegral_depthWeight_succ_le, New.Floors.Gauge.lintegral_depthWeight_le, New.Floors.Gauge.exists_hasMatrixSize_of_isNear, New.Floors.Gauge.hasShortDual_of_mem_stableProducts, New.Floors.Gauge.gaugesDifferLe_last_quotient_of_close, New.Floors.Gauge.hasMatrixSize_sub_one_of_forall_stableProducts, New.Floors.Gauge.exists_unit_mem_stableProducts_of_isHead, New.Floors.Gauge.hasMatrixSize_sub_one_of_stableProducts}
+
+\begin{proof}
+(a) For $g$ in the box the depth at $\sigma g$ is at most $\varphi(y_X)$, $y=\sigma^{-1}e_a$, for the common bound of the gauge (\cref{lem:stable}(c)); a subspace of large rank of common vectors exists by the gauge axiom. The bound over size $7$ on the quadric
+comes from the bound $\Lambda^{99n(j+1)}$ for $\varphi^s$ over size $7+4$ on $X'$, at the cost of a factor $\Lambda^{99n(7+6)}$ (\cref{lem:quadric-volumes}(b)).
+
+(b) \emph{The range.} Two points of the position ball give a matrix $(gx(gy)^{-1}-1)/M$ of size $14$: $y=M((y-1)/M)+1$ has size $3$, $gy$ size $5$ and its inverse size $9$. Hence, up to a factor in $U_{(<a)}$, $n^{-1}$ is the quotient of two points
+close to $g$, and a lift $v$ of $(n^{-1}-1)e^*_a$ has $v/M$ of size $17$. \emph{The pairing.} Pair a stable vector $\zeta$ with a common vector $u$ of $g$ and $y$: by unitarity $g$ and $y$ drop out, and for the Heisenberg element $n$ of $(\omega,\beta)$ the
+identity $h(\zeta,o)-h(n^{-1}\zeta',o)=\overline{h(e_a,\zeta)}h(\omega,o)$ shows that the inverse depth at $g$ and $ny$ is at most $\varphi(\omega_X/M)$. Integrating by \cref{lem:quadric-volumes}(c) with $u=M$, the skew variable adds $17+2$ to the
+exponent, and the total is at most $4600n$.
+
+(c) \emph{Inverse weights.} Move $g$ into the box and induct on the length. At floor $a$ the vector $(w_pn\nu)^{-1}e_a$ is a lift of a point of the section $h(e_a,z)=\bar p_a$ (\cref{lem:quadric-volumes}(d)), and its depth is at most $\varphi(z_X)$ for the
+common vectors orthogonal to the earlier vectors $(w_pn\nu)^{-1}e_b$, multiples of the $\nu^{-1}e^*_b$; the section integral gives $\abs{p_a}^{-(r_a+1/2)}\Lambda^{10^6n^2}$, the weight of length $a$ does not see the new Weyl and Heisenberg factors, and
+the measure is invariant under $n$ and under conjugation by the element that moved $g$. There are at most $n$ floors. \emph{Weights.} Unless the integral vanishes, some $g^{-1}\tau y$ is a close position; translate by $\tau$. On a coset
+$U_{(<a)}z$ the depth of $e_a$ is constant (\cref{lem:stable}(a)), so it leaves the integral, and Fubini with (b) gives the factor $\abs M^{r_a+1/2}\Lambda^{4600n}$ at floor $a$.
+
+(d) \emph{Under a head.} At $z=x$ and $z=xy$ the vector $z^{-1}e^*_a$ has size $8\varrho+7$ (\cref{prop:two-gauges}(c)), so a small multiple of $e^*_a$ is short from both points, and its product with $e_a$ is a unit of $\mathfrak d_a$ with inverse of size $10n$.
+\emph{The position.} A unit $c\in\mathfrak d_a$ with $c^{-1}$ of size $1$ gives a short dual of size $5$ modulo $M$: divide a stable vector by $c$. If $ux$ and $vxy$ lie in the box with $(vxy-ux)/M$ of size $2$, the lengths at $x$ and $xy$ differ by size
+$9$ modulo $M$ on $Y^{(\varrho)}$, the lift being $v^{-1}u\omega$ and $x^{-1}\omega-(xy)^{-1}v^{-1}u\omega=(vxy)^{-1}(vxy-ux)x^{-1}\omega$. Descend from $Y^{(\varrho)}$ to the whole space by \cref{prop:two-gauges}(b): each floor costs $4\cdot5+12$, and $9+32\varrho$
+leaves room below $99n$; below $j$ the heads provide the units, from $j$ on the hypothesis does.
+\end{proof}
+
+\subsection{One frame, two frames, and the gains}\label{ss:frames-gains}
+Write $\mathrm{ws}_l(g)=\wp_l(g,gx)\abs{k_{l+1}(g,gx)}^2$ for the \emph{weighted square} of floor $l$, $\mathsf b_l$ for the sums $\mathsf b_l(g)=\int(\mathrm{ws}_l+\mathsf b_{l+1})(\sigma g)\,d\theta_l(\sigma)$ ($l<n$, and $0$ from $n$ on), and
+$\mathsf B_l$ for the integral of $\mathsf b_l$ over the floors below $l$, the \emph{second moment} of one frame. The \emph{cost} of floor $l$ on the position ball is $\abs M^{r_l+1/2}c^{\dim X'}\Lambda^{4900n}$. The weighted product
+$\Pi_j(x)$ is the product of the second moments of the two correlations at $x$, times the squared product of the $\abs{p_a}^{-(r_a+1/2)}$ over $a<j$ and the cube of $\Lambda^{10^6n^3}$.
+\lean{New.Floors.PlaceData.weightedSquareSum.induct_unfolding}
+
+\begin{lemma}[One frame]\label{lem:one-frame}
+Let $k$ be a pairing kernel at floor $j$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\int\abs{k_{l+1}(\sigma g,\sigma gx)}^2d\theta_l(\sigma)\le\mathsf b_l(g)/\wp_l(g,gx)$; the weighted squares and their sums are measurable, left invariant under $R^{(l+1)}$, resp.\ $R^{(l)}$, and zero off the points near at
+$l+1$, resp.\ $l$; and $\mathsf B_l$ is the integral of $\mathrm{ws}_l$ over the floors up to $l$ plus $\mathsf B_{l+1}$, so $\mathsf B_l\le\mathsf B_0$.
+\item (Cauchy--Schwarz on a floor.) If for every $z$ the $\theta_l$-integral of $u(\sigma z)$ over the $\sigma$ with $\sigma z$ near at $l+1$ is at most $K$, and $\abs{k_{l+1}(\sigma g,\sigma y)}^2\le u(\sigma g)v(\sigma)$, then the square of the
+$\theta_l$-integral of $\abs{k_{l+1}(\sigma g,\sigma y)}$ is at most $K\int v\,d\theta_l$.
+\item (One floor up.) The cut square of floor $l$ (the squared correlation above floor $l$, set to $0$ where the positions of $(g,y)$ in the position ball have measure zero) has integral over the Heisenberg group of floor $l$, at
+$(g,ny)$, at most the cost of floor $l$ (or $1$ at the top floor) times the integral of the cut square of floor $l+1$ over floor $l+1$.
+\item (One frame.) Over the position ball the weighted square of floor $l$ has integral at most the product of the costs of the floors times the squared $L^2$ norm of $k$, and $\int\mathsf B_j\,d\mathsf M$ over the position ball is at most $n$
+times this.
+\end{enumerate}
+\end{lemma}
+\lean{New.Floors.PlaceData.lintegral_partialCorrelation_sq_le, New.Floors.PlaceData.IsPairingKernel.measurable_weightedSquareSum, New.Floors.PlaceData.IsPairingKernel.fixesLeft_weightedSquare_and_eq_zero, New.Floors.PlaceData.IsPairingKernel.fixesLeft_weightedSquareSum_and_eq_zero, New.Floors.PlaceData.IsPairingKernel.pivotL1Norm_sq_le, New.Floors.PlaceData.IsPairingKernel.pivotL1Norm_sq_le_of_floorMassLe_one, New.Floors.PlaceData.IsPairingKernel.weightedSquareIntegral_eq_add_succ, New.Floors.PlaceData.IsPairingKernel.weightedSquareIntegral_le_weightedSquareIntegral_zero, New.Floors.Gauge.lintegral_invDepthWeight_floorMeasure_le, New.Floors.Gauge.lintegral_invDepthWeight_descConv_le, New.Floors.PlaceData.IsPairingKernel.lintegral_weightedSquare_le_weightedSquareSum, New.Floors.lintegral_weightedSquareIntegral_le_of_lintegral_le, New.Floors.PlaceData.IsPairingKernel.enorm_partialCorrelation_mul_of_mem_unipotentBelow, New.Floors.Gauge.closeMass, New.Floors.Gauge.cutSquare, New.Floors.Gauge.climbConst, New.Floors.Gauge.closeMass_mul_mul, New.Floors.Gauge.measurable_cutSquare, New.Floors.Gauge.exists_centre_of_isNear, New.Floors.Gauge.lintegral_cutSquare_le, New.Floors.Gauge.exists_factor_cutSquare_le, New.Floors.Gauge.lintegral_weightedSquare_le, New.Floors.Gauge.lintegral_weightedSquareIntegral_le}
+
+\begin{proof}
+(a) The weight is invariant under the floor group of $l$, so it leaves the integral of the weighted square, a part of $\mathsf b_l$. Invariance: left translation by $R^{(l+1)}$ multiplies the kernel by a character value of modulus one, and
+descending induction along the recursion of $\mathsf b_l$, with \cref{prop:floor-measures}(b) absorbing the translation; the vanishing off near points is the pairing kernel axiom. Splitting the last factor $\theta_l$ of the convolution of
+the floors up to $l$ gives the recursion. (b) The floor measure lives on the floor group, so the integrand may be cut to the set where the mass bound holds; then Cauchy--Schwarz. (c) If the mass of the position ball is zero,
+both sides vanish; otherwise it is the same at $\sigma g$, $\sigma y$ (substitute $\nu\mapsto\sigma^{-1}\nu t$). Below the top floor, write the element that moves $g$ into the box as $t\nu$ with $t\in R^{(l+1)}\cap G^{(l)}$ and $\nu\in U_{(<l+1)}$; for $n$
+with $ny$ close below $l$, a lift of $(tn_0(tn)^{-1}-1)e^*_l$ divided by $M$ has size $17$ (\cref{prop:depth}(b)), and Parseval's inequality (\cref{prop:quadric-plancherel}(c)) with frequency $M^{-1}$ gives the cost of floor $l$. On the top floor
+only $H$ is left, of mass at most $1$ on near points, and Cauchy--Schwarz gives the constant $1$. (d) \emph{Factorisation.} By induction on the floors from the top down, $\mathsf M$ factors as the convolution of the measure of the unipotent group
+of the first $l$ floors with an s-finite measure $\rho$ (a form of Weil's quotient integral formula), and the integral of the cut square against $\rho$ and the floors up to $l$, times the costs of the floors below $l$, is at most the product
+of all costs times the squared $L^2$ norm: above the top floor there is no cost; at each step the cut square of floor $l+1$ is left invariant under $U_{(<l+1)}$, so \cref{prop:floor-measures}(d) lets the second point move by $\sigma$, and (c) applies
+for each second point. \emph{The weight.} Put $x=g^{-1}\nu y$ with $\nu$ in the unipotent group of the first $l$ floors: the modulus of the correlation does not depend on $\nu$, and the weight has integral over $\nu$ at most the product of
+the costs (\cref{prop:depth}(c), second part). Summing over the floors $l$ from $j$ to $\varrho$ gives the factor $n$.
+\end{proof}
+
+\begin{theorem}[One frame and two frames]\label{thm:frames}
+Let $\Gamma$ be a gauge, $\mathsf M$ a Haar measure, $k$ a correlation kernel at floor $j\le\varrho$, and $p$ a head of length $j$ with Weyl element $w_p$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (One frame.) Over the position ball, the integral of the weighted second moment $\int\wp_j(g,gx)\abs{k_{j+1}(g,gx)}^2d\mathsf m_j(g)$ is at most $n\prod_{l<\varrho}\Lambda_l$ times the squared
+$L^2$ norm of $k$ for $\theta_{\varrho+1}*\dots*\theta_0$ in each variable, where the $\Lambda_l$ are the costs of the floors, powers of $\Lambda$.
+\item (Separating the frames.) Let $B$, $B'$ be measurable, left invariant under $R^{(j)}$ and zero off the points near at $j$, and where $f\ne0$ let
+\[
+  f(g)^2\le C\,\frac{B(g)}{\wp_j(g,gx)}\cdot\frac{B'(w_p^{-1}g)}{\wp_j(w_p^{-1}g,w_p^{-1}gx)}.
+\]
+Then $(\int f\,d\mathsf m_j)^2\le CD^2\int B\int B'$, with $D=\Lambda^{10^6n^3}\prod_{a<j}\abs{p_a}^{-(r_a+1/2)}$. A variant holds when one pivot runs over a section of the isotropic cone.
+\end{enumerate}
+\end{theorem}
+\lean{New.Floors.PlaceData.exists_ne_zero_of_pivotL1Norm_ne_zero, New.Floors.PlaceData.lintegral_partialCorrelation_sq_le, New.Floors.PlaceData.IsPairingKernel.measurable_weightedSquareSum, New.Floors.PlaceData.IsPairingKernel.fixesLeft_weightedSquare_and_eq_zero, New.Floors.PlaceData.IsPairingKernel.fixesLeft_weightedSquareSum_and_eq_zero, New.Floors.PlaceData.IsPairingKernel.pivotL1Norm_sq_le, New.Floors.PlaceData.IsPairingKernel.pivotL1Norm_sq_le_of_floorMassLe_one, New.Floors.PlaceData.IsPairingKernel.weightedSquareIntegral_eq_add_succ, New.Floors.PlaceData.IsPairingKernel.weightedSquareIntegral_le_weightedSquareIntegral_zero, New.Floors.Gauge.lintegral_invDepthWeight_floorMeasure_le, New.Floors.Gauge.lintegral_invDepthWeight_descConv_le, New.Floors.PlaceData.IsPairingKernel.lintegral_weightedSquare_le_weightedSquareSum, New.Floors.lintegral_weightedSquareIntegral_le_of_lintegral_le, New.Floors.PlaceData.IsPairingKernel.enorm_partialCorrelation_mul_of_mem_unipotentBelow, New.Floors.Gauge.closeMass, New.Floors.Gauge.cutSquare, New.Floors.Gauge.climbConst, New.Floors.Gauge.closeMass_mul_mul, New.Floors.Gauge.measurable_cutSquare, New.Floors.Gauge.exists_centre_of_isNear, New.Floors.Gauge.lintegral_cutSquare_le, New.Floors.Gauge.exists_factor_cutSquare_le, New.Floors.Gauge.lintegral_weightedSquare_le, New.Floors.Gauge.lintegral_weightedSquareIntegral_le, New.Floors.PlaceData.headDensity_sq_mul_eq_modulus, New.Floors.Gauge.headDensity_mul_lintegral_le_mul_pairingNormSq}
+
+\begin{proof}
+(a) is \cref{lem:one-frame}(d). (b) Cauchy--Schwarz with the weights crossed: $B$ at $g$ is paired with the inverse weight at $w_p^{-1}g$, and $B'$ at $w_p^{-1}g$ with the inverse weight at $g$,
+\[
+  \Bigl(\int f\Bigr)^2\le C\int\frac{B(g)}{\wp_j(w_p^{-1}g,\cdot)}\,d\mathsf m_j\cdot\int\frac{B'(w_p^{-1}g)}{\wp_j(g,\cdot)}\,d\mathsf m_j .
+\]
+In the first integral put $w_pg$ for $g$ (\cref{prop:floor-measures}(d)); in the second, $w_p^{-1}$ is the Weyl element of the head $\bar p$. Then integrate each inverse weight over the unipotent group of the floors below $j$ by
+\cref{prop:depth}(c), the functions $B$, $B'$ being invariant under it. \emph{Section variant.} For a head of length $i+1$, pair $\wp_i\varphi_1^2$ at $g$ with the inverse weight of length $i+1$ at $w^{-1}g$, and $\wp_{i+1}\varphi_2^2$ at $w^{-1}g$
+with that of length $i$ at $g$; where the left side is not zero both points are near and the weights cancel; integrate first over the Heisenberg group of floor $i$, which fixes the other factor, then shift by $w$ and integrate over floor $i$
+and the unipotent group of the floors below. The inverse weight of length $i$ at $w_i(p)w_{i+1}(p)^{-1}g$ is the inverse weight of $g$ for points near at $i+1$, since it does not see the last factor of the Weyl element.
+\end{proof}
+
+\begin{theorem}[The gains at one position]\label{thm:gains}
+Let $W$ be a cut Bessel function, $p$ a head of length $j\le\varrho$, $q$ a second sequence of units, $x$ a position and $\mathsf M$ a Haar measure. Write $\Pi_j(x)$ for the product of the weighted second
+moments of the two correlations, times $\Lambda^{3\cdot10^6n^3}\prod_{a<j}\abs{p_a}^{-(2r_a+1)}$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Frequency.) If $\psi(\eta z)=\psi(\xi z)$ for a unit $\xi$ and all $z$ of size $200n^2$, then with the weight $\psi(\eta Z_{jj})$, $\mathsf F_j(x)^2\le(c/\abs\xi)^{\dim X'}\Pi_j(x)$.
+\item (Two heads.) If $j=i+1$ and $\xi=(p_i^{-1}-q_i^{-1})/M$ is a unit, then with weight $1$, $\mathsf F_j(x)^2\le(c/\abs\xi)^{\dim X'}\Pi_j(x)$.
+\item (Deep vector.) If the mass of floor $j$ near the next floor is at most $V\ge1$ and $x$ has a deep vector of depth $\sigma^{-1}$, then $\mathsf F^\sharp_j(x)^2\le\sigma^sV^2\Pi_j(x)$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Floors.Gauge.sq_lintegral_le_mul_lintegral, New.Floors.Gauge.sq_lintegral_le_weightedSquareProduct, New.Floors.PlaceData.deepModulus, New.Floors.PlaceData.IsPairingKernel.measurable_deepModulus, New.Floors.PlaceData.IsPairingKernel.pivotL1Norm_le_sum_deepModulus, New.Floors.Gauge.lintegral_deepModulus_sq_le, New.Floors.Gauge.pivotL1Norm_sq_le_of_deep, New.Floors.Gauge.formMajorant_sq_le_of_floorMassLe, New.Floors.Gauge.formMajorant_sq_le_of_hasDeepVector, New.Floors.Gauge.formMajorant_sq_le, New.Floors.PlaceData.formMajorant_zero_eq, New.Floors.Gauge.formMajorant_zero_sq_le_of_hasDeepVector, New.Floors.Gauge.formIntegrandL1Norm_sq_le_of_char, New.Floors.Gauge.sub_one_mulVec_eStar_mem_vecsOfSize, New.Floors.Gauge.lintegral_heisenbergMeasure_le_of_heads, New.Floors.PlaceData.invDepthWeight_weylElem_of_isNear_succ, New.Floors.Gauge.lintegral_indicator_le_of_section, New.Floors.Gauge.sq_lintegral_mul_comp_weylElem_inv_le_of_section, New.Floors.Gauge.partialCorrelation_mul_eq_integral_sectionPoint, New.Floors.Gauge.lintegral_section_le, New.Floors.Gauge.formIntegrandL1Norm_sq_le_of_heads}
+
+\begin{proof}
+(a) Where the double integral does not vanish, $g$ and $w_p^{-1}g$ are near at $j$, and one $t$ moves both to bounded size; on the supports the Gram entry $Z_{jj}$ of $\sigma\tau^{-1}$ has size $200n^2$, where the hypothesis applies. Hence the weight
+is the character $\psi(\xi Z_{jj})$, the inner integral is $f(\sigma)$ times the conjugate of a Fourier transform of the second correlation along the quadric of the pivot, and Cauchy--Schwarz in $\sigma$ with the Plancherel bound of
+\cref{prop:quadric-plancherel}(b) for the correlation (the transform over the vectors of size $i$ is at most $\Lambda^{99n(i+6)}\Lambda^{99n(j+12)}(c/\abs\xi)^{\dim X'}$ times the squared $L^2$ norm on the floor) gives the gain; \cref{thm:frames}(b)
+separates the frames.
+
+(b) \emph{The phase of the lifts.} For $n$ in the Heisenberg group of floor $i$ let $y'$ be the point over $n$ of the section $h(e_i,y')=\bar p_i$. The next vector $y=\sigma^{-1}e_{i+1}$ is orthogonal to $e_i$ and $e^*_i$, so
+$h(y',y)=-p_ih(\omega,y)$, and the correlation from floor $i+1$ on at $(ng,ng')$ is the integral over $y$ of $\psi(-\xi h(y',y))$ times the correlation from floor $i+2$ on, which does not depend on $y'$. \emph{Plancherel on the section.} Over the $n$
+with $w_png$ near at $i+1$, the squared $L^2$ norm of $n\mapsto\int\psi(-\xi h(y',y))\varphi(\sigma)d\theta_{i+1}$ is at most $(c/\abs\xi)^{\dim X'}\abs{p_i}^{-(r_i+1/2)}\Lambda^{10^6n^3}$ times that of $\varphi$: apply Parseval along $N$ with frequency
+$-\xi p_i$ and scale $p_i^{-1}$ to the set of $n$ at which both $w_png$ and $ng$ are near; some $t\in G^{(i+1)}$ moves $ng$ to size $99n^2$, and the column $(t_0n_0(tn)^{-1}-1)e^*_i$ has size $198n^2+6$, so $p_i$ times it has size $999n^2$.
+Separating the frames with the first pivot on a section (\cref{thm:frames}(b), variant) gives the gain.
+
+(c) \emph{The cut at the first deep vector.} If for each $\sigma$ in the floor group with $k(\sigma g,\sigma gx)\ne0$ some vector from floor $l$ on has depth at least $D$, then the integral over floor $l$ of the modulus of the correlation from floor $l+1$ on is at most a
+sum over $a$ with $l\le a<\varrho$ of the integrals, over the floors from $l$ to $a$, of the modulus cut to the points at which the vector of floor $a$ has depth at least $D$: downward induction on $l$, a frame being deep on floor $l$ or its first deep
+vector coming later. \emph{One piece.} Cauchy--Schwarz against the inverse weight of length $a+1$, whose integral is a power of $\Lambda$ times the inverse weight of length $l$ (\cref{lem:one-frame}(a), with \cref{prop:depth}(a) on each floor), and
+$1\le\sigma\,\mathrm{dp}_a$ where the cut modulus is not zero, give the square of a piece at most $\sigma^s\Lambda^{10^4n\varrho}\mathsf b_l/\wp_l$. Summing at most $\varrho$ pieces bounds the square of the first pivot by $\sigma^s\Lambda^{10^6n^3}\mathsf b_l/\wp_l$;
+the second pivot is bounded by the mass $V$ (\cref{lem:one-frame}(b)). Where the second modulus is not zero, $W$ vanishes at neither translate, so both points are near along the whole orbit under the floor group, and the active points are the ones
+considered; at floor $0$ every point is near as soon as the box is not empty, and both pivots give the same integral.
+\end{proof}
+
+\begin{theorem}[The sum over the shells]\label{thm:shells}
+Let $S_i$ be shells of height $2^i$ for $\Gamma$ and heads $p$, $q$ of length $j\le\varrho$ (sets of positions covered by few position balls whose scales are at most $\Lambda\cdot2^{2i}$, such that a large height forces a
+deep vector at each point) covering the support of $f$. Let $W$ be a cut Bessel function, $V\ge1$ bound the mass of floor $j$, $f\le\mathsf F^\sharp_j$, and for $e<1$ let $f(x)^2\le(Ve^s)^2\Pi_j(x)$ on the positions. If
+$9\cdot10^7n^4+r\le s$, then
+\[
+  \kappa_j(p,q)\int f\,d\mathsf M\le V\min(1,e)^r\,\Lambda^{4\cdot10^8n^4}\,\mathcal N(W),
+\]
+with $\mathcal N(W)$ the shell normalisation of $W$, the squared $L^2$ norm of its correlation over $(U\backslash G)^2$ times the constants of the gauge.
+\end{theorem}
+\lean{New.Floors.PlaceData.shellNormalization, New.Floors.Gauge.IsShell, New.Floors.Gauge.IsShell.subset_positions, New.Floors.Gauge.IsShell.inv_height_mul_height, New.Floors.Gauge.IsShell.setLIntegral_le, New.Floors.Gauge.IsShell.setLIntegral_formMajorant_le, New.Floors.Gauge.IsShell.setLIntegral_le_inv_height, New.Floors.Gauge.lintegral_le_of_shells}
+\lean{New.Floors.Gauge.IsShell.exists_cover, New.Floors.Gauge.IsShell.hasDeepVector, New.Floors.Gauge.IsShell.height_ne_top, New.Floors.Gauge.IsShell.one_le_height}
+
+\begin{proof}
+\emph{A gain on the position ball.} If $f^2\le e^2\Pi_j$ on a subset of the position ball of a gauge $\Gamma'$, then $\kappa_j(p,q)\int f$ over it is at most $e$ times $\mathcal N(W)$ times $\Lambda^{1500000n^3+1}\Lambda'^{25000n^2}$: square both sides, split by
+Cauchy--Schwarz into two integrals of second moments, bound them by \cref{thm:frames}(a) (the second up to the modulus of left translation by $w_q^{-1}w_p$, \cref{prop:floor-measures}(c)), and note that in the product of
+$\abs{p_aq_a}^{r_a}$, $\abs{p_a}^{-(2r_a+1)}$ and $\abs{p_a/q_a}^{r_a+1}$ the powers of $\abs{p_a}$ cancel and $\abs{q_0\cdots q_{j-1}}^{-1}\le1$ is left. \emph{One shell.} A shell of height $H$ is covered by at most $2H^{9n}$ position balls of
+gauges with constants at most $\Lambda H^2$, so its integral is at most $e\Lambda^{2\cdot10^6n^3}H^{10^5n^2}\mathcal N(W)$. \emph{Remote shells.} If $H>\Lambda^{2400n^2}$ and $\tau^{800n^2}=H^{-1}$, every active point has a vector of depth at least
+$\tau^{-2}$ after the head (the shell condition), and \cref{thm:gains}(c) gives the gain $V\tau^s$. \emph{Trading gain for height.} It suffices to find $g\le e$ with the gain $Vg^s$ and $g^{9\cdot10^7n^4}H^{1+10^5n^2}\le\Lambda^{29\cdot10^7n^4}$: below
+the threshold take $g=e$, beyond it the smaller of $e$ and $\tau$; with $9\cdot10^7n^4+r\le s$ the shell contributes at most $H^{-1}V\min(1,e)^r\Lambda^{3\cdot10^8n^4}\mathcal N(W)$. \emph{Sum.} The heights are $2^i$ and $\sum_i2^{-i}=2$.
+\end{proof}
+
+\subsection{A real place}\label{ss:real-place}
+At the complex place, with the Hermitian space of $\varrho$ hyperbolic planes, the standard positive form on $\kappa$ and one vector $z$ with $h(z,z)=-1$, the \emph{real place sizes} are $\rho=b^{6n+2}\ge8r$ for the
+box radius, $b\ge2$, $k=s+3n+6\ge n^7$, $s>10^9n^3$ and $\varrho\ge10^8$. The place datum has box $\norm x\le\rho$, close pairs of squared length less than $1$, and Haar measure; the gauge measures sizes by powers of $L$. A
+\emph{cut Bessel function at a real place} is the cut, at size $\rho$, of a normalised Bessel function of irreducible type $\pi$ (\cref{def:bessel-system}), forming a cut pair with base $b$ and decay rate $f$. Its
+normalised forms are $\mathcal J_i=c_W\mathcal I_i$, $c_W=\vol\U(k)/(\vol\U(r)(\lambda\#I)^2)$, and its \emph{normalised cell integral} $\Xi(p)$ is the orbital integral at the chart of the top floor, times the scalar
+$\sqrt{c_G}(\abs{x_\varrho}^2-1)^{(k-1)/2}\abs I^{-1}\prod_{a<\varrho}\abs{x_a}^{k+1+2(\varrho-a-1)}$ of \cref{thm:main-term}(a).
+\lean{New.Floors.dualColumnGaussian, New.Floors.heisenbergElem_mulVec_single_eStar, New.Floors.heisenbergElem_mulVec_single_eStar_of_lt, New.Floors.dualColumnGaussian_succ_mul_heisenbergElem, New.Floors.lintegral_heisenbergMeasure_complex, New.Floors.lintegral_dualColumnGaussian_ascConv, New.Floors.dualColumnGaussian_inv, New.Floors.lintegral_dualColumnGaussian_inv_besselHaar, New.Floors.ascConv_heisenbergMeasure_eq_besselHaar, New.Floors.RealPlaceSizes, New.Floors.norm_apply_le_one_of_sq_add_sq_lt_one, New.Floors.map_embedH_mconv_dirac, New.Floors.RealPlaceSizes.complexData, New.Floors.RealPlaceSizes.haarRatio, New.Floors.RealPlaceSizes.leGramFibre_mconv_floorMeasure, New.Floors.apply_of_mem_floorUnipotent, New.Floors.RealPlaceSizes.leGramFibre_partialGroupMeasure, New.Floors.RealPlaceSizes.inv_groupMeasure_le, New.Floors.RealPlaceSizes.groupMeasure_eq_haarRatio_smul, New.Floors.RealPlaceSizes.haarRatio_le, New.Floors.RealPlaceSizes.lintegral_quotientMeasureFrom_eq_haarRatio_mul, New.Floors.RealPlaceSizes.haarRatio_ne_zero_and_groupMeasure_eq_smul, New.Floors.volume_closedBall_pi_complex, New.Floors.exists_unitary_mul_submatrix_eq_zero, New.Floors.measurePreserving_normSq_prod_compl, New.Floors.norm_unitary_conjTranspose_mulVec_le, New.Floors.setLIntegral_inv_pow_sphereDensity_le, New.Floors.exists_orthonormal_ker_lintegral_le, New.Floors.RealPlaceSizes.four_le, New.Floors.RealPlaceSizes.norm_sq_mulVec_of_fixed, New.Floors.RealPlaceSizes.norm_le_of_mem_productDifferences, New.Floors.RealPlaceSizes.closedBall_subset_image_commonVectors, New.Floors.volume_closedBall_eq_ofReal_pi_mul_sq, New.Floors.inv_volume_le_of_closedBall_subset, New.Floors.volume_le_of_subset_closedBall, New.Floors.J₁_mulVec_eq_self_of_apply_eq, New.Floors.RealPlaceSizes.card_freeIndex_complexData, New.Floors.RealPlaceSizes.card_freeIndex_complexData_le, New.Floors.RealPlaceSizes.exists_rank_le_and_fixed_of_mulVec_eq_zero, New.Floors.RealPlaceSizes.exists_orthonormal_mul_eq_zero_and_fixed, New.Floors.RealPlaceSizes.exists_isCommonBound, New.Floors.norm_toLp_sq_le, New.Floors.RealPlaceSizes.smul_mem_closePairs, New.Floors.RealPlaceSizes.gauge, New.Floors.RealPlaceSizes.mem_gauge_ofSize_iff, New.Floors.RealPlaceSizes.norm_leadingMinor_le_of_isNear, New.Floors.lengthAt, New.Floors.inducedLength, New.Floors.realDepth, New.Floors.lengthAt_nonneg, New.Floors.lengthAt_smul, New.Floors.inducedLength_nonneg, New.Floors.realDepth_nonneg, New.Floors.inducedLength_sq_lt_iff, New.Floors.realDepth_lt_iff, New.Floors.RealPlaceSizes.mem_stableProducts_iff, New.Floors.RealPlaceSizes.stableProducts_eq, New.Floors.RealPlaceSizes.depth_eq, New.Floors.RealPlaceSizes.lengthLeAt_of_lengthAt_le, New.Floors.RealPlaceSizes.lengthAt_le_of_lengthLeAt}
+\lean{New.Floors.IsCutBessel, New.Floors.positionBall, New.Floors.measurableSet_positionBall, New.Floors.dyadicShell, New.Floors.exists_mem_dyadicShell, New.Floors.notMem_positionBall_of_mem_dyadicShell, New.Floors.IsCutBessel.formConst, New.Floors.IsCutBessel.isCut_complexData, New.Floors.IsCutBessel.mem_ofSize_gauge, New.Floors.IsCutBessel.isHead_gauge_iff, New.Floors.IsCutBessel.norm_leadingMinor_le_of_besselOrbitalIntegral_ne_zero, New.Floors.IsCutBessel.mul_pow_four_le_s, New.Floors.IsCutBessel.volumeExponent_eq, New.Floors.IsCutBessel.max_pow_le_mul_max_one_pow, New.Floors.IsCutBessel.headWeight_succ_of_le, New.Floors.IsCutBessel.exists_gauge_isHead, New.Floors.IsCutBessel.pairingNormSq_le, New.Floors.IsCutBessel.formMajorant_eq_zero_of_lt, New.Floors.IsCutBessel.floorForm_eq_zero_of_lt, New.Floors.IsCutBessel.exists_sq_le_realDepth, New.Floors.IsCutBessel.hasDeepVector_of_notMem, New.Floors.IsCutBessel.floorMassLe, New.Floors.IsCutBessel.one_le_massBound, New.Floors.IsCutBessel.two_mul_div_pow_le_of_pow_le, New.Floors.IsCutBessel.isShell_dyadicShell, New.Floors.IsCutBessel.formConst_mul_lintegral_le, New.Floors.IsCutBessel.formConst_mul_setLIntegral_compl_positionBall_le, New.Floors.IsCutBessel.lintegral_formMajorant_ne_top, New.Floors.IsCutBessel.shell_bound_le_dampedPower, New.Floors.IsCutBessel.pi_sq_div_sq_pow_le, New.Floors.IsCutBessel.norm_floorForm_le}
+\lean{New.Floors.RealPlaceSizes.complexData_boxSet, New.Floors.RealPlaceSizes.complexData_closePairs, New.Floors.RealPlaceSizes.complexData_levelUnit, New.Floors.RealPlaceSizes.complexData_measureH, New.Floors.RealPlaceSizes.complexData_positions, New.Floors.RealPlaceSizes.complexData_toHyperbolicBasis, New.Floors.RealPlaceSizes.complexData_topFloorMeasure, New.Floors.RealPlaceSizes.eight_mul_r_le_rho, New.Floors.RealPlaceSizes.k_eq, New.Floors.RealPlaceSizes.mul_cube_lt_s, New.Floors.RealPlaceSizes.pow_seven_le_k, New.Floors.RealPlaceSizes.rho_eq, New.Floors.RealPlaceSizes.ten_pow_le_varrho, New.Floors.RealPlaceSizes.two_le_b, New.Floors.IsCutBessel.irreducible, New.Floors.IsCutBessel.toIsCutPair, New.Floors.IsCutBessel.toRealPlaceSizes}
+
+\begin{proposition}[The place $\C$]\label{prop:complex-place}
+Assume the real place sizes.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The convolution of the Heisenberg measures is Lebesgue measure in the free entries of $U$; the group measure is a positive finite multiple $h_\C$ of the Haar measure of $G_1$, with $h_\C\le\vol\U(r)/\vol\U(k)$, and
+for $U$-invariant functions $\int d(\theta_{\varrho+1}*\dots*\theta_0)=h_\C\int_{U\backslash G_1}$.
+\item For $x$, $y\in G_1$ and a matrix $v$ with at most $n$ rows there are, for every $d\le\dim X'-3n$, $d$ orthonormal vectors of $X'$ killed by $v$ and carried by $x^{-1}$ and $(xy)^{-1}$ into the space on
+which the form is the identity; hence common bounds as in \cref{prop:depth}(a) exist.
+\item $\mathfrak d_a$ is a disc and $\mathrm{dp}_a=\pi^{-1}\inf_\zeta(\abs\zeta_x^2+\abs\zeta_{xy}^2)$ over the duals $\zeta$ of $e_a$ in $Y^{(a)}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) \emph{Heisenberg measures.} At $\C$ the Heisenberg element of floor $a$ with vector $v$ and skew parameter $ri$ puts $v$ and $r$ into the free entries of the column $e^*_a$ and fixes the earlier $e^*_b$, while an element of $U_{(<a)}$ keeps the free
+entries of the column $e^*_a$. Hence the Gaussian $\exp(-\pi\sum_{b<l}(\sum_i\abs{g_{i,e^*_b}}^2+(\im g_{e_b,e^*_b})^2))$ factors into a standard Gaussian on the Heisenberg group of the last floor and the Gaussian of the lower floors, and has
+integral $1$ against $\eta_0*\dots*\eta_{l-1}$, by induction. At $y^{-1}$ this Gaussian is the standard Gaussian in the free entries of the rows $e_a$ of $y$, as $y^{-1}=J_1y^*J_1$; so it has integral $1$ against the Haar measure of $U$ too.
+Both measures are invariant under $U$ and give the Gaussian the integral $1$, hence they agree. \emph{Haar measure.} The group measure is right invariant (\cref{prop:floor-measures}(b)), hence a multiple $h_\C$ of the Haar measure of
+the unimodular group $G_1$. For the bound compare two descriptions of the fibre measure of the Gram map on the tuples $(y_0,y^*_0,\dots,y_{\varrho-1},y^*_{\varrho-1},y_\varrho)$: by Haar measure, and by choosing the vectors in turn (adding the frame
+vector $e_a$, then the dual $e^*_a$; each floor measure, halved, is at most the fibre measure), which gives that the image of the group measure under inversion is at most $\vol\U(r)/\vol\U(k)$ times Haar measure; compare the measures of a
+ball. For $U$-invariant $f$: $\mathsf M=du*\theta$, so $(g,u)\mapsto ug$ carries $\theta\times du$ to $h_\C$ times Haar measure, and $\theta$ represents the quotient. (b) The conditions $vw=0$ and that $x^{-1}w$, $(xy)^{-1}w$ lie in the space on which $J_1$ is the
+identity are at most $3n$ linear conditions on $X'$; take $d$ columns of a unitary matrix in the kernel of the matrix of the conditions (eigenvectors of $C^*C$ for the eigenvalue $0$). For the common bound put $\varphi(u)=36/\abs{O^*u}^2$: if
+$\abs{O^*u}^2=t\ne0$, the products of $u$ with the common vectors cover the disc of radius $\sqrt t/2$ (a multiple of $OO^*u$ of length at most $\frac12$), so $1/\vol\langle u,W\rangle\le36/t$, and the product differences lie in the unit disc; passing to
+the basis $Q$ of a unitary completion and keeping of the coordinates in the block only $\abs{O^*u}^2$, the integral of $(36/\abs{O^*u}^2)^s$ over the vectors with entries at most $L^j$ is at most $(L^2)^{99n(j+1)}$, by the integral of
+$(36/r)^s$ against the density $\pi^{s+1}r^s/s!$. (c) A number $c$ lies in $\mathfrak d_a$ exactly when $c=h(e_a,\omega)$ for $\omega$ orthogonal to the $e_b$, $b<a$, with a lift $\omega'$ of its class and $\abs\omega_x^2+\abs{\omega'}_{xy}^2<1$; for
+$c\ne0$ write $\omega=c\zeta$ with $h(e_a,\zeta)=1$, and the bound $1$ on the squared lengths becomes $1/\abs c^2$. Hence $\mathfrak d_a$ is the disc $\abs c^2d<1$ for the infimum $d$, of area $\pi/d$.
+\end{proof}
+
+\begin{lemma}[Shells at a real place]\label{lem:real-shells}
+Let $W^\flat$ be a cut Bessel function at a real place and $p$, $q$ heads of length $j\le\varrho$ for the gauge of size $L\ge\rho$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For every list there is $L\ge\rho$ making $p$, $q$ heads of length $j$ with $L^K\le\rho^K$ times the weights of the heads (of exponent $K$, cut-off $R$ bounding the partial products); the squared $L^2$ norm of the
+correlation over $(U\backslash G_1)^2$ is at most $h_\C^2\#I$; and the forms vanish if a partial product of $p$ or $q$ exceeds $\rho^{9n}$.
+\item (Far means deep.) If $x$ is outside the position ball at a scale $T\ge L^{11n}$ and $T^{-1}\le\tau/2$, every active point has a vector $e_a$, $a\ge j$, of depth at least $\tau^{-2}$; the dyadic shell of height $2^i$ (the least power of
+$2$ bounding the entries of $x-1$) is a shell for this gauge; and the floor masses are at most $(\pi\rho^{24})^k\rho^{9999n}$.
+\item For $1\le t$ and $\varphi$ below the majorant with $\varphi^2\le((\pi\rho^{24})^k\rho^{9999n}t^{-s})^2\Pi_j$ if $t>1$, the normalised integral of $\varphi$ times $\#I$ is at most $\Theta L^{10^9n^4}\rho^{24k}t^{10^8n^4}t^{-s}$; the majorants
+are integrable; and if $\mathsf F_j(x)^2\le(\pi/\abs y)^{2(k-5)}\Pi_j(x)$ for every gauge adapted to $p$, then $\#I\abs{c_W\mathcal I_j}\le\Theta b^{2000n^9}\ell_{k-n^7}(1/\abs y)$ times the weights of $p$ and $q$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Floors.IsCutBessel.formConst, New.Floors.IsCutBessel.mem_ofSize_gauge, New.Floors.IsCutBessel.isHead_gauge_iff, New.Floors.IsCutBessel.mul_pow_four_le_s, New.Floors.IsCutBessel.volumeExponent_eq, New.Floors.IsCutBessel.max_pow_le_mul_max_one_pow, New.Floors.IsCutBessel.headWeight_succ_of_le, New.Floors.IsCutBessel.exists_gauge_isHead, New.Floors.IsCutBessel.pairingNormSq_le, New.Floors.IsCutBessel.formMajorant_eq_zero_of_lt, New.Floors.IsCutBessel.floorForm_eq_zero_of_lt, New.Floors.IsCutBessel.exists_sq_le_realDepth, New.Floors.IsCutBessel.hasDeepVector_of_notMem, New.Floors.IsCutBessel.floorMassLe, New.Floors.IsCutBessel.one_le_massBound, New.Floors.IsCutBessel.two_mul_div_pow_le_of_pow_le, New.Floors.IsCutBessel.isShell_dyadicShell, New.Floors.IsCutBessel.formConst_mul_lintegral_le, New.Floors.IsCutBessel.formConst_mul_setLIntegral_compl_positionBall_le, New.Floors.IsCutBessel.lintegral_formMajorant_ne_top, New.Floors.IsCutBessel.shell_bound_le_dampedPower, New.Floors.IsCutBessel.pi_sq_div_sq_pow_le, New.Floors.IsCutBessel.norm_floorForm_le, New.Floors.positionBall, New.Floors.dyadicShell, New.Floors.exists_mem_dyadicShell, New.Floors.notMem_positionBall_of_mem_dyadicShell}
+
+\begin{proof}
+(a) Induction on $j$: $L$ is the largest of $\rho$ and the inverse norms of the partial products, and each step enlarges $L$ once for $p$ and once for $q$, at the cost $\max(L,x)^K\le L^K\max(1,x)^K$. For the norm, the integral over $y$
+is at most $h_\C\norm{W^\flat(x)}^2$, as $\int W\otimes W^*\le1$ on the quotient, and unfolding by \cref{prop:complex-place}(a) gives the factor $h_\C$. An active point would bound the partial products of both heads by
+\cref{prop:two-gauges}(c); there are none, so the majorant vanishes. (b) Otherwise $T^{-1}$ lies in each disc $\mathfrak d_a$, $a\ge j$, and \cref{prop:depth}(d) in the gauge of size $T$ puts $x$ in the position ball. A position of the dyadic shell of
+height $2^i$ is outside the position ball at any $T\ge1$ with $2T^{99n}\le2^i$, and is covered by the position balls of at most $2(2^i)^{9n}$ gauges of constant at most $L^22^{2i}$; at $T=L^{11n+1}/\tau$, $T^{99n}$ is at most half the height
+when $L^{2400n^2}\le\tau^{400n^2}2^i$. The floor mass is \cref{prop:quadric-plancherel}(a) in the gauge of size $\rho$, whose constant is $\rho^2$. (c) \cref{thm:shells} with the mass bound $V=(\pi\rho^{24})^k\rho^{9999n}$, the gain $t^{-1}$ and
+$r=s-10^8n^4$; at $\C$ the level is $1$, $c=\pi^2$ and the constant is $L^2$, and $h_\C$, $\#I$ and the volumes cancel, leaving powers of $\pi$, $\rho$ and $L$. With $t=1$ the bound is finite, so the majorants are integrable. For the
+last statement take $t=\max(1,\rho^{24}\abs y)$ in a gauge for both heads: the weights of the heads pay the size $L$ of the gauge if their partial products are at most $R$, and otherwise the form is $0$ by (a); for $t>1$,
+$(\pi^2/\abs y^2)^m\le((\pi\rho^{24})^k\rho^e/(\rho^{24}\abs y)^s)^2$ for $s\le m\le k$, which is the gain (c) asks for; and the bound at this $t$ is at most $\Theta b^{2000n^9}\ell_{k-n^7}(1/\abs y)$, comparing exponents of $b$ with
+$\rho=b^{6n+2}$, $10^8\le\varrho$ and $k=s+3n+6$.
+\end{proof}
+
+\begin{theorem}[Local band limits at a real place]\label{thm:local-band-limits}
+Let $W^\flat$ be a cut Bessel function at a real place of a Bessel function $W$, with decay rate $f\ge4000n$, and let $\deg>0$ with: the matrix coefficient of $W$ has squared $L^2$ norm at most $(\#I)^2/\deg$,
+$\deg\cdot\Theta\le b^{4r^2}$, and the ball of radius $T\ge1$ in $G_1$ has volume at most $T^{9r^2}b^{99r^2}/\deg$. Then:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item the normalised forms $\mathcal J_0,\dots,\mathcal J_\varrho$, followed by the Gram form $\langle\Xi(p),\Xi(q)\rangle$ of the normalised cell integrals, form a sieve system of length $\varrho$ on $\C$ for the character $e^{c-\bar c}$, the
+weights of exponent $n^6$ and cut-off $b^{60n^2}$, and the decay $\Theta b^{2000n^9}\ell_{k-n^7}(1/\abs\xi)$, with $\abs{\mathcal J_0}\le(1+b^{-10})/\deg$; in detail:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item (Mass.) $\abs{\mathcal J_0(p,q;1)}\le(1+b^{-10})/\deg$ for all $p$, $q$;
+\item (Frequency.) for $i\le\varrho$ and $\nu\ne0$, $\#I\cdot\abs{\mathcal J_i(p,q;e^{\nu Z_{ii}-\overline{\nu Z_{ii}}})}\le\Theta b^{2000n^9}\ell_{k-n^7}(1/\abs\nu)\Lambda_i(p)\Lambda_i(q)$;
+\item (Unequal entries.) for $i+1\le\varrho$ and $\nu=p_i^{-1}-q_i^{-1}\ne0$, $\#I\cdot\abs{\mathcal J_{i+1}(p,q;1)}\le\Theta b^{2000n^9}\ell_{k-n^7}(1/\abs\nu)\Lambda_{i+1}(p)\Lambda_{i+1}(q)$;
+\end{enumerate}
+\item if $\sigma\in G^{(\varrho)}$ and the last entries of $p$ and $q$ both equal $h(z,\sigma z)$, the top form is the inner product of the normalised orbital integrals of $W^\flat$ and $\sigma$ at $p$ and at $q$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Floors.normalizedCellIntegral, New.Floors.IsCutBessel.continuous_normalizedCellIntegral, New.Floors.IsCutBessel.inner_embedH_mul, New.Floors.IsCutBessel.inner_normalizedCellIntegral_eq_of_last_entry, New.Floors.IsCutBessel.partialCorrelationProduct_top_eq, New.Floors.IsCutBessel.descent_last_entry_of_norm_le_one, New.Floors.IsCutBessel.integrable_and_integral_wave_mul_inner_normalizedCellIntegral, New.Floors.quotientPairing, New.Floors.sq_lintegral_enorm_inner_le, New.Floors.isBesselFunction_sub, New.Floors.IsCutBessel.enorm_quotientPairing_sub_le, New.Floors.IsCutBessel.formIntegrandL1Norm_zero_eq, New.Floors.lintegral_add_sq_le, New.Floors.IsCutBessel.rho_le_pow, New.Floors.IsCutBessel.r_eq_add, New.Floors.IsCutBessel.norm_le_of_mem_positionBall, New.Floors.sq_error_mul_ballBound_le, New.Floors.IsCutBessel.setLIntegral_quotientPairing_sq_le, New.Floors.IsCutBessel.scaledVolumeRatio_mul_pow_div_pow_le, New.Floors.one_add_inv_pow_twelve_sq_add_le, New.Floors.IsCutBessel.enorm_formConst_mul_le_one, New.Floors.IsCutBessel.norm_floorForm_zero_le, New.Floors.IsCutBessel.norm_floorForm_wave_le, New.Floors.IsCutBessel.norm_floorForm_heads_le, New.Floors.IsCutBessel.integrable_and_integral_wave_mul_floorForm_succ, New.Floors.exists_hasLocalBounds_of_isCutBessel}
+
+\begin{proof}
+\emph{Descent below the top.} For $i<\varrho$, with the entries at $i$ replaced by a common unit, the integral over $c$ of $e^{\xi c-\overline{\xi c}}$ times the normalised form of floor $i+1$ converges and is the normalised form of floor $i$ with the
+weight $x\mapsto e^{\xi Z_{ii}(x)-\overline{\xi Z_{ii}(x)}}$, by \cref{thm:floor-descent}(b) and the integrability of the majorants (\cref{lem:real-shells}(c)). \emph{The top floor.} Apply \cref{thm:floor-descent}(b) at floor $\varrho$ with the chart of the
+top floor (the boost with parameter $c/\min(1,\abs c)$) and its density; at a unit $c$ the integrand is the Gram form of $\Xi$: both measures are the group measure, $h_\C$ times Haar measure, the Gram form is a double integral for
+Haar measure (substitute $(y,yx)$), the partial correlations are averages over $\U(\kappa)$ of inner products, which $\U(\kappa)$ keeps, and $h_\C$ cancels against $c_W$ while the open cell constant is the constant of the density times the
+ratio of volumes in $c_W$. \emph{Continuity and positivity of the top form.} Near $p$ all nearby lists are heads for one gauge, so the integrand of the orbital integral is supported in a fixed compact set and jointly continuous, and
+$\Xi$ is that orbital integral times a continuous real factor; positivity is that of a Gram matrix. (b) Both sides have the same normalising factors and are double integrals; on the right multiply both variables by an element of
+$G^{(\varrho)}$ that commutes with the Weyl elements.
+
+(i) \emph{Floor $0$.} The integrand at floor $0$ is $h_\C^2\abs{\langle W^\flat,R(x)W^\flat\rangle}^2$, the matrix coefficient in $L^2(U\backslash G_1)$, because it is left invariant under $U$ and the Weyl elements are trivial. Split the positions at the scale
+$T=b^{6r}\rho^{11n}$. \emph{The position ball.} There $\norm x\le b^{700nr}$. Replacing $W^\flat$ by $W$ changes the matrix coefficient by at most $2b^{-r^3f}\#I$ at every position, since the difference is
+$\langle W^\flat-W,R(x)W^\flat\rangle+\langle W,R(x)(W^\flat-W)\rangle$ and $\norm{W^\flat-W}\le b^{-r^3f}\sqrt{\#I}$; with the volume bound of the ball, $(2b^{-r^3f})^2T^{9r^2}b^{99r^2}\le b^{-24}$ for $f\ge4000n$, and Minkowski's inequality in
+$L^2$ gives at most $(1+b^{-12})^2(\#I)^2/\deg$ for the coefficient of $W^\flat$ on the ball. \emph{Remote positions.} These have a deep vector (\cref{lem:real-shells}(b)), and \cref{lem:real-shells}(c) bounds them by
+$\Theta\rho^{10^9n^4}\rho^{24k}t^{10^8n^4}/t^s\le b^{-12}/\deg$ with $t=b^{6r}$, using $r=s+5n+5$, $k=s+3n+6$ and $10^{10}n^4\le s$, which follows from $k\ge n^7$ and $\varrho\ge10^8$. With $c_Wh_\C\le1$ and $(1+b^{-12})^2+b^{-12}\le1+b^{-10}$ the mass is at most $(1+b^{-10})/\deg$.
+
+(ii), (iii) For a gauge adapted to both heads, \cref{thm:gains}(a), resp.\ (b), gives at every position the gain $(\pi^2/\abs\nu^2)^{\dim X'}$ with $\dim X'=k-5$ at $\C$ (the hypotheses of (a) hold for $\eta=\nu$, $\xi=\nu$; in (b) the frequency is
+$\nu$ since the level is $1$), and \cref{lem:real-shells}(c) integrates it. The local bounds of the sieve do not keep the factor $\#I$.
+\end{proof}
+
+\subsection{Finite places}\label{ss:finite-data}
+Let $A$ be an integral place with integers $R$ and character $\psi$ trivial on traces. A place datum $F$ for the Gram matrix of $X_0\perp Az$ in the lattice basis (\cref{ss:filling-data}) is a \emph{lattice
+datum} if the Gram matrix and the basis are integral and unimodular over $R$, the box is the group $K$ of integral isometries, the close pairs are the pairs of integral vectors congruent modulo the level $g$,
+the measures are normalised on $K$, and an isotropic vector is dual to $z$. It is \emph{large} if moreover $\zeta_R(m)^n\le1+2^{-n}$ for the ideal zeta sum, $m<9n$, $\#\iota\ge53n$, and the unitary group is
+unimodular. Write $K(g)$ for the principal congruence subgroup; for $K(g)\le Z\le K$ the \emph{Bessel vector} $W_Z$ has the coordinates $W_a(y)=\chi_g(ya^{-1})$ at the cosets $a$ of $K(g)$ in $Z$, and the
+\emph{mass integral} is $\kappa(Z)=\int_G\abs{\int_Z\chi_g(yxy^{-1})\,dy}^2dx$.
+\lean{New.Floors.vectorOfLastEntry, New.Floors.form_vectorOfLastEntry, New.Floors.continuous_vectorOfLastEntry, New.Floors.PlaceData.congruenceSubgroup, New.Floors.IntegralPlace.congruentPairs, New.Floors.IntegralPlace.isOpen_congruentPairs_and_isCompact_closure, New.Floors.IntegralPlace.IsLatticeData, New.Floors.IntegralPlace.exists_right_invariant_measure_besselH, New.Floors.IntegralPlace.exists_isIntMatrix_hyperbolicBasis, New.Floors.IntegralPlace.isIntMatrix_floorBasis, New.Floors.HyperbolicBasis.floorBasis_mulVec_eq_zero, New.Floors.IntegralPlace.star_dotProduct_mulVec_mem_integers, New.Floors.IntegralPlace.isIntMatrix_vecMulVec_star_vecMul, New.Floors.IntegralPlace.flatChart_mem_intVectors, New.Floors.IntegralPlace.topEichler_mem_unitaryLevel_one, New.Floors.IntegralPlace.exists_measure_floorGroup_top, New.Floors.IntegralPlace.exists_isLatticeData, New.Floors.IntegralPlace.IsLargeLatticeData.closePairs_eq, New.Floors.IntegralPlace.IsLargeLatticeData.two_le_two_div_modulus, New.Floors.IntegralPlace.IsLargeLatticeData.inv_modulus_pow_le, New.Floors.IntegralPlace.IsLargeLatticeData.idealZeta_mul_inv_modulus_pow_le, New.Floors.IntegralPlace.IsLargeLatticeData.boxSet_eq, New.Floors.IntegralPlace.IsLargeLatticeData.isUnimodular_splitGram, New.Floors.IntegralPlace.IsLargeLatticeData.isIntMatrix_basisMatrix, New.Floors.IntegralPlace.IsLargeLatticeData.idealZeta_le_two, New.Floors.IntegralPlace.IsLargeLatticeData.star_dotProduct_splitGram_mulVec_mem, New.Floors.IntegralPlace.IsLargeLatticeData.exists_kernel_isDisintegration_coordinateBox_le, New.Floors.IntegralPlace.IsLargeLatticeData.mem_of_mem_productDifferences, New.Floors.IntegralPlace.IsLargeLatticeData.exists_intGL_mulVec_mem_commonVectors, New.Floors.IntegralPlace.IsLargeLatticeData.exists_isCommonBound, New.Floors.IntegralPlace.IsLargeLatticeData.gauge, New.Floors.IntegralPlace.IsLargeLatticeData.leadingMinor_mem_of_isNear, New.Floors.IntegralPlace.IsLargeLatticeData.exists_mul_heisenbergElem_mem_unitaryLevel_iff, New.Floors.IntegralPlace.IsLargeLatticeData.heisenbergMeasure_eq_floorModulus, New.Floors.IntegralPlace.IsLargeLatticeData.ascConv_unitaryLevel, New.Floors.IntegralPlace.IsLargeLatticeData.ascConv_mconv_unitaryLevel_coset, New.Floors.IntegralPlace.IsLargeLatticeData.groupMeasure_boxSet_le, New.Floors.IntegralPlace.IsLargeLatticeData.mul_le_mconv_boxSet, New.Floors.IntegralPlace.IsLargeLatticeData.volume_intUnits_le_weylLaw_boxSet, New.Floors.IntegralPlace.IsLargeLatticeData.le_partialGroupMeasure_boxSet, New.Floors.IntegralPlace.IsLargeLatticeData.isHaarMeasure_groupMeasure}
+\lean{New.Floors.IntegralPlace.extendedBesselChar, New.Floors.IntegralPlace.extendedBesselChar_eq_zero, New.Floors.IntegralPlace.exists_besselU_of_extendedBesselChar_ne_zero, New.Floors.IntegralPlace.norm_extendedBesselChar_le_one, New.Floors.IntegralPlace.extendedBesselChar_eq, New.Floors.IntegralPlace.extendedBesselChar_besselS_mul, New.Floors.IntegralPlace.extendedBesselChar_mul_of_mem_unitaryLevel, New.Floors.IntegralPlace.extendedBesselChar_besselU_mul, New.Floors.IntegralPlace.continuous_extendedBesselChar, New.Floors.IntegralPlace.unitaryLevel_le_unitaryLevel_one, New.Floors.PlaceData.IntermediateGroup, New.Floors.PlaceData.unipotentMass, New.Floors.PlaceData.massIntegral, New.Floors.PlaceData.IntermediateGroup.le_unitaryLevel_one, New.Floors.PlaceData.IntermediateGroup.Cosets, New.Floors.PlaceData.IntermediateGroup.massRatio, New.Floors.PlaceData.IntermediateGroup.besselVector, New.Floors.PlaceData.unipotentMass_ne_zero_and_ne_top, New.Floors.PlaceData.exists_mem_congruenceSubgroup_of_inner_ne_zero, New.Floors.PlaceData.IntermediateGroup.isOpen, New.Floors.PlaceData.IntermediateGroup.exists_forall_mul_inv_mem_congruenceSubgroup_iff_eq, New.Floors.IntegralPlace.inv_modulus_eq_sqrt_genIndex_sq, New.Floors.IntegralPlace.exists_unit_leadingCoord_iff_mem_integers, New.Floors.IntegralPlace.IsLargeLatticeData.box_eq, New.Floors.IntegralPlace.IsLargeLatticeData.groupMeasure_ne_top, New.Floors.IntegralPlace.IsLargeLatticeData.massRatio_ne_zero_and_ne_top, New.Floors.IntegralPlace.IsLargeLatticeData.setLIntegral_congruenceSubgroup_integral_sq, New.Floors.IntegralPlace.IsLargeLatticeData.isCut_besselVector, New.Floors.IntegralPlace.IsLargeLatticeData.leadingMinor_mem_of_besselOrbitalIntegral_ne_zero, New.Floors.IntegralPlace.IsLargeLatticeData.unipotentMass_mul_inner_besselVector, New.Floors.IntegralPlace.IsLargeLatticeData.card_cosets_mul_groupMeasure, New.Floors.IntegralPlace.IsLargeLatticeData.ascConv_setOf_mul_mem_le_one, New.Floors.IntegralPlace.IsLargeLatticeData.enorm_sq_besselVector_mul_unipotentMass, New.Floors.IntegralPlace.IsLargeLatticeData.enorm_sq_besselVector_mul_le_one, New.Floors.IntegralPlace.IsLargeLatticeData.lintegral_enorm_sq_besselVector, New.Floors.IntegralPlace.IsLargeLatticeData.lintegral_inner_besselVector_sq_mul_le, New.Floors.IntegralPlace.IsLargeLatticeData.pairingNormSq_mul_le_massRatio, New.Floors.IntegralPlace.IsLargeLatticeData.enorm_integral_extendedBesselChar_eq_enorm_mul}
+\lean{New.Floors.IntegralPlace.IsLargeLatticeData, New.Floors.IntegralPlace.IsLargeLatticeData.psi_add_star, New.Floors.IntegralPlace.IsLargeLatticeData.toIsLatticeData, New.Floors.IntegralPlace.IsLargeLatticeData.unimodular, New.Floors.IntegralPlace.IsLargeLatticeData.zeta_le_and_le_card, New.Floors.IntegralPlace.IsLatticeData.exists_isotropic, New.Floors.IntegralPlace.IsLatticeData.integral_data, New.Floors.IntegralPlace.IsLatticeData.volume_le_and_boxSet_closePairs_positions_eq, New.Floors.instFintypeCosets}
+
+\begin{proposition}[Lattice data]\label{prop:lattice-data}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $N$ is self-adjoint and integral, $g$ a self-adjoint integral unit and $k=\#\iota+2m+1$, the Gram matrix of $X_0\perp Az$ has a lattice datum of level $g$.
+\item For a large lattice datum $\mathsf M$ is a Haar measure, $\vol(K)\le1+2^{-n}$, and the Heisenberg measures of the congruence subgroup are given by $\abs g^{r_a+1/2}$.
+\item $W_Z$ is a cut Bessel function; $\mathrm{fl}\cdot\langle W_Z(y),W_Z(yx)\rangle$ is the integral over $U$ of $1_Z(uy)\chi_g(uyx(uy)^{-1})$, $\mathrm{fl}$ the mass of $U\cap K(g)$; and $\mathrm{fl}$ times the squared $L^2$ norm of its
+correlation over $(U\backslash G)^2$ is at most $\mathrm{mr}(Z)=\vol(Z)\vol(K(g))/\mathrm{fl}^2$.
+\item (Depth at the finite places.) If $x$ is near at $a+1$, $\mathfrak d_a(x,y)$ is an ideal of $R$ and the depth is its index; the forms vanish unless the leading products of both heads are integral; and a
+large denominator of $(x-1)/g$ forces a deep vector.
+\end{enumerate}
+\end{proposition}
+\lean{New.Floors.IntegralPlace.IsLargeLatticeData.inv_two_pow_le_groupMeasure, New.Floors.IntegralPlace.IsLargeLatticeData.exists_stableProducts_eq_unit_mul_integers, New.Floors.IntegralPlace.IsLargeLatticeData.stableProducts_subset, New.Floors.IntegralPlace.IsLargeLatticeData.exists_ideal_depth_eq, New.Floors.IntegralPlace.IsLargeLatticeData.exists_unit_mem_stableProducts, New.Floors.IntegralPlace.IsLargeLatticeData.exists_mem_boxSet_hasMatrixSize_of_inner_ne_zero, New.Floors.IntegralPlace.IsLargeLatticeData.prod_mem_of_formMajorant_ne_zero, New.Floors.IntegralPlace.IsLargeLatticeData.exists_unit_multiple_of_prod_mem, New.Floors.IntegralPlace.IsLargeLatticeData.two_div_modulus_pow_le_mul_sqrt_genIndex_pow, New.Floors.IntegralPlace.IsLargeLatticeData.exists_gauge_of_formMajorant_ne_zero, New.Floors.IntegralPlace.IsLargeLatticeData.mem_positions_of_formMajorant_ne_zero, New.Floors.IntegralPlace.IsLargeLatticeData.exists_star_eq_common_multiple, New.Floors.IntegralPlace.IsLargeLatticeData.exists_volume_stableProducts_le}
+
+\begin{proof}
+(a) \emph{The basis.} The matrix $E$ that makes the plane of $x_{k_0}$ and $z$ hyperbolic, turns $2m$ orthonormal vectors into $m$ hyperbolic pairs by a $c$ with $\bar cc=-1$ and keeps the others, is integral, each entry reducing to the norm of $c$,
+the trace-one element or $\bar N=N$; in it the coordinate at $z$ is the coefficient at the second vector of the first pair, and the bases of all floors are integral. \emph{The top floor.} With an integral isotropic $u$ dual to $z$ of $z$-coordinate $0$, the
+scaled Eichler map along $u$ attached to an integral $e$ with unit $z$-coordinate $r$, $1+r^{-1}(ruh(v,\cdot)-(v+su)h(u,\cdot))$, is an integral isometry; its image of the chart measure gives a measure on $G^{(\varrho)}$ carried to the top quadric
+and of mass at least the volume of the units of $R$ on $K$. \emph{The measure of $H$} is the right Haar measure of $H$ with $\nu(H\cap K)=1$: the $h\in H$ with $hy\in UK$ lie in one right coset of $H\cap K$. The close pairs form an open set containing $0$ with
+compact closure, the image of the pairs of integral vectors under $(\omega,\delta)\mapsto(\omega,\omega-g\delta)$.
+(b) \emph{Heisenberg masses.} Some $u$ in a subgroup of $U_{(<a)}$ moves the Heisenberg element of $(v,\beta)$ into $K(g)$ exactly when $g^{-1}v$ and $g^{-1}\beta$ are integral; the preimage of $S\cdot K(g)$ in the chart is a box, each coordinate of a floor above
+$a$ contributing $\abs g$ and $\beta$ contributing $\abs g^{1/2}$, so the mass is $\abs g^{r_a+1/2}$, and over the floors below $j$ the product. \emph{The box.} Unfolding at level $1$ bounds $\mathsf M(K)$ by the mass of the frames near the box, and each of
+the $n$ floors contributes at most $\zeta_R(m)$ (in the gauge of scale $1$ every size is $R$, of volume $1$; solve the equation in a block and let the other coordinates be free in $R$); so $\mathsf M(K)\le\zeta_R(m)^n\le1+2^{-n}$. Each floor
+contributes at least the volume of the units of $R$ (for a unit $u$ the Weyl element $w_l(u)$ lies in the box, and the density $\abs u^d$ is $1$), so the box has positive mass; $\mathsf M$ is right invariant, hence a multiple $d\nu$ of a unimodular
+Haar measure, with $d$ finite and nonzero.
+(c) \emph{The function $\chi_g$.} It is $\psi(\sigma(u)/g)$ on $uK(g)$, independently of $u$ (two choices differ by an element of $K(g)$, and $\psi$ is trivial on the integers, which are self-dual), right invariant under $K(g)$, hence continuous, of modulus
+at most $1$, and left translation by an element $x$ of the Bessel subgroup in $uK(g)$ multiplies it by $\psi(\sigma(u)/g)$ ($\sigma$ is additive on the Bessel subgroup). Hence $W_Z$ is a cut Bessel function: bounded, measurable, of frequency $g^{-1}$ and zero off
+$UK$. \emph{Correlations.} On $U$ the integrand $1_Z(uy)\chi_g(uyx(uy)^{-1})$ is the sum over the cosets $c$ of $a_c$ times the indicator of a set $S_c$, and $S_c$ has mass $\mathrm{fl}$ whenever $a_c\ne0$; this gives $\mathrm{fl}\langle W_Z(y),W_Z(yx)\rangle$. At $x=1$,
+$\mathrm{fl}\norm{W_Z(y)}^2$ is the mass of the $u$ with $uy\in Z$, at most $1$ since $Z$ lies in the integral points, where the floor volumes are $1$. \emph{Norms.} The squared norm of $\sqrt{\mathrm{fl}}W_Z$ on $U\backslash G$ is $\mathsf M(Z)$, the number of cosets
+times $\mathsf M(K(g))$; for fixed $x$, the integral over $y$ of $\abs{\langle W_Z(x),W_Z(y)\rangle}^2$ times $\mathrm{fl}^2$ is at most $\norm{W_Z(x)}^2\vol(K(g))$, only a set of mass $\vol(K(g))/\mathrm{fl}$ counting (the integral point $ux$ normalises
+$K(g)$); integrate over $x$.
+(d) \emph{Ideals.} A stable vector $w$ with second lift $w+d$ is a point $(w,d)$ of a lattice on which a matrix is integral; giving the coordinate of $w$ at $e^*_a$ the leading weight, the coordinates at it of such points form $cR$ for a unit $c$, by a
+triangular basis of the lattice. If $x$ is near at $a+1$ and $\xi x$ is integral, so is $\xi w=(\xi x)(x^{-1}w)$, which has the same product with $e_a$; so $\mathfrak d_a\subseteq R$ is an ideal, and its volume is the inverse of its index. \emph{Heads.} Where the
+integrand of the majorant is not zero, the frames $y$, $yx$ and their translates by the inverses of the Weyl elements are near at $j$, and in the gauge of scale $1$ every size means integral, so \cref{prop:two-gauges}(c) makes the leading products
+integral. \emph{A scale for two heads.} With common multiples $\beta$, $\gamma$ of the leading products of $p$ and $q$, the scale $\alpha=g\bar\beta\bar\gamma\beta\gamma$ makes $p$, $q$ heads, $g^{-1}$ and the $1/p_i-1/q_i$ of size $1$, and $\Lambda^E\le(2/\abs g)^K$ times the
+finite head weights of $p$ and $q$ when $4E\le K$. \emph{Far means deep.} Let $c$ divide every common denominator of $(x-1)/g$, with $\abs c\Lambda^{990n^2}\le\sigma^{400n^2}$, $\sigma<1$, in the gauge of scale $\alpha$ ($\Lambda=2/\abs\alpha$). Each $\mathfrak d_i$ is $d_iR$ for a unit $d_i$ of $R$, of volume
+$\abs{d_i}$. If $\abs{d_i}>\sigma^2$ for all $i\ge j$, the $d_i$ have a common multiple $C$ in $R$, fixed by the involution, of modulus at least $\sigma^{4n}$; in the gauge of scale $\alpha^{10n}C$ every $d_i^{-1}$ has size $1$, so \cref{prop:depth}(d)
+gives $(x-1)/g$ of size $99n$, the power $(\alpha^{10n}C)^{99n}$ is a common denominator, and $c$ divides it: $\abs c\ge\abs\alpha^{990n^2}\abs C^{99n}\ge\Lambda^{-990n^2}\sigma^{396n^2}$, against the hypothesis, as $4\cdot99<400$ leaves a factor $\sigma<1$.
+Hence some $\mathfrak d_i$, $i\ge j$, has volume at most $\sigma^2$, that is depth at least $\sigma^{-2}$.
+\end{proof}
+
+\begin{theorem}[Decay at the finite places]\label{thm:finite-decay}
+Let $F$ be a large lattice datum with level $g$, $K(g)\le Z\le K$, $p$, $q$ sequences of units, $t+10^{10}n^4\le k$ and $10^{10}n^4\le K'$. Let either (a) $\omega(x)=\psi(\xi h(f_j,xf_j))$, or (b) $\omega=1$, $j=i+1$ and
+$\xi=(p_i^{-1}-q_i^{-1})/g$. Then
+\[
+  \abs{\mathcal I_j(p,q;\omega)}\le\mathrm{mr}(Z)\,[R:\xi R]^{t/2}\,[R:R\cap\xi^{-1}R]^{-6}\,(2/\abs g)^{K'}\,\Lambda^{\rm f}_{K',j}(p)\Lambda^{\rm f}_{K',j}(q),
+\]
+with the finite head weights $\Lambda^{\rm f}$.
+\end{theorem}
+\lean{New.Floors.PlaceData.idealShell, New.Floors.IntegralPlace.IsLargeLatticeData.exists_denominator_ideal, New.Floors.IntegralPlace.IsLargeLatticeData.exists_generator_of_mem_idealShell, New.Floors.IntegralPlace.IsLargeLatticeData.hasDeepVector_of_mem_idealShell, New.Floors.IntegralPlace.IsLargeLatticeData.exists_gauge_idealShell_subset, New.Floors.PlaceData.dyadicShell, New.Floors.IntegralPlace.IsLargeLatticeData.two_pow_clog_le_two_mul, New.Floors.IntegralPlace.IsLargeLatticeData.isShell_dyadicShell, New.Floors.IntegralPlace.IsLargeLatticeData.lintegral_shells_le, New.Floors.IntegralPlace.IsLargeLatticeData.lintegral_formMajorant_ne_top, New.Floors.IntegralPlace.IsLargeLatticeData.exists_unit_common_divisor, New.Floors.IntegralPlace.IsLargeLatticeData.exists_unit_formIntegrandL1Norm_sq_le, New.Floors.IntegralPlace.IsLargeLatticeData.modulus_le_inv_denomIndex, New.Floors.IntegralPlace.IsLargeLatticeData.min_sqrt_genIndex_pow_le, New.Floors.IntegralPlace.IsLargeLatticeData.enorm_floorForm_le, New.Floors.IntegralPlace.IsLargeLatticeData.modulus_le_inv_of_le_cardQuot, New.Floors.IntegralPlace.IsLargeLatticeData.modulus_le_half, New.Floors.IntegralPlace.IsLargeLatticeData.modulus_le_volume_nonunits, New.Floors.IntegralPlace.IsLargeLatticeData.hasDeepVector_of_notMem_congruenceSubgroup, New.Floors.IntegralPlace.IsLargeLatticeData.setLIntegral_compl_congruenceSubgroup_le_pow, New.Floors.IntegralPlace.IsLargeLatticeData.setLIntegral_compl_congruenceSubgroup_le, New.Floors.IntegralPlace.IsLargeLatticeData.massIntegral_le_main_add_error}
+
+\begin{proof}
+\emph{Shells.} For $x\in G$ the common denominators in $R$ of the entries of $(x-1)/g$ form a principal ideal $J=cR$, $c$ a unit of $A$ in $R$, of index $\abs c^{-1}$ (take $c=t^{-1}$ for the content $t$ of the vector listing $1$ and these entries). Sort the
+positions by $J$, and into dyadic shells by the index. The shell of $J$ lies in the position ball of the gauge of scale $\bar cc$, whose constant is $2[R:J]^2$; at most $2(2^t)^m$ ideals have index at most $2^t$, as $\zeta_R(m)\le2$; and if
+$\Lambda^{990n^2}\le\sigma^{400n^2}[R:J]$, the shell has a deep vector of depth $\sigma^{-2}$ (\cref{prop:lattice-data}(d)). Hence the dyadic shells are shells in the sense of \cref{thm:shells}, and with the mass of floor $j$ bounded in the gauge of scale $1$,
+\[
+  \kappa_j(p,q)\int f\le\min(1,e)^r\,\mathrm{mr}(Z)\,\Lambda^{10^9n^4}
+\]
+whenever $f\le\mathsf F^\sharp_j$ has the gain $e^s$ and $r+10^8n^4\le k$. \emph{The gain.} Two units $\xi$, $\beta$ have a common divisor $\eta$ over $R$ congruent to $\xi$ modulo $\beta R$ (for an integral idempotent $e$, $d=\xi-e(\xi-\beta)$ divides both).
+At each position \cref{thm:gains}(a) or (b), in the gauge of \cref{prop:lattice-data}(d), gives units $\eta$, $w$ with $w$, $\xi w$, $\xi/\eta$ integral, the gain $(c_A/\abs\eta)^{\dim X'}$ with $c_A=1$, so that $c_A/\abs\eta=e^2$ for $e=[R:\eta R]^{1/2}$, and
+$\min(1,e)^2\le\abs w/\abs{\alpha^{200n^2}}$. Since $wR\subseteq R\cap\xi^{-1}R$, $\abs w\le[R:R\cap\xi^{-1}R]^{-1}$; and as $\xi/\eta$ is integral, $\min(1,e)^{t+12}\le[R:\xi R]^{t/2}$ times the sixth power of $\Lambda^{200n^2}/[R:R\cap\xi^{-1}R]$. The exponents
+of $\Lambda$ add up to at most $K'/4$, which the weights and $(2/\abs g)^{K'}$ absorb (\cref{prop:lattice-data}(d)).
+\end{proof}
+
+\begin{theorem}[The mass at the finite places]\label{thm:finite-mass}
+Let $F$ be a large lattice datum with congruence group $K(g)$, $K(g)\le Z\le K$, and $\vol=\mathsf M$. Let $Q\ge2$ be such that every unit $c$ of $A$ with $c\in R$ and $c^{-1}\notin R$ has modulus at most $Q^{-1}$, and let
+$t+2\cdot10^9n^4\le k$. Then the integral of the majorant $\mathsf F^\sharp_0(\cdot;W_Z)$ over the complement of $K(g)$ is at most $Q^{-t}\mathrm{mr}(Z)$, and
+\[
+  \kappa(Z)\le\vol(Z)\vol(K(g))\,\bigl(\vol(Z)+Q^{-t}\bigr).
+\]
+\end{theorem}
+
+\begin{proof}
+\emph{On $K(g)$.} For $x\in K(g)$ every conjugate $yxy^{-1}$, $y\in Z$, lies in the normal subgroup $K(g)$ of $K$, where $\chi_g=1$, as $Z$ normalises $K(g)$; so the inner integral is $\vol(Z)$, and this part of $\kappa(Z)$ is $\vol(Z)^2\vol(K(g))$.
+\emph{Off $K(g)$.} If $x\notin K(g)$, every point active at $x$ has an index $a$ with $\mathrm{dp}_a\ge Q$: otherwise each $\mathfrak d_a$ contains a unit of $R$ and $(x-1)/g$ is integral, as in the gauge of scale $1$ every size means integral
+(\cref{prop:depth}(d)). Summing over the shells in the gauge of scale $1$, where $\Lambda=2$, with the gain $Q^{-s}$ gives the integral of the majorant off $K(g)$ at most $Q^{-(t+n)}\mathrm{mr}(Z)2^{10^9n^4}\le Q^{-t}\mathrm{mr}(Z)$, the spare powers of
+$Q^{-1}\le2^{-1}$ absorbing $2^{10^9n^4}$. \emph{The mass integral.} The inner integral $\int_Z\chi_g(yxy^{-1})dy$ has the modulus of $\mathrm{fl}$ times the integral of $\langle W_Z(z),W_Z(zx)\rangle$ over $U\backslash G$ (integrate
+\cref{prop:lattice-data}(c) over $y$), so the mass integral off $K(g)$ is $\mathrm{fl}^2$ times the form of floor $0$ there (\cref{thm:floor-descent}(c)), at most $\mathrm{fl}^2\cdot Q^{-t}\mathrm{mr}(Z)=Q^{-t}\vol(Z)\vol(K(g))$.
+\end{proof}
+
+\begin{proposition}[Fixed vectors save a power of $b$]\label{prop:fixed-lines}
+Let the filling data be admissible, $F$ a filling datum at $T$, $M^{-1}$ integral off $T$, $S_g$ a set of chosen places above $p_0$ and $d_w$ nonzero vectors as in the definition of the fixer. There is $Z$
+with $K_T(M)\le Z\le K_T$ that contains the component at $T$ of every integral element whose reduction lies in $\mathrm{fixer}(S_g,d)$, and
+\[
+  \kappa(Z)\vol(K_T)\,b^{6k\#S_g}\le\kappa(K_T)\vol(Z).
+\]
+\end{proposition}
+\lean{New.Filling.chosenPlacesAndConj, New.Filling.mem_chosenPlacesAndConj, New.Filling.b_pow_ten_le_q, New.Filling.card_le_b_of_subset_chosenPlacesAndConj, New.Filling.volume_integers_diff_intUnits_le, New.Filling.add_inv_pow_mul_mul_pow_le, New.Filling.range_toPlaces_latticeStabilizer, New.Filling.v_ideleM_lt_one, New.Filling.reduceAt_eq_zero_of_inv_ideleM_smul, New.Filling.mem_of_inv_ideleM_mem_integralOff, New.Filling.IsFillingData.reduction_eq_one, New.Filling.index_comap_vectorFixer, New.Filling.exists_exponent_le_k, New.Filling.IsFillingData.massIntegral_mul_le_of_relIndex_eq, New.Filling.IsFillingData.exists_intermediateGroup_one_place, New.Filling.placeFiber, New.Filling.evalFiber, New.Filling.evalFiber_apply, New.Filling.forall_placeFiber, New.Filling.eq_iff_evalFiber_eq, New.Filling.mem_O_iff_evalFiber_mem, New.Filling.charOnPlaces_eq_prod_fibers, New.Filling.toFibers, New.Filling.toFibers_apply, New.Filling.toFibers_toPlaces, New.Filling.toFibers_surjective, New.Filling.mem_unitaryLevel_iff_toFibers, New.Filling.unitaryLevel_eq_comap_toFibers, New.Filling.mem_besselU_iff_toFibers, New.Filling.measurableEmbedding_toFibers, New.Filling.extendedBesselChar_eq_prod_toFibers, New.Filling.IsFillingData.levelUnit_eq_map_evalFiber, New.Filling.IsFillingData.exists_massIntegral_pi_eq, New.Filling.IsFillingData.massIntegral_pi_mul_le, New.Filling.exists_option_eq_some_iff, New.Filling.IsFillingData.exists_intermediateGroup_places}
+
+\begin{proof}
+\emph{Few non-units.} Every place of $T$ is a chosen place or the conjugate of one (as $M^{-1}$ is integral off $T$, $T$ contains every chosen place), so the residue fields have at least $b^{10}$ elements and $T$ has at most $4f\le b$ places; an integer
+that is a unit of $E_T$ but not of $R$ is divisible by the uniformiser at some place, each such set having volume at most $b^{-10}$; so the non-units have volume at most $b^{-9}$, and $Q=b^9$ in \cref{thm:finite-mass}. \emph{One place.} At a block
+$\{w,\bar w\}$, $w\in S_g$, take for $Z$ the components of the integral elements whose reduction at $w$ fixes $d_w$; as the reduction and the component at $w$ are onto, its index in $K$ is $p_0^r-1$, the number of nonzero vectors. An integral
+element whose component at $T$ lies in $K_T(M)$ has reduction $1$ at $w$ (each entry of $M^{-1}(k-1)$ is integral at $w$), so $K_T(M)\le Z$. Choose $t$ with $t+1+n+2\cdot10^9n^4\le k$, $6k\le9t$ and $t+1<r$. Then $\vol(Z)=\vol(K)/(p_0^r-1)$ is small,
+\cref{thm:finite-mass} bounds $\kappa(Z)\le\vol(Z)\vol(K(g))(\vol(Z)+b^{-9t})$, and the part of the outer integral over $K(g)$ gives $\kappa(K)\ge\vol(K)^2\vol(K(g))$; with $B=b^9$, $(z+B^{-(t+1)}k)B^t\le k$ when $B^{t+1}z\le k$, and the gain is
+$b^{9t}\ge b^{6k}$. \emph{Several places.} Split $T$ into the blocks $T\cap\{w,\bar w\}$, $w\in S_g$, and the rest, where $Z=K$. The completions, the character, the unitary group, its level and $U$, the Bessel function and the measures are products
+over the blocks (the character of an adele supported on $T$ is the product of those of its parts; the unitary group over $T$ is the product of those over the blocks, a measurable embedding with dense image); so for products of groups the volume
+is a constant $t$ times the product of the volumes, and the mass integral is $t^3$ times the product of the mass integrals. Hence the inequalities of the blocks multiply, those of $S_g$ giving one factor $b^{6k}$ each.
+\end{proof}
+
+\subsection{The top floor}\label{ss:top-floor}
+For two heads $\omega$, $\omega'$ and $l\in G^{(\varrho)}$ the \emph{scaled orbital integral} is the head density times $\int W_Z(y)\otimes W_Z(lw_\omega^{-1}y)^*dy$, indexed by pairs of cosets. The \emph{fibre pairing}
+$\mathrm{fp}(\omega,\omega';e)$ is the integral over $H$ of the pairing of the scaled orbital integrals at $l$ and $hl$; it depends only on $e=l^{-1}z$, a point of the \emph{last vector quadric}. The \emph{density at
+the last entry} is
+\[
+  J_{\rm last}(\omega,\omega';t)=\abs\pi^{-1}\int_{h(z,e)=t}\mathrm{fp}(\omega,\omega';e)\,d\mu_t(e),
+\]
+for the measure $dx/d\langle x,x\rangle$ on the sphere over $t$, where $\pi\bar\pi=N$.
+\lean{New.Floors.sum_sum_mul_integral, New.Floors.sum_sum_mul_integral_nonneg, New.Floors.lintegral_ofReal_re_sum_sum_mul, New.Floors.eventually_forall_apply_add_smul_eq, New.Floors.exists_unit_forall_apply_eq_of_inv_smul_sub_mem, New.Floors.exists_step_function_extension, New.Floors.besselOrbitalIntegral_apply, New.Floors.besselOrbitalIntegral_congr, New.Floors.exists_ne_zero_of_besselOrbitalIntegral_ne_zero, New.Floors.IntegralPlace.modulus_eq_of_inv_mul_mem_units, New.Floors.PlaceData.scaledOrbitalIntegral, New.Floors.PlaceData.besselVector_apply, New.Floors.PlaceData.besselVector_mul_left, New.Floors.PlaceData.besselVector_mul_right, New.Floors.PlaceData.unfoldedPairing, New.Floors.frameGram_top_eq_of_mem_besselH, New.Floors.inv_weylElem_mul_inv_mul, New.Floors.IntegralPlace.IsLargeLatticeData.exists_gauge_isHead, New.Floors.IntegralPlace.IsLargeLatticeData.eventually_scaledOrbitalIntegral_mul_eq_self, New.Floors.IntegralPlace.IsLargeLatticeData.exists_isCompact_scaledOrbitalIntegral_support, New.Floors.IntegralPlace.IsLargeLatticeData.inner_scaledOrbitalIntegral, New.Floors.IntegralPlace.IsLargeLatticeData.hasMatrixSize_of_unfoldedPairing_ne_zero, New.Floors.IntegralPlace.IsLargeLatticeData.exists_lintegral_enorm_unfoldedPairing_le, New.Floors.IntegralPlace.IsLargeLatticeData.integrable_unfoldedPairing, New.Floors.IntegralPlace.IsLargeLatticeData.integrable_inner_scaledOrbitalIntegral, New.Floors.PlaceData.unfoldedPairing_mul_inv, New.Floors.IntegralPlace.IsLargeLatticeData.identDistrib_unfoldedPairing, New.Floors.integral_prod_prod_prod_prod_symm, New.Floors.IntegralPlace.IsLargeLatticeData.floorForm_top_eq_integral}
+\lean{New.Floors.Place.IsDisintegration.continuous_integral, New.Floors.Place.normFiberMeasure, New.Floors.lastEntrySphereIndex, New.Floors.measurePreserving_append_last, New.Floors.lastVectorQuadric, New.Floors.isClosedEmbedding_vectorOfLastEntry, New.Floors.middleBasisMatrix, New.Floors.gram_middleBasisMatrix, New.Floors.vectorOfLastEntry_eq_mulVec, New.Floors.IntegralPlace.isDisintegration_normFiberMeasure, New.Floors.IntegralPlace.normFiberMeasure_eq_map, New.Floors.IntegralPlace.normFiberMeasure_eq_map_flatChart, New.Floors.IntegralPlace.ae_normFiberMeasure_dotProduct_eq, New.Floors.IntegralPlace.ae_vectorOfLastEntry_mem_lastVectorQuadric, New.Floors.HyperbolicBasis.measurePreserving_inclMatrix_flatChart, New.Floors.flatChart_comp_sumAssoc, New.Floors.HyperbolicBasis.measurePreserving_vectorOfLastEntry_flatChart, New.Floors.HyperbolicBasis.integral_floorQuadricMeasure_top}
+\lean{New.Floors.continuous_lastEntrySphereIndex, New.Floors.PlaceData.continuous_besselVector, New.Floors.PlaceData.continuous_unfoldedPairing}
+
+\begin{lemma}[Fibre measures and scaled orbital integrals]\label{lem:top-tools}
+Let $F$ be a large lattice datum of the Gram matrix of $X_0\perp Az$, $\pi\bar\pi=N$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The vector $e=x-N^{-1}tz$ has $h(e,e)=x^*x-t\bar t/N$ and $h(z,e)=t$, and in the basis made of the $x_i$ and $\pi^{-1}z$, in which the Gram matrix is $\mathrm{diag}(1,\dots,1,-1)$, its coordinates are $x$ and $-\bar\pi^{-1}t$. In rank at least two the
+volume of $\kappa\to A$ disintegrates along $\omega\mapsto\omega^*\omega$ into fibre measures carried by the spheres, and the map $(t,p)\mapsto x-N^{-1}tz$, $x$ the point of the chart $p$ of the sphere $x^*x=t\bar t/N-N$, carries $\abs\pi^{-1}dt$ times
+the chart measure to the top quadric measure.
+\item The scaled orbital integrals are locally constant in the head and on $G^{(\varrho)}$ and vanish for $l$ outside a compact set; their pairing at $l$ is the head density times the integral of
+$\langle W_Z(y_1),W_Z(y_2)\rangle\overline{\langle W_Z((w_ql^{-1})^{-1}y_2),W_Z((w_pl^{-1})^{-1}y_1)\rangle}$ over two copies of the group, where nonzero integrands have entries of size $60n^2$; these pairings are integrable over $H$.
+\item A locally constant function supported in a compact set, invariant on its support under a group of integral matrices, agrees on its domain with a compactly supported function invariant under small translations and that group.
+\item For a weight $\varphi$ invariant under $H$ on both sides, the integrand $\varphi(l^{-1})$ times the pairing integrand has the law of the integrand of the form of floor $\varrho$; for $\varphi(x)=\psi(\xi h(z,xz))$, $l\mapsto\varphi(l^{-1})$ times the pairing of the scaled
+orbital integrals is integrable for the top two floors with integral $\mathcal I_\varrho(p,q;\psi(\xi\theta))$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Floors.vectorOfLastEntry, New.Floors.form_vectorOfLastEntry, New.Floors.continuous_vectorOfLastEntry, New.Floors.Place.normFiberMeasure, New.Floors.lastEntrySphereIndex, New.Floors.measurePreserving_append_last, New.Floors.lastVectorQuadric, New.Floors.isClosedEmbedding_vectorOfLastEntry, New.Floors.middleBasisMatrix, New.Floors.gram_middleBasisMatrix, New.Floors.vectorOfLastEntry_eq_mulVec, New.Floors.IntegralPlace.isDisintegration_normFiberMeasure, New.Floors.IntegralPlace.normFiberMeasure_eq_map, New.Floors.IntegralPlace.normFiberMeasure_eq_map_flatChart, New.Floors.IntegralPlace.ae_normFiberMeasure_dotProduct_eq, New.Floors.IntegralPlace.ae_vectorOfLastEntry_mem_lastVectorQuadric, New.Floors.HyperbolicBasis.measurePreserving_inclMatrix_flatChart, New.Floors.flatChart_comp_sumAssoc, New.Floors.HyperbolicBasis.measurePreserving_vectorOfLastEntry_flatChart, New.Floors.HyperbolicBasis.integral_floorQuadricMeasure_top}
+
+\begin{proof}
+(a) In the lattice basis only $x_{k_0}=\bar\pi v-\pi^{-1}z$ and $\pi^{-1}z$ pair with $v=x_{k_0}/\bar\pi+z/N$, and only $\pi^{-1}z$ pairs with $z$; the $x_i$ are orthonormal and orthogonal to $\pi^{-1}z$, of norm $-\pi\pi^{-1}=-1$. Disintegrations along a form are
+unique; in a basis with Gram matrix of a hyperbolic plane plus $1$ the flat chart gives a disintegration (its values lie on the quadric where the first parameter is a unit, almost surely). The basis of $X_0$ and $\pi^{-1}z$ form a basis of
+$X_0\oplus Az$ that begins with a hyperbolic pair, so its flat chart gives the quadric measure of norm $-N$; regrouping the indices, the last coordinate of this chart is $-\bar\pi^{-1}t$ and the others are those of the chart of the sphere, which
+solve for the coordinate along the first vector from the same remaining norm; the map appending $ut$ carries $\abs u\,dt$ times the measures to the volume. Fubini in $(t,p)$ gives the integral formula.
+(b) For heads of a gauge, the integrand of a scaled orbital integral vanishes off a compact set $C$ (\cref{thm:floor-descent}(d)); for $(r,s)$ near $(p,1)$ the argument changes, for all $y\in C$, by a right translation from the open group $K(g)$,
+under which $W_Z$ is invariant; a gauge of scale $\bar\alpha\alpha$ for $\alpha$ near $0$ absorbs the finitely many inverse products locally uniformly in the head. If the integral at $l$ is not zero, some $y$ and $y'=lw^{-1}y$ lie in a compact set, and
+$l=y'y^{-1}w$. The pairing formula is Fubini; the integral of the norm over the floors from $i$ on is at most a constant times $\abs{\langle W_Z(y_1),W_Z(y_2)\rangle}$, a continuous function vanishing off a compact set.
+(c) For a small unit $u$, $\varphi$ is constant on the classes $(y+uR^n)$ meeting the support (units are dense); give $\Phi$ this value on these classes and $0$ elsewhere. (d) Substitute $l=k\tau(g\sigma)^{-1}$, $y_1=g\sigma y$, $y_2=y_1x$ with $g$, $k$ in $H$
+and $\sigma$, $\tau$ in $G^{(\varrho)}$, compare the laws by integrating a measurable test function, and use Fubini for the first four variables of a function on a product of five spaces; the Weyl elements commute with the floor group, and the factor
+$k^{-1}$ fixes $z$, so the entry at $l^{-1}$ is $h(z,l^{-1}z)$.
+\end{proof}
+
+\begin{proposition}[The top floor]\label{prop:top-floor}
+Let $F$ be a large lattice datum of the Gram matrix of $X_0\perp Az$, with $z$ of norm $-N$, and $K(g)\le Z\le K$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Fibre measures.) For $f$ continuous with compact support, $t\mapsto\abs\pi^{-1}\int f(x-N^{-1}tz)\,d\mu_t(x)$, the integral over the sphere $x^*x=t\bar t/N-N$ of $X_0$, is integrable, with integral the
+integral of $f$ over the quadric of vectors of norm $-N$.
+\item The scaled orbital integrals are locally constant in the head and on $G^{(\varrho)}$ and vanish off a compact set; their pairings are integrable over $H$.
+\item For every $e$ and every positive semidefinite matrix $R$, $\sum_{a,b}R_{ab}\mathrm{fp}(\omega_a,\omega_b;e)$ is a nonnegative real; on the top quadric its positive real part agrees with a function $\Psi\ge0$ of compact
+support, invariant under small translations and under $H\cap K(g)$. The sums over $p$ of the pairings of the scaled orbital integrals over the congruence cosets of the links above $e$ are bounded by the fibre
+pairing at $e$.
+\item $J_{\rm last}$ is continuous, its sums against positive semidefinite matrices over heads with a common last entry are nonnegative, and, with the last entries replaced by a common $t$,
+$\int\psi(\xi t)J_{\rm last}\,dt=\mathcal I_\varrho(p,q;\psi(\xi\theta))$, $\theta$ the last diagonal entry of the frame Gram matrix.
+\end{enumerate}
+\end{proposition}
+\lean{New.Floors.PlaceData.fiberPairing, New.Floors.mul_inv_mem_besselH_of_orbitPoint_eq, New.Floors.PlaceData.fiberPairing_orbitPoint, New.Floors.mulVec_mem_lastVectorQuadric, New.Floors.PlaceData.headSumNormSq, New.Floors.PlaceData.headSumNormSq_eq_sum, New.Floors.PlaceData.headSumNormSq_nonneg, New.Floors.orbitPoint_mem_lastVectorQuadric, New.Floors.IntegralPlace.IsLargeLatticeData.two_le_card, New.Floors.IntegralPlace.IsLargeLatticeData.lintegral_headSumNormSq_eq, New.Floors.IntegralPlace.IsLargeLatticeData.sum_fiberPairing_nonneg, New.Floors.PlaceData.scaledOrbitalIntegral_mul_left, New.Floors.sum_indicator_mul_le_of_inv_mul_mem, New.Floors.IntegralPlace.IsLargeLatticeData.sum_headSumNormSq_le_fiberPairing, New.Floors.IntegralPlace.IsLargeLatticeData.fiberPairing_mulVec, New.Floors.IntegralPlace.IsLargeLatticeData.exists_isCompact_fiberPairing_support, New.Floors.IntegralPlace.IsLargeLatticeData.exists_section_orbitPoint, New.Floors.IntegralPlace.IsLargeLatticeData.eventually_fiberPairing_eq, New.Floors.IntegralPlace.IsLargeLatticeData.exists_step_function_eqOn_fiberPairing, New.Floors.IntegralPlace.IsLargeLatticeData.floorForm_top_eq_integral_floorQuadric, New.Floors.PlaceData.lastEntryDensity, New.Floors.IntegralPlace.IsLargeLatticeData.integral_lastEntryDensity, New.Floors.IntegralPlace.IsLargeLatticeData.continuous_lastEntryDensity, New.Floors.IntegralPlace.IsLargeLatticeData.integrable_fiberPairing_vectorOfLastEntry, New.Floors.PlaceData.sum_lastEntryDensity_eq, New.Floors.IntegralPlace.IsLargeLatticeData.sum_lastEntryDensity_nonneg, New.Floors.IntegralPlace.IsLargeLatticeData.sum_lastEntryDensity_nonneg_and_eq_inv_mul_lintegral}
+
+\begin{proof}
+(a) is \cref{lem:top-tools}(a). (b) is \cref{lem:top-tools}(b). (c) Two elements $l$, $l'$ of $G^{(\varrho)}$ with $l^{-1}z=l'^{-1}z$ differ on the left by an element of $H$, and $\mu_H$ is right invariant, so the fibre pairing is a function of $e$. Write $R=Q^*Q$: the sum
+against $R$ of the pairings at $l$ splits over the coordinates (pairs of cosets) of the scaled orbital integrals, the term of a coordinate being $v^*Rv$ for the vector $v_a$ of the coordinates of the heads $\omega_a$; so it is nonnegative, and its integral
+over $H$ is the sum of the fibre pairings. The fibre pairing is invariant under $H\cap K(g)$ (substitute $ky$ for $y$; $k$ commutes with the Weyl element), vanishes unless $e$ lies in the image of a compact set, and is locally constant along the last
+vector quadric: the map $l\mapsto l^{-1}z$ has local sections on the quadric (conjugate by $l$ the Eichler map that takes $lx$ to $z$), and the scaled orbital integrals do not see the section near $1$. By \cref{lem:top-tools}(c) it agrees with a step
+function $\Psi$. For the last statement, the right side is an integral over $H$; each element of distinct right cosets of $K(g)$ over one $e$ gives a coset of the congruence group on which the integrand is its term (for $g\in H$ with $g\beta_\theta\in K(g)$
+the scaled orbital integrals at $gl_0$ are those at $l_\theta$, being invariant under $H\cap K(g)$), and these cosets are disjoint.
+(d) \emph{Integral formula.} The measure on the floor group is $\mu_H*\theta_\varrho$, and $l\mapsto l^{-1}z$ maps $\theta_\varrho$ to the top quadric measure, so by \cref{lem:top-tools}(d) $\mathcal I_\varrho(p,q;\psi(\xi\theta))$ is the integral over the top quadric of
+$\psi(\xi h(z,e))\Phi(e)$ for any continuous $\Phi$ extending the fibre pairing. With the step function $\Phi$ of (c) and (a), this is $\int\psi(\xi t)J_{\rm last}(p,q;t)\,dt$: almost every $t$ is a unit, and the fibre pairing does not see the entry
+$\varrho$ of the heads. \emph{Continuity.} Near $(p,q)$ the fibre pairing does not change, and its step function does not see the change of the last entry; what moves is the sphere, and the fibre measures depend continuously on the index
+(\cref{lem:top-tools}(a), splitting a continuous function of compact support into positive and negative parts). \emph{Positivity.} For heads with a common last entry $t$, the sum of the densities against $R$ is $\abs\pi^{-1}$ times the integral of the
+sums of the fibre pairings against $R$ at $x-N^{-1}tz$ over the sphere, which are nonnegative by (c), the fibre pairing being integrable there as it agrees with a continuous function of compact support on the sphere.
+\end{proof}

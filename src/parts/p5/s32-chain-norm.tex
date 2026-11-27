@@ -1,0 +1,435 @@
+\section{The norm of the chain}\label{sec:chain-norm}
+
+The lower chain $\Theta_\vartheta=\iota_\vartheta$ goes from the target forms on $Y_0$ through $Y_1,\dots,Y_{m-1}$ to the definite space $Y_m$, mostly outside Weil's range. Its
+Gram operator is computed by arranging the lifts in a triangle whose rows are chains of lifts starting from copies of $Y_0$ and whose descents remove the first
+block; the squares of the triangle commute up to constants by the exchange identity, and a descent along one square turns a chain of $n+1$ lifts into a chain of
+$n$ lifts one row lower. At the bottom only single lifts remain, whose norms are given by Rallis' formula (\cref{thm:norm-one-lift}). The result is a factorisation
+of the volume $Z(\vartheta)$ into the volumes of the single lifts times ratios of Hecke values (\cref{thm:factorisation}).
+
+The section has four parts: linear algebra over a finite ring, which moves a datum around one square (\cref{ss:square-law}); the abstract triangle, in which the Gram form of a full chain is computed
+by induction on its length (\cref{ss:triangles}); the triangle of theta lifts, whose squares are instances of the one-square identity (\cref{ss:theta-triangle}); and the bookkeeping of the constants, which
+are ratios of Hecke values up to powers of the norm of the modulus (\cref{ss:hecke-ratios,ss:chain-norm}).
+
+\subsection{The finite square law}\label{ss:square-law}
+Let $R$ be a finite commutative ring and $\chi$ a multiplicative character. Functions $L$ on $a\times n$ matrices and $L'$ on $n\times b$ matrices, with $\sigma\colon b\sqcup a\to n$, satisfy the
+\emph{square law with constant $c$} if both transform by $\chi\circ\det$ (on the left, resp.\ the right) and $\sum\Psi L'=c\sum\Phi L$ for all matched $\Phi$, $\Psi$ (\cref{ss:exchange-statement}). The \emph{point
+datum} is the indicator of the inclusion matrix $\binom10$; for a function $p$ on $n\times a$ matrices the \emph{next datum} is the function on $(n\sqcup b)\times(a\sqcup b)$ matrices with the value
+$p(-\eta)/\#M_{n\times b}(R)$ at $\binom{\eta\ s}{0\ 1}$ and $0$ elsewhere.
+\lean{New.Exchange.SquareLaw, New.Exchange.pointDatum, New.Exchange.nextDatum, New.Exchange.swapFirstTwo, New.Exchange.sum_eq_sum_fromRows, New.Exchange.sum_eq_sum_fromCols, New.Exchange.sum_eq_sum_fromBlocks, New.Exchange.inclMatrix_inl, New.Exchange.sum_nextDatum_mul, New.Exchange.star_nextDatum, New.Exchange.sum_inv_det_mul_eq_card_mul, New.Exchange.SquareLaw.card_mul_apply_fromRows_eq, New.Exchange.SquareLaw.sum_eq_nextDatum, New.Exchange.blockInlGL, New.Exchange.blockInlGL_sumEmpty, New.Exchange.matchOf, New.Exchange.exists_firstCols_eq_mul_of_invLastRows_eq, New.Exchange.areMatched_matchOf, New.AreMatched.unique, New.AreMatched.translate, New.Exchange.hasLeftInv_submatrix_invLastRows, New.Exchange.hasLeftInv_toCols_of_hasLeftInv_toRows, New.Exchange.exists_eq_firstCols, New.Exchange.matrixFourier_nextDatum_fromBlocks, New.Exchange.exists_sum_matrixFourier_nextDatum_eq, New.Exchange.SquareLaw.exists_sum_matrixFourier_eq_sum_nextDatum}
+
+In this subsection matched functions are taken over all of $R$: $\Phi$ vanishes off the rows $x_k$ of the inverses and $\Psi$ off the columns $y_k$ of the invertible matrices $k$ over $R$, and
+$\Phi(x_k)=\chi(\det k)\Psi(y_k)$. The \emph{Fourier transform} of a function $f$ of matrices is $\hat f(\rho)=\sum_vf(v)\psi(\tr(\rho v))$ for an additive character $\psi$; a character is \emph{primitive} if it is
+nontrivial on every nonzero ideal, and for a multiplicative character this means that for every $a\ne0$ some $\chi(1+ca)$ is neither $0$ nor $1$.
+
+\begin{lemma}[Matched functions over a finite ring]\label{lem:finite-matching}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $x_\gamma=x_{\gamma'}$ for invertible $\gamma$, $\gamma'$, then $y_{\gamma'}=y_\gamma h$ for an invertible $h$ with $\det\gamma'=\det\gamma\det h$.
+\item If $\Psi$ vanishes off the $y_\gamma$ and $\chi(\det h)\Psi(yh)=\Psi(y)$ for invertible $h$, the function $\Phi$ with $\Phi(x_\gamma)=\chi(\det\gamma)\Psi(y_\gamma)$ and $0$ off the $x_\gamma$ is well defined and
+matched with $\Psi$. A function matched with $\Psi$ is unique, and if $\Phi$, $\Psi$ are matched, so are $x\mapsto c\chi(\det g)\Phi(xg)$ and $y\mapsto c\Psi(g^{-1}y)$.
+\item If $f(g)=\chi(\det g)v$ for all invertible $g$, then $\sum_u\chi^{-1}(\det u)f(u)$ over all square matrices $u$ is $\#\GL(R)\,v$, where $\chi^{-1}$ is read as $0$ at non-units.
+\item Let $R$ be such that any two elements are multiples of $(1-\varepsilon)r+\varepsilon s$ for some idempotent $\varepsilon$, and split $N\sqcup n$ into $b$ and $a$. If the rows $N$ or the rows $n$ of an
+$(N\sqcup n)\times b$ matrix $y$ have a left inverse, then $y=y_\gamma$ for an invertible $\gamma$; and for invertible $k$, if the rows $N$ of $y_k$ have a left inverse, so have the columns $n$ of $x_k$, and
+conversely.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Both blocks of columns span the kernel of the common rows $x_\gamma$, so they differ by an invertible $h$. Stacking a matrix $P$ with $Py_\gamma=1$ on $x_\gamma$ gives a square matrix whose product with $\gamma$ is
+block triangular with unit diagonal blocks, because $x_\gamma y_\gamma=0$ and $x_\gamma$ times the other columns of $\gamma$ is $1$; with $h^{-1}P$ in place of $P$ the same holds for $\gamma'$, and comparing
+determinants gives $\det\gamma'=\det\gamma\det h$. (b) Well defined by (a) and the transformation of $\Psi$; matched by construction; unique because a matched function is determined on the $x_\gamma$ and vanishes
+elsewhere; and the translates are matched because $x_\gamma g=x_{g^{-1}\gamma}$, $g^{-1}y_\gamma=y_{g^{-1}\gamma}$ and $\chi(\det g)\chi(\det g^{-1}\gamma)=\chi(\det\gamma)$. (c) The nonzero terms are those of invertible $u$,
+each equal to $v$. (d) Extend a left inverse $L$ of the rows $N$ of $y$ by zero to a left inverse $s$ of $y$; stacking $s$ on a complement gives an invertible matrix (the hypothesis on $R$ allows one to choose
+complements componentwise), whose inverse has $y$ as its first columns. For the second statement, the square matrix with rows $s$ and $x_k$ has determinant inverse to $\det k$, and reading $P^{-1}P=1$ in the
+columns $n$, the rows $s$ contribute nothing, so the columns $n$ of $x_k$ have a left inverse; the converse is symmetric.
+\end{proof}
+
+\begin{proposition}[Square law]\label{prop:square-law}
+Let $L$, $L'$ satisfy the square law with constant $c$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For an $a\times b$ matrix $w$, $\#\GL_b(R)\,L'\binom1{-w}=c\,\#\GL_a(R)\,L(w\ 1)$.
+\item With $L'$ evaluated at $y$ stacked on the inclusion of $a$ in $a\sqcup b$ and $L$ at the inclusion of $n$ in $n\sqcup b$ placed left of $x$, $\#\GL_a(R)\sum_yp(y)L'(\cdot)=c\,\#\GL_{n\sqcup b}(R)\sum_x\mathrm{next}(p)(x)L(\cdot)$.
+\item If the additive and multiplicative characters of $R$ are primitive, there is $\gamma$ with $\abs\gamma^{-2}=\#R^{\#T(\#T+2\#N)}$ such that the same identity holds for the Fourier transforms of the
+conjugates of $p$ and of $\mathrm{next}(p)$, with $\gamma c$ in place of $c$.
+\end{enumerate}
+\end{proposition}
+
+In (c) the shapes are $n=N$, $a=N\sqcup T$ and $b=T$.
+
+\begin{proof}
+(a) Let $\delta$ be the indicator of $w$ among the $a\times b$ matrices. The block determinant functions $\Phi(x_1\ x_2)=\chi^{-1}(\det x_2)\delta(x_2^{-1}x_1)$ and
+$\Psi\binom{y_1}{y_2}=\chi^{-1}(\det y_1)\delta(-y_2y_1^{-1})$ are matched (\cref{prop:matched}(a), which holds over any commutative ring). The matrices $y$ with $\Psi(y)\ne0$ are $\binom1{-w}y_1$ with $y_1\in\GL_b(R)$, and there
+$\Psi(y)L'(y)=\chi^{-1}(\det y_1)\chi(\det y_1)L'\binom1{-w}$, so $\sum\Psi L'=\#\GL_b(R)L'\binom1{-w}$. Likewise the matrices $x$ with $\Phi(x)\ne0$ are $x_2(w\ 1)$ with $x_2\in\GL_a(R)$, and $\sum\Phi L=\#\GL_a(R)L(w\ 1)$.
+The square law gives the identity.
+
+(b) Order $n\sqcup a\sqcup b$ so that $a$ comes first, and apply (a) with $a$ in the role of $b$ and $n\sqcup b$ in the role of $a$, at $w=\binom{-y}0$ for an $n\times a$ matrix $y$. Then $\binom1{-w}$ is $y$ stacked on
+the inclusion $\binom10$ of $a$ in $a\sqcup b$, and $(w\ 1)$, with the columns reordered, is $\begin{pmatrix}1&-y&0\\0&0&1\end{pmatrix}$. For $x=\binom{\eta\ s}{0\ 1}$ the matrix obtained by placing the inclusion of $n$ in
+$n\sqcup b$ left of $x$ is $\begin{pmatrix}1&\eta&s\\0&0&1\end{pmatrix}$, which the unipotent matrix $\binom{1\ -s}{0\ \ 1}$ of determinant $1$ carries to $\begin{pmatrix}1&\eta&0\\0&0&1\end{pmatrix}$; so $L$ there does not depend
+on $s$ and equals $L(w\ 1)$ with $y=-\eta$. Summing (a) over $y$ with the weights $p(y)$ and writing $y=-\eta$, the right side is $c\,\#\GL_{n\sqcup b}(R)$ times the sum over $\eta$ and the average over $s$ of
+$p(-\eta)L(\cdots)$, which is the sum weighted by $\mathrm{next}(p)$ (\cref{lem:finite-matching}, and the description of the sums over block matrices as iterated sums over the blocks).
+
+(c) \emph{Fourier transform of the next datum.} At a block matrix $\binom{A\ B}{C\ D}$ the transform of $\mathrm{next}(p)$ is $\hat p(-A)\psi(\tr D)$ if $C=0$ and $0$ otherwise: the sum over $s$ of $\psi(\tr(Cs))$ is
+$\#M(R)$ or $0$ according as $C=0$ or not, the additive character being primitive. \emph{The Gauss sum.} Let $G=\sum_d\chi(\det d)\psi(\tr d)$ over the $T\times T$ matrices $d$; for primitive characters
+$\abs G^2=\#R^{\#T^2}$. For a function $L$ transforming by $\chi\circ\det$ on the left, the weight given by the transform of $\overline{\mathrm{next}(p)}$ spreads over all corner blocks $d$ with the factor $\psi(\tr d)$,
+while the weight $\mathrm{next}(\hat{\bar p})$ lives on $d=1$. Replacing $d$ by $gd$ multiplies the term by $\chi(\det g)$, so the transform in $d$ at $1$ is $G$ times the value at $d=1$, and the sum over the blocks
+$s$ contributes the number $\#R^{\#N\#T}$ of such blocks. Hence the two weighted sums of $L$ differ by a constant $\gamma_0$ with $\abs{\gamma_0}^2=\#R^{\#T^2}\#R^{2\#N\#T}=\#R^{\#T(\#T+2\#N)}$. \emph{The identity.}
+Apply (b) to $q=\hat{\bar p}$ and replace $\mathrm{next}(q)$ by $\gamma_0^{-1}$ times the transform of $\overline{\mathrm{next}(p)}$; here $a=N\sqcup T$ and $n\sqcup b=N\sqcup T$, so the two general linear groups in (b) have the same
+order and cancel. The constant is $\gamma=\gamma_0^{-1}$.
+\end{proof}
+
+\subsection{Abstract triangles}\label{ss:triangles}
+A \emph{triangle of size $m$} consists of inner product spaces $F_{i,n}$, arrows $a_{i,n}\colon F_{i,n}\to F_{i,n+1}$ along the rows, descents $d_{i,n}\colon F_{i,n+1}\to F_{i+1,n}$, nonzero weights $w_n$ and isometries
+$j_i\colon V\to F_{i,0}$, all depending on a parameter, such that the squares commute up to scalars, $\langle v,a(j_iy)\rangle=\langle dv,j_{i+1}y\rangle$ on the copies of $V$, and $d\circ a$ maps each copy injectively to
+the next. The \emph{weighted chain} $X_{i,n}$ is the composite of the first $n$ arrows of row $i$, each multiplied by its weight. A triangle \emph{has square moduli} $L$ for a unital multiplicative
+relation $c\sim f$, read \emph{$c$ has modulus $f$}, if the square at $(i,n)$ reads $w_n\,a\circ d=(w_{n+2}/\bar\beta)\,d\circ a$ with $\beta$ of modulus $L_{i+1,i+n+2}$, and the adjoint law holds with constants of modulus $1$.
+\lean{New.blockTriangular_fromBlocks_blockNumber_succ_iff, New.card_parabolic_blockNumber_succ, New.Exchange.SquareCommutes, New.Exchange.SquareAdjoint, New.Exchange.IsTriangle, New.Exchange.HasSquareModuli, New.Exchange.weightedChain, New.Exchange.weightedChain_zero_apply, New.Exchange.weightedChain_succ_apply, New.Exchange.ChainCommutes, New.Exchange.ChainAdjoint, New.Exchange.ChainCommutes.succ, New.Exchange.ChainAdjoint.succ, New.Exchange.IsTriangle.exists_chainAdjoint, New.Exchange.chainCommutes_zero, New.Exchange.IsTriangle.exists_chainCommutes, New.Exchange.HasSquareModuli.exists_chainCommutes, New.Exchange.IsTriangle.exists_chainCommutes_and_chainAdjoint, New.Exchange.IsTriangle.eq_zero_of_weightedChain_eq_zero, New.Exchange.IsTriangle.ne_zero_of_chainCommutes, New.Exchange.IsTriangle.ne_zero_of_squareCommutes, New.Exchange.IsTriangle.inner_weightedChain_succ, New.Exchange.IsTriangle.exists_inner_weightedChain_eq}
+
+Here the square at $(i,n)$, for $i+n+2\le m$, has the corners $F_{i,n+1}$, $F_{i,n+2}$, $F_{i+1,n}$, $F_{i+1,n+1}$; \emph{commuting up to $\beta$} means $w_n\,a\circ d=(w_{n+2}/\bar\beta)\,d\circ a$ on $F_{i,n+1}$, the second
+scalar being read as $0$ where $\beta=0$. The \emph{adjoint law} with constant $\kappa$ asks that every $z\in F_{i,n+2}$ have a vector $x\in F_{i,n+1}$ with $\langle av,z\rangle=\langle v,x\rangle$ for all $v$ and
+$\langle dx,y\rangle=\kappa\langle dz,ay\rangle$ for all $y$. The weights are real in the application, and the inner products are conjugate linear in the first argument. Two laws for chains are used:
+\emph{$d$ moves past the $n$-chain up to $\beta$} if
+\[
+  X_{i+1,n}\circ d\circ a=\frac{w_{n+1}}{w_1w_0\bar\beta}\,d\circ X_{i,n+1}\qquad\text{on }F_{i,0},
+\]
+and \emph{the arrow after the $n$-chain is adjoint to $d$ up to $\kappa$} if $\langle z,a(X_{i,n}j_iy)\rangle=\kappa\langle dz,X_{i+1,n}j_{i+1}y\rangle$ for all $z\in F_{i,n+1}$ and $y\in V$.
+
+\begin{lemma}[Chain laws]\label{lem:chain-laws}
+Consider a triangle of size $m$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $d$ moves past the empty chain up to $1$. If $d$ moves past the $n$-chain of row $i$ up to $\beta$ and the square at $(i,n)$ commutes up to $\beta'$, then $d$ moves past the $(n+1)$-chain up to $\beta\beta'$. Hence for
+$i+n<m$ it moves past the $n$-chain up to the product of the constants of the squares $(i,0),\dots,(i,n-1)$; under square moduli $L$ this product has modulus $\prod_{i+1<k\le i+1+n}L_{i+1,k}$.
+\item The arrow after the empty chain is adjoint to $d$ up to $1$. If the arrow after the $n$-chain is adjoint to $d$ up to $\kappa$ and the square at $(i,n)$ satisfies the adjoint law with $\kappa'$, then the
+arrow after the $(n+1)$-chain is adjoint to $d$ up to $\kappa\kappa'$. Under square moduli the constant has modulus $1$.
+\item If $d$ moves past the $n$-chain up to $\beta$, the arrow after it is adjoint up to $\kappa$, and $j_{i+1}x'=d(a(j_ix))$, then for all $z\in V$
+\[
+  \langle X_{i,n+1}j_ix,\,X_{i,n+1}j_iz\rangle=\kappa\beta\,\frac{w_0w_1w_n}{w_{n+1}}\,\langle X_{i+1,n}j_{i+1}x',\,X_{i+1,n}j_{i+1}z\rangle.
+\]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) For $n=0$, $X_{i,1}=w_0a$, so $d\circ X_{i,1}=w_0\,d\circ a$, and $\frac{w_1}{w_1w_0}w_0\,d\circ a=d\circ a$. For the induction, $X_{i+1,n+1}\circ d\circ a=w_n\,a\circ X_{i+1,n}\circ d\circ a=\frac{w_{n+1}}{w_1w_0\bar\beta}\,(w_n\,a\circ d)\circ X_{i,n+1}$,
+and by the square $w_n\,a\circ d=\frac{w_{n+2}}{\bar\beta'}\,d\circ a$; since $X_{i,n+2}=w_{n+1}\,a\circ X_{i,n+1}$, the result is $\frac{w_{n+2}}{w_1w_0\overline{\beta\beta'}}\,d\circ X_{i,n+2}$. The moduli multiply, which gives the
+product over the squares. (b) For $n=0$ this is the adjoint law on the copies. For the induction, let $z\in F_{i,n+2}$ and let $x$ be the vector of the adjoint law of the square at $(i,n)$. Then, with
+$u=X_{i,n+1}j_iy=w_n\,a(X_{i,n}j_iy)$,
+\begin{align*}
+  \langle z,au\rangle&=\langle x,u\rangle=w_n\langle x,a(X_{i,n}j_iy)\rangle\\
+  &=w_n\kappa\langle dx,X_{i+1,n}j_{i+1}y\rangle=w_n\kappa\kappa'\langle dz,a(X_{i+1,n}j_{i+1}y)\rangle,
+\end{align*}
+which is $\kappa\kappa'\langle dz,X_{i+1,n+1}j_{i+1}y\rangle$. (c) Apply (b) with $z$ replaced by $X_{i,n+1}j_ix\in F_{i,n+1}$ and $X_{i,n+1}j_iz=w_n\,a(X_{i,n}j_iz)$:
+\[
+  \langle X_{i,n+1}j_ix,X_{i,n+1}j_iz\rangle=w_n\kappa\langle d\,X_{i,n+1}j_ix,X_{i+1,n}j_{i+1}z\rangle.
+\]
+By (a), $d\,X_{i,n+1}j_ix=\frac{w_1w_0\bar\beta}{w_{n+1}}X_{i+1,n}(d\,a\,j_ix)=\frac{w_1w_0\bar\beta}{w_{n+1}}X_{i+1,n}j_{i+1}x'$, and the scalar leaves the first argument as its conjugate.
+\end{proof}
+
+\begin{theorem}[Chains in triangles]\label{thm:triangle-chains}
+Let a triangle of size $m$ be given.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $i+n\le m$, $X_{i,n}$ is injective on the copy of $V$; for $i+n<m$ there is $\beta$, nowhere zero, with $X_{i+1,n}\circ d\circ a=(w_{n+1}/(w_1w_0\bar\beta))\,d\circ X_{i,n+1}$ on $F_{i,0}$.
+\item Under square moduli $L$, let $s\colon U\to V$, endomorphisms $S_i$ of $U$ and functions $C_i$ of modulus $1$ satisfy $w_0\langle ax,a(sy)\rangle=C_i\langle x,s(S_iy)\rangle$ for each row. Then for $i+n=m$
+\[
+  \langle X_{i,n}x,X_{i,n}y\rangle=\kappa\,\frac{w_0w_1^n}{w_n}\,\bigl\langle x,s(S_i\cdots S_{m-1}y)\bigr\rangle,\qquad\abs\kappa=\prod_{i<r<k\le m}L_{r,k}.
+\]
+\item The block triangular group with one diagonal block $N$ and $j$ blocks $T$ has order $\#\GL_N(R)\,\#\GL_T(R)^j\,\#R^k$, with $k$ independent of $R$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) \emph{Injectivity}, by induction on $n$ for all $i$ at once. For $n=0$, $X_{i,0}$ is the identity and $j_i$ is an isometry. Let $X_{i,n+1}j_iy=0$ with $i+n+1\le m$. By \cref{lem:chain-laws}(a),
+$X_{i+1,n}(d\,a\,j_iy)$ is a multiple of $d\,X_{i,n+1}j_iy=0$; as $d\circ a$ maps the copy in row $i$ to that in row $i+1$, $d\,a\,j_iy=j_{i+1}x$ for some $x$, and by induction $x=0$; as $d\circ a$ is injective on the copy,
+$y=0$. \emph{The constant.} \Cref{lem:chain-laws}(a) gives $\beta$. If $\beta(t)=0$ at some parameter, the scalar is $0$, so $X_{i+1,n}$ kills $d\,a\,j_iy=j_{i+1}x$ for every $y$; choosing $y\ne0$ gives $x\ne0$, contradicting
+injectivity. (The same argument shows that the constants of the squares have no zero.)
+
+(b) By induction on $n$, with $i=m-n$. For $n=0$ both sides are $\langle x,sy\rangle$. Let $i+n+1=m$. By \cref{lem:chain-laws}(a), (b), $d$ moves past the $n$-chain of row $i$ up to $\beta$ and the arrow after it is
+adjoint up to $\kappa_0$, with $\abs{\kappa_0\beta}=\prod_{i+1<k\le m}L_{i+1,k}$. Let $j_{i+1}x'=d\,a\,j_ix$. By \cref{lem:chain-laws}(c) and the induction hypothesis for row $i+1$,
+\[
+  \langle X_{i,n+1}x,X_{i,n+1}sy\rangle=\kappa_0\beta\frac{w_0w_1w_n}{w_{n+1}}\cdot\kappa'\frac{w_0w_1^n}{w_n}\langle x',s(S_{i+1}\cdots S_{m-1}y)\rangle,
+\]
+with $\abs{\kappa'}=\prod_{i+1<r<k\le m}L_{r,k}$. By the adjoint law on the copies, $\langle x',sT'y\rangle=\langle a\,j_ix,a\,j_i(sT'y)\rangle$ for $T'=S_{i+1}\cdots S_{m-1}$, which is $w_0^{-1}C_i\langle x,s(S_iT'y)\rangle$ by hypothesis.
+Collecting, the constant is $\kappa=\kappa_0\beta\kappa'C_i$, of modulus $\prod_{i<r<k\le m}L_{r,k}$, and the weights give $w_0w_1^{n+1}/w_{n+1}$.
+
+(c) A matrix indexed by $N$ and $j+1$ copies of $T$ is block upper triangular exactly when its upper left corner, indexed by $N$ and $j$ copies, is block upper triangular and its lower left corner vanishes.
+An invertible such matrix is therefore a triple: an invertible block triangular matrix of the smaller shape, an arbitrary upper right block, and an invertible last diagonal block. Hence the order for $j+1$ is that
+for $j$ times $\#\GL_T(R)\,\#R^{\#T(\#N+j\#T)}$, and induction gives the formula with $k=\sum_{l<j}\#T(\#N+l\#T)$.
+\end{proof}
+
+\subsection{The triangle of theta lifts}\label{ss:theta-triangle}
+For a flag $z$ and the $m$-fold twist $\vartheta$, the node $(i,n)$ of the triangle carries the space of the interval $[i+1,i+n]$: the stem and the blocks $i+1,\dots,i+n$, with signs and doubled parameter
+of the grid (\cref{prop:grids}); the nodes $(i,0)$ carry the space at $(0,0)$ negated $i$ times. For $z=\mathrm{false}$ the row $i=0$ is the chain $Y_0\to\dots\to Y_m$ twisted by $\vartheta$; for
+$z=\mathrm{true}$ the second chain, untwisted, has blocks of length $t-1$ and starts from $Y_0$ plus a line. The \emph{lift} $(i,n)\to(i,n+1)$ adds the block $n+i+1$: its character is the character of
+lift $n+i+1$, twisted by $\vartheta^{n+i+1}$ if $z$ is false, times a power of $\upsilon$, its polynomial is the joint harmonic, and its finite datum is the point datum modulo the modulus $\mathfrak m$ of
+the triangle. The \emph{descent} $(i,n+1)\to(i+1,n)$ is a transposed lift along a left pair, removing the first block; the \emph{ascent} $(i+1,n)\to(i,n+1)$ is a transposed lift along the reversed
+pair, adding the first block. The \emph{weights} are the orders $N_{z,\vartheta,n}$ of the general linear group of the node $(0,n)$ modulo $\mathfrak m$. The \emph{base} is the space of forms at $(0,0)$ fixed by
+the level $J_M$ (for $z$ false) or by the principal level of $\varpi^{\lceil b\rceil}$ (for $z$ true).
+\lean{New.integral_neg_quotMeasure, New.formNegEquiv, New.formNegEquiv_apply_neg, New.formNegEquiv_formRep, New.Exchange.modTransposedLift_eq_sum, New.Exchange.lift_modDatum_apply, New.Exchange.IsEdgeFamily.modTransposedLift_apply, New.Exchange.IsEdgeFamily.modTransposedLift_formRep_inv_apply, New.pairWeil_flipScalar, New.oppositeChar, New.Exchange.IsEdgeFamily.exists_inner_modLift_eq_inner_modTransposedLift, New.Data.TriangleForm, New.Data.triangleRep, New.Data.triangleLift, New.Data.triangleNegEquiv, New.Data.triangleNegEquiv_succ_apply, New.Data.triangleBaseLevel, New.Data.triangleBase, New.Data.mem_triangleBase_iff, New.Data.triangleEmbedding, New.Data.triangleNegEquiv_triangleRep, New.Data.triangleBaseLevel_le_stdLevel, New.Data.triangleRep_triangleNegEquiv_of_mem_triangleBaseLevel, New.Data.levelOfSubgroup_bot_le_triangleBaseLevel, New.Data.hasLevel_triangleNegEquiv, New.Data.exists_triangleRep_triangleLift_eq_smul, New.Data.isSharp_pointDatum, New.Data.triangleFirstLift, New.Data.TriangleCoset, New.Data.triangleRallisTerm, New.Data.two_mul_card_gridIndex_zero_lt, New.Data.mem_triangleBase_of_inner_eq_inner_triangleFirstLift, New.Data.eq_zero_of_triangleFirstLift_eq_zero, New.Data.exists_hasSum_triangleRallisTerm, New.Data.exists_hasSum_inner_triangleFirstLift, New.Data.exists_flipPoly_map_conj_eq, New.Data.triangleKernel, New.Data.leftPairChar, New.Data.EdgePoly, New.Data.EdgeDatum, New.Data.IsLeftPair, New.Data.IsReversedPair, New.Data.triangleTransposedLift, New.Data.triangleReversedLift, New.Data.triangleDatumLift, New.Data.triangleLift_eq_triangleDatumLift, New.Data.triangleTransposedLift_eq_sum, New.Data.triangleReversedLift_eq_sum, New.Data.fourierDatum, New.Data.isEdgeFamily_triangleKernel, New.Data.exists_isLeftPair, New.Data.exists_isReversedPair}
+
+\begin{proposition}[The triangle of lifts]\label{prop:theta-triangle}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (First lifts.) For $i<m$, the first lift $a$ of row $i$, read on the base, satisfies: if $\langle v,x\rangle=\langle ay,ax\rangle$ for all $x$, then $v$ lies in the base, and $v=0$ forces $y=0$; and
+$N_{z,\vartheta,0}\langle ax,ay\rangle$ is a constant independent of $\vartheta$ times the Rallis series of the terms $\langle x,gy\rangle$ over the cosets of the finite points modulo those integral off $\mathfrak m$.
+\item (Commutation.) In the square with nodes $(i,n+1)$, $(i,n+2)$, $(i+1,n)$, $(i+1,n+1)$, the descent with datum $\Psi$ followed by the lift, weighted by $N_n$, is $\overline{\beta(\vartheta)}^{-1}$ times the lift
+followed by the descent with datum $\mathrm{next}(\Psi)$, weighted by $N_{n+2}$; for $z$ false, $\abs{\beta(\vartheta)}^2$ is the square of the ratio $\varrho_{i+1,i+n+2}(\vartheta)$ of Hecke values (below) times a constant and a
+fixed power of $\Nm Q$. In the twisted triangle the adjoint form of the second commutation holds with a constant of squared modulus a constant times a fixed power of $\Nm Q$.
+\item With suitable descents these data form a triangle of size $m$; for $z$ false it has square moduli $\varrho$ up to powers of $\Nm Q$.
+\item For forms $x$, $y$ of level $J_M$ on $Y_0$, $\langle\iota_\vartheta x,\iota_\vartheta y\rangle=[K_0:J]\,\dim\cdot\langle ux,uy\rangle$, where $u$ is the weighted chain of row $0$ and $J$ the last level; in particular $\iota_\vartheta$ is
+injective.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.negCount_gridSigns_add, New.Data.negCount_gridSigns_add_lt, New.Data.card_gridIndex_add_card_gridIndex, New.Data.card_gridIndex_le_quotientPair_negWeight, New.Data.gridChar_mul_leftPairChar, New.Data.exists_squareLaw_triangleTransposedLift, New.Data.exists_triangleLift_triangleTransposedLift_comm, New.Data.exists_squareLaw_triangleReversedLift, New.Data.HasAbsUpToNormPower.of_norm_sq_mul_card_pow_eq_one, New.Data.exists_triangleLift_triangleReversedLift_comm, New.Data.reversalScalar, New.Data.exists_conj_modKernel_leftPair_eq, New.Data.exists_inner_triangleTransposedLift_eq, New.Data.exists_inner_triangleReversedLift_eq, New.Data.exists_triangleLift_reversalScalar_eq, New.Data.exists_inner_triangleLift_eq, New.Data.exists_triangleTransposedLift_adjoint_comm, New.Data.exists_isTriangle, New.Data.index_rangeParabolic_inl_eq, New.Data.stdLevelIndex_lastLevel_eq_prod, New.Data.triangleGLCard_false_eq_prod, New.Data.exists_stdLevelIndex_lastLevel_eq, New.Data.inner_lowerChainAtLevel, New.Data.lowerChainAtLevel_injective}
+
+The proof rests on four lemmas: general facts on lifts with finite data, the first lift of a row, the hypotheses of the one-square identity for the squares of the triangle, and the adjoints of descents.
+For a pair of spaces $(S,T)$, characters and a polynomial making an edge, and a function $\Psi$ of matrices modulo $\mathfrak m$, write $\mathrm{lift}_\Psi$ for the theta lift from $S$ to $T$ and $\mathrm{lift}^{\mathsf T}_\Psi$ for the
+transposed lift from $T$ to $S$, with the finite datum $\Psi$ at $\mathfrak m$ and the vacuum elsewhere.
+
+\begin{lemma}[Lifts with finite data]\label{lem:mod-lifts}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Integrals over the quotient of the opposite space $S^-$ are integrals over that of $S$, and forms of a parameter on $S$ and on $S^-$ correspond by a linear isometry commuting with the finite translations.
+\item The lift of $y$ is the integral of $y$ against the theta kernel, and the transposed lift of a form $x$ of the conjugate type is the integral of $x$ against the kernel over the quotient of $T$; the transposed
+lift of the translate of $x$ by $u^{-1}$ is the integral against the translated kernel. Both are linear in $\Psi$: the lift with datum $\Psi$ is $\sum_x\Psi(x)$ times the lift with the indicator of $x$.
+\item The pair of central scalar matrices of the modulus acts on a datum by a value of the character of the pair.
+\item If the polynomial $\Phi$ makes an edge from $S$ to $T$ and $\Phi'$ one from $S^-$ to $T$ with the opposite characters $(\alpha_M)^{-1}\upsilon^{\#M}$, then for every $\Psi$ there is $\Psi'$ such that the transposed lift from $T$ to $S^-$
+with $\Phi'$, $\Psi'$ is the adjoint of the lift from $S$ to $T$ with $\Phi$, $\Psi$, forms on $S$ and $S^-$ being identified by (a).
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The identification of the unitary groups of $S$ and $S^-$ carries rational points to rational points and Haar measure to Haar measure (\cref{lem:change-of-point}(a)); a function is a form on $S^-$ exactly when its
+pull-back is a form on $S$, and the integrals defining the inner products agree. (b) is the definition of the lifts, with Fubini's theorem for the absolutely convergent integrals of forms of rapid decay
+against kernels of polynomial growth, and the transposed kernel at a translated point is the translated kernel. (c) The central scalar acts on the matrices by a scalar, which the Weil representation turns into
+the value of the pair character. (d) Negating $S$ conjugates the theta kernel up to a factor $c$, replacing $\Psi$ by some $\Psi_0$ and $\Phi$ by its conjugate; the conjugate polynomial is the signed transpose of
+some polynomial (the signs square to $1$), and it is traded for $\Phi'$ at the cost of a factor $\kappa$, since both make edges between the same types. The adjoint of the lift is then the transposed lift
+along the opposite space.
+\end{proof}
+
+\begin{lemma}[The first lift]\label{lem:first-lift}
+Let $i<m$ and let $a$ be the first lift of row $i$ read on forms at $(0,0)$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The index set of the node $(0,1)$ has more than twice as many elements as that of $(0,0)$, so Rallis' formula applies to $a$.
+\item The point datum modulo $\mathfrak m$, with the vacuum off $\mathfrak m$, is sharp for the principal level $J$ of $\mathfrak m$, with mass the inverse of the number of matrices of its size modulo $\mathfrak m$ divided by
+$N_{z,\vartheta,0}$.
+\item For an integral point $u$ at $(i,0)$ there is a finite point $g$ at $(i,1)$ such that $a$ intertwines the right translations by $u$ and by $g$ up to a scalar of modulus $1$.
+\item Statement (a) of \cref{prop:theta-triangle} holds.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) is a count of indices: the node $(0,1)$ carries the space at $(0,0)$ and one block of length $t$ (or $t-1$), and by the choice of the parameters of the grids (\cref{prop:grids}) this block is longer
+than the rank at $(0,0)$. (b) The matrix
+coefficient of the point datum at an integral point $g$ is the number of matrices $x$ with the inclusion $x_0$ at both $x$ and $xg$; on the support the transpose of the inclusion is a left inverse, so $x_0g=x_0$
+forces $g$ to fix the inclusion, which defines the principal level, and the character is trivial off $\mathfrak m$ because its tame part is. The mass is $\langle F,F\rangle/[K_0:J]$ with $\langle F,F\rangle$ the
+inverse of the number of matrices and $[K_0:J]=N_{z,\vartheta,0}$. (c) Choose $g$ integral with reduction $u\oplus1$; the pair $(u,g)$ fixes the inclusion matrix, the support of the point datum, so it acts on the
+datum through the pair character, a number of modulus one; and since the parameters at the two ends correspond, the data form an edge, so the lift intertwines. (d) \emph{The level of $v$.} Let $u$ be in the base
+level and $x$ arbitrary. Then $\langle uv,ux\rangle=\langle v,x\rangle=\langle ay,ax\rangle$, and by (c) $\langle ay,a(ux)\rangle=\langle a(u^{-1}y),ax\rangle$ up to a scalar of modulus one that cancels because $u^{-1}$ fixes $y$; the reduction
+of the base level onto the relevant finite group is onto, so testing against all translates gives $uv=v$. \emph{Rallis' formula.} By (a), (b), \cref{thm:B-rallis}(c) applies to the first edge of row $i$ with the point
+datum, which is sharp for a level fixing the copy of $y$: the lift is injective on the base and $\langle ax,ay\rangle$ is a constant times the mass times the Rallis series. Multiplying by $N_{z,\vartheta,0}$ cancels the
+factor of the mass that depends on $\vartheta$, so the constant $C$ depends only on the spaces and the real data. If $v=0$, then $\langle ay,ay\rangle=0$, so $ay=0$ and $y=0$ by injectivity.
+\end{proof}
+
+\begin{lemma}[The squares satisfy the hypotheses]\label{lem:square-hyp}
+Let $i+n+1<m$ and consider the square of \cref{prop:theta-triangle}(b).
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The two diagonals of the square have the same number of negative signs, and fewer than half of the signs at $(0,n+1)$, with either offset, are negative; the ranks along a row form an arithmetic
+progression.
+\item Let $\nu$ be the character of the quotient pair $n+1$, the quotient of the untwisted characters of lifts $j+n+1$ and $j$ (for any $j$), of weight $-c_\tau$ with $c_\tau=(n+1)\Delta$. The rank in column $n+1$
+is at most $c_\tau$, and the character of the lift adding the block $n+i+2$ at an end, times the character of the left pairs of row $i$ at the complementary end, is $\nu\vartheta^{n+1}\upsilon^{\operatorname{rk}/2}$, the rank
+twist of $(\nu\vartheta^{n+1})^{-1}$ ($\vartheta$ replaced by $1$ if $z$ is true).
+\item For each linear form $L$, the functions $A(\xi)$ and $B(\eta)$ obtained by applying $L$ to the two composites around the square, each edge having as datum the indicator of a block of $\xi$ or $\eta$, satisfy the square
+law with constant $\kappa/c$, where $\abs c^2$ is a constant times $L_*$ of $(\nu\vartheta^{n+1})^{-1}$ up to the block length $t-z$ at the places of the modulus.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The signs of the grid at a node are products of the signs of the stem and of the blocks, and comparing the parities of the exponents of $-1$ entry by entry shows that the two diagonals agree; only stem
+entries can be negative, the added blocks having sign $+1$, which gives the bound. The rank of a node is the rank of the stem plus $t$ (or $t-1$) per block. (b) Written additively, the identity compares the
+exponents of each basic character in the geometric progression of the lift characters; the rank bound is the comparison of the number of blocks with the weight $(n+1)\Delta$. (c) By (a), (b) the square
+satisfies the hypotheses of \cref{cor:one-square}: the spaces $U_1$, $U_2$ are the nodes $(i+1,n)$, $(i,n+1)$, $A$ and $A'$ the two other corners, $N$ the common number of negative signs, $2N+2\le\operatorname{rk}W$ by the
+bound on the negative signs, $\operatorname{rk}W\le2\mu+2N$ by the rank bound, and $(\nu\vartheta^{n+1})^{-1}$ is tame for the modulus of the triangle with the character $\chi_\vartheta$ of the residue ring. The upper and the lower
+lift have the same character, of index $n+i+1$. The corollary gives the square law with constant $\kappa/c$ and $\abs c^2=C\,L_*(t-z)$.
+\end{proof}
+
+\begin{lemma}[Adjoints of descents]\label{lem:descent-adjoints}
+In the twisted triangle, let $\Phi$ make an edge along the left pair from $(i+1,n)$ to $(i,n+1)$ and $\Phi'$ along the reversed pair, and let $\hat\Psi$ be the Fourier transform of the conjugate of $\Psi$. Let $r$ be the
+central scalar matrix of the modulus at the nodes of column $n$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The conjugate of the theta kernel of the left pair with datum $\Psi$ and polynomial $\Phi$ is $\tau(\vartheta)\ne0$ times the kernel from $W$ to $V$ with datum $\hat\Psi$ and the signed transpose of $\bar\Phi$, translated
+by $r$, with $\abs{\tau(\vartheta)}^2$ a constant times a fixed power of $\Nm Q$.
+\item The adjoint of the descent with $\Phi$ and $\Psi$ is $c(\vartheta)$ times the translation by $r^{-1}$ followed by the ascent with $\Phi'$ and $\hat\Psi$, and conversely, with $\abs{c(\vartheta)}^2$ of the same form.
+\item The lift commutes with the translations by $r^{-1}$ at the two nodes up to a scalar of modulus $1$, and every form at $(i,n+1)$ has an image under the adjoint of the lift.
+\item (Second commutation.) Let $x'$ be the image of $x$ under the adjoint of the lift from $(i,n+1)$ to $(i,n+2)$. The transposed lift of $x$ with $\mathrm{next}(\Psi)$, followed by the adjoint of the lift from $(i+1,n)$ to
+$(i+1,n+1)$, is $\overline{\kappa(\vartheta)}$ times the transposed lift of $x'$ with $\Psi$, with $\abs{\kappa(\vartheta)}^2$ a constant times a fixed power of $\Nm Q$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Conjugating the theta kernel replaces the datum by the Fourier transform of its conjugate and the polynomial by the signed transpose of its conjugate (the Weil representation of the opposite pair), and moves
+the point by the central scalar; the constant is a value of the Gauss sum of the finite datum, of squared modulus a power of the order of the residue ring, that is a constant times a power of $\Nm Q$.
+(b) Reverse the kernel of the descent by (a) and trade the transposed polynomial for $\Phi'$ and a constant: the lift of the conjugate of $x$ along the reversed pair appears, and writing both sides as integrals and
+conjugating under the integral gives the adjoint. The converse is the same with the roles exchanged, writing $\Phi'$ as the signed transpose of the conjugate of some polynomial. (c) The central pair acts on
+the datum of the lift through its character (\cref{lem:mod-lifts}(c)), so the lift intertwines the two translations up to a value of that character; adjoint images exist because the spaces of forms of fixed
+level are finite dimensional. (d) By (b) the first descent is a multiple of a translated ascent; the ascent commutes with the lift by the square law for the reversed pairs, which holds by \cref{lem:square-hyp}
+for the reversed square with a constant $c$ independent of $\vartheta$ (the two middle spaces have equal rank, so the product of $L$-values is empty), together with \cref{prop:square-law}(c) for the Fourier
+transforms, the character $\chi_\vartheta$ being primitive because the modulus is squarefree; the translations pass the lift by (c); and (b) turns the ascent back into a descent. The constants have squared moduli
+constants times powers of $\Nm Q$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:theta-triangle}]
+(a) is \cref{lem:first-lift}(d).
+
+(b) \emph{The first commutation.} By \cref{lem:mod-lifts}(b) both finite data may be expanded in point data. By \cref{lem:square-hyp}(c), for each linear form the two composites satisfy the square law with constant $\kappa/c$,
+and \cref{prop:square-law}(b) turns the sum weighted by $\Psi$ on the descent side into the sum weighted by $\mathrm{next}(\Psi)$ on the other side, the orders of the two general linear groups being the weights
+$N_n$ and $N_{n+2}$ (the index types of the nodes unfold to the sum types of the square law). As this holds for every linear form, the operators agree with the factor $\kappa/c$, which is written
+$\overline{\beta(\vartheta)}^{-1}$ and read as $0$ where $\beta=0$. \emph{The modulus.} For $z$ false, $\abs c^2$ is a constant times $L_*$ of $(\nu\vartheta^{n+1})^{-1}$, which by \cref{prop:moduli}(b) is a constant times $(\Nm Q)^{z^2}$ times the square of
+the ratio $\varrho_{t}(\nu;\vartheta^{n+1})$, and this ratio is the quotient ratio $\varrho_{i+1,i+n+2}(\vartheta)$ by the definition of the quotient pairs. \emph{The second commutation} is \cref{lem:descent-adjoints}(d).
+
+(c) Define the descents $d_{i,n}$ by their data, by recursion on $n$: at $n=0$ the datum makes the descent the adjoint of the first lift on the copies of the base (\cref{lem:mod-lifts}(d)), and the datum at $n+1$ is
+the next datum of the datum at $n$. The squares commute up to constants by the first commutation, with the moduli of (b); the adjoint law of the squares is the second commutation in adjoint form, with constants
+of modulus $1$ up to a norm power; the adjoint law on the copies holds by the choice at $n=0$. For the return to the base and the injectivity, let $a$ be the first lift and $y$ in the base, and let $v$ be the form
+whose copy in row $i+1$ is $d(a(j_iy))$. Then $\langle v,x\rangle=\langle ay,ax\rangle$ for all $x$, so $v$ lies in the base and $v=0$ forces $y=0$, by \cref{lem:first-lift}(d). The relation \emph{has modulus up to a
+norm power} is unital and multiplicative by \cref{prop:moduli}(a).
+
+(d) \emph{Indices.} In $\GL(Y_1)$ over a commutative ring the block upper triangular group and the opposite parabolic of the first block have the same index, both consisting of the matrices with one vanishing
+block. The index of the last level $J$ in $K_0$ is the product of the orders of $\GL(Y_m)$ over the residue fields at the chosen places and of the indices of the block upper triangular groups over the residue
+fields at the places of $Q$; the weight $N_n$ is the product of the orders of the general linear group of the node $(0,n)$ over the same residue fields. Every quantity is a product over the chosen places times
+a product over the places of $Q$; the factors at the chosen places do not depend on $\vartheta$, and at $w\in Q$, by \cref{thm:triangle-chains}(c) for the flag group, the count leaves a fixed power of $q_w$. Hence
+\[
+  [K_0:J]=C\,(\Nm Q)^k\,\delta(\vartheta)^m\,\frac{N_m}{N_0N_1^m}
+\]
+with $C$, $k$ independent of $\vartheta$ and $\delta(\vartheta)$ the Gram factor of the first descent pair (\cref{prop:block-sharp}(c)). \emph{The inner product.} The function of the algebraic form $\iota_\vartheta v$ is the chain
+of lifts of $v$, the weights of the lifts being the indices of the principal levels, that is the orders $N_n$; the inner product of algebraic forms on $Y_m$, a sum over the classes of $J$, is $[K_0:J]$ times the
+dimension of the weight times the Petersson product. This gives the formula. If $\iota_\vartheta y=0$, the chain of lifts of $y$ vanishes, and chains are injective by \cref{thm:triangle-chains}(a).
+\end{proof}
+
+\subsection{Ratios of Hecke values}\label{ss:hecke-ratios}
+For a character $\nu$ of $[\U(1)]$, $s\ge1$ and a tame character $\vartheta$ with set of places $Q$, put $\varrho_s(\nu;\vartheta)=\prod_{z=1}^s\abs{L^{MQ}(z,(\nu\vartheta)^{-1})/L^M(z,\nu^{-1})}$, where $L^M$ omits the chosen places and their
+conjugates and $L^{MQ}$ also the places of $Q$. For $0\le i<j\le m$ the \emph{quotient ratio} $\varrho_{i,j}(\vartheta)$ is $\varrho_t$ of the quotient of the untwisted characters of lifts $j$ and $i$ at $\vartheta^{j-i}$;
+these characters $\chi_0(\upsilon^{-\Delta}\chi_M)^j$ form a geometric progression. A function $c$ of the $m$-fold twists \emph{has modulus $f$ up to a norm power} if $\abs{c(\vartheta)}^2=C(\Nm Q)^k f(\vartheta)^2$ for all
+$\vartheta$, with $C$ and $k$ independent of $\vartheta$ ($C=0$ allowed).
+\lean{New.Data.card_residueRing_twistModulus, New.Data.lRatioProd, New.Data.CriticalPair.L_inv, New.Data.CriticalPair.L_mul_inv, New.Data.lRatioProd_nonneg, New.Data.CriticalPair.ofReal_lRatioProd, New.Data.CriticalPair.lRatioProd_eq_prod_norm_div, New.Data.CriticalPair.lValueProd_mul_inv_eq, New.Data.CriticalPair.lRatioProd_one_pow, New.Data.HasAbsUpToNormPower, New.Data.HasAbsUpToNormPower.mul, New.Data.HasAbsUpToNormPower.of_norm_sq_eq_mul_card_zpow, New.Data.HasAbsUpToNormPower.one, New.Data.HasAbsUpToNormPower.const, New.Data.HasAbsUpToNormPower.inv, New.Data.HasAbsUpToNormPower.prod, New.Data.HasAbsUpToNormPower.exists_norm_div_eq, New.Data.CriticalPair.hasAbsUpToNormPower_of_norm_sq_eq_lValueProd, New.Data.IsRamifiedRatio, New.Data.HasSmallRatios.heightLe_inv_rpow_mul_prod, New.Data.IsRamifiedRatio.nonneg, New.Data.IsRamifiedRatio.apply_one, New.Data.quotientPair, New.Data.quotientPair_character, New.Data.isRamified_quotientPair, New.Data.quotientRatio, New.Data.quotientRatio_add_eq_lRatioProd, New.Data.isRamifiedRatio_quotientRatio, New.Data.isPrimitiveMulChar_of_isTameFor, New.Data.CriticalPair.isTameFor_mul, New.Data.CriticalPair.isTameFor_mul_inv, New.Data.CriticalPair.lValueProd_mul_zpow_eq, New.Data.CriticalPair.isTameFor_mul_and_lValueProd_eq, New.Data.CriticalPair.isTameFor_inv_mul_pow}
+
+\begin{proposition}[Moduli]\label{prop:moduli}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The relation \emph{has modulus $f$ up to a norm power} is unital and multiplicative and closed under finite products. If $f\ge0$, $f(1)=1$ and $c(1)\ne0$, then $\abs{c(\vartheta)/c(1)}=(\Nm Q)^{e/2}f(\vartheta)$ for an
+integer $e$.
+\item Let $p=(\nu,z)$ be a ramified pair (\cref{def:critical-pair}) and $\xi$ a twist, $\mathfrak m=\varpi^eQ$ with $e\ne0$. Then $\nu\xi$ and its inverse are tame for $\mathfrak m$, and for both $L_*$ is that of $\nu$ at the chosen
+places times $(\Nm Q)^{z^2}$ and the square of $\varrho_z(\nu;\xi)$.
+\item $\varrho_{i,j}$ is a ramified ratio for $i<j\le m$; $\prod_{i<j}\varrho_{i,j}(1)=1$ and the product is nonnegative.
+\end{enumerate}
+\end{proposition}
+
+Here a function $F$ of the twist is a \emph{ramified ratio} if for a fixed $1\le n\le m$ and a ramified pair $(\nu,z)$ one has $F(\vartheta)=\varrho_z(\nu;\vartheta^n)$ for all $\vartheta$.
+
+\begin{proof}
+(a) \emph{Unital and multiplicative.} The constant $1$ has modulus $1$ with $C=1$, $k=0$; if $\abs c^2=C(\Nm Q)^kf^2$ and $\abs{c'}^2=C'(\Nm Q)^{k'}f'^2$, then $\abs{cc'}^2=CC'(\Nm Q)^{k+k'}(ff')^2$; constants have modulus $1$ and
+inverses have the inverse modulus when $C\ne0$; finite products follow by induction. A function whose squared modulus is a constant times a power of the order of the residue ring of $\varpi^eQ$ has modulus $1$ up to a
+norm power, because that order is $(\prod_{w\in M}q_w)^e\Nm Q$, the first factor being independent of $\vartheta$. \emph{The normalised value.} At the trivial twist $Q$ is empty and $f(1)=1$, so $\abs{c(1)}^2=C$, and
+$C\ne0$; dividing, $\abs{c(\vartheta)/c(1)}^2=(\Nm Q)^kf(\vartheta)^2$, and as $f\ge0$ the square root is $(\Nm Q)^{k/2}f(\vartheta)$; take $e=k$.
+
+(b) \emph{Tameness.} The tame part of $\nu$ is nontrivial exactly at the chosen places and that of $\xi$ exactly at the places of $Q$, and these sets are disjoint; so the tame part of $\nu\xi$ is nontrivial exactly at
+the places of $\mathfrak m$ (here $e\ne0$ is used), and its character on $\OO_E/\mathfrak m$ is the product of the local characters. The weight of $\nu\xi$ is that of $\nu$, $\xi$ having weight $0$. The inverse is tame with
+the inverse character and the opposite weight. For the squarefree modulus $\varpi Q$ the character is primitive: if $a\ne0$, some residue of $a$ is nonzero, say at $w$, and the local character is nontrivial at
+some unit $x$; by the Chinese remainder theorem choose $c$ with $1+ca$ equal to $x$ at $w$ and to $1$ at the other places. \emph{The $L$-values.} A character of $[\U(1)]$ and its inverse have the same partial
+$L$-function, the base changes differing by the conjugation, which permutes the places; so $\abs{L^{MQ}(i,(\nu\xi)^{\pm1})}=\abs{L^M(i,\nu^{\pm1})}\varrho_{(i)}$ with $\varrho_{(i)}$ the $i$-th factor of $\varrho_z(\nu;\xi)$, and the
+places of $\mathfrak m$ are the chosen places and those of $Q$, so the norm factor of $L_*$ is $(\prod_{w\in M}q_w)^{z^2}(\Nm Q)^{z^2}$. Multiplying the squares of the factors for $1\le i\le z$ gives the claim.
+
+(c) The quotient pair of index $n=j-i$ is the pair of the character $(\upsilon^{-\Delta}\chi_M)^n$ and the integer $t$; its tame part $\chi_M^n$ is nontrivial exactly at the chosen places because $1\le n\le m$, and since
+the untwisted lift characters form a geometric progression, $\varrho_{i,j}(\vartheta)=\varrho_t(\nu_n;\vartheta^n)$. At the trivial twist each factor is $L/L$ with $L\ne0$ (no zero on $[1,\infty)$, \cref{thm:B-tower}(a)), so the
+product is $1$; each factor is a quotient of absolute values, so the product is nonnegative.
+\end{proof}
+
+\subsection{The norm of the chain and the factorisation}\label{ss:chain-norm}
+For $1\le j\le m$ let $Z_j(\vartheta^j)=\det(u^*u)$ for the $j$-th single lift $u=\Theta_{j,\vartheta^j}$ restricted to the good forms on $W_j$ (the \emph{lift volume}), and $Z(\vartheta)=\det(\Theta_\vartheta^*\Theta_\vartheta)$ on the target (the
+\emph{chain volume}). Let $R_\vartheta$ be the product, in the order $j=1,\dots,m$, of the Rallis series of the $j$-th lift at $\vartheta^j$, acting on the target as spherical Hecke operators.
+\lean{New.normDet_sq_eq_pow_mul_det, New.Data.liftDeterminant, New.Data.normDet_goodLift_sq_pos, New.Data.liftDeterminant_pos, New.Data.Θ, New.Data.chainDeterminant, New.Data.chainDeterminant_pos, New.Data.exists_normDet_goodLift_sq_eq, New.Data.rallisProduct, New.Data.exists_inner_weightedChain_eq, New.Data.exists_inner_chain_eq, New.Data.isRamifiedRatio_of_mem_sigma, New.Data.card_sigma_Ioc_le, New.Data.prod_quotientRatio_one, New.Data.prod_quotientRatio_nonneg, New.Data.HasAbsUpToNormPower.exists_norm_div_eq_mul_prod_quotientRatio, New.Data.exists_adjoint_chain_comp_eq_smul_rallisProduct, New.Data.exists_chainDeterminant_eq_pow_mul_prod_liftDeterminant, New.Data.exists_div_chainDeterminant_one_eq, New.Data.exists_chainDeterminant_pos_and_div_chainDeterminant_one_eq, New.Data.HasSmallRatios.heightLe_inv_rpow_mul_prod_quotientRatio, New.Data.range_tupleIdem_le, New.Data.singleLift_asAlgebraHom, New.Data.range_goodLift_le}
+
+\begin{lemma}[Volumes]\label{lem:volumes}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $U$, $V$ be inner product spaces of finite dimension, $u\colon U\to V$ linear, and $S$ an endomorphism of $U$ such that $\langle ux,uy\rangle=a\langle x,Sy\rangle$ for all $x$, $y$.
+Then $\det(u^*u)=a^{\dim U}\det S$.
+\item For $1\le j\le m$ there is $A_j\ne0$ such that for every tame $\vartheta$
+\[
+  Z_j(\vartheta^j)=(A_jc_Q)^{\dimT}\det R_{j,\vartheta^j},
+\]
+where the determinant is that of the Rallis series of the $j$-th lift on the target forms; and $Z_j(\vartheta^j)>0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The hypothesis says $u^*u=aS$; take determinants. (b) By \cref{thm:norm-one-lift}(c) the Gram operator of the $j$-th lift on the forms of level $J_M$ is $c_jc_QR_{j,\vartheta^j}$, and on the good forms, which are
+stable, the same holds; (a) gives $Z_j=(c_jc_Q)^{d}\det R_{j,\vartheta^j}$, with $d$ the dimension of the good forms of $W_j$. The good forms on $W_j$ and on $Y_0$ correspond with the same Hecke eigenvalues (\cref{thm:equal-multiplicities}), and
+the Rallis series acts on both by the same spherical Hecke operator, so its determinant is the same on the two spaces and the dimensions agree: $d=\dimT$, and $A_j=c_j$. Positivity is the injectivity of the lift (\cref{thm:norm-one-lift}(a)).
+\end{proof}
+
+\begin{lemma}[Gram form of the chain]\label{lem:chain-gram}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item There are $\kappa(\vartheta)$ with modulus $\prod_{1\le i<j\le m}\varrho_{i,j}$ up to a norm power such that on the target forms the Gram form of the weighted chain $u$ of row $0$ of the twisted triangle is
+\[
+  \langle ux,uy\rangle=\kappa(\vartheta)\,\frac{N_0N_1^m}{N_m}\,\#M_\vartheta^{-m}\,\langle x,R_\vartheta y\rangle,
+\]
+with $\#M_\vartheta$ the number of matrices indexed by $Y_1\times Y_0$ modulo $\varpi Q$.
+\item There are numbers $c(\vartheta)$ of modulus $\prod_{i<j}\varrho_{i,j}$ up to a norm power with $\langle\Theta_\vartheta x,\Theta_\vartheta y\rangle=c(\vartheta)c_Q^m\langle x,R_\vartheta y\rangle$ for all target forms $x$, $y$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By \cref{prop:theta-triangle}(a), for the first lift $a$ of row $i$, $N_0\langle ax,ay\rangle$ is a constant $C_i$ times the Rallis series, that is $C_i\#M_\vartheta^{-1}\langle x,R_{i+1,\vartheta^{i+1}}y\rangle$ on the base: the
+node $(i,1)$ carries the space of lift $i+1$, the Rallis terms are divided by the number of matrices of the point datum, and on target forms the series is the spherical Hecke operator $R_{i+1,\vartheta^{i+1}}$. Put
+$S_i=C_i\#M_\vartheta^{-1}R_{i+1,\vartheta^{i+1}}$; the hypothesis of \cref{thm:triangle-chains}(b) holds with the constants $1$, and $s$ the inclusion of the target forms in the base. The triangle has square moduli
+$\varrho_{i,j}$ up to norm powers (\cref{prop:theta-triangle}(c)), so \cref{thm:triangle-chains}(b) for $i=0$, $n=m$ gives the formula with $\kappa$ of modulus $\prod_{0<r<k\le m}\varrho_{r,k}$ times the constant
+$\prod C_i$, which is free of $\vartheta$.
+
+(b) By \cref{prop:theta-triangle}(d), $\langle\Theta_\vartheta x,\Theta_\vartheta y\rangle=[K_0:J]\dim\langle ux,uy\rangle$, and by the proof of (d), $[K_0:J]=C(\Nm Q)^k\delta(\vartheta)^mN_m/(N_0N_1^m)$. The orders $N_n$ cancel against those of (a),
+leaving $C(\Nm Q)^k\dim\,\kappa(\vartheta)(\delta(\vartheta)/\#M_\vartheta)^m$. By \cref{prop:block-sharp}(c), $\delta(\vartheta)/\#M_\vartheta=c_Mc_Q$, with $c_M\ne0$ independent of $\vartheta$ (the chosen places and the ranks do not depend
+on $\vartheta$). Hence $c(\vartheta)=C\dim\,c_M^m(\Nm Q)^k\kappa(\vartheta)$, whose modulus is $\prod\varrho_{i,j}$ up to a norm power by \cref{prop:moduli}(a).
+\end{proof}
+
+\begin{theorem}[Norm of the chain]\label{thm:chain-norm}
+There are $C>0$, an integer $e$ and numbers $c(\vartheta)$ such that for every $m$-fold twist $\vartheta$
+\[
+  \abs{c(\vartheta)}=C(\Nm Q)^{e/2}\prod_{1\le i<j\le m}\varrho_{i,j}(\vartheta),\qquad\Theta_\vartheta^*\Theta_\vartheta=c(\vartheta)\,c_Q^m\,R_\vartheta\quad\text{on }\mathcal T.
+\]
+\end{theorem}
+
+\begin{theorem}[Factorisation of the volume]\label{thm:factorisation}
+The volumes $Z(\vartheta)$ and $Z_j(\vartheta^j)$ are positive, and there is an integer $e$ such that for every $m$-fold twist $\vartheta$
+\[
+  \frac{Z(\vartheta)}{Z(1)}=\Bigl((\Nm Q)^{e/2}\prod_{1\le i<j\le m}\varrho_{i,j}(\vartheta)\Bigr)^{\dimT}\prod_{j=1}^m\frac{Z_j(\vartheta^j)}{Z_j(1)}.
+\]
+Put $s(\vartheta)=(\Nm Q)^{e/2}\prod_{i<j}\varrho_{i,j}(\vartheta)$. If a family of twists $\xi_\iota$ has small ratios (\cref{def:small-ratios}), the family $s(\xi_\iota)^{-1}$ has height at most
+$m^2tx_1$.
+\end{theorem}
+
+\begin{proof}[Proof of \cref{thm:chain-norm,thm:factorisation}]
+\emph{The norm of the chain.} \Cref{lem:chain-gram}(b) gives $c(\vartheta)$ with $\Theta_\vartheta^*\Theta_\vartheta=c(\vartheta)c_Q^mR_\vartheta$ on $\mathcal T$, the Gram form determining the operator. If $c(1)\ne0$, \cref{prop:moduli}(a), with
+$f=\prod_{i<j}\varrho_{i,j}\ge0$ and $f(1)=1$ (\cref{prop:moduli}(c)), gives $\abs{c(\vartheta)}=\abs{c(1)}(\Nm Q)^{e/2}f(\vartheta)$, and $C=\abs{c(1)}>0$. If $c(1)=0$, then $\Theta_1^*\Theta_1=0$, so $\Theta_1=0$, and as
+$\Theta_1$ is injective (\cref{prop:theta-triangle}(d)) the target is $0$; then any numbers serve, for instance $c(\vartheta)=f(\vartheta)$ with $C=1$, $e=0$.
+
+\emph{Positivity.} $Z(\vartheta)=\det(\Theta_\vartheta^*\Theta_\vartheta)$ is the square of the norm of the determinant of an injective map (\cref{prop:theta-triangle}(d)), hence positive; $Z_j>0$ by \cref{lem:volumes}(b).
+
+\emph{The factorisation.} By \cref{lem:volumes}(a) and \cref{thm:chain-norm},
+\[
+  Z(\vartheta)=(c(\vartheta)c_Q^m)^{\dimT}\det R_\vartheta,\qquad\det R_\vartheta=\prod_{j=1}^m\det R_{j,\vartheta^j},
+\]
+the determinant of a product being the product of the determinants. By \cref{lem:volumes}(b) each $\det R_{j,\vartheta^j}$ is $Z_j(\vartheta^j)/(A_jc_Q)^{\dimT}$; the powers $\vartheta^j$ have the same modulus $Q$ as $\vartheta$, hence the same $c_Q$. Hence
+\[
+  Z(\vartheta)=c(\vartheta)^{\dimT}\prod_{j=1}^m\frac{Z_j(\vartheta^j)}{A_j^{\dimT}},
+\]
+the factors $c_Q$ cancelling. Divide by the same identity at $\vartheta=1$, where $Q$ is empty: the $A_j$ cancel, and $(c(\vartheta)/c(1))^{\dimT}$ is a positive real number, being a quotient of positive numbers by
+positive numbers; so it is its modulus $\bigl((\Nm Q)^{e/2}\prod\varrho_{i,j}(\vartheta)\bigr)^{\dimT}$.
+
+\emph{The height.} By \cref{prop:moduli}(c) each $\varrho_{i,j}$ is a ramified ratio, a product of at most $t$ ratios of $L$-values of a ramified pair at a power $\xi_\iota^n$, $1\le n\le m$; for a family with small ratios
+the inverse of each such ratio has height at most $x_1$ (\cref{def:small-ratios}), so the inverse of $\varrho_{i,j}(\xi_\iota)$ has height at most $tx_1$. There are at most $m^2$ pairs $i<j$. The norm $\Nm Q$ is prime to the
+prime of $\iota$, so its power does not raise the height. Heights add over products, which gives $m^2tx_1$.
+\end{proof}
+
+\begin{proposition}[The range of the lift on good forms]\label{prop:range-good-lift}
+For a tame $\vartheta$ and $1\le j\le m$, the range of the lift on good forms is spanned by the lifts of good Hecke eigenforms whose lifts lie in the range of the idempotent of one good tuple family.
+\end{proposition}
+
+\begin{proof}
+\emph{The idempotents.} Let the group algebra of the product of the finite groups $\GL_r$ at the chosen places act on a space of forms. The idempotent of a good tuple family is its product with the central idempotent
+$e_0$, the sum of the idempotents of all good tuple families (\cref{prop:e0}), so its range lies in that of $e_0$. \emph{Equivariance.} The lift commutes with the group algebra: both sides of the identity are sums
+over the group, and the lift commutes with each group element (\cref{thm:norm-one-lift}(d)), the element acting on the forms of $W_j$ by translation and on those of the larger space of the descent pair by the
+action $\rho$. \emph{Spanning.} Good forms are the values of $e_0$, and Hecke eigenforms span the forms of principal level (\cref{prop:hecke-eigen}(b)), so it suffices to treat $e_0y$ with $y$ an eigenform. Split $e_0$ into
+the idempotents of the good tuple families: each piece of $y$ is again a good eigenform, since the idempotents commute with the Hecke operators, and by equivariance its lift lies in the range of the same
+idempotent.
+\end{proof}

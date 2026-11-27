@@ -1,0 +1,7 @@
+# Quotations of the paper from sources other than Series 03 (those are checked against the released S03 PDF by the
+# gate itself). Each entry: the quoted text as it stands between `` and '' in the LaTeX, the source, where it was
+# read, and the sentence around it.
+- text: "sehr wahrscheinlich"
+  source: Riemann1859
+  read: "https://www.claymath.org/wp-content/uploads/2023/04/Wilkins-transcription.pdf (D. R. Wilkins' transcription, hosted by the Clay Mathematics Institute), read 2026-11-26"
+  context: "Man findet nun in der That etwa so viel reelle Wurzeln innerhalb dieser Grenzen, und es ist sehr wahrscheinlich, dass alle Wurzeln reell sind."

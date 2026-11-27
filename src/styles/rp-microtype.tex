@@ -1,0 +1,55 @@
+% microtype settings of the GAI-MUA papers (mt-Palatino.cfg protrusion lists for TeX Gyre Pagella, family qpl, T1),
+% as validated for the Hexagon pdfLaTeX deposits of 2026-11; uniform font expansion.
+\SetExpansion
+  [ name = rp-uniform ]
+  { encoding = T1, family = qpl }
+  { }
+\SetProtrusion
+  [ name = rp-palatino-default ]
+  { encoding = T1, family = qpl }
+  {
+    A = {50,50}, D = {,50}, J = {50,}, K = {,50}, L = {,50}, O = {25,},
+    T = {50,50}, V = {50,50}, W = {50,50}, X = {50,50}, Y = {50,50}, b = {,25},
+    d = {25,30}, f = {,50}, g = {,100}, k = {,50}, p = {,50}, q = {50,},
+    r = {,50}, t = {,50}, v = {75,50}, w = {50,50}, x = {50,50}, y = {50,70},
+    1 = {100,50}, 2 = {25,50}, 4 = {50,}, 6 = {50,}, 9 = {25,}, \AE = {100,},
+    \OE = {25,}, . = {,700}, {,} = {,500}, : = {,500}, ; = {,500}, ! = {,100},
+    ? = {,200}, @ = {50,50}, ~ = {200,250}, & = {50,100}, \% = {100,100}, * = {200,200},
+    + = {250,250}, ( = {100,}, ) = {,300}, / = {200,300}, - = {400,500}, \textendash = {300,300},
+    \textemdash = {200,200}, \textquoteleft = {500,700}, \textquoteright = {500,700}, \textquotedblleft = {300,400}, \textquotedblright = {300,400}, \textbackslash = {200,300},
+    \quotesinglbase = {400,400}, \quotedblbase = {400,400}, \guilsinglleft = {400,400}, \guilsinglright = {300,500}, \guillemotleft = {300,300}, \guillemotright = {200,400},
+    \textexclamdown = {100,}, \textquestiondown = {100,}, \textbraceleft = {400,200}, \textbraceright = {200,400}, \textless = {200,100}, \textgreater = {100,200}
+  }
+\SetProtrusion
+  [ name = rp-palatino-it ]
+  { encoding = T1, family = qpl, shape = {it,sl} }
+  {
+    A = {50,50}, \AE = {50,}, B = {50,}, C = {50,}, D = {50,50}, E = {50,},
+    F = {50,}, G = {50,}, H = {50,}, K = {50,}, L = {50,}, O = {50,},
+    \OE = {50,}, P = {50,}, Q = {50,}, R = {50,}, S = {50,}, $ = {50,},
+    T = {100,}, U = {50,}, V = {100,50}, W = {50,}, X = {50,}, Y = {100,50},
+    b = {,50}, c = {25,}, g = {75,}, i = {25,}, m = {,50}, n = {,50},
+    p = {,25}, q = {25,}, x = {,50}, 1 = {100,}, 2 = {50,}, 4 = {50,},
+    7 = {50,}, . = {,500}, {,} = {,500}, : = {,300}, ; = {,300}, ? = {,300},
+    & = {50,50}, \% = {100,100}, * = {200,200}, + = {150,200}, @ = {50,50}, ~ = {200,150},
+    ( = {200,}, ) = {,200}, / = {100,200}, - = {300,500}, \textendash = {300,300}, \textemdash = {200,200},
+    \textquoteleft = {700,400}, \textquoteright = {700,400}, \textquotedblleft = {500,300}, \textquotedblright = {500,300}, _ = {100,100}, \textbackslash = {100,200},
+    \quotesinglbase = {500,500}, \quotedblbase = {400,400}, \guilsinglleft = {400,400}, \guilsinglright = {300,500}, \guillemotleft = {300,300}, \guillemotright = {300,300},
+    \textexclamdown = {100,}, \textquestiondown = {200,}, \textbraceleft = {200,100}, \textbraceright = {200,200}, \textless = {300,100}, \textgreater = {200,100}
+  }
+\SetProtrusion
+  [ name = rp-palatino-sc, load = rp-palatino-default ]
+  { encoding = T1, family = qpl, shape = sc }
+  {
+    a = {50,50}, \ae = {50,}, b = {0,0}, d = {0,0}, f = {0,0}, g = {0,0},
+    j = {50,}, l = {,50}, o = {0,0}, p = {0,0}, q = {0,}, r = {,0},
+    t = {50,50}, y = {50,50}
+  }
+% Interword shrink and extra space as luaotfload sets them for OpenType fonts (one third of the word space);
+% the TeX Gyre Pagella TFM files have 0.0830 em. Only the Pagella text faces (family qpl).
+\makeatletter
+\def \rs@qpl{qpl}
+\AddToHook{selectfont}{\edef\rs@fam{\f@family}\ifx\rs@fam\rs@qpl
+  \fontdimen4\font=\dimexpr\fontdimen2\font/3\relax
+  \fontdimen7\font=\dimexpr\fontdimen2\font/3\relax\fi}
+\makeatother

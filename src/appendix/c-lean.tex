@@ -1,0 +1,9 @@
+\needspace{12\baselineskip}
+\section{The Lean development}\label{app:lean}
+Every numbered statement of the paper that belongs to the argument carries an anchor: the list of declarations of the Lean development that state and prove it. The anchors are checked against the rebuilt
+environment (\cref{app:verification}): every anchored name is a declaration of the Lean development, and the anchored declarations, together with the declarations of the same module folders that they use, cover the
+cone of the main theorem. The table below gives, for each section, the page where it begins, the number of its numbered statements and the number of distinct anchored declarations, and beneath it the module
+folders in which these declarations lie, in the order of first use, grouped by the root of the module name. The full table, statement by statement, with every declaration and its module, is the file \texttt{supplement/lean-anchors.md} of the source repository;
+it is generated from the same anchors.
+
+\RPleansummary

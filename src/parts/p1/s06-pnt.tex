@@ -1,0 +1,111 @@
+\section{The prime number theorem for the remainders}\label{sec:pnt}
+
+The one-sided bound of \cref{sec:main} compares the remainder $R_{q_0}$ at a point $x$ with the
+remainders $R_{q_0}$ and $R_1$ at a much larger point $x_1$. At $x_1$ the classical prime number
+theorem in arithmetic progressions suffices: we need $\abs{R_q(y)}\le(\log y)^{-B}$ for every $B$.
+This is a case of the Siegel--Walfisz theorem
+\cite[Cor.~11.19]{MontgomeryVaughan2007}. We derive it here in the form needed, from the zero-free
+region of a fixed Dirichlet $L$-function and a Tauberian theorem, both proved in
+\cref{ss:B-zero-free,ss:B-tauberian}. Throughout, $d$ is a prime and $q\ge1$.
+
+\subsection{Slow variation}\label{ss:slow-variation}
+Let
+\[
+  \mathcal E_q(t)=\sum_{0\le n\le t}\lambda_q(n)-\frac{t}{\totient(q)}\qquad(t\ge0)
+\]
+be the error in the weighted count, with $\lambda_q(0)=0$.
+
+\begin{lemma}\label{lem:count-error}
+For $t\ge0$ one has $\abs{\mathcal E_q(t)}\le13t$, and for $y\ge1$
+\begin{equation}\label{eq:R-integral}
+  R_q(y)=\int_1^y\frac{\mathcal E_q(t)}{t^2}\dd t-c_q.
+\end{equation}
+\end{lemma}
+\lean{New.sum_Icc_vonMangoldt_le_six_mul, New.abs_countError_le, New.primeRemainder_eq_integral_countError_sub}
+
+\begin{proof}
+Chebyshev's bound $\sum_{n\le t}\Lam(n)\le(\log4+4)t\le6t$ and $\lambda_q\le2\Lam$ give
+$0\le\sum_{n\le t}\lambda_q(n)\le12t$, while $t/\totient(q)\le t$. For \eqref{eq:R-integral}, Abel
+summation with the function $1/t$ gives
+\[
+  \sum_{n\le y}\frac{\lambda_q(n)}{n}=\frac1y\sum_{n\le y}\lambda_q(n)
+  +\int_1^y\frac{1}{t^2}\sum_{n\le t}\lambda_q(n)\dd t,
+\]
+and $\int_1^y t\,(\totient(q)t^2)^{-1}\dd t=\log y/\totient(q)$. Comparing with the definition
+\eqref{eq:Rq} gives the identity.
+\end{proof}
+
+\begin{corollary}\label{cor:slow-variation}
+For $1\le y\le z$ one has $\abs{R_q(z)-R_q(y)}\le13(z-y)/y$. In the variable $v=\log y$:
+$\abs{R_q(e^v)-R_q(e^u)}\le26(v-u)$ for $0\le u\le v\le u+1$. For $y\ge2$,
+$R_q(y)-R_q(\lfloor y\rfloor)\le 26/y$.
+\end{corollary}
+\lean{New.abs_primeRemainder_sub_le, New.abs_primeRemainder_exp_sub_le, New.primeRemainder_sub_primeRemainder_floor_le}
+
+\begin{proof}
+By \eqref{eq:R-integral} the difference is $\int_y^z\mathcal E_q(t)t^{-2}\dd t$, and the integrand is
+at most $13/t\le13/y$ in absolute value. For the second statement put $y=e^u$, $z=e^v$ and use
+$e^{v-u}-1\le2(v-u)$ for $0\le v-u\le1$. For the third, $(y-\lfloor y\rfloor)/\lfloor y\rfloor
+\le1/(y/2)$ when $y\ge2$.
+\end{proof}
+
+\subsection{The transform in a zero-free region}\label{ss:transform-zero-free}
+We use the following form of the classical zero-free region, proved in \cref{ss:B-zero-free}.
+
+\begin{theorem}\label{thm:zero-free}
+Let $\chi$ be a Dirichlet character. For all sufficiently large $l$, the function $E_\chi$ does not
+vanish on the region $\re s\ge1-l^{-25}$, $\abs s\le e^l$, and satisfies
+$\abs{E_\chi'(s)/E_\chi(s)}\le2l^{25}$ there.
+\end{theorem}
+\lean{New.eventually_norm_logDeriv_entireL_le}
+
+\begin{lemma}\label{lem:G-bound}
+For all sufficiently large $l$, the function $G_q(s)/s$ is holomorphic and of absolute value at most
+$l^{26}$ on the region $\re s\ge1-l^{-26}$, $\abs s\le e^l$.
+\end{lemma}
+\lean{New.analyticAt_logDerivMean, New.norm_logDerivMean_le, New.eventually_norm_logDerivMean_div_le}
+
+\begin{proof}
+There are finitely many characters $\psi$ and $\psi\chiK$, say $\nu$ characters $\psi$. By
+\cref{thm:zero-free}, for large $l$ none of the functions $E_\psi$, $E_{\psi\chiK}$ vanishes on the
+region $\re s\ge1-l^{-25}$, $\abs s\le e^l$, which contains the region of the lemma, and their
+logarithmic derivatives are at most $2l^{25}$ there. Then $G_q$ is holomorphic there, with
+$\abs{G_q(s)}\le\nu\cdot4l^{25}+1$. On the region $\re s\ge1/2$, so $\abs{G_q(s)/s}\le
+(8\nu+2)l^{25}\le l^{26}$ once $l\ge8\nu+2$.
+\end{proof}
+
+\subsection{The Tauberian theorem and its consequence}\label{ss:tauberian-application}
+The Tauberian theorem below is proved in \cref{ss:B-tauberian}. Its proof reads one Taylor
+coefficient of the transform at a far point in two ways: as a mean of $R$ against a Gamma density
+concentrated near a given point, and, by Cauchy's estimate on a disc that reaches across the line
+$\re s=1$, as a small number. Compare \cite[\S6.2]{MontgomeryVaughan2007}, where a contour integral
+is used instead.
+
+\begin{theorem}\label{thm:tauberian}
+Let $R\colon\R\to\R$ be measurable, with $\abs{R(v)-R(u)}\le L(v-u)$ for $0\le u\le v\le u+1$, and
+let $F$ be a function such that
+\[
+  \int_0^\infty R(v)\,e^{(1-s)v}\dd v=\frac{F(s)-F(1)}{s-1}\qquad(\re s>2).
+\]
+Suppose that there is an integer $A\ge0$ such that for all large $l$ the function $F$ is holomorphic and of absolute
+value at most $l^A$ on the region $\re s\ge1-l^{-A}$, $\abs s\le e^l$. Then for every integer $B\ge0$ one has
+$\abs{R(u)}\le u^{-B}$ for all large $u$.
+\end{theorem}
+\lean{New.eventually_abs_le_inv_pow_of_transform}
+
+\begin{theorem}\label{thm:pnt-Rq}
+Let $d$ be an odd prime not dividing $q$. For every integer $B\ge0$,
+\[
+  \abs{R_q(y)}\le(\log y)^{-B}\qquad\text{for all large } y.
+\]
+In particular $R_q(y)\to0$ as $y\to\infty$.
+\end{theorem}
+\lean{New.eventually_abs_primeRemainder_le, New.tendsto_primeRemainder}
+
+\begin{proof}
+Apply \cref{thm:tauberian} to $R(v)=R_q(e^v)$ and $F(s)=G_q(s)/s$. The Lipschitz condition is
+\cref{cor:slow-variation}. By \cref{lem:transform,lem:G-real},
+$(F(s)-F(1))/(s-1)=(G_q(s)/s-c_q)/(s-1)$ is the transform for $\re s>2$. The bound on $F$, with
+$A=26$, is \cref{lem:G-bound}. Hence $\abs{R_q(e^v)}\le v^{-B}$ for large $v$, which is the
+assertion at $y=e^v$.
+\end{proof}

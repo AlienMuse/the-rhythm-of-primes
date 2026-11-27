@@ -1,0 +1,181 @@
+\section{Landau's lemma and the one-sided criterion}\label{sec:criterion}
+
+A Laplace transform of a nonnegative measure cannot be continued analytically across its abscissa
+of convergence. This is Landau's lemma \cite{Landau1905}; see also
+\cite[Lemma~15.1]{MontgomeryVaughan2007} and \cite[Ch.~II, Thm.~5b]{Widder1941}. Applied to the
+remainder $R_q$ of \cref{sec:transform} it shows that a bound $R_q(x)\le x^{\beta-1}$ from
+\emph{one side only} excludes all poles of the transform to the right of $\beta$. In the special case
+at hand the poles are the zeros of Dirichlet $L$-functions, provided that the twisted functions
+$E_{\psi\chiK}$ have no zeros in a box; a prime $d$ with this property is found in
+\cref{thm:choice-of-d}. The criterion is \cref{thm:one-sided-criterion}.
+
+\subsection{Landau's lemma}\label{ss:landau}
+Let $\mu$ be a measure on $\R$ and $X\colon\R\to(-\infty,0]$ a measurable function. Let
+$I\subseteq\R$ be the set of real $\sigma$ for which $e^{\sigma X}$ is $\mu$-integrable. Since
+$X\le0$, the set $I$ is an interval unbounded above. On $\{s:\re s\in\operatorname{int}I\}$ the
+function $F(s)=\int e^{sX}\dd\mu$ is holomorphic, and its derivatives are
+$F^{(k)}(s)=\int X^ke^{sX}\dd\mu$.
+
+\begin{lemma}\label{lem:landau-taylor}
+Let $z\in\operatorname{int}I$, let $g$ be holomorphic on a neighbourhood of $z$ and equal to $F$
+near $z$, and let $\sigma\le z$ be real. If the Taylor series of $g$ at $z$ converges at $\sigma$,
+then $\sigma\in I$.
+\end{lemma}
+\lean{New.mem_integrableExpSet_of_summable_taylor}
+
+\begin{proof}
+For each $y$,
+\[
+  e^{\sigma X(y)}=\sum_{k\ge0}\frac{\bigl((\sigma-z)X(y)\bigr)^k}{k!}\,e^{zX(y)},
+\]
+and every term is nonnegative, because $\sigma-z\le0$ and $X(y)\le0$. By monotone convergence,
+\[
+  \int e^{\sigma X}\dd\mu=\sum_{k\ge0}\frac{(\sigma-z)^k}{k!}\int X^ke^{zX}\dd\mu
+  =\sum_{k\ge0}\frac{(\sigma-z)^k}{k!}\,g^{(k)}(z),
+\]
+which is finite by hypothesis.
+\end{proof}
+
+\begin{lemma}[Landau]\label{lem:landau}
+Let $a\in\R$ with $(a,\infty)\subseteq\operatorname{int}I$. Suppose that a function $g$ holomorphic
+at $a$ agrees with $F$ on a neighbourhood of every real $x>a$ close to $a$. Then there is $b<a$ with
+$(b,\infty)\subseteq I$.
+\end{lemma}
+\lean{New.exists_Ioi_subset_integrableExpSet_of_analyticAt}
+
+\begin{proof}
+Let $g$ be holomorphic on the disc of radius $\varepsilon$ about $a$. Choose a real
+$z\in(a,a+\varepsilon/2)$ near which $g=F$. The Taylor series of $g$ at $z$ converges on the disc of
+radius $\varepsilon/2$ about $z$. For $\sigma\in(z-\varepsilon/2,a]$, \cref{lem:landau-taylor} gives
+$\sigma\in I$; for $\sigma>a$ this holds by hypothesis. Hence $b=z-\varepsilon/2<a$ serves.
+\end{proof}
+
+\begin{lemma}\label{lem:landau-pole}
+Let $a$ be as in \cref{lem:landau}. Let $\Psi$ be meromorphic at $a$, equal to $F$ on a punctured
+neighbourhood of every real $x>a$, and suppose that $(z-a)\Psi(z)\to c$ as $z\to a$, with
+$\re c\le0$. Then there is $b<a$ with $(b,\infty)\subseteq I$.
+\end{lemma}
+\lean{New.exists_Ioi_subset_integrableExpSet}
+
+\begin{proof}
+Near a real $x>a$ the functions $\Psi$ and $F$ are both holomorphic (for $x$ close to $a$) and agree
+on a punctured neighbourhood, hence on a neighbourhood. For real $x>a$ we have $F(x)\ge0$, so
+$(x-a)\Psi(x)\ge0$, and letting $x\downarrow a$ gives $c\ge0$. With $\re c\le0$ this forces $c=0$.
+Then $(z-a)\Psi(z)$ extends holomorphically to $a$ with value $0$, and $\Psi$ itself extends to a
+function $g$ holomorphic at $a$. \Cref{lem:landau} applies to $g$.
+\end{proof}
+
+\begin{lemma}\label{lem:density}
+Let $E\colon\R\to\R$ be measurable with $\abs{E(v)}\le Ce^v$ for $v\ge0$, let $\beta>0$, and suppose
+$E(v)\le e^{(\beta-1)v}$ for all large $v$. Then there are a constant $K$ and a measure $\mu$ on
+$\R$ such that, with $X(v)=-\abs v$, every $s$ with $\re s>\beta+2$ satisfies $\re s\in I$ and
+\[
+  \int e^{sX}\dd\mu=\frac{K}{s-\beta}-\int_0^\infty E(v)\,e^{(1-s)v}\dd v.
+\]
+\end{lemma}
+\lean{New.exists_mul_exp_le, New.exists_measure_laplace_eq}
+
+\begin{proof}
+Let $E(v)\le e^{(\beta-1)v}$ for $v\ge Y$. Then $E(v)e^v\le Ke^{\beta v}$ for all $v>0$, with
+$K=\max(1,\abs Ce^{2Y})$: for $v\ge Y$ the bound is immediate, and for $0<v\le Y$ we have
+$E(v)e^v\le\abs Ce^{2v}\le\abs Ce^{2Y}$. Let $\mu$ be the measure on $(0,\infty)$ with density
+$Ke^{\beta v}-E(v)e^v\ge0$. For $\re s>\beta+2$ both $Ke^{(\beta-s)v}$ and $E(v)e^{(1-s)v}$ are
+integrable on $(0,\infty)$, and $e^{sX(v)}\cdot(Ke^{\beta v}-E(v)e^v)=Ke^{(\beta-s)v}-E(v)e^{(1-s)v}$
+for $v>0$. Integrating gives the identity, with $\int_0^\infty Ke^{(\beta-s)v}\dd v=K/(s-\beta)$.
+\end{proof}
+
+\begin{proposition}\label{prop:no-pole}
+Let $E$ be polar with residues $r$ (\cref{def:polar}), let $\beta>0$, and suppose that
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $\re r(x)\ge0$ for every real $x>\beta$, and
+\item $E(v)\le e^{(\beta-1)v}$ for all large $v$.
+\end{enumerate}
+Then $r(\rho)=0$ for every $\rho$ with $\re\rho>\beta$.
+\end{proposition}
+\lean{New.IsPolar.landau}
+
+\begin{proof}
+Let $C$ and $\Phi$ be as in \cref{def:polar}, and let $\mu$, $K$ be as in \cref{lem:density}, with
+$X(v)=-\abs v$, $I$ the set of convergence and $F(s)=\int e^{sX}\dd\mu$. Put
+$\Psi(s)=K/(s-\beta)-\Phi(s)$, a meromorphic function equal to $F$ for $\re s>\beta+2$. For
+$\re\rho>\beta$,
+\begin{equation}\label{eq:Psi-res}
+  (z-\rho)\Psi(z)\to-r(\rho)\qquad(z\to\rho),
+\end{equation}
+since $K/(s-\beta)$ is holomorphic at $\rho$. The complement of $I$ is bounded above by $\beta+2$.
+Let $a$ be the least upper bound of $\{\beta\}\cup(\R\smallsetminus I)$. Then
+$(a,\infty)\subseteq\operatorname{int}I$, so $F$ is holomorphic on $\re s>a$, and by the identity
+theorem $\Psi=F$ on a punctured neighbourhood of every point of $\re s>a$ (both are meromorphic on
+the half-plane and agree far to the right).
+
+If $a=\beta$, then for $\re\rho>\beta$ the function $\Psi$ agrees with the holomorphic function $F$
+near $\rho$, so $(z-\rho)\Psi(z)\to0$, and \eqref{eq:Psi-res} gives $r(\rho)=0$.
+
+Suppose $a>\beta$. By (i) and \eqref{eq:Psi-res} at $\rho=a$, the limit $c=-r(a)$ has
+$\re c\le0$. \Cref{lem:landau-pole} gives $b<a$ with $(b,\infty)\subseteq I$. By the definition of
+$a$ there is $\sigma\notin I$ with $\max(\beta,b)<\sigma\le a$; but $\sigma>b$ forces $\sigma\in I$.
+This contradiction shows $a=\beta$.
+\end{proof}
+
+\subsection{The choice of the prime \texorpdfstring{$d$}{d}}\label{ss:choice-d}
+The residues $r_q$ of \cref{prop:polar} have the right sign on the real axis only where the twisted
+functions $E_{\psi\chiK}$ do not vanish. The following theorem provides a prime $d$ for which this
+holds in any prescribed box. Its proof, a zero-density estimate for the quadratic twists of the
+characters of a fixed modulus obtained from theta series and the P\'olya--Vinogradov inequality, is
+given in \cref{ss:B-quadratic-twists}. Estimates of this kind are classical; see
+Jutila~\cite{Jutila1975} and Heath-Brown~\cite{HeathBrown1995} for stronger forms obtained from mean
+values of real character sums.
+
+\begin{theorem}\label{thm:choice-of-d}
+Let $N\ge1$, let $\beta>1/2$ and $H\ge0$, and let $a$ be an invertible residue class modulo $N$
+such that every prime $d$ in the class satisfies $d\equiv7\pmod8$ and $d\nmid N$. Then there is a
+prime $d\equiv a\pmod N$ such that $L(s,\xi\chi_d)\neq0$ for every character $\xi$ modulo $N$ and
+every $s$ with $\re s\ge\beta$ and $\abs{\im s}\le H$, where $\chi_d=(\,\cdot\,/d)$.
+\end{theorem}
+\lean{New.exists_entireL_quadTwist_ne_zero}
+
+By \cref{lem:twist-not-principal} the characters $\xi\chi_d$ are not principal, so
+$E_{\xi\chi_d}=L(s,\xi\chi_d)$.
+
+\subsection{The one-sided criterion}\label{ss:criterion}
+
+\begin{theorem}\label{thm:one-sided-criterion}
+Let $q_0$ be a positive multiple of $8$, let $d_0\equiv7\pmod8$ be an integer prime to $q_0$, and let
+$\beta>1/2$. Suppose that for every prime $d\equiv d_0\pmod{q_0}$ the remainder $R_{q_0}$ formed
+with $\chiK=(\,\cdot\,/d)$ satisfies
+\[
+  R_{q_0}(x)\le x^{\beta-1}\qquad\text{for all large } x.
+\]
+Then $L(\rho,\psi)\neq0$ for every Dirichlet character $\psi$ modulo $q_0$ and every $\rho\neq1$ with
+$\re\rho>\beta$.
+\end{theorem}
+\lean{New.LFunction_ne_zero_of_primeRemainder_le}
+
+\begin{proof}
+Fix $\psi$ and $\rho$. Every prime $d\equiv d_0\pmod{q_0}$ satisfies $d\equiv d_0\equiv7\pmod 8$,
+since $8\mid q_0$, and is prime to $q_0$. \Cref{thm:choice-of-d}, with $N=q_0$, $a=d_0$ and
+$H=\abs{\im\rho}$, gives such a prime $d$ for which no $E_{\xi\chiK}$ with $\xi$ modulo $q_0$
+vanishes in the box $\re s\ge\beta$, $\abs{\im s}\le\abs{\im\rho}$. For $s$ in the box with
+$s\ne0,1$, the residue of \cref{prop:polar} is
+\[
+  r(s)=\frac{n(s)}{\totient(q_0)\,s(1-s)},\qquad n(s)=\sum_{\xi\bmod q_0}\ord_s E_\xi\ \ge0,
+\]
+because the orders of the twisted functions vanish there.
+
+We check hypothesis (i) of \cref{prop:no-pole}. For real $x>\beta$ with $x<1$ the factor $x(1-x)$ is
+positive and $r(x)\ge0$. For $x\ge1$ the functions $E_\xi$ do not vanish, so $n(x)=0$; at $x=1$ we
+have $r(1)=0$ by definition. Hypothesis (ii) is the assumption, for $E(v)=R_{q_0}(e^v)$. Hence
+$r(\rho)=0$, that is $n(\rho)=0$, as $\rho\ne0$ and $\rho\ne1$. In particular $E_\psi(\rho)\ne0$. Since
+$\rho\ne1$, the function $E_\psi$ is $L(s,\psi)$ or $(s-1)L(s,\psi)$ at $\rho$, and in both cases
+$L(\rho,\psi)\neq0$.
+\end{proof}
+
+\begin{remark}\label{rem:criterion-hypothesis}
+The hypothesis concerns all primes $d$ of one class modulo $q_0$, and only an upper bound for
+$R_{q_0}$. No information on real zeros is assumed: the role of the familiar hypothesis that there are no
+real zeros to the right of $\beta$, in one-sided criteria of this kind (compare
+\cite[\S\S15.1--15.2]{MontgomeryVaughan2007} and Suzuki~\cite{Suzuki2024}) is played here by the
+choice of $d$. The weights $1-\chiK(n)$ make the twisted functions $E_{\psi\chiK}$ enter the
+residues with the opposite sign, and \cref{thm:choice-of-d} removes their zeros from the box in
+question; what remains on the real axis is a sum of orders of zeros, which is nonnegative.
+\end{remark}

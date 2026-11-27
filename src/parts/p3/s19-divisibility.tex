@@ -1,0 +1,487 @@
+\section{Divisibility of the composite lift}\label{sec:divisibility}
+
+The seesaw identity turns the integrality of the target forms $\mathfrak p_g\varphi$ into $p$-adic bounds for the
+composite lifts $B_\vartheta\varphi$. This section proves those bounds (\cref{thm:divisibility}): for every prime $p$
+the composite lift of every chain datum is divisible by $p^{g_p-\epsilon_p}$, with the \emph{gain} $g_p$ asked by the
+prime sums and an error $\epsilon_p$, on a submodule of the integral ramified source forms whose colength is at most
+$\epsilon_p\dim\mathcal S$; and $\sum_p\epsilon_p\log p\le\errunit$. Four kinds of primes behave differently. A
+split prime, or a prime $p\ge x_1$, asks for nothing, and the composite lift is integral. A non-split prime $p<x_1$
+asks for the local part of the prime sums, which the derivatives of theta functions provide
+(\cref{part:derivatives}) up to the \emph{collisions}, pairs of $a$-places linked by $-p^e$. If $p$ is not
+\emph{exceptional} these cost little; if it is, scaled Hecke operators at the primes above $p$ are applied to the
+source once per lift, and the theorem on elementary divisors (\cref{sec:elementary-divisors}) bounds the colength of
+their image. At the level prime $N$ the lifts lose a bounded number of powers of $N$, after the operator
+$\mathrm{Up}$ of \cref{ss:lift-laws} has been applied $m/2$ times.
+
+Throughout, $p$ is a prime and $\iota=\iota_p\colon\C\to\C_p$ an embedding; $\OO_\iota$ is the ring of complex numbers
+that $\iota$ maps to $p$-adic integers. The \emph{gauge} of a form $\varphi$ is the supremum over $g$ of the gauges of
+$\varphi(g)$ at $g$ (\cref{ss:gauges}); $\varphi$ has \emph{valuation at least} $v$ if its gauge is at most $p^{-v}$, and is
+\emph{integral} if its gauge is at most $1$. A submodule $S$ of an $\OO_\iota$-module $L$ has \emph{colength dividing}
+$z$ if every finite family in $L$ is carried into $S$ by a square matrix over $\OO_\iota$ whose determinant divides
+$z$. An endomorphism $Y$ of $L$ is \emph{onto modulo $p^j$ up to colength $c$} if $Y L\subseteq L$ and $YL+p^jL$ has
+colength dividing $p^l$ in $L$ for some integer $l\le c$.
+\lean{New.GaugeLe, New.ColengthDvd, New.IsOntoUpToColength, New.Data.integralSourceForms, New.GaugeLe.rpow_mono, New.GaugeLe.add, New.GaugeLe.smul, New.GaugeLe.zpow_neg_smul}
+
+\subsection{Gains and losses}\label{ss:gains}
+Recall from \cref{sec:data} the $a$-places $\Phia$ (the places of class $1$ modulo $q_0$), the weight $\kappa$, the
+partner exponents $I_p$ and the valuation $v(\pi_p)$ of a non-split prime (\cref{ss:count}), and write $u(\nu)\tau$
+for the product of $\tau$ with the place named by an integer $\nu$. For a prime $p$, a real $y$ and a place $\sigma$, the
+\emph{local prime sum} and the \emph{gain} are
+\begin{align*}
+  s_p(y,\sigma)&=v(\pi_p)\sum_{e\in I_p}\Bigl(\frac y{p^e}-\kappa\bigl(u(-p^e)\sigma\bigr)\Bigr)_{\!+},\\
+  g_p&=m\Bigl(\sum_{\tau\in\Phia}s_p(a,\tau)+k\sum_{\sigma\in\Phi}s_p(\kappa(\sigma),\sigma)\Bigr).
+\end{align*}
+A prime is \emph{small non-split} if $p<x_1$ and $\chi_K(p)\ne1$. For such $p$ the \emph{loss} is
+$\lambda_p=fa(\log b)^2/p$, multiplied by $m$ if $p\equiv\pm1\pmod m$. Let $\mathfrak r_p$ be the least integer with
+$m\le p^{\mathfrak r_p}$ and $o_0(p)$ the order of $-p$ in $(\Z/q_0)^\times$. A small non-split $p$ is \emph{exceptional} if
+$\chi_K(p)=-1$, $p\not\equiv\pm1\pmod m$, and $o_0(p)$ is odd and at most $\mathfrak r_p$. A \emph{collision} outside a set $S$ of
+places is a pair $(\tau,e)$ with $e\in I_p$ such that $\tau$ and $u(-p^e)\tau$ are $a$-places outside $S$; the \emph{collision
+sum} $\mathrm{col}_p(S)$ is the sum of $a/p^e$ over the collisions outside $S$. The \emph{allowed loss} is
+$\epsilon_p=2\lambda_p$ for small non-split $p$, $\epsilon_N=2mfb$, and $\epsilon_p=0$ otherwise. Finally put
+$j_p=\lceil2mfa/p\rceil$ and $\nu_p=\mathfrak r_pf(n_m+\mathfrak r_p)$.
+\lean{New.Data.localPrimeSum, New.Data.localPrimeSumTotal, New.Data.gain, New.Data.IsSmallNonsplit, New.Data.IsPlusMinusOneModLifts, New.Data.loss, New.Data.ceilLogLifts, New.Data.transferExponent, New.Data.collisionExponent, New.Data.o₀, New.Data.IsExceptional, New.Data.IsCollision, New.Data.collisionSum, New.Data.allowedLoss, New.Data.allowedLoss_nonneg, New.Data.smallNonsplitPrimes, New.Data.mem_smallNonsplitPrimes_iff_isSmallNonsplit, New.Data.chiK_eq_one_or_le_of_notMem_smallNonsplitPrimes}
+
+\begin{proposition}[Gains add up to the prime sums]\label{prop:gains}
+Let $p$ be a prime.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $s_p(y,\sigma)=\sum_{e\ge1}\frac{1-\chi_K(p^e)}2\bigl(y/p^e-\kappa(u(-p^e)\sigma)\bigr)_+$, and $s_p(y,\sigma)=0$ for $p\ge x_1$ and $y\le a$.
+Hence $g_p=0$ if $p$ splits in $K$ or $p\ge x_1$.
+\item For $y\le a$ and every $U\ge x_1$, $\sfin(y,\sigma)=\sum_{p<U}2s_p(y,\sigma)\log p$; consequently
+\[
+  2\sum_{p\ \text{small non-split}}g_p\log p=m\sum_{\tau\in\Phia}\sfin(a,\tau)+mk\sum_{\sigma\in\Phi}\sfin(\kappa(\sigma),\sigma).
+\]
+\item For every finite set $U$ of integers, $\sum_{p\in U}\epsilon_p\log p\le\errunit$.
+\item $\lambda_p\ge fa(\log b)^2/p$, and if $p$ is small non-split and not exceptional, $m\,\mathrm{col}_p(\emptyset)\le\lambda_p$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.localPrimeSum_eq_tsum, New.Data.posPart_div_sub_weight_eq_zero, New.Data.localPrimeSum_eq_zero, New.Data.gain_eq_zero, New.Data.primeSum_eq_sum_localPrimeSum, New.Data.localPrimeSumTotal_nonneg, New.Data.sum_localPrimeSumTotal_mul_log_le, New.Data.two_mul_sum_gain_mul_log, New.Data.sum_allowedLoss_mul_log_le, New.Data.exists_mul_sub_one_eq_or_mul_add_one_eq, New.Data.le_loss, New.Data.mul_collisionSum_le_loss, New.Data.collisionSum_le, New.Data.IsCollision.ne_and_odd_and_dvd, New.Data.placeOfInt_mul_mem_aPlaces_iff}
+
+\begin{proof}
+(a) If $p$ is inert, $I_p$ is the set of odd $e$, $v(\pi_p)=1$, and $(1-\chi_K(p^e))/2$ is $1$ for odd and $0$ for even $e$. If $p=d$, $I_p$ is the set of all $e\ge1$, and $v(\pi_p)=1/2=(1-\chi_K(d^e))/2$. If $p$ splits, $I_p$ is empty and $\chi_K(p^e)=1$ for all $e$, so both sides vanish. Every weight is at least $a/x_1$; so for $p\ge x_1$ and $y\le a$,
+$y/p^e\le a/x_1\le\kappa(u(-p^e)\sigma)$, and every term vanishes. As $g_p$ is built from $s_p(a,\cdot)$ and $s_p(\kappa(\sigma),\cdot)$ with $\kappa(\sigma)\le a$, it vanishes for split $p$ and for $p\ge x_1$.
+
+(b) The terms of $\sfin(y,\sigma)$ are indexed by the integers $\nu<x_1$ with $\LamK(\nu)\ne0$, which are prime powers $\nu=p^e$, with $\LamK(p^e)=(1-\chi_K(p^e))\log p$. Grouping them by $p$ and using (a) gives $\sfin(y,\sigma)=\sum_p2s_p(y,\sigma)\log p$, the primes $p\ge x_1$ contributing $0$; so the sum may be taken over $p<U$ for every $U\ge x_1$. Summing over
+$\tau\in\Phia$ with $y=a$ and over all $\sigma$ with $y=\kappa(\sigma)$ and the factor $k$, and multiplying by $m$, gives the identity, since $g_p=0$ unless $p$ is small non-split.
+
+(c) Put $T=4fa(\log b)^2\log x_1$. Each term $\epsilon_p\log p$ is at most $T/c$ for an integer $1\le c\le x_1$ attached to $p$, and each $c$ is attached to at most four numbers, namely $N$, $mc-1$, $c$ and $mc+1$. For the level, $c=1$: $2mfb\log N\le T$ by the sizes of \cref{prop:sizes}. For a small non-split $p\not\equiv\pm1\pmod m$, take $c=p$:
+$2\lambda_p\log p=2fa(\log b)^2\log p/p\le T/p$, as $\log p\le\log x_1$. For $p\equiv\pm1\pmod m$, write $p=mc\pm1$ with $1\le c\le p$; then $m\le2p/c$, and $2\lambda_p\log p=2mfa(\log b)^2\log p/p\le4fa(\log b)^2\log x_1/c=T/c$. For all other $p$, $\epsilon_p=0$. Hence
+\[
+  \sum_{p\in U}\epsilon_p\log p\le4T\sum_{1\le c\le x_1}\frac1c\le4T(1+\log x_1)\le fa(\log b)^3=\errunit ,
+\]
+the last inequality because $\log x_1$ is small against $\log b$ (\cref{prop:sizes}).
+
+(d) The first claim holds because the factor $m$, when present, is at least $1$. A collision $(\tau,e)$ has $p\ne d$: for $p=d$ the place $u(-d^e)\tau$ is not an $a$-place when $\tau$ is, because $-1$ and $d$ have classes of opposite type modulo $q_0$. Hence $e$ is odd, and for odd $e$ the place $u(-p^e)\tau$ is an $a$-place exactly when $o_0(p)\mid e$, as
+$u(-p^e)$ preserves the class $1$ modulo $q_0$ exactly then. If every collision has $e\ge o$, then at each of the $f$ places the collision sum is at most a geometric series with first term $a/p^o$ and ratio at most $1/2$, so $\mathrm{col}_p(\emptyset)\le2fa/p^o$. If $p\equiv\pm1\pmod m$, take $o=1$: $m\,\mathrm{col}_p(\emptyset)\le2mfa/p\le\lambda_p$, because $(\log b)^2\ge2$
+and $\lambda_p$ carries the factor $m$. Otherwise, as $p$ is not exceptional, either $\chi_K(p)=0$, so that $p=d$ and there are no collisions, or $o_0(p)$ is even, so that no odd $e$ is divisible by it and there are again no collisions, or $o_0(p)>\mathfrak r_p$, so that every collision has $e\ge\mathfrak r_p+1$. In the last case $\mathrm{col}_p(\emptyset)\le2fa/p^{\mathfrak r_p+1}\le2fa/(mp)$,
+since $p^{\mathfrak r_p}\ge m$, and $m\,\mathrm{col}_p(\emptyset)\le2fa/p\le\lambda_p$.
+\end{proof}
+
+\subsection{Chains as plain sums}\label{ss:chains-plain}
+For a weak chain datum $\Psi$ (\cref{def:chain-datum}) the \emph{restricted chain} $R_{\vartheta,\Psi}$ is the combination, with
+coefficients $\Psi(x)$, of the chains of the $m$ single lifts $X_0\to\dots\to X_m$ with data the translated vacua of $x$, followed by
+the restriction to $Y_m$.
+\lean{New.Data.restrictedChain, New.Data.chainCombination, New.Data.translateDatum}
+
+\begin{proposition}[Expanding the gluing]\label{prop:expand-gluing}
+Let $\Psi$ be a chain datum for a twist $\vartheta$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The glued tensor of $\Psi$ is $\sum_x\sum_y\Psi(x)\bigotimes_j\varrho(x_j+c_j(y))\mathrm{vac}_j$, where $y$ runs over the gluing classes
+(a residue modulo $N$ for each double lift, middle index and place above $\pi_N$), at most $N^{fmn_m/2}$ of them, and the tuples
+$c(y)$ vanish off the places above $N$.
+\item Hence there is a weak chain datum $\Psi'$ with $B_{\vartheta,\Psi}=R_{\vartheta,\Psi'}$ on all source forms.
+\item The projection on the vacuum above $N$ takes the glued tensor to the plain tensor; so the plain tensor of $\Psi$ is jointly
+invariant and $\Psi$ itself is a weak chain datum.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.IsChainDatum.gluedTensor_eq_sum_translates, New.Data.IsChainDatum.exists_isWeakChainDatum_compositeLift_eq, New.Data.IsChainDatum.isInvariant_plainTensor, New.Data.IsChainDatum.isWeakChainDatum, New.Data.GluingClasses, New.Data.gluingTuple, New.Data.gluingTuple_two_mul, New.Data.gluingTuple_two_mul_add_one, New.Data.gluingTuple_mem_supportedTranslations, New.Data.card_gluingClasses_le, New.Data.ungluedVacuum, New.Data.plainTensor_eq_sum_ungluedVacuum, New.Data.gluedVacuum_eq_sum_translates, New.Data.add_mem_admissibleTranslations_mul_N, New.Data.isAdmissibleCombination_sum_ungluedVacuum, New.Data.isJointlyInvariant_of_plainTensor, New.Data.TameChar.normQ_notMem_of_N_mem, New.Data.TameChar.M_mul_normQ_notMem_of_N_mem, New.Data.vacuumProjFinPart_translateDatum, New.Data.eq_zero_of_poleColumn_mem_integralBox, New.Data.vacuumProjFinPart_gluedDoubleLiftDatum, New.Data.heisenbergFinPart_translateDatum_of_disjoint, New.Data.gluedDoubleLiftDatum_translateDatum}
+
+\begin{proof}
+(a) The translations of the support vanish at the places prime to $Mq$, hence above $N$, because no place above $N$ divides $M$ or $q$. The gluing of the double lift $i$ is the sum over the vectors $y$ on $X_{2i+1}$, with a residue modulo $N$ at each place $w\mid\pi_N$, of the translates of $\Phi_{2i}\otimes\Phi_{2i+1}$ by the matrix with last column $-y/N$ and by its conjugate last row
+(\cref{ss:composite-lift}). For a translated vacuum $\varrho(x_j)\mathrm{vac}_j$ with $x_j$ vanishing above $N$, translating further by a matrix supported above $N$ gives the translate by the sum, with no phase, because the Heisenberg cocycle of two vectors with disjoint supports is $1$. Expanding each of the $m/2$ gluings and the tensor product of the sums gives
+the formula, with $c(y)$ the tuple that has the last column $-y_i/N$ in the factor $2i$, the conjugate last row in the factor $2i+1$, and $0$ elsewhere. Each double lift has at most $N^{fn_m}$ classes (a residue modulo $N$ at each of the $f$ places dividing $\pi_N$ for each of at most $n_m$ indices), so there are at most $N^{fmn_m/2}$ classes in all.
+
+(b) Collect the terms of (a): $\Psi'(z)=\sum_{x+c(y)=z}\Psi(x)$. Its support consists of tuples $x+c(y)$, which are admissible for $qN$, because $c(y)$ vanishes at the places not above $N$; its values are sums of values of $\Psi$, hence integral away from $q$, and if $Q=\emptyset$, its absolute sum is at most $N^{fmn_m/2}$ times that of $\Psi$, which is at most
+$\exp(x^{60})$ by \cref{prop:sizes}. The plain tensor of $\Psi'$ is the glued tensor of $\Psi$, which is jointly invariant, so $\Psi'$ is a weak chain datum, and $B_{\vartheta,\Psi}=R_{\vartheta,\Psi'}$ because the two chains have the same tensor of data.
+
+(c) The projection on the vacuum above $N$ is the mean of the Heisenberg translations by the integral vectors supported above $N$. It fixes $\varrho(x_j)\mathrm{vac}_j$ when $x_j$ is integral above $N$, since these translations then commute with $\varrho(x_j)$ up to the cocycle, which is $1$, and fix the vacuum. It kills a translate by a matrix with a pole above
+$N$: if the column $-y/N$ is integral at the places above $N$, then $y=0$. Hence in the expansion (a) only the term $y=0$ survives, and the projection takes the glued tensor to the plain tensor. The levels are integral above $N$, so their actions commute with the projection; hence the plain tensor is jointly invariant, and $\Psi$ is a weak chain datum.
+\end{proof}
+
+\begin{proposition}[Gauges of chains]\label{prop:chain-gauge}
+Let $\Psi$ be a weak chain datum for $\vartheta$, with $p\nmid\Nm Q(\vartheta)$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If the tensor $\sum_x\Psi(x)\bigotimes_j\Phi_{x,j}$ is jointly invariant, the value at $g_m$ of its chain on a source form $\varphi$ is the sum,
+over tuples of classes of the levels and over $x$, of $\Psi(x)$ times the kernel product (\cref{prop:chains}(c)).
+\item Let $t_j$ be operators on the data commuting with the actions of the levels, and $d_j$ base points. If each
+$t_j(\varrho(x_j)\mathrm{vac}_j)$ raises gauges from $d_j$ to $d_{j+1}$ by at most $p^{r_j}$ and $\varphi$ has gauge at most $1$ at $d_0$, the chain with
+data $t_j(\varrho(x_j)\mathrm{vac}_j)$ has gauge at most $p^{\sum_jr_j}$ at $d_m$.
+\item For $p\ne N$ restriction to $Y_m$ does not increase gauges; for every $\sigma$ it multiplies squared norms by at most
+$\exp(x^{70})N^{-\sum_\tau n_\tau}$.
+\item For $p\ne N$ the translated vacua of the support are standard data of level $\bar\pi_M$ at $p$ (of every level if $p\nmid M$).
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.chainCombination_eq_sum, New.Data.gaugeLe_chainCombination, New.Data.IsWeakChainDatum.gaugeLe_chain, New.Data.GaugeLe.restrictToY, New.Data.GaugeLe.restrictToY_of_diag, New.Data.weylNormSq_restrictToY_le, New.Data.IsWeakChainDatum.translateDatum_mem_standardData, New.Data.natCast_notMem_and_star_notMem_piNPlaces_of_ne, New.Data.mem_integralAfter_of_mem_admissibleTranslations, New.Data.projOn_translateDatum, New.Data.exists_supported_translateDatum_eq, New.Data.norm_star_piMBar_le_one, New.Data.weylGauge_le_one_iff_mem_span}
+
+\begin{proof}
+(a) The levels of the stages $j<m$ are free, so by \cref{prop:chains}(c) the value of the chain at $g_m$ is the sum over tuples of double cosets of the kernel products applied to the value of $\varphi$ at the first point; the chain is linear in the tensor, which gives the sum over $x$ with the coefficients $\Psi(x)$.
+
+(b) The changed data $t_j(\varrho(x_j)\mathrm{vac}_j)$ form again a jointly invariant tensor, because the $t_j$ commute with the actions of the levels: apply the invariance of the original tensor to the image under $\bigotimes_jt_j$. Hence (a) applies to the changed chain. In each kernel product the factors raise gauges from $d_j$ to $d_{j+1}$ by at most $p^{r_j}$, and the
+value of $\varphi$ has gauge at most $1$ at $d_0$; so the product has gauge at most $p^{\sum_jr_j}$ at $d_m$. The coefficients $\Psi(x)$ are integral at $p$, as $p\nmid\Nm Q(\vartheta)$, and the gauge is ultrametric, so the whole sum obeys the same bound.
+
+(c) The restriction is $\prod_\tau\Phi_\tau(\bar\pi_N)^{-n_\tau}$ times the branching map applied to the values at $\mathrm{diag}(h,1)$. The branching map has integral entries (\cref{thm:B-branching}), so it does not increase gauges, and it intertwines the action of $\mathrm{diag}(g,1)$ with that of $g$; for $p\ne N$ the number $\iota\Phi_\tau(\bar\pi_N)$ is a $p$-adic unit,
+because $\pi_N\bar\pi_N=N$. Hence a bound on the gauges of a form at every point gives the same bound for its restriction. For the norms, $\abs{\sigma\Phi_\tau(\bar\pi_N)}^2=N$ for every $\sigma$, so the scalar has squared modulus $N^{-\sum_\tau n_\tau}$, and the branching matrix, which commutes with $\sigma$ as its entries are integers, multiplies squared Gram norms by at
+most $\exp(x^{70})$ (\cref{prop:branching}).
+
+(d) The support condition of a weak chain datum says that $\bar\pi_Mx_j$ is integral at the places prime to $qN$; for $p\ne N$ with $p\nmid q$ the places above $p$ are among them. Hence $\varrho(x_j)\mathrm{vac}_j$ is a translate of the integral vacuum by a vector that $\bar\pi_M$ makes integral above $p$, a standard datum of level $\bar\pi_M$. If $p\nmid M$, then
+$\bar\pi_M$ is a unit above $p$, so $x_j$ is integral there and the datum is standard of every level.
+\end{proof}
+
+\subsection{The divisibility bound of one lift}\label{ss:one-lift-divisibility}
+For $j<m$ and a set $S$ of places, the \emph{divisibility bound} $\beta_p(j,S)$ is the predicted divisibility $D_p$ of the diagrams
+of stage $j$ (read at heights below $n_{j+1}$) with the columns of height one at the places of $S$ removed, plus $\gamma_p$ for each
+removed box, minus $fn_{j+1}^3(1+\log_p\max(B,1))$, $B$ the number of boxes before the removal. Let $c_j(\tau)$ and $l_j(\tau)$ be the
+numbers of columns of height below $n_{j+1}$ and different from $1$ at $\tau$, and of boxes in them.
+\lean{New.Data.divisibilityBound, New.Data.lowColumns, New.Data.lowBoxes, New.Data.longRow, New.Data.partnerTerm, New.Data.summable_partnerTerm, New.Data.heightOneColumns_eraseHeightOne, New.Data.lowColumnCount_eraseHeightOne, New.Data.lowBoxCount_eraseHeightOne}
+
+\begin{theorem}[Only collisions lose]\label{thm:only-collisions}
+Let $p$ be small non-split and $j<m$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A standard datum of level one at $p$ raises gauges by at most $p^{-\beta_p(j,\emptyset)}$ under the kernel of lift $j+1$.
+\item For every set $S$ of places,
+\[
+  \beta_p(j,S)\ \ge\ \frac{g_p}m-\mathrm{col}_p(S)+v(\pi_p)\,\#(\Phia\cap S)\frac a{x_1}-\frac{fa(\log b)^2}{mp}.
+\]
+\end{enumerate}
+\end{theorem}
+\lean{New.Data.le_divisibilityBound, New.Data.mem_raises_neg_divisibilityBound, New.Data.localPrimeSum_add_le_mul_tsum_partnerTerm_add, New.Data.sub_le_predictedDivisibility, New.Data.gammaPrime_mul_lowColumns_le, New.Data.posPart_sub_weight_le_posPart_longRow, New.Data.mul_posPart_weight_le, New.Data.min_longRow_add_lowColumns_add_min_lowBoxes_le, New.Data.boxes_eq_aPlaces_add_low, New.Data.boxes_sub_boxes_eraseHeightOne, New.Data.one_add_logb_boxes_le, New.Data.lowColumns_le, New.Data.lowBoxes_le, New.Data.mul_weight_le_lowBoxes, New.Data.lowColumns_lowBoxes_bounds, New.Data.k_mem_range_n_succ}
+
+\begin{proof}
+(a) The datum is standard of level one at $p$, and the weight of lift $j+1$ has the diagrams of stage $j$ read at heights below $n_{j+1}$; \cref{thm:one-lift-gauge}(d) gives the bound $p^{-D_p+fn_{j+1}^3(1+\log_p\max(B,1))}=p^{-\beta_p(j,\emptyset)}$.
+
+(b) Put $u=a/(pm)$, $v=v(\pi_p)\in(0,1]$, $L=\ell_S$ the long row ($a$ at the $a$-places outside $S$, $0$ elsewhere), $c=c_j$ and $l=l_j$. By the definition of $D_p$ (\cref{thm:count}), the predicted divisibility of the reduced diagrams is $v\sum_\tau\sum_{e\in I_p}t_e(\tau)$, less a correction of at most $2u$ per place when $p=d$, where
+\[
+  t_e(\tau)=\Bigl(\frac{L(\tau)}{p^e}-L(\tau')-c(\tau')\Bigr)_{\!+}+\Bigl(\frac{l(\tau)}{p^e}-l(\tau')\Bigr)_{\!+}-\frac{c(\tau)}{p^e},
+  \qquad\tau'=u(-p^e)\tau .
+\]
+Two facts on the diagrams are used: $c(\sigma)\le\kappa(\sigma)+x^{60}$ (there are about $\kappa(\sigma)$ columns of height $k$ and at most the gap of every other height, \cref{prop:weights-X}(a), (b)), and $k\kappa(\sigma)\le l(\sigma)\le k\kappa(\sigma)+x^{60}$.
+
+\emph{One place.} Fix $\tau$; its share in $g_p/m$ is $\mathbf1_{\Phia}(\tau)s_p(a,\tau)+ks_p(\kappa(\tau),\tau)$, and both are $v$ times series over $e\in I_p$. Compare term by term. For $e$ with $p^e\ge x_1$ the terms of the share vanish by \cref{prop:gains}(a), and $t_e(\tau)\ge-c(\tau)/p^e$. For $p^e<x_1$:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item For an $a$-place $\tau$, $(a/p^e-\kappa(\tau'))_+\le(L(\tau)/p^e-L(\tau')-c(\tau'))_++x^{60}$, plus $a/p^e$ if $\tau\in S$ or $(\tau,e)$ is a collision. Indeed, if $\tau\notin S$ and $\tau'$ is not an $a$-place outside $S$, then $L(\tau)=a$, $L(\tau')=0$ and $c(\tau')\le\kappa(\tau')+x^{60}$; if $\tau'$ is an $a$-place outside $S$, the pair is a collision and $a/p^e$
+bounds the left side; and if $\tau\in S$, again $a/p^e$ bounds it. For $\tau\in S$ and $e=1$ the bound holds even with $a/x_1$ added to the left side, because $\kappa(\tau')\ge a/x_1$ and $p<x_1$.
+\item $k(\kappa(\tau)/p^e-\kappa(\tau'))_+\le(l(\tau)/p^e-l(\tau'))_++x^{60}$, by the bounds for $l$.
+\end{enumerate}
+Summing over $e$, the terms $-c(\tau)/p^e$ give $-c(\tau)\gamma_p/v$, and $\gamma_pc(\tau)\le u$ because $c(\tau)$ is small against $a/m$; the terms $a/p^e$ for $\tau\in S$ give $\gamma_pa/v$; the errors $x^{60}$ occur for at most $\lceil\log_px_1\rceil$ exponents, and $2v\lceil\log_px_1\rceil x^{60}\le u$. Hence
+\begin{align*}
+  &\mathbf1_{\Phia}(\tau)s_p(a,\tau)+ks_p(\kappa(\tau),\tau)+v\,\mathbf1_{\Phia\cap S}(\tau)\frac a{x_1}\\
+  &\qquad\le v\sum_et_e(\tau)+\gamma_pa\,\mathbf1_{\Phia\cap S}(\tau)+\sum_{e\colon(\tau,e)\text{ collision}}\frac a{p^e}+2u ,
+\end{align*}
+where a collision costs at most $v\le1$ times its term.
+
+\emph{All places.} Summing over $\tau$ gives $g_p/m+v\,\#(\Phia\cap S)\,a/x_1\le v\sum_{\tau,e}t_e(\tau)+\gamma_pa\,\#(\Phia\cap S)+\mathrm{col}_p(S)+2fu$. The removed boxes are the $a$ boxes at each $a$-place of $S$, so $\beta_p(j,S)$ contains $\gamma_pa\,\#(\Phia\cap S)$; its predicted divisibility is at least $v\sum t_e-2fu$, and its
+logarithmic term is at most $fu$, because $1+\log_p\max(B,1)\le(\log b)^2$ and $n_{j+1}^3(\log b)^2\le u$ by \cref{prop:sizes}. Therefore
+\[
+  \beta_p(j,S)\ge\frac{g_p}m-\mathrm{col}_p(S)+v\,\#(\Phia\cap S)\frac a{x_1}-5fu ,
+\]
+and $5fu\le fa(\log b)^2/(mp)$ because $(\log b)^2\ge5$.
+\end{proof}
+
+\begin{proposition}[Non-split primes that are not exceptional]\label{prop:nonexceptional}
+Let $\Psi$ be a weak chain datum for $\vartheta$ with $p\nmid\Nm Q(\vartheta)$, and $v$ an integral source form.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $p\ne N$ and $p\ne d$, then $R_{\vartheta,\Psi}v$ is integral.
+\item If $p$ is small non-split, $R_{\vartheta,\Psi}v$ has valuation at least $g_p-\lambda_p-m\,\mathrm{col}_p(\emptyset)$, and
+$R_{\vartheta,\Psi}(p^{j_p}v)$ has valuation at least $g_p-\lambda_p$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.IsWeakChainDatum.gaugeLe_restrictedChain_of_mem_raises, New.Data.IsWeakChainDatum.gaugeLe_restrictedChain_one, New.Data.IsWeakChainDatum.gaugeLe_restrictedChain_collisionSum, New.Data.IsWeakChainDatum.gaugeLe_pow_collisionExponent_smul}
+
+\begin{proof}
+(a) By \cref{prop:chain-gauge}(d) the data are standard of level $\bar\pi_M$ at $p$, and the kernels have the scale $\pi_M\mathsf a$. By \cref{thm:one-lift-gauge}(c), each lift raises gauges by at most $\bigl(\abs{\iota\pi_M}/\abs{\iota(\pi_Md)}\bigr)^L=\abs{\iota d}^{-L}$, which is $1$ since $p\ne d$. With all $r_j=0$, \cref{prop:chain-gauge}(b) bounds the chain by $1$ at the base point $1$,
+and \cref{prop:chain-gauge}(c) passes the bound to the restriction.
+
+(b) The chosen primes $p_0$, $p_1$ split in $K$, so a small non-split $p$ does not divide $M$, and by \cref{prop:chain-gauge}(d) the data are standard of level one. By \cref{thm:only-collisions}(a) lift $j+1$ raises valuations by $\beta_p(j,\emptyset)$, and by \cref{thm:only-collisions}(b) with $S=\emptyset$,
+\[
+  \sum_{j<m}\beta_p(j,\emptyset)\ge g_p-m\,\mathrm{col}_p(\emptyset)-\frac{fa(\log b)^2}p\ge g_p-\lambda_p-m\,\mathrm{col}_p(\emptyset),
+\]
+using \cref{prop:gains}(d) for the last step. \Cref{prop:chain-gauge}(b),(c) give the first claim. For the second, every collision has $e\ge1$, so $\mathrm{col}_p(\emptyset)\le2fa/p$ by the geometric bound in the proof of \cref{prop:gains}(d); hence $m\,\mathrm{col}_p(\emptyset)\le j_p$, and the factor $p^{j_p}$ pays for it.
+\end{proof}
+
+\subsection{Exceptional primes: marks and Hecke operators}\label{ss:marks}
+Let $p<x_1$ be exceptional. Each infinite place $\tau$ induces through $\iota$ a prime $w_\tau$ of $E$ above $p$. A \emph{marked set} is a
+finite set $\Lambda$ of primes, disjoint from its conjugate, each induced by an $a$-place; a \emph{full mark} contains $w_\tau$ or $\bar w_\tau$
+for every $a$-place $\tau$. For $\mathfrak l\in\Lambda$ put $A_{\mathfrak l}=a\cdot\#\{\tau\in\Phia:w_\tau=\mathfrak l\}$ and let $T_{\mathfrak l}$ be the Hecke
+operator at $\mathfrak l$ of the double coset of $\mathrm{diag}(\varpi1_{\mathfrak r_p},1)$; the \emph{scaled Hecke operator} is
+$Y_{\mathfrak l}=p^{A_{\mathfrak l}}T_{\mathfrak l}$ on $\mathcal S$, and $Y_\Lambda=\prod_{\mathfrak l\in\Lambda}Y_{\mathfrak l}$.
+\lean{New.Data.inducedPlace, New.Data.IsMarked, New.Data.IsFullMark, New.Data.placesInducing, New.Data.placesInducingConj, New.Data.heckeScalingExponent, New.Data.sum_heckeScalingExponent, New.Data.IsMarked.scaledHeckeOperator, New.Data.IsMarked.maxCompactAt_le_levelX}
+
+\begin{lemma}[Orbits at exceptional primes]\label{lem:exceptional-orbits}
+Let $p<x_1$ be exceptional and $o$ the order of $u(-p)$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $o_0(p)$ is odd, $o_0(p)\le\mathfrak r_p$, $m\mid o$, every prime $w$ above $p$ has norm $p^o$ and $\bar w\ne w$, and for odd $e$ the place
+$u(-p^e)\tau$ induces $\bar w_\tau$.
+\item A full mark exists. A marked set has at most $f$ elements, and its primes do not divide $MN$.
+\item For an $a$-place $\tau$, the $a$-places that induce $w_\tau$ or $\bar w_\tau$ form one orbit under $u(-p^{o_0(p)})$, which alternates between $w_\tau$
+and $\bar w_\tau$.
+\item For a full mark, no collision lies outside the places inducing $\Lambda$; and for $j<m$
+\[
+  \#\Lambda\,\nu_p+\mathfrak r_p\sum_{\sigma\ \text{inducing}\ \Lambda}c_j(\sigma)\le\frac{\lambda_p}m+\#(\Phia\cap\{\text{places inducing }\Lambda\})\frac a{x_1}.
+\]
+\end{enumerate}
+\end{lemma}
+\lean{New.Data.HasExceptionalOrbits, New.Data.IsExceptional.hasExceptionalOrbits, New.Data.IsExceptional.chiK_eq_neg_one, New.Data.IsExceptional.odd_o₀, New.Data.ceilLogLifts_le_towerExp, New.Data.ceilLogLifts_le_l₀, New.Data.two_pow_dvd_right_of_dvd_mul, New.Data.IsExceptional.m_dvd_orderOf, New.Data.IsExceptional.q_eq_pow_orderOf, New.Data.IsExceptional.star_ne, New.Data.IsSmallNonsplit.not_dvd_M_mul_N, New.Data.p_mem_inducedPlace, New.Data.inducedPlace_mul, New.Data.inducedPlace_neg_pow_mul_of_odd, New.Data.exists_isFullMark, New.Data.inducedPlace_eq_or_star_iff, New.Data.IsMarked.card_le, New.Data.IsMarked.not_dvd_M_mul_N, New.Data.IsMarked.inducedPlace_placeOfInt_neg_mul, New.Data.IsMarked.neg_pow_mul_mem_placesInducing_iff, New.Data.IsMarked.neg_pow_mul_mem_placesInducingConj_iff, New.Data.IsMarked.notMem_bPlaces, New.Data.IsMarked.cast_weight_eq, New.Data.IsMarked.sum_inducedPlace_eq_sum_star, New.Data.IsMarked.sum_placesInducing_eq_sum_placesInducingConj, New.Data.IsMarked.sum_inducedPlace_sub_star_eq_zero, New.Data.IsMarked.natCast_mem_asIdeal, New.Data.IsMarked.valuation_natCast_eq_exp_neg_one, New.Data.IsMarked.isSplit, New.Data.exists_orbit_of_mem_aPlaces, New.Data.IsFullMark.collisionSum_placesInducing_eq_zero, New.Data.IsMarked.card_mul_transferExponent_add_sum_lowColumns_le}
+
+\begin{proof}
+(a) That $o_0(p)$ is odd and at most $\mathfrak r_p$ is the definition. The number $m$ is a power of $2$ with $m^{22}=2^s$, $s$ the tower exponent, and $\mathfrak r_p\le s$ since $m\le2^s$. The group of places is $(\Z/q_1)^\times$ with $2^{s+1}\mid q_1$, so $(-p)^o\equiv1$ modulo $2^{s+1}$ for the order $o$ of $u(-p)$, and lifting the exponent gives
+$2^s\mid(p\pm1)o$ for one of the signs. As $m\nmid p\pm1$, the $2$-adic valuation of $p\pm1$ is less than that of $m$, which is less than $s/2$; hence $m\mid o$. By \cref{prop:decomposition} the primes above the inert prime $p$ are permuted by the group of places, $u(-p)$ acting as the Frobenius composed with complex conjugation; so $w_{u(-p^e)\tau}$ is $\bar w_\tau$
+for odd $e$ and $w_\tau$ for even $e$, and the residue field of $w$ has $p^o$ elements. If $\bar w=w$, then the identity would be an odd power of $u(-p)$, so $o$ would be odd; but $m\mid o$ and $m$ is even.
+
+(b) Fix a linear order on the primes above $p$, and let $\Lambda$ consist of the primes induced by $a$-places that are smaller than their conjugates. It is disjoint from its conjugate, and since $\bar w_\tau\ne w_\tau$, for every $a$-place $\tau$ one of $w_\tau$, $\bar w_\tau$ lies in $\Lambda$; the conjugate is also induced by an $a$-place, namely $u(-p^{o_0})\tau$, which is an $a$-place
+because $o_0$ is odd and $u(-p^{o_0})$ preserves the class $1$ modulo $q_0$. A marked set has at most $f$ elements, each being induced by one of the $f$ places, and its primes lie above $p<x_1$, while the prime factors of $MN$ are at least $x_1$.
+
+(c) Two places induce the same prime or conjugate primes exactly when they differ by a power of $u(-p)$: even powers fix a prime above $p$ and odd powers conjugate it. The place $u(-p)^i\tau$ is an $a$-place exactly when $o_0\mid i$. Hence the $a$-places inducing $w_\tau$ or $\bar w_\tau$ are the $u(-p)^{o_0i}\tau=u(-p^{o_0})^i\tau$, one orbit, and since $o_0$ is odd the
+induced primes alternate between $w_\tau$ and $\bar w_\tau$.
+
+(d) Let $(\tau,e)$ be a collision outside the places inducing $\Lambda$. Then $\tau$ is an $a$-place inducing no prime of $\Lambda$, so it induces the conjugate of one, as $\Lambda$ is full; $e$ is odd, so $u(-p^e)\tau$ induces a prime of $\Lambda$, against the assumption. For the inequality, a place $\sigma$ inducing a prime of $\Lambda$ is not a $b$-place: it lies on the orbit of an
+$a$-place under $u(-p)$, and $(-p)^i\equiv-1$ modulo $q_0$ would give $1\equiv-1$ after raising to the odd power $o_0$. Hence $\kappa(\sigma)=a/x_1$ and $c_j(\sigma)\le a/x_1+x^{60}$. If $p\le m$, then $\mathfrak r_pc_j(\sigma)\le a/(pm)$ by \cref{prop:sizes}. If $p>m$, then $\mathfrak r_p=1$, hence $o_0=1$, and every place on the orbit of an $a$-place under $u(-p)$ is an
+$a$-place; so $\sigma$ is an $a$-place and $\mathfrak r_pc_j(\sigma)\le a/x_1+a/(pm)$. Summing over the at most $f$ places $\sigma$ and adding $\#\Lambda\nu_p\le f\nu_p$,
+\[
+  \#\Lambda\nu_p+\mathfrak r_p\sum_\sigma c_j(\sigma)\le f\nu_p+\frac{fa}{pm}+\#(\Phia\cap\{\text{places inducing }\Lambda\})\frac a{x_1},
+\]
+and $f\nu_p+fa/(pm)\le fa(\log b)^2/(mp)\le\lambda_p/m$, because $f^2\mathfrak r_p(n_m+\mathfrak r_p)p$ is small against $fa(\log b)^2/m$ (\cref{prop:sizes}).
+\end{proof}
+
+\begin{theorem}[Hecke operators pass through the lifts]\label{thm:hecke-transfer}
+Let $\Psi$ be a weak chain datum for a twist $\vartheta$ with $p\nmid\Nm Q(\vartheta)$, $\Lambda$ a marked set, $\mathfrak l\in\Lambda$ of norm $z^2$, and
+$\Theta$ the lift from $X_e$ to $X_{e+1}$ with a datum of the support.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The datum is fixed by the maximal compact subgroup at $\mathfrak l$, so $\Theta$ maps forms spherical at $\mathfrak l$ to such forms; and
+for $i\le n_e$, $z^{(t+1)i}\Nm\mathfrak l^{\binom i2}\,\Theta\circ T_{\mathfrak l,i}$ is a combination of the $T_{\mathfrak l,i'}\circ\Theta$, $i'\le i$, with
+$p$-integral coefficients independent of the datum.
+\item For $i\le\mathfrak r_p$ the same holds with the factor $p^{f\mathfrak r_pt}$, and for the chain $C_e$ of the first $e$ lifts,
+$p^{ef\mathfrak r_pt}C_e\circ T_{\mathfrak l,\mathfrak r_p}$ is a combination of the $T_{\mathfrak l,i}\circ C_e$, $i\le\mathfrak r_p$.
+\item There are numbers $c_i$, $p$-integral if $e<m$, with $\sum_{i\le\mathfrak r_p}c_iT_{\mathfrak l,i}\circ C_{e+1}=p^{\nu_p}C_{e+1}\circ T_{\mathfrak l,\mathfrak r_p}$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Data.IsWeakChainDatum.exists_sum_heckeSplit_lift_eq_smul, New.Data.IsWeakChainDatum.exists_sum_heckeSplit_lift_eq_pow_smul, New.Data.IsWeakChainDatum.exists_sum_heckeSplit_chain_eq_pow_smul, New.Data.IsWeakChainDatum.exists_hecke_transfer, New.Data.IsWeakChainDatum.exists_heckePolyOp_lift, New.Data.heckePolyOp_mul_apply, New.Data.pow_mul_pow_choose_two_dvd, New.Data.mul_le_transferExponent, New.Data.IsWeakChainDatum.liftKernel_omega_translateDatum_of_mem_maxCompactAt, New.Data.IsWeakChainDatum.projOn_translateDatum_eq_self, New.Data.IsMarked.notMem_asIdeal, New.Data.IsMarked.charUnramifiedAt_rankTwist, New.Data.IsMarked.norm_baseChange_atUniformizer, New.Data.IsMarked.exists_q_eq_sq, New.Data.liftTargetRep, New.Data.liftKernel_omega_heckeSplit, New.Data.liftKernel_lift_heckeSplit}
+
+\begin{proof}
+(a) \emph{Sphericity.} A prime $\mathfrak l$ of $\Lambda$ lies above $p$, so it contains none of $\Nm Q(\vartheta)$, $\pi_M$, $\bar\pi_M$ and $N$; the translations of the support are integral at $\mathfrak l$ and $\bar{\mathfrak l}$, which are neither chosen places nor places of $Q$, so the datum is the vacuum at $\mathfrak l$. The tame parts of the characters are trivial at $\mathfrak l$ and
+$\bar{\mathfrak l}$, so the base changes of the characters are unramified there, and an element of the maximal compact subgroup at $\mathfrak l$ acts on the vacuum by a character of its determinant that is $1$. Hence the datum is fixed by this subgroup, and $\Theta$ maps forms spherical at $\mathfrak l$ to such forms. The prime $\mathfrak l$ is split, so the local unitary
+groups are general linear groups, and its norm is $p^o$ with $o$ even, so $\Nm\mathfrak l=z^2$ with $z=p^{o/2}$.
+
+\emph{Hecke polynomials.} Let $H(U)=\sum_i(-U)^i\Nm\mathfrak l^{\binom i2}T_{\mathfrak l,i}$ and $H'(U)$ the same for the target. The value of the base change of the character of the lift at a uniformiser at $\mathfrak l$ is a $p$-adic unit: its norm is $p$ to the sum of $-\kappa_j(\tau)$ over the places $\tau$ inducing $\mathfrak l$ and of $\kappa_j(\tau)$ over those inducing
+$\bar{\mathfrak l}$, and this sum is $0$, because multiplication by $u(-p)$ carries the places inducing $\mathfrak l$ onto those inducing $\bar{\mathfrak l}$ and preserves the lift weights there. On the vacuum the Hecke operators of the two groups count subspaces of the kernels of an integral matrix and of its transpose modulo $\mathfrak l$, and the $q$-binomial theorem
+gives the unramified correspondence (\cref{ss:B-hecke-transfer}) in the form
+\[
+  H'(U)\,\Theta\varphi=R(U)\,\Theta\bigl(H(z^{t+1}U)\varphi\bigr)
+\]
+for spherical $\varphi$, with a polynomial $R$, $R(0)=1$, whose coefficients are $p$-integral and do not depend on the datum; the ranks are even, so both characters are the base change of the character of the lift.
+
+\emph{Comparing coefficients.} Divide by $R$ in power series; $R^{-1}$ has $p$-integral coefficients since $R(0)=1$. The coefficient of $U^i$ on the right is $(-z^{t+1})^i\Nm\mathfrak l^{\binom i2}\,\Theta T_{\mathfrak l,i}\varphi$, and on the left it is $\sum_{i'\le i}b_{ii'}(-1)^{i'}\Nm\mathfrak l^{\binom{i'}2}T'_{\mathfrak l,i'}\Theta\varphi$, where $b_{ii'}$ is the
+coefficient of degree $i$ of $R^{-1}U^{i'}$. Only $i'\le i$ contribute, and the coefficients are $p$-integral and independent of the datum; this is (a).
+
+(b) With $z=p^h$ and $2h\le f$, the factor of (a) is $z^{(t+1)i}\Nm\mathfrak l^{\binom i2}=p^{hi(t+i)}$, and for $i\le\mathfrak r_p\le t$ (\cref{prop:sizes}) the exponent $hi(t+i)\le\frac f2\mathfrak r_p\cdot2t=f\mathfrak r_pt$; multiplying the identity of (a) by $p^{f\mathfrak r_pt-hi(t+i)}$ gives the factor $p^{f\mathfrak r_pt}$. For the chain, induct on $e$: apply the next lift $\Theta$ to the
+identity for $e$ lifts, multiply by $p^{f\mathfrak r_pt}$, and move each $T_{\mathfrak l,i}$, $i\le\mathfrak r_p$, through $\Theta$ by the identity for one lift; the chain of $e+1$ lifts is $\Theta$ after the chain of $e$ lifts.
+
+(c) For $e+1\le m$ the exponent satisfies $(e+1)f\mathfrak r_pt\le mf\mathfrak r_pt\le\mathfrak r_pf(n_m+\mathfrak r_p)=\nu_p$, as $mt\le n_m$. Multiplying the identity of (b) for $e+1$ lifts by $p^{\nu_p-(e+1)f\mathfrak r_pt}$, an integral power of $p$ when $e<m$, gives the numbers $c_i$.
+\end{proof}
+
+\begin{theorem}[Valuation on the image of the Hecke operators]\label{thm:marked-valuation}
+Let $\Psi$, $\vartheta$, $p$ be as in \cref{thm:hecke-transfer}, $p$ exceptional, and $\Lambda$ marked.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $\phi$ be a standard datum of level one, and let $g$ lie, at each $\mathfrak l\in\Lambda$, in the double coset of $\mathrm{diag}(\varpi1_i,1)$ for some $i\le\mathfrak r_p$.
+Then the kernel of $\omega(1,g)\phi$ raises gauges by at most $p^{\sum_{\mathfrak l\in\Lambda}A_{\mathfrak l}+\ell(\Lambda,j)}$, where the \emph{lift loss} is
+\[
+  \ell(\Lambda,j)=\mathfrak r_p\sum_{\sigma\ \text{inducing}\ \Lambda}c_j(\sigma)-\beta_p(j,S_\Lambda),
+\]
+$S_\Lambda$ denoting the set of places inducing a prime of $\Lambda$.
+\item For an integral source form $v$, $R_{\vartheta,\Psi}(Y_\Lambda^mv)$ has gauge at most $p^{\sum_{j<m}(\#\Lambda\nu_p+\ell(\Lambda,j))}$.
+\item If $\Lambda$ is a full mark, $R_{\vartheta,\Psi}(Y_\Lambda^mv)$ has valuation at least $g_p-2\lambda_p$; and for a chain datum, $B_{\vartheta,\Psi}\varphi$ has valuation at
+least $g_p-2\lambda_p$ for every $\varphi\in Y_\Lambda^m\mathcal S^{\rm int}+p^{j_p}\mathcal S^{\rm int}$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Data.liftLoss, New.Data.IsMarked.ω_ofSplitPlaces_mem_raises, New.Data.IsMarked.ω_heckeSplit_mem_raises, New.Data.IsWeakChainDatum.exists_lift_eq_chain_scaledHeckeOperator, New.Data.IsWeakChainDatum.gaugeLe_scaledHeckeOperator_pow, New.Data.IsWeakChainDatum.gaugeLe_restrictedChain_of_isFullMark, New.Data.IsChainDatum.gaugeLe_compositeLift_of_isFullMark, New.Data.markedIndices, New.Data.neighborExponent, New.Data.neighborCharge, New.Data.neighborDiagonal, New.Data.sum_card_boxes_le, New.Data.IsMarked.neighborCharge_ne_zero_or_partner, New.Data.IsMarked.exists_eq_mul_neighborDiagonal_mul, New.Data.IsMarked.map_ofSplitPlaces_neighborDiagonal, New.Data.IsMarked.sum_neighborExponent_mul_lastEntry_eq_zero, New.Data.IsMarked.sum_neighborExponent_add_neighborCharge_le}
+
+\begin{proof}
+(a) \emph{Neighbours.} At each $\mathfrak l\in\Lambda$ the component of $g$ lies in the double coset of $\mathrm{diag}(\varpi1_i,1)$ with $i\le\mathfrak r_p$, and $p$ is a uniformiser at $\mathfrak l$; so up to integral invertible factors on both sides, $g$ is the diagonal element $\delta$ with entry $p$ at a set $J_{\mathfrak l}$ of at most $\mathfrak r_p$ indices at $\mathfrak l$, entry
+$p^{-1}$ at the same indices at $\bar{\mathfrak l}$, and $1$ elsewhere. The integral factors keep the datum standard of level one, so by \cref{thm:one-lift-gauge}(b) it suffices to bound the jets of $\phi$ along the Schur matrices, weighted by the entries of $\delta$ read at the places. Read at $\tau$, through the component at the conjugate of the prime induced by
+$\tau$, $\delta$ is diagonal with entries $p^{-\epsilon(\tau,b)}$, where the exponent $\epsilon$ is $1$ on the marked indices at the places inducing a prime of $\Lambda$, $-1$ on those at the places inducing its conjugate, and $0$ elsewhere.
+
+\emph{Charges.} Charge a box of index $b$ in a column of height $h$ at $\tau$ if $\tau$ induces a prime of $\Lambda$, $h=1$ and $b$ is not marked, or if $\tau$ induces the conjugate of a prime of $\Lambda$ and $b$ is marked. These charges cover the exempt pairs for the set $S_\Lambda$: if $\tau$ induces a prime of $\Lambda$, or if $h=1$ and the partner $u(-p^e)\tau$ does, then the
+partner induces the conjugate prime and has the same marked indices, so the index is charged at one of the two places. By \cref{thm:standard-divisibility}(b), the jets have valuation at least $\beta_p(j,S_\Lambda)$ minus the charges.
+
+\emph{Counting.} At a place inducing a prime of $\Lambda$ a box of the long row costs $1$, whether its index is marked or it is charged, and a low column costs at most $\mathfrak r_p$; at a place inducing the conjugate, the entries $p^{-1}$ of the marked indices pay for their charges. Hence the exponents $\epsilon$ plus the charges, summed over the boxes of a filling, are at most
+$\sum_{\mathfrak l\in\Lambda}A_{\mathfrak l}+\mathfrak r_p\sum_{\sigma\text{ inducing }\Lambda}c_j(\sigma)$. The determinant characters contribute nothing, because the weights on $X_{j+1}$ balance a prime of $\Lambda$ against its conjugate. This gives the bound $p^{\sum A_{\mathfrak l}+\ell(\Lambda,j)}$.
+
+(b) \emph{Moving one operator.} For a list of distinct primes of $\Lambda$, induction on the list gives a linear map $t$ on the data of lift $j+1$ with: $t$ commutes with the actions of $\U(X_j)$ and of the maximal compact subgroup of $\U(X_{j+1})$ at the datum; the lift by $t(\varrho(x_j)\mathrm{vac}_j)$ of $C_j(y)$ is $C_{j+1}$ of $\prod_{\mathfrak l}Y_{\mathfrak l}\,y$; and for $j<m$
+and $g$ trivial at the primes of the list and in a double coset of some $\mathrm{diag}(\varpi1_i,1)$, $i\le\mathfrak r_p$, at the other primes of $\Lambda$, the kernel of $\omega(1,g)t(\varrho(x_j)\mathrm{vac}_j)$ raises gauges by at most $p^{\beta}$ with
+\[
+  \beta=\sum_{\mathfrak l\text{ in the list}}(\nu_p-A_{\mathfrak l})+\sum_{\mathfrak l\in\Lambda}A_{\mathfrak l}+\ell(\Lambda,j).
+\]
+The step adds a prime $\mathfrak l$: by \cref{thm:hecke-transfer}(c), $C_{j+1}\circ Y_{\mathfrak l}=p^{A_{\mathfrak l}-\nu_p}\sum_ic_iT_{\mathfrak l,i}\circ C_{j+1}$, and the lift commutes with the Hecke operators of the target acting on the datum through the target group; so $t$ for the longer list is $t$ for the list followed by $p^{A_{\mathfrak l}-\nu_p}\sum_ic_i$ times the Hecke
+operators $T_{\mathfrak l,i}$ acting on the datum. A Hecke operator is a sum of translates by elements of its double coset, so by (a) the new datum, moved by $g$, raises gauges by at most $p^{\nu_p-A_{\mathfrak l}}$ times the old bound, the $c_i$ being integral. With the full list $\Lambda$, $\beta=\#\Lambda\nu_p+\ell(\Lambda,j)$.
+
+\emph{All lifts.} Move one of the $m$ copies of $Y_\Lambda$ into the datum of each lift: $R_{\vartheta,\Psi}(Y_\Lambda^mv)$ is the restricted chain with the data $t(\varrho(x_j)\mathrm{vac}_j)$ applied to $v$. The maps $t$ commute with the levels, so \cref{prop:chain-gauge}(b),(c) gives the bound.
+
+(c) By \cref{lem:exceptional-orbits}(d) there is no collision outside $S_\Lambda$, so \cref{thm:only-collisions}(b) gives $\beta_p(j,S_\Lambda)\ge g_p/m+\#(\Phia\cap S_\Lambda)a/x_1-fa(\log b)^2/(mp)$, as $v(\pi_p)=1$ for the inert prime $p$. With the inequality of \cref{lem:exceptional-orbits}(d),
+\begin{align*}
+  \#\Lambda\nu_p+\ell(\Lambda,j)&\le\frac{\lambda_p}m+\#(\Phia\cap S_\Lambda)\frac a{x_1}-\beta_p(j,S_\Lambda)\\
+  &\le-\frac{g_p}m+\frac{\lambda_p}m+\frac{fa(\log b)^2}{mp}\le-\frac{g_p}m+\frac{2\lambda_p}m ,
+\end{align*}
+and summing over $j<m$ in (b) gives the valuation $g_p-2\lambda_p$. For a chain datum, expand the gluing (\cref{prop:expand-gluing}(b)) into a weak chain datum $\Psi'$ with $B_{\vartheta,\Psi}=R_{\vartheta,\Psi'}$; for $\varphi=Y_\Lambda^mv+p^{j_p}v'$ with integral $v$, $v'$, the first part is bounded by what precedes, and the second has valuation at least
+$g_p-\lambda_p$ by \cref{prop:nonexceptional}(b).
+\end{proof}
+
+\begin{theorem}[Colength of the scaled Hecke operators]\label{thm:marked-colength}
+Let $p<x_1$ be exceptional, $\Lambda$ marked and $\mathfrak l\in\Lambda$. For every $j_0$, $Y_{\mathfrak l}$ is onto modulo $p^{j_0}$ on $\mathcal S^{\rm int}$ up to
+colength $(12A_{\mathfrak l}/(mp)+j_0/(m^2f))\dim\mathcal S$. Consequently $Y_\Lambda^m$ is onto modulo $p^{j_p}$ up to colength $\lambda_p\dim\mathcal S$.
+\end{theorem}
+\lean{New.Data.IsMarked.isOntoUpToColength_scaledHeckeOperator, New.Data.IsMarked.isOntoUpToColength_prod_scaledHeckeOperator_pow, New.Data.IsMarked.mul_sum_heckeScalingExponent_le_loss, New.Data.IsMarked.exists_frobeniusCycle, New.Columns.isOntoUpToColength_scaledHeckeOperator_of_frobeniusCycle, New.Data.isLargeDegree_of_le_card, New.Data.three_mul_divisorConstant_le, New.Data.embeddingToward, New.Data.placeOfEmb_embeddingToward, New.Data.embeddingToward_mem_embValRing, New.Data.letterEmbedding, New.Data.coe_letterEmbedding, New.Data.not_isUnit_natCast_embValRing, New.Data.dvd_letterEmbedding_sub_pow, New.Data.IsExceptional.card_residueField}
+
+\begin{proof}
+\emph{The cycle.} By \cref{lem:exceptional-orbits}(c) the $a$-places inducing $\mathfrak l$ or $\bar{\mathfrak l}$ form one orbit $t_0,\dots,t_{N'-1}$ under $u(-p^{o_0})$, with $N'$ the order of $u(-p^{o_0})$, alternately inducing $\mathfrak l$ and $\bar{\mathfrak l}$. Let $\iota_i$ be the embedding $\Phi_{t_i}$, composed with conjugation when $t_i$ induces $\bar{\mathfrak l}$, so that
+every $\iota_i$ induces $\mathfrak l$; restricted to the valuation ring of $\mathfrak l$ it takes values in the $p$-integral numbers. For $x$ in this ring, $\iota_{i+1}(x)\equiv\iota_i(x)^{P}$ modulo $p$ with $P=p^{o_0}$: on the integers of $E$ the automorphism named by $-p^{o_0}$ is congruent to the conjugate of the $p^{o_0}$-th power, and exactly one of
+$t_i$, $t_{i+1}$ induces $\mathfrak l$, so exactly one embedding is conjugated. Hence the $\iota_i$ form a Frobenius cycle (\cref{def:frobenius-cycle}) for $P$, the even letters being those inducing $\mathfrak l$; the residue field has $p^o=P^{N'}$ elements, as $o=o_0N'$.
+
+\emph{The operator.} By \cref{prop:hecke-edges}, $Y_{\mathfrak l}$ is the edge Hecke operator of \cref{sec:elementary-divisors} on the integral source forms, with $k$ variables, degree $a$, blocks $\mathfrak r_p$ and $k-\mathfrak r_p$, and $A_{\mathfrak l}=a\cdot\#\{\text{even letters}\}$.
+
+\emph{The size conditions.} \Cref{thm:elementary-divisors} needs $0<\mathfrak r_p$, $2\mathfrak r_p\le k$, $0<\theta\le1$, $a^4\le q$ and $(N'k\log q/\theta)^5P^{3\mathfrak r_p}\le a$ for $q=P^{N'}$ and $\theta=1/(m^2f)$. Here $13\le p<x_1$ (a non-split prime is at least $13$), $0<o_0\le\mathfrak r_p$, $N'\le f$ and $m\le o_0N'$ because $m\mid o$; hence $q=p^o\ge13^m$, and
+$P^{\mathfrak r_p}\le p^{\mathfrak r_p^2}$ with $\mathfrak r_p\le s$. These are inequalities between the parameters of the data, which hold by \cref{prop:sizes}.
+
+\emph{The colength.} The theorem gives the colength $(3c_{\rm div}+\theta j_0)\dim\mathcal S$ with $c_{\rm div}=N'a(P^{-2\mathfrak r_p}+\mathfrak r_p^2/(kP))$. Each term of the bracket is at most $1/(mp)$: $P^{2\mathfrak r_p}\ge p^{\mathfrak r_p}\cdot p\ge mp$, and $\mathfrak r_p^2/(kP)\le1/(mp)$ because $k\ge x^5\mathfrak r_p^2$ and $P\ge p$, $k$ being
+large against $m$. With $N'=2\ell$ letters, of which $\ell$ are even, $3c_{\rm div}\le6\cdot2\ell a/(mp)=12A_{\mathfrak l}/(mp)$.
+
+\emph{The product.} Colengths of a composite of operators that are onto modulo $p^{j_p}$ add, and $Y_\Lambda^m$ is a product of $m\#\Lambda$ factors $Y_{\mathfrak l}$. Since $\sum_{\mathfrak l}A_{\mathfrak l}\le af$ (each $a$-place induces one prime), $\#\Lambda\le f$ and $j_p\le2mfa/p+1$,
+\[
+  m\sum_{\mathfrak l\in\Lambda}\Bigl(\frac{12A_{\mathfrak l}}{mp}+\frac{j_p}{m^2f}\Bigr)\le\frac{12af}p+\frac{j_p}m\le\frac{14af}p+\frac1m\le\lambda_p .
+\]
+\end{proof}
+
+\subsection{Hecke operators as edge operators}\label{ss:hecke-edges}
+Let $\mathfrak l$ be split, $\varpi$ a uniformiser, the level maximal at $\mathfrak l$ and free. An \emph{edge} into a class $x$ is a pair $(x,b)$ with $b$ a coset of
+the parahoric subgroup with blocks $r$, $k-r$; its \emph{origin} is the class of the representative of $x$ moved at $\mathfrak l$ by $\beta d$, with
+$\beta$ a representative of $b$ and $d=\mathrm{diag}(\varpi,\dots,\varpi,1,\dots,1)$. Fixing representatives gives, for each edge, the class of its
+origin, a basis change $g$ in $\GL_k(\OO_{\mathfrak l})$ and a rational part.
+\lean{New.Columns.HeckeEdges, New.Columns.ClassEdges, New.Columns.nonempty_heckeEdges, New.Columns.valuationRingAt, New.Columns.localGL, New.Columns.localGL_mem_localIntGL_iff, New.Columns.atPlace_embFin, New.Columns.latticeGL, New.Columns.latticeGL_apply, New.Columns.localGL_mem_localIntGL_iff_mem_range, New.Columns.localGL_latticeGL_mem_localIntGL, New.Columns.blockScaling, New.Columns.coe_blockScaling, New.Columns.coe_blockScaling_inv, New.Columns.blockScaling_mem_basicDoubleCoset, New.Columns.mem_parahoric_twoBlock_iff, New.Columns.conj_blockScaling_mem_localIntGL_iff, New.Columns.conj_mem_localIntGL_of_transposeGL_mem_parahoric, New.Columns.edgeStep, New.Columns.natCast_mem_of_valuation_eq, New.Columns.edgeStep_mem_basicDoubleCoset, New.Columns.edgeStep_inv_mul_mem_localIntGL_iff, New.Columns.exists_edgeStep_eq, New.Columns.atPlace_mem_localIntGL_of_isLevel, New.Columns.HeckeEdges.embFin_rationalPart, New.Columns.HeckeEdges.rationalPart_eq, New.Columns.HeckeEdges.localGL_rationalPart_mem_localIntGL}
+
+\begin{proposition}[Hecke operators are edge operators]\label{prop:hecke-edges}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item An edge is determined by the class of its origin and by the parahoric coset of the transpose of its basis change.
+\item $(T_{\mathfrak l,r}\varphi)(x)=\sum_b\rho(\text{rational part of }(x,b))\,\varphi(\text{origin of }(x,b))$.
+\item At an $a$-place inducing $\mathfrak l$ or $\bar{\mathfrak l}$, a basis change acts on the Weyl module through the letter matrices and powers of $p$; the
+Weyl module splits as the monomials of degree $a$ in the $k$ variables at these places tensored with a module on which the edges act integrally;
+and the integral source forms are the families of integral vectors indexed by the classes.
+\end{enumerate}
+Hence, for a Frobenius cycle matching the places above $\mathfrak l$, $Y_{\mathfrak l}$ is an edge Hecke operator on the integral source forms, and the
+bound of \cref{thm:elementary-divisors} holds for it.
+\end{proposition}
+\lean{New.Columns.HeckeEdges.eq_of_origin_eq_of_mem_parahoric, New.Columns.HeckeEdges.heckeSplit_apply_rep, New.Columns.smul_transpose_map_eq_letterMatrix, New.Columns.kroneckerPi_symPowMatrix_eq_letterRep, New.Columns.exists_schur_eq_symPowMatrix, New.Columns.exists_weylIndex_equiv, New.Columns.exists_schur_eq_map, New.Columns.weightRep_column_apply, New.Columns.sourceFormOfValues, New.Columns.sourceFormOfValues_apply_rep, New.Columns.range_sourceFormOfValues}
+
+\begin{proof}
+(a) Let two edges have origins of the same class and parahoric cosets of the transposes of their basis changes that agree. The quotient $\eta$ of their rational parts is a rational point that takes the representative of one terminus to that of the other modulo the level; so the termini are the same class, and $\eta$ fixes a coset of the level, hence $\eta=1$ by
+freeness. Then $\beta d g^{-1}=\beta'dg'^{-1}$, and the cosets agree, because $d\,g^{-1}g'\,d^{-1}$ is integral at $\mathfrak l$ when $g^{\mathsf T}g'^{-\mathsf T}$ is parahoric (conjugation by $d$ divides one off-diagonal block by $\varpi$, multiplies the other by $\varpi$ and fixes the diagonal blocks).
+
+(b) The Hecke operator is the operator of the indicator of the double coset $K\,\mathrm{diag}(\varpi1_r,1)K$ at $\mathfrak l$. By weak approximation above $p$, every coset in it is the coset of $g_{\mathfrak l}^{-1}\beta d$ for some $\beta\in\GL_k(\OO_{\mathfrak l})$, where $g$ is the representative of the class; two such elements give the same coset exactly when $\beta^{-1}\beta'$ is parahoric for
+the blocks $r$, $k-r$. Hence the cosets are indexed by the parahoric cosets $b$, the value of $T_{\mathfrak l,r}\varphi$ at the representative of $x$ is the sum over $b$ of $\varphi$ at the origin of $(x,b)$, and writing the origin as the rational part times the representative of its class times an element of the level gives the formula.
+
+(c) At a place $s$ of the cycle the embedding is $\iota_s$ for even $s$ and $\iota_s\circ\mathrm{conj}$ for odd $s$. For a rational part $\gamma$ with $\gamma^{-1}=g\,d^{-1}\beta$, applying $\iota_s\circ\mathrm{conj}$ to the entries of $\gamma$, transposing and multiplying by $p$ for even $s$ gives the letter matrix of $g$, times the diagonal matrix with $p$ at the deep variables, times the letter matrix of $\beta$.
+At an $a$-place the weight is one row of length $a$, so the Weyl module there is the $a$-th symmetric power of the standard representation, on which these matrices act by their symmetric powers; and symmetric powers and tensor products are multiplicative. The Weyl module is the tensor product of these factors at the places of the cycle with a factor for the other
+places, on which the Schur matrices of rational parts, integral at the conjugates of the primes induced by the $a$-places there, are invertible over the $p$-integral numbers (\cref{ss:B-schur}). Finally, evaluation at representatives of the classes that are integral above $p$ identifies the integral source forms with the families of integral vectors indexed by
+the classes.
+
+\emph{Conclusion.} At the representative of a class both $Y_{\mathfrak l}$ and the edge Hecke operator are sums over the edges into the class; in each coordinate, the term of an edge in $Y_{\mathfrak l}$ is $p^{A_{\mathfrak l}}$ times the matrix of the rational part on the Weyl module, and by (c) this is the term of the edge Hecke operator, the factor $p^{A_{\mathfrak l}}$ being the factors
+$p$ of the even letters in the $a$-th symmetric powers. Hence the bound of \cref{thm:elementary-divisors} holds for $Y_{\mathfrak l}$.
+\end{proof}
+
+\subsection{The level prime}\label{ss:level-prime}
+Let $\Sigma_N$ be the set of conjugates of the primes above $N$ induced by $\iota$; it contains one place of each conjugate pair above $N$, and
+these are split of degree one (\cref{lem:chosen}). At $\Sigma_N$ let $\delta_j$ be $\mathrm{diag}(1,\dots,1,N)$ at the places dividing $\pi_N$ and $1$ at
+the others, so that $\delta_j$ takes the standard lattice to $L_j$, the integral vectors whose last coordinate is divisible by $\pi_N$, and let
+$\delta^\vee_j$ take it to the dual lattice. The representation of $\GL(\OO_{\Sigma_N})$ on forms on $X_j$ is right translation after conjugation
+by $\delta_j$; with it, $\mathrm{Up}$ is the operator of \cref{ss:lift-laws}. Let $\mathcal A'$ be the module of forms $\varphi$ on $X_0$ such that
+$\mathrm{Up}^{\varrho+1}\varphi$ is a source form integral for $L_0$ at $\Sigma_N$.
+\lean{New.Data.nonInducedPlaces, New.Data.star_inducedPlace_mem_nonInducedPlaces, New.Data.natCast_mem_of_mem_nonInducedPlaces, New.Data.isSplitLevel_nonInducedPlaces, New.Data.diagPoint, New.Data.diagPointN, New.Data.dualPointN, New.Data.conjEmbedGL, New.Data.formRepAtN, New.Data.map_adeleExtension_diagPoint, New.Data.upIntegralForms, New.Data.conjEmbedGL_mem_supportedOn}
+
+\begin{proposition}[Set-up at the level]\label{prop:setup-N}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The direct datum is nonzero at a matrix $T$ over $\OO_{\Sigma_N}$ exactly if $T$ is integral with last column $\equiv$ that of $1$ modulo each place;
+for $k\in\U(X_j)(\Ad_{\mathrm f})$ the matrix $\delta_j^{-1}k\delta_j$ has this property exactly if $k$ is integral at $\Sigma_N$ and the last rows of $k$ and $k^{-1}$
+satisfy the congruences of the level at the places dividing $\pi_N$ and their conjugates.
+\item $\delta_j^{-1}\,\mathrm{level}_j\,\delta_j$ lies in the mirabolic group at $\Sigma_N$, and conversely a point supported above $N$ with this property lies in the
+level; the mirabolic group read in a basis of $L_j$ lies in the level.
+\item Ramified source forms are ramified vectors of this representation, and $\mathrm{Up}$ preserves the source forms.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.directDatum_ne_zero_iff, New.Data.directDatum_conj_ne_zero_iff, New.Data.atPlaces_conj_mem_mirabolic, New.Data.mem_levelX_of_mem_mirabolic, New.Data.conjEmbedGL_mem_levelX, New.Data.mem_ramified_of_mem_ramifiedSourceForms, New.Data.upOperator_mem_sourceForm}
+
+\begin{proof}
+(a) A function of matrices modulo $N$ read on integral matrices: the direct datum is the indicator of the integral $T$ whose last column is that of $1$ modulo each place of $\Sigma_N$. Conjugation by $\delta_j$ multiplies the last column by $t$ and divides the last row by $t$, where $t=N$ at the places dividing $\pi_N$ and $t=1$ at the others. At a place $w$ of
+$\Sigma_N$ dividing $\pi_N$, $\delta_j^{-1}k\delta_j$ is integral with last column $\equiv e$ exactly if $k$ is integral there and its last row is that of $1$ modulo $w$ (the corner entry is covered by the congruence on the last column); at a place $w$ of $\Sigma_N$ whose conjugate divides $\pi_N$, $\delta_j=1$ there, and the condition on the last column of $k$ at $w$ is the
+condition on the last row of $k^{-1}$ at $\bar w$, because the last row of $k^{-1}$ at $\bar w$ is the conjugate of the last column of $k$ at $w$ for a unitary $k$.
+
+(b) An element of the level of $X_j$ is integral and has last row $\equiv(0,\dots,0,1)$ modulo $\pi_N$, and so does its inverse; by (a), $\delta_j^{-1}k\delta_j$ lies in the mirabolic group at $\Sigma_N$, the integral invertible matrices with last column $\equiv e$ modulo $N$. Conversely, a point supported above $N$ whose conjugate by $\delta_j$ is mirabolic at $\Sigma_N$
+satisfies the congruences of the level by (a), and it is integral and $1$ at the other places, so it lies in the level; this applies in particular to the mirabolic group read in a basis of $L_j$.
+
+(c) Let $\varphi$ be a ramified source form. At each $w\mid\pi_N$ its mean over the powers of $z_w$ vanishes, so $\varphi=\psi-z_w\psi$ with $\psi$ a combination of the translates of $\varphi$ by powers of $z_w$. One of each pair $w$, $\bar w$ above $N$ divides $\pi_N$, and $z_w$ is an integral unit scalar at that place, $1$ at the others; a scalar is unchanged by the
+passage to a basis of $L_0$. Hence $\varphi$ is a ramified vector for the representation at $\Sigma_N$. For $\mathrm{Up}$, write an element $k$ of the level of $X_0$ as its part above $N$, with matrix $a$ in a basis of $L_0$, times a part $k'$ away from $N$; both lie in the level by (b). $\mathrm{Up}$ commutes with $k'$, which fixes $\varphi$, and it preserves the vectors fixed
+by the mirabolic group (\cref{thm:lift-laws}(a)), to which $a$ belongs. Hence $\mathrm{Up}\,\varphi$ is again fixed by the level.
+\end{proof}
+
+\begin{theorem}[The level prime]\label{thm:level-prime}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item There is $e\le mfb\dim\mathcal S$ such that $\mathcal S^{\rm int}\cap\mathcal A'$ has colength dividing $N^e$ in $\mathcal S^{\rm int}$.
+\item For every chain datum $\Psi$ of a twist $\vartheta$ and every ramified $\varphi\in\mathcal A'$, $B_{\vartheta,\Psi}\varphi$ has gauge at most $N^{2mfb}$ at $N$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Data.exists_colengthDvd_upIntegralForms_pow, New.Data.gaugeLe_compositeLift_at_N, New.colengthDvd_span_pow_monomials, New.mul_sum_monomials_apply, New.Data.sumDegreeOf, New.Data.sumDegreeOf_eq, New.Data.mul_sumDegreeOf_le, New.Data.integralFormsAt_one_le, New.Data.exists_mul_dualPointN_mem_integralAbove, New.Data.colengthDvd_integralFormsAt_diagPointN, New.Data.upOperator_mem_integralFormsAt, New.Data.colengthDvd_comap_upOperator_pow, New.Data.norm_detCharAt_diagN_le, New.Data.exists_mem_inducedPlace_one_le_norm, New.Data.projOn_translateDatum_mem_standardData, New.Data.schrodingerOpAt_directDatum_mem_raises, New.Data.liftCharAtN, New.Data.lift_schrodingerOpAt_comp, New.Data.schrodingerOpAtN, New.Data.liftAtN, New.Data.liftAtN_apply, New.Data.upCommutationFactor, New.Data.liftLaw_liftAtN, New.Data.gluedFactor, New.Data.norm_gluedFactor_le, New.Data.liftInPairs_gluedDoubleLiftDatum, New.Data.doubleLiftChain_gluedDoubleLiftDatum_eq_smul_chain, New.Data.omega_schrodingerOpAtN_directDatum, New.Data.schrodingerOpAtN_directDatum_mem_raises}
+
+\begin{proof}
+(a) \emph{Three modules.} Let $\mathcal A_\iota$, $\mathcal A^L$, $\mathcal A^\vee$ be the source forms with values integral for the standard lattice, for $L_0$ and for $L_0^\vee$ at $\Sigma_N$. Then $\mathcal A_\iota\subseteq\mathcal A^\vee$, because $(\delta_0^\vee)^{-1}$ acts at each place by an integral matrix and the weight is polynomial; and
+$\mathrm{Up}$, which preserves the source forms (\cref{prop:setup-N}(c)), a sum of right translates with roots of unity as coefficients, maps $\mathcal A^L$ into $\mathcal A^\vee$, because each translate moves $\delta_0$ to $\delta_0^\vee$ up to an element integral above $N$.
+
+\emph{Colength of $\mathcal A^L$ in $\mathcal A^\vee$.} Every class has a representative $\gamma c$ with $\gamma c\delta_0^\vee$ integral above $N$ and $\gamma c\delta_0$ equal to $\mathrm{diag}(1,\dots,1,N)$ at $\Sigma_N$ times an element integral above $N$. Evaluate at such representatives: a form of $\mathcal A^\vee$ lies in $\mathcal A^L$ exactly if each coordinate of each
+value is divisible by $N$ to its degree in the last variable, because $\mathrm{diag}(1,\dots,1,N)^{-1}$ acts on a basis vector by $N$ to minus that degree. The diagonal matrix of these powers of $N$ shows that $\mathcal A^L$ has colength dividing $N^l$ in $\mathcal A^\vee$, with $l$ the degree in the last variable summed over the pairs of a class and a basis
+vector of the values.
+
+\emph{Iteration.} By induction on $i$, the preimage of $\mathcal A^L$ under $\mathrm{Up}^i$ has colength dividing $N^{l(i+1)}$ in $\mathcal A_\iota$: the colength $l$ is paid once for the passage from $\mathcal A_\iota\subseteq\mathcal A^\vee$ to $\mathcal A^L$, and once for each factor $\mathrm{Up}$, since the preimage of $\mathcal A^L$ under $\mathrm{Up}^i$ lies in that of
+$\mathcal A^\vee$ under $\mathrm{Up}^{i+1}$, in which the preimage of $\mathcal A^L$ under $\mathrm{Up}^{i+1}$ has colength dividing $N^l$. With $i=\varrho+1$ this is the colength of $\mathcal S^{\rm int}\cap\mathcal A'$.
+
+\emph{The degree.} The summed degree is the same for all $k$ variables of $X_0$: up to the class number it is the exponent of $2$ in the determinant of the action of $\mathrm{diag}(1,\dots,2,\dots,1)$, and a transposition moves the entry $2$ from one variable to another. At each place a basis vector has total degree at most $a$, so $kl\le\dim\mathcal S\cdot fa$
+(in the model case, the mean degree in one of $k$ variables of the monomials of degree $a$ is $a/k$). Hence $l(\varrho+2)\le fa(m/2+1)\dim\mathcal S/k\le mfb\dim\mathcal S$, because $a=xb$ and $(m/2+1)x\le km$.
+
+(b) \emph{All lifts become direct.} Ramified source forms are ramified vectors at $\Sigma_N$ (\cref{prop:setup-N}(c)). By the lift laws at $\Sigma_N$ (\cref{thm:lift-laws}), for each lift the direct datum, in bases of $L_j$ and $L_{j+1}$, obeys the two rules, with factor $\gamma_j$ the ratio of the values of the character of the lift at $\mathrm{diag}(1,\dots,1,N)$ on $X_j$ and on $X_{j+1}$; the characters are unramified above $N$, hence trivial on
+integral matrices. Moving the two matrices $\mathrm{diag}(1,\dots,1,N)$ out of the glued datum of the double lift $i$ costs one character value each, and the points $\delta_{2i+1}$ cancel between the two lifts; each of the $f$ places of $\Sigma_N$ contributes one value, of $N$-adic absolute value at most $N^{2b}$, because the lift weights are at most $2b$. By
+\cref{thm:lift-laws}(e), the chain of glued double lifts of a ramified source form $\varphi$ is therefore $c$ times the chain of the $m$ direct lifts of $\mathrm{Up}^{\varrho+1}\varphi$. Only these character values can have negative valuation: the factors $\gamma_j$ have $N$-adic absolute value at most $1$, as the value of the character at $\mathrm{diag}(1,\dots,1,N)$ decreases with the rank, and the numbers of primitive vectors are integers. Hence $\abs{\iota c}\le(N^{2fb})^{m/2}=N^{mfb}$.
+
+\emph{Each direct lift loses at most $fb$.} The direct datum on a translate of the integral vacuum, in bases of $L_j$, $L_{j+1}$, is the translate by $(\delta_j,\delta_{j+1})$ of the direct datum in the standard bases, so it suffices to bound the latter from the base point $1$ to $1$. By Fourier expansion modulo $N$, $N^{2fn_{j+1}n_j}$ times this datum is an integral combination
+of translates of the integral vacuum whose poles above $N$ are simple and lie at the induced places. There is an integer $\delta$ of $K$ in all the induced primes above $N$ with $\abs{\iota(\bar\delta d)}\ge1$: the induced primes lie above one prime of $K$, whose residue field has $N$ elements, so the generator of the integers of $K$ is congruent there to an integer $c$; take for $\delta$ the generator minus $c$, which is not divisible by the conjugate prime, while $N\nmid d$. These poles are then cleared by $\delta$, so the multiple is a standard datum of level $\delta$, which by \cref{thm:one-lift-gauge}(c) loses at most a power of $\abs{\iota(\bar\delta d)}^{-1}\le1$. The exponent $2fn_{j+1}n_j$ is at most $2fn_m^2\le fb$.
+
+\emph{Conclusion.} The form $\mathrm{Up}^{\varrho+1}\varphi$ has gauge at most $1$ at $\delta_0$, so by \cref{prop:chain-gauge}(b) the chain of the $m$ direct lifts has gauge at most $N^{mfb}$ at $\delta_m$, and with $c$ the composite lift has gauge at most $N^{2mfb}$ at $\delta_m$. A bound at $\delta_m$ gives the same bound for the restriction at $1$, because the change of
+lattice at the last coordinate cancels the normalising factor $\prod_\tau\Phi_\tau(\bar\pi_N)^{-n_\tau}$ of the restriction.
+\end{proof}
+
+\subsection{The divisibility theorem}\label{ss:divisibility-theorem}
+
+\begin{theorem}[Divisibility of the composite lift]\label{thm:divisibility}
+There are numbers $\epsilon_p\ge0$, zero for $p\ne N$ that split in $K$ or satisfy $p\ge x_1$, with $\sum_{p\in U}\epsilon_p\log p\le\errunit$ for every
+finite $U$, such that for every prime $p$ and embedding $\iota\colon\C\to\C_p$ the integral ramified source forms have an $\OO_\iota$-submodule $S_p$ of
+colength dividing $p^l$, $l\le\epsilon_p\dim\mathcal S$, on which every composite lift $B_{\vartheta,\Psi}$, for a twist $\vartheta$ with $p\nmid\Nm Q(\vartheta)$
+and a chain datum $\Psi$, has valuation at least $g_p-\epsilon_p$.
+\end{theorem}
+\lean{New.Data.exists_err_gaugeLe_compositeLift, New.Data.exists_colengthDvd_gaugeLe_compositeLift, New.Data.divisibilityError, New.Data.divisibilityError_nonneg, New.Data.divisibilityError_eq_zero, New.Data.sum_divisibilityError_mul_log_le, New.Data.exists_colengthDvd_gaugeLe_divisibilityError}
+
+\begin{proof}
+Take $\epsilon_p$ the allowed loss; it is nonnegative, zero for $p\ne N$ that split or satisfy $p\ge x_1$, and \cref{prop:gains}(c) bounds the sums. Four cases exhaust the primes.
+
+\emph{$p\ne N$, split or $p\ge x_1$.} Then $p\ne d$, because $d<x_1$ and $\chi_K(d)=0$, and $g_p=0$ by \cref{prop:gains}(a). Take $S_p=\mathcal S^{\rm int}$. By \cref{prop:expand-gluing}(b), $B_{\vartheta,\Psi}=R_{\vartheta,\Psi'}$ for a weak chain datum $\Psi'$, and \cref{prop:nonexceptional}(a) shows that it maps integral forms to integral forms.
+
+\emph{$p<x_1$ non-split, not exceptional.} Take $S_p=\mathcal S^{\rm int}$. By \cref{prop:nonexceptional}(b) for $\Psi'$, the valuation is at least $g_p-\lambda_p-m\,\mathrm{col}_p(\emptyset)$, and $m\,\mathrm{col}_p(\emptyset)\le\lambda_p$ by \cref{prop:gains}(d); so it is at least $g_p-2\lambda_p=g_p-\epsilon_p$.
+
+\emph{$p<x_1$ exceptional.} A full mark $\Lambda$ exists (\cref{lem:exceptional-orbits}(b)). Take $S_p=Y_\Lambda^m\mathcal S^{\rm int}+p^{j_p}\mathcal S^{\rm int}$; its colength divides $p^l$ with $l\le\lambda_p\dim\mathcal S\le\epsilon_p\dim\mathcal S$ (\cref{thm:marked-colength}), and the valuation on it is at least $g_p-2\lambda_p$
+(\cref{thm:marked-valuation}(c)).
+
+\emph{$p=N$.} Since $x_1\le N$, $g_N=0$. Take $S_N=\mathcal S^{\rm int}\cap\mathcal A'$, of colength dividing $N^e$ with $e\le mfb\dim\mathcal S\le\epsilon_N\dim\mathcal S$; by \cref{thm:level-prime}(b) the valuation on its ramified members is at least $-2mfb=g_N-\epsilon_N$.
+
+Finally intersect each $S_p$ with the ramified forms; the intersection has colength in the integral ramified forms at most that of $S_p$ in the integral forms.
+\end{proof}

@@ -1,0 +1,68 @@
+% !TEX program = pdflatex
+%% The Rhythm of Primes. On the Formally Verified Proof of the Generalized Riemann Hypothesis for Dirichlet
+%% L-functions. A research paper of the GAI-MUA programme (PLAN.md). pdfLaTeX only (D6); ASCII source.
+\PassOptionsToPackage{unicode,bookmarksnumbered}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[11pt,a4paper]{amsart}
+\usepackage[a4paper,textwidth=132mm,hmarginratio=1:1,top=27mm,bottom=30mm,headheight=14pt,headsep=8mm,
+  footskip=11mm]{geometry}
+\usepackage{amsmath,amsthm,mathtools}
+\input{styles/rp-fonts.tex}
+\usepackage{graphicx}
+\usepackage{booktabs,array,longtable}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage{xcolor}
+\usepackage{needspace}
+\usepackage{fancyhdr}
+\usepackage{tikz-cd}
+\usetikzlibrary{arrows.meta}
+\usepackage[font=small,labelfont=sc,labelsep=period,justification=justified,singlelinecheck=true,skip=6pt]{caption}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\usepackage{aliascnt}
+\usepackage[nameinlink,capitalise,noabbrev]{cleveref}
+\input{generated/metadata.tex}
+\input{styles/rp-header.tex}
+\input{styles/rp-macros.tex}
+\crefname{mainthm}{Theorem}{Theorems}
+\crefname{rppart}{Part}{Parts}
+\crefname{hypothesis}{Hypothesis}{Hypotheses}
+\crefname{construction}{Construction}{Constructions}
+
+\begin{document}
+\RPmaketitle{\input{front/abstract.tex}}
+\input{front/attribution.tex}
+\tableofcontents
+\clearpage
+
+\input{parts/s01-introduction.tex}
+\input{parts/s02-overview.tex}
+\input{parts/s03-notation.tex}
+
+\RPpart{part:reduction}{The reduction}
+\input{parts/p1-reduction.tex}
+\RPpart{part:derivatives}{Derivatives of theta functions}
+\input{parts/p2-derivatives.tex}
+\RPpart{part:upper}{The upper bound: a composite lift}
+\input{parts/p3-upper.tex}
+\RPpart{part:spanning}{Spanning: a second moment}
+\input{parts/p4-spanning.tex}
+\RPpart{part:lower}{The lower bound: the determinant and one lift}
+\input{parts/p5-lower.tex}
+\RPpart{part:congruences}{The lower bound: congruences}
+\input{parts/p6-congruences.tex}
+
+\bookmarksetup{startatroot}
+\RPappendices
+\appendix
+\crefalias{section}{appendix}\crefalias{subsection}{appendix}
+\input{appendix/a-discrete-series.tex}
+\input{appendix/b-background.tex}
+\input{appendix/c-lean.tex}
+\input{appendix/d-constants.tex}
+\input{appendix/e-verification.tex}
+\bookmarksetup{startatroot}
+\input{front/declarations.tex}
+\input{generated/references.tex}
+\end{document}

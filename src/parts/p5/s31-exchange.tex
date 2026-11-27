@@ -1,0 +1,936 @@
+\section{The exchange identity}\label{sec:exchange}
+
+The chain $\Theta_\vartheta$ is a composite of $m$ twisted lifts, while Rallis' formula computes the norm of one lift. To pass from one to the other the lifts
+are moved past each other. The tool is an identity between theta integrals to $\U(W)$ from two spaces $V$ and $V'$ of complementary ranks,
+$\operatorname{rk}W=\operatorname{rk}V+\operatorname{rk}V'$: on matched ramified data the two theta integrals are proportional, with a constant whose modulus is given by Hecke
+$L$-values (\cref{thm:exchange}). For trivial characters an identity of this shape is the Siegel--Weil formula; here the characters are tamely ramified, the
+constant is controlled only in absolute value and up to a factor free of the character, and that is what the norms of chains require.
+
+The proof has four steps. Matched data are reduced to standard data: the difference of the two sides is an equivariant lift, whose kernel is a stable space, and a stable space that contains one
+standard datum contains every datum with a matched function (\cref{ss:standard-data-suffice}). On standard data the identity is first proved at the top of a tower, for a triple in which the large space is
+$V'\oplus W_1$ and $W_1$ splits off a hyperbolic plane; there it follows from an identity of periods over $[\U(W_1)]$, which a smooth form of Witt's theorem provides (\cref{ss:large-triple}). The identity
+then descends along hyperbolic planes, by constant terms along isotropic lines, which are Tate integrals (\cref{thm:B-tower}). The factor produced at the top is the equal rank ratio, which is shown to be one
+nonzero constant for a suitable vector (\cref{ss:equal-rank-ratio}).
+
+\subsection{Matched functions and the statement}\label{ss:exchange-statement}
+Let $W$, $V$, $V'$ be hermitian spaces with index sets $n$, $a$, $b$ and signs $s$, $t$, $t'$, and let $\sigma\colon b\sqcup a\to n$ order the index set of $W$. For an invertible $k$ write
+$y_k$ for the columns $b$ of $k$ and $x_k$ for the rows $a$ of $k^{-1}$. For a modulus $\mathfrak m$ (a nonzero ideal of $\OO_E$ prime to its conjugate) and a character $\chi$ of
+$(\OO_E/\mathfrak m)^\times$, functions $\Phi$ on $a\times n$ and $\Psi$ on $n\times b$ matrices modulo $\mathfrak m$ are \emph{matched} if $\Phi$ vanishes off the $x_k$, $\Psi$ off the $y_k$, $k\in\GL_n(\OO_E/\mathfrak m)$,
+and $\Phi(x_k)=\chi(\det k)\Psi(y_k)$. A character $\nu$ of $[\U(1)]$ is \emph{tame for $(\mathfrak m,\chi)$} if it has a weight $\mu$ at the infinite places and its tame part is ramified
+exactly at the places dividing $\mathfrak m$ and gives $\chi$ on the residue ring. For $e\ge0$ put
+\[
+  L_*(e)=\Bigl(\prod_{w\mid\mathfrak m}q_w\Bigr)^{e^2}\prod_{z=1}^{e}\abs{L^S(z,\nu)}^2,\qquad L_*(-e)=L_*(e)^{-1},
+\]
+with $L^S$ the partial Hecke $L$-function of the base change $x\mapsto\nu(x/\bar x)$ without the places $S$ of $\mathfrak m$ and their conjugates. The \emph{rank twist} is
+$\gamma=\nu^{-1}\upsilon^{\lfloor\abs n/2\rfloor}$, with $\upsilon$ the splitting character of the Weil data. The \emph{space character} of a character $\alpha$ on a space of rank $p$ is
+$x\mapsto\alpha(x/\bar x)\upsilon(x)^{-p}$. For a real Fock vector $x$ and a function $\Phi$ modulo $\mathfrak m$, $\theta_{W,V}(x,\Phi)$ denotes the theta integral over $[\U(V)]$ of the datum with real
+part $x$, the function $\Phi$ at the places of $\mathfrak m$ and the vacuum at the other finite places, as a function on $\U(W)(\Ad)$; a real vector is \emph{Schwartz} if all its Fock moments are
+finite.
+\lean{New.Exchange.adjointCoords, New.Exchange.adjointCoords_finEquiv_apply, New.Exchange.IsSchwartzVector.adjointDatum, New.Exchange.neg_mem_flipSpace_Gamma_iff, New.AreMatched.right_eq_pow_mul_apply_smul, New.Exchange.exists_localDatum_adjointDatum_eq_smul, New.Exchange.exists_mul_thetaSmall_adjointDatum_eq_mul_integral, New.Exchange.thetaLarge_eq_smul_of_areMatched, New.Exchange.exists_rowColExchangeIdentity_of_even_rank, New.Exchange.exchange_of_matches, New.Exchange.integral_thetaOnRealData_eq_zero, New.Exchange.isSchwartzVector_realPairWeil, New.Exchange.thetaLargeVanishes_of_equalRankThetaRatio_eq_zero, New.Exchange.exists_equalRankThetaRatio_ne_zero, New.Exchange.eq_mul_of_integral_pairTheta, New.Exchange.exists_thetaLarge_eq_mul_quotMeasure, New.Exchange.exists_quotMeasure_mul_eq_mul_integral_pairTheta, New.Exchange.exists_equalRankThetaRatio_sq_eq, New.Exchange.exists_equalRankThetaRatio_const_ne_zero, New.Exchange.exists_equalRankThetaRatio_add_plane, New.Exchange.equalRankThetaRatio_eq_of_signs_eq, New.Exchange.exists_equalRankThetaRatio_eq_const, New.Exchange.spaceChar_mul_spaceChar_eq_iff, New.Exchange.exists_areMatched_modDatum_eq, New.Exchange.exchange_theorem, New.Exchange.exchange_identity}
+
+\begin{theorem}[Exchange identity]\label{thm:exchange}
+Let $\abs n=\abs a+\abs b$, $\abs a=\abs b+2e$, let $W$ have as many negative signs $q$ as $V$ and $V'$ together, with $2q+2\le\abs n\le2\mu(\tau)+2q$ at every infinite place $\tau$, and let $v$
+be a real Schwartz vector for $(V',W)$. There are $C>0$ and a Schwartz vector $x$ for $(W,V)$, chosen before $\mathfrak m$ and $\nu$, such that every character $\nu$ of weight $\mu$ that is tame
+for $(\mathfrak m,\chi)$ has a number $c$ with:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\abs c^2=C\,L_*(e)\ne0$;
+\item for all characters $\alpha$, $\alpha'$ whose space characters on $V$ and on $V'$ multiply to the inverse base change of $\nu$, and for all matched $\Phi$, $\Psi$ modulo $\mathfrak m$,
+\[
+  \theta_{W,V}(x,\Phi)=c\cdot\theta_{V',W}(v,\Psi)\qquad\text{on }\U(W)(\Ad),
+\]
+the character of $W$ being the rank twist $\gamma$.
+\end{enumerate}
+\end{theorem}
+
+The identity is used in two forms. The first exchanges a lift and a transposed lift in a square of four spaces; the second makes the real data explicit as
+determinants when one of the spaces is definite.
+
+\begin{corollary}[One square]\label{cor:one-square}
+Let $U_1$, $U_2$, $A$, $A'$ be hermitian spaces with $W=U_1\oplus U_2$, $\operatorname{rk}A=\operatorname{rk}A'+2t$, the number $N$ of negative signs of $W$ that of $A$ and $A'$ together, and
+$2N+2\le\operatorname{rk}W\le2\mu(\tau)+2N$. For $i$ in a set $I$ let the pairs $(U_1,A)$, $(U_2,A)$, $(A',U_1)$, $(A',U_2)$ carry characters of $[\U(1)]$ and polynomials making them edges of fixed types,
+whose space characters multiply in pairs to the inverse base change of a character $\nu_i$ tame for $(\mathfrak m_i,\chi_i)$. Let $\Theta_i(x)$ be the lift from $U_1$ to $A$ followed by the transposed
+lift to $U_2$, and $\Theta'_i(y)$ the transposed lift to $A'$ followed by the lift to $U_2$, with the indicator functions of the blocks of $x$, $y$ as data modulo $\mathfrak m_i$. Then both transform by
+$\chi_i(\det g)$ under $x\mapsto gx$, and there are $C>0$ and $\kappa$, possibly $0$, and for each $i$ a number $c_i$ with $\abs{c_i}^2=C\,L_{*,i}(t)\ne0$, such that
+\[
+  \sum_y\Psi'(y)\,\Theta'_i(y)=\frac\kappa{c_i}\sum_x\Psi(x)\,\Theta_i(x)
+\]
+for all matched functions $\Psi$, $\Psi'$ modulo $\mathfrak m_i$.
+\end{corollary}
+\lean{New.Exchange.pairWeil_modDatum_single_mul_left, New.Exchange.pairWeil_modDatum_single_mul_right, New.Exchange.hasLeftInv_transpose_of_areMatched, New.Exchange.hasLeftInv_of_areMatched, New.Exchange.IsTameFor.exists_inv_rankTwist_inv, New.Exchange.integral_integral_sum_eq, New.Exchange.exists_integrable_kernel_bound, New.Exchange.exists_eq_mul_of_forall_polyVector, New.Exchange.modKernel_single_sum_left, New.Exchange.modKernel_single_sum_right, New.Exchange.upIntegrand, New.Exchange.downIntegrand, New.Exchange.upIntegrand_add, New.Exchange.upIntegrand_sub, New.Exchange.exists_upIntegrand_bound, New.Exchange.integrable_upIntegrand, New.Exchange.exists_norm_integral_upIntegrand_sub_le, New.Exchange.integrable_downIntegrand, New.Exchange.integral_upIntegrand, New.Exchange.integral_downIntegrand, New.Exchange.integral_sum_upIntegrand_eq_mul, New.Exchange.exists_integral_upIntegrand_eq_mul_integral_lift, New.Exchange.pairTransposedLift_comp_pairLift_mul, New.Exchange.pairLift_comp_pairTransposedLift_mul, New.Exchange.integral_transposedLift_mul_transposedLift, New.Exchange.integral_integral_sum_downIntegrand, New.Exchange.ne_zero_of_norm_sq_eq, New.Exchange.IsSquare, New.Exchange.exists_sum_pairLift_comp_pairTransposedLift_eq_smul, New.Exchange.equivariant_and_exists_sum_eq_of_areMatched, New.Exchange.one_square_identity_of_isEdgeFamily}
+
+\begin{corollary}[Explicit exchange of class sums]\label{cor:explicit-exchange}
+Let $W$ of rank $n$ and $V'$ of rank $b$ both have $l$ negative signs, $I_a$ the definite standard space, $n=b+a$, $a=b+2d$ and $2l+2\le n$. For each infinite place $\tau$ let $\iota_\tau$ index
+$p\times m$ matrices $\eta_{\tau,i}$. There is $C$, possibly $0$, such that every character $\alpha$ of weight $l-\#\iota_\tau$ tame for $(\mathfrak m,\chi)$ has a number $c$ with
+$\abs c^2=C/L_*(d)$ for the character $\mu=\alpha^{-1}\upsilon^{b+d}$, and for matched $\Phi$, $\Psi$ for $\chi^{-1}$: $c$ times the class sum over $\U(I_a)$ of the kernel with datum $\Phi$ and the product of
+the determinants of the $\eta_{\tau,i}$ stacked over the variables equals the integral over $[\U(V')]$ of the kernel with datum $\Psi$ and the polynomial
+$\prod_\tau\det(y^-_\tau)^{\#\iota_\tau+n-2l}\prod_{\tau,i}\det(\eta_{\tau,i}y_\tau)$, where $y_\tau$ is the block of variables with both signs positive and $y^-_\tau$ the block with both signs negative.
+\end{corollary}
+\lean{New.Rows.blockSigns, New.Rows.posBlockEmb, New.Rows.coe_inv_posBlockEmb, New.Rows.posBlockEmb_mem_blockDiagAlg, New.Rows.principalMinor_posBlockEmb_eq_det, New.Rows.principalMinor_posBlockEmb_eq_one, New.Rows.card_neg_blockSigns, New.Rows.continuous_posBlockEmb, New.Rows.matchedPoly, New.Rows.matchedPoly_smul, New.Rows.posFockVector, New.Rows.differentiable_apply_bind₁_pow_smul, New.Rows.realPairWeil_stackedDetProd, New.Rows.realPairWeil_matchedPoly, New.Rows.standardFrame, New.Rows.frameTorus, New.Rows.det_frameTorus, New.Rows.stackedDet_standardFrame, New.Rows.exists_mul_eq_circle_mean, New.Rows.exists_eval_stackedDet_eq, New.Rows.exists_stackedDetProd_eq_sum_unitary, New.Rows.exists_mul_apply_eq_apply_matchedPoly, New.Rows.exists_clm_eq_thetaIntegral_modDatum, New.Rows.exists_linearMap_eq_integral_modKernel, New.Rows.integral_modKernel_stackedDetProd, New.Rows.exists_stdClassSum_eq_of_exchange, New.Rows.exists_stdClassSum_eq_mul_integral_modKernel, New.Rows.exists_mul_stdClassSum_eq_integral_modKernel, New.Rows.areMatched_det_one, New.Rows.integral_one_quotMeasure_of_isEmpty, New.Rows.matchedPoly_of_isEmpty, New.Rows.modKernel_one_of_isEmpty, New.Rows.integral_modKernel_matchedPoly_of_isEmpty}
+
+The two corollaries are deduced from \cref{thm:exchange} in \cref{ss:exchange-corollaries}.
+
+\subsection{Standard data suffice}\label{ss:standard-data-suffice}
+Let $F$ be a finite product of non-archimedean local fields with integers $O$ and $\chi$ a tame character of $F$ (its restriction to $O^\times$ factors through a finite ring with a primitive
+character). The \emph{standard datum} of an integral matrix $z$ is $\mathrm{std}_z(y)=\chi^{-1}(\det(zy))$ at integral $y$ with $\det(zy)\in O^\times$, and $0$ elsewhere; the \emph{row datum} is $\chi^{-1}$ of the
+determinant of $z$ stacked on the variable. The \emph{section} of $\Psi$ at a left invertible $y$ is $\sum_g\chi(\det g)\Psi(yg)$ over representatives of $\GL_b(F)/\GL_b(O)$; $(\Phi,\Psi)$ is a
+\emph{same-section pair} if both are Schwartz--Bruhat on left invertible matrices and the section of $y\mapsto\Phi(y^{\mathsf T})$ at $x_k^{\mathsf T}$ is $\chi(\det k)$ times that of $\Psi$ at $y_k$ for every $k$.
+\lean{New.Rows.blockRowDatum, New.Rows.blockColDatum, New.Rows.areMatched_block, New.exists_linearMap_eq_sum, New.IsCommonCosetRep, New.exists_isCommonCosetRep, New.exists_linearMap_eq_sum_and_isCommonCosetRep, New.commonCosetSum, New.commonCosetRep, New.commonCosetSum_eq_sum, New.isCommonCosetRep_commonCosetRep, New.existsUnique_isPrimitiveMatrix_mul_commonCosetRep, New.existsUnique_isPrimitiveMatrix_mul_inv_commonCosetRep, New.localSection, New.localSection_eq_sum, New.sameSectionPairs, New.mem_sameSectionPairs_iff, New.mul_firstCols, New.sameSectionPairs.translate_mem, New.exists_isPrimitiveMatrix_localSection_eq, New.isIntegralUnit_one_sub_uniformizer_mul, New.isOpen_setOf_isIntegralUnit, New.isClopen_setOf_isPrimitiveMatrix, New.exists_eq_invLastRows_iff_isPrimitiveMatrix, New.exists_finset_isPrimitiveMatrix_mul_inv_commonCosetRep, New.sameSectionPairs.exists_linear_factor, New.AreMatched.apply_invLastRows_eq_of_isPrimitiveMatrix, New.AreMatched.isPrimitiveMatrix_of_apply_transpose_ne_zero, New.AreMatched.isLocallyConstant_comp_transpose, New.AreMatched.mem_sameSectionPairs}
+
+A matrix over $F$ is \emph{primitive} if it is integral and has an integral left inverse. Let $\varpi\in O$ be the product of uniformisers of the factors of $F$; it is invertible in $F$ and topologically
+nilpotent, and $O/\varpi O$ is the product of the residue fields.
+
+\begin{lemma}[Primitive matrices and cosets]\label{lem:common-cosets}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $t\in O$ the element $1-\varpi t$ is a unit of $O$; the units of $O$ form an open subset of $F$; and the primitive $n\times a$ matrices form an open and closed set. A square matrix is
+primitive exactly when it is integral with determinant a unit of $O$.
+\item There are representatives $r_q$ of the cosets $q$ in $\GL_b(F)/\GL_b(O)$ such that for every $n\times b$ matrix $y$ with a left inverse exactly one $q$ makes $yr_q$ primitive and exactly one makes
+$yr_q^{-1}$ primitive. For such $y$ the matrices $g$ with $yg$ primitive form one coset $u\GL_b(O)$.
+\item A matrix $x$ is the block $x_k$ of rows $a$ of $k^{-1}$ for some $k\in\GL_n(O)$ exactly when $x^{\mathsf T}$ is primitive.
+\item If $\Phi$ is locally constant with compact support in the matrices $x$ with $x^{\mathsf T}$ left invertible, there is a finite set of cosets $q$ in $\GL_a(F)/\GL_a(O)$ such that every $x$ in the
+support has $x^{\mathsf T}r_q^{-1}$ primitive for one of them.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Put $x=\varpi t$. The multiples of $1-x$ by elements of $O$ form a compact set, which contains $1-x^k=(1-x)(1+x+\dots+x^{k-1})$ for every $k$; as $x^k=\varpi^kt^k$ with $t^k$ in the compact set $O$,
+$x^k\to0$, so the set contains $1$, and $1-x$ is a unit. If $sx=1$ with $s\in O$, then $sz\in1-\varpi O$ for integral $z$ close to $x$, so $sz$ and hence $z$ is a unit: the units are open. An integral matrix
+is primitive exactly when its reduction modulo $\varpi$ has full column rank at every factor (a left inverse of the reduction lifts to an integral $L$ with $Lx\in1+\varpi M(O)$, and $Lx$ is invertible by the
+first claim); this condition is open and closed on the open and closed set of integral matrices. For a square matrix the adjugate divided by a unit determinant is an integral inverse, and conversely
+the determinant of an integral inverse inverts $\det x$.
+
+(b) Every left coset $g\GL_b(O)$ has a representative $r$ with $r^{\mathsf T}=r$ (by the elementary divisor theorem, $g=k_1dk_2$ with $k_i\in\GL_b(O)$ and $d$ diagonal, and $k_1dk_1^{\mathsf T}$ lies in the
+coset). For symmetric representatives inversion agrees with the inverse transpose $g\mapsto(g^{\mathsf T})^{-1}$, which permutes the left cosets because $\GL_b(O)$ is stable under transposition. If $y$ has a left
+inverse, some $yu$ is primitive (elementary divisors again), and if $yu$ and $yg$ are both primitive, with $L$ an integral left inverse of $yu$, then $u^{-1}g=L\,yg$ is integral, and symmetrically
+$g^{-1}u$ is, so $g\in u\GL_b(O)$. Hence exactly one representative $r_q$ makes $yr_q$ primitive, and since the $r_q^{-1}$ again run over representatives of all cosets, exactly one $q$ makes $yr_q^{-1}$ primitive.
+
+(c) If $x=x_k$ with $k\in\GL_n(O)$, the identity $k^{-1}k=1$ gives $x\,k_{\cdot a}=1$ for the columns $a$ of $k$, so $x^{\mathsf T}$ has the integral left inverse $k_{\cdot a}^{\mathsf T}$. Conversely, if
+$x^{\mathsf T}$ is primitive, the rows of $x$ reduce to linearly independent rows at every factor, so they complete to an integral matrix $m$ with determinant a unit (complete the reductions to a basis and
+lift), and $k=m^{-1}$ lies in $\GL_n(O)$ with $x_k=x$.
+
+(d) By (b) each $x$ in the support has $x^{\mathsf T}r_q^{-1}$ primitive for one $q$, and the set of $x$ for which a given $q$ works is open, by (a). The support is compact, so finitely many of these open
+sets cover it.
+\end{proof}
+
+\begin{proposition}[Matched functions]\label{prop:matched}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The block determinant functions $\Phi(x_1\ x_2)=\chi^{-1}(\det x_2)f(x_2^{-1}x_1)$ and $\Psi\binom{y_1}{y_2}=\chi^{-1}(\det y_1)f(-y_2y_1^{-1})$ are matched.
+\item Matched functions over $O$, with $\Psi$ locally constant, form a same-section pair; same-section pairs are stable under $(\Phi,\Psi)\mapsto(\chi(\det g)\Phi(\cdot g),\Psi(g^{-1}\cdot))$; and a linear map of
+$\Phi$ invariant under $\Phi\mapsto\chi(\det g)\Phi(g\,\cdot)$ is, on same-section pairs, a linear function of $\Psi$ alone.
+\item Functions modulo $\mathfrak m$ matched for the residue character give matched local functions over $O$ with the same adelic data.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Here the matrices are cut along $\sigma$: $x=(x_1\ x_2)$ with $x_2$ the square block of size $a$, and $y=\binom{y_1}{y_2}$ with $y_1$ the square block of size $b$; the functions are $0$ where the square block
+is not invertible. \emph{Supports.} If $x_2$ is invertible, the block triangular matrix with rows $(1\ 0)$ and $(x_1\ x_2)$ is invertible, and its inverse $k$ has $x_k=x$; if $y_1$ is invertible, the matrix
+with columns $\binom{y_1}{y_2}$ and $\binom01$ is invertible and has $y_k=y$. \emph{The identity.} Let $k$ be invertible with $x_k=(x_1\ x_2)$ and $y_k=\binom{y_1}{y_2}$. The rows $a$ of $k^{-1}$ times the columns $b$ of
+$k$ vanish, so $x_1y_1+x_2y_2=0$, and Jacobi's identity for complementary minors gives $\det y_1=\det x_2\cdot\det k$. Hence $x_2$ is invertible exactly when $y_1$ is, and then $x_2^{-1}x_1=-y_2y_1^{-1}$, so
+\[
+  \Phi(x_k)=\chi^{-1}(\det y_1)\chi(\det k)f(-y_2y_1^{-1})=\chi(\det k)\Psi(y_k);
+\]
+otherwise both sides are $0$.
+
+(b) \emph{Matched functions are a same-section pair.} Let $\Phi$, $\Psi$ be matched over $O$ with $\Psi$ locally constant. The matrices $y_k$, $k\in\GL_n(O)$, are primitive, and by \cref{lem:common-cosets}(c)
+so are the transposes of the $x_k$; both functions therefore vanish off the primitive matrices (after transposing $\Phi$), whose set is open, closed and compact within the integral matrices. The function
+$y\mapsto\Phi(y^{\mathsf T})$ is locally constant: its pull-back to the compact group $\GL_n(O)$ under $k\mapsto x_k^{\mathsf T}$ is $k\mapsto\chi(\det k)\Psi(y_k)$, which is locally constant, and the image of this map
+is the open set of primitive matrices. Hence both functions are Schwartz--Bruhat. By \cref{lem:common-cosets}(b), for a left invertible $y$ there is $g$ with $yg$ primitive, and the section at $y$ of a
+function that vanishes off the primitive matrices is the single term $\chi(\det g)\Psi(yg)$. Let $k\in\GL_n(F)$, and choose $g\in\GL_a(F)$, $u\in\GL_b(F)$ with $x_k^{\mathsf T}g$ and $y_ku$ primitive. Put
+$j=k\,\mathrm{diag}(u,(g^{\mathsf T})^{-1})$ in the order of $\sigma$; then $y_j=y_ku$, $x_j=g^{\mathsf T}x_k$ and $\det j\det g=\det k\det u$, so the section condition at $k$ is the identity
+$\Phi(x_j)=\chi(\det j)\Psi(y_j)$. For it, $x_j^{\mathsf T}$ is primitive, so $x_j=x_i$ for some $i\in\GL_n(O)$ (\cref{lem:common-cosets}(c)). The columns $y_i$ and $y_j$ both span the kernel of the rows $x_i$,
+so $y_j=y_ig'$ for some $g'\in\GL_b(F)$, and $g'=Ly_j$ is integral for an integral left inverse $L$ of $y_i$, as is its inverse; hence $g'\in\GL_b(O)$, and $i'=i\,\mathrm{diag}(g',1)\in\GL_n(O)$ has $x_{i'}=x_i$ and
+$y_{i'}=y_j$. For any $P$ with $Py_j=1$, the matrix with rows $P$ and $x_j$ times $j$ is block triangular with unit diagonal, because $x_jy_j=0$ and $x_j$ times the columns $a$ of $j$ is $1$; so
+$\det j$ is the inverse of that determinant and depends only on $(x_j,y_j)$. Hence $\det j=\det i'$, and the matching for $i'$ gives the identity.
+
+\emph{Translation.} Let $g\in\GL_n(F)$. The rows $a$ of $(g^{-1}k)^{-1}$ are $x_kg$ and the columns $b$ of $g^{-1}k$ are $g^{-1}y_k$. Substituting in the definition of the sections, the section of
+$y\mapsto\chi(\det g)\Phi(y^{\mathsf T}g)$ at $x_k^{\mathsf T}$ is $\chi(\det g)$ times the section of $y\mapsto\Phi(y^{\mathsf T})$ at $x_{g^{-1}k}^{\mathsf T}$, which is $\chi(\det g)\chi(\det g^{-1}k)$ times the section of
+$\Psi$ at $g^{-1}y_k$, that is $\chi(\det k)$ times the section of $\Psi(g^{-1}\cdot)$ at $y_k$. The support conditions are clearly preserved.
+
+\emph{A linear function of $\Psi$.} Let $\Lambda$ be linear on the functions of $a\times n$ matrices with $\chi(\det g)\Lambda(\Phi(g\,\cdot))=\Lambda(\Phi)$ for all $g\in\GL_a(F)$ and all locally constant $\Phi$
+of compact support in the matrices with left invertible transpose. For $x$ with $x^{\mathsf T}$ primitive choose $k(x)\in\GL_n(O)$ with $x_{k(x)}=x$ (\cref{lem:common-cosets}(c)), and let $\Phi_\Psi$ be the
+function equal to $\chi(\det k(x))$ times the section of $\Psi$ at $y_{k(x)}$ at such $x$ and to $0$ elsewhere; put $T(\Psi)=\Lambda(\Phi_\Psi)$, which is linear in $\Psi$. Let $(\Phi,\Psi)$ be a same-section pair.
+By \cref{lem:common-cosets}(d), $\Phi=\sum_q\Phi_q$ for finitely many cosets $q$, where $\Phi_q$ is $\Phi$ on the $x$ with $x^{\mathsf T}r_q^{-1}$ primitive and $0$ elsewhere. Let $m_q(x)=\Phi(r_q^{\mathsf T}x)$ if
+$x^{\mathsf T}$ is primitive and $m_q(x)=0$ otherwise; then $\Phi_q(x)=m_q((r_q^{\mathsf T})^{-1}x)$, and the invariance of $\Lambda$ gives $\Lambda(\Phi_q)=\chi(\det r_q)\Lambda(m_q)$. At an $x$ with $x^{\mathsf T}$
+primitive, $\sum_q\chi(\det r_q)m_q(x)$ is the section of $y\mapsto\Phi(y^{\mathsf T})$ at $x^{\mathsf T}$, and by the same-section property it equals $\chi(\det k(x))$ times the section of $\Psi$ at $y_{k(x)}$, that
+is $\Phi_\Psi(x)$; both vanish at the other $x$. Hence $\Lambda(\Phi)=\sum_q\chi(\det r_q)\Lambda(m_q)=\Lambda(\Phi_\Psi)=T(\Psi)$.
+
+(c) Let $\pi$ be the reduction from the integers at the places of $\mathfrak m$ to $\OO_E/\mathfrak m$, and let $\Phi'=\Phi\circ\pi$ and $\Psi'=\Psi\circ\pi$ on integral matrices, $0$ elsewhere. Reduction modulo
+$\mathfrak m$ sees only the components at these places, so the adelic data of $\Phi$ and $\Phi'$ (and of $\Psi$ and $\Psi'$) agree. The map $\pi$ is onto and detects units, being compatible with the residue
+maps, and on units the local character and the residue character are both the product of the residue characters of the tame part. \emph{Supports.} If $\Phi'(x)\ne0$, then $x$ is integral and $\pi(x)$ is
+the block of rows of the inverse of an invertible matrix modulo $\mathfrak m$, so the reduction of $x^{\mathsf T}$ has a left inverse; this lifts, and $x^{\mathsf T}$ is primitive by \cref{lem:common-cosets}(a),
+so $x=x_k$ with $k\in\GL_n(O)$ by \cref{lem:common-cosets}(c). Likewise for $\Psi'$. \emph{Values.} For $k\in\GL_n(O)$, $\pi(x_k)=x_{\pi(k)}$ and $\pi(y_k)=y_{\pi(k)}$, so
+$\Phi'(x_k)=\chi(\det\pi(k))\Psi'(y_k)$, with $\chi(\det\pi(k))$ the local character at $\det k$. Finally $\Psi'$ is locally constant, as it factors through the reduction on the open and closed set of
+integral matrices.
+\end{proof}
+
+An \emph{equivariant lift} on a space $M$ of Schwartz--Bruhat functions at the ramified places $S$ is a linear map $\mathcal D$ from $M$ to automorphic functions on $\U(X)$ that turns translation
+at $S$ into right translation up to a character of the determinant and has values invariant under the integral points off $S$.
+
+The places $S$ of a split tame character are split over the totally real subfield, so a point of a unitary group supported on $S\cup\bar S$ is determined by its component at $S$, an element of
+$\GL$ over $E_S=\prod_{w\in S}E_w$, and every element of $\GL(E_S)$ occurs. Write $\chi_{\rm loc}(t)=\nu(t/\bar t)\abs t^{\operatorname{rk}W/2}$ on $E_S^\times$.
+
+\begin{lemma}[Translation laws]\label{lem:translation-laws}
+Let $(\nu,S)$ be a split tame character, $\operatorname{rk}W=\abs b+\operatorname{rk}V$ even, and let both characters of the pair $(W,V)$ be the rank twist $\gamma$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For a finite point $k$ of $\U(V)$ supported on $S\cup\bar S$, with component $k_S$ at $S$, the Weil representation of $(1,k^{-1})$ carries the datum with real part $v$ and the function $\Phi$ at $S$
+to $\chi_{\rm loc}(\det k_S)$ times the datum with $x\mapsto\Phi(k_Sx)$ in place of $\Phi$.
+\item For a finite point $g$ of $\U(W)$ supported on $S\cup\bar S$, with component $g_S$, the theta integral $\theta_{W,V}$ of $y\mapsto\chi_{\rm loc}(\det g_S)^{-1}\Phi(yg_S^{-1})$ at $xg$ is that of $\Phi$ at
+$x$ divided by $(\upsilon\abs\cdot^{1/2})(\det g_S)^{\abs b}$.
+\item With $\Psi(g_S\,\cdot)$ in place of $\Phi$, the same holds for the theta integral $\theta_{V',W}$ of the small side.
+\item Both theta integrals are right invariant under the integral points of $\U(W)$ that are trivial at $S$, and the small side is linear in $\Psi$.
+\item If $v$ has all moments finite, $\theta_{W,V}(v,\Phi)(g)$ is, on same-section pairs $(\Phi,\Psi)$ for $\chi_{\rm loc}$, a linear function of $\Psi$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Exchange.thetaSmall, New.Exchange.IsTargetBounded.pairWeil_one_left, New.Exchange.thetaIntegral_smul, New.Exchange.ReadsAt.pairWeil_localDatum_of_mem_supportedOn, New.Exchange.pairWeil_inv_localDatum, New.Exchange.thetaLarge_translate_mul, New.Exchange.thetaSmall_translate_mul, New.Exchange.thetaLarge_mul_of_mem_stdLevel, New.Exchange.thetaSmall_mul_of_mem_stdLevel, New.Exchange.exists_linear_thetaSmall, New.Exchange.exists_linear_thetaLarge, New.Exchange.exists_isEquivariantLift_eq_thetaLarge_sub_smul}
+
+\begin{proof}
+(a) A finite point $(g,h)$ supported on a set of places $A$ and its conjugate acts on the datum given by a function $\varphi$ at $A$ by the substitution $x\mapsto\varphi(h^{-1}xg)$ of the components at $A$,
+times $\chi_W(\det h)\chi_V(\det g)^{-1}\abs{\det g}^{\operatorname{rk}V/2}\abs{\det h}^{-\operatorname{rk}W/2}$, the determinants taken at $A$, with $\chi_W$, $\chi_V$ the space characters of the two characters of
+the pair; this is the explicit form of the finite Weil representation in the Schr\"odinger model (\cref{ss:B-weil}). Take $A=S$ and $(g,h)=(1,k^{-1})$. The determinant of $k$ is the idele equal to
+$t=\det k_S$ at $S$, to $\bar t^{-1}$ at $\bar S$ and to $1$ elsewhere; evaluating the space character of the rank twist in rank $\operatorname{rk}W$ and the modulus at this idele gives the scalar
+$\nu(t/\bar t)\abs t^{\operatorname{rk}W/2}=\chi_{\rm loc}(\det k_S)$, the powers of the splitting character entering $\gamma$ and the space character compensating each other.
+
+(b) Right translation of the theta integral by $g$ is the Weil representation of $(g,1)$ on the datum. By the formula of (a) for $(g,1)$ the datum of $\Phi'=\chi_{\rm loc}(\det g_S)^{-1}\Phi(\cdot\,g_S^{-1})$
+becomes that of $\Phi$, times $\chi_{\rm loc}(\det g_S)^{-1}$ and the value at $\det g$ of $\chi_V^{-1}\abs\cdot^{\operatorname{rk}V/2}$, with $\chi_V$ the space character of $\gamma$ in rank $\operatorname{rk}V$. At the idele
+$\det g$, equal to $d=\det g_S$ at $S$ and $\bar d^{-1}$ at $\bar S$, the factors $\nu(d/\bar d)$ cancel and the moduli and splitting characters combine to
+$(\upsilon\abs\cdot^{1/2})(d)^{\operatorname{rk}V-\operatorname{rk}W}=(\upsilon\abs\cdot^{1/2})(d)^{-\abs b}$, as $\operatorname{rk}W-\operatorname{rk}V=\abs b$.
+
+(c) On the small side the datum is $y\mapsto\Psi(y^{\mathsf T})$ at the conjugate places $\bar S$, where $g$ has the component $(\bar g_S^{\mathsf T})^{-1}$; transposing, the substitution becomes
+$\Psi\mapsto\Psi(g_S\,\cdot)$. The characters of the small side are $\nu\upsilon^{\operatorname{rk}W/2}$ on $W$ and $\upsilon^{\abs b}$ on $V'$, and the scalar, now a value at the component $\bar d^{-1}$ at $\bar S$,
+is again $(\upsilon\abs\cdot^{1/2})(d)^{-\abs b}$.
+
+(d) An integral point trivial at $S$ fixes the vacuum at the other finite places and does not touch the components at $S$, so it fixes the datum. Linearity of the small side holds because the
+theta integral is linear in the datum and is given, on data of polynomial growth, by an absolutely convergent integral.
+
+(e) The functional $\Lambda(\Phi)=\theta_{W,V}(v,\Phi)(g)$, extended linearly to all functions, satisfies $\chi_{\rm loc}(\det k)\Lambda(\Phi(k\,\cdot))=\Lambda(\Phi)$ for $k\in\GL_a(E_S)$: by (a) the datum of
+$\Phi(k\,\cdot)$ is $\chi_{\rm loc}(\det k)^{-1}$ times the translate of that of $\Phi$ by a point of $\U(V)$ supported on $S\cup\bar S$, and the integral over $[\U(V)]$ does not see this translate. The last
+part of \cref{prop:matched}(b) gives the linear function of $\Psi$.
+\end{proof}
+
+\begin{proposition}[Equivariant lifts]\label{prop:equivariant-lift}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $\operatorname{rk}W=\operatorname{rk}V'+\operatorname{rk}V$ be even, $v$, $v'$ real Schwartz vectors and $c\in\C$. There are $M$ and an equivariant lift $\mathcal D$, for the character
+$\upsilon^{-\abs b}\abs\cdot^{-\abs b/2}$ of the determinant, such that every locally constant $\Psi$ with a matched $\Phi$ lies in $M$ and $\mathcal D\Psi=\theta_{W,V}(v,\Phi)-c\,\theta_{V',W}(v',\Psi)$.
+\item (Stable spaces.) Let $P$ be a $\GL_n(F)$-stable space of locally constant compactly supported functions vanishing off a set $U$. If $P$ contains $r\cdot\mathrm{std}_s$ for an $\N$-valued $r$ with
+$r(x)\ne0$ at an integral $x$ with $sx=1$, then $P$ contains every locally constant $\Psi$ with a matched $\Phi$.
+\item (Self-dual lattices suffice.) Let $D$, $D_1$ be adapted splittings of $X$ over $W_1$ along $b$ lines and of $W_1$ along one more line, and let $f=\mathcal D\Psi_0$ for the standard datum of the dual
+block of the frame of $D$. If $f$ vanishes at self-dual lattices along $D$, that is, its Fourier coefficients along the centre of the unipotent radical vanish at the test pairs of $V'$ (the form
+of $V'$ at the points spanning a self-dual lattice, or an invertible form not represented by the signs of $V'$ at some real place), then $\mathcal D$ vanishes on every locally constant datum with a
+matched function.
+\item (Negative indices.) If the weights are less than the number of positive signs of the complement $Z$ of $D$, and $T$ is invertible and at some real place not of the form $-c^*c$, then
+the Fourier coefficient at $\jmath T$ of the theta integral vanishes, provided the unfolded terms are absolutely integrable.
+\end{enumerate}
+\end{proposition}
+
+The proof of (b) is an average over $\GL_n(O)$, that of (c) a Gauss sum of shears, and that of (d) an argument with a compact group; they are given in three lemmas.
+
+\begin{lemma}[Averaging]\label{lem:exchange-averaging}
+Statement \textup{(b)} of \cref{prop:equivariant-lift} holds. More precisely, let $\Psi$ be locally constant with a matched function, let $c$ be such that $\Psi$ is invariant under translation by
+$\varpi^cM_{n\times b}(O)$, and let $d=\varpi^{-c}(1-x(s-\varpi^cs))$. Then for $k\in\GL_n(O)$ and all $y$,
+\[
+  \Psi(k^{-1}x)\,p(dky)=\abs{p(dky)}\,\Psi(y),\qquad p=r\cdot\mathrm{std}_s,
+\]
+and the average of $y\mapsto\Psi(k^{-1}x)p(dky)$ over $k\in\GL_n(O)$ is a positive multiple of $\Psi$.
+\end{lemma}
+
+\begin{proof}
+\emph{Invariance.} The matrices $t$ with $\Psi(\cdot+t)=\Psi$ form an open subgroup, because $\Psi$ is locally constant with compact support; it contains $\varpi^cM(O)$ for large $c$, the integral matrices being
+compact and $\varpi^c\to0$. \emph{The matrix $d$.} As $sx=1$, the matrix $e=xs$ is idempotent; $d=\varpi^{-c}(1-e)+e$, with inverse $d^{-1}=\varpi^c(1-e)+e$, and $dx=x$, $sd=s$. \emph{The identity.} If
+$p(dky)\ne0$, then $z=dky$ is integral and $g=sz=sky$ lies in $\GL_b(O)$. Then $ky=d^{-1}z=\varpi^c(1-e)z+xg$, so $y\equiv k^{-1}xg$ modulo $\varpi^cM(O)$, and $\Psi(y)=\Psi(k^{-1}xg)$. The matrix $k^{-1}x$ is
+primitive, so it is $y_{k'}$ for some $k'\in\GL_n(O)$, and $k'\,\mathrm{diag}(g,1)$ has the same rows $x_{k'}$ of the inverse and the columns $k^{-1}xg$; the matching at the two matrices gives
+$\Psi(k^{-1}xg)=\chi(\det g)^{-1}\Psi(k^{-1}x)$. On the other hand $p(dky)=r(z)\chi^{-1}(\det g)$. Hence
+\[
+  \Psi(k^{-1}x)p(dky)=r(z)\chi^{-1}(\det g)\chi(\det g)\Psi(y)=\abs{p(dky)}\Psi(y),
+\]
+since $r(z)\ge0$ and $\abs{\chi^{-1}(\det g)}=1$. If $p(dky)=0$ both sides vanish. \emph{The average.} The family $k\mapsto\Psi(k^{-1}x)p(dk\,\cdot)$ is locally constant on the compact group $\GL_n(O)$ with
+values in $P$ (each value is a multiple of a translate of $p$), so its mean is a finite combination of elements of $P$ and lies in $P$. By the identity the mean is $I(y)\Psi(y)$ with
+$I(y)=\int\abs{p(dky)}\,dk$. Where $\Psi(y)\ne0$, $y=y_l$ for some $l\in\GL_n(O)$; and $x$, being integral with the integral left inverse $s$, is $y_j$ for some $j\in\GL_n(O)$; the substitution $k\mapsto kjl^{-1}$
+preserves the Haar measure and gives $I(y)=I(x)$. At $k=1$, $p(dx)=p(x)=r(x)\chi^{-1}(\det sx)=r(x)\ne0$, and $p(dk x)$ is locally constant in $k$, so $I(x)>0$. Hence $\Psi=I(x)^{-1}\cdot(\text{mean})\in P$.
+\end{proof}
+
+Let $A$ be an \emph{integral frame}: an integral basis of $F^n$ with column blocks $K$, $I$, $L$ ($K$ and $L$ of size $n\times b$) whose inverse is integral with row blocks $K'$, $I'$, $L'$, so that
+$K'K=L'L=1$ and $K'L=L'K=0$. Let $\psi$ be an additive character of $F$ with conductor $O$, $\eta$ the primitive character of $R=O/\varpi O$ with $\eta\circ\pi=\chi^{-1}$ on units and $0$ on the rest of $O$, and
+$l$ a section of the reduction of $b\times b$ matrices with $l(1)=1$. Let $S_z(y)=\mathrm{std}_{K'}(y+LzK'y)$ be the shears of the standard datum $S_0=\mathrm{std}_{K'}$.
+
+\begin{lemma}[Gauss sums of shears]\label{lem:gauss-shears}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The row datum of the dual block $L'$ is $\varepsilon\,\chi^{-1}(\det x(K\ I))$ at integral $x$ with $\det x(K\ I)$ a unit, and $0$ elsewhere, for a constant $\abs\varepsilon=1$.
+\item For integral $z$ the shear fixes $S_0$; for $r$ over $O$ and integral $x$, $\mathrm{std}_{L'}(LrK'x-\varpi x)=\eta(\det\pi(r))\,\mathrm{std}_{K'}(x)$; and if $\eta(\det\pi(T))=0$, then
+\[
+  \sum_r\eta(\det r)\,\psi\bigl(\varpi^{-1}\tr(T\,l(r))\bigr)=0,
+\]
+the sum over the $b\times b$ matrices $r$ over $R$.
+\item Let $P$ be a $\GL_n(F)$-stable space as in \cref{prop:equivariant-lift}(b), and $M$ a space containing all $S_z$. Suppose that $P$ contains every $f\in M$ with $\Lambda(f)=0$ for all matrices $T$ and all
+functionals $\Lambda$ such that $\Lambda(S_z)=\psi(\tr Tz)\Lambda(S_0)$ for all $z$ and $\Lambda(S_0)=0$ when $T\in\GL_b(O)$. Then $P$ contains every locally constant $\Psi$ with a matched function.
+\end{enumerate}
+\end{lemma}
+\lean{New.Exchange.IntegralFrame.exists_stdRowDatum_eq_stdDatum, New.Exchange.exists_pow_smul_add_eq, New.Exchange.IntegralFrame.stdColDatum_shear_of_isIntMatrix, New.Exchange.sum_mul_addChar_lift_eq_zero, New.Exchange.invOnUnits_det_eq_resChar_det, New.Exchange.IntegralFrame.stdColDatum_mul_sub_smul, New.Exchange.IsEquivariantLift.apply_eq_zero_of_centreCoeff_eq_zero, New.Exchange.SplitTameChar.isIntMatrix_glue_hermitian, New.Exchange.IsSelfDualTestPair, New.Space.Splitting.VanishesAtSelfDual, New.Space.Splitting.centreCoeff_eq_zero_of_orthonormal, New.Exchange.IsEquivariantLift.partialMean_shear, New.Exchange.IsEquivariantLift.exists_linear_partialMean, New.Exchange.IsEquivariantLift.shearInvariant_stdColDatum, New.Exchange.IsEquivariantLift.apply_eq_zero_of_areMatched}
+
+\begin{proof}
+(a) The square matrix with rows $L'$ and $x$, times the integral basis $(L\ K\ I)$ of unit determinant, is block triangular with diagonal blocks $1$ and $x(K\ I)$; so its determinant is a unit exactly when
+$\det x(K\ I)$ is, and the constant is $\varepsilon=\chi(\det(L\ K\ I))$. (b) $K'(y+LzK'y)=K'y$ because $K'L=0$, and the added term is integral when $K'y$ is, so $S_z=S_0$. For the second identity let $k$, $u$ be
+the lifts of $K'x$, $L'x$; then $L'(LrK'x-\varpi x)=rk-\varpi u$, and $\chi^{-1}\circ\det$ of it, cut off to units, is $\eta(\det\pi(r))\eta(\det\pi(k))$ because $\varpi u$ vanishes modulo $\varpi$. For the Gauss sum,
+$x\mapsto\psi(\varpi^{-1}x)$ descends to a primitive additive character $\phi$ of $R$, and the pairing of $T$ with $l(r)$ reduces to that of $\pi(T)$ with $r$; for the primitive character $\eta$ of the finite ring, the
+transform $\sum_r\eta(\det r)\phi(\tr(\pi(T)r))$ is a constant times $\eta^{-1}(\det\pi(T))$, which is $0$.
+
+(c) Put $G=\sum_r\eta(\det r)S_{\varpi^{-1}l(r)}$, an element of $M$. Let $\Lambda$ be a functional with the shear law for $T$. If $T$ were not integral, the shears by integral $z$, which fix $S_0$, would give
+$\psi(\tr Tz)=1$ for all integral $z$, contradicting the conductor; so $T$ is integral. If $T\in\GL_b(O)$, then $\Lambda(S_0)=0$ and $\Lambda(G)=0$. Otherwise $\eta(\det\pi(T))=0$ and
+$\Lambda(G)=\sum_r\eta(\det r)\psi(\varpi^{-1}\tr(Tl(r)))\Lambda(S_0)=0$ by (b). Hence $G\in P$. Evaluate $G$ at $w=-\varpi^{-1}y$. The term of $r$ is $\eta(\det r)\mathrm{std}_{K'}(x)$ with
+$x=w+\varpi^{-1}Ll(r)K'w$; as $K'L=0$, $K'x=K'w$, so $w=x-\varpi^{-1}Ll(r)K'x$ and $y=Ll(r)K'x-\varpi x$. By (b), $\mathrm{std}_{L'}(y)=\eta(\det r)\mathrm{std}_{K'}(x)$, so every nonzero term equals
+$\mathrm{std}_{L'}(y)$, and the translate $y\mapsto G(-\varpi^{-1}y)$, which lies in $P$, is $r'\cdot\mathrm{std}_{L'}$ for the $\N$-valued function $r'$ counting the nonvanishing terms. At $x_0=L-\varpi K$, which is
+integral with $L'x_0=1$, the term $r=1$ has $K'w=1$ and $x=K$, so it is $\mathrm{std}_{K'}(K)=1$; hence $r'(x_0)\ne0$, and \cref{lem:exchange-averaging} applies with $s=L'$.
+\end{proof}
+
+\begin{lemma}[No invariant functional]\label{lem:no-invariant}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $Y$ be a subspace of finite dimension of a Banach space on which a compact group acts by bounded operators, stable under the group, in which only $0$ is fixed. Then an invariant bounded
+functional vanishes at every vector of $Y$ with continuous orbit.
+\item Let $\mu(\tau)$ be less than the number of positive signs of $t$, let $s$ have a positive sign and $\abs b$ more negative signs than $t$, and let the Gram matrix of the columns of $x$ for the signs $s$
+not be of the form $-c^*c$. Then there is an isometry $u$ at $\tau$ such that every functional on the Fock space that is invariant under the compact stabiliser of $ux$, acting by the real Weil representation of
+weight $\mu$, is zero.
+\item Statement \textup{(d)} of \cref{prop:equivariant-lift} holds: under its hypotheses the Fourier coefficient at $\jmath T$ of the theta integral vanishes at every point.
+\end{enumerate}
+\end{lemma}
+\lean{New.Exchange.exists_unitary_mulVec_eq_single, New.Exchange.exists_unit_dotProduct_col_eq_zero, New.Exchange.exists_mem_maxCompactU_eq_rotation, New.Exchange.mulSingle_mem_blockDiagAlg, New.Exchange.realPairWeil_rotation_polyVector, New.Exchange.eval_eq_zero_of_rotation_fixed, New.Exchange.apply_eq_zero_of_forall_fixed_eq_zero, New.Exchange.eq_zero_of_stabilizer_fixes_polyVector, New.Exchange.realPairWeil_mulSingle_mem_map_homogeneousSubmodule, New.Exchange.exists_isometry_fock_functional_eq_zero, New.Exchange.haar_map_mul_right_of_isCompact, New.Exchange.integral_theta_pairWeil_stabilizer_eq_zero, New.Exchange.homSlice_pairWeil_stabilizer_mul, New.Exchange.centreCoeff_eq_zero_of_not_representedBy}
+
+\begin{proof}
+(a) The mean of the orbit of $w\in Y$ over the compact group lies in $Y$ (a closed finite-dimensional stable subspace) and is fixed, so it is $0$; the invariant functional takes the same value at $w$ and at the
+mean.
+
+(b) \emph{Choice of $u$.} The Gram form of $x$ is not negative semidefinite, so it represents $1$, and by Witt's theorem an isometry $u$ carries a vector of the span of $x$ to the positive basis vector $e_i$;
+replace $x$ by $ux$. \emph{Rotations.} Let $z$ be a point of the Fock variables. There is a unit vector $r$ supported on the negative signs of $s$ that kills the $\abs b$ columns of $x$ and the columns $j$ of $z$ with $t_j=-1$.
+Indeed, these conditions define a linear map $f$ from the space of vectors on the negative signs of $s$, of dimension $\abs b+\#\{j:t_j=-1\}$, to a space of the same dimension. If $f$ were injective it
+would be onto; but $e_i=xc$ for some vector $c$, and for $r$ supported on the negative signs the $\abs b$ coordinates $r^{\mathsf T}x$ of $f(r)$ satisfy $r^{\mathsf T}x\,c=r_i=0$, a nontrivial linear relation, so $f$ is
+not onto. A nonzero vector of its kernel, normalised, is $r$. For $\abs\eta=1$ the rotation $c_\eta$ by $\bar\eta$ of the line of $\bar r$ lies in
+the maximal compact subgroup, as it preserves every form commuting with the projection onto that line, and it fixes $x$. Acting at $\tau$ by the real Weil representation on the Fock vector of a polynomial
+$P$, it is a substitution times $\eta^N$ with $N=\#\{j:t_j=1\}-\mu(\tau)>0$: the substitution multiplies $\sum_i\bar r_iX_{\tau,i,j}$ by $\bar\eta$ if $t_j=-1$, and $\sum_ir_iX_{\tau,i,j}$ by $\eta$ if $t_j=1$, and fixes the
+orthogonal combinations. At the point $z$ the first kind of combination vanishes, so the value at $z$ of the moved polynomial is $g(\eta)$ for a polynomial $g$ with $g(0)=0$. If all $c_\eta$ fix the vector of $P$,
+then $g$ is constant on the circle, with mean $g(0)=0$, so $P(z)=0$; as $z$ is arbitrary, $P=0$. \emph{Functionals.} The stabiliser acts on the polynomial vectors of each degree by a scalar times a linear
+substitution, so these finite-dimensional spaces are stable and contain no nonzero fixed vector; by (a) an invariant functional kills them, and polynomial vectors are dense.
+
+(c) If no rational frame has Gram matrix $T$, the coefficient is an empty sum. Otherwise, after unfolding, it is the integral of the term of one frame $x$ over the adelic stabiliser $S_x$ of $x$ modulo its
+rational points. Let $\tau$ be a real place at which $T$ is not of the form $-c^*c$ and $u$ as in (b), and let $C$ be the intersection of $S_x$ with the conjugate by $u$ of the maximal compact subgroup at $\tau$.
+Right translation by an element of a compact subgroup preserves the left Haar measure of $S_x$ (the modular function is $1$ on compact subgroups: both measures agree on the compact set $AC$), so the integral
+equals the integral of the mean of the term over right translates by $C$. On the slice at $x$ the stabiliser acts by the Weil representation of the smaller pair $(Z,Y)$, with the character $\nu$ when the
+character of the large pair is $\nu\upsilon^{\abs b}$; so, for each fixed finite part, the mean is a bounded functional on the Fock space at $\tau$ invariant under the compact stabiliser of $ux$, and it is zero by (b).
+Data with fixed finite parts determine the functional, so the coefficient vanishes.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:equivariant-lift}]
+(a) Let $M$ be the space of second members $\Psi$ of same-section pairs $(\Phi,\Psi)$ for $\chi_{\rm loc}$ and $\sigma$. By \cref{lem:translation-laws}(e) there is a linear $T$ on $M$ with
+$T(\Psi)=\theta_{W,V}(v,\Phi)$ for every same-section pair; put $\mathcal D\Psi=T(\Psi)-c\,\theta_{V',W}(v',\Psi)$. Its values are automorphic, being theta integrals. The space $M$ is stable under translation by
+$\GL_n(E_S)$ (\cref{prop:matched}(b)), and by \cref{lem:translation-laws}(b), (c) translation of the pair by $g_S$ multiplies both theta integrals, read at $xg$, by $(\upsilon\abs\cdot^{1/2})(\det g_S)^{-\abs b}$;
+so $\mathcal D$ turns translation at $S$ into right translation, for the character $\upsilon^{-\abs b}\abs\cdot^{-\abs b/2}$ of the determinant. Invariance under the integral points off $S$ is
+\cref{lem:translation-laws}(d). If $\Psi$ is locally constant with a matched $\Phi$ for the semilocal character, the pair is matched for $\chi_{\rm loc}$ too, since $\abs{\det k}=1$ for $k\in\GL_n(O)$, so it is
+a same-section pair by \cref{prop:matched}(b); hence $\Psi\in M$ and $\mathcal D\Psi=\theta_{W,V}(v,\Phi)-c\,\theta_{V',W}(v',\Psi)$.
+
+(b) is \cref{lem:exchange-averaging}.
+
+(c) \emph{Reduction to unimodular indices.} Let $P=M\cap\ker\mathcal D$. It is stable under translation at $S$: by equivariance, the image of a translate of a killed datum is a multiple of a translate of $0$. Let the
+integral frame $A$ be the frame of $D$ read at $S$, so that $\Psi_0$ is the standard datum of its dual block, and let $M'$ be the span of the shears of $\Psi_0$. For a point $x$ and an index $T$, the Fourier
+coefficient of $\mathcal D\Psi$ along the centre of the unipotent radical of $D$ at $x$ is a linear functional $\Lambda_{T,x}$ of $\Psi\in M$, and the shear of the datum by $z$ along the frame at $x$ multiplies it by
+$\psi_S(\tr T_Sz)$, where $T_S$ is the component at $S$ of $\delta^{-1}T$ and $\delta$ the inverse different idele: the shear is the action of a central element of the radical supported on $S\cup\bar S$. Take
+the points $x=(1,g)$ with $g$ trivial at $S$. If $\Lambda_{T,x}(\Psi_0)=0$ whenever $T_S\in\GL_b(O)$, then every $f\in M'$ killed by all these functionals has all central Fourier coefficients of $\mathcal Df$ equal to $0$
+at the points $(1,g)$ (hermitian matrices are periods of the centre, so only skew-hermitian indices occur), hence $\mathcal Df(1,g)=0$, and by weak approximation and the equivariance at $S$, $\mathcal Df=0$. Hence
+$f\in P$, and \cref{lem:gauss-shears}(c) shows that $P$ contains every locally constant datum with a matched function.
+
+\emph{Unimodular indices are test pairs.} It remains to show $\Lambda_{T,(1,g)}(\Psi_0)=0$ when $\tau=\delta^{-1}T$ is unimodular at $S$. The index is skew-hermitian and invertible; write $T=\jmath\beta$. The extra line of
+$D_1$ gives shears: the partial means of $f$ along one more isotropic vector are invariant under the local shears $y\mapsto y+uwly$, because such a shear is the action of a unipotent point supported on $S\cup\bar S$
+that fixes the frame of $D$ and the vector of the line, and the standard datum $\Psi_0$ is fixed by the corresponding shears of the datum. By this invariance it suffices to show the vanishing at the
+points $x=n(l,z)m(q_0,g)$ of the parabolic subgroup of $D$ at which the Gram matrix of $q_0$ for $\tau$ is unimodular at every finite place: such a matrix is obtained by gluing a hermitian matrix integral
+at $S\cup\bar S$ with one integral at the other places, and the glued matrix has integral finite part. A unimodular hermitian matrix over $\hat\OO_E$ has an integral orthonormal basis $k$, so with
+$q_0=\alpha_0q$ the columns of $qk$ are orthonormal for $\beta$ at the finite places. If $\beta$ is not represented by the signs of $V'$ at some real place, $(\jmath\beta,q)$
+is a test pair of the second kind. Otherwise $\beta$ and the form of $V'$ are equivalent at every place, hence over $E$ by Landherr's theorem, $\beta=c^*J'c$ with $c$ rational; moving the rational Levi point
+$m(c,1)$ from the index to the point and past the radical turns $(\beta,q)$ into $(J',\alpha_0cq)$, and the columns of $V'^{-1}_xcqk$ are those of a unitary point, so this is a test pair of the first kind. In both
+cases the coefficient vanishes by hypothesis.
+
+(d) is \cref{lem:no-invariant}(c).
+\end{proof}
+
+\subsection{The large triple and the removal of planes}\label{ss:large-triple}
+The \emph{exchange identity for standard data} $\mathrm{RC}(W,V,V';x,y;\ell)$ asserts that $x$ and $y$ are Schwartz and that there is $C$ such that every tame $\nu$ of weight $\mu$ has a number $c$ with
+\[
+  C\abs c^2=L_*\bigl(\operatorname{rk}V-\lfloor\operatorname{rk}W/2\rfloor\bigr)\,\ell(\nu),\qquad\theta_{W,V}(x,\mathrm{row}_z)=c\,\theta_{W,V'}(y,\mathrm{std}_z)
+\]
+for all integral $z$, where $\mathrm{row}_z$ is the row datum of $z$.
+\lean{New.Exchange.thetaOnRealData, New.Exchange.RepresentedBy.of_conjTranspose_mul_mul, New.Exchange.SlicesVanishOutside, New.Exchange.coordMatrix_mul_fromBlocks_eq_fromCols, New.Exchange.hasIntegrableTerms_localDatum_of_eq_stdDatum, New.Exchange.thetaTerm_localDatum_of_eq_stdDatum, New.Exchange.centreCoeff_thetaIntegral_localDatum_eq_zero, New.Exchange.thetaTerm_eq_and_centreCoeff_eq_zero, New.Exchange.thetaOnRealData_boxProd_eq_mul, New.Exchange.thetaLarge_eq_apply_one_of_even_rank, New.Exchange.equalRankThetaRatio, New.Exchange.RowColExchangeIdentity, New.Exchange.mem_map_sum_iff_fixes_cols, New.Exchange.map_snd_adeleMatrix_inv_mul, New.Exchange.exists_blockSumOne_mul_mem_stdLevel, New.Exchange.namedVector_det_fromCols_eq_boxProd, New.Exchange.namedVector_det_star_eq_vacElem, New.Exchange.det_mem_idelesUnitOff_of_mul_mem, New.Exchange.stdColDatum_transpose_eq_stdDatum, New.Exchange.gram_sum_fromRows_one_zero, New.Exchange.thetaTerm_stdRowDatum_mul_of_mem_stdLevel, New.Exchange.thetaTerm_stdRowDatum_eq, New.Exchange.thetaTerm_stdColDatum_eq, New.Exchange.infiniteDet, New.Exchange.infiniteDet_apply, New.Exchange.det_eq_realIdele_mul_finIdeleIncl, New.Exchange.IsPeriodIdentity, New.Exchange.thetaOnRealData_smul, New.Exchange.thetaOnRealData_mul_real, New.Exchange.adeleMatrix_inv_sum_mul_mul_fromRows, New.Exchange.exists_integral_thetaTerm_eq_of_periods, New.Exchange.hasIntegrableTerms_and_centreCoeff_thetaLarge_eq_zero, New.Exchange.hasIntegrableTerms_and_centreCoeff_thetaSmall_eq_zero, New.Exchange.exists_centreCoeff_eq_mul_of_isPeriodIdentity, New.Exchange.exists_thetaLarge_eq_smul_of_isPeriodIdentity, New.Exchange.rowColExchangeIdentity_of_periods}
+
+The row datum and the standard datum of an integral $z$ are matched (\cref{lem:gauss-shears}(a) and the definitions): $\mathrm{row}_z$ vanishes off the rows of inverses of matrices in $\GL_n(O)$, $\mathrm{std}_z$
+off the corresponding columns, and their values differ by $\chi(\det k)$; both are Schwartz--Bruhat for tame $\chi$. Hence an identity on standard data is the case of \cref{thm:exchange} that the equivariant
+lifts of \cref{prop:equivariant-lift} extend to all matched data.
+
+\begin{proposition}[The large triple]\label{prop:large-triple}
+Let $D$ split $X$ as $W_1$ plus a hyperbolic space and $D_1$ split $W_1$, of even rank, as $W$ plus a hyperbolic plane, both adapted, and let $V=V'\oplus W_1$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Unfolded along $D$, the theta kernel of $(X,V)$ on a standard datum is a sum of integrable terms, each an explicit factor times the theta functional of $(W_1,V)$; on a product of real data this
+functional is that of $(W_1,V')$ times the theta kernel of $(W_1,W_1)$.
+\item (Equal ranks.) The theta integral of $(W_1,W_1)$ on $\chi^{-1}\circ\det$ is constant on $\U(W_1)$.
+\item If for every tame $\nu$ an identity of periods over $[\U(W_1)]$ holds between the real slices of $v$ and $v'$, with a weight $\rho\ge0$ nonzero near $1$ and a period $I_0(\nu)$, and either the
+real slices of $v$ vanish at points whose Gram matrix is not represented by the signs of $V'$ or $t'=-1$ and the signs of $W_1$ contain a $1$ with at most half equal to $-1$, then
+$\mathrm{RC}(X,V,V';v,v';\ell)$ holds with $\ell(\nu)=\abs{I_0(\nu)}^2/L_*(\operatorname{rk}W_1/2)$.
+\item (Real vectors.) For Schwartz vectors $v$ for $(W_1,V')$ and $v_1$ for $(W_1,W_1)$ there are $\Phi$ for $(X,V'\oplus W_1)$ and $\Lambda$ for $(X,V')$ whose slice at $0$ for the exchanged splitting is $v$, with
+$\mathrm{RC}(X,V'\oplus W_1,V';\Phi,\Lambda;\ell)$ and $\ell(\nu)$ the equal rank ratio of $v_1$ (below).
+\end{enumerate}
+\end{proposition}
+\lean{New.Exchange.exists_isSchwartzVector_realSlice_eq, New.Exchange.exists_isSchwartzVector_realSlice_zero_eq, New.Exchange.exists_contDiff_witt, New.Exchange.isSchwartzVector_realBoxProd, New.Exchange.exists_contDiff_eventuallyEq_inv, New.Exchange.exists_mul_mul_eq_and_gram_eq, New.Exchange.IsWittBump, New.Exchange.exists_contDiff_witt_and_bump, New.Exchange.mul_gram_inv_mul_of_isUnit_det, New.Exchange.exists_sum_one_eq_mul_mul_sum, New.Exchange.placeMatrices, New.Exchange.realSlice_eq_slice_placeMatrices_symm, New.Exchange.frameProjection, New.Exchange.unitaryMovedFrame, New.Exchange.exchangeSection, New.Exchange.exists_isSchwartzVector_realSlice_bump, New.Exchange.exists_isSchwartzVector_exchangeSection, New.Exchange.exchangeSection_frameProjection_mul, New.Exchange.exists_unitary_pair_of_frame, New.Exchange.prod_conj_pow_eq_norm_div, New.Exchange.realPairWeil_exchangeSection, New.Exchange.atRealPlace_inv_sum_mul_fromRows, New.Exchange.gram_signMatrix_fromRows_one_zero, New.Exchange.IsWittBump.exists_mul_fromRows_mul_eq_of_ne_zero, New.Exchange.IsWittBump.eventually_bump_frameProjection_ne_zero, New.Exchange.IsWittBump.isPeriodIdentity, New.Exchange.exists_rowColExchangeIdentity_sum}
+
+The proof occupies the rest of this subsection up to the definition of the cone integral. Throughout, the frame of $D$ is $(k\mid i\mid l)$ with dual isotropic blocks $k$, $l$ of size $\abs b$ and the
+embedding $i$ of $W_1$; the parabolic subgroup of $D$ consists of the points $n(c,z)m(q,g)$ of its unipotent radical times its Levi subgroup $\GL_b\times\U(W_1)$; at the places of $S$ the frame read in the
+local coordinates is an integral frame $(K\ I\ L)$ (\cref{lem:gauss-shears}). For an adelic matrix $x$ of size $\abs b\times\operatorname{rk}V$, the \emph{real slice} of a real datum $v$ for $(X,V)$ at $x$ is the real
+datum for $(W_1,V)$ obtained in the mixed model of $D$ by fixing the value $x$ on the frame $k$. The \emph{theta functional on real data} $\vartheta_{F,p,x}(\varphi)$ of the pair $(W_1,V)$ is the theta
+distribution at the datum with real part $\varphi$ and finite part a vector $F$, moved by the Weil representation at a point $p$ of $\U(W_1)\times\U(V)$ and by the Heisenberg translation by $x$.
+
+\begin{lemma}[Unfolded terms]\label{lem:unfolded-terms}
+Let $\Phi(y)=\varepsilon\,1_O(y)\chi^{-1}(\det(y(K\ I)N))$ at $S$, for a number $\varepsilon$ and a fixed matrix $N$, be Schwartz--Bruhat, and let $v$ be a real Schwartz vector. Put $\beta'=\beta\upsilon^{\abs b}$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The terms of the theta kernel of $v\otimes\Phi$, with characters $\beta'$, $\gamma$, at $n(c,z)m(q,g)$ are integrable over $[\U(V)]$.
+\item Let $x$ be a rational $\abs b\times\operatorname{rk}V$ matrix with standard coordinates $x'$, and write $x'q=\alpha_0Y$. At $(n(c,z)m(q,g),k)$ the term of $x$ is the product of
+$\psi(\tfrac12\tr(zx^*Jx))\,\chi_V(\det q)^{-1}\abs{\det q}^{\operatorname{rk}V/2}$, with $\chi_V$ the space character of $\gamma$ in rank $\operatorname{rk}V$; of a nonzero constant $\kappa_{\rm vac}$ if the finite part
+$y$ of $k^{-1}Y$ is integral, and $0$ otherwise; and of the theta functional of $(W_1,V)$, for the finite slice of $\Phi$ at $y$, the Heisenberg translation by $x'c^*J_s$ and the point $(g,k)$, at the real slice of
+$v$ at $k^{-1}Y$.
+\item If the signs $t'$ represent at the real places the Gram matrix of every $x$ at which the real slice of $v$ is nonzero, but do not represent $T$, then the Fourier coefficient at $\jmath T$ of the theta
+integral of $v\otimes\Phi$ vanishes at every point $n(c,z)m(q,g)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The criterion for integrable terms asks that, where $\Phi(y)\ne0$, $y$ times the frame $(k\mid i)$ moved by the inverse of the point be right invertible at $S$. There $\det(y(K\ I)N)$ is a unit, and the moved
+frame is the frame times a block triangular matrix with diagonal blocks the Levi components, so the right inverse is that triangular matrix times $NM^{-1}$, with $M$ the unit matrix $y(K\ I)N$. (b) The point of the parabolic subgroup is
+$(n(c,z),1)\cdot(m(q,g),k)$ and acts in two steps. The radical gives the character $\psi(\tfrac12\tr(zx^*Jx))$ and the Heisenberg operator at $x'c^*J_s$; the Levi element gives the space character, the
+modulus $\abs{\det q}^{\operatorname{rk}V/2}$ and the evaluation at $k^{-1}x'q$; and the value of $v\otimes\Phi$ there splits into the real slice of $v$ and the finite slice of $\Phi$. The finite slice of the vacuum
+at the other places is $\kappa_{\rm vac}$ times the vacuum if the finite part is integral and $0$ otherwise. (c) The coefficient is the sum of the terms of the rational $x$ with Gram matrix $T$. Write
+$q=\alpha_0q'$ and $Y=x'q'$; the Gram matrix of $k^{-1}Y$ is congruent to $T$ by $q'$, so, as being represented is preserved by congruence, it is not represented by $t'$, and the real slice there vanishes; each term is
+a multiple of the theta functional at that slice, hence $0$.
+\end{proof}
+
+\begin{lemma}[Product formula]\label{lem:product-formula}
+For the pair $(W_1,V'\oplus W_1)$, the datum built from a vector $f$ for $(W_1,V')$ and a vector $F$ for $(W_1,W_1)$, the translation $(c;0)$ and the point $(g,u\oplus l)$, the theta functional with characters
+$\alpha$, $\alpha\beta$ at a product $\varphi\otimes w$ of real data is the theta functional of $(W_1,V')$ with characters $\alpha$, $\beta$ at $f$, $c$, $(g,u)$, $\varphi$, times the theta kernel of $(W_1,W_1)$ with
+characters $\alpha$, $\alpha$ at $(g,l)$ for the datum $w\otimes F$.
+\end{lemma}
+
+\begin{proof}
+The datum is a product along the decomposition $V'\oplus W_1$ of the target, and the Weil representation, the Heisenberg operator and the theta distribution act factor by factor; on the second factor the
+translation is by $0$, and the characters of the two factors multiply to those of the sum.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:large-triple}(a)]
+By \cref{lem:unfolded-terms}(a), (b), applied to the row datum of the dual block, the terms are integrable and have the stated form, since by \cref{lem:gauss-shears}(a) this datum is
+$\varepsilon$ times a function of the form there with $N=1$, $\abs\varepsilon=1$; the vanishing of the Fourier coefficients is \cref{lem:unfolded-terms}(c). The product formula is \cref{lem:product-formula}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:large-triple}(b)]
+Let $F$ be the theta integral of $(W_1,W_1)$ at $v$ and the datum $\chi^{-1}\circ\det$ on $\GL_n(O)$ at $S$. It is the image of the standard datum under the equivariant lift of
+\cref{prop:equivariant-lift}(a) for the triple $(W_1,W_1,0)$ with $c=0$: here $b$ is empty, the standard datum lives on matrices with no column, and the row datum of the empty matrix is $\chi^{-1}\circ\det$.
+Translation at $S$ fixes every function of matrices with no column and the character of the lift is trivial, as $\abs b=0$; so $F$ is right invariant under all points supported on $S\cup\bar S$. By
+\cref{lem:translation-laws}(d) it is right invariant under the integral points trivial at $S$, and it is automorphic. Its constant term along $D_1$ at a Levi point $(u,x)$ is, by \cref{thm:B-tower}(d) for the
+pair $(W_1,W_1)$ over $(W,W)$, a constant times the theta integral of $(W,W)$ at the cone integral, at $x$; since the two smaller spaces have equal rank, this holds at every Levi point, so the constant term is a
+function of $x$ alone. If $F$ is invariant under the unipotent radical of $D_1$, it equals its constant term, and its values on the Levi subgroup do not depend on the $\GL_1$ component. The weak form of strong
+approximation (\cref{ss:B-siegel-weil}) then shows that $F$ is constant.
+\end{proof}
+
+For a tame $\nu$, real data $v$ of $(X,V'\oplus W_1)$ and $v'$ of $(X,V')$, a function $\rho$ of the real points of $\U(X)$ and a number $I_0$, the \emph{identity of periods} asserts: for each real point $h$
+there is a point $p$ of $\U(V')\times\U(W_1)$ at the infinite places such that for all invertible $B$, characters $\beta$, vectors $f$, matrices $x$ and points $g$, $y$,
+\begin{multline*}
+  \int_{[\U(W_1)]}\vartheta_{f\boxtimes\chi^{-1}\circ\det,\,(g,y\oplus u),\,(x,0)}\bigl(\omega(ph)\,v_{(ph)^{-1}(B,0)}\bigr)\,du\\
+  =\frac{\rho(h)I_0}{\nu(\zeta/\bar\zeta)\abs\zeta^{\operatorname{rk}W_1/2}}\,\vartheta_{f,(g,y),x}(v'_B),
+\end{multline*}
+where $v_{x}$ is the real slice of $v$ at $x$, $\omega$ the real Weil representation with the power $\lfloor\operatorname{rk}W_1/2\rfloor-\mu$ of the determinant, $\zeta$ the idele equal to $\det B$ at the
+infinite places and to $1$ at the finite places, the characters on the left are $\gamma$, $\gamma\beta$ and on the right $\gamma$, $\beta$, with $\gamma=\nu^{-1}\upsilon^{\lfloor\operatorname{rk}W_1/2\rfloor}$. A
+pair $(T,q)$ is a \emph{test pair} for $V'$ if either $T$ is the form of $V'$ and $q=\alpha_0V'_xY$ where the finite part of $Y$ times some $k\in\GL_b(\hat\OO_E)$ is unitary, so that the columns of $V'_xY$ span a lattice
+self-dual for $T$; or $T$ is invertible and not of the form $a^*\mathrm{diag}(t')a$ at some infinite place.
+
+\begin{lemma}[Periods give the identity]\label{lem:periods-identity}
+Let $\operatorname{rk}W_1$ be even, $\rho\ge0$ nonzero near $1$, and assume the condition on the signs or the slices in \cref{prop:large-triple}(c). There is $K>0$ such that for every tame $\nu$ for which the
+identity of periods holds with $\rho$ and $I_0$ there is $C$ with $\abs C=K\abs{I_0}$ and:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item at $n(c,z)m(q,g)$ the Fourier coefficient at $\jmath T$ of $\theta_{X,V'\oplus W_1}(v,\mathrm{row})$ is $C$ times that of $\theta_{X,V'}(v',\mathrm{std})$, for the row and standard data of the dual block
+$L'$ of the frame, whenever $(T,q)$ is a test pair for $V'$;
+\item for every integral $z$ at $S$, $\theta_{X,V'\oplus W_1}(v,\mathrm{row}_z)=C\,\theta_{X,V'}(v',\mathrm{std}_z)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) \emph{Test pairs of the second kind.} On the small side every rational $x$ has Gram matrix represented by $t'$, so the coefficient at a $T$ not represented is an empty sum. On the large side it vanishes by
+\cref{lem:unfolded-terms}(c) under the condition on the slices; under the other condition, $t'=-1$, the complement has a positive sign and the weights are below the number of its positive signs, so
+\cref{lem:no-invariant}(c) applies. \emph{Test pairs of the first kind.} Then each coefficient is the integral of one term of the unfolded kernel: on the large side the rational frames with Gram matrix $J'$ form
+one orbit under the rational points of $V'\oplus W_1$ (Witt's theorem), that of $(1;0)$, whose stabiliser is the group of rational points of $W_1$ (the rational points of the sum fixing the first block
+of columns); on the small side they form the orbit of $1$, with trivial stabiliser. The integral over $W_1(E)\backslash\U(V'\oplus W_1)(\Ad)$ of the term of $(1;0)$ is unfolded in stages through $\U(V')\times\U(W_1)$, with the weight $\rho$ cut
+off at the finite places; the constant $R\ne0$ of this unfolding depends only on the spaces. For a point $(g_\infty,u)$, the term of $(1;0)$ integrated over the translates by $\U(V')\times[\U(W_1)]$ is computed
+as follows. It vanishes unless a block diagonal translate of $u$ lies in the stabiliser of the standard lattice, because the finite part of $k^{-1}(Y,0)$ must be integral and Witt's theorem over $\hat\OO_E$ moves
+the first columns to those of $1$. Otherwise translate by the block diagonal point $(\delta_1,\delta_2)$ at infinity and $(u_1,u_2)$ at the finite places and compare at each $y\in\U(V')$. The finite part $x$ of
+$B=y^{-1}Y$ is integral with $\det x$ a unit, the finite slices are multiples of $f\boxtimes(\chi^{-1}\circ\det)$ and of the vacuum (\cref{lem:unfolded-terms}(b)), the real point acts through the real slice, and
+the integral over $[\U(W_1)]$ is the left side of the identity of periods. Comparing the scalars, $\det B=\det Y/\det y$ splits into an archimedean and a finite factor, $\det y$ is unitary and $\det x$ a unit, so
+both have absolute value $1$; on a unit $\zeta$ of $\hat\OO_E$, $\chi^{-1}(\bar\zeta)=\chi^{-1}(\zeta)\nu(\zeta/\bar\zeta)$, and the two functionals of $(W_1,V')$ differ by $\nu(\det y)^2$. The result is
+$\rho(g_\infty)\kappa_0\varepsilon\nu(d_0/\bar d_0)I_0$ times the integral over $\U(V')$ of the term at $1$ of the small kernel, with $d_0$, $\kappa_0$ depending only on the spaces and $D$. Integrating over
+$g_\infty$ against the unfolding gives (a) with $C=R\kappa_0\varepsilon\nu(d_0/\bar d_0)I_0$, whose modulus is $K\abs{I_0}$ with $K=\abs{R\kappa_0}>0$.
+
+(b) Let $\mathcal D$ be the equivariant lift of \cref{prop:equivariant-lift}(a) for the triple $(X,V'\oplus W_1,V')$, $v$, $v'$ and the constant $C$, so that $\mathcal D\Psi$ is the difference of the two sides on
+matched data. Its value $f$ at the standard datum of the dual block has, by (a), vanishing Fourier coefficients at all test pairs: $f$ vanishes at self-dual lattices along $D$. By
+\cref{prop:equivariant-lift}(c), with the extra line of $D_1$, $\mathcal D$ vanishes on all locally constant data with matched functions, among them $\mathrm{std}_z$ with its partner $\mathrm{row}_z$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:large-triple}(c)]
+By \cref{lem:periods-identity}(b), for each $\nu$ the identity on standard data holds with $c=C$, $\abs c=K\abs{I_0(\nu)}$. The rank of $V=V'\oplus W_1$ minus half that of $X$ is
+$\abs b+\operatorname{rk}W_1-(2\abs b+\operatorname{rk}W_1)/2=\operatorname{rk}W_1/2$, so
+\[
+  K^{-2}\abs c^2=\abs{I_0(\nu)}^2=L_*(\operatorname{rk}W_1/2)\,\ell(\nu),
+\]
+which is $\mathrm{RC}(X,V,V';v,v';\ell)$ with the constant $K^{-2}$. Both vectors are Schwartz by hypothesis.
+\end{proof}
+
+The real vectors of (d) are built with a smooth form of Witt's theorem. For a hermitian $J$ and a frame $x_0$ with invertible Gram matrix, \emph{smooth Witt data} near $x_0$ consist of a smooth function $\gamma$ on
+square matrices inverting the Gram matrix of $x_0$, unitary elements $k(y)$ of $\U(J)$ depending smoothly on frames $y$, and a smooth, compactly supported, nonnegative function $\sigma$ on families of frames
+with $\sigma=1$ at the constant family $x_0$, such that wherever $\sigma$ does not vanish each frame $y$ of the family has invertible Gram matrix inverted by $\gamma$ and lies in the span of $k(y)x_0$.
+
+\begin{lemma}[Smooth Witt theorem]\label{lem:smooth-witt}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $J$ hermitian and a frame $x$ with invertible Gram matrix there are elements $k(y)\in\U(J)$, indexed by all frames $y$ and smooth in $y$, such that for $y$ near $x$ the columns of $y$ are linear
+combinations of those of $k(y)x$. Smooth Witt data exist near every such frame.
+\item The orthogonal projection $x(x^*Jx)^{-1}x^*Jx_0$ of $x_0$ to the span of $x$ does not change when $x$ is multiplied on the right by an invertible matrix.
+\item If $g$, $k$ are unitary for the signs $t'\oplus s$ and $u$ for $t'$, and $kx_0u=g^{-1}x_0$ for $x_0=\binom10$, then $gk\,\mathrm{diag}(u,1)=\mathrm{diag}(1,q)$ with $q$ unitary for $s$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Let $L(a)$ be the projection of a matrix $a$ to the Lie algebra of $\U(J)$ along the matrices that keep the span of $x$; then $a-L(a)$ keeps the span of $x$. The map $T(a)=\exp(L(a))(a-L(a))$ is smooth with
+derivative at $1$ equal to $(\mathrm{id}-L')+L'=\mathrm{id}$, so it has a smooth local inverse $A$ near $1$. For $y$ near $x$ choose smoothly a matrix $z(y)$ near $1$ with $z(y)x=y$ (for instance from a
+right inverse of $x$), and put $k(y)=\exp(L(A(z(y))))$; then $z(y)=k(y)(A(z(y))-L(A(z(y))))$ and the second factor keeps the span of $x$, so $y=z(y)x$ lies in the span of $k(y)x$. Extend $k$ smoothly to all
+frames with a cut-off. For the Witt data, matrix inversion agrees near the invertible Gram matrix of $x_0$ with a smooth function (the adjugate divided by a smooth function equal to the determinant nearby),
+and $\sigma$ is a bump function supported where the frames are close to $x_0$. (b) Replacing $x$ by $xC$ replaces the projection by $xC(C^*x^*JxC)^{-1}C^*x^*Jx_0$, which is the same. (c) The point $gk\,\mathrm{diag}(u,1)$
+is unitary and fixes $x_0$, so it preserves the span of $x_0$ and its orthogonal complement, and acts as $1$ on the first.
+\end{proof}
+
+\begin{lemma}[Prescribed slices]\label{lem:prescribed-slices}
+Let $D$ be adapted, and let $D^{\rm sym}$ be the splitting with the two isotropic frames exchanged.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Taking the slice at $0$ is onto on Schwartz vectors: every Schwartz $v$ for $(W_1,V')$ is the slice at $0$ of a Schwartz vector for $(X,V')$.
+\item If $\tau\ge0$ is smooth, compactly supported and nonzero somewhere, and $v$ is Schwartz, there are $\kappa\in\C$ and a Schwartz $\Lambda$ for $(X,V')$ whose slice at each $x$ is $\tau(x)\kappa$ times the
+real Weil translate $\omega(1)v$, and whose slice at $0$ for $D^{\rm sym}$ is $v$. The same holds with $\tau(x)$ replaced by $\sigma(x,0)\abs{\prod_w\det(x_w)^{N_w}}^2$ for exponents $N$.
+\item Let $\sigma$ be smooth of compact support, $z$ and $k$ smooth maps on frames and $v$, $v_1$ Schwartz. Then some Schwartz $\Phi$ for $(X,V'\oplus W_1)$ has at every $x$ the slice
+\[
+  \Bigl(\sigma(y)\sigma(x')\kappa\prod_w\overline{\det(x'_w)_1}^{\,2\mu(w)}\Bigr)\,\omega(1,k\circ y)(v\boxtimes v_1),
+\]
+with $y=z\circ x$ and $x'_w=k(y_w)^{-1}x_w$,
+where $(x'_w)_1$ is the upper square block, $\omega$ the real Weil representation twisted by the power $\operatorname{rk}W_1/2-\mu$ of the determinant, and $\boxtimes$ the external product, which preserves Schwartz
+vectors.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(b) Choose $\kappa$ so that $\tau\kappa$ and the Gaussian slices of the vacuum have the same integral. The slice at $0$ for $D^{\rm sym}$ is the integral of all slices for $D$ (Fourier transform along the isotropic
+frame), so the section $\tau\kappa\,\omega(1)v$ gives $v$. To compare, tensor both vectors with zero terms: both sides are integrals of slices for the Lebesgue measure, which is a multiple of the Haar measure moved
+by the change of frame; in real and finite coordinates both integrands are a function of the real variable times the same function of the finite one, Fubini splits off the real integrals, and these agree by the
+choice of $\kappa$. The vector with prescribed smooth compactly supported slices times a Schwartz vector exists and is Schwartz, the slices being Schwartz in the frame variable. With the second weight the
+same argument applies, since $x$ is recovered from the frame $(x,0)$ in the support of $\sigma$. (a) is (b) for $D^{\rm sym}$ with the standard bump function, the splitting opposite to $D^{\rm sym}$ being $D$.
+(c) The scalar of the section times the determinant factor of the Weil representation is $\sigma\cdot\sigma$ times a polynomial in the entries of $x$, of $k(z(x))$ and of their conjugates; on the support,
+$x=k(y)w(x)$ with $w(x)$ in the support of $\sigma$, and the entries of the unitary matrix are entries of $k(z(x))$ or $0$. Hence the section is smooth with compact support in $x$, with values Schwartz vectors, and a
+vector with these slices exists. The external product is an iterated integral of translates of the vacuum against $v_1$ and then $v$, and padding a vector with zeros does not increase its norms, so it preserves
+Schwartz vectors.
+\end{proof}
+
+\begin{lemma}[The identity of periods for Witt data]\label{lem:witt-periods}
+Let $(\gamma,k,\sigma)$ be smooth Witt data near $x_0=\binom10$ for the signs $t'\oplus s$, let $\operatorname{rk}W_1=2j$, let the slice of $\Phi$ at $x$ be the section of \cref{lem:prescribed-slices}(c) with
+$y$ the family of projections of $x_0$ to the spans of the $x_w$ formed with $\gamma$, and let the slice of $\Lambda$ at $x$ be $\sigma(x,0)\abs{\prod_w\det(x_w)^{j+\mu(w)}}^2\kappa$ times $v$. Then the identity of
+periods holds for $\Phi$, $\Lambda$ with the weight $\rho(h)$, the value of $\sigma$ at the projections of $x_0$ to the spans of the $(h_w)^{-1}x_0$, and the period $I_0$, the value at $1$ of the theta integral
+of $(W_1,W_1)$ at $v_1$ and $\chi^{-1}\circ\det$.
+\end{lemma}
+
+\begin{proof}
+Fix $h$ and let $y$ be these projections. If $\sigma(y)=0$ both sides vanish, since $\rho(h)=0$ and the section vanishes. Otherwise each frame $(h_w)^{-1}x_0$ lies in the span of $k(y_w)x_0$, so
+$(h_w)^{-1}x_0=k(y_w)x_0c_w$ with $c_w$ carrying the form of signs $t'$ to the Gram matrix of $(h_w)^{-1}x_0$, which is that form; so $c_w$ is a unitary $u_w$, and by \cref{lem:smooth-witt}(c) $\mathrm{diag}(u,q^{-1})hk(y)=1$
+for a unitary $q$. Take $p=\mathrm{diag}(u,q^{-1})$. The slice of $\Phi$ is read at $A=h^{-1}x_0u^{-1}B$, which spans the same space as $x_1=h^{-1}x_0$, so by \cref{lem:smooth-witt}(b) the projections
+for $A$ may be replaced by those for $x_1$, which are $y$. The group elements cancel: $k(y)^{-1}A=x_0u\,u^{-1}B=(B;0)$, and $\omega(ph)$ carries the section to $\sigma(y)\sigma(B,0)\kappa\prod_w\overline{\det B_w}^{\,2\mu(w)}$
+times $v\boxtimes v_1$. By \cref{lem:product-formula}, the theta functional of this product vector is the functional of $(W_1,V')$ at $v$ times the theta kernel of $(W_1,W_1)$ at $v_1$; the second factor integrates
+over $[\U(W_1)]$ to the theta integral at $v_1$, which is the constant $I_0$ by \cref{prop:large-triple}(b) and does not depend on $g$. Finally
+$\prod_w\overline{\zeta_w}^{\,2\mu(w)}=\abs{\prod_w\zeta_w^{j+\mu(w)}}^2/(\nu(\zeta/\bar\zeta)\abs\zeta^{j})$ for $\zeta=\det B$ at the infinite places, as $\nu$ has weight $\mu$; so the left side is
+$\rho(h)I_0/(\nu(\zeta/\bar\zeta)\abs\zeta^j)$ times the functional at $\sigma(B,0)\abs{\prod\det B_w^{j+\mu(w)}}^2\kappa v$, which is the slice of $\Lambda$ at $B$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:large-triple}(d)]
+Take smooth Witt data near $x_0$ (\cref{lem:smooth-witt}(a)), the vector $\Phi$ of \cref{lem:prescribed-slices}(c) with the projections of $x_0$ as $z$, and the vector $\Lambda$ of \cref{lem:prescribed-slices}(b)
+with $\sigma(x,0)\abs{\prod\det(x_w)^{j+\mu(w)}}^2$, whose slice at $0$ for $D^{\rm sym}$ is $v$. By \cref{lem:witt-periods} the identity of periods holds for every tame $\nu$ with $\rho\ge0$, $\rho(1)=\sigma(x_0)=1$, so
+$\rho$ is nonzero near $1$ by continuity, and $I_0(\nu)$ the theta integral of $v_1$ at $1$. Where the slice of $\Phi$ is nonzero the frame is $k(y)x_0c$ and $c$ represents its Gram matrix by the signs $t'$, so the
+real slices of $\Phi$ vanish at the points whose Gram matrix is not represented by $t'$. Part (c) gives $\mathrm{RC}$ with $\ell(\nu)=\abs{I_0(\nu)}^2/L_*(\operatorname{rk}W_1/2)$, the equal rank ratio of $v_1$.
+\end{proof}
+
+For an adapted splitting $A$ of $W'=W\oplus H$ and $X$ of $V'=V\oplus H$, $H$ a hyperbolic plane, the \emph{cone integral} $\mathrm{cone}_z(v')$ of a Schwartz vector $v'$ for $(W',V')$ is the integral of the
+cone integrand over the maximal compact subgroup of $\U(V')$ and the families of nonzero complex numbers at the infinite places, with exponent $z$.
+\lean{New.Exchange.lineVector_ne_zero, New.Exchange.sum_norm_sq_lineVector_pos, New.Exchange.lineVector_isotropic, New.Exchange.maxCompactInf, New.Exchange.conePoint, New.Exchange.conePoint_apply, New.Exchange.continuous_conePoint, New.Exchange.maxCompact_fst_mem_maxCompactU, New.Exchange.sum_norm_sq_conePoint, New.Exchange.realSlice_eq_slice_conePoint, New.Exchange.hasCompactSupport_of_norm_sq_mem_Icc, New.Exchange.HasPosMellinTransform, New.Exchange.HasPosMellinTransform.mul_sqrt_pow, New.Exchange.hasPosMellinTransform_comp_conePoint, New.Exchange.exists_hasPosMellinTransform_mulVec_eq_smul, New.Exchange.exists_slice_eq_smul_realPairWeil, New.Exchange.exists_coneIntegrand_eq_smul, New.Exchange.thetaLarge_realPairWeil, New.Exchange.exists_thetaLarge_cone_eq_mul, New.Exchange.exists_thetaLarge_cone_eq}
+\lean{New.Exchange.neg_mem_neg_Gamma_iff, New.Exchange.isForm_neg_iff_and_integral_neg, New.Exchange.mem_ratVectors_hom_move, New.Exchange.exists_circle_thetaIntegral_localDatum_eq_mul, New.Exchange.exists_thetaLarge_eq_mul_thetaLarge, New.Exchange.exists_thetaLarge_thetaSmall_eq_circle_mul, New.Exchange.exists_isBaseAdapted, New.Exchange.realSlice_zero_congr, New.Exchange.realSlice_zero_comp, New.Exchange.stdColDatum_mul_transpose_mem_schwartzBruhat, New.Exchange.homSlice_localDatum_stdColDatum, New.Exchange.theta_zeroTerm_stdColDatum_eq_zero, New.Exchange.integral_thetaSmall_lineRadical_eq_mul_thetaSmall, New.Exchange.RowColExchangeIdentity.congr_second_space, New.Exchange.RowColExchangeIdentity.of_planeConstantTerm_eq, New.Exchange.RowColExchangeIdentity.cone, New.Exchange.RowColExchangeIdentity.dualCone, New.Exchange.exists_rowColExchangeIdentity_removing_plane, New.Exchange.exists_rowColExchangeIdentity_removing_planes}
+\lean{New.Exchange.ThetaLargeVanishes, New.Exchange.ThetaLargeVanishes.congr_spaces, New.Exchange.negCount_sumElim_hyperbolicSigns_unit, New.Exchange.ThetaLargeVanishes.of_add_plane, New.Exchange.ThetaLargeVanishes.of_add_planes}
+
+\begin{proposition}[Removing planes]\label{prop:removing-planes}
+Let $W$ have even rank.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Every Schwartz vector $v$ for $(W,V)$ has a Schwartz $v'$ for $(W',V')$ and a positive analytic $B$ with $\theta_{W,V}(\mathrm{cone}_z(v'),\cdot)=B(z)\,\theta_{W,V}(v,\cdot)$ on standard data for all $z>0$.
+\item Let $z=\operatorname{rk}V-\operatorname{rk}W/2$. If $z\ge0$, the identity $\mathrm{RC}(W',V',U;x,y;\ell)$ gives
+\[
+  \mathrm{RC}\bigl(W,V,U;\mathrm{cone}_{z+1}(x),y_0;\ell\bigr),
+\]
+with $y_0$ the zero term of $y$. If $z<0$, the same holds with the dual cone integral of exponent $-z$, on the other side of Poisson's formula. Consequently the identity descends along any number of planes of an
+adapted splitting, if $V'$ has as many more negative signs than $V$ as planes.
+\item Triples of spaces with the same signs have the same theta integrals up to one translation and numbers of modulus one.
+\item (Vanishing descends.) If the theta integral of $(W\oplus H^j,V\oplus H^j)$ vanishes on all Schwartz vectors and standard data, so does that of $(W,V)$, provided $-k\le\operatorname{rk}V-\operatorname{rk}W/2$ with
+$k\le\mu$.
+\end{enumerate}
+\end{proposition}
+
+Write $x_B$ for the adelic vector spanning the isotropic line of $X$, with components $x_{B,w}$ at the infinite places; for $p=(\kappa,a)$ with $\kappa$ in the maximal compact subgroup of $\U(V')$ let
+$\mathrm{cp}(p)=\kappa^{-1}x_Ba$ be the corresponding point of the isotropic cone, and $\abs a$ the module of the idele equal to $a$ at the infinite places and $1$ elsewhere.
+
+\begin{lemma}[The image of the cone integral]\label{lem:cone-image}
+Let $A$ and $X$ be adapted and $\operatorname{rk}W$ even.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Each $x_{B,w}$ is nonzero and isotropic, and $\kappa$ keeps lengths: the squared length of $\mathrm{cp}(\kappa,a)$ at $w$ is $\abs{a_w}^2$ times that of $x_{B,w}$.
+\item There are a smooth compactly supported $\beta\ge0$ and a smooth family $k(x)$ of real points of $\U(V')$ such that $\rho(\kappa,a)=\beta(\mathrm{cp}(\kappa,a))$ has a positive Mellin transform (for every real
+$z$ the integral of $\rho(\kappa,a)\abs a^z$ converges and is positive) and, for $x=\mathrm{cp}(\kappa,a)$ with $\beta(x)\ne0$, $\kappa k(x)$ multiplies $x_B$ by $a$ at each infinite place.
+\item Every Schwartz $v$ for $(W,V)$ has a Schwartz $v'$ for $(W',V')$ such that at each $(\kappa,a)$ the cone integrand of $v'$ with exponent $z$ is $\rho(\kappa,a)\abs a^z$ times a translate of $v$ by a real point of
+$\U(V)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The vector $x_B$ is part of an adapted frame, so its infinite components are nonzero and isotropic; $\kappa$ is unitary for the standard form at each infinite place. (b) Choose $k$ place by place: by Witt's
+theorem, applied smoothly as in \cref{lem:smooth-witt}(a), there is a smooth family $k(x)$ carrying $x_B$ to $x$ for isotropic $x$ near the cone, and $\beta\ge0$ is a bump function nonzero at $x_B$ and supported where
+$k$ carries $x_B$ to $x$ on isotropic $x$ and where the squared length at each place is within a factor $2$ of that of $x_B$. The point $x=\kappa^{-1}x_Ba$ is isotropic, so $k(x)x_B=x$, that is $\kappa k(x)x_B=x_Ba$.
+By (a) the function $\rho$ vanishes unless $\frac12\le\abs{a_w}^2\le2$ at every place, so it has compact support; it is continuous, nonnegative and nonzero at $(1,1)$, so all its Mellin integrals converge and are
+positive. (c) Write $v$ as the zero term along $\Hom(W,B)$ of a vector $v^B$, and let $v'$ be the vector with slices $\beta(x)\,k(x)v^B$ along $A$ (slices can be prescribed: the powers of the determinants in the real
+Weil representation are absorbed into $\beta$). For $x=\mathrm{cp}(\kappa,a)$ the line term is the zero term along $\Hom(W,B)$ of the slice of $\kappa v'$ at $x_Ba$, which is $\beta(x)\kappa k(x)v^B$. The point
+$\kappa k(x)$ multiplies $x_B$ by $a$, so under the zero term it acts through $\U(V)$, with a power of $\abs a$ and a phase that cancels the phase in the cone integrand.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:removing-planes}(a)]
+Let $v'$ be as in \cref{lem:cone-image}(c), and let $B(z)$ be the integral of $\rho(p)\abs a^z$ over $p$, which is positive for all $z$. A Mellin transform that converges for every real exponent is analytic, so $B$ is analytic. The theta integral
+over $[\U(V)]$ takes the same value at $v$ and at its translates by real points of $\U(V)$, twisted by the power $\lfloor\operatorname{rk}W/2\rfloor-\mu$ of the determinant, because right translation in $h$ does not
+change the integral. Exchanging the cone integral with the integral over $[\U(V)]$, which is allowed by the integrability of the cone kernel (\cref{thm:B-tower}(b)), gives
+\begin{align*}
+  \theta_{W,V}(\mathrm{cone}_z(v'),\mathrm{row}_y)(g)&=\int\rho(p)\abs a^z\,\theta_{W,V}(v,\mathrm{row}_y)(g)\,dp\\
+  &=B(z)\,\theta_{W,V}(v,\mathrm{row}_y)(g)
+\end{align*}
+for $z>0$, every tame character, every integral $y$ and every $g$.
+\end{proof}
+
+\begin{lemma}[Change of point and sign]\label{lem:change-of-point}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Passing to the opposite signs, by the identity on matrices, preserves forms of a given type and integrals over the quotients, provided it matches the rational points of the two spaces.
+\item Let the points of $W$ and $W_1$ differ by a rational matrix on the left and an adelic unitary $k$ on the right, and let $V$, $V_1$ have the same signs. For any characters, the theta integral of $(W,V)$
+at $g$ of the datum with real part $v$, a function $\Phi$ at $S$ and the vacuum elsewhere is $u$ times that of $(W_1,V_1)$ at $kg$, with $\abs u=1$ independent of $v$, $\Phi$, $g$.
+\item For triples $(W,V,V')$ and $(W_1,V_1,V'_1)$ with the same signs there is a point $\gamma$ of $\U(W)(\Ad)$ such that for every split tame character the two theta integrals of the second triple at $g$ are, up to
+numbers of modulus one, those of the first at $\gamma g$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The unitary groups of the signs $s$ and $-s$ are the same subgroup with the same Haar measure, and forms and integrals depend on the signs only through this subgroup and the relation $s_i=s_j$, which is the
+same for $-s$. (b) By Landherr's theorem there are a rational $c'$ and an adelic unitary $k'$ moving the point of $V_1$ to that of $V$. Left translation by $(k,k')$ carries the theta kernel of $(W,V)$ to that of
+$(W_1,V_1)$ up to the value $\beta(\det k)/\alpha(\det k')$ of the characters: a space enters the theta functional only through its rational vectors, which correspond (the rational matrix $x$ goes to $c'xc^{-1}$),
+and the datum and the Weil representation depend on the spaces only through their signs. Translation by $k'$ identifies the quotients by $V(E)$ and $V_1(E)=k'V(E)k'^{-1}$. (c) Landherr's theorem moves the point of
+$W$ to that of $W_1$; then both integrals are cases of (b).
+\end{proof}
+
+\begin{lemma}[The side of the small space]\label{lem:small-side}
+Let $A$ split one hyperbolic plane off $W'$ with complement $W$, adapted, let $y$ be a real Schwartz vector for $(W',U)$ and $z$ integral at $S$. The constant term along $A$ at the Levi point $(1,g)$ of the theta
+integral of $(W',U)$ at $y$ and the standard datum of $z$ composed with the projection to $W$ is the constant $\kappa_{\rm vac}$ of $A$ times the theta integral of $(W,U)$ at the zero term $y_0$ of $y$ and
+$\mathrm{std}_z$.
+\end{lemma}
+
+\begin{proof}
+The constant term is a sum over the rational vectors $x$ of $U$ of their terms, and only the isotropic ones contribute, the term of an anisotropic vector being $0$ by definition. The term $x=0$ is the right
+side: the slices of the datum are multiples, by $\kappa_{\rm vac}$, of data for $(W,U)$ with the standard datum of $z$, the projection to $W$ read at $S$ being the transpose of the inclusion read at $\bar S$. A
+nonzero isotropic $x$ is the frame of a splitting of $U$, and the theta functional of $\Hom(W,U_0)$ vanishes on the zero term along the line of $x$ of the translated datum: the functional is invariant under the
+translations along $h^{-1}x$, so it kills data supported on matrices that do not annihilate $h^{-1}x\ne0$, and the standard datum lives on matrices of full rank. Both sides are integrals over $[\U(U)]$, and the
+integrands agree at each $h$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:removing-planes}(b)]
+\emph{One plane, by a constant term.} Suppose that the exchange identity for standard data holds for $(W',V',U)$ at $x$ and $y$, with the function $\ell$ and the constant $D$, and that for every tame $\nu$ the constant term along $A$ of the theta integral of $(W',V')$ at $x$ and the
+plane datum of $w$ is, at $(1,g)$, $\gamma\ne0$ times the theta integral of $(W,V)$ at the cone integral $x^\flat$ of $x$ (on a side $\beta$, with exponent $z'>0$) and $\mathrm{row}_w$, where
+$\abs\gamma^2L_*(e)=C\,L_*(e+1)$ for $e=\operatorname{rk}V-\operatorname{rk}W/2$. Taking constant terms along $A$ in the identity for $(W',V',U)$ at the matrices $w\,\mathrm{pr}_W$, \cref{lem:small-side} gives
+\[
+  \gamma\,\theta_{W,V}(x^\flat,\mathrm{row}_w)(g)=c\,\kappa_{\rm vac}\,\theta_{W,U}(y_0,\mathrm{std}_w)(g),
+\]
+so the identity for $(W,V,U)$ holds at $x^\flat$, $y_0$ with the factor $c\kappa_{\rm vac}/\gamma$. Its size: as $\operatorname{rk}V'-\operatorname{rk}W'/2=e+1$,
+\[
+  \frac{DC}{\abs{\kappa_{\rm vac}}^2}\Bigl\lvert\frac{c\kappa_{\rm vac}}\gamma\Bigr\rvert^2=\frac{C\,D\abs c^2}{\abs\gamma^2}=\frac{C\,L_*(e+1)\ell(\nu)}{\abs\gamma^2}=L_*(e)\ell(\nu).
+\]
+The cone integral of a Schwartz vector is Schwartz (\cref{thm:B-tower}(b)), and so is the zero term.
+
+\emph{The two signs of $e$.} If $e=z\ge0$, \cref{thm:B-tower}(d) gives the hypothesis with $x^\flat=\mathrm{cone}_{z+1}(x)$ and $\abs\gamma=C'L^\sharp(z+1)$, and $\abs\gamma^2L_*(z)=C'^2L_*(z+1)$ by
+\cref{thm:B-tower}(a). If $e=-z-1<0$, it gives the hypothesis at $(1,g)$ with $x^\flat=\mathrm{cone}^*_{z+1}(x)$ and $\abs\gamma=C'L^\sharp(z+1)$, and again $\abs\gamma^2L_*(-z-1)=C'^2L_*(-z)$ by \cref{thm:B-tower}(a).
+
+\emph{Removing one plane.} In general $V'$ need not split over $V$; but if $V'$ has one negative sign more than $V$ and the ranks match, there is a space $V_1$ with the signs of $V'$ and an adapted splitting over
+$V$ (relabel the hyperbolic sum along a bijection of the index sets that matches the signs). By \cref{lem:change-of-point}(b) the identity for $V'$ gives the identity for $V_1$, with a factor of the same
+modulus. Then the preceding paragraphs apply.
+
+\emph{Several planes.} By strong induction on the number of planes: an adapted splitting of $W'$ along $d+2$ planes is the composite of one along $d+1$ planes down to $W\oplus H$ and the tautological one of the last
+plane, the partner of $W\oplus H$ is $V\oplus H$, and zero terms compose along composite splittings (the zero term along the composite is the zero term along the second of the zero term along the first,
+which holds for adelic data and so for their real parts).
+\end{proof}
+
+\begin{proof}[Proof of \cref{prop:removing-planes}(c), (d)]
+(c) is \cref{lem:change-of-point}(c). (d) Descend one plane at a time; one plane raises each rank by two and each number of negative signs by one, so by (c) the intermediate spaces may be taken to split, and for the pair with $i$ planes
+the number $\operatorname{rk}V-\operatorname{rk}W/2$ becomes $e+i\ge-k$. For one
+plane, let $e=\operatorname{rk}V-\operatorname{rk}W/2\ge-k$ and let $v$, $y$, $g$ be given; put $I=\theta_{W,V}(v,\mathrm{row}_y)(g)$. By (a) there are $v'$ and a positive analytic $B$ with
+$\theta_{W,V}(\mathrm{cone}_x(v'),\mathrm{row}_y)(g)=B(x)I$ for $x>0$. By \cref{thm:B-tower}(c) there is an analytic $\mathcal Z$ whose value at $e+1$ is the constant term of the theta integral of $(W',V')$ at $v'$
+and the plane datum of $y$, that is the row datum of the integral matrix $y$ times the projection to $W$, and which for $x\ge1$ equals $\varepsilon P(x)L^S(x,\nu)B(x)I$ with $P(x)=\abs{\alpha_0}^x\prod_{w\in S}q_w^{x-1/2}>0$. By \cref{thm:B-tower}(e), $L^S$ continues to an analytic $\Lambda$ on
+$x>-k$ without zeros at the integers $j>-k$. The function $R(x)=\varepsilon P(x)\Lambda(x)B(x)I$ is analytic on $x>-k$ and agrees with $\mathcal Z$ for $x\ge1$, so, the interval being connected, $\mathcal Z=R$ on
+$x>-k$. At $e+1>-k$ the value $\mathcal Z(e+1)$ is a constant term of a function that vanishes by hypothesis, so $R(e+1)=0$; and $\varepsilon$, $P(e+1)$, $\Lambda(e+1)$, $B(e+1)$ are nonzero. Hence $I=0$.
+\end{proof}
+
+\subsection{The equal rank ratio and the proof}\label{ss:equal-rank-ratio}
+The \emph{equal rank ratio} of a Schwartz vector $v$ for $(Y,Y)$, $Y$ of even rank, is $\abs{I(v)(1)}^2/L_*(\operatorname{rk}Y/2)$, where $I(v)$ is the theta integral of $(Y,Y)$ at $v$ and $\chi^{-1}\circ\det$.
+
+The large triple and the removal of planes combine to an identity on standard data whose factor is an equal rank ratio.
+
+\begin{lemma}[From the top of the tower]\label{lem:top-down}
+Let $W_0=H\oplus W$ with $H$ a hyperbolic plane, let $W$ have even rank $\operatorname{rk}U+\operatorname{rk}V$, and let $U$ and $W$ together have $\operatorname{rk}U+(\text{number of negative signs of }V)$ negative signs.
+For Schwartz vectors $z$ for $(W_0,W_0)$ and $y$ for $(W,U)$ there is a vector $v$ for $(W,V)$ with $\mathrm{RC}(W,V,U;v,y;\ell)$, where $\ell(\nu)$ is the equal rank ratio of $z$.
+\end{lemma}
+
+\begin{proof}
+The tower is $W$, $W_0$, $X=H^{\operatorname{rk}U}\oplus W_0$. Let $A$ be the tautological splitting of $W_0$ over $W$. By \cref{lem:prescribed-slices}(a) there is a Schwartz $w$ for $(W_0,U)$ with zero term $y$ along $A$.
+By \cref{prop:large-triple}(d), applied to the splitting of $X$ over $W_1=W_0$ along $\operatorname{rk}U$ lines, to $D_1=A$, to the small space $U$, and to $w$ and $v_1=z$, there are $x$ for $(X,U\oplus W_0)$ and $x'$ for
+$(X,U)$ with $\mathrm{RC}(X,U\oplus W_0,U;x,x';\ell)$ and with $w$ as the slice of $x'$ at $0$ for the exchanged splitting. Remove the $\operatorname{rk}U+1$ planes of the composite splitting of $X$ over $W$: the large
+space $U\oplus W_0$ has $\operatorname{rk}U+1$ more negative signs than $V$, by the hypothesis on the signs and the one negative sign of $H$, and the zero term of $x'$ along the composite splitting is the zero term
+along $A$ of its zero term $w$, that is $y$, zero terms being taken in stages. \Cref{prop:removing-planes}(b) gives $\mathrm{RC}(W,V,U;v,y;\ell)$ for some $v$.
+\end{proof}
+
+\begin{proposition}[The equal rank ratio]\label{prop:equal-rank-ratio}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The ratio depends on $Y$ only through its signs; adding an adapted hyperbolic plane multiplies it by a constant $C>0$ independent of $\nu$.
+\item For $J$ positive definite of rank $2k$, $Y=H\oplus J$ and $k\le\mu$, there is a Schwartz $v$ whose ratio is one number $C\ne0$ for all tame $\nu$ of weight $\mu$: the exchange identity for
+$(J,J,0)$ and for $(J,0,J)$ give $C\abs c^2=L_*(k)\cdot$ratio and $C'\abs{c'}^2=L_*(-k)\cdot$ratio, and Fubini on $(J,J)$ gives $cc'=$ const.
+\item If $\operatorname{rk}W=2k+2q$, $q$ the number of negative signs, and $k\le\mu$, there are $v$ for $(H\oplus W,H\oplus W)$ and $C\ne0$ with ratio $C$ for every tame $\nu$ of weight $\mu$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) \emph{Signs.} Let $Y_1$ have the signs of $Y$, where $Y$ has even rank and an adapted splitting over a space with one plane less. By \cref{lem:change-of-point}(b) the theta integral of $(Y_1,Y_1)$ at $1$ is a
+number of modulus one times that of $(Y,Y)$ at some point $\gamma$; the latter is constant by \cref{prop:large-triple}(b), so the two values at $1$ have the same modulus, and the ratios agree. \emph{A plane.} Let
+$\operatorname{rk}W=2d$ and $A$ an adapted splitting $W'=W\oplus H$. For $v$ Schwartz for $(W,W)$, \cref{prop:removing-planes}(a) gives $v'$ for $(W',W')$ and $B>0$ with
+$\theta_{W,W}(\mathrm{cone}_{d+1}(v'),\cdot)=B(d+1)\,\theta_{W,W}(v,\cdot)$ on standard data. The theta integral of $(W',W')$ at $v'$ and $\chi^{-1}\circ\det$ is constant (\cref{prop:large-triple}(b)), so it is equal to
+its constant term along $A$ at $(1,1)$; by \cref{thm:B-tower}(d) for the pair $(W',W')$ over $(W,W)$, with $e=\operatorname{rk}W-\operatorname{rk}W/2=d$ and no extra rows (the row datum of the empty matrix being
+$\chi^{-1}\circ\det$), this constant term is $\kappa\,\theta_{W,W}(\mathrm{cone}_{d+1}(v'),\chi^{-1}\circ\det)(1)$ with $\abs\kappa=C_0L^\sharp(d+1)$. Hence $I(v')(1)=\kappa B(d+1)I(v)(1)$ and, by \cref{thm:B-tower}(a),
+\[
+  \frac{\abs{I(v')(1)}^2}{L_*(d+1)}=\frac{C_0^2L^\sharp(d+1)^2B(d+1)^2\abs{I(v)(1)}^2}{L^\sharp(d+1)^2L_*(d)}=C_0^2B(d+1)^2\,\frac{\abs{I(v)(1)}^2}{L_*(d)}.
+\]
+The constant $C_0^2B(d+1)^2>0$ does not depend on $\nu$.
+
+(b) Write $r(v)$ for the ratio of $v$ for $Y=H\oplus J$, and $\mathrm{vol}$ for the volume of $[\U(0)]$, which is positive.
+
+\emph{The identity used twice.} Fix a Schwartz $v$ for $(Y,Y)$. By \cref{lem:top-down} for the triple $(J,J,0)$ with $z=v$ and the vacuum for $(J,0)$, there are $B$ and a Schwartz $y$ for $(J,J)$ such that for every
+$\nu$ the theta integral of $(J,J)$ at $y$ and $\chi^{-1}\circ\det$ is $c_1\mathrm{vol}$ with $B\abs{c_1}^2=L_*(k)r(v)$: the small side is the theta integral of $(J,0)$ at the vacuum, which is $\mathrm{vol}$ times the value
+$1$ of the datum at $0$. By \cref{lem:top-down} for the triple $(J,0,J)$ with $y$ on the small side, there are $C$ and a number $\xi$ (a vector of the Fock space $\C$ of $(J,0)$) such that $\mathrm{vol}\cdot\xi$ is $c_2$
+times the integral over the first $[\U(J)]$ of the theta kernel of $(J,J)$ at $y$, with $C\abs{c_2}^2=L_*(-k)r(v)$; on the zero space the theta kernel only reads the value $1$ of the datum at $0$. Both identities
+concern the theta kernel of the same datum on $(J,J)$, integrated once over each group; as $J$ is definite both quotients are compact and Fubini's theorem applies, so $\mathrm{vol}\cdot\xi=c_2c_1\mathrm{vol}$ and
+$\xi=c_1c_2$. Since $L_*(k)L_*(-k)=1$,
+\[
+  r(v)^2=\bigl(L_*(k)r(v)\bigr)\bigl(L_*(-k)r(v)\bigr)=BC\abs{c_1c_2}^2=BC\abs\xi^2,
+\]
+which does not depend on $\nu$.
+
+\emph{Non-vanishing.} Fix $\nu$, and suppose $r(v)=0$ for every Schwartz $v$. Then the theta integral of $(Y,Y)$ at $\chi^{-1}\circ\det$ vanishes at every Schwartz vector, being constant with value $0$ at $1$.
+Let $X=H^{2k}\oplus Y$ and consider the triple $(X,J^-\oplus Y,J^-)$, with $J^-$ the negative definite space of rank $2k$. For a Schwartz $w$ for $(Y,J^-\oplus Y)$, expanding $w$ into coherent states shows that the
+integral over $l\in[\U(Y)]$ of the theta functional at $w$, the vector $f\boxtimes(\chi^{-1}\circ\det)$ and the point $(g,y\oplus l)$ is a theta integral of $(Y,Y)$, hence $0$: each coherent state is a product of
+coherent states for the two summands, and evaluating the first factor leaves a datum for $(Y,Y)$. Hence the identity of periods holds for every pair of vectors with the period $I_0=0$, and
+\cref{lem:periods-identity}(b) applies, its condition on signs holding because $J^-$ has only negative signs and $Y$ has $2k+1$ positive signs and one negative. It gives $C$ with $\abs C=K\cdot0$, so the
+theta integral of $(X,J^-\oplus Y)$ vanishes on all Schwartz vectors and standard data. The space $X$ is $J\oplus H^{2k+1}$ up to signs, and $J^-\oplus Y$ has the signs of $H^{2k+1}$; for the pair $(J,0)$ one has
+$\operatorname{rk}0-\operatorname{rk}J/2=-k$ with $k\le\mu$, so by \cref{prop:removing-planes}(d) the theta integral of $(J,0)$ vanishes on all Schwartz vectors and standard data. But at the vacuum and the standard
+datum of the empty matrix its value at $1$ is $\mathrm{vol}\ne0$. Hence for each $\nu$ some Schwartz $v$ has $r(v)\ne0$.
+
+\emph{The first floor.} Fix one $\nu_0$ and a Schwartz $v$ with $r(v)\ne0$ for $\nu_0$. For every $\nu$, $r(v)\ge0$ and $r(v)^2$ is the number found above, which is $r_{\nu_0}(v)^2>0$; so $r(v)$ is the same positive
+number $C$ for all $\nu$.
+
+(c) By induction on $q$. If $q=0$, $W$ has the signs of the definite space of rank $2k$, so $H\oplus W$ has the signs of $H\oplus J$, and (b) and the first part of (a) give the claim. If $q\ge1$, let
+$W_0=H^{q-1}\oplus J$, which has $q-1$ negative signs and rank $2k+2(q-1)$; by induction there is $v$ for $(H\oplus W_0,H\oplus W_0)$ with constant ratio $C\ne0$. Adding an adapted plane to $H\oplus W_0$ gives a space
+$Y$ with the signs of $H\oplus W$, and by the second part of (a) a vector $v'$ with ratio $C'C$, $C'>0$; by the first part of (a) the same vector serves for $H\oplus W$.
+\end{proof}
+
+For the passage from $(V',W)$ to a pair with source $W$, let $V'^-$ be the opposite space of $V'$, with signs $-t'$, and let the \emph{adjoint datum} $y^{\rm ad}$ of a real vector $y$ for $(V',W)$ be its image under the
+change of coordinates that sends a matrix to its conjugate transpose, scaled at the finite places by an integral unit $\epsilon$ of norm $-1$.
+
+\begin{lemma}[Adjoint data]\label{lem:adjoint-data}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $y$ is Schwartz, so is $y^{\rm ad}$; and the passage to the opposite signs carries the rational points of $V'$ onto those of $V'^-$.
+\item There is $a$ with $\abs a=1$ such that, for every Schwartz--Bruhat $\Psi$ on left invertible matrices with a matched function, the datum with real part $y^{\rm ad}$, the function $x\mapsto\Psi(x^{\mathsf T})$ at $\bar S$ and
+the vacuum elsewhere is $a$ times the image of the datum with real part $y$, the function $\Psi$ at $S$ and the vacuum elsewhere.
+\item Let $\operatorname{rk}W$ be even and $\gamma=\nu^{-1}\upsilon^{\operatorname{rk}W/2}$. There is $d$ with $\abs d=1$ such that $\gamma(\det g)$ times the theta integral of $(W,V'^-)$ over $[\U(V'^-)]$ at $y^{\rm ad}$ and
+$\Psi^{\mathsf T}$ at $\bar S$ is $d$ times the integral over $[\U(V')]$ of the theta kernel of $(V',W)$, both characters $\gamma$, at $y$ and $\Psi$ at $S$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The real part of the change of coordinates preserves the norm and the measure, hence all Fock moments. The second claim holds because the opposite space has the same unitary group. (b) The component of $\epsilon$
+at $S$ is a unit $\varepsilon$; the change of coordinates transposes the matrix and scales it by $\varepsilon$, and for matched functions multiplying the argument by a unit divides the second function by
+$\chi(\varepsilon)^{\abs b}$, the value of $\chi$ at the determinant of the scalar matrix. Both data have real part $y^{\rm ad}$, and the functions that name their finite parts agree up to this constant. (c) The
+change of coordinates changes the theta kernel by a constant of modulus one and the datum by $a$; the identity of the rational points carries the integral over $[\U(V'^-)]$ to the one over $[\U(V')]$; and, since
+$\operatorname{rk}W$ is even, the characters of the two kernels differ by $\gamma(\det g)$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:exchange}]
+\emph{Reductions.} Put $\abs n=2\abs b+2e$, so $\operatorname{rk}W$ is even and $\operatorname{rk}V-\operatorname{rk}W/2=(\abs a-\abs b)/2=e$. Let $k=\abs n/2-q$; the hypotheses give $k\le\mu(\tau)$ at every $\tau$
+and $k\ge1$. By \cref{prop:equal-rank-ratio}(c) there are a Schwartz $z$ for $(H\oplus W,H\oplus W)$ and $C_0\ne0$ with equal rank ratio $C_0$ for every tame character of weight $\mu$; as ratios are nonnegative,
+$C_0>0$.
+
+\emph{Standard data.} The opposite space $V'^-$ has $\abs b$ minus the number of negative signs of $V'$ negative signs, so $V'^-$ and $W$ together have $\abs b$ plus the number of negative signs of $V$, which is the
+condition of \cref{lem:top-down} for the triple $(W,V,V'^-)$. With $z$ and $y=v^{\rm ad}$, Schwartz by \cref{lem:adjoint-data}(a), it gives a vector $x$ for $(W,V)$ and a constant $C_1$ such that every tame $\nu$ of
+weight $\mu$ has $c$ with $C_1\abs c^2=L_*(e)C_0$ and $\theta_{W,V}(x,\mathrm{row}_z)=c\,\theta_{W,V'^-}(v^{\rm ad},\mathrm{std}_z)$ for all integral $z$. As $L_*(e)>0$ and $C_0>0$, $C_1\ne0$ and $c\ne0$; put
+$C=C_0/C_1$, so $\abs c^2=C\,L_*(e)$, and $C>0$. The vector $x$ and $C$ are chosen before the character.
+
+\emph{Matched data.} Let $\mathcal D$ be the equivariant lift of \cref{prop:equivariant-lift}(a) for $(W,V,V'^-)$, $x$, $v^{\rm ad}$ and $c$. Its kernel $P=M\cap\ker\mathcal D$ is stable under translation at $S$, and
+it contains the standard datum of an integral matrix, with multiplicity one, whose partner is the row datum. By \cref{prop:equivariant-lift}(b) it contains every locally constant $\Psi$ with a matched $\Phi$, and
+\cref{prop:equivariant-lift}(a) identifies $\mathcal D\Psi$ with the difference of the two sides; so $\theta_{W,V}(x,\Phi)=c\,\theta_{W,V'^-}(v^{\rm ad},\Psi^{\mathsf T})$ for all such pairs.
+
+\emph{Back to $(V',W)$.} By \cref{lem:adjoint-data}(c), the right side is $c\,d\,\gamma(\det g)^{-1}$ times the integral of the theta kernel of $(V',W)$; with the convention that the second character of
+$\theta_{W,V}$ enters as its inverse at $\det g$, this is the identity of (b) for the characters $\alpha=1$ and $\alpha'=\gamma$, with the constant $cd$, $\abs{cd}=\abs c$.
+
+\emph{Data modulo $\mathfrak m$.} A character $\nu$ tame for $(\mathfrak m,\chi)$ is a split tame character with $S$ the set of places of $\mathfrak m$, since $\mathfrak m$ is prime to its conjugate, and its $L_*(e)$ is the
+number of the theorem. By \cref{prop:matched}(c), matched functions $\Phi$, $\Psi$ modulo $\mathfrak m$ give matched local functions over the integers at $S$, with $\Psi'$ locally constant, that define the same
+adelic data; the identity for these is the identity for $\Phi$, $\Psi$.
+
+\emph{Other characters.} The space characters of $\alpha$ in rank $\abs a$ and of $\alpha'$ in rank $\abs b$ multiply to the inverse of the base change of $\nu$ exactly when $\alpha\alpha'=\gamma$, since
+$\abs a+\abs b=\abs n$ is even. For such $\alpha$, $\alpha'$ the twist law of the Weil representation multiplies the kernel of $(W,V)$ with characters $\gamma$, $\alpha$ and the kernel of $(V',W)$ with characters
+$\alpha'$, $\gamma$ by the same factor $\alpha(\det g)^{-1}$ relative to the case $(1,\gamma)$, so the identity with the same $c$ holds for them.
+\end{proof}
+
+\subsection{Proof of the corollaries}\label{ss:exchange-corollaries}
+\emph{One square.} Throughout, for a matrix $x$ modulo $\mathfrak m$ the \emph{point datum} at $x$ is the datum given by the indicator function of $x$ at the places of $\mathfrak m$; the kernel of a pair with point datum
+$x$ and the Fock vector of a polynomial $P$ is written $\theta[x,P]$. For a set of forms $f_1$, $f_2$ of rapid decay, the \emph{up integrand} is the theta kernel of $(U_1\oplus U_2,A)$ with point datum $x$ and real
+part $w$ at $(g_1\oplus g_2,h)$, times $f_1(g_1)f_2(g_2)\nu_0(\det g_2)$, and the \emph{down integrand} is the same for $(A',U_1\oplus U_2)$ and a point datum $y$.
+
+\begin{lemma}[Point data and integrability]\label{lem:point-data}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $k$ be the chosen integral finite point of $\U(T)$ with residue $g$ modulo $\mathfrak m$. In the Weil representation of $\U(S)\times\U(T)$ twisted by $\alpha$, $\beta$, the point $k^{-1}$ of $\U(T)$ sends the point
+datum at $gx$ to $\alpha(\det k)^{-1}$ times the point datum at $x$; similarly a point $k$ of $\U(S)$ with residue $g$ sends the point datum at $yg$ to $\beta(\det k)^{-1}$ times that at $y$.
+\item If $\Psi$, $\Psi'$ are matched over the residue ring, $\Psi$ vanishes off the matrices whose transpose has a left inverse and $\Psi'$ off the left invertible matrices.
+\item If $\nu$ is tame of weight $\mu$ for $(\mathfrak m,\chi)$, the inverse of $\nu^{-1}\upsilon^{\abs N/2}$ is tame for $(\mathfrak m,\chi)$ of some weight.
+\item If $b_2\nu_0=b_1$, the kernel of $(U_1\oplus U_2,A)$ at $g_1\oplus g_2$ for the point datum $x$ and the product $P_1P_2$, with characters $a_1a_2$ and $b_1$, is the product of the kernels of $(U_1,A)$ and
+$(U_2,A)$ for the column blocks of $x$, divided by $\nu_0(\det g_2)$; and likewise for $(A',U_1\oplus U_2)$ and the row blocks of $y$ when $b_1'\nu_0=b_2'$.
+\item For $\mathfrak m\ne(1)$, $x$ with left invertible transpose and forms of rapid decay, there are $N$ and $D'$ such that the up integrand is integrable for the product of the quotient measures and bounded by $D'$
+times the $N$-th Fock moment of $w$, and its integral $J(w)$ satisfies $\abs{J(w)-J(w')}\le D'\cdot(\text{moment of }w'-w)$. The same holds for the down integrand at a left invertible $y$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The finite Weil representation acts on point data by substitution and the character of the determinant, as in \cref{lem:translation-laws}(a). (b) By the support condition $\Psi$ lives on the rows of inverses of
+invertible matrices, whose transposes have left inverses, and $\Psi'$ on columns of invertible matrices. (c) Inverting turns $\chi$ into $\chi^{-1}$ and then back, and a power of the restriction of $\upsilon$ changes only the
+weight. (d) The datum and the polynomial are products along the decomposition of the source, the theta series of a product is the product of the theta series, and the characters on the source multiply. (e) The
+kernel grows at most like a power of the heights of $g_1$, $g_2$, uniformly in $h$, with a constant times a Fock moment of $w$; the rapid decay of $f_1$, $f_2$ absorbs the power and the character has modulus one.
+The integrand is additive in $w$, so the integral is Lipschitz in the stated sense.
+\end{proof}
+
+\begin{lemma}[Up and down]\label{lem:up-down}
+Let $(U_1,A)$, $(U_2,A)$ be edges $e_1\to e$, $\bar e_2\to\bar e$, and $(A',U_1)$, $(A',U_2)$ edges $\bar e'\to\bar e_1$, $e'\to e_2$, for families of characters indexed by $i\in I$, with $b_2\nu_0=b_1$ on $A$ and $b'_1\nu_0=b'_2$ on
+$A'$, and let $w$ be a real datum with finite moments.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For the Fock vector of $P_1P_2$, the integral of the up integrand at $x$ is the integral over $[\U(A)]$ of the product of the theta lifts of $f_1$ and $f_2$; for $P_1'P_2'$, that of the down integrand at $y$ is the
+integral over $[\U(A')]$ of the product of the transposed lifts, which is the pairing on $U_2$ of $f_2$ with the transposed lift of $f_1$ to $A'$ followed by the lift to $U_2$.
+\item There is one number $\kappa$ such that for every $i$, every $x$ with left invertible transpose and all forms, the integral of the up integrand at $w$ is $\kappa$ times the pairing of $f_2$ with the lift of $f_1$ to $A$
+followed by the transposed lift to $U_2$.
+\item Replacing $x$ by $gx$ multiplies the lift from $U_1$ to $A$ followed by the transposed lift by $\chi(\det g)$, if the inverse of the product of the characters on $U_1$ and $U_2$ is tame for $(\mathfrak m,\chi)$; and
+replacing $y$ by $yg$ multiplies the transposed lift to $A'$ followed by the lift by $\chi(\det g)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By \cref{lem:point-data}(d) the kernel is a product, and integrating over $U_1\times U_2$ the products with $f_1$, $f_2$ gives the two lifts, by Fubini (\cref{lem:point-data}(e)); on the side of $A'$ the lift from $U_2$ is
+adjoint to the transposed lift. (b) A polynomial is a sum of products $Q_1Q_2$ of polynomials on $(U_1,A)$ and $(U_2,A)$, and the lifts with $Q_1$, $Q_2$ are real averages of the lifts along the edges: averaging over the
+real points multiplies the pairing on $A$ by a number fixed by the real data, the same for all $i$. Hence for polynomial vectors the integral is $\kappa(P)$ times the pairing, with $\kappa$ linear in $P$; the numbers
+$\Lambda_j(w)$ indexed by the cases $j=(i,x,f_1,f_2)$ are Lipschitz for one moment (\cref{lem:point-data}(e)), and the functions $j\mapsto\Lambda_j(\text{polynomial vector})$ lie on the line through the pairings, which is
+closed; polynomial vectors are dense in every moment, so the same holds for $w$ with one $\kappa$. (c) Translate the lifted form by the inverse of an integral point $k$ of $\U(A)$ with residue $g$: the column blocks of $gx$
+are $g$ times those of $x$, and by \cref{lem:point-data}(a) the scalar is the product of the two characters at $\det k$, which is $\chi(\det g)$ by tameness of its inverse. The other path is the same with an integral
+point of $\U(A')$ and the row blocks of $yg$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:one-square}]
+All four products of the characters on the pairs are the rank twist of $\nu_i^{-1}$ for $W$: in even rank, two space characters multiply to the inverse base change of $\nu_i$ exactly when the characters
+multiply to the rank twist, as in the last step of the proof of \cref{thm:exchange}. One character $\nu_0$ relates both pairs: $\nu_0=b_1/b_2$ on $A$, and then $b'_1\nu_0=b'_2$ on $A'$. The equivariance under $x\mapsto gx$ and $y\mapsto yg$ is \cref{lem:up-down}(c), with
+\cref{lem:point-data}(c) for tameness. Apply \cref{thm:exchange} to $W=U_1\oplus U_2$ with $V=A$, $V'=A'$ and the Fock vector $v$ of $P'_1P'_2$, which is Schwartz; it gives $C$, a Schwartz $w$ for $(W,A)$ and, for
+each $i$, $c_i$ with $\abs{c_i}^2=C\,L_{*,i}(t)\ne0$, so $c_i\ne0$. Let $\kappa$ be the number of \cref{lem:up-down}(b) for $w$. Forms on $U_2$ are determined by their pairings with the forms $f_2=\bar z$ of the conjugate
+type. Expand the identity of \cref{thm:exchange} at $g_1\oplus g_2$ in point data, $\Psi=\sum_x\Psi(x)1_x$ and $\Psi'=\sum_y\Psi'(y)1_y$, multiply it by $f_1(g_1)f_2(g_2)\nu_0(\det g_2)$, and integrate over $[\U(U_1)]\times[\U(U_2)]$.
+On the side of $A$ the sum over $x$ runs over matrices with left invertible transpose (\cref{lem:point-data}(b)), so each term is integrable and gives $\kappa$ times the pairing with $\Theta_i(x)f_1$; on the side of
+$A'$ the sum runs over left invertible matrices and each term gives the pairing with $\Theta'_i(y)f_1$ (\cref{lem:up-down}(a)). Hence
+\[
+  \kappa\sum_x\Psi(x)\langle z,\Theta_i(x)f_1\rangle=c_i\sum_y\Psi'(y)\langle z,\Theta'_i(y)f_1\rangle
+\]
+for all $z$ and $f_1$, and dividing by $c_i$ gives the corollary.
+\end{proof}
+
+\emph{Explicit exchange.} Let $j\colon m\sqcup l\to n$ split the index set of $W$ by sign and $f\colon p\sqcup l\to b$ that of $V'$, with $e\colon p\sqcup a\to m$. At each infinite place $\tau$, the \emph{stacked
+determinant product} $\mathrm{sd}_\eta$ is the product over $i\in\iota_\tau$ of the determinants of $\eta_{\tau,i}$ stacked over the $a\times m$ matrix of variables, columns ordered by $e$, and the \emph{matched
+polynomial} $\mathrm{mp}_\eta=\prod_\tau\det(y^-_\tau)^{\#\iota_\tau+n-2l}\prod_{\tau,i}\det(\eta_{\tau,i}y_\tau)$ is the polynomial of \cref{cor:explicit-exchange}. The \emph{standard frame} $\eta^0$ is the $p\times m$ matrix
+$(1\ 0)$ for $m\simeq p\sqcup a$, and the \emph{frame torus} $t_z$, $\abs z=1$, is the diagonal point of $\U(m)$ with entries $z^{-2}$ on $p$ and $z^{-1}$ on $a$ at every place; the point $\mathrm{pb}(k)$ is $k\in\U(m)$
+placed in the block of positive signs of $W$.
+
+\begin{lemma}[Laws of the two polynomials]\label{lem:two-polynomials}
+Let $\gamma_\tau=l-\#\iota_\tau$ and let the real Weil representation twist $(x,u)$ by $\prod_\tau\det u_\tau^{\gamma_\tau}$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $k\in\U(m)$, $(\mathrm{pb}(k),u)$ carries the Fock vector of $\mathrm{sd}_{\eta(k^{\mathsf T})^{-1}}$ to that of $\mathrm{sd}_\eta$ times $\prod_\tau\det k_\tau^{-\#\iota_\tau}$; and $\mathrm{pb}(k)$ carries the
+Fock vector of $\mathrm{mp}_\eta$ to that of $\mathrm{mp}_{\eta k^{\mathsf T}}$ times the same factor. Scaling all matrices by $w$ multiplies $\mathrm{mp}$ by $w^{\#p\#\iota_\tau}$ at each place.
+\item (Circle mean.) For every Fock vector $y$ there is $\kappa$ such that for every functional $\ell$ invariant under $\U(a)$ the mean over $\abs z=1$ of $\ell(\Omega_z y)$ is $\kappa\,\ell(\mathrm{sd}_{\eta^0})$, where
+$\Omega_zy$ is $y$ moved by $(\mathrm{pb}(t_z),z^{-1})$ times $z^{-\abs a\sum_\tau\#\iota_\tau}$.
+\item (Polarisation.) For nonempty $a$, $\mathrm{sd}_\xi$ and $\mathrm{mp}_\xi$ are finite combinations, with the same coefficients, of the same polynomials for the unitary translates $\eta^0k_\tau^{\mathsf T}$ of
+the standard frame.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The pair acts by a substitution of the variables and the vacuum character. For $\mathrm{sd}$ the vacuum character is $\det u^{\gamma_\tau-l}=\det u^{-\#\iota_\tau}$, which cancels the powers of $\det u$ produced by the
+substitution on the $a$ side, and the substitution on the $m$ side turns $\eta(k^{\mathsf T})^{-1}$ into $\eta$ with the factor $\det k^{-\#\iota_\tau}$. For $\mathrm{mp}$ the substitution fixes the block of variables with
+negative signs and multiplies the block $y$ with positive signs by $k^{\mathsf T}$, and entry by entry $\eta(k^{\mathsf T}y)=(\eta k^{\mathsf T})y$; the vacuum character gives $\det k^{\gamma_\tau-l}$. Each factor depending on
+the matrices is a $p\times p$ determinant, which gives the scaling.
+
+(b) The mean is continuous in $y$ and the functions of $\ell$ proportional to $\ell(\mathrm{sd}_{\eta^0})$ form a closed line, so it suffices to treat Fock vectors of polynomials $P$, which are dense. Let
+$\mathrm{cols}=j\circ e$ on $a$ be the columns of the variables met by the stacked determinants of $\eta^0$, and let $\mathrm{sc}(s)$ be $\ell$ at the Fock vector of $P$ with the variables outside $\mathrm{cols}$ multiplied by
+$s$. The torus $t_z$ and the scalar $z^{-1}$ act on the variables by substitutions; comparing them variable by variable, and with the scalars of $\Omega_z$ cancelling, $\ell(\Omega_zP)=\mathrm{sc}(z)$. The function $\mathrm{sc}$
+is a polynomial in $s$, so its mean over the circle is $\mathrm{sc}(0)$, the value of $\ell$ at $P_0$, the polynomial $P$ with the variables outside $\mathrm{cols}$ set to $0$. Read $P_0$ as a polynomial in square
+$a\times a$ matrices in the columns $\mathrm{cols}$; since $\ell$ is invariant under $\U(a)$, its value at the translate of $P_0$ by $u$ is $\mathrm{sc}(0)$ times $\prod_\tau\det u_\tau^{\#\iota_\tau}$, both substitutions keeping the
+columns $\mathrm{cols}$, mixed by $u$, and killing the other variables. Averaging over $\U(a)$ with the weight $\prod_\tau\det u_\tau^{-\#\iota_\tau}$ projects onto the line of $\prod_\tau\det^{\#\iota_\tau}$, so
+$\mathrm{sc}(0)=\kappa\,\ell(\prod_\tau\det^{\#\iota_\tau})$ with $\kappa$ depending only on $P_0$; and for the standard frame the stacked determinant at $\tau$ is the minor of the variables in the columns $\mathrm{cols}$, so this is
+$\kappa\,\ell(\mathrm{sd}_{\eta^0})$.
+
+(c) At each point $x$ there are an $m\times p$ matrix $Y$ and a number $d$ with $\det(\xi;x_\tau)=d\det(\xi Y)$ for all $\xi$ (expand the stacked determinant along the rows of $\xi$). By irreducibility of the module of
+products of determinants under the unitary group, $\prod\det(\xi_{\tau,i}Y_\tau)$ is a finite combination of the same polynomials for the unitary translates of $\eta^0$, with coefficients independent of $Y$; reading
+the same combination in $\mathrm{mp}$ (the factor of the negative block being common) gives the claim.
+\end{proof}
+
+\begin{lemma}[The archimedean step]\label{lem:archimedean-step}
+For nonempty $a$ there is a polynomial $Q_0$ such that every real vector $v$ has a number $\kappa$ with the following property. Let $\ell_g$ be continuous functionals with
+$\ell_g(\omega(x_1,x_2)w)=\ell_{gx_1}(w)$, and $\ell'$ a linear form on polynomials with $\ell_x(v)=\ell'(Q)$ whenever $x$ carries the Fock vector of $Q_0$ to that of a polynomial $Q$. Then
+$\kappa\,\ell_1(\mathrm{sd}_\eta)=\ell'(\mathrm{mp}_\eta)$ for all $\eta$.
+\end{lemma}
+
+\begin{proof}
+Take $Q_0=\mathrm{mp}_{\eta^0}$. The functionals $\ell_g$ are invariant under the second group, so \cref{lem:two-polynomials}(b) applies to $\ell_{\mathrm{pb}(k)}$: the circle mean of $\ell_{\mathrm{pb}(k)}(\Omega_zv)$ is
+$\kappa\,\ell_{\mathrm{pb}(k)}(\mathrm{sd}_{\eta^0})=\kappa\prod_\tau\det k_\tau^{-\#\iota_\tau}\ell_1(\mathrm{sd}_{\eta^0k^{\mathsf T}})$ by \cref{lem:two-polynomials}(a). On the other hand $\ell_{\mathrm{pb}(k)}(\Omega_zv)$ is a power of $z$ times
+$\ell_{\mathrm{pb}(kt_z)}(v)$, the second group being invisible, and by \cref{lem:two-polynomials}(a) the point $\mathrm{pb}(kt_z)$ carries $Q_0$ to $\prod_\tau\det(kt_z)_\tau^{-\#\iota_\tau}$ times
+$\mathrm{mp}_{\eta^0t_zk^{\mathsf T}}=\mathrm{mp}_{z^{-2}\eta^0k^{\mathsf T}}$; so the hypothesis gives it as $\ell'$ of that polynomial. By the scaling law and $\det t_z=z^{-(2\abs p+\abs a)}$ the powers of $z$ cancel, and the integrand of
+the circle mean is the constant $\prod_\tau\det k_\tau^{-\#\iota_\tau}\ell'(\mathrm{mp}_{\eta^0k^{\mathsf T}})$. Cancelling the nonzero power of $\det k$ gives the identity for the unitary translates $\eta^0k^{\mathsf T}$; both sides are linear in the polynomials, so \cref{lem:two-polynomials}(c) extends it to
+all $\eta$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{cor:explicit-exchange}]
+\emph{Class sums.} The theta integral over $\U(I_a)$ at a point of $\U(W)$, with finite part $\Phi$, is a continuous linear functional of the real part: it is the lift of the constant function $1$, of rapid decay on a
+definite group, against the datum $w\otimes\Phi$. The integral over $[\U(V')]$ of the kernel with datum $\Psi$ and a polynomial $Q$ is a linear form in $Q$, the kernels being rapidly decreasing as $\Psi$ lives on left
+invertible matrices. For a character $\alpha$ tame of weight $l-\#\iota_\tau$ and $\Phi$ matched with $\Psi$ for $\chi^{-1}$, the kernel of $(W,I_a)$ with the polynomial $\mathrm{sd}_\eta$ does not depend on the real part of
+the point of $\U(I_a)$, since $\U(I_a)(\R)$ fixes the vector of $\mathrm{sd}_\eta$ up to the character absorbed by the weight, and translation by $k$ in the stabiliser of the standard lattice replaces $\Phi$ by
+$\alpha(\det k)\Phi(k^{-1}\cdot)$, which is $\Phi$ since $\alpha(\det k)=\chi(\det k)$ and $\Phi(k^{-1}y)=\chi(\det k)^{-1}\Phi(y)$. Hence the integral over $[\U(I_a)]$ is the class sum.
+
+\emph{Transfer.} With $Q_0$ from \cref{lem:archimedean-step}, suppose that at every point the theta integral over $\U(I_a)$ with datum $\Phi$, $v$ is $c$ times the integral over $[\U(V')]$ of the kernel with data $\Psi$,
+$Q_0$. Apply \cref{lem:archimedean-step} to $\ell_g$ the theta integral over $\U(I_a)$ at $g(y,1)$ as a functional of the real datum and $\ell'$ the integral over $[\U(V')]$ as a functional of the polynomial; if $y$ carries
+$Q_0$ to $Q$, the hypothesis at $g(y,1)$ is the required relation. It gives $c'$, depending on $v$, with $c'$ times the class sum for $\Phi$, $\mathrm{sd}_\eta$ equal to $c$ times the integral for $\Psi$, $\mathrm{mp}_\eta$.
+
+\emph{The exchange.} Write $n=2l+2s_0$ and $\alpha_0=\alpha\upsilon^{-l}$, of weight $-\#\iota_\tau$, and $\nu=\alpha_0\upsilon^{-s_0}$. Then $\nu^{-1}$ is tame for $(\mathfrak m,\chi^{-1})$ of weight $\#\iota_\tau+s_0$, and
+$n\le2(\#\iota_\tau+s_0)+2l$. Apply \cref{thm:exchange} to $(W,I_a,V')$, which satisfies its hypotheses ($a=b+2d$, the $l$ negative signs of $W$ are those of $V'$, $2l+2\le n$), with the Fock vector of $Q_0$ on the side of $V'$. It
+gives $C>0$, a real datum $v$ and for each $\alpha$ a number $c_0$ with $\abs{c_0}^2=C\,L_*(\nu^{-1},d)\ne0$. In the exchange identity $W$ and $V'$ carry the character $\upsilon^l\alpha_0=\alpha$ and $I_a$ the character $1$: the
+rank twist of $\nu$ is $\upsilon^{l+s_0}\nu=\alpha$, and the space characters of $1$ in rank $a$ and of $\alpha$ in rank $b$ multiply to the inverse base change of $\nu^{-1}$. The transfer gives $c'$ with $c'$ times the class sum
+equal to $c_0\alpha_0(\det g)$ times the integral, twisting the standard characters by $\alpha_0$ multiplying the kernels by values of $\alpha_0$ and of $\beta(\det g)^{-1}$.
+
+\emph{The constant.} The kernels of the corollary, with the characters $\alpha$, $\beta$ on $(W,I_a)$ and $\alpha/\beta$, $\alpha$ on $(V',W)$, differ from those with the standard characters by values of $\alpha_0$ at the determinants
+and by $\beta(\det g)^{-1}$, in the same way on both sides; so the relation of the transfer becomes $c$ times the class sum equal to the integral, with $c=c'/c_0$, and $\abs c^2=\abs{c'}^2/(C\,L_*(\nu^{-1},d))$. As
+$l+s_0=b+d$, $\nu^{-1}=\alpha^{-1}\upsilon^{b+d}=\mu$, so $\abs c^2=C'/L_*(d)$ for $\mu$, with $C'=\abs{c'}^2/C$, which may be $0$.
+
+When $b$ is empty, $\sigma$ identifies $a$ with $n$, the functions $\chi\circ\det$ on $a\times n$ matrices and $1$ on $n\times0$ matrices are matched for $\chi^{-1}$ (the block determinant functions of \cref{prop:matched}(a) for the
+constant $f=1$), the matched polynomial is $1$, the kernel of $(V',W)$ is $\alpha(\det g)$ at $(x,g)$, and the quotient of the trivial group has volume $1$; so the right side of the corollary is $1$ and it computes the class
+sum itself.
+\end{proof}

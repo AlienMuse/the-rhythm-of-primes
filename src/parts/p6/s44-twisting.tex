@@ -1,0 +1,406 @@
+\section{The twisting theorem}\label{sec:twisting}
+
+The descent of \cref{sec:selmer} gives tied primes, not a twist. The ties are the values at the tame generators of a universal character with polynomial coefficients; this section
+moves the point of evaluation to a root of unity. Selmer lengths and the values of Stickelberger systems are then valuations of polynomials at that point, and a lemma on roots of unity
+keeps all of them small at once (\cref{thm:twisting-general}). For the main summands and the Stickelberger systems of $L$-values this is the twisting theorem
+(\cref{thm:twisting}).
+
+\subsection{One universal character}\label{ss:universal-char}
+For homomorphisms $h_j\colon\Gal(\Omega/E)\to\Z/q$, $j\in\sigma$, the \emph{universal character} is the polynomial
+\[
+  \psi_X(g)=\prod_{j\in\sigma}(1+X_j)^{h_j(g)},\qquad 0\le h_j(g)<q,
+\]
+over the variables $X_j$. At a point $x$ with $(1+x_j)^q=1$ it is a character, and the Selmer module $\mathrm{Sel}(x)$ of $\rho\otimes\psi_x$ modulo $\ell^M$, for a finite set $S$ and a set $\mathcal L$ of relations among the values of cocycles,
+is the module of cocycles unramified outside $S$ obeying $\mathcal L$.
+\lean{New.Selmer.map_mk_smul, New.Selmer.universalChar, New.Selmer.aeval_universalChar, New.Selmer.eval_universalChar, New.Selmer.aeval_sub_one_universalChar, New.Selmer.IsTiedPrimes.universalChar_eq_one_add_X, New.Selmer.IsTiedPrimes.universalChar_frob, New.Selmer.IsTiedPrimes.universalChar_tame_gen, New.Selmer.finite_selmerModule, New.Selmer.mapRel_single, New.Selmer.mapRel_mapRel, New.Selmer.mapRel_image_cocycleRelations, New.Selmer.relationMatrix, New.Selmer.relationMatrix_apply, New.Selmer.sum_mapDomain_smul_eq_relEval, New.Selmer.mem_matrixKernel_relationMatrix, New.Selmer.eq_zero_of_forall_hom_zmod_eq_zero, New.Selmer.exists_openNormalSubgroup_forall_apply_eq_apply_one, New.Selmer.exists_openNormalSubgroup_forall_eq_zero, New.Selmer.exists_matrix_selmerModule_equiv, New.Selmer.pointTwist, New.Selmer.pointTwist_smul_eq_self, New.Selmer.selmerAtPoint, New.Selmer.exists_matrix_selmerAtPoint_equiv, New.Selmer.exists_isLeast_length_selmerAtPoint, New.Selmer.exists_sharp_polynomial}
+
+The proofs need two pieces of linear algebra over discrete valuation rings, stated here with their proofs.
+
+\begin{lemma}[Maximal minors]\label{lem:sharp-minors}
+Let $O$ be a discrete valuation ring, $A$ a matrix over $O$ with columns indexed by a finite set $k$ and any family of rows, and $a\ne0$. The \emph{maximal minors} of $(A,a)$ are the determinants of the square matrices formed by $\#k$ rows of the matrix whose rows are those of $A$ and of $a\cdot1$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The kernel of $A$ on $(O/a)^k$ has the length of the module of linear maps to $O/a$ from the quotient of $O^k$ by the lattice spanned by the rows of $A$ and of $a\cdot1$, and this quotient has the same length.
+\item The quotient of $O^k$ by the rows of a square matrix $N$ has length $v(\det N)$; if every row of $N$ is a combination of the rows of a matrix $M$, then every common divisor of the maximal minors of $M$ divides $\det N$.
+\item The length of the kernel of $A$ on $(O/a)^k$ is the least valuation of a maximal minor of $(A,a)$. For a ring map $\mathrm{ev}\colon\Lambda\to O$ and a matrix $A$ over $\Lambda$ with $\mathrm{ev}(a)\ne0$, the same holds for $\mathrm{ev}(A)$ with the images of the maximal minors over $\Lambda$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Selmer.dvd_det_of_forall_row_mem_span, New.Selmer.exists_span_row_eq_rowLattice, New.Selmer.image_maximalMinors, New.Selmer.isLeast_length_matrixKernel, New.Selmer.isLeast_length_quotient_rowLattice, New.Selmer.length_linearMap_quotSpan, New.Selmer.length_linearMap_quotSpan_of_dvd, New.Selmer.length_matrixKernel_eq_length_linearMap, New.Selmer.length_quotient_span_row, New.Selmer.matrixKernel, New.Selmer.maximalMinors, New.Selmer.mem_matrixKernel, New.Selmer.mem_span_row_mul_diagonal_mul_iff, New.Selmer.rowLattice, New.Selmer.smul_mem_rowLattice}
+
+\begin{proof}
+(a) A vector of the kernel is determined by its coordinates, and these are the values at the standard basis of a linear map $O^k\to O/a$ that kills the rows of $A$ and of $a\cdot1$. The quotient $Q$ is finitely generated and killed by $a$; by the structure theorem it is a product of cyclic modules $O/d_i$ with $d_i\mid a$, and
+the linear maps $O/d\to O/a$ are the multiples of multiplication by $a/d$, a module of the length of $O/d$.
+
+(b) Write $N=U\,\mathrm{diag}(d)\,V$ with $U$, $V$ invertible (Smith normal form). A vector is a combination of the rows exactly if $d_i$ divides the $i$th coordinate of its product with $V^{-1}$, so the quotient is $\prod_iO/d_i$, of length $\sum v(d_i)=v(\det N)$. If the rows of $N$ are combinations of those of $M$, then by
+multilinearity $\det N$ is a combination of the determinants of choices of rows of $M$.
+
+(c) Multiplication by $a$ embeds $O^k$ into the lattice of the rows, so the lattice is free of full rank and is spanned by the rows of a square matrix $N$. Each choice of $\#k$ rows spans a sublattice, whose quotient is at least as long, of length the valuation of the minor by (b); and $\det N$ is a combination of the minors, so
+the minor of least valuation divides it. Hence the length of the quotient is the least valuation of a minor, and (a) concludes. A ring map carries the maximal minors of $(A,a)$ onto those of $(\mathrm{ev}A,\mathrm{ev}\,a)$.
+\end{proof}
+
+\begin{lemma}[One finite quotient]\label{lem:one-quotient}
+Let $E$ be a number field, $S$ a finite set of primes, $G'$ an open subgroup of $\Gal(\Omega/E)$ and $m\ne0$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Finitely many locally constant functions on $G'$ are constant on the cosets of one open normal subgroup $G''\subseteq G'$.
+\item There is one open normal $G''$ such that, for every abelian group $B$ killed by $m$, every locally constant $z\colon\Gal(\Omega/E)\to B$ that is additive on $G'$ and vanishes on the inertia groups above the primes outside $S$ vanishes on $G''$.
+\item For a function $\rho$ to matrices over a ring $\Lambda$, a set $\mathcal L$ of relations, and $G'$, $m$, $S$ as above, there is one matrix $A$ over $\Lambda$ with finitely many columns such that for every $\mathrm{ev}\colon\Lambda\to O'$ and every $O'$-module $B$ killed by $m$ on which $G'$ acts as the identity through
+$\mathrm{ev}\,\rho$, the Selmer module of $\mathrm{ev}\,\rho$ in $B^n$ is isomorphic to the kernel of $\mathrm{ev}\,A$ on $B^k$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Each function is constant on the cosets of an open subgroup; intersect them and take the normal core, which is open as the index is finite.
+
+(b) The continuous homomorphisms $G'\to\Z/m$ unramified outside the primes above $S$ form a finite set $Y$: they factor through the Galois group of the maximal abelian extension of exponent $m$ of the fixed field of $G'$ unramified outside $S$, which is finite by class field theory (\cref{thm:B-classfield}). By (a) they are constant on
+the cosets of some $G''$. The homomorphisms $\chi\colon B\to\Z/m$ separate the points of $B$, and $\chi\circ z$ lies in $Y$; so $z$ vanishes on $G''$.
+
+(c) Let $G''$ be as in (b) and $\mathcal G=\Gal(\Omega/E)/G''$, a finite group. A member $z$ of the Selmer module is additive on $G'$ (it is a cocycle and $G'$ acts as the identity), so it vanishes on $G''$, and $z(gh)=z(g)+gz(h)=z(g)$ for $h\in G''$: it is a function on $\mathcal G$. The unknowns are the coordinates of the values on $\mathcal G$; the equations, linear
+with coefficients in $\Lambda$, are the cocycle rule (whose relations are carried by $\mathrm{ev}$ onto those for $\mathrm{ev}\,\rho$), vanishing on the images of the inertia groups outside $S$, and the relations of $\mathcal L$ pushed forward to $\mathcal G$ by adding the matrices over each fibre. A function on $\mathcal G$ gives a member of the
+Selmer module exactly if it satisfies the equations, by the identity $\sum_c\mathrm{ev}(f_*(c))w(c)=\sum_g\mathrm{ev}(f(g))w(\pi g)$.
+\end{proof}
+
+\begin{proposition}[Selmer lengths are valuations]\label{prop:one-system}
+Let the $h_j$ and $\rho$ modulo $\ell^M$ be locally constant.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $a\mid\ell^M$ with $O/a$ finite the Selmer module with coefficients in $O/a$ is finite.
+\item There is a matrix $A$ over $O[X]$ with finitely many columns such that $\mathrm{Sel}(x)$ is isomorphic to the kernel of $A(x)$ on a power of $O'/\ell^M$, for every extension $O\to O'$ and every point $x$ over $O'$.
+\item There is a set $\mathcal M$ of polynomials such that at every point $x$ over a discrete valuation ring of characteristic zero the length of $\mathrm{Sel}(x)$ is the least valuation of a value $P(x)$, $P\in\mathcal M$.
+\item For a point $x_0$ there is a polynomial $P$ with $v(P(x_0))=\mathrm{len}\,\mathrm{Sel}(x_0)$ and $v(P(x))\ge\mathrm{len}\,\mathrm{Sel}(x)$ at every point $x$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) The ring $O/\ell^M$ acts on $O/a$, so $\rho$ acts through its reduction, continuously; by \cref{lem:one-quotient}(c), with $G'$ the kernel of $\rho$ modulo $\ell^M$, the Selmer module lies in the set of functions on one finite quotient with values in the finite $(O/a)^n$.
+
+(b) Let $G'$ be an open subgroup on which all $h_j$ vanish and $\rho\equiv1$ modulo $\ell^M$. Over $\Lambda=O[X]$ put $\rho_X(g)=\psi_X(g)\rho(g)$. On $G'$, $\psi_X=1$, so $G'$ acts as the identity through every specialisation on $(O'/\ell^M)^n$, and \cref{lem:one-quotient}(c), with $m=\ell^M$ and $\mathrm{ev}$ the evaluation at $x$ composed with $O\to O'$, gives the matrix: at $X=x$ the matrices $\rho_X(g)$ and the relations are those of $\mathrm{Sel}(x)$.
+
+(c) Take for $\mathcal M$ the maximal minors of $(A,\ell^M)$; by (b) and \cref{lem:sharp-minors}(c) with $\mathrm{ev}$ the evaluation at $x$, the length of $\mathrm{Sel}(x)$, which is that of the kernel of $A(x)$ on $(O'/\ell^M)^k$, is the least valuation of a value $P(x)$, $P\in\mathcal M$; here $\ell^M\ne0$ in $O'$, of characteristic zero.
+
+(d) Take $P\in\mathcal M$ attaining the least valuation at $x_0$; at every other point its valuation is at least the least one, which is the length.
+\end{proof}
+
+\subsection{From ties to a line}\label{ss:line}
+A Selmer datum $T$ over $O$ has \emph{twisted length at most $b$} for a character $\psi$ if for all large coefficient rings $O'\supseteq O$ the values of $\psi$ lie in $O'$ and $\mathrm{Sel}_Q(T\psi)$, with coefficients in $\mathrm{Frac}(O')/O'$, has length at
+most $b$ (normalised so that $O'/\ell$ has length $1$). Say that $M$ is a \emph{torsion level} for $T$ if $M>\beta_T+1$ for each datum and the residue field of $O$ has more than $2\operatorname{rk}(T_i)\,\mathrm{len}(O/\ell^M)+1$ elements.
+\lean{New.Selmer.exists_smul_eq_zero_of_mem_selmerModule, New.Selmer.length_selmerModule_divisibleQuot_le, New.Selmer.SelmerDatum.twistedSelmer, New.Selmer.SelmerDatum.divisibleSelmer, New.Selmer.SelmerDatum.divisibleLength, New.Selmer.SelmerDatum.TwistedLengthLe, New.Selmer.SelmerDatum.TwistedLengthLe.mono, New.Selmer.tieRelations_union, New.Selmer.BoundsSelmer, New.Selmer.restrictToLine, New.Selmer.eval₂_restrictToLine, New.Selmer.gaussVal_tiePolynomial_le, New.Selmer.coe_twistRep_pointChar, New.Selmer.SelmerDatum.reduceModPow_eq_one, New.Selmer.SelmerDatum.length_tiedSelmer_erase_le, New.Selmer.SelmerDatum.exists_boundsSelmer_and_eval_dvd, New.Selmer.SelmerDatum.divisibleLength_pointChar_le, New.Selmer.SelmerDatum.exists_boundsSelmer_ellVal_eval_le, New.Selmer.SelmerDatum.twistedLengthLe_pointChar, New.Selmer.SelmerDatum.eventually_reduceModPow_idOrConjInv_eq, New.Selmer.IsTorsionLevel, New.Selmer.TwistPolynomials, New.Selmer.nonempty_twistPolynomials_of_isTiedPrimes, New.Selmer.exists_twistPolynomials}
+
+A polynomial $P$ \emph{bounds} the Selmer module of characters $h_j$ if $\length\mathrm{Sel}(x)\le v(P(x))$ at all points $x$ over all discrete valuation rings of characteristic zero over $O$. The \emph{restriction} of $P$ to the line $X_j=a_jY$ is $P(aY)$. The divisible Selmer group of $T\psi$ is formed with coefficients in $\mathrm{Frac}(O')/O'$; $\mathrm{Sel}_Q(T\psi)$
+denotes the cocycles of $T\psi$ vanishing at $\gamma_*$, unramified outside $S\cup Q\cup\bar Q$ and obeying the local conditions of $T$.
+
+\begin{lemma}[From the tied group to the twisted group]\label{lem:tied-to-twisted}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A member of a Selmer group with divisible coefficients is killed by a nonzero element; if the group modulo $a\ne0$ has length less than $v(a)$, the divisible group is no longer than it.
+\item (Gauss valuation of the tie polynomial.) If $2n\#I\le s_0$, $n$ the rank, then $v_r(P^1)\le s_0r$ for the tie polynomial $P^1$ of $I$.
+\item (Release of the first prime.) If the Selmer group modulo $\ell^M$ tied at all primes of $J$ has length at most the global term plus the places term, and $\varphi_{P_0}$, $\varphi_{P_0}^{-c}$ act modulo $\ell^M$ as $g_0$, $g_0^{-c}$, then the group tied only at the primes of $J\setminus P_0$ has length at most $\beta_T$.
+\item (The sharp polynomial on the line.) Let $J$, $N$, $r$, $M$ be as in \cref{prop:line}, and suppose the group tied at $J\setminus P_0$ has length at most $\beta_T$. Then some $P^0$ with $v(P^0(0))\le\beta_T$ has the following property: for a discrete valuation ring $O'$ over $O$ with a map $f$ to $\Z_\ell^{\rm int}$ reflecting divisibility, $y\in O'$
+with $v(f(y))\ge r$ and the point $x=(a_vy)_v$ of the line ($a_{P_0}=1$, $a_v=s_v$), some polynomial $P$ bounds the Selmer module of the characters of $J$, and $P(x)$ divides $P^0(y)P^1(y)$ in $\Z_\ell^{\rm int}$.
+\item (Roots of unity.) If $P$ bounds the Selmer module of characters $\lambda_v$, the $\zeta_v$ are $q$th roots of unity, $x=(\zeta_v-1)_v$ and $\psi=\prod_v\zeta_v^{\lambda_v}$, then $\mathrm{Sel}(x)$ is the Selmer group $\mathrm{Sel}_J(T\psi)$ modulo $\ell^M$; so if $v(P(x))<M$, then over all large coefficient rings $\mathrm{Sel}_J(T\psi)$ with divisible coefficients has
+normalised length at most $v(P(x))$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) A member takes finitely many values, as it is locally constant on a compact group; the product of the denominators of their coordinates kills it. Let $z$ have exact order $\varpi^k$ with $k>e=v(a)$; then $\varpi^{k-e}z$ has order $\varpi^e$, lies in the $a$-torsion, which is the group with coefficients $a^{-1}O/O\cong O/a$, and spans a
+submodule of length $e$, contradicting the hypothesis. Hence $a$ kills the divisible group, which is then contained in the group modulo $a$.
+
+(b) Each of the $2\#I$ factors $\det((1+Y)\rho(\varphi_w)-1)$ has the unit $\det\rho(\varphi_w)$ as coefficient in degree $n$, so its Gauss valuation at radius $r$ is at most $nr$; Gauss valuations add over products (\cref{lem:gauss}(b)).
+
+(c) By \cref{lem:untied}(e), dropping the ties at $P_0$ and $\bar P_0$ costs at most $\sum_{g=g_0,g_0^{-c}}v(\det(\rho(g)-1))$, the first-prime term; $\beta_T$ is the sum of the three terms.
+
+(d) Let $G$ be a polynomial bounding the Selmer module with the ties of $J\setminus P_0$ that is sharp at $0$ (\cref{prop:one-system}(d)); at $0$ the twist is trivial and this module is the tied group, so $v(G(0))\le\beta_T$; let $P^0$ be the restriction of $G$ to the line. Let $P$ bound the module without ties and be sharp at $x$. By \cref{lem:untied}(d) at
+the point $x$ (where $\alpha\equiv1$ modulo $y$ gives $\sum_{j<\ell^N}\alpha^j\equiv0$ modulo $\ell^M$, since $v(y)\ge r$ and $M\le Nr$, \cref{lem:gauss}(e)),
+\begin{align*}v(P(x))&=\length\mathrm{Sel}(x)\le\length(\text{tied part})+v(P^1(y))\\&\le v(G(x))+v(P^1(y))=v(P^0(y))+v(P^1(y)),\end{align*}
+and in $\Z_\ell^{\rm int}$ divisibility is comparison of valuations; the map $f$ carries the inequality there.
+
+(e) At $x=(\zeta_v-1)_v$, $\psi_x(g)=\prod_v\zeta_v^{\lambda_v(g)}$ is the character $\psi$, so the twist at $x$ is $T\psi$. If $v(P(x))<M$, the group modulo $\ell^M$ has length less than $v(\ell^M)$, and (a) bounds the divisible group; the character has the given values in $\bar\Q_\ell$, and normalised lengths do not depend on the large ring.
+\end{proof}
+
+\begin{proposition}[Polynomials for a Selmer datum]\label{prop:line}
+Let $J$ be tied primes with first prime $P_0$ for a Selmer datum $T$, the datum modulo $\ell^M$ trivial at the elements of property $V_i$, and let $N\ne0$, $2\operatorname{rk}(T)\#J\le s_0$, $r\le1$ and $M\le Nr$. If the Selmer group
+modulo $\ell^M$ tied at the primes of $J\setminus P_0$ has length at most $\beta_T$, then a polynomial $P$ bounds the length of the Selmer module of the characters of $J$ at all points, and $v(P(x_0))\le\beta_T+s_0r$ at a point $x_0$
+over $\Z_\ell^{\rm int}$ whose coordinates have valuation at least $r$.
+\end{proposition}
+
+\begin{proof}
+Let $P^0$ be the polynomial of \cref{lem:tied-to-twisted}(d) and $P^1$ the tie polynomial of $J\setminus P_0$. By \cref{lem:gauss}(c) there is $y\in\Z_\ell^{\rm int}$ with $v(y)\ge r$ at which both attain their Gauss valuations of radius $r$. Let $x_0=(a_vy)_v$ be the point of the line; its coordinates have valuation at least
+$r$, as the slopes are integral. By \cref{lem:tied-to-twisted}(d) a polynomial $P$ bounds the Selmer module and
+\[v(P(x_0))\le v(P^0(y))+v(P^1(y))=v_r(P^0)+v_r(P^1)\le v(P^0(0))+s_0r\le\beta_T+s_0r,\]
+using $v_r(P^0)\le v(P^0(0))$ (\cref{lem:gauss}(a)) and \cref{lem:tied-to-twisted}(b), as $2\operatorname{rk}(T)\#(J\setminus P_0)\le s_0$.
+\end{proof}
+
+\begin{theorem}[Twist polynomials]\label{thm:twist-polynomials}
+Let $T_i$ be finitely many Selmer data and $Y_k$ Stickelberger systems (\cref{ss:stickelberger}), $g_0$ in an inertia group above a place of $S_0$ prime to $\ell$, and let $M$ be a torsion level for $T$. There is an integer $s_0\ge1$
+such that for every rational $r>0$ with $s_0r<1$ and every large $N$ there are
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item a set $Q$ of at most $s_0/2$ primes of prime norm, outside $S_0$, with conjugates outside $S_0$ and $Q$;
+\item for each $\mathfrak q\in Q$ a homomorphism $\lambda_{\mathfrak q}$ to $\Z/\ell^N$, onto on inertia at $\mathfrak q$, coming by $y\mapsto y/\bar y$ from an idele class character of modulus $\mathfrak q$ trivial above $\ell$;
+\item for each datum and each system a polynomial $P$ over $\Z_\ell^{\rm int}$ in variables $X_{\mathfrak q}$ and a point with coordinates of valuation at least $r$ at which $v(P)\le\beta+s_0r$,
+\end{enumerate}
+such that for $\ell^N$th roots of unity $\zeta_{\mathfrak q}$, $\psi=\prod\zeta_{\mathfrak q}^{\lambda_{\mathfrak q}}$ and $x=(\zeta_{\mathfrak q}-1)_{\mathfrak q}$: for a system $P(x)=\psi(\Theta_Q)$; for a datum with $v(P(x))<\beta_T+1$ the Selmer group $\mathrm{Sel}_Q(T\psi)$ with divisible
+coefficients has length at most $v(P(x))$.
+\end{theorem}
+
+\begin{proof}
+For $g$ near $g_0$, $g$ and $g^{-c}$ act on each $T_i$ modulo $\ell^M$ as $g_0$ and $g_0^{-c}$ do, and $\vartheta_k(g)\equiv\vartheta_k(g_0)$ modulo $\ell^{M'}$ for each system, $M'$ an integer with $\beta_{Y_k}+1<M'$ for all $k$, as the characters are continuous; let $W$ be such a neighbourhood. \Cref{thm:descent} gives $s$ such that for every $N>M$ there is a
+tied set $J$ with first prime Frobenius in $W$, at most $s$ primes, and tied Selmer groups of length at most the global term plus the places term. Let $c\ge1$ bound the ranks of the $T_i$ and the numbers of exponents of the $Y_k$, and put $s_0=2cs+1$. Given $r>0$ with $s_0r<1$, take $N>M$ with $M,M'\le Nr$, and $Q=J$; then $2\#Q\le s_0$.
+The characters $\lambda_{\mathfrak q}$ of the primes of $J$ come from idele class characters of modulus $\mathfrak q$ trivial above $\ell$ and take the value $1$ at the tame generator (\cref{prop:aux-primes}(a), (b)), so they are onto on inertia. For a datum, \cref{lem:tied-to-twisted}(c) and \cref{prop:line} give $P$ and the point.
+If $v(P(x))<\beta_T+1<M$, \cref{lem:tied-to-twisted}(e) bounds the divisible Selmer group. For a system, \cref{prop:stickelberger-line}(b) gives the polynomial $\psi_X(\Theta_J)$ and the point; at $x=(\zeta_{\mathfrak q}-1)$ its value is $\psi(\Theta_Q)$, by the identity $\psi_x=\psi$ applied to the group ring.
+\end{proof}
+
+\subsection{Roots of unity}\label{ss:roots-unity}
+Let $v_\rho(g)=\min_i(v(y_i)+\rho i)$ be the Gauss valuation of radius $\rho$ of $g=\sum y_iY^i$ over $\Z_\ell^{\rm int}$, and $\rho_h=1/\varphi(\ell^h)$, the valuation of $\zeta-1$ for $\zeta$ of order $\ell^h$.
+\lean{New.Selmer.rootRadius, New.Selmer.totient_pow_pos, New.Selmer.coe_rootRadius, New.Selmer.ellVal_sub_one_eq_rootRadius, New.Selmer.strictMono_totient_pow_succ, New.Selmer.rootRadius_injOn, New.Selmer.eventually_rootRadius_le, New.Selmer.radiusExponents, New.Selmer.mem_radiusExponents, New.Selmer.exists_lt_mul_sum_radiusExponents, New.Selmer.rootsOfValuation, New.Selmer.ellVal_of_mem_rootsOfValuation, New.Selmer.card_rootsOfValuation_mul, New.Selmer.ellVal_eval_add_card_mul, New.Selmer.sum_rootRadius_filter_le_min, New.Selmer.sum_card_rootsOfValuation_mul_le, New.Selmer.exists_card_rootsOfValuation_mul_le, New.Selmer.sum_min_ellVal_sub_le, New.Selmer.exists_isPrimitiveRoot_pow, New.Selmer.exists_sum_min_ellVal_sub_le, New.Selmer.isUnit_one_add_of_ellVal_pos, New.Selmer.exists_rootOfUnity_eval_le_gaussVal_add, New.Selmer.le_add_of_sum_le_sum_add, New.Selmer.freeCoordinate, New.Selmer.eval_freeCoordinate, New.Selmer.exists_ellVal_eval_update_le_add, New.Selmer.exists_ellVal_eval_piecewise_le_add, New.Selmer.exists_rootsOfUnity_ellVal_eval_le_add}
+
+\begin{lemma}[Gauss valuations]\label{lem:gauss}
+Let $v$ be the valuation of $\bar\Q_\ell$ with $v(\ell)=1$, on the ring $\Z_\ell^{\rm int}$ of integral elements, and $v_\rho(g)=\min_i(v(y_i)+\rho i)$ for $g=\sum y_iY^i$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Monic polynomials over $\Z_\ell^{\rm int}$ split there; every nonnegative rational number is a valuation; the residue field is algebraically closed. $v(g(y))\ge v_\rho(g)$ if $v(y)\ge\rho$; $v_\rho(g)\le v(g(0))$; and $v_\rho(g)\le\rho d$ if the coefficient of $Y^d$ is a unit.
+\item (Gauss's lemma.) $v_\rho(fg)=v_\rho(f)+v_\rho(g)$; $v_\rho(Y-\alpha)=\min(v(\alpha),\rho)$; and $v_\rho(g)=v_0(g)+\sum\min(v(\alpha),\rho)$ over the integral roots $\alpha$ of $g$ with multiplicity, while $v(g(y))=v_0(g)+\sum v(y-\alpha)$ at integral $y$.
+\item (Generic points.) For finitely many polynomials there is one $y$ with $v(y)\ge\rho$ at which $v(g(y))=v_\rho(g)$ for all of them.
+\item If $v(x)\ge\rho$ and $1\le j\le m$, some $x'$ with $(1+x')^j=1+x$ has $v(x')\ge\rho/m$.
+\item If $v(\alpha-1)\ge\rho$ with $\rho\le1$, then $v(\sum_{i<\ell^n}\alpha^i)\ge n\rho$; in particular $v((1+y)^{\ell^N}-1)\ge N\rho$ if $v(y)\ge\rho$. A root of unity of order $\ell^{h+1}$ has $v(\zeta-1)=1/\varphi(\ell^{h+1})$, and $v(\zeta^j-1)=\ell^t/\varphi(\ell^{h+1})$ for $t=v_\ell(j)\le h$; hence if $\rho<1$ and
+$v(\zeta-1)\le\rho/m$, then $v(\zeta^j-1)\le\rho$ for $1\le j\le m$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Selmer.ellAddVal, New.Selmer.ellAddVal_apply, New.Selmer.ellVal_add_eq_min_of_ne, New.Selmer.ellVal_congr_norm, New.Selmer.ellVal_eq_top_iff, New.Selmer.ellVal_eq_zero_iff_isUnit, New.Selmer.ellVal_eval_eq_add_sum_roots, New.Selmer.ellVal_eval_eq_of_roots_eq_zero, New.Selmer.ellVal_multiset_prod, New.Selmer.ellVal_neg, New.Selmer.ellVal_pow_sub_one_le, New.Selmer.ellVal_pow_sub_one_of_isPrimitiveRoot, New.Selmer.ellVal_prod, New.Selmer.ellVal_sub_eq_min_of_ne, New.Selmer.ellVal_sub_one_of_isPrimitiveRoot, New.Selmer.ellVal_val_mul, New.Selmer.ellVal_zero, New.Selmer.exists_ellVal_eq, New.Selmer.exists_ellVal_eval_eq_gaussVal, New.Selmer.exists_eq_C_mul_map_residue_ne_zero, New.Selmer.exists_eq_mul_prod_roots, New.Selmer.exists_eval_eq_zero_of_monic, New.Selmer.exists_forall_ellVal_eval_eq_gaussVal, New.Selmer.exists_forall_isUnit_eval, New.Selmer.exists_one_add_pow_eq, New.Selmer.gaussVal, New.Selmer.gaussVal_X_sub_C, New.Selmer.gaussVal_eq_add_sum_roots, New.Selmer.gaussVal_le_coeff, New.Selmer.gaussVal_le_eval, New.Selmer.gaussVal_le_eval_zero, New.Selmer.gaussVal_le_of_isUnit_coeff, New.Selmer.gaussVal_mono, New.Selmer.gaussVal_mul, New.Selmer.gaussVal_one, New.Selmer.gaussVal_prod, New.Selmer.gaussVal_prod_X_sub_C, New.Selmer.gaussVal_zero_comp_C_mul_X, New.Selmer.geom_sum_range_mul, New.Selmer.isAlgClosed_residueField, New.Selmer.le_ellVal_geom_sum, New.Selmer.le_ellVal_sum, New.Selmer.min_ellVal_le_ellVal_add, New.Selmer.min_ellVal_le_ellVal_sub, New.Selmer.norm_coe_le_one, New.Selmer.splits_of_monic}
+
+\begin{proof}
+(a) The roots of a monic polynomial are integral over $\Z_\ell^{\rm int}$, which is integrally closed; for $\rho=a/b$ take a root of $Y^b-\ell^a$; the residue field is an algebraic closure of $\F_\ell$, since monic polynomials split. The bound at a point is the ultrametric inequality, and the other two compare the minimum with the terms $i=0$ and $i=d$.
+
+(c) Choose $\pi$ with $v(\pi)=\rho$ and put $Y=\pi Y'$, which turns $v_\rho$ into $v_0$. Write each polynomial as $c$ times one with nonzero reduction, $v(c)=v_0$ (a coefficient of least valuation); the reductions have finitely many roots and the residue field is infinite, so some unit $y'$ avoids them all, and $y=\pi y'$ works.
+
+(b) Evaluate at a point generic for $f$, $g$ and $fg$. For $Y-\alpha$, evaluation at $0$ and the leading coefficient give $\le$, and a generic point gives $\ge$. Write $g=q\prod(Y-\alpha)$ over the integral roots; $q$ has no integral roots, so its roots $\beta$ have $\norm\beta>1$ and $\norm{y-\beta}=\norm\beta$ at integral $y$: $v(q(y))$ is constant, equal to
+$v_0(q)=v_0(g)$. Both formulas follow.
+
+(d) The $j$ solutions of $(1+x')^j=1+x$ have product $\pm x$; take one of largest valuation.
+
+(e) $\sum_{i<\ell^n}\alpha^i$ is the product over $h<n$ of $\sum_{i<\ell}\alpha^{i\ell^h}$, each congruent to $\ell$ modulo $\alpha-1$, and $v(\ell)=1\ge\rho$. The valuation of $\zeta-1$ is $1/\varphi(\ell^{h+1})$ by the norm of the cyclotomic uniformiser; writing $j=\ell^tj'$, $\zeta^j$ has order $\ell^{h+1-t}$. For the last claim, $\zeta$ has order $\ell^k$ with $k\ne0$, and
+$\ell^{v_\ell(j)}\le m<\varphi(\ell^k)\le\ell^k$ as $m\,v(\zeta-1)\le\rho<1$; so $v(\zeta^j-1)=\ell^{v_\ell(j)}v(\zeta-1)\le m\,v(\zeta-1)\le\rho$.
+\end{proof}
+
+\begin{lemma}[One variable]\label{lem:roots-one-variable}
+Let $\rho_h=1/\varphi(\ell^h)$ and let $R_h$ be the multiset of the roots of $g$ in $\Z_\ell^{\rm int}$ of valuation $\rho_h$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The $\rho_h$ are distinct, decrease to $0$, and for $\rho,\delta>0$ and $B$ there is $h_0$ with $\delta\sum_{h\in H}1/(h+1)>B$, $H$ the exponents $1\le h\le h_0$ with $\rho_h\le\rho$.
+\item At a point $y$ of valuation $r$, $v(g(y))-v_r(g)=\sum_{\alpha\in R}(v(y-\alpha)-r)$ over the roots of valuation $r$; and $\sum_{h\in H}\#R_h\rho_h\le v_\rho(g)$.
+\item If $1+\alpha$ is a unit, the sum of $\min(v(\zeta-1-\alpha),1)$ over the primitive $\ell^h$th roots of unity is at most $h+1$; so for a multiset $R$ of such $\alpha$ some $\zeta$ of order $\ell^h$ has $\sum_{\alpha\in R}\min(v(\zeta-1-\alpha),1)\le\#R\rho_h(h+1)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) $\varphi(\ell^{h+1})$ is strictly increasing, and the harmonic series diverges.
+
+(b) The first is \cref{lem:gauss}(b): only the roots of valuation $r$ contribute to the difference, as $v(y-\alpha)=\min(r,v(\alpha))$ for the others, which is $\min(v(\alpha),r)$. For the second, a root lies in at most one $R_h$ ($h\in H$), and its summand $\min(v(\alpha),\rho)$ in $v_\rho(g)=v_0(g)+\sum\min(v(\alpha),\rho)$ is then $\rho_h$.
+
+(c) The numbers $\zeta-1-\alpha$, $\zeta^{\ell^h}=1$, are the roots of $f=(1+\alpha+Y)^{\ell^h}-1$, whose coefficient of $Y$ is $\ell^h(1+\alpha)^{\ell^h-1}$, so $v_1(f)\le h+1$; and $v_1(f)\ge\sum\min(v(\text{root}),1)$ by \cref{lem:gauss}(b). Averaging over the $1/\rho_h$ roots of order $\ell^h$ gives the second claim.
+\end{proof}
+
+\begin{proposition}[Roots of unity]\label{prop:roots-of-unity}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $\delta<1$, and let $\delta$ times the sum of $1/(h+1)$ over the exponents $1\le h\le h_0$ with $\rho_h\le\rho$ exceed $B$. If $v_\rho(g)\le B$, then for one of these $h$ and some $\zeta$ of order $\ell^h$, $v(g(\zeta-1))\le v_{\rho_h}(g)+\delta$.
+\item Given $s_0$, $\rho>0$, $\beta\ge0$, $\varepsilon>0$ and $m\ge1$ there is $h_0$ such that for finitely many polynomials $P_i$ in at most $s_0$ variables and points $x_i$ with coordinates of valuation at least $\rho$ and
+$\sum_iv(P_i(x_i))\le\beta$, there are roots of unity $\zeta_u$ of order dividing $\ell^{h_0}$ with $v(\zeta_u-1)\le\rho/m$ and $v(P_i((\zeta_u^j-1)_u))\le v(P_i(x_i))+\varepsilon$ for all $i$ and $1\le j\le m$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) As $\sum_{h\in H}\#R_h\rho_h\le v_\rho(g)\le B<\delta\sum_{h\in H}1/(h+1)$ (\cref{lem:roots-one-variable}(b)), some $h\in H$ has $\#R_h\rho_h\le\delta/(h+1)$. By \cref{lem:roots-one-variable}(c) some $\zeta$ of order $\ell^h$ has $\sum_{\alpha\in R_h}\min(v(\zeta-1-\alpha),1)\le\delta<1$, so no minimum is $1$, and
+\cref{lem:roots-one-variable}(b) at $y=\zeta-1$, of valuation $\rho_h$, gives $v(g(\zeta-1))-v_{\rho_h}(g)\le\sum_{\alpha\in R_h}v(\zeta-1-\alpha)\le\delta$.
+
+(b) \emph{One coordinate.} Let $\delta<1$ with $\delta\sum_{h\in H}1/(h+1)>B$, polynomials $P_i$ and points $x_i$ with $v(x_{ij})\ge\rho$ and $\sum_iv(P_i(x_i))\le B$. Let $g_i$ be $P_i$ with the coordinate $j$ free. By Gauss's lemma, $v_\rho(\prod g_i)=\sum v_\rho(g_i)\le\sum v(P_i(x_i))\le B$, so (a) gives $\zeta$ of order $\ell^h$, $h\in H$, with
+$\sum_iv(g_i(\zeta-1))\le\sum_iv_{\rho_h}(g_i)+\delta$. As $v(g_i(\zeta-1))\ge v_{\rho_h}(g_i)$ for each $i$, each term exceeds its lower bound by at most $\delta$; and $v_{\rho_h}(g_i)\le v_\rho(g_i)\le v(P_i(x_i))$ as $\rho_h\le\rho$. Hence replacing $x_{ij}$ by $\zeta-1$ raises each $v(P_i(x_i))$, and their sum, by at most $\delta$.
+\emph{All coordinates.} Put $\delta=\min(\varepsilon,1)/(s_0+2)$ and take $h_0$ by \cref{lem:roots-one-variable}(a) with $B=\beta+1$. Moving the at most $s_0$ coordinates in turn, the sum stays at most $\beta+s_0\delta\le\beta+1$, so the hypothesis holds at each step, and each value grows by at most $s_0\delta\le\varepsilon$; the roots of unity have
+order dividing $\ell^{h_0}$ and $v(\zeta-1)=\rho_h\le\rho$. \emph{Powers.} For $m\ge1$ apply this, with radius $\rho/m$ and bound $m\beta$, to the polynomials $P_i^{(j)}=P_i((1+X)^j-1)$, $1\le j\le m$, at points $x'_{ij}$ with $(1+x'_{ij})^j=1+x_i$ and $v(x'_{ij})\ge\rho/m$ (\cref{lem:gauss}(d)); then
+$P_i^{(j)}(\zeta-1)=P_i(\zeta^j-1)$, and $v(\zeta_u-1)\le\rho/m$.
+\end{proof}
+
+\subsection{Stickelberger systems}\label{ss:stickelberger}
+Let $\mathrm{Cl}_Q$ be the class group of $U(1)$ of tame modulus $Q$. The value of a function $f$ on the Galois group at an element of the group ring of $\mathrm{Cl}_Q$ is read through the Artin map and extended linearly.
+A \emph{Stickelberger system} for $S_0$ and $g_0$ consists of a character $\vartheta$ unramified outside $S_0$ with $\vartheta(g_0)\ne1$, a list of $r$ integers $e_1,\dots,e_r$ and, for every finite set $Q$, an element $\Theta_Q$ of the group ring of
+$\mathrm{Cl}_Q$ over $\Z_\ell^{\rm int}$, whose values under characters for $Q$ change by Euler factors $\prod_i(1-\vartheta(\varphi_P)\chi(\varphi_P)\Nm P^{e_i})$ when an auxiliary place $P$ is added. Its number is
+\[
+  \beta_Y=v\bigl(1(\Theta_\emptyset)\bigr)+2r\,v\bigl(\vartheta(g_0)-1\bigr).
+\]
+\lean{New.IsFromU1.mono, New.IsFromU1.map, New.IsFromU1.one, New.IsFromU1.mul, New.IsAuxiliary.mono, New.Selmer.U1ClassGroup, New.Selmer.divStarClass, New.Selmer.divStarClass_surjective, New.Selmer.galoisLift, New.IsFromU1.apply_galoisLift, New.Selmer.groupRingEval, New.Selmer.map_groupRingEval, New.Selmer.groupRingEval_sum_single, New.Selmer.eulerFactor, New.Selmer.eulerFactor_nil, New.Selmer.eulerFactor_cons, New.Selmer.eulerFactor_zpow_units, New.Selmer.StickelbergerSystem, New.Selmer.StickelbergerSystem.β, New.Selmer.StickelbergerSystem.norm_twistChar, New.Selmer.StickelbergerSystem.norm_groupRingEval_one_element_le_one, New.Selmer.StickelbergerSystem.β_ne_top, New.Selmer.StickelbergerSystem.groupRingEval_element_union}
+\lean{New.Selmer.isFromU1_pointChar, New.Selmer.coe_eval_groupRingEval_universalChar, New.Selmer.le_ellVal_add, New.Selmer.ellVal_eq_of_lt_ellVal_sub, New.Selmer.ellVal_inv_sub_inv, New.Selmer.ellVal_sub_one_le_ellVal_zpow_sub_one, New.Selmer.ellVal_one_sub_mul_eq, New.Selmer.ellVal_one_sub_mul_one_sub_inv_le, New.Selmer.ellVal_eulerFactor_le, New.Selmer.exists_polynomial_one_sub_mul_one_sub_inv, New.Selmer.exists_polynomial_eulerFactor, New.Selmer.one_add_X_pow_sub_one_dvd, New.Selmer.le_ellVal_one_add_pow_sub_one, New.Selmer.exists_ellVal_eval_le_gaussVal, New.Selmer.lineChar, New.Selmer.eval_single_groupRingEval_universalChar, New.Selmer.coe_eval_groupRingEval, New.Selmer.coe_eval_groupRingEval_lineChar, New.Selmer.coe_eval_zero_groupRingEval_lineChar, New.Selmer.norm_natCast_eq_one_of_modEq, New.Selmer.le_ellVal_natCast_sub_one, New.Selmer.StickelbergerSystem.eventually_le_ellVal_sub, New.Selmer.StickelbergerSystem.groupRingEval_element_eq_mul_prod_eulerFactor, New.Selmer.StickelbergerSystem.exists_congruence_lineChar_element, New.Selmer.StickelbergerSystem.ellVal_one_element_singleton_le, New.Selmer.StickelbergerSystem.exists_point_ellVal_universalChar_le}
+
+\begin{lemma}[Stickelberger systems: basic rules]\label{lem:stickelberger-basics}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Characters for $Q$ are closed under enlarging the modulus, under maps of the values, under products, and the trivial character is one; subsets of auxiliary sets are auxiliary.
+\item $y\mapsto y/\bar y$ maps the finite ideles onto $\mathrm{Cl}_Q$ (Hilbert 90); a character for $Q$ takes at $g$ with $\mathrm{Art}(y)$ as image the value at the chosen lift of the class of $y/\bar y$. Linear maps commute with evaluation on the group ring.
+\item (Several primes.) For $Q$, $I$ disjoint with $Q\cup I$ auxiliary and $\psi$ a character for $Q$, $\psi(\Theta_{Q\cup I})=\psi(\Theta_Q)\prod_{v\in I}\prod_e\prod_\pm(1-(\vartheta\psi)(\varphi_v)^{\pm1}\Nm v^{-e})$. The values of $\vartheta$ have norm $1$, $1(\Theta_Q)$ is integral, and $\beta_Y$ is finite.
+\item If $a\equiv b$ and $q\equiv1$ up to valuation $M>v(b-1)$, $\norm a=1$, then $v(1-aq^k)=v(b-1)=v(1-a^{-1}q^k)$; hence the Euler factor has valuation at most $2r\,v(b-1)$ if $M>2r\,v(b-1)$.
+\item For units $\alpha$, $c$ there is an integral polynomial $R$ with $v_\rho(R)\le2\rho$ and $R(\zeta-1)=\zeta(1-\alpha\zeta c)(1-(\alpha\zeta)^{-1}c)$ for all integral $\zeta\ne0$; and for a list of $r$ exponents one with $v_\rho(R)\le2r\rho$ and $R(\zeta-1)=\zeta^r\prod_e\prod_\pm(1-(\alpha\zeta)^{\pm1}q^{-e})$.
+\item A polynomial vanishing at all $\zeta-1$, $\zeta^q=1$, is divisible by $(1+X)^q-1$. If $(1+X)^jP\equiv R$ modulo $(1+X)^{\ell^N}-1$, $\rho\le1$ and $v_\rho(R)<N\rho$, then $v(P(y))\le v_\rho(R)$ at some $y$ with $v(y)\ge\rho$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Products and images of idele class characters are idele class characters with the same triviality; the modulus may be enlarged.
+
+(b) Hilbert's Theorem 90 for the finite ideles of the CM extension: a norm-one idele is $y/\bar y$. On norm-one ideles the idele character of $\psi$ factors through a homomorphism on $\mathrm{Cl}_Q$, and both sides are its value at the class of $y/\bar y$.
+
+(c) Induction on $I$ by the norm relation of the system, each enlarged set being auxiliary. $\vartheta$ is continuous on a compact group; $1(\Theta_Q)$ is the image of an element of $\Z_\ell^{\rm int}$; $\beta_Y$ is finite because $1(\Theta_\emptyset)\ne0$ and $\vartheta(g_0)\ne1$.
+
+(d) $1-aq^k=(1-b)+(b-a)+a(1-q^k)$, and the last two terms have valuation at least $M>v(1-b)$; $a^{-1}-b^{-1}$ has the valuation of $a-b$ for units.
+
+(e) Take $R=(1-\alpha c(1+X))(1+X-\alpha^{-1}c)$: each factor has a unit coefficient of $X$, so Gauss valuation at most $\rho$; at $X=\zeta-1$ it is $(1-\alpha\zeta c)\zeta(1-(\alpha\zeta)^{-1}c)$. For a list take the product over the exponents, with $c=q^{-e}$.
+
+(f) The $q$ numbers $\zeta-1$ are the distinct roots of the monic $(1+X)^q-1$. For the second, take $y$ with $v(y)\ge\rho$ at which $R$ attains $v_\rho(R)$ (\cref{lem:gauss}(c)). Then $(1+y)^{\ell^N}-1$, of valuation at least $N\rho>v(R(y))$ (\cref{lem:gauss}(e)), divides $(1+y)^jP(y)-R(y)$, so $v(P(y))=v((1+y)^jP(y))=v(R(y))$.
+\end{proof}
+
+\begin{proposition}[Stickelberger systems on the line]\label{prop:stickelberger-line}
+Let $J$ be tied primes with first prime $P_0$, $\vartheta(\varphi_{P_0})\equiv\vartheta(g_0)$ modulo $\ell^M$, $\beta_Y+1<M\le N\rho$ and $s_0\ge1$ with $2r\#J\le s_0$ and $s_0\rho<1$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $P(X,0)$ and $R_0(X)$ be the values of $(1+X)^{h_0}$ at $\Theta_J$ and $\Theta_{P_0}$, $h_0$ the character of $P_0$, and $j_0=r\,\#(J\setminus P_0)$. Then $(1+X)^{j_0}P(X,0)\equiv R_0(X)R(X)$ modulo $(1+X)^{\ell^N}-1$, where $R$ collects the Euler factors at the primes
+other than $P_0$ and has Gauss valuation at most $2j_0\rho$ at radius $\rho$.
+\item $v(P(y))\le\beta_Y+s_0\rho$ at some point $y$ with coordinates of valuation at least $\rho$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Along the line on which all variables but that of $P_0$ vanish, the value of $\psi_X$ at the group ring is that of $(1+X)^{h_0}$ (the other factors are $1$). At a root $X=\zeta-1$ of the modulus, the character $\zeta^{h_0}$ is a character for $J$, and the norm relation of \cref{lem:stickelberger-basics}(c) from $\{P_0\}$ to $J$ gives
+$\zeta^{h_0}(\Theta_J)=\zeta^{h_0}(\Theta_{P_0})\prod_{v\ne P_0}\prod_e\prod_\pm(1-a_v^{\pm1}\Nm v^{-e})$ with $a_v=\vartheta(\varphi_v)\zeta^{h_0(\varphi_v)}=\vartheta(\varphi_v)\zeta$, as $h_0(\varphi_v)=1$ for $v\ne P_0$. Let $R$ be the product over $v\ne P_0$ of the polynomials of \cref{lem:stickelberger-basics}(e) for $\alpha=\vartheta(\varphi_v)$ and
+$q=\Nm v$; then $v_\rho(R)\le2r\#(J\setminus P_0)\rho=2j_0\rho$, and $(1+X)^{j_0}P(X,0)-R_0(X)R(X)$ vanishes at every $\zeta-1$, so is divisible by the modulus (\cref{lem:stickelberger-basics}(f)).
+
+(b) $R_0(0)=1(\Theta_{P_0})$, and by the norm relation from $\emptyset$ to $\{P_0\}$, $1(\Theta_{P_0})=1(\Theta_\emptyset)\prod_e\prod_\pm(1-\vartheta(\varphi_{P_0})^{\pm1}\Nm P_0^{-e})$. As $\vartheta(\varphi_{P_0})\equiv\vartheta(g_0)$ modulo $\ell^M$, $\Nm P_0\equiv1$ modulo $\ell^N$, $M\le N$ and $M>\beta_Y\ge2r\,v(\vartheta(g_0)-1)$, \cref{lem:stickelberger-basics}(d) gives $v(R_0(0))\le\beta_Y$, so
+$v_\rho(R_0)\le\beta_Y$ (\cref{lem:gauss}(a)). With (a), $v_\rho(R_0R)\le\beta_Y+2r\#J\rho\le\beta_Y+s_0\rho\le\beta_Y+1<M\le N\rho$, as $\rho\le1$. \Cref{lem:stickelberger-basics}(f) gives $y$ with $v(y)\ge\rho$ and $v(P(y,0))\le v_\rho(R_0R)\le\beta_Y+s_0\rho$; the point $(y,0,\dots,0)$ has coordinates of valuation at least $\rho$.
+\end{proof}
+
+\subsection{The general twisting theorem}\label{ss:twisting-general}
+A character $\chi$ is a \emph{small twist} with bound $\varepsilon$ for the data $T_i$, the systems $Y_k$ and a set $Q$ if it comes by $y\mapsto y/\bar y$ from an idele class character of tame level $Q$ trivial above $\ell$, has $\ell$-power order, is
+ramified at every prime of $Q$, the Selmer group of each $T_i\chi$ has length at most $\beta_{T_i}+\varepsilon$, $v(\chi(\Theta_Q))\le\beta_{Y_k}+\varepsilon$ for each system, and $\sum v(\chi(\gamma_w)-1)\le\varepsilon$ over the primes $w$ of $Q$ and their conjugates.
+\lean{New.Selmer.IsSmallTwist, New.Selmer.IsSmallTwist.mono, New.Selmer.IsSmallTwist.sum_ellVal_tameGenerator_sub_one_le, New.Selmer.exists_map_eq_map_pow_of_isTameGenerator, New.Selmer.eval_aeval, New.Selmer.normLength_ne_top, New.Selmer.exists_nnrat_mul_le, New.Selmer.TwistPolynomials.twist, New.Selmer.TwistPolynomials.twist_apply, New.Selmer.TwistPolynomials.coe_pow_apply_pow_eq_one, New.Selmer.TwistPolynomials.twist_pow, New.Selmer.TwistPolynomials.twist_pow_eq_one, New.Selmer.TwistPolynomials.isFromU1_twist, New.Selmer.TwistPolynomials.exists_mem_inertiaAbove_twist_eq, New.Selmer.TwistPolynomials.ellVal_twist_tameGenerator_sub_one_le, New.Selmer.TwistPolynomials.sum_ellVal_twist_tameGenerator_sub_one_le, New.Selmer.TwistPolynomials.isSmallTwist_twist, New.Selmer.exists_rootsOfUnity_ellVal_eval_le, New.Selmer.exists_anticyclotomic_twist}
+
+\begin{lemma}[Twists by roots of unity]\label{lem:twists-roots}
+Let $Q$ and $\lambda_{\mathfrak q}$ be as in \cref{thm:twist-polynomials}, $\zeta_{\mathfrak q}$ roots of unity of order dividing $\ell^N$, and $\psi=\prod_{\mathfrak q}\zeta_{\mathfrak q}^{\lambda_{\mathfrak q}}$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\psi^j$ is the twist by the $\zeta^j_{\mathfrak q}$; it has order dividing $\ell^N$ and is a character for $Q$, trivial above $\ell$.
+\item For $v\in Q$ and $w=v$ or $\bar v$, $\psi$ takes the value $\zeta_v$ on some inertial element above $w$, and every inertial element above $w$ goes to a power of $\psi(\gamma_w)$; hence $v(\psi(\gamma_w)-1)\le v(\zeta_v-1)$, and if all $v(\zeta_v-1)\le r$, the sum over $w\in Q\cup\bar Q$ is at most $s_0r$.
+\item If moreover $s_0r\le\varepsilon<1$ and the polynomials have at $x=(\zeta-1)$ valuations at most $\beta_T+\varepsilon$, $\beta_Y+\varepsilon$, then $\psi$ is a small twist with bound $\varepsilon$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) $\psi^j(g)=\prod\zeta_{\mathfrak q}^{j\lambda_{\mathfrak q}(g)}$, and products of characters for $Q$ are characters for $Q$ (\cref{lem:stickelberger-basics}(a)).
+
+(b) The characters of the other primes $u$ are unramified at $v$, which is neither $u$ nor $\bar u$, and $\lambda_v$ is onto on inertia; so some inertial $g$ above $v$ has $\psi(g)=\zeta_v$, and at $\bar v$ the conjugate inverse, on which the anticyclotomic $\psi$ takes the same value. As $\psi^{\ell^N}=1$ and $\ell^N$ is a unit at $w$, $\psi$ is trivial on wild inertia and
+factors through the procyclic tame quotient, which $\gamma_w$ generates; the inertia groups above $w$ are conjugate and $\psi$ is constant on conjugacy classes. Hence $\zeta_v=\psi(\gamma_w)^k$, and $v(\zeta_v-1)\ge v(\psi(\gamma_w)-1)$ (\cref{lem:stickelberger-basics}(d) for $a^k-1$). There are $2\#Q\le s_0$ terms.
+
+(c) $\psi$ has $\ell$-power order and is a character for $Q$ by (a); it is ramified at every prime of $Q$ because $v(\zeta_v-1)\le r<\infty$, so $\zeta_v\ne1$ is a value on inertia. For a datum, $v(P(x))\le\beta_T+\varepsilon<\beta_T+1$, so the Selmer group has length at most $v(P(x))$; for a system $v(\psi(\Theta_Q))=v(P(x))$; and (b) bounds the
+tame values.
+\end{proof}
+
+\begin{theorem}[The twisting theorem, general form]\label{thm:twisting-general}
+Let $S_0$ contain the places above $\ell$, $g_0$ be inertial at a place of $S_0$ prime to $\ell$, $T_i$ finitely many Selmer data and $Y_k$ finitely many Stickelberger systems, $M$ a torsion level for $T$, and let $m\ge1$ and $\varepsilon>0$. There
+are an auxiliary set $Q$ and a character $\psi$ such that each of $\psi,\psi^2,\dots,\psi^m$ is a small twist with bound $\varepsilon$.
+\end{theorem}
+
+\begin{proof}
+Let $s_0$ be the integer of \cref{thm:twist-polynomials}. Choose a rational $r>0$ with $s_0r\le\varepsilon/2$ and $s_0r<1$, then $h_0$ by \cref{prop:roots-of-unity}(b) for $s_0$, the radius $r$, the bound $\sum_i(\beta_{T_i}+s_0r)+\sum_k(\beta_{Y_k}+s_0r)$, the error $\varepsilon/2$ and $m$, and only then $N\ge h_0$ large enough for
+\cref{thm:twist-polynomials}. The twist polynomials come with points at which $v(P)\le\beta+s_0r$; \cref{prop:roots-of-unity}(b) gives roots of unity $\zeta_{\mathfrak q}$ of order dividing $\ell^{h_0}$, hence $\ell^N$, with $v(\zeta_{\mathfrak q}-1)\le r/m$ and $v(P((\zeta^j-1)))\le\beta+s_0r+\varepsilon/2\le\beta+\varepsilon$ for all data, systems
+and $1\le j\le m$. By \cref{lem:gauss}(e), $v(\zeta^j_{\mathfrak q}-1)\le r$ for $j\le m$. \Cref{lem:twists-roots}(c) for $\psi^j$, the twist by the $\zeta^j_{\mathfrak q}$, concludes.
+\end{proof}
+
+\subsection{Stickelberger systems of \texorpdfstring{$L$}{L}-values}\label{ss:L-value-systems}
+A \emph{critical pair} $p=(\nu,z)$ is a character $\nu$ of $U(1)$ of weight $-c$ with $1\le z\le c$; it is \emph{ramified} if the tame part of $\nu$ is nontrivial exactly at the chosen places. For a twist $\xi$ with modulus $Q$ the ratio
+$\varrho_p(\xi,s)=\abs{L(z,(\nu\xi^s)^{-1})}/\abs{L(z,\nu^{-1})}$ is taken without the Euler factors at the chosen places and, in the numerator, at $Q$.
+\lean{New.Data.CriticalPair.IsTwistMeasure, New.Data.CriticalPair.tamePart_mul_tamePart_apply_eq_one_of_notMem, New.Data.CriticalPair.integralAlgebraicPart_insert, New.Data.CriticalPair.isTwistMeasure_integralAlgebraicPart, New.Data.CriticalPair.hasWeight_mul_upsilonU1, New.Data.CriticalPair.exists_mul_norm_sq_detPeriod_eq, New.Data.CriticalPair.detPeriod_mul_upsilonU1_insert, New.Data.CriticalPair.exists_isIntegralMeasure_norm_sq_detPeriod, New.Data.CriticalPair.exists_isTwistMeasure_of_z_eq_one, New.Data.CriticalPair.exists_isTwistMeasure, New.Selmer.coprime_prod_q_of_isAuxiliary, New.Selmer.tameCharOfAuxiliary, New.Selmer.invAvatar_eq_of_artinMap_eq, New.Selmer.exists_tameChar_invAvatar_eq}
+\lean{New.Selmer.not_isChosen_of_notMem_badPlaces, New.Data.CriticalPair.stickelbergerChar, New.Selmer.charUnramifiedAt_zpow_neg_of_notMem_badPlaces, New.Selmer.stickelbergerChar_eq_one_of_mem_inertiaAbove, New.Selmer.stickelbergerChar_tameGenerator_ne_one_and_pow_eq_one, New.Selmer.stickelbergerChar_mul_invAvatar_frob, New.Selmer.exists_finPart_baseChange_eq, New.Data.TameChar.zpowOfAuxiliary, New.Selmer.exists_groupRingEval_eq_of_isIntegralMeasure, New.Selmer.ellVal_stickelbergerChar_tameGenerator_sub_one_le, New.Selmer.apply_insert_eq_mul_eulerFactor, New.Selmer.norm_apply_twist, New.Selmer.exists_stickelbergerSystem_β_le_and_norm_eq, New.Selmer.ellVal_le_of_norm_eq_mul_pow, New.Selmer.exists_stickelbergerSystem_ellVal_ratio_le}
+
+\begin{lemma}[Measures and characters]\label{lem:class-sums}
+Let $p=(\nu,z)$ be a ramified critical pair.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item ($z\ge2$.) The integral algebraic part is nonzero at the trivial character, is an integral measure at each modulus, is multiplied by $(1-a\Nm v^{-z})(1-a^{-1}\Nm v^{-z})$ when a place $v$ is added, with $a$ the value at a uniformiser of the base change of $\nu\vartheta$, and at a twist equals its value at $1$ times the ratio $\varrho_p$.
+\item ($z=1$.) The determinant period $\Lambda(\vartheta)$ on the rank-two unitary group of $\nu\vartheta\upsilon$ (weight $c-1$, $\upsilon$ the splitting character restricted to $\U(1)$) is nonzero, and there is $C\ne0$ independent of $\vartheta$ with $C\norm{\Lambda(\vartheta)}^2$ equal to the norm of the modulus times $\abs{L(1,(\nu\vartheta)^{-1})}^2$ without the Euler factors at the modulus and the chosen places; adding a place of norm $q$ multiplies
+$\Lambda$ by $(1-X)(1-qX)$, $X^{-1}$ the Frobenius value; and some $N\ne0$ makes $\norm{n_{\rm ch}N\Lambda}^2$ an integral measure.
+\item The product of the norms of an auxiliary set avoiding the bad places is prime to $\ell$ and to the level. An anticyclotomic Galois character of auxiliary modulus $I$ trivial above $\ell$ is the avatar of the inverse of a tame character of weight $0$ and modulus $I$.
+\item The character $\vartheta=\vartheta_{p,\delta}$ attached to the base change of $\nu^{-\delta}$ is unramified outside the bad places; at the tame generator of a chosen place $w$ not above $\ell$ it is a root of unity $\ne1$ of order dividing $\Nm w-1$, so $v(\vartheta(g_0)-1)\le v(\Nm w-1)$; and at a Frobenius $\varphi$ off the bad places and the modulus of $\tau$,
+$\vartheta(\varphi)\tau^{-1}_{\rm av}(\varphi)=\iota(y)^\delta$ for the value $y$ of the base change of $\nu\tau^\delta$ at the chosen uniformiser.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The integral algebraic part is an integral measure by \cref{prop:algebraic-parts}(a). By \cref{prop:norm-L-value}(c) it is nonzero, and the ratio of the $L$-values at a twist is $L^{\rm alg}_p(\vartheta)/L^{\rm alg}_p(1)$. Adding $v$, the coefficients of the Euler product at $\{v,\bar v\}$ are set to zero, which multiplies it by the two inverse Euler factors; the places
+removed for the enlarged modulus are those for the old one together with $v$ and $\bar v$.
+
+(b) $\nu\vartheta\upsilon$ has weight $-(c-1)$ and the product of the tame parts. The exchange identity gives an element $\gamma$ with $\gamma\Lambda=1$ and $\norm\gamma^2=C/(\text{the }L\text{-value product})$ (\cref{lem:exchange-numerics}), and the insertion formula is \cref{prop:norm-L-value}(d) in rank two. The period is a weighted sum of kernel values at points depending only on the
+modulus (\cref{prop:norm-L-value}(d)); moving each point by a rational element until it is integral, $N$ times a value is integral, and $n_{\rm ch}$ over the order of the automorphism group of a class clears the weights; so on characters of a given modulus $F$ is $\sum_ac_a\vartheta(u_a)$ with $c_a$ integral away from the modulus.
+
+(c) If the prime $\Nm w$ divided $\ell MN$, then $w$ would be bad. The character $\eta$ with $\psi(\mathrm{Art}\,x)=\eta(x/\bar x)$, restricted to $\U(1)$, kills rational points and integral points $\equiv1$ modulo $I$, so it factors through the class group of tame level $I$ and comes from a tame character $\mu$; then $\psi$ is the avatar of $\mu^{-1}$.
+
+(d) The residue characters of $\nu$ are trivial off the chosen places, so the base change is unramified off the bad places, and $\vartheta$ kills inertia there: the class of an inertial element is the local Artin symbol of a unit. At $w$ the tame generator is the Artin symbol of a unit whose residue generates the residue units, and the residue character of $\nu$ at $w$ is
+nontrivial (the pair is ramified), of order dividing $\Nm w-1$. Distinct roots of unity of order dividing $n$ are at distance at least $\norm n$, so $v(\vartheta(g_0)-1)\le v(\Nm w-1)$. At $\varphi$, replace $\varphi$ by a geometric Frobenius, where the avatars are known, and multiply the two values.
+\end{proof}
+
+\begin{proposition}[$L$-value systems]\label{prop:L-value-systems}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Twist measures.) For a ramified critical pair there is a function $F$ of tame characters, nonzero at the trivial character, that is at each modulus an integral measure, is multiplied by inverse Euler factors with
+denominators $q^l$, $l\in I$, when a place of norm $q$ is added, and has $F(\vartheta)=F(1)\,\Nm Q(\vartheta)^m\varrho_p(\vartheta)^{m+1}$. For $z\ge2$, $I=\{z\}$, $m=0$ and $F$ is an integral multiple of the algebraic part of the $L$-value; for $z=1$,
+$I=\{0,1\}$ and $m=1$.
+\item (Galois characters.) For $I$ auxiliary for the bad places, every locally constant $\psi$ with $\psi(\mathrm{Art}\,x)=\eta(x/\bar x)$ for an idele class character $\eta$ of modulus $I$ trivial above $\ell$ is the Galois character of a tame
+character of weight $0$ and modulus $I$.
+\item ($L$-value systems.) Let $w$ be a chosen place not above $\ell$ and $g_0$ its tame generator. There is a Stickelberger system for the bad places and $g_0$ with $\beta_Y\le v(1(\Theta_\emptyset))+4v(\Nm w-1)$ and, for every twist
+$\xi$ of auxiliary modulus $Q$ whose Galois character $\psi$ of $\xi^{-1}$ is a character for $Q$,
+\[
+  \norm{\psi(\Theta_Q)}=\norm{1(\Theta_\emptyset)}\,\norm{\iota_\ell(\varrho_p(\xi,\delta))}^{i},\qquad i=2\text{ if }z=1,\quad i=1\text{ otherwise}.
+\]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) is \cref{lem:class-sums}(a) for $z\ge2$, with $I=\{z\}$ and $m=0$, and for $z=1$ the function $F=\norm{n_{\rm ch}N\Lambda}^2$ of \cref{lem:class-sums}(b): adding a place multiplies it by $\abs{(1-X)(1-qX)}^2$, whose factors, read through the conjugate pair of places, are the inverse Euler factors with denominators $q^0$ and $q^1$; and at a twist
+$F(\vartheta)=F(1)\Nm Q(\vartheta)\varrho_p(\vartheta)^2$, the constant $C$ cancelling.
+
+(b) is \cref{lem:class-sums}(c).
+
+(c) At an auxiliary modulus $I$ the measure is given by points $u_j$ and coefficients $\alpha_j$ integral at $\iota_\ell$, the norms of the places of $I$ being prime to $\ell$; let $\Theta_I$ be the image of $\sum_j\alpha_j[u_j]$ under $u\mapsto u^{-\delta}$ in the group ring of $\mathrm{Cl}_I$. Then $\psi(\Theta_I)=\iota F(\tau^\delta)$ for $\psi$ the
+avatar of $\tau^{-1}$, by (b) and \cref{lem:stickelberger-basics}(b); in particular $1(\Theta_\emptyset)=\iota F(1)\ne0$. Let $\vartheta=\vartheta_{p,\delta}$, unramified off the bad places with $\vartheta(g_0)\ne1$ (\cref{lem:class-sums}(d)), and the exponents those of $I$. Adding a place $v$ multiplies $\iota F(\tau^\delta)$ by
+$\prod_e\prod_\pm(1-a^{\pm1}\Nm v^{-e})$ with $a=\vartheta(\varphi)\psi(\varphi)$, by the Euler factors of (a) and \cref{lem:class-sums}(d): this is the norm relation. As at most two exponents occur and $v(\vartheta(g_0)-1)\le v(\Nm w-1)$, $\beta_Y\le v(1(\Theta_\emptyset))+4v(\Nm w-1)$. At a twist $\xi$ of auxiliary modulus $Q$, $\xi^\delta$ is again a twist and $\Nm Q$ is an
+$\ell$-adic unit, so $\norm{\psi(\Theta_Q)}=\norm{\iota F(\xi^\delta)}=\norm{\iota F(1)}\norm{\iota\varrho_p(\xi,\delta)}^{m+1}$ with $m+1=i$.
+\end{proof}
+
+\subsection{The twisting theorem}\label{ss:twisting}
+Put $e'_\ell=(4f+3)\mathrm r\,v_\ell(n_{\rm ch})+2^{-\ell}$, the twist error of \cref{ss:ribet-element}.
+\lean{New.Selmer.norm_inv_le_exp_of_ellVal_le, New.Selmer.mapRel_crysRelations_subset, New.Selmer.IsSmallTwist.isAuxTwist, New.Selmer.divisibleSelmerLength_le_divisibleLength, New.Selmer.SelmerDatum.apply_γ_eq_one, New.Selmer.SelmerDatum.TwistedLengthLe.hasDivisibleSelmerLengthLe, New.Selmer.four_mul_ellVal_levelPrime_sub_one_add_le_twistError, New.Selmer.invAvatar_pow, New.Selmer.tamePart_ne_one_of_invAvatar_ne_one, New.Selmer.exists_selmerData_isTorsionLevel, New.Selmer.exists_mFoldTwist_hasDivisibleSelmerLengthLe}
+
+\begin{lemma}[Passing to the main summands]\label{lem:twisting-transfer}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A relation that holds on the crystalline cocycles of $u$ above $\ell$, with coefficients mapped to $O'$, holds on those of the twist of $u\otimes O'$ by a character trivial on the decomposition groups above $\ell$. If a set of relations contains the images of the class relations of $T$, the corresponding Selmer module is no longer than $\mathrm{Sel}_Q(T\psi)$.
+\item A character for an auxiliary modulus $Q$ is trivial at $\gamma_*$; a small twist satisfies the auxiliary twist conditions.
+\item If $\mathrm{Sel}_Q(T\psi)$ has length at most $b$ over all large rings, then over all large rings some lattice in $\psi R$ on which $\gamma_*$ acts by $\zeta_*$ has crystalline Selmer group for $Q$ and $\gamma_*$ of length at most $b$.
+\item $4v(p_i-1)+2^{-\ell}\le e'_\ell$ for $i=0,1$. The avatar of $(\tau^j)^{-1}$ is the $j$th power of that of $\tau^{-1}$, and if it is nontrivial on inertia above $w\in Q$ the tame part of $\tau$ at $w$ is nontrivial.
+\item For finitely many representations like main summands there are a coefficient ring and Selmer data $T_i$ for the bad places and the tame generator at a chosen place $w$ prime to $\ell$, with $\beta_{T_i}\le c=(4f+3)\mathrm r\,v(n_{\rm ch})$, and $c+2$ is a torsion level for $T$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) $O'$ is finite and torsion-free over $O$, hence projective, so it suffices to test the relation with each $O$-linear form $l\colon O'\to O$. As the character is trivial on the decomposition group, $l$ is equivariant there and $l\circ z$ is a crystalline cocycle of $u$ for each crystalline cocycle $z$ of the twist. Both modules have the same places, so only the relations
+differ, and more relations give a smaller module.
+
+(b) $\gamma_*$ is inertial at a place of $S_0$ prime to $\ell$, where the character, of modulus $Q$ disjoint from $S_0$ and $\bar S_0$, is unramified, and its inertia elements are Artin symbols of units; the second claim keeps two clauses of the definition.
+
+(c) The lattice is $T\psi$, conjugate to $\psi R$; $\psi(\gamma_*)=1$ by (b), so $\gamma_*$ still acts by $\zeta_*$, and (a) compares the Selmer groups.
+
+(d) $p_i-1$ divides $n_{\rm ch}$ (\cref{lem:lift-settings}(b)), $4\le(4f+3)\mathrm r$, and $2^{-\ell}$ appears on both sides. The avatar of a power is computed on Artin symbols, which exhaust the abelianised Galois group. An inertial element above $w$ is the local Artin symbol of a unit, and the avatar's value there is the tame part of $\tau$ at the residue.
+
+(e) \Cref{prop:main-summand-data} over all large rings, and arbitrarily large rings have a large residue field; the bound $c$ gives $c+2>\beta_{T_i}+1$.
+\end{proof}
+
+\begin{theorem}[The twisting theorem]\label{thm:twisting}
+Let $D$ be admissible data, $\iota_\ell\colon\C\to\bar\Q_\ell$ an isomorphism and $R_i$ finitely many $\ell$-adic representations like main summands. There is a character $\tau$ of $U(1)(\Ad)$ of weight $0$, tamely ramified on a finite set
+$Q$, such that each power $\xi=\tau^j$, $1\le j\le m$, is ramified at every place of $Q$ and satisfies:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item the Galois character $\psi$ of $\xi^{-1}$ is anticyclotomic and trivial above $\ell$; the places of $Q$ have prime norm; $Q$, $\bar Q$ and the bad places are pairwise disjoint; and $\sum_{w\in Q}v(\psi(\gamma_w)-1)\le e'_\ell$;
+\item for each $i$ there are an inertial element $\gamma$ away from $\ell$ and a scalar $\zeta$, $\zeta-1$ a unit, such that over all large coefficient rings $\gamma$ acts by $\zeta$ on a lattice in $\psi R_i$ whose crystalline Selmer group for $Q$ and $\gamma$, with
+coefficients in $\mathrm{Frac}(O)/O$, has length at most $e'_\ell$;
+\item for each ramified critical pair $p=(\nu,z)$ with $z\le\mathrm t$, $z\le c\le4b$, and each sign $s$, $v(\iota_\ell\varrho_p(\xi,s))\le e'_\ell$, that is, $\norm{\iota_\ell\varrho_p(\xi,s)^{-1}}\le\ell^{e'_\ell}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $T_i$, $c=(4f+3)\mathrm r\,v(n_{\rm ch})$ and the chosen place $w$, prime to $\ell$, with tame generator $g_0$ be those of \cref{lem:twisting-transfer}(e). For each ramified pair $p$ and sign $\delta$ take the $L$-value system $Y_{p,\delta}$ of \cref{prop:L-value-systems}(c), with $\beta_Y-v(1(\Theta_\emptyset))\le4v(\Nm w-1)$. There are finitely many ramified pairs (\cref{prop:finite-pairs}). Apply
+\cref{thm:twisting-general} with the given $m$ and $\varepsilon=2^{-\ell}$, and let $\psi$ be the character. By \cref{lem:class-sums}(c) $\psi$ is the avatar of the inverse of a tame character $\tau$, and by \cref{lem:twisting-transfer}(d) the avatar of $(\tau^j)^{-1}$ is $\psi^j$, which is ramified at every place of $Q$, so the tame part of $\tau^j$ is
+nontrivial there: $\tau$ is an $m$-fold twist. (a) is \cref{lem:twisting-transfer}(b) for $\psi^j$, with $\sum_{w\in Q}v(\psi^j(\gamma_w)-1)\le\varepsilon\le e'_\ell$. (b) is \cref{lem:twisting-transfer}(c) with $b=\beta_{T_i}+\varepsilon\le c+\varepsilon\le e'_\ell$, the scalar $\zeta_*$ with $\zeta_*^2-1$ a unit. (c) By the norm identity of
+\cref{prop:L-value-systems}(c) at $\xi=\tau^j$, $\norm{\psi^j(\Theta_Q)}=\norm{1(\Theta_\emptyset)}\norm{\iota_\ell\varrho_p(\xi,\delta)}^i$, with $1(\Theta_\emptyset)\ne0$ integral and $i\ge1$; so $v(\psi^j(\Theta_Q))\le\beta_Y+\varepsilon$ gives
+$i\,v(\iota_\ell\varrho_p)\le\beta_Y-v(1(\Theta_\emptyset))+\varepsilon\le4v(\Nm w-1)+2^{-\ell}\le e'_\ell$, as $\Nm w$ is one of $p_0$, $p_1$ (\cref{lem:twisting-transfer}(d)); and $v(\iota x)\le e'_\ell$ gives $\norm{\iota x^{-1}}\le\ell^{e'_\ell}$.
+\end{proof}

@@ -1,0 +1,213 @@
+\section{Introduction}\label{sec:intro}
+
+\subsection{The theorems}\label{ss:intro-theorems}
+For a Dirichlet character $\chi$ modulo an integer $N\ge1$ let $L(s,\chi)$ be its $L$-function,
+continued meromorphically to $\C$; it is entire unless $\chi$ is principal, in which case it has a
+single simple pole, at $s=1$. Let $\zeta(s)$ be the Riemann zeta function. This paper gives a complete
+account of a proof of the following two theorems.
+
+\begin{theorem}[The Generalized Riemann Hypothesis for Dirichlet $L$-functions]\label{thm:main-grh}
+Let $N\ge1$, let $\chi$ be a Dirichlet character modulo $N$, and let $s\in\C$ with $\re s>1/2$.
+Then $L(s,\chi)\neq0$, unless $\chi$ is principal and $s=1$.
+\end{theorem}
+
+\begin{theorem}\label{thm:main-rh}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Every zero $s$ of $L(s,\chi)$ with $0<\re s<1$ has $\re s=1/2$, for every Dirichlet character
+$\chi$, primitive or not.
+\item \textup{(The Riemann Hypothesis.)} Every zero of $\zeta(s)$ other than the trivial zeros
+$-2,-4,-6,\dots$ has real part $1/2$.
+\end{enumerate}
+\end{theorem}
+
+The proof is due to Levent Alp\"oge, working with the AI system Claude \cite{Alpoge2026}; it was
+announced together with a complete formalisation in the proof assistant Lean~4
+\cite{deMouraUllrich2021}, on top of its mathematical library Mathlib \cite{mathlib2020}. A shorter
+formalisation following the same method, the development \texttt{grh-lean} \cite{GRHLean2026}, was
+produced at Anthropic in collaboration with Claude and released under the Apache License~2.0; many of
+its steps are proved by other arguments than in the original formalisation. This paper is an exposition of the proof as it is carried out in \texttt{grh-lean}. It
+introduces no new step: every theorem, proposition and lemma below corresponds to declarations of
+that development; \cref{app:lean} lists, section by section, the Lean modules in which they lie.
+
+In \texttt{grh-lean} the five statements are proved in the following form, in the language of
+Mathlib. The variable $N$ ranges over all integers $N\ge1$, $\chi$ over all Dirichlet characters
+modulo $N$, and $L(s,\chi)$ is Mathlib's $L$-function, the meromorphic continuation of the Dirichlet
+series $\sum_{n\ge1}\chi(n)n^{-s}$, regarded as a function on all of $\C$.
+\begin{enumerate}[label=\textup{(\arabic*)},leftmargin=2em]
+\item For all $s\in\C$: if $\zeta(s)=0$, $s\notin\{-2,-4,-6,\dots\}$ and $s\neq1$, then
+$\re s=1/2$. This is Mathlib's definition of the Riemann Hypothesis, proved twice, once under that
+name and once in the form stated here.
+\item For all $N,\chi,s$: if $\re s>1/2$ and ($\chi\neq1$ or $s\neq1$), then $L(s,\chi)\neq0$.
+\item For all $N,\chi,s$: if $0<\re s<1$ and $L(s,\chi)=0$, then $\re s=1/2$.
+\item The case of (3) in which $\chi$ is primitive.
+\end{enumerate}
+\lean{riemannHypothesis, riemannZeta_eq_zero_re, LFunction_ne_zero_of_half_lt_re, LFunction_eq_zero_re, LFunction_eq_zero_re_of_isPrimitive, RiemannZetaZerosOnLine, DirichletLNonvanishingRightOfHalf, DirichletLZerosOnLine, PrimitiveDirichletLZerosOnLine}
+
+Statement~(2) is \cref{thm:main-grh}; statements (1), (3) and (4) together are \cref{thm:main-rh}.
+The condition $s\neq1$ in (1) and (2) appears because Mathlib assigns a value to $\zeta$ and to
+$L(\,\cdot\,,1)$ at their pole. Statement (3) says nothing about zeros with $\re s\le0$: for a
+character that is not primitive, $L(s,\chi)$ differs from the $L$-function of the primitive character
+that induces it by finitely many Euler factors $1-\chi_0(p)p^{-s}$, whose zeros lie on $\re s=0$.
+
+\subsection{The Riemann Hypothesis}\label{ss:intro-history}
+Riemann's memoir of 1859 \cite{Riemann1859} continued $\zeta(s)=\sum_{n\ge1}n^{-s}$ to the plane,
+proved the functional equation relating $s$ and $1-s$, and expressed the number of primes below $x$
+by a sum over the zeros of $\zeta$. In the form proved by von Mangoldt \cite{vonMangoldt1895}, for
+$x>1$ not a prime power,
+\begin{equation}\label{eq:explicit-formula}
+  \psi(x)=\sum_{n\le x}\Lam(n)=x-\sum_{\rho}\frac{x^\rho}{\rho}-\log2\pi-\tfrac12\log\bigl(1-x^{-2}\bigr),
+\end{equation}
+where $\rho$ runs over the zeros of $\zeta$ in the strip $0<\re s<1$, summed symmetrically. Each zero
+contributes an oscillation $x^\rho/\rho$ of amplitude $x^{\re\rho}$ and frequency $\im\rho$; these
+oscillations are the rhythm of the primes in our title. Riemann wrote that it is ``sehr
+wahrscheinlich'' that all roots of his function $\xi(t)$, the completed zeta function on the line
+$s=\frac12+it$, are real, that is, that all the zeros $\rho$ have real part $1/2$. If so, then every term has amplitude $\sqrt x$, and the error in
+the prime number theorem is as small as the square root of the main term, up to logarithms; and
+conversely a bound $\psi(x)=x+O(x^{\beta+\ve})$ for every $\ve>0$ is equivalent to the absence of
+zeros in $\re s>\beta$. Hadamard \cite{Hadamard1896} and de la Vall\'ee Poussin
+\cite{ValleePoussin1896} proved the prime number theorem in 1896 by showing that $\zeta$ has no
+zeros on the line $\re s=1$.
+
+The hypothesis concerns all zeros, while every unconditional result controls a subset of them. Hardy
+\cite{Hardy1914} proved that infinitely many zeros lie on the critical line; Selberg
+\cite{Selberg1942} that a positive proportion of them do; Levinson \cite{Levinson1974} that more than
+one third and Conrey \cite{Conrey1989} that more than two fifths of them do. All zeros with imaginary
+part between $0$ and $3\cdot10^{12}$ lie on the line \cite{PlattTrudgian2021}. For the history and the
+classical theory see \cite{Edwards1974,Titchmarsh1986}, and for the place of the problem in
+mathematics \cite{Bombieri2000,Conrey2003}.
+
+For Dirichlet characters the same picture holds with primes in arithmetic progressions in place of
+primes: the zeros of $L(s,\chi)$, $\chi$ modulo $q$, govern the distribution of the primes in the
+residue classes modulo $q$, and the Generalized Riemann Hypothesis, the statement of
+\cref{thm:main-grh}, gives the error term $O(x^{1/2+\ve})$ in the prime number theorem for every
+progression; see \cite{Davenport1980,MontgomeryVaughan2007,IwaniecKowalski2004}.
+
+Over a finite field the analogue of the hypothesis is a theorem. For the zeta function of a curve
+over a finite field it was proved by Weil \cite{Weil1948}, who formulated the corresponding
+conjectures for varieties of any dimension \cite{Weil1949}; these were proved by Deligne
+\cite{Deligne1974,Deligne1980}. Weil's proof rests on a positivity, the Castelnuovo--Severi
+inequality on the surface $C\times C$. In 1952 Weil showed that the hypothesis for $\zeta$ itself is
+equivalent to the positivity of a quadratic form built from his explicit formula \cite{Weil1952}.
+A different, elementary proof was found by Stepanov \cite{Stepanov1969} for hyperelliptic curves
+and extended to all curves by Bombieri \cite{Bombieri1974}. It constructs an auxiliary function that vanishes to high order at
+the rational points of the curve; the order of vanishing, against the degree of the function, bounds
+the number of points, and the bound for all finite extensions gives the hypothesis.
+
+In the monograph \cite{S03} the author analysed the obstructions to transporting these proofs from
+function fields to $\Q$, organised around the positivity objects that the known proofs use. Of the two
+proofs for curves it took Weil's as its model: in its words, ``it is Weil's proof, not Stepanov's,
+that this book takes as the paradigm, because Weil's proof is the one in which the positivity object
+is visible'' \cite[p.~279]{S03}; and of Stepanov's method it recorded that ``it produces no
+operator, no cohomology and no positive form; and it has resisted every attempt at generalisation to
+higher dimension'' \cite[p.~281]{S03}. The proof expounded here takes the other route. It is a
+descendant of Stepanov's method, and the positivity it uses is of a different kind: the nonnegativity
+of Petersson norms and of a Laplace transform with positive coefficients.
+
+\subsection{The method}\label{ss:intro-method}
+We outline the argument; \cref{sec:overview} gives a more detailed plan, and the reading guide at the
+end of this section says where each step is proved.
+
+\emph{A one-sided bound suffices.} Fix a prime $d\equiv7\pmod8$, let $\chiK=(\,\cdot\,/d)$ be the
+character of $K=\Q(\sqrt{-d})$, and consider for a modulus $q$ the weighted sum
+\[
+  \sum_{\substack{n\le x\\n\equiv1\ (q)}}\Lam(n)\bigl(1-\chiK(n)\bigr)\Bigl(\frac1n-\frac1x\Bigr)
+  =\frac{\log x}{\totient(q)}+c_q+R_q(x).
+\]
+Its weights are nonnegative, and they vanish on the primes that split in $K$. The Laplace transform of
+the remainder $R_q$ has a pole at every zero of an $L$-function modulo $q$, with a residue whose sign
+on the real axis is fixed once the zeros of the twisted functions $L(s,\psi\chiK)$ are kept away; a
+prime $d$ for which this holds in any given box exists by a zero-density estimate for quadratic twists.
+By Landau's theorem on Dirichlet integrals with coefficients of one sign, a bound
+$R_q(x)\le x^{\beta-1}$ from \emph{above} only then excludes every zero of every $L(s,\psi)$, $\psi$
+modulo $q$, in $\re s>\beta$ (\cref{thm:one-sided-criterion}). It therefore suffices to prove, for one
+modulus $q_0$ divisible by any given $N$ and for all primes $d$ in a suitable class,
+\begin{equation}\label{eq:intro-one-sided}
+  R_{q_0}(x)\le x^{-1/2+\ve}\qquad(x\ \text{large}).
+\end{equation}
+
+\emph{A Stepanov argument with theta lifts.} In Stepanov's method an auxiliary function on a curve
+vanishes to high order at the rational points, and its degree bounds the number of points. Over $\Z$
+there is no differentiation of integers, and the proof replaces the parts of this argument as follows.
+\begin{center}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.36\textwidth}>{\raggedright\arraybackslash}p{.58\textwidth}@{}}
+\toprule
+Stepanov's method over $\F_q$ & the proof over $\Q$\\
+\midrule
+auxiliary function & a chain of $m\asymp\sqrt x$ theta lifts between definite unitary groups\\
+high order of vanishing & divisibility, at each prime, of derivatives of theta functions\\
+degree bound & archimedean size and height (covolume and index of a lattice)\\
+bound for the number of points & the upper bound \eqref{eq:intro-one-sided} for the weighted prime sum\\
+\bottomrule
+\end{tabular}
+\end{center}
+The divisibility is where the primes enter. At an inert prime $p$ of the CM field $E$ used below,
+the derivatives of order $a$ of theta functions of CM elliptic curves are divisible by a power of
+$p$ that is computed by a sum of the shape $\sum_{\nu}\LamK(\nu)\,(y/\nu-\kappa)_+$
+(\cref{part:derivatives}); summed over the places of $E$ these divisibilities reproduce the weighted
+prime sum, with its main term.
+
+\emph{Three theorems and a main inequality.} For each large $x$ the argument fixes data: scales
+$x\le x_1\le b$ with $x_1\ge x^{10^6}$ and $b\ge x_1^{10^6}$, a CM field $E$ with between $x^{11}$ and $x^{12}$
+infinite places, ranks of size $x^5$, and three large primes (\cref{sec:data}). It then considers a space $\mathcal T$
+of automorphic forms on a definite unitary group, the target, and a family of maps from it, chains of
+$m$ theta lifts twisted by anticyclotomic Hecke characters $\xi$. Theorem~A says that a large space of
+integral forms has short images, with sizes given by the main amount less the remainder:
+\[
+  \log\norm{\Theta_1y}^2\le\hmain-m\,\rem+O(fa\log^4b).
+\]
+Theorem~B says that few translates of these images span almost all of $\mathcal T$, by a second-moment
+computation (\cref{part:spanning}). Theorem~C says that integral forms cannot all be short: the
+covolume of a spanning family of integral forms, corrected by its index, is at least the main amount
+(\cref{part:lower,part:congruences}). It rests on a product formula in which the archimedean sizes are
+read through the untwisted chain $\Theta_1$ while the divisibility at each prime $\ell$ is read through
+a chain twisted by a character $\xi_\ell$ chosen for that prime, together with a height bound for the
+ratio of the two Gram determinants obtained from the Rallis inner product formula and congruences
+between theta lifts. Comparing the two bounds, the main amount cancels and
+\[
+  m\,\rem\le fa\log^5b
+\]
+(\cref{thm:main-inequality}). Since $m\ge\sqrt x$ and the total remainder $\rem$ is, up to
+negligible terms, $a\,\#\Phib\,R_{q_0}(x)$, this is \eqref{eq:intro-one-sided}. The exponent $1/2$
+is the reciprocal of the exponent in $m\asymp\sqrt x$: a chain of $m$ lifts plays the part of
+vanishing to order $m$.
+
+\subsection{Formalisation and the status of the proof}\label{ss:intro-status}
+The development \texttt{grh-lean} \cite{GRHLean2026} consists of a readable edition of about $300{,}000$
+lines of Lean code and a compact edition of about $76{,}000$ lines, which prove the same five
+statements. Its authors report that every file compiles with Lean v4.35.0 and Mathlib at commit
+\texttt{56a00585}, without \texttt{sorry}; that the five theorems depend only on the three axioms
+\texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}; and that an export of the five
+theorems with everything they depend on is accepted by three independent proof checkers. They state
+that no mathematician has read the proof through and that no paper accompanies it.
+
+We rebuilt the readable edition at the pinned versions and checked the axioms and the statements
+ourselves; \cref{app:verification} records how, with the hashes of the sources. Our own reading of the
+Lean text found the argument presented below. Its mathematical correctness is what the formal
+verification establishes; the present exposition has not been refereed, and where it and the Lean text
+differ the Lean text is authoritative and the difference is an error of this paper.
+
+The development is organised in two parts. One part, about $177{,}000$ lines, proves results from the
+literature that Mathlib lacks, often in a weaker form that suffices here and with its own definitions:
+class field theory, $\ell$-adic and $p$-adic cohomology, Galois representations attached to automorphic
+forms, the Siegel--Weil and Rallis formulas, and others. The other part, about $122{,}000$ lines, carries
+out the argument. This paper proves the second part in full. For the first, \cref{app:background} states
+precisely the form in which each result is proved and used, with its sources; we do not reproduce
+those proofs.
+
+\subsection{Organisation}\label{ss:intro-organisation}
+\Cref{sec:overview} sets out the chain of the proof and the place of each step in the paper
+(\cref{fig:chain,tab:parts}), and explains the argument at the level of the main objects and their sizes, and
+\cref{sec:notation} fixes the notation. \Cref{part:reduction} reduces the theorems to the three theorems
+A, B and C and proves the main inequality. \Cref{part:derivatives} computes the divisibility of
+derivatives of theta functions. \Cref{part:upper} constructs the composite lift and proves Theorem~A.
+\Cref{part:spanning} proves Theorem~B. \Cref{part:lower,part:congruences} prove Theorem~C: the first
+treats determinants of chains of theta lifts and the cost of a single lift, the second the congruences
+and Selmer groups that bound the denominators. \Cref{app:ds} contains an estimate for discrete series
+coefficients used in \cref{part:spanning,part:lower}; \cref{app:background} the background results;
+\cref{app:lean} the correspondence with the Lean declarations; \cref{app:constants} the constants and
+exponents; and \cref{app:verification} the record of the formal verification.
+
+The names of the Lean declarations that state and prove each statement are listed, statement by
+statement, in the supplement to the paper (\cref{app:lean}). A reader who wishes to check a step can
+therefore read the corresponding Lean statement, which is complete and precise, next to the proof
+given here, which explains it.

@@ -1,0 +1,180 @@
+\section{The second moment and the spanning theorem}\label{sec:moment}
+
+Theorem~\ref{thm:B} asks for few translates $\mathfrak p_s$, $s\in\bar G$, whose images span almost all of the target. This part proves it by a
+second-moment argument. If the Poincar\'e map, normalised, is nearly an isometry on the good part, and the operators $P^*sP$ have, on
+average over $s\in\bar G$, a second moment nearly as small as the Cauchy--Schwarz inequality allows, then every subspace of the target has
+a small preimage under some translate (\cref{thm:one-translate}), and a greedy choice of translates fills the target
+(\cref{thm:few-translates}). The three inputs are: a bound for the dimension of the target, proved by comparing the good forms on $Y_0$
+with those on the definite space $W_m$ (\cref{sec:multiplicities}); the near isometry; and the bound for the second moment. The last two
+are the \emph{filling theorem}, whose proof by unfolding the Petersson products of Poincar\'e series occupies \cref{sec:bessel}
+to \cref{sec:frames}.
+
+In this section, for finite-dimensional complex inner product spaces, the norm $\norm A$ of a linear map is its Hilbert--Schmidt norm:
+$\norm A^2=\operatorname{tr}(A^*A)=\sum_i\norm{Ab_i}^2$ for an orthonormal basis $(b_i)$, the sum of the squared moduli of the matrix entries in
+orthonormal bases. For a subspace $U$, $\mathrm{pr}_U$ is the orthogonal projection, and $\norm{\mathrm{pr}_U}^2=\dim U$.
+\lean{New.hilbertSchmidtVector, New.hilbertSchmidtNorm, New.hilbertSchmidtNorm_nonneg, New.inner_hilbertSchmidtVector, New.hilbertSchmidtNorm_sq_eq_trace, New.hilbertSchmidtNorm_sq_eq_sum, New.hilbertSchmidtNorm_sq_eq_sum_entries, New.hilbertSchmidtNorm_adjoint, New.hilbertSchmidtNorm_le_of_norm_le, New.orthoProj, New.adjoint_orthoProj, New.orthoProj_comp_self, New.hilbertSchmidtNorm_orthoProj_sq, New.hilbertSchmidtNorm_comp_orthoProj_le, New.hilbertSchmidtNorm_orthoProj_comp_sq, New.norm_sq_eq_add_of_isSymmetricProjection, New.hilbertSchmidtNorm_one_sub_mul_comp_sq_le, New.adjoint_rep_of_unitary}
+
+\subsection{One translate}\label{ss:one-translate}
+A linear map $A\colon S\to T$ is a \emph{near isometry in mean square} with error $\varepsilon$ if $\norm{A\,\mathrm{pr}_U}^2\ge\dim U-\varepsilon\dim S$ for every subspace
+$U\subseteq S$. A family of maps $B_s\colon V\to W$ \emph{spreads} with error $\eta$ if for every subspace $F\subseteq W$, of dimension $\alpha\dim W$, some $B_s$ has
+$\dim B_s^{-1}(F)\le((1+\alpha)/2+\eta)\dim V$.
+\lean{New.IsNearIsometry, New.IsSpread, New.isNearIsometry_of_hilbertSchmidtNorm_le, New.IsNearIsometry.mono, New.IsNearIsometry.finrank_range_pos, New.IsNearIsometry.proj_comp}
+
+\begin{lemma}\label{lem:near-isometry}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $\norm{A^*A-1}^2\le\varepsilon^2\dim S$ with $\varepsilon\ge0$, then $A$ is a near isometry with error $\varepsilon$.
+\item If $A$ is a near isometry with error $\varepsilon$ and an orthogonal projection $\mathrm{pr}$ satisfies $\norm{(1-\mathrm{pr})A}^2\le\delta\dim S$, then $\mathrm{pr}\,A$ is
+a near isometry with error $\varepsilon+\delta$. For an orthogonal projection $p$ and any $q$, $\norm{(1-pq)A}^2\le\norm{(1-p)A}^2+\norm{(1-q)A}^2$.
+\item If $\mathrm{pr}_0B$ is a near isometry with error $\varepsilon<1$ and $S\ne0$, then $\mathrm{pr}_0\ne0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) We have
+\[
+  \norm{A\,\mathrm{pr}_U}^2=\operatorname{tr}(\mathrm{pr}_UA^*A\,\mathrm{pr}_U)=\dim U+\operatorname{tr}\bigl(\mathrm{pr}_U(A^*A-1)\bigr),
+\]
+and by Cauchy--Schwarz the last trace is at least
+\[
+  -\norm{\mathrm{pr}_U}\norm{A^*A-1}\ge-\sqrt{\dim U}\,\varepsilon\sqrt{\dim S}\ge-\varepsilon\dim S.
+\]
+(b) The norm splits as
+\[
+  \norm{A\,\mathrm{pr}_U}^2=\norm{\mathrm{pr}\,A\,\mathrm{pr}_U}^2+\norm{(1-\mathrm{pr})A\,\mathrm{pr}_U}^2,
+\]
+and the second term is at most $\norm{(1-\mathrm{pr})A}^2$. For the second claim write $1-pq=(1-p)+p(1-q)$; the two terms have orthogonal ranges, and $\norm{p(1-q)A}\le\norm{(1-q)A}$.
+(c) Take $U=S$.
+\end{proof}
+
+\begin{theorem}[One translate]\label{thm:one-translate}
+Let a finite group $\Gamma$ act unitarily on $T$, let $\mathrm{pr}_0$ be the orthogonal projection on a stable subspace $T_0$, and $B\colon S\to T$. If $\mathrm{pr}_0B$ is a near
+isometry with error $\varepsilon\ge0$ and
+\[
+  \dim T_0\cdot\sum_{s\in\Gamma}\norm{B^*sB}^2\le\#\Gamma\,(1+\varepsilon)(\dim S)^2,
+\]
+then the maps $\mathrm{pr}_0sB\colon S\to T_0$, $s\in\Gamma$, spread with error $3\varepsilon/2$.
+\end{theorem}
+\lean{New.isSpread_of_second_moment, New.inner_hilbertSchmidtVector_translate, New.sq_sum_hilbertSchmidtNorm_orthoProj_comp_le}
+
+\begin{proof}
+Let $F\subseteq T_0$ have dimension $\alpha\dim T_0$. The vectors $sBB^*s^{-1}$ have Hilbert--Schmidt inner products $\langle sBB^*s^{-1},tBB^*t^{-1}\rangle=\norm{B^*s^{-1}tB}^2$,
+and $\norm{\mathrm{pr}_FsB}^2=\langle\mathrm{pr}_F,sBB^*s^{-1}\rangle$. By Cauchy--Schwarz,
+\[
+  \Bigl(\sum_s\norm{\mathrm{pr}_FsB}^2\Bigr)^2\le\norm{\mathrm{pr}_F}^2\Bigl\|\sum_ssBB^*s^{-1}\Bigr\|^2=\dim F\cdot\#\Gamma\sum_s\norm{B^*sB}^2,
+\]
+which is at most $\alpha\,(\#\Gamma)^2(1+\varepsilon)(\dim S)^2$. Hence some $s$ has
+\[
+  \norm{\mathrm{pr}_FsB}^2\le\sqrt{\alpha(1+\varepsilon)}\dim S\le\tfrac{1+\alpha+\varepsilon}2\dim S.
+\]
+Let $U$ be the preimage of $F$ under $\mathrm{pr}_0sB$. On $U$ the maps
+$\mathrm{pr}_0sB$ and $\mathrm{pr}_FsB$ agree, and $\mathrm{pr}_0sB=s\,\mathrm{pr}_0B$ is a near isometry with error $\varepsilon$ because $s$ is unitary and commutes with $\mathrm{pr}_0$. Hence
+$\dim U-\varepsilon\dim S\le\norm{\mathrm{pr}_0sB\,\mathrm{pr}_U}^2\le\norm{\mathrm{pr}_FsB}^2$, and $\dim U\le(\frac{1+\alpha}2+\frac32\varepsilon)\dim S$.
+\end{proof}
+
+\begin{theorem}[Few translates]\label{thm:few-translates}
+Let $V$, $W$ be nonzero, $0<\varepsilon<1/16$, and let maps $B_s\colon V\to W$ spread with error $3\varepsilon/2$. Then the images of a set $\Sigma$ of them with
+\[
+  \#\Sigma\cdot\dim V\le\tfrac52\bigl(1+\log(1/(16\varepsilon))\bigr)\dim W
+\]
+span a subspace of dimension at least $(1-16\varepsilon)\dim W$.
+\end{theorem}
+\lean{New.IsSpread.exists_few_le_finrank_iSup_range, New.IsSpread.exists_codim_le, New.IsSpread.exists_codim_le_max, New.finrank_sup_range_add_finrank_comap, New.finrank_biSup_map_le, New.finrank_biSup_range_le}
+
+\begin{proof}
+For $F\subseteq W$, $\dim(F+B_sV)+\dim B_s^{-1}F=\dim F+\dim V$. If $F$ misses more than $16\varepsilon\dim W$ dimensions, choose $s$ by spreading with $\alpha=\dim F/\dim W$:
+$\dim B_s^{-1}F\le(\frac{1+\alpha}2+\frac32\varepsilon)\dim V$, so adding $B_sV$ adds at least $(\frac{1-\alpha}2-\frac32\varepsilon)\dim V\ge\frac25(1-\alpha)\dim V$ dimensions, since
+$\frac32\varepsilon<\frac1{10}\cdot16\varepsilon\le\frac1{10}(1-\alpha)$. The codimension is multiplied by at most $1-\frac{2\dim V}{5\dim W}$. After $l$ greedy steps the missing share
+is at most $\max(16\varepsilon,\exp(-2l\dim V/(5\dim W)))$; take $l=\lceil\frac52\log(1/(16\varepsilon))\dim W/\dim V\rceil$ (Wolsey's analysis of the greedy covering
+\cite{Wolsey1982}).
+\end{proof}
+
+\begin{lemma}[Singular minors]\label{lem:singular-minors}
+Let $\pi$ be a representation of a finite group $G$ by $n\times n$ matrices over a field with $q$ elements, $\pi'$ its contragredient, $A_0$, $A_1$ two $n\times m$
+matrices, and $\Theta\ge0$ of positive type on $G$. If for every $v\ne0$ the $\Theta$-masses of the stabilisers of $A_0v$ under $\pi$ and of $A_1v$ under $\pi'$ are at most
+$Y\ge0$, then
+\[
+  q\cdot\Theta\{s\in G\mid\det({}^tA_1\pi(s)A_0)=0\}\le2\Theta(G)+q^{m+n/2}Y .
+\]
+\end{lemma}
+\lean{New.card_mul_sum_det_eq_zero_le, New.inner_sum_sum_eq_card_mul, New.norm_sq_sum_tmul_eq_card_mul_sum, New.expect_addChar_dotProduct, New.orthonormal_addChar_div_sqrt, New.inner_addChar_invTranspose_smul_single, New.re_sum_addChar_dotProduct_mul_le, New.card_le_card_filter_vecMul_eq_zero}
+
+The proof rests on a bound for one character sum. Write $x\cdot z=\sum_ix_iz_i$, let $\psi$ be a primitive additive character of the field $k$, and let $\pi'(s)={}^t\pi(s)^{-1}$.
+
+\begin{lemma}[A character sum of positive type]\label{lem:positive-type-sum}
+Let $\Theta(a^{-1}b)=\langle u_a,u_b\rangle$ for vectors $u_a$ of a complex inner product space, and let $x,z\in k^n$. If the $\Theta$-masses of the stabiliser of $x$ under $\pi'$ and of $z$ under $\pi$ are at most $Y$,
+then
+\[
+  \re\sum_{s\in G}\psi\bigl(x\cdot\pi(s)z\bigr)\,\Theta(s)\le q^{n/2}\,Y.
+\]
+\end{lemma}
+
+\begin{proof}
+In the space $\ell^2(k^n)$ let $e_\zeta$ be the indicator of the point $\zeta$, and let $\chi_w(\zeta)=q^{-n/2}\psi(-w\cdot\zeta)$; the $e_\zeta$ are orthonormal, and so are the $\chi_w$, since $\sum_\zeta\psi((w'-w)\cdot\zeta)$ is $q^n$ for $w=w'$ and $0$
+otherwise. Put
+\[
+  X_0=\sum_{a\in G}e_{\pi(a)z}\otimes u_a,\qquad X_1=\sum_{a\in G}\chi_{\pi'(a)x}\otimes u_a.
+\]
+For an orthonormal family $(c_w)$ and any vector $w_0$, $\norm{\sum_ac_{\rho(a)w_0}\otimes u_a}^2=\sum_{a,b}[\rho(a)w_0=\rho(b)w_0]\,\Theta(a^{-1}b)$, and the substitution $b=as$ shows that this is $\#G$ times the $\Theta$-mass of the stabiliser
+of $w_0$. Hence $\norm{X_0}^2\le\#G\,Y$ and $\norm{X_1}^2\le\#G\,Y$. On the other hand, the inner product being conjugate linear in the first argument, $\langle\chi_{\pi'(a)x},e_{\pi(b)z}\rangle=q^{-n/2}\psi\bigl((\pi'(a)x)\cdot\pi(b)z\bigr)=q^{-n/2}\psi\bigl(x\cdot\pi(a^{-1}b)z\bigr)$,
+as ${}^t\pi(a)^{-1}x\cdot\pi(b)z=x\cdot\pi(a)^{-1}\pi(b)z$; so the substitution $b=as$ gives
+\[
+  \langle X_1,X_0\rangle=q^{-n/2}\,\#G\sum_s\psi\bigl(x\cdot\pi(s)z\bigr)\Theta(s).
+\]
+Finally $\re\langle X_1,X_0\rangle\le\norm{X_1}\norm{X_0}\le\frac12(\norm{X_1}^2+\norm{X_0}^2)\le\#G\,Y$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{lem:singular-minors}]
+For $s\in G$ let $Z_s={}^tA_1\pi(s)A_0$, an $m\times m$ matrix. If $\det Z_s=0$, the left kernel $\{y:{}^tyZ_s=0\}$ contains the $q$ multiples of a nonzero vector, so it has at least $q$ elements. Since $\Theta\ge0$,
+\[
+  q\cdot\Theta\{s:\det Z_s=0\}\le\sum_s\Theta(s)\,\#\{y\in k^m:{}^tyZ_s=0\}.
+\]
+By orthogonality of characters, $q^{-m}\sum_{v\in k^m}\psi(w\cdot v)$ is $1$ if $w=0$ and $0$ otherwise; with $w={}^tZ_sy$ the right side is
+\[
+  q^{-m}\sum_{y,v\in k^m}\ \sum_s\Theta(s)\,\psi\bigl((A_1y)\cdot\pi(s)(A_0v)\bigr).
+\]
+On the axes the character is $1$: the terms with $y=0$ give $q^{-m}\cdot q^m\,\Theta(G)=\Theta(G)$, and those with $v=0\ne y$ give at most the same. For $y\ne0\ne v$ the inner sum is the sum of
+\cref{lem:positive-type-sum} with $x=A_1y$ and $z=A_0v$, whose stabilisers have mass at most $Y$ by hypothesis; its real part is at most $q^{n/2}Y$. There are fewer than $q^{2m}$ such pairs. The left side
+is real, so taking real parts,
+\[
+  q\cdot\Theta\{s:\det Z_s=0\}\le2\Theta(G)+q^{-m}q^{2m}q^{n/2}Y=2\Theta(G)+q^{m+n/2}Y.\qedhere
+\]
+\end{proof}
+
+\subsection{The spanning theorem}\label{ss:spanning-theorem}
+Let $\mathcal P$ be the Poincar\'e map of \cref{def:poincare} for the linear form and archimedean point chosen in \cref{sec:bessel}, and let the source $\mathcal S$ (all source
+forms, of dimension $D_X$) carry the standard inner product of its coordinates $(c,i)$, a class and a coordinate of the Bessel function (\cref{ss:poincare-series}). The
+\emph{scaled Poincar\'e map} is $P=(\vol J\cdot\nu)^{-1/2}\mathcal P$, with $J$ the principal level and $\nu$ the covolume of its unipotent points. Let
+$\deg=\prod_v\deg_v$ be the product of the formal degrees of the Bessel systems at the infinite places, $\mathrm{mass}_r$ the mass of the genus of the standard lattice
+of rank $r$, and $\mathcal D_{\rm main}=D_X^2/(\deg\cdot\mathrm{mass}_r)$.
+\lean{New.Data.goodPoincare, New.Data.levelRepresentation, New.Data.levelRepresentation_apply, New.Data.inner_levelRepresentation, New.Data.poincareScale, New.Data.poincareScale_pos, New.Data.scaledPoincare, New.mass, New.Data.comap_scaledPoincare_eq_comap_goodPoincare}
+
+\begin{theorem}[Inputs of the spanning theorem]\label{thm:spanning-inputs}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\dimT\le\#\bar G\cdot\deg\cdot\mathrm{mass}_r$.
+\item $e_0=g_0\otimes g_1$ is the tensor product of central idempotents $g_i$ of the group algebras of the factors of $\bar G$ above $p_i$, and the coefficient of $1-g_i$ at
+the identity has real part at most $b^{-8}/2$.
+\item $e_0P$ is a near isometry with error $5b^{-4}$.
+\item $\sum_{s\in\bar G}\norm{P^*sP}^2\le(1+9b^{-4})\mathcal D_{\rm main}$; hence $\dimT\sum_s\norm{P^*sP}^2\le\#\bar G(1+9b^{-4})D_X^2$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Data.targetDim_le_card_mul_besselDegree_mul_mass, New.Data.finrank_principalForms_spaceW, New.Data.decreasingPosition_paramW, New.Data.bad_types_rare, New.Data.goodIdempotentAbove, New.Data.isCentralProj_goodIdempotentAbove, New.Data.levelRepresentation_goodIdempotentAbove_eq, New.Data.re_coeff_one_sub_goodIdempotentAbove_le, New.Data.isNearIsometry_e₀_comp_scaledPoincare, New.Data.sum_hilbertSchmidtNorm_scaledPoincare_sq_le, New.Data.targetDim_mul_sum_hilbertSchmidtNorm_sq_le, New.Data.hasAmplitudeBlocks_scaledPoincare, New.Data.finrank_targetForms_ne_zero}
+
+\begin{proof}
+(a) By \cref{thm:equal-multiplicities}(c) the target has the dimension of the good forms on the definite space $W_m$, which are among its forms of principal
+level. There the level is free, so the dimension is the class number at the principal level times the dimension of the weight; the class sum at the maximal
+level is $\mathrm{mass}_r$, the principal level has index $\#\bar G$ in it, and the dimension of the weight is the product of the compact formal degrees, which by
+Weyl's dimension formula equal the degrees $\deg_v$ of the Bessel systems. (b) $e_0$ is the product over the two level primes of the sums of the label
+idempotents of the good tuples (\cref{prop:e0}); a label idempotent is central. The coefficient at $1$ of the complement is the share of the bad tuples, which
+is at most $b^{-8}/2$ by Green's degree formula and a count of polynomials (\cref{prop:bad-types}). (c) and (d) are the filling theorem
+(\cref{thm:filling}) for the data of $D$, with the blocks of $P^*sP$ given by the unfolding of \cref{thm:unfolding} and (b).
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\textup{\ref{thm:B}}]
+By \cref{thm:spanning-inputs}(c),(d) and \cref{thm:one-translate} with $\varepsilon=5b^{-4}\le(8b^2)^{-1}$, the maps $s\mapsto\#\bar G\,e_0s\mathcal P$, which have the same preimages as
+$e_0sP$, spread with error $\frac32(8b^2)^{-1}$; in particular $\dimT\ge1$ by \cref{lem:near-isometry}(c). By \cref{thm:few-translates} with $\varepsilon=(8b^2)^{-1}$ there is $\Sigma$ with
+$\#\Sigma\cdot D_X\le\frac52(1+\log(b^2/2))\dimT\le5\dimT\log(1+2b^2)$ such that the images of all source forms span at least $(1-2/b^2)\dimT$ dimensions. Restricted to the
+ramified source forms, each translate loses at most the codimension $D_X-\dim\mathcal S^{\rm ram}\le b^{-8}D_X$ (\cref{prop:short-span}(c)), so the images of $\mathcal S^{\rm ram}$ span
+at least $(1-2/b^2)\dimT-\#\Sigma\,b^{-8}D_X\ge(1-4/b^2)\dimT$ dimensions. The maps $\mathfrak p_s$ differ from $\#\bar G\,e_0s\mathcal P$ by the nonzero factors $c_B$, $c_{\rm ss}^{-1}$, so
+they have the same images.
+\end{proof}
+\lean{New.Data.isSpread_goodPoincare, New.Data.exists_le_finrank_iSup_range_normalizedPoincare, New.Data.enough_forms, New.Data.five_halves_mul_one_add_log_le, New.Data.targetDim_pos}

@@ -1,0 +1,539 @@
+\section{The main term}\label{sec:main-term}
+
+The filling theorem (\cref{thm:filling}) needs one bound that is sharp to a factor $1+O(b^{-4})$: the link second moment of the open elements of a fixer
+(\cref{thm:main-term}). The terms over an open reduction lie in the big cell of the Bruhat decomposition, so their class sums are sums over double cosets
+$Uw_p\sigma U$ (\cref{ss:big-cell}). At a finite set of places each double coset sum is a Kloosterman sum times an orbital integral at infinity
+(\cref{ss:kloosterman}). Siegel's formula, used as an upper bound, turns the sums over rational points into integrals over spheres at the finite places
+(\cref{ss:siegel-top}), and a sieve over all places, entry by entry, removes the sums over the entries of the heads at the cost of a factor near $1$
+(\cref{ss:sieve-systems,ss:sieve}). The section opens with the count of bad types used in \cref{thm:spanning-inputs}(b).
+
+\subsection{Bad types are rare}\label{ss:bad-types}
+Let $\mathbb k$ be a field with $q$ elements and $1<r<q$. Give every polynomial of degree $r$ over $\mathbb k$ the weight $\omega_{q,r}=(1-r/q)/q^r$. The idempotent of a tuple $c=(c_w)$
+of labels over fields $\mathbb k_w$ is $e_c=\bigotimes_we_{c_w}$, with $e_{c_w}=\sum_g(\Xi_{c_w}(1)/\abs{G_w})\overline{\Xi_{c_w}(g)}\,g$ in $\C[G_w]$, $G_w=\GL_r(\mathbb k_w)$ (\cref{ss:B-green}).
+\lean{New.IsAllowedPolynomial, New.IsPrimitivePolynomial, New.labelIdem, New.tupleIdem}
+
+\begin{proposition}[Bad types]\label{prop:bad-types}
+Let $M\ge1$ and $1<r<q$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item At most $(1+M+r)q^{r-1}$ monic polynomials of degree $r$ over $\mathbb k$ are not allowed for $M$, and at least $\varphi(q^r-1)/r$ are primitive.
+\item If $(1+M+2r)/q\le\varepsilon$, the allowed polynomials of degree $r$ weigh at least $1-\varepsilon$; the polynomials that are not primitive weigh at most
+$\exp\bigl(-1/(2r(2r\log q+1))\bigr)$.
+\item For labels $c_w$ of degree $r$ over fields $\mathbb k_w$ with $q$ elements, the coefficient of $e_c$ at the identity has real part at least $\prod_w\omega_{q,r}$.
+\item Let there be $f$ fields $\mathbb k_w$, each with $q$ elements, and let $(1+M+2r)/q\le\varepsilon\le1$ and $2r(2r\log q+1)L\le f$. Then the coefficient at the identity of
+$1-\sum_ce_c$, the sum over the good tuples $c$ for $M$, has real part at most $f\varepsilon+e^{-L}$.
+\item For admissible data and $i=0,1$, the idempotent $e_{p_i}$, the sum of the $e_c$ over the good tuples of labels at the chosen places above $p_i$, is a central idempotent,
+$e_0=e_{p_0}\otimes e_{p_1}$, and the coefficient of $1-e_{p_i}$ at the identity has real part at most $b^{-8}/2$.
+\end{enumerate}
+\end{proposition}
+\lean{New.card_not_isAllowedPolynomial_le, New.totient_le_mul_card_isPrimitivePolynomial, New.one_sub_le_card_allowed_mul, New.card_not_primitive_mul_le, New.prod_le_re_tupleIdem_coeff_one, New.re_coeff_one_sub_sum_tupleIdem_le, New.Data.bad_types_rare, New.Data.re_coeff_one_sub_goodIdempotentAbove_le, New.Data.goodIdempotentAbove}
+
+\begin{proof}
+(a) A monic polynomial of degree $r$ that is not allowed either is not a label, that is, vanishes at $0$ or is not squarefree, or has a root $x$ in $\mathbb k$ with $x^M=1$. In the first and the last case it has
+a root $x$ with $x=0$ or $x^M=1$; there are at most $1+M$ such $x$, and for each of them $q^{r-1}$ monic polynomials of degree $r$ vanish at $x$. A polynomial that is not squarefree is $P^2B$ with $P$, $B$
+monic, $e=\deg P\ge1$ and $\deg B=r-2e<r$; for each $e\le r/2$ there are $q^e\cdot q^{r-2e}\le q^{r-1}$ such products. In all there are at most $(1+M+r)q^{r-1}$ polynomials that are not allowed. A primitive
+polynomial of degree $r$ is the minimal polynomial of a generator of the cyclic group $\F_{q^r}^\times$: if a generator has minimal polynomial of degree $d$, then it lies in $\F_{q^d}$, so $q^r-1$ divides $q^d-1$ and
+$d=r$. There are $\varphi(q^r-1)$ generators, and each primitive polynomial has $r$ of them as roots.
+(b) The $q^r$ monic polynomials of degree $r$ weigh $q^r\omega_{q,r}=1-r/q$ together, and by (a) those that are not allowed weigh at most $(1+M+r)q^{r-1}/q^r=(1+M+r)/q$; so the allowed ones weigh at least
+$1-r/q-(1+M+r)/q=1-(1+M+2r)/q\ge1-\varepsilon$. For the others let $P$ be the number of primitive polynomials, $m=q^r-1$ and $A=2r(2r\log q+1)$. Then
+\[
+  q^r\le2m\le2\varphi(m)(2\log m+1)\le2rP(2r\log q+1)=AP,
+\]
+by $m\le\varphi(m)(2\log m+1)$, by (a) and by $\log m\le r\log q$. The polynomials that are not primitive number $q^r-P$, and each weighs at most $q^{-r}$, so together they weigh at most $1-P/q^r\le1-1/A\le e^{-1/A}$.
+(c) The coefficient of $e_c$ at $1$ is $\prod_w\Xi_{c_w}(1)^2/\abs{G_w}$, the coefficient of a tensor product at $1$ being the product of the coefficients. For a label $c$ with irreducible factors of degrees $d_i$, Green's degree formula gives
+$\Xi_c(1)=\prod_{j=1}^r(q^j-1)/\prod_i(q^{d_i}-1)$ \cite{Green1955}, while $\abs{\GL_r(\mathbb k)}=q^{r(r-1)/2}\prod_{j=1}^r(q^j-1)$. Hence
+\[
+  \frac{\Xi_c(1)^2}{\abs{\GL_r(\mathbb k)}}=\frac{\prod_{j=1}^r(q^j-1)}{q^{r(r-1)/2}\prod_i(q^{d_i}-1)^2}\ge\frac{q^{r(r+1)/2}\bigl(1-\sum_{j=1}^{r}q^{-j}\bigr)}{q^{r(r-1)/2}q^{2r}}\ge\frac{1-r/q}{q^r},
+\]
+using $\sum_id_i=r$, $\prod_i(q^{d_i}-1)\le q^r$ and $\prod_j(1-q^{-j})\ge1-\sum_jq^{-j}\ge1-r/q$.
+(d) The coefficient of $1$ at the identity is $1$, and by (c) that of $\sum_ce_c$ is at least $\omega^f$ times the number of good tuples, $\omega=\omega_{q,r}$. A tuple of allowed polynomials is good unless none of its
+members is primitive. Weighted by $\omega^f$, the tuples of allowed polynomials count at least $(1-\varepsilon)^f\ge1-f\varepsilon$ by (b), and those without a primitive member at most $\exp(-1/A)^f=\exp(-f/A)\le e^{-L}$, with $A=2r(2r\log q+1)$ as in (b), since
+$AL\le f$. Hence the coefficient of $1-\sum_ce_c$ has real part at most $1-(1-f\varepsilon-e^{-L})=f\varepsilon+e^{-L}$.
+(e) The idempotents are central by \cref{thm:B-green}, and their tensor product is $e_0$ by the definition of the good families (\cref{prop:e0}). At the chosen places above $p_i$ the residue fields have $q=p_i$
+elements and there are $f$ of them; with the order $q_2$ of the characters in place of $M$, the rank $r$ of $Y_0$ and $L=9\log b$, the size conditions of the data give $1<r<p_i$, $(1+q_2+2r)/p_i\le1$,
+$2r(2r\log p_i+1)\cdot9\log b\le f$ and $f(1+q_2+2r)/p_i+b^{-9}\le b^{-8}/2$, and (d) applies with $\varepsilon=(1+q_2+2r)/p_i$.
+\end{proof}
+
+\subsection{Open elements, the big cell and orbit sums}\label{ss:big-cell}
+For a tuple $p=(p_0,\dots,p_{\varrho-1})$ of units the \emph{Weyl element} $w_p$ sends $e_a$ to $p_ae^*_a$ and $e^*_a$ to $e_a/\bar p_a$ for $a<\varrho$, and fixes $X_0$ and $z$. The
+\emph{floor group} $G^{(\varrho)}$ is the group of isometries that fix the $e_a$ and $e^*_a$, $a<\varrho$. A \emph{head} is a tuple $p$ followed by a last entry $t$. The \emph{entry set} $\mathcal T$ is
+the finite set of quotients of two elements of the finite set of nonzero integers $\delta$ of $E$ with $\abs\delta_v^2\le b^{270n^2}$ at every infinite place. For
+rational $\gamma$ in the floor group and a class pair $(c,c')$, the \emph{orbit sum} $\mathcal A^U(c,s,c';\gamma)$ is the sum of the amplitudes of $u\gamma u'^{-1}$ over the pairs $(u,u')$ of
+rational points of $U$ for which $u\gamma u'^{-1}$ is a term over $(c,s,c')$.
+\lean{New.Floors.FloorGroups.weylElem, New.Shape.Form.floorGroup, New.Filling.boundedNonzeroIntegers, New.Filling.finite_boundedNonzeroIntegers, New.Filling.finite_quotient_boundedNonzeroIntegers, New.Filling.entrySet, New.Filling.cosetAmplitude, New.Filling.translateByClassReps, New.Filling.NamesLink, New.padTuple}
+
+\begin{lemma}[Open elements lie in the big cell]\label{lem:big-cell}
+Let $\gamma$ be a term over $(c,s,c')$. For each $l$ the leading minor of order $l$ of the matrix $Z(\gamma)$ of frame products is an algebraic integer, and at every chosen place $w$
+its reduction modulo $w$ is the same minor of the frame Gram matrix of $s$ at $w$. Hence if $s$ is open, no proper leading minor of $Z(\gamma)$ vanishes.
+\end{lemma}
+\lean{New.Filling.leadingMinor_frameGram_map, New.Filling.exists_leadingMinor_reduceAt_eq, New.Filling.IsOpenElement.leadingMinor_ne_zero}
+
+\begin{proof}
+$Z(\gamma)$ is the matrix of the products of the frame with $h_c^{-1}\gamma h_{c'}$ applied to the frame, up to the integral change of basis by $h_c$ and $h_{c'}$, and $h_c^{-1}\gamma h_{c'}\in K$
+has integral entries in the lattice basis; so its minors are integral at every finite place, hence algebraic integers. Its reduction at $w$ is $s_w$, and taking minors commutes with the ring map to the residue
+field. If $s$ is open, at some chosen place above $p_0$ no proper leading minor of the frame Gram matrix of $s$ vanishes; a minor whose reduction is nonzero is nonzero.
+\end{proof}
+
+\begin{lemma}[Weyl elements and the norm equation]\label{lem:weyl-norm}
+Let $\sigma$ be rational in the floor group, $t=h(z,\sigma z)$ the last diagonal entry of $Z(\sigma)$ and $\omega$ the coordinates of $\sigma z$ in $X_0$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $N\omega^*\omega=t\bar t-N^2$; if $t\bar t\ne N^2$, then $\abs t_v>N$ at every infinite place.
+\item $h_c^{-1}(w_p\sigma)h_{c'}=w_p(h_c^{-1}\sigma h_{c'})$, and $h_c^{-1}\sigma h_{c'}$ lies in the floor group; at $T$ the translate sends $z$ to $x-N^{-1}tz$ in the lattice basis, where $x$ is the part in $X_0$ of $\sigma z$
+moved by the inverse of the representative of $c$.
+\item At an infinite place $v$ the rescaled image of $w_p\sigma$ is $w_q$ times that of $\sigma$, with $q_a=v(p_a)$ times the squared scale of the frame vector $a$.
+\item The link of $uw_p\sigma u'^{-1}$, $u,u'\in U$, is the link of $w_1\sigma$, and $\mathfrak g(uw_p\sigma u'^{-1})\ne0$ if $t\bar t\ne N^2$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.NamesLink.frameProducts_top_top, New.Filling.NamesLink.isIntegralOff, New.Filling.NamesLink.link_eq, New.Filling.NamesLink.mem_entrySet, New.Filling.NamesLink.mem_floorGroup, New.Filling.NamesLink.reduction_eq, New.Filling.NamesLink.sq_lt_norm_sq}
+
+\begin{proof}
+(a) With $a$ the coordinate of $\sigma z$ at $z$ one has $t=h(z,\sigma z)=-Na$, and $-N=h(\sigma z,\sigma z)=\omega^*\omega-N\abs a^2$, since $\sigma z$ has no components along the hyperbolic planes; multiply by $N$. The difference
+$t\bar t-N^2=N\omega^*\omega$ is nonnegative at each place, hence positive when it is not zero. (b) No $e^*_a$ has level below $\varrho$, and the Weyl element commutes with the change of basis entry by entry; the change of
+basis on the right fixes $z$, so the column of $\sigma$ at $z$ remains, and in the lattice basis it is the vector $x-N^{-1}tz$, with $N=\pi\bar\pi$. (c) Each column of $w_p$ has one nonzero
+entry; conjugating by the scales of the normalised basis multiplies the entries on the pair of floor $a$ by the squared scale or its inverse. (d) Both properties hold for $w_p\sigma$ and are invariant under $U$ on either
+side (\cref{prop:links}(a)); the link of $w_p\sigma$ is that of $w_1\sigma$ by \cref{lem:link-isometry}(c), and $\mathfrak g(w_p\sigma)=\abs{d}^2(t\bar t-N^2)$, $d=\prod_ap_a$.
+\end{proof}
+
+\begin{proposition}[Class sums as orbit sums]\label{prop:orbit-sums}
+Let the data be admissible, let the elements of $\mathcal T$ be units off a finite set $T$ of finite places, and let all terms over $(c,s,c')$ have nonzero leading minors
+$D_1,\dots,D_\varrho$. Let $A$ be the block, for the cut function, of the terms over $(c,s,c')$ with $\mathfrak g\ne0$ and link $\Lambda$, and suppose $A\ne0$. Then there are $t\in\mathcal T$,
+a rational $\sigma\in G^{(\varrho)}$ and $k\in K$ such that $t$ is the last diagonal entry of $Z(\sigma)$, $t\bar t-N^2$ is totally positive, $\Lambda$ is the link of $w_1\sigma$, $h_c^{-1}\sigma h_{c'}$
+is integral off $T$, and $k$ reduces to $s$; and
+\[
+  A=\sum_{p\in\mathcal T^\varrho}\mathcal A^U\bigl(c,s,c';w_{p}\sigma\bigr),
+\]
+the sum over the heads $(p,t)$ of the orbit sums of the elements $w_p\sigma$.
+\end{proposition}
+\lean{New.Filling.exists_amplitudeSum_eq_sum_cosetAmplitude, New.Filling.translateByClassReps_inv_mul_mul, New.Filling.translateByClassReps_mem_floorGroup, New.Filling.orbitPoint_top_translateByClassReps_inv, New.Filling.mul_star_dotProduct_eq_last_frameProducts, New.Filling.translateByClassReps_weylElem_mul, New.Filling.leadingMinor_mem_boundedNonzeroIntegers, New.Filling.entry_mem_entrySet, New.Filling.isIntegralOff_of_mem_termsOver, New.Filling.isIntegralOff_weylElem_mul, New.Filling.sq_lt_norm_sq_last_frameProducts, New.Filling.injective_bigCellTerm, New.Filling.weylElem_padTuple, New.Filling.head_and_last_mem_entrySet, New.Filling.mem_termsOfLink_bigCell}
+\lean{New.Filling.isStarStable_integralOff, New.Floors.IntegralPlace.modulus_evalPlaces_rpow_half}
+
+\begin{proof}
+\emph{The big cell.} A term with nonzero leading minors $D_1,\dots,D_\varrho$ lies in the big cell of the Bruhat decomposition for the flag $\langle e_1\rangle\subset\dots\subset A$: Gaussian elimination along the frame, with
+the nonzero minors as pivots, writes $\gamma=uw_p\sigma u'^{-1}$ with $u,u'\in U(E)$ and $\sigma\in G^{(\varrho)}(E)$, and for fixed $\sigma$ the map $(p,u,u')\mapsto uw_p\sigma u'^{-1}$ is injective (the Weyl element depends only on the entries below
+$\varrho$, so these may be completed by any last entry). The leading minor of order $l$ of $Z(\gamma)$ is that of $Z(w_p\sigma)$, the product $p_0\cdots p_{l-1}$ of the first entries, so $p_a=D_{a+1}/D_a$.
+
+\emph{Entries.} The minors of a term with nonzero amplitude are nonzero integers with $\abs{D_l}_v^2\le b^{270n^2}$: at some $y$ both $W^\flat(y)$ and $W^\flat(\gamma^{-1}y)$ are nonzero, unipotent translates of the two
+points lie in the boxes (\cref{prop:packing}(c)), the translates do not change the minors, and at points of the boxes the minors are bounded (\cref{lem:orbit-bound}(a)). Hence every entry $p_a$ lies in $\mathcal T$, and so
+does $t=h(z,\sigma z)=D_{\varrho+1}/D_\varrho$.
+
+\emph{The element $\sigma$.} Take a contributing term $\gamma_0=u_0w_{p_0}\sigma u_0'^{-1}$. Then $\mathfrak g(\gamma_0)=\abs{D_\varrho}^2(t\bar t-N^2)$, which is nonzero, so $t\bar t-N^2$ is nonzero and, by \cref{lem:weyl-norm}(a), totally
+positive. The link of $\gamma_0$ is that of $w_1\sigma$ (\cref{lem:weyl-norm}(d)), and the link determines $\sigma$ up to the floor group's action by $U$ on both sides: by \cref{lem:link-isometry}(c), $w_p\sigma$ and $w_q\tau$ have the same link
+exactly when $\sigma=\tau$. Hence every contributing term is $uw_p\sigma u'^{-1}$ with $p\in\mathcal T^\varrho$, each occurring once, and the block is the sum over the heads of the orbit sums. A lift $k\in K$ of $s$ exists because the
+reduction is onto. The translate $h_c^{-1}\sigma h_{c'}$ is integral off $T$ because $h_c^{-1}\gamma_0h_{c'}$ is, and $h_c^{-1}u_0h_c$, $h_{c'}^{-1}u_0'h_{c'}$ and $w_{p_0}^{-1}$ are (the entries of $p_0$ and their inverses are units off $T$).
+\end{proof}
+
+\subsection{Kloosterman sums at a finite set of places}\label{ss:kloosterman}
+Let $T$ be a finite set of finite places of $E$, stable under conjugation, and $E_T=\prod_{w\in T}E_w$, read as one ring with involution, integers $\OO_T$ and a Haar measure. Its unitary group
+$G_T$ carries the congruence subgroup $K_T(M)$ of level $M$ in the group $K_T$ of integral points, the unipotent group $U_T$ and the character $\psi_{U}$. An element of the finite adelic
+group is \emph{integral off $T$} if it and its inverse have integral entries outside $T$. The \emph{finite Bessel function} $\chi_M$ is $\psi_U(u)$ on $uK_T(M)$, $u\in U_T$, and $0$ off $U_TK_T(M)$.
+For $x$, $s\in G_T$ the \emph{Kloosterman sum} is
+\[
+  \mathrm{Kl}(x,s)=\sum_{\substack{u,u'\in U_T/(U_T\cap K_T(M))\\ u^{-1}xu'\in sK_T(M)}}\chi_M(u)\overline{\chi_M(u')}.
+\]
+A \emph{filling datum at $T$} is a large lattice datum (\cref{ss:finite-data}) on $G_T$ whose modulus is the component of $M$ at $T$ and whose character is that of the data at $T$.
+\lean{New.Filling.toPlaces, New.Filling.IsIntegralOff, New.Filling.IsFillingData, New.Floors.IntegralPlace.extendedBesselChar, New.Floors.PlaceData.UnipotentCosets, New.Floors.PlaceData.kloostermanSum, New.Filling.exists_isIntegralOff_toPlaces_eq, New.Filling.exists_isFillingData, New.Filling.exists_places_integralOff, New.Filling.eventually_mem_integralOff, New.Filling.exists_integralPlace, New.Filling.charOnPlaces_apply_eq_ψf, New.Filling.charOnPlaces_add_star}
+\lean{New.Filling.ratToInf_weylElem, New.Filling.ratToInf_weylElem_mul, New.Filling.mem_unitaryLevel_iff, New.Filling.mem_latticeStabilizer_iff, New.Filling.exists_isAddHaarMeasure_skewAdjoint, New.Filling.exists_plancherel_kernel, New.Filling.forall_charOnPlaces_mul_eq_one_iff, New.Filling.locallyIntegrable_prod_one_add_sqrt, New.Filling.ofReal_genIndex_le_enorm_prod_sq, New.Filling.isMulLeftInvariant_haar_inv, New.Filling.star_neg_inv_deltaE}
+\lean{New.Filling.IsFillingData.levelUnit_eq, New.Filling.IsFillingData.psi_eq, New.Filling.IsFillingData.toIsLargeLatticeData}
+
+\begin{lemma}[The place $E_T$]\label{lem:place-T}
+Let $T$ be finite and stable under conjugation.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For finitely many nonzero elements of $E$ there is such a $T$ off which they are units and off which $M^{-1}$, $N^{-1}$ and the lattice basis with its inverse are integral; every finite adele is
+integral off all sufficiently large $T$.
+\item A finite adelic point is integral, respectively integral and congruent to $1$ modulo an idele $u$ with $u^{-1}$ integral off $T$, exactly when it is integral off $T$ and its component at $T$ is so.
+\item The integers $\OO_T$ are self-dual for the character $x\mapsto\psi_{\rm f}(-x/\varpi)$ read at $T$, which is trivial on traces; there is a Haar measure on the skew elements of mass $1$ on the integral ones,
+the unitary group $G_T$ is unimodular, and the generalised index of $x\in E_T$ is at most the square of $\prod_{w\in T}(1+(\norm{x_w}^{-1}-1)^{1/2})$.
+\item For $x$ with $x$, $x^{-1}$ integral off $T$, the square root of the modulus of its component at $T$ is $\prod_v\abs x_v^{-1}$ (the product formula); in particular the modulus of the component of $M$ is $(M^f)^{-2}$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.eventually_mem_integralOff, New.Filling.exists_places_integralOff, New.Filling.mem_unitaryLevel_iff, New.Filling.mem_latticeStabilizer_iff, New.Filling.exists_isAddHaarMeasure_skewAdjoint, New.Filling.forall_charOnPlaces_mul_eq_one_iff, New.Filling.charOnPlaces_add_star, New.Filling.isMulLeftInvariant_haar_inv, New.Filling.ofReal_genIndex_le_enorm_prod_sq, New.Floors.IntegralPlace.modulus_evalPlaces_rpow_half, New.Filling.IsFillingData.modulus_levelUnit}
+
+\begin{proof}
+(a) It suffices that $T$ contain the finitely many places where the given adeles are not integral, together with their conjugates. (b) Integrality is a condition at each finite place, and it splits into the
+condition at $T$ and the one off $T$; off $T$ the congruence modulo $u$ follows from integrality, as $u^{-1}$ is integral there. (c) Self-duality reduces by extension by zero to that of $\hat\OO_E$ for $\psi_{\rm f}(-\cdot/\varpi)$,
+$\varpi$ generating the different; the character is trivial on traces because $\varpi$ is skew and $\psi_{\rm f}$ takes the same value at conjugate adeles. With $\iota^2=-1$ and $\tau+\bar\tau=1$ integral at $T$, the map
+$(a,b)\mapsto\tau\iota a+b$ from pairs of skew elements onto $E_T$ takes the product of a Haar measure on the skew elements with itself to the Haar measure, and the integral skew elements to the integral elements.
+An orthonormal basis over $\hat\OO_E$ identifies the adelic group with that of the standard form, whose measure is bi-invariant; pushing it forward from the points integral off $T$, each point at $T$ having
+such a lift, shows that the inverse of a left Haar measure is left invariant. The bound for the index is checked place by place. (d) The inequality $[x]^{1/2}\le\prod_v\abs x_v$ for $x$ and for $x^{-1}$, integral off $T$,
+gives equality; apply it to $M$ squared.
+\end{proof}
+
+\begin{theorem}[Orbit sums are Kloosterman sums]\label{thm:kloosterman}
+Let the data be admissible and $T$ a finite set of finite places, stable under conjugation, off which $M^{-1}$, $N^{-1}$ and the lattice basis are integral.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The product $E_T$ is a finite place carrying a filling datum $F$ with $3\varrho+6$ further hyperbolic pairs and an orthonormal part of size $k-(6\varrho+13)$. Every point of $G_T$ is the
+component at $T$ of a finite adelic point integral off $T$.
+\item (Counting by measures.) Let $B$ be a subgroup of the finite adelic group and $\mu$ an s-finite measure on $G_T$, carried by the components at $T$ of the elements of $B$ integral off $T$
+and right invariant under them. Then the order of the image of $B\cap K$ modulo $M$ times $\mu(K_T(M))$ is $\mu(K_T)$.
+\item (Finite orbital integrals.) Let $Z$ be a group with $K_T(M)\le Z\le K_T$ and $W$ its \emph{Bessel vector}, with coordinates $W_a(y)=\chi_M(ya^{-1})$ at the cosets $a$ of $K_T(M)$ in $Z$. If
+$ab^{-1}\in sK_T(M)$, then $\int_{G_T}W_a(y)\overline{W_b(x^{-1}y)}\,dy=\vol(K_T(M))\,\mathrm{Kl}(x,s)$.
+\item (Orbit sums.) Let $\gamma=w_p\sigma$ with $\sigma\in G^{(\varrho)}(E)$, the inverses of the entries $p_a$ integral off $T$, and $h_c^{-1}\gamma h_{c'}$ integral off $T$. Let $x$ and $s$ be the components
+at $T$ of $h_c^{-1}\gamma h_{c'}$ and of an integral point $k$ with reduction $\bar k$. Then
+\[
+  \mathcal A^U(c,\bar k,c';\gamma)=\mathrm{Kl}(x,s)\cdot\int_{G_\infty}W(y)\otimes W(\gamma^{-1}y)^*\,dy,
+\]
+with $W$ the full or the cut Bessel function at the infinite places.
+\end{enumerate}
+\end{theorem}
+\lean{New.Filling.IsFillingData.card_reducedImage_mul_measure_congruenceSubgroup_eq, New.Floors.IntegralPlace.IsLargeLatticeData.besselOrbitalIntegral_besselVector_apply, New.Filling.IsFillingData.cosetAmplitude_eq_kloostermanSum_smul, New.Filling.IsFillingData.scaledOrbitalIntegral_smul_eq_cosetAmplitude, New.Filling.hasSum_besselOrbitalIntegral_cosetAmplitude, New.Filling.IsFillingData.mem_termsOver_iff, New.Filling.IsFillingData.exists_injective_mem_besselU_and_isIntegralOff, New.Filling.IsFillingData.extendedBesselChar_toPlaces_translateByClassReps, New.Filling.besselOrbitalIntegral_ratToInf_besselU_mul, New.Filling.IsFillingData.mem_principalLevel_iff, New.Filling.IsFillingData.reduction_eq_iff, New.Filling.IsFillingData.psi_simpleRootSum_eq_unipotentChar, New.Filling.IsFillingData.modulus_levelUnit, New.Filling.IsFillingData.unipotentOrder_mul_unipotentMass_eq_one, New.Floors.PlaceData.tsum_extendedBesselChar_mul_star_extendedBesselChar, New.Floors.PlaceData.inv_mul_mem_congruenceSubgroup_iff, New.Floors.PlaceData.unipotentCosets_eq_of_inv_mul_mem, New.Floors.PlaceData.exists_out_inv_mul_mem, New.Floors.IntegralPlace.extendedBesselChar_eq_of_inv_mul_mem, New.Filling.toPlaces_translateByClassReps_weylElem_mul, New.Filling.vectorOfLastEntry_evalPlaces}
+\lean{New.integral_comp_quotientMk, New.inv_mul_out_coe_mem, New.Floors.PlaceData.inv_mul_out_mem, New.Floors.PlaceData.mem_unitaryLevel_one_of_inv_mul_mul_inv_mem}
+
+\begin{proof}
+(a) \emph{The datum.} In the lattice basis the Gram matrix of $X_0\perp Ez$ is integral with an integral inverse, over every
+subring and so over $\OO_T$; hence the lattice of integral vectors at $T$ is unimodular. The Gram matrix of $X_0\perp Ez$ in the lattice basis splits at $T$ into $3\varrho+6$ further hyperbolic pairs and an orthonormal part of size $k-(6\varrho+13)$ (\cref{ss:finite-data}),
+the subtraction being exact because $k$ is large. The rank conditions of a large datum hold because $k$ is large compared with $\varrho$ and with the degree of $E$, and the zeta value of $\OO_T$ is at most the global one
+(\cref{ss:filling-data}); the character is that of \cref{lem:place-T}(c), and the modulus is the component of $M$. \emph{Lifting.} A point $y=1+z$ of $G_T$ has the lift $1+\phi(z)$, where $\phi$ extends each entry by zero;
+the unitarity condition $z^*Jz+z^*J+Jz=0$ is preserved by $\phi$, and the lift is integral off $T$. If $y$ lies in $U_T$ or in $H_T$, so does the lift.
+(b) Choose lifts $k_s\in B\cap K$ of the elements $s$ of the image of $B\cap K$ modulo $M$. Almost everywhere for $\mu$ the integral points at $T$ are the disjoint union of the cosets $K_T(M)k_s^{-1}$: a point of the support
+of $\mu$ is the component of an element of $B$ integral off $T$, and if it is integral at $T$ it is integral (\cref{lem:place-T}(b)), hence lies in $B\cap K$ and in exactly one coset; by right invariance all the cosets have
+measure $\mu(K_T(M))$.
+(c) Put $yb$ for $y$; the integrand is then constant on the cosets $yK_T(M)$, because $\chi_M$ takes the same value at the points of a coset $yK_T(M)$ (it is $\psi(\sigma(u)/M)$ at $uk$ with $\sigma$ the sum of the entries at the
+simple roots). For a left invariant measure and an open subgroup of finite volume, the integral of a function on the cosets is the volume of the subgroup times the sum over the cosets. In
+$\sum_{y}\chi_M(ys^{-1})\overline{\chi_M(x^{-1}y)}$ a term is zero unless $yK_T(M)=usK_T(M)=xu'K_T(M)$ with $u$, $u'\in U_T$; these are unique modulo $U_T\cap K_T(M)$ (an integral $s$ normalises $K_T(M)$), and the value is
+$\psi_U(u)\overline{\psi_U(u')}$. Hence $(u,u')\mapsto xu'K_T(M)$ is a bijection between the supports of the two sums that preserves the terms.
+(d) \emph{Unfolding.} The group $U_c(M)\times U_{c'}(M)$ acts freely on the terms in $U\gamma U$, and each orbit contains one element $(r_w)^{-1}\gamma r'_{w'}$ for lists $r$, $r'$ of rational points of $U$, one in each coset $uU_c(M)$, $u'U_{c'}(M)$
+for which $u^{-1}\gamma u'$ is a term; by \cref{prop:blocks}(b) the cutoffs may be replaced by the indicator of these representatives, so the orbit sum is the sum over the pairs of representatives giving a term of
+the orbital integrals $\int W(y)\otimes W(\delta^{-1}y)^*dy$. \emph{Rational and local pairs.} By (a) and strong approximation, the translates $h_c^{-1}uh_c$ of the rational points $u$ of $U$ integral off $T$ match the cosets
+$uU_c(M)$ with the cosets of $U_T\cap K_T(M)$ in $U_T$; in a term $u^{-1}\gamma u'$ over $(c,\bar k,c')$ the translates of $u$ and $u'$ are integral off $T$, and $(r_w)^{-1}\gamma r'_{w'}$ is a term over $(c,\bar k,c')$ exactly when
+$w^{-1}xw'\in sK_T(M)$, by (b) of \cref{lem:place-T}. \emph{Phases.} For rational $u$, $u'$ of $U$, $J(u^{-1}\gamma u')=\psi_U(u)\overline{\psi_U(u')}J(\gamma)$ at infinity, the archimedean character of $U$ being, by the product formula for
+$\psi$, the inverse of its finite part; and the finite Bessel function at the component at $T$ of the translate of $u$ is $\psi_U$ at the finite part of $u$, the character being trivial on the integral points off $T$ and
+invariant under conjugation by $h_c$. Each pair therefore contributes $J(\gamma)$ times the term $\chi_M(w)\overline{\chi_M(w')}$ of the Kloosterman sum.
+\end{proof}
+
+\begin{corollary}[Orbit sums and the finite orbital integral]\label{cor:orbit-entry}
+In the situation of \cref{thm:kloosterman}(d), let $K_T(M)\le Z\le K_T$, let $a$, $b$ be cosets of $K_T(M)$ in $Z$ with $k^{-1}ab^{-1}\in K_T(M)$, let $q$ and $l$ be the components at $T$ of $p$ and of $h_c^{-1}\sigma h_{c'}$, and let
+$\kappa=\prod_{a<\varrho}\mathrm{mod}(q_a)^{e_a}$ be the head density. Then the entry $(a,b)$ of the scaled orbital integral of the Bessel vector of $Z$ at $w_ql^{-1}$, times $J(\gamma)$, is $\kappa\vol(K_T(M))$ times the
+orbit sum $\mathcal A^U(c,\bar k,c';\gamma)$. Moreover the order of the reduction of $U(\hat\OO)$ modulo $M$ times the measure of $U_T\cap K_T(M)$ is $1$.
+\end{corollary}
+\lean{New.Filling.IsFillingData.unipotentOrder_mul_unipotentMass_eq_one, New.Filling.IsFillingData.scaledOrbitalIntegral_smul_eq_cosetAmplitude}
+
+\begin{proof}
+Both the entry at $T$ and the orbit sum contain the Kloosterman sum (\cref{thm:kloosterman}(c), (d)). For the last statement, by \cref{lem:place-T}(d) the floor $l<\varrho$ of $U_T\cap K_T(M)$ has volume $(M^f)^{-(2d_l+1)}$ with
+$d_l=k+1+2(\varrho-l-1)$, and $\sum_{l<\varrho}(2d_l+1)=\varrho(2k+2\varrho+1)$, while the reduction of $U(\hat\OO)$ has $M^{f\varrho(2k+2\varrho+1)}$ elements (\cref{lem:reduced-groups}).
+\end{proof}
+
+\subsection{Siegel's formula as an upper bound}\label{ss:siegel-top}
+For a hermitian matrix $\beta$ of size $k$ over $E$ and a function $f$ on the finite adelic vectors of rank $k$, the \emph{density} is $\delta(f,\beta)=\int_z\int_xf(x)\psi_{\rm f}(z(x^*x-\beta)/2)\,dx\,dz$, the
+integral over the self-adjoint $z$. The \emph{Siegel constant} is
+\[
+  C_{\rm Sie}=\Bigl(\frac{\pi^k}{(k-1)!\,N^k}\Bigr)^f\abs{D_E}^{1/4}\vol(\hat\OO_E)^k,
+\]
+and the \emph{scaled Siegel constant} $C^\sharp_{\rm Sie}$ is $C_{\rm Sie}$ times the number of classes and the normalising factor of the local measures at $T$ (\cref{thm:siegel-top}(b)).
+\lean{New.Filling.adelicFrequency, New.Filling.localFrequency, New.Filling.adelicFrequency_add, New.Filling.localFrequency_adelicFrequency_add, New.Filling.sub_adelicFrequency_mul_adeleOfLocal, New.Filling.ψf_adelicFrequency_mul, New.Filling.ψf_quadric_eq_mul, New.Filling.siegelConst, New.Filling.scaledSiegelConst, New.Filling.piNAt, New.Filling.piNAt_mul_star, New.Filling.x₀Part_mem_integralOff, New.Filling.orbitPoint_toPlaces_translateByClassReps}
+\lean{New.Filling.continuous_adelicFrequency, New.Filling.continuous_localFrequency}
+
+\begin{theorem}[Siegel's formula at a finite set of places]\label{thm:siegel-top}
+Let the data be admissible, $T$ as in \cref{thm:kloosterman} and $F$ a filling datum at $T$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Densities.) Let $f$ be $\Psi\ge0$ at $T$ times the indicator of the vectors integral off $T$, with $\Psi$ continuous of compact support. Then $\delta(f,\beta)$ is the product of an integral
+of Gauss sums of the standard lattice over the $z$ whose part $-\varpi z$ at $T$ is integral, and of the density of $\Psi$ at $T$; and
+\[
+  \abs{\delta(f,\beta)}\le(1+b^{-6})\vol(\hat\OO_E)^k\int_{y^*y=\beta}\Psi(y)\,d\mu_\beta(y),
+\]
+the integral over the sphere at $T$ for its fibre measure.
+\item There is $D>0$ with $C^\sharp_{\rm Sie}=D\cdot\#\{\text{classes}\}\cdot C_{\rm Sie}$ and, for every $Z$ with $K_T(M)\le Z\le K_T$, $\mathrm{mr}(Z)\le\mu_H(K_T(M))\,\mu(K_T(M))^2\,[Z:K_T(M)]\,D$, where
+$\mathrm{mr}(Z)=\mu(Z)\mu(K_T(M))/\mathrm{fl}^2$ is the \emph{normalised mass} and $\mathrm{fl}$ the mass of $U_T\cap K_T(M)$.
+\item (Siegel's formula as an upper bound.) Let $\Psi\ge0$ have compact support at $T$ and be invariant under small translations and under the elements of $K_T(M)$ that fix all basis vectors
+outside $X_0$. Let $\abs t_v>N$ at every infinite place. For pairs $(c,v)$ of a class and a rational vector $v$ of $X_0$ with $N(v^*v)=t\bar t-N^2$ and $x=h_c^{-1}v$ integral off $T$,
+\begin{multline*}
+  \sum_{(c,v)}\Psi\bigl(x-N^{-1}tz\bigr)\le(1+b^{-6})\,\#\{\text{classes}\}\,C_{\rm Sie}\prod_v(\abs t_v^2-N^2)^{k-1}\\
+  \times\abs{\pi_N}_T^{-1}\int_{y^*y=(t\bar t-N^2)/N}\Psi(y-N^{-1}tz)\,d\mu(y).
+\end{multline*}
+\end{enumerate}
+\end{theorem}
+\lean{New.Filling.normDensity_indicator_eq_mul, New.Filling.IsFillingData.enorm_normDensity_le_mul_lintegral_normFiberMeasure, New.Filling.IsFillingData.exists_scaledSiegelConst_eq_and_massRatio_le, New.Filling.siegel_constant_eq, New.Filling.IsFillingData.siegel_sum_le_lintegral_sphere, New.Filling.hasCompactSupport_testFunction, New.Filling.IsFillingData.testFunction_mulVec, New.Filling.skewUnit_inv_mul_lastEntrySphereIndex_piNAt, New.Filling.IsFillingData.classes_eq_and_eq_of_inv_mul_mem_congruenceSubgroup}
+
+\begin{proof}
+(a) \emph{Splitting the frequency.} A skew frequency $b$ at $T$ becomes a self-adjoint finite adele $\tilde b$ by extension by zero and multiplication by $-\varpi^{-1}$, and the map $z\mapsto-\varpi z$ at $T$ is a left
+inverse of $b\mapsto\tilde b$, compatibly with translations; the difference $z-\tilde b$ for $b$ the part of $-\varpi z$ at $T$ vanishes at $T$. With $\tau+\bar\tau=1$ at $T$, $\psi_{\rm f}(\tilde by/2)=\psi(\tau by_T)$ for the character
+$\psi$ of the place $E_T$. \emph{Splitting the vector.} Write $x=y+w$ with $y$ the extension by zero of a vector at $T$ and $w$ an adelic vector integral at $T$. The phase $\psi_{\rm f}(\zeta(x^*x-\beta)/2)$, for
+$\zeta=\tilde b+z'$ with $-\varpi z'$ integral at $T$, is the product of a phase off $T$ (in $w$ and $z'$) and a phase at $T$ (in $y$ and $b$): the values of the form at $x$ and $w$ differ only at $T$, and the cross term is
+integral at $T$, so its phase is $1$. Integrating, $\delta(f,\beta)$ is the product of the integral over $z'$ of the Gauss sums of the standard lattice and of the density of $\Psi$ at $T$. \emph{The bound.} The
+Gauss sums of the standard lattice, integrated over the self-adjoint $z'$ with $-\varpi z'$ integral at $T$, are bounded by $\vol(\hat\OO_E)^k$ times the ideal zeta sum of $\hat\OO_E$ at $\mu=3\varrho+4$, since
+$2(\mu+1)\le k$; this zeta sum is at most $1+2^{-\varrho}\le1+b^{-6}$, by the Euler product bound of the proof of \cref{lem:sublattice-zeta}(c), now at $\varrho+2\varrho+4$
+with $[E\,{:}\,\Q]\le2^{2\varrho}$. At $T$ Fourier inversion in the skew frequency turns the density of $\Psi$ into the
+integral over the sphere $y^*y=\beta$ for its fibre measure.
+
+(b) In $\mathrm{mr}(Z)=\mu(Z)\mu(K_T(M))/\mathrm{fl}^2$ cover $Z$ by its $[Z:K_T(M)]$ cosets of $K_T(M)$, so $\mu(Z)\le[Z:K_T(M)]\mu(K_T(M))$, and use $o\cdot\mathrm{fl}=1$ for the order $o$ of the reduction of the unipotent group
+(\cref{cor:orbit-entry}). Take $D=\#\bar R_0\,o=\#\bar H\,o^2$; the first identity is the definition of $C^\sharp_{\rm Sie}$. For the measure $\mu_H$ of $H$, the integral points have mass $1$, and by \cref{thm:kloosterman}(b) the
+group $K_T(M)\cap H$ has index $\#\bar H$ in them, so $\#\bar H\,\mu_H(K_T(M))=1$; hence $\mathrm{fl}^{-2}=o^2=D\,\mu_H(K_T(M))$.
+
+(c) \emph{The test function.} Let $f$ be the function on adelic vectors of $X_0$ that is $\Psi(x-N^{-1}tz)$ at $T$, in the lattice basis, times the indicator of the vectors integral off $T$. It has compact support (a vector
+in the support is an integral vector plus the extension by zero of its part at $T$, read off the support of $\Psi$), and it is invariant under the level of the finite adelic unitary group of $X_0$, because at $T$ an
+element of the level acts on the vectors with last entry $t$ as an element of $H\cap K_T(M)$. \emph{Siegel--Weil.} By the Siegel--Weil formula for the definite space $X_0$ (\cref{thm:B-siegel-formula}), the class sum of $f$ at
+$\beta=(t\bar t-N^2)/N$ is the mass times the archimedean density $\prod_v\pi^k\beta_v^{k-1}/(k-1)!$ times $\delta(f,\beta)$. At the free level the stabilisers are trivial, so the weighted count of the class sum is the plain
+count of the pairs $(c,v)$; each pair of the sum has norm $\beta$ and is integral off $T$, so it is a term of the class sum. The bound of (a), the evaluation of the class sum of $1$ (the number of classes), the product
+formula for $N=\pi_N\bar\pi_N$, which gives the modulus of $\pi_N$ at $T$ as a power of $N^{-1}$, and the expansion of $C_{\rm Sie}$ and $\beta_v=(\abs t_v^2-N^2)/N$ give the claim.
+\end{proof}
+
+The \emph{fibre pairing} of two heads $\omega$, $\omega'$ at $T$ is the integral over $H\cap G^{(\varrho)}$, the fixer of all basis vectors outside $X_0$, of the product of the scaled orbital integrals of the
+Bessel vector of $Z$ at $w_\omega l^{-1}$ and $w_{\omega'}l^{-1}$; it is a function of $e=l^{-1}z$, and its integral over the vectors $e$ with $h(z,e)=t$ is the \emph{density at the last entry}
+$J_{\rm last}(\omega,\omega';t)$ (\cref{ss:top-floor}).
+\lean{New.Floors.PlaceData.fiberPairing, New.Floors.PlaceData.lastEntryDensity, New.Floors.PlaceData.scaledOrbitalIntegral, New.Floors.PlaceData.headDensity}
+
+\begin{lemma}[Classes over one point]\label{lem:classes-point}
+Let $F$ be a filling datum at $T$ and $K_T(M)\le Z\le K_T$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Let $\gamma_1$, $\gamma_2$ be rational in the floor group with the same product $h(z,\gamma z)$ and the same part in $X_0$ of $\gamma z$, and let their left classes agree. If their translates by the class representatives
+are integral off $T$ and lie in one coset of $K_T(M)$ at $T$, then $\gamma_1=\gamma_2$ and the right classes agree.
+\item Let the heads $a_p$ have entries below $\varrho$ that are units off $T$, let $R$ be the Gram matrix of the tensors $\rho_p\int W(y)\otimes W((w_p\gamma)^{-1}y)^*dy$, and let $\rho_p$ times the head density be the same number $w$ for all
+$p$. For integral $n_i$ in $Z$ at $T$ with distinct reductions $s_i$, the squared norms of $\sum_p\mathcal A^U(c,s_i,c';w_p\gamma)$, times $w^2$, $[Z:K_T(M)]$ and $\mu(K_T(M))^2$, add up to at most the sum against $R$ of the
+pairings of the scaled orbital integrals at $T$ of two heads, at $g^{-1}$ for $g$ the component of $h_c^{-1}\gamma h_{c'}$.
+\item If moreover $R$ is positive semidefinite, the classes $(c'_i,\bar n_i,\gamma_i)$ are distinct, the translates send $z$ to one point $e$ at $T$, and the left class, $h(z,\gamma_iz)$ and the part in $X_0$ of $\gamma_iz$
+are the same for all $i$, then the squared norms of the class sums, times $w^2\mu_H(K_T(M))\mu(K_T(M))^2[Z:K_T(M)]$, add up to at most the real part of $\sum_{p,q}R_{pq}\,\mathrm{fp}(\omega_p,\omega_q;e)$.
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.IsFillingData.classes_eq_and_eq_of_inv_mul_mem_congruenceSubgroup, New.Filling.IsFillingData.sum_sq_norm_sum_cosetAmplitude_le_headSumNormSq, New.Filling.IsFillingData.mul_sum_norm_sum_cosetAmplitude_sq_le_fiberPairing, New.Filling.orbitPoint_toPlaces_translateByClassReps, New.Filling.IsFillingData.exists_step_sum_fiberPairing}
+
+\begin{proof}
+(a) $\gamma_1^{-1}$ and $\gamma_2^{-1}$ give the same point $\gamma^{-1}z$, so $\gamma_1^{-1}\gamma_2$ fixes $z$ as well as the hyperbolic planes, hence lies in the floor group of level $\varrho+1$; its translate lies in the principal level,
+which forces the right classes to agree and makes it unipotent with trivial part in the definite unitary group, hence trivial. (b) By \cref{cor:orbit-entry}, the entry $(b,A_ib)$ of the sum over the heads of the scaled
+orbital integrals at $T$, with $A_ib$ the coset of $n_i^{-1}b$, is $w\mu(K_T(M))$ times the class sum at the reduction $s_i$; these entries are distinct as the $s_i$ are, and the sum against $R$ of the pairings of two heads is
+the squared norm of the vector of all entries. (c) Group the classes by the pair of the right class and the rational element, and bound each group by (b); by (a) different pairs have positions in different cosets
+of $K_T(M)$. Integrating over $H\cap G^{(\varrho)}$ and dividing by its measure of $K_T(M)$ turns the sum over the cosets into the fibre pairing at $e$.
+\end{proof}
+
+\begin{theorem}[Siegel's step]\label{thm:siegel-step}
+Let the data be admissible, $T$ and $F$ as in \cref{thm:siegel-top}, and $Z$ a group with $K_T(M)\le Z\le K_T$. Let heads $a_p$, $p\in J$, have entries below $\varrho$ that are units off $T$
+and last entry $t$ with $\abs t_v>N$ at every infinite place. Let $(c_i,\bar n_i,c'_i,\gamma_i)$, $i\in j$, be distinct, with $\gamma_i\in G^{(\varrho)}(E)$, $h(z,\gamma_iz)=t$, $h_{c_i}^{-1}\gamma_ih_{c'_i}$ integral off $T$ and
+$n_i\in Z$ at $T$. Let $R$ be, for every $i$, the Gram matrix of the tensors $\rho_p\int W(y)\otimes W((w_p\gamma_i)^{-1}y)^*dy$, and let $\rho_p$ times the head density at $T$ be $r\sqrt G$ with
+$G=\prod_v(\abs t_v^2-N^2)^{k-1}$. Then
+\[
+  r^2\sum_i\Bigl\|\sum_p\mathcal A^U(c_i,\bar n_i,c'_i;w_p\gamma_i)\Bigr\|^2\le(1+b^{-6})\,C^\sharp_{\rm Sie}\,\re\sum_{p,q}R_{pq}\,\frac{J_{\rm last}(a_p,a_q;t)}{\mathrm{mr}(Z)}.
+\]
+\end{theorem}
+\lean{New.Filling.IsFillingData.sum_mul_norm_sum_cosetAmplitude_sq_le_lastEntryDensity, New.Filling.IsFillingData.mul_sum_norm_sum_cosetAmplitude_sq_le_fiberPairing, New.Filling.IsFillingData.sum_sq_norm_sum_cosetAmplitude_le_headSumNormSq, New.Filling.IsFillingData.exists_step_sum_fiberPairing}
+
+\begin{proof}
+Group the classes by the point $g_i$ of Siegel's sum, the left class and the part in $X_0$ of $\gamma_iz$. The translate of a term by the class representatives moves $z$ to the vector $x_i-N^{-1}tz$ with last entry $t$ over $g_i$
+(\cref{lem:weyl-norm}(b)), which has norm $(t\bar t-N^2)/N$ and is integral off $T$. \emph{One point.} By \cref{prop:top-floor}(c) the positive part of the real part of $\sum_{p,q}R_{pq}\mathrm{fp}(\omega_p,\omega_q;\cdot)$ agrees on the top
+quadric with a function $\Psi\ge0$ of compact support, invariant under small translations and under $H\cap K_T(M)$; by \cref{lem:classes-point}(c) its value at the point over $g_i$ bounds the classes there, times
+$w^2\mu_H(K_T(M))\mu(K_T(M))^2[Z:K_T(M)]$ with $w=r\sqrt G$. \emph{Summing the points.} Siegel's formula (\cref{thm:siegel-top}(c)) bounds the sum of $\Psi$ over the points by $(1+b^{-6})n_XC_{\rm Sie}G\abs{\pi_N}_T^{-1}$ times the
+integral of $\Psi$ over the sphere of $t$; almost every point of the sphere lies on the top quadric, where $\Psi$ is the real part of the sum of the fibre pairings, and by \cref{prop:top-floor}(a) the normalised integral over the
+sphere is $\re\sum_{p,q}R_{pq}J_{\rm last}(a_p,a_q;t)$. \emph{Constants.} Dividing by $w^2\mu_H(K_T(M))\mu(K_T(M))^2[Z:K_T(M)]\ge w^2\mathrm{mr}(Z)/D$ (\cref{thm:siegel-top}(b)) and using $C^\sharp_{\rm Sie}=Dn_XC_{\rm Sie}$, the factor $G$ cancels against
+$w^2=r^2G$.
+\end{proof}
+
+\subsection{Sieve systems}\label{ss:sieve-systems}
+Let $C$ be a ring with a measure (a place, or a product of places), $u\colon C\to U$ a map to entries, $\psi$ a character of $C$ with $\psi(0)=1$, and $n\ge0$. A \emph{head} is a sequence of
+entries. A \emph{sieve system} of length $n$ consists of forms $J_i(p,q)$, $0\le i\le n+1$, on pairs of heads, weights $\Lambda_i(p)\ge0$, a decay $\beta(\xi)\ge0$ for units $\xi$ and a mass bound $B_0$, such that:
+\begin{enumerate}[label=\textup{(S\arabic*)}]
+\item for $i\le n$, after giving both heads the entry $u(c)$ at position $i$, $c\mapsto\psi(\xi c)J_{i+1}$ is integrable; for $\xi=0$ its integral is $J_i(p,q)$, and for a unit $\xi$ its modulus is at
+most $\beta(\xi)\Lambda_i(p)\Lambda_i(q)$;
+\item for $i<n$, if the heads have entries $u(c)$, $u(c')$ at position $i$ and $\xi=\iota(c)-\iota(c')$ is a unit, then $\abs{J_{i+1}(p,q)}\le\beta(\xi)\Lambda_{i+1}(p)\Lambda_{i+1}(q)$;
+\item the top form $J_{n+1}$ is continuous, and positive semidefinite on heads with a common entry at position $n$;
+\item $\abs{J_0}\le B_0$.
+\end{enumerate}
+At a real place, $\beta(\xi)=\Theta\,b^{2000n^9}\ell_{k-n^7}(1/\abs\xi)$ with $\ell_j(r)=r^j\min(1,r)^6$, $\Theta$ the scaled volume ratio of the shape, and the weights are $\max(1,\abs\delta^{-1})^{n^6}$ over the
+products $\delta=p_0\cdots p_l$, $l<j$, if these have modulus at most $b^{60n^2}$, and $0$ otherwise.
+\lean{New.SieveSystem, New.dampedPower, New.headWeight, New.headWeight_nonneg, New.headAt, New.HasLocalBounds, New.Shape.scaledVolumeRatio}
+\lean{New.SieveSystem.continuous, New.SieveSystem.integrable_and_integral_update, New.SieveSystem.norm_bot_le, New.SieveSystem.norm_le_of_isUnit_sub, New.SieveSystem.posSemidef, New.SieveSystem.psi_zero}
+
+\begin{proposition}[Products, positivity, semicontinuity]\label{prop:sieve-products}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item Finitely many sieve systems on $\C$, indexed by a finite set $\tau$, and one sieve system on $C$ have a product, which is a sieve system on $\C^\tau\times C$. Its forms, characters,
+weights and bounds are the products of those of the factors, each factor read on the components of the heads.
+\item Sum the forms $J_{i+1}$ over all pairs of heads from one finite family, with a common entry at position $i\le n$. The sum is integrable in the common entry, its integral is the sum of the
+$J_i$, and its twisted integrals are bounded by $\beta(\xi)$ and the squared sums of the weights.
+\item Such a sum of top forms against a positive semidefinite matrix is nonnegative, and its real part is lower semicontinuous in a parameter at each point at which the heads are continuous.
+\end{enumerate}
+\end{proposition}
+\lean{New.SieveSystem.pi, New.norm_prod_mul_le_prod_mul, New.posSemidef_prod_mul, New.SieveSystem.integrable_mul_update, New.SieveSystem.integrable_update, New.SieveSystem.integral_update, New.SieveSystem.norm_integral_mul_update_le, New.SieveSystem.integrable_sum_update, New.SieveSystem.integral_sum_update, New.SieveSystem.norm_integral_mul_sum_update_le, New.SieveSystem.integrable_and_integral_sum_update, New.SieveSystem.sum_nonneg, New.SieveSystem.lowerSemicontinuousAt_sum, New.SieveSystem.sum_nonneg_and_lowerSemicontinuousAt}
+
+\begin{proof}
+(a) Everything is checked factor by factor. (S1): for heads in the product, the integrand over a common entry $c=(c_v,c_C)$ is the product of the integrands of the factors, each integrable, and Fubini on the product measure
+factors the integral, at $\xi=0$ into the product of the $J_i$ and at a unit $\xi$ into a product bounded by $\prod_v\beta_v(\xi_v)\Lambda_{i,v}\Lambda_{i,v}\cdot\beta_C(\xi_C)\Lambda_{i,C}\Lambda_{i,C}$, since $\abs{\prod_va_v\cdot a}\le\prod_v\abs{a_v}\abs a$. (S3): the
+entrywise (Hadamard) product of positive semidefinite kernels is positive semidefinite (Schur's product theorem), and a product of continuous functions is continuous. (S2) and (S4) are products of the local bounds.
+(b) Integrability and the integral follow from (S1) by linearity of the finite sum; for the twisted integral, $\abs{\sum_{p,q}\int\psi(\xi c)J_{i+1}}\le\beta(\xi)\sum_{p,q}\Lambda_i(p)\Lambda_i(q)=\beta(\xi)(\sum_p\Lambda_i(p))^2$.
+(c) \emph{Positivity}, by descent on $i$: at $i=n$ the sum is the value of a positive semidefinite form at $(1,\dots,1)$, by (S3); below, by (S1) it is the integral over a common next entry of the sums for $i+1$, which are
+nonnegative. \emph{Semicontinuity}, again by descent: at $i=n$ the sum is continuous in the parameter wherever the heads are, by (S3); below, it is the integral over a common next entry of nonnegative functions that are
+lower semicontinuous in the parameter, and Fatou's lemma gives lower semicontinuity of the integral.
+\end{proof}
+
+\begin{proposition}[Finite sieve system]\label{prop:finite-sieve}
+Let the data be admissible, $F$ a filling datum at $T$ with $M^{-1}$ integral off $T$, $S_g$ a set of chosen places above $p_0$ and $d_w$ nonzero vectors as in the definition of the fixer. There is a
+group $Z$ with $K_T(M)\le Z\le K_T$ such that:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $Z$ contains the component at $T$ of every integral element whose reduction lies in $\mathrm{fixer}(S_g,d)$;
+\item the floor forms $J_j=\mathcal I_j/\mathrm{mr}(Z)$ of the Bessel vector of $Z$ for $j\le\varrho$ (\cref{ss:floor-forms}), followed by $J_{\varrho+1}=J_{\rm last}/\mathrm{mr}(Z)$ at the prime above $N$,
+form a sieve system at $T$ for the character of the data, the decay $\xi\mapsto[\OO_T:\xi\OO_T]^{(k-n^7)/2}[\OO_T:\OO_T\cap\xi^{-1}\OO_T]^{-3}b^{n^9f}$, the weights with exponent $n^6$, and
+$\abs{J_0}\le(1+b^{-6})b^{-6k\#S_g}$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Filling.IsFillingData.exists_intermediateGroup_sieveSystem, New.Filling.IsFillingData.exists_intermediateGroup_norm_floorForm_div_le, New.Filling.IsFillingData.massIntegral_full_le, New.Filling.norm_div_massRatio_le, New.Filling.IsFillingData.norm_floorForm_div_massRatio_le, New.Filling.IsFillingData.enorm_floorForm_zero_mul_le, New.Filling.IsFillingData.norm_floorForm_zero_div_massRatio_le, New.Filling.IsFillingData.posSemidef_lastEntryDensity, New.Filling.two_mul_M_pow_sq_pow_le, New.Filling.frequencyDecay, New.finHeadWeight}
+
+\begin{proof}
+Take $Z$ from \cref{prop:fixed-lines}, so that (a) holds and $\kappa(Z)\vol(K_T)b^{6k\#S_g}\le\kappa(K_T)\vol(Z)$ for the mass integral $\kappa(Z)=\int\abs{\int_Z\chi_M(yxy^{-1})dy}^2dx$. \emph{Descent.} For $j<\varrho$ floor $j$ is
+the integral of floor $j+1$ over a common entry (\cref{thm:floor-descent}(b)), and at the top the integral of $J_{\rm last}$ over a common last entry is $\mathcal I_\varrho$ (\cref{prop:top-floor}(d)); the same integrals twisted by
+$\psi(\xi c)$ are the floor forms with the weight $\psi(\xi Z_{jj})$. \emph{Decay.} By \cref{thm:finite-decay}, with $t=k-n^7$ and $K'=n^6$, both the twisted integrals and the forms at heads with entries whose frequency
+$\xi=M^{-1}(p_i^{-1}-q_i^{-1})$ is a unit are at most $\mathrm{mr}(Z)$ times $[\OO_T:\xi\OO_T]^{(k-n^7)/2}[\OO_T:\OO_T\cap\xi^{-1}\OO_T]^{-6}(2/\abs M_T)^{n^6}$ times the finite head weights; the modulus of the level is $(M^f)^{-2}$
+(\cref{lem:place-T}(d)), and $(2(M^f)^2)^{n^6}\le b^{n^9f}$ because $M\le b^{23}$; the decay keeps only the third power of the index of the denominator. \emph{Top.} $J_{\rm last}$ is continuous, and positive semidefinite on heads with a
+common last entry, by \cref{prop:top-floor}(d). \emph{Mass.} $\mathcal I_0$ of the Bessel vector of $Z$, times $\mathrm{fl}^2$, is at most $\kappa(Z)$, both being integrals of $\abs{k_0}^2$ up to the factor $\mathrm{fl}^2$
+(\cref{thm:floor-descent}(c)). The mass integral of the full group is at most $\vol(K_T)\vol(K_T(M))(1+b^{-6})$ by \cref{thm:finite-mass} with $Z=K_T$, $Q=2$ and $t=n$, since $\vol(K_T)\le1+2^{-n}$ and $2^{-n}+2^{-n}=2^{-\varrho}\le b^{-6}$.
+Hence
+\[
+  \abs{J_0}\le\frac{\kappa(Z)}{\vol(Z)\vol(K_T(M))}\le\frac{\kappa(K_T)}{\vol(K_T)\vol(K_T(M))\,b^{6k\#S_g}}\le(1+b^{-6})\,b^{-6k\#S_g}.
+\]
+\end{proof}
+
+\subsection{Poisson summation and the sieve}\label{ss:sieve}
+For $\nu\in E$ write $[\nu]_v=\max(1,\abs\nu_v)^2$ at an infinite place and $[\nu]_{\rm f}$ for the norm of the denominator ideal of $\nu$. The \emph{constant of Poisson summation} in the entry $a$ is
+$c_a=\vol(\hat\OO_E)/\prod_v\kappa_{v,a}^2$, with the squared frame scales $\kappa_{v,a}=\abs{\kappa_v}^{2(\varrho-a)}/N$ ($\kappa_v$ as in \cref{ss:filling-data}) at the infinite places.
+\lean{New.denominator, New.mem_denominator, New.sum_absNorm_inv_sq_le, New.squareCorner, New.squareIndex, New.Filling.poissonConst, New.Filling.poissonConst_nonneg, New.Filling.frameScaleSq, New.Filling.ratPoint, New.Filling.charOnPlaces, New.Filling.globalChar, New.Filling.GlobalHead, New.Filling.unitOrOneAtPlaces, New.Filling.IsGlobalSieveSystem, New.Filling.BoundsDecay, New.Filling.scaledEntry, New.Filling.scaledHead, New.Filling.entryDensity, New.Filling.densitySum, New.Filling.decayConst, New.Filling.headProduct, New.Filling.globalWeight}
+
+\begin{proposition}[Frequencies and one-sided Poisson summation]\label{prop:poisson}
+Let $E$ be totally complex with $f$ infinite places.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For every finite $X\subset E$, $\sum_{\nu\in X}\prod_v[\nu]_v^{-3}[\nu]_{\rm f}^{-3}\le(64\cdot38\,e^4)^f$.
+\item For a finite set $X$ of nonzero $T$-integers and $\norm{c_v}^{-1}\le\abs{x_v}\le B$, $B\ge1$, the sum over $y\in X$ of the product of the decay factors at the infinite places and at $T$ is at most
+$\prod_v\bigl(\abs{x_v}^k(bB^2)^3\bigr)$.
+\item (One-sided Poisson summation.) Let $V$ be a set of $T$-integers, read at the infinite places scaled by $r_v>0$, and let $F\ge0$ be integrable and lower semicontinuous at these points, with Fourier transform at
+each unit $\xi$ of modulus at most $\beta(\xi)M_0$. If $\varepsilon$ bounds the finite sums of $\beta$ over the nonzero $T$-integers, scaled by $2\pi i/(\varpi_vr_v)$, then
+$\sum_{x\in V}F(x)\le\vol(\hat\OO_E)\prod_vr_v^{-2}\,(\varepsilon M_0+\int F)$.
+\end{enumerate}
+\end{proposition}
+\lean{New.sum_height_inv_cube_le, New.Filling.sum_frequencies_le, New.Filling.frequency_term_le, New.Filling.sum_ratPoint_le_mul_add_integral_of_fourier_le, New.Filling.absNorm_denominator_le, New.Filling.measurePreserving_scale_evalPlaces, New.Filling.mem_ratIntegralOff_of_transform_ne_zero, New.Filling.extendToAdeles, New.Filling.integrable_extendToAdeles, New.Filling.lowerSemicontinuousAt_extendToAdeles, New.Filling.integral_stdAddChar_mul_extendToAdeles, New.exists_coset_label, New.sum_coset_weight_le, New.sum_weight_filter_denominator_eq_le}
+\lean{New.denominator, New.mem_denominator, New.denominator_ne_bot, New.exists_mem_algebraMap_eq_mul, New.sum_absNorm_inv_sq_le, New.squareCorner, New.squareIndex, New.norm_lt_one_of_abs_lt, New.norm_sub_lt_one_of_squareIndex_eq, New.squareIndex_squareCorner, New.weight_le_weight_corner, New.pairwise_half_le_norm_squareCorner_sub, New.sum_weight_corner_le}
+
+\begin{proof}
+(a) \emph{Squares.} Cover $\C$ by the half-open squares of side $\frac12$ with corners $m/2$, $m\in\Z[i]$; two points of one square are at distance less than $1$, distinct corners at distance at least $\frac12$, and the weight
+$\max(1,\abs w)^{-6}$ of a point is at most $64$ times that of the lower left corner of its square. The corners are $\frac12$-separated, so by packing their weights add up to at most $38$. \emph{Cosets.} If two elements of $X$
+differ by an algebraic integer, a product over the places of squares of side $\frac12$ holds at most one of them, since the product of the absolute values of a nonzero algebraic integer is at least $1$; so the
+archimedean weights $\prod_v\max(1,\abs\nu_v)^{-6}$ of such a set add up to at most $(64\cdot38)^f$. \emph{Denominators.} The numbers with a given denominator $\mathfrak b$ lie in $\mathrm N\mathfrak b$ cosets of $\OO_E$: with
+$(a)=\mathfrak b\mathfrak c$, multiplication by $a$ maps them into $\mathfrak c$ and $\OO_E$ onto $(a)$, and $\mathfrak c/(a)$ has $\mathrm N\mathfrak b$ elements. Hence the sum is at most $(64\cdot38)^f\sum_{\mathfrak b}\mathrm N\mathfrak b\cdot\mathrm N\mathfrak b^{-3}$, and
+$\sum_{\mathfrak b}\mathrm N\mathfrak b^{-2}\le\zeta_E(2)\le e^{2[E\,{:}\,\Q]}=e^{4f}$, by the Euler product with all coefficients $1$.
+(b) Let $y\ne0$ be integral off $T$ and $r_v=\abs{c_vy}_v^{-1}$. The decay factor at $v$ is $r_v^k\min(1,r_v)^6$, and that at $T$ is $[\OO_T:y\OO_T]^{k/2}[\OO_T:\OO_T\cap y^{-1}\OO_T]^{-3}$. By the product formula, as $y$ is integral off $T$,
+$[\OO_T:y\OO_T]\le\prod_v\abs y_v^2$, so $\prod_vr_v^k\,[\OO_T:y\OO_T]^{k/2}\le\prod_v\abs{c_v}^{-k}\le\prod_v\abs{x_v}^k$; and $\min(1,r_v)\le B\max(1,\abs y_v)^{-1}$, while the norm of the denominator of $y$ is at most
+$[\OO_T:\OO_T\cap y^{-1}\OO_T]$. Hence the product of the decay factors is at most $\prod_v(\abs{x_v}^kB^6)$ times $\prod_v[y]_v^{-3}[y]_{\rm f}^{-3}$, and (a) with $64\cdot38\,e^4\le b^3$ gives the bound.
+(c) Extend $F$ to the adeles: $G$ reads $F$ after scaling by $r$ at the infinite places and projecting to $T$ on the adeles integral off $T$, and is $0$ elsewhere. It is integrable, lower semicontinuous at the diagonal images
+of the points of $V$, and invariant under the integral finite adeles that vanish at $T$. Scaling by $r$ at infinity and projecting to $T$ takes the measure on the adeles integral off $T$ to $\vol(\hat\OO_E)/\prod_vr_v^2$
+times the product measure, the scaling having determinant $\prod_vr_v^2$. By Poisson summation for the lattice $E$ in $\Ad_E$, in its one-sided form for nonnegative lower semicontinuous integrable functions (approximate
+$G$ from below by continuous functions of compact support), $\sum_{x\in E}G(x)\le\sum_{y\in E}\abs{\hat G(y/\varpi)}$, the dual lattice of $E$ being $\varpi^{-1}E$ for the standard character. By the invariance, $\hat G(y/\varpi)=0$ unless $y$ is a
+$T$-integer (translation multiplies the transform by a value of the character, these values must be $1$, and $\hat\OO_E$ is its own dual); for a $T$-integer, $\abs{\hat G(y/\varpi)}=\vol(\hat\OO_E)\prod_vr_v^{-2}$ times the modulus of the
+transform of $F$ at the point given by $y$ and the scales $2\pi i/(\varpi_vr_v)$. The term at $y=0$ is $\vol(\hat\OO_E)\prod_vr_v^{-2}\int F$, and the others are at most $\vol(\hat\OO_E)\prod_vr_v^{-2}\beta(\xi)M_0$, whose sum over the finitely many
+relevant frequencies is at most $\varepsilon M_0$.
+\end{proof}
+
+For a head $p$ of length $i\le\varrho$ with entries in a finite set $A$ of units integral off $T$ together with their inverses, the \emph{global weight} is the product over the partial products $\delta=p_0\cdots p_l$, $l<i$, of
+$\max(1,\norm{c_{l,v}\delta}_v^{-1})^{n^6}$ at each infinite place (or $0$ if $\norm{c_{l,v}\delta}_v>b^{60n^2}$) and of $[\OO_T:\delta\OO_T]^{n^6/2}$ at $T$ (or $0$ if $\delta\notin\OO_T$), where $c_{l,v}$ is the product of the squared scales of the
+first $l+1$ entries.
+\lean{New.Filling.headProduct_ne_zero, New.Filling.headProduct_mem_ratIntegralOff, New.Filling.headProduct_injective, New.Filling.prod_max_inv_norm_mul_sqrt_genIndex_le, New.Filling.inv_norm_prod_frameScaleSq_le, New.Filling.globalWeight_scaledHead, New.Filling.isIntegral_headProduct_and_norm_le, New.Filling.globalWeight_scaledHead_le, New.Filling.sum_globalWeight_le, New.Filling.one_le_pow_mul_prod_poissonConst, New.Filling.sq_sum_globalWeight_le, New.Filling.boundsDecay_prod, New.Filling.frameScaleSq_le_realM_pow, New.Filling.prod_abs_realM}
+
+\begin{lemma}[Weights and decay]\label{lem:sieve-weights}
+Let the data be admissible and $i\le\varrho$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If the global weight of $p$ is nonzero, the partial products are integers of $E$ of modulus at most $b^{120n^2}$ at every infinite place; the weight is at most $b^{120n^8fi}$, and a head is determined by its partial
+products.
+\item The weights of the heads of length $i$ add up to at most $b^{130n^9f}$, and the square of the sum is at most $b^{400n^9f}\prod_{a<i}c_a$.
+\item $\prod_v\abs{\kappa_v}=(M\,\mathrm{rd}_E/(2\pi))^f$, and the sums of the decay over nonzero $T$-integers, at all scales $c_v/\kappa_{v,a}$ with $\norm{c_v}^{-1}\le\abs{\kappa_v}/M$, are at most $C_{\rm dec}\,b^{2002n^9f}$, with
+$C_{\rm dec}=\prod_v\Theta\bigl(\abs{\kappa_v}^{2\varrho+1}/(MN)\bigr)^{k-n^7}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) A nonzero weight forces $\delta\in\OO_T$ and, as $\delta$ is integral off $T$, $\delta$ integral; the archimedean condition and $\prod_{a\le l}\kappa_{v,a}^{-1}\le b^{60n^2}$ (from $N\le b^{60n}$ and $\abs{\kappa_v}\ge1$) give $\abs\delta_v\le b^{120n^2}$. By the
+product formula, $\prod_v\max(1,\norm{c_v\delta}^{-1})\cdot[\OO_T:\delta\OO_T]^{1/2}\le R^f$ when $R$ bounds $\abs\delta_v$ and $\norm{c_v}^{-1}$; with $R=b^{120n^2}$ each partial product contributes at most $(b^{120n^2})^{fn^6}$, and there are $i\le n$ of
+them. The entry $p_j$ is the quotient of two consecutive partial products. (b) By (a) and \cref{lem:box-integral}(a) the heads with nonzero weight are at most $((1+2b^{120n^2})^{2f})^{i}$ in number, and each weighs at most
+$b^{120n^8fi}$; the product is at most $b^{130n^9f}$. The constants of Poisson summation satisfy $\prod_{a<i}c_a\ge b^{-100n^2f}$, by $\kappa_{v,a}\le b^{46\varrho}$ and $\vol(\hat\OO_E)=(2/\mathrm{rd}_E)^f$; so the square $b^{260n^9f}$ is at most
+$b^{400n^9f}\prod_{a<i}c_a$. (c) The square of $\prod_v\abs{\varpi}_v$ is the norm of the different, $\abs{D_E}=\mathrm{rd}_E^{2f}$. For the sums apply \cref{prop:poisson}(b) with $x_v=\kappa_v^{2\varrho+1}/(MN)$, for which $\norm{c_v/\kappa_{v,a}}^{-1}\le\abs{x_v}\le B$
+with $B$ a power of $b$ of exponent $O(n)$; then $b^{2000n^9f}$ from the archimedean decay, $b^{n^9f}$ from the finite one and $(bB^2)^{3f}$ add up to at most $b^{2002n^9f}$, the factors $\Theta\abs{x_v}^{k-n^7}$ making up $C_{\rm dec}$.
+\end{proof}
+
+\begin{theorem}[The sieve]\label{thm:sieve}
+Let the data be admissible, $U\subseteq A$ finite sets of units, and $M^{-1}$ and $t$, $t^{-1}$ for $t\in A$ integral off $T$. Let the forms $J_{T,i}$ at $T$ form a sieve system of length $\varrho$ with mass
+bound $m_T$, and let them be multiplied by the forms of the Bessel systems at the infinite places (\cref{def:bessel-system}), whose mass bounds are $(1+b^{-10})/\deg_v$. Then the real part of the sum of
+the products of the top forms over all pairs of heads with entries in $A$ and a common last entry in $U$ is at most
+\[
+  \Bigl(\prod_{a\le\varrho}c_a\Bigr)\Bigl(\prod_v\frac{1+b^{-10}}{\deg_v}\,m_T+b^{2403n^9f}C_{\rm dec}\Bigr),
+\]
+where $C_{\rm dec}=\prod_v\Theta\bigl(\abs{\kappa_v}^{2\varrho+1}/(MN)\bigr)^{k-n^7}$ is the constant of \cref{lem:sieve-weights}(c).
+\end{theorem}
+\lean{New.Filling.sieve, New.Filling.densitySum_le, New.Filling.densitySum_succ_le_mul_densitySum_add, New.Filling.densitySum_succ_le, New.Filling.re_le_of_last_entries_ne, New.Filling.re_sum_sum_le_densitySum_add, New.Filling.entryDensity_scaledEntry, New.Filling.scaledHead_snoc, New.Filling.entryDensity_nonneg, New.Filling.lowerSemicontinuousAt_entryDensity, New.Filling.boundsDecay_prod, New.Filling.headProduct_ne_zero, New.Filling.headProduct_mem_ratIntegralOff, New.Filling.headProduct_injective, New.Filling.isIntegral_headProduct_and_norm_le, New.Filling.globalWeight_scaledHead_le, New.Filling.sum_globalWeight_le, New.Filling.one_le_pow_mul_prod_poissonConst, New.Filling.sq_sum_globalWeight_le, New.Filling.frameScaleSq_le_realM_pow, New.Filling.prod_abs_realM, New.Filling.decayConst_nonneg}
+\lean{New.Filling.selfDualChar_apply, New.Filling.charOnPlaces_evalPlaces, New.Filling.continuous_charOnPlaces, New.Filling.continuous_globalChar, New.Filling.coe_stdAddChar_apply, New.Filling.wave_two_pi_I_mul, New.Filling.stdAddChar_div_deltaE, New.Filling.extendToAdeles_of_mem, New.Filling.extendToAdeles_of_notMem, New.Filling.extendToAdeles_toAdele, New.Filling.extendToAdeles_sub_adeleOfLocal_add, New.Filling.prod_max_inv_norm_mul_sqrt_genIndex_le, New.Filling.inv_norm_prod_frameScaleSq_le, New.Filling.globalWeight_nonneg, New.Filling.globalWeight_scaledHead}
+
+\begin{proof}
+By \cref{prop:sieve-products}(a) the products form a sieve system over the infinite places and $T$, for the character $e^{c-\bar c}$ at the infinite places times the character of $T$, with mass bound
+$B_0=\prod_v(1+b^{-10})\deg_v^{-1}m_T$, the global weights and the product of the decays. Write $\Sigma_i$ for the \emph{density sums}: $\Sigma_0$ is the real part of the mass, and for $i>0$ $\Sigma_i$ is the real part of the
+sum over $t\in A$ of the sum of $J_i$ over the pairs of heads of length $i$ with entries in $A$ and common last entry $t$, read at the scaled entry $t$ (scaled at $v$ by $\kappa_{v,i-1}$). The sum in the theorem is at most
+$\Sigma_{\varrho+1}$, the terms being nonnegative (\cref{prop:sieve-products}(c)).
+
+\emph{Removing one entry.} Let $i\le\varrho$. The sum of $J_{i+1}$ over the pairs of heads of length $i$ at a common next entry $x$ is a nonnegative integrable function of $x$, lower semicontinuous at the scaled
+rational points (\cref{prop:sieve-products}(b), (c)); its integral is the sum of $J_i$ over these pairs, and its transform at a unit $\xi$ is at most $\beta(\xi)$ times the squared sum $\Gamma_i$ of the weights. One-sided Poisson summation
+(\cref{prop:poisson}(c)) with the scales $r_v=\kappa_{v,i}$ gives
+\[
+  \Sigma_{i+1}\le c_i\Bigl(\varepsilon\Gamma_i+\re\sum_{p,q}J_i(p,q)\Bigr),
+\]
+with $\varepsilon=C_{\rm dec}b^{2002n^9f}$ bounding the decay over the frequencies (\cref{lem:sieve-weights}(c), with $c_v=2\pi i/\varpi_v$, for which $\norm{c_v}^{-1}\le\abs{\kappa_v}/M$). In the sum over all pairs of heads of length $i\ge1$, the
+pairs with equal last entries give $\Sigma_i$, and those with different last entries $t$, $s$ have the frequency $(1/t-1/s)/M$, a nonzero $T$-integer, so by (S2) each is at most the decay there times the two weights; their sum is
+at most $\varepsilon\Gamma_i$ (\cref{lem:sieve-weights}(c) with $c_v=M$). Hence $\Sigma_{i+1}\le c_i(\Sigma_i+2\varepsilon\Gamma_i)$.
+
+\emph{Induction.} With $\Gamma=b^{400n^9f}$ we have $\Gamma_i\le\Gamma\prod_{a<i}c_a$ (\cref{lem:sieve-weights}(b)), and induction on $i$ gives
+\[
+  \Sigma_i\le\Bigl(\prod_{a<i}c_a\Bigr)\bigl(B_0+2i\Gamma\varepsilon\bigr),\qquad i\le\varrho+1.
+\]
+At $i=\varrho+1$, $2(\varrho+1)\Gamma\varepsilon\le b^{n^9f}b^{400n^9f}b^{2002n^9f}C_{\rm dec}=b^{2403n^9f}C_{\rm dec}$, since $2(\varrho+1)\le k\le b$.
+\end{proof}
+
+\subsection{The main term}\label{ss:main-term-bound}
+The \emph{normalising constant} $r$ is the product over the infinite places of $\sqrt{c_G}$ and the powers of the squared frame scales, divided by the number of Bessel coordinates, where
+$c_G=\vol\U(k)^2/(\vol\U(k+2\varrho+1)\vol\U(k-1))$ is the open cell constant.
+\lean{New.Filling.normalizingConst, New.Filling.normalizingConst_sq_pos, New.Shape.openCellConst, New.Filling.gramScalar_mul_headDensity}
+
+\begin{lemma}[The constants of the main term]\label{lem:main-constants}
+Let the data be admissible, $k=k'+1$, $w=\vol(\hat\OO_E)^n(\#I/\Lambda)^2/c_G^f$ with $\Lambda$ the product of the powers of the squared frame scales, and $u=b^{-1}$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\prod_{a\le\varrho}c_a=r^2w$, and for a head with entries units off $T$ and last entry $t$ with $\abs t_v>N$, the product of the scalars of the normalised orbital integrals at the infinite places and of the head
+density at $T$ is $r\bigl(\prod_v(\abs t_v^2-N^2)\bigr)^{(k-1)/2}$.
+\item $C^\sharp_{\rm Sie}\,w\le(1+u^9)\mathcal D_{\rm main}\deg\,\nu^2$ and $C^\sharp_{\rm Sie}\,w\,C_{\rm dec}\le b^{n^9f}\#I\,\mathcal D_{\rm id}\nu^2$.
+\item If $\#S_g\le f$, then
+\[
+  (1+u^6)C^\sharp_{\rm Sie}\prod_ac_a\Bigl(\prod_v\frac{1+u^{10}}{\deg_v}\cdot\frac{1+u^6}{b^{6k\#S_g}}+b^{2403n^9f}C_{\rm dec}\Bigr)\le r^2(1+u^4)\,b^{-6k\#S_g}\mathcal D_{\rm main}\nu^2.
+\]
+\end{enumerate}
+\end{lemma}
+\lean{New.Filling.one_add_inv_pow_ten_pow_le, New.Filling.one_add_pow_six_mul_add_pow_ten_le_one_add_pow_four}
+
+\begin{proof}
+(a) One factor $\kappa_{v,a}$ splits off each power in $\Lambda$, and the rest is the definition of $r$; for the head, the product formula cancels the entries of the head between the infinite places and $T$, and splitting off the
+scale of the last frame vector in $r$ leaves $(\prod_v(\abs t_v^2-N^2))^{(k-1)/2}$. (b) The first is the bound for the scaled Siegel constant required by admissibility (\cref{prop:filling-admissible}), rewritten. For the second,
+write $\mathrm{rd}_E=s^2$, $Q=Ms^2/(2\pi)$, so that $\prod_v\abs{\kappa_v}=Q^f$ and $\vol(\hat\OO_E)=(2/s^2)^f$. Apart from a common factor both sides are $f$th powers, of $A$ and of $b^{n^9}B$, and at one place $A$ is $B$ times
+$(2/s^2)^{n+2\varrho^2}(s/s^{2\varrho})x^{-n^7}$ with $x=Q^{2\varrho+1}/(MN)$; these factors are at most $b^{n^9}$, as $2/s^2\le b$, $s/s^{2\varrho}\le1$ and $x^{-1}\le b^{23}b^{60n}$.
+(c) The main part is at most $(1+u^9)^2(1+u^6)r^2b^{-6k\#S_g}\mathcal D_{\rm main}\nu^2$ by (a), (b) and $(1+u^{10})^f\le1+u^9$ (as $f\le b/1000$). The error part is at most $b^{2403n^9f}b^{n^9f}b^{2kf}\mathcal D_{\rm id}\nu^2r^2$, as $\#I\le b^{2kf}$;
+since $k\ge512000n^9$ and $\#S_g\le f$, $2403n^9f+n^9f+2kf+10+6k\#S_g\le11kf$, and $b^{11kf}\mathcal D_{\rm id}\le\mathcal D_{\rm main}$ bounds the error by $u^{10}r^2b^{-6k\#S_g}\mathcal D_{\rm main}\nu^2$. Finally
+$(1+u^6)\bigl((1+u^9)^2(1+u^6)+u^{10}\bigr)\le1+u^4$ for $0\le u\le10^{-3}$, all the powers on the left being at most $u^4/100$.
+\end{proof}
+
+\begin{theorem}[Main term]\label{thm:main-term}
+Let $E$ carry Weil data, the filling data be admissible, $S_g$ a set of chosen places above $p_0$ and $d_w$ nonzero vectors.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Band limits.) Let $\sigma\in G^{(\varrho)}(E)$ have last frame product $t$. The product over the infinite places of the top forms of the Bessel systems at the heads $(p,t)$, $(q,t)$ is the
+Gram matrix of the orbital integrals $\int W(y)\otimes W((w_p\sigma)^{-1}y)^*dy$ of the cut Bessel function, each weighted by
+\[
+  \prod_v\sqrt{c_G}\,(\abs{x_\varrho}^2-1)^{(k-1)/2}\abs I^{-1}\prod_{a<\varrho}\abs{x_a}^{k+1+2(\varrho-a-1)},
+\]
+with $x$ the scaled entries of the head at $v$.
+\item For finitely many distinct $(c_i,\bar n_i,c'_i,\sigma_i)$ with $\sigma_i\in G^{(\varrho)}(E)$, last entries $t_i$ in a finite set of units off $T$ with $\abs{t_i}_v>N$, positions integral off $T$ and reductions in
+$\mathrm{fixer}(S_g,d)$,
+\[
+  \sum_i\Bigl\|\sum_{p\in\mathcal T^\varrho}\mathcal A^U(c_i,\bar n_i,c'_i;w_p\sigma_i)\Bigr\|^2\le(1+b^{-4})\,b^{-6k\#S_g}\,\mathcal D_{\rm main}\,\nu^2.
+\]
+\item The link second moment of the terms with $\mathfrak g\ne0$ over the open elements of $\mathrm{fixer}(S_g,d)$ is at most $(1+b^{-4})b^{-6k\#S_g}\mathcal D_{\rm main}\nu^2$.
+\end{enumerate}
+\end{theorem}
+\lean{New.Filling.linkSecondMoment_isOpenElement_le, New.Filling.sum_norm_sum_cosetAmplitude_sq_le, New.Filling.IsFillingData.mul_sum_norm_sum_cosetAmplitude_sq_le, New.Filling.prod_bandLimit_eq_gram, New.Filling.sieve_constant_le, New.Filling.scaledSiegelConst_mul_decayConst_le, New.Filling.prod_poissonConst_eq, New.Filling.one_add_inv_pow_ten_pow_le, New.Filling.one_add_pow_six_mul_add_pow_ten_le_one_add_pow_four}
+
+\begin{proof}
+(a) At each infinite place both heads end in the last frame product of $\sigma$, so by \cref{thm:local-band-limits}(b) the top form is the inner product of the normalised orbital integrals; the scaled orbital integrals of the
+product vector are the products of the local ones, and the product over $v$ of the inner products is the Gram matrix of the products.
+
+(b) \emph{Places.} Enlarge $T$ so that it contains the chosen places, the places above $N$ and $M$ and those where the lattice basis or the entries of the heads are not integral, and is stable under conjugation
+(\cref{lem:place-T}(a)); take a filling datum at $T$ (\cref{thm:kloosterman}(a)) and $Z$ from \cref{prop:finite-sieve}, which contains the components of the $n_i$ because their reductions lie in the fixer. \emph{Siegel's step.} Group the
+classes by their last entry $t$. For each $t$, \cref{thm:siegel-step} applies with $R$ the product of the top forms at the infinite places, which by (a) is the Gram matrix of the weighted orbital integrals, and with
+$\rho_p$ the product of the scalars, for which $\rho_p$ times the head density is $r\sqrt G$ by \cref{lem:main-constants}(a). It bounds $r^2$ times the sum by $(1+b^{-6})C^\sharp_{\rm Sie}$ times the real part of the sum over the
+heads of the product of the top forms at the infinite places and of $J_{\rm last}/\mathrm{mr}(Z)$ at $T$. \emph{The sieve.} Summed over $t$ this is the sum of \cref{thm:sieve} for the system of \cref{prop:finite-sieve}, with
+$m_T=(1+b^{-6})b^{-6k\#S_g}$, so $r^2$ times the left side is at most the left side of \cref{lem:main-constants}(c). Dividing by $r^2>0$ gives the bound.
+
+(c) The left side is a sum of squared norms of blocks; it suffices to bound finite sums of nonzero blocks. Let $s$ be open in the fixer. By \cref{lem:big-cell} every term over $(c,s,c')$ lies in the big cell, so by
+\cref{prop:orbit-sums} each nonzero block of one link is a sum of orbit sums over the heads with entries in $\mathcal T$, for one $\sigma$. A block has two classes, a reduction and a link; distinct blocks give distinct tuples
+$(c,c',\bar n,\sigma)$, as $\bar n$ is the reduction and $\sigma$ determines the link. Choosing $T$ so that the elements of $\mathcal T$ are units off $T$ and $M^{-1}$, $N^{-1}$ are integral off $T$, (b) applies to the finite family of
+nonzero blocks, with last entries in $\mathcal T$.
+\end{proof}

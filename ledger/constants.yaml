@@ -1,0 +1,55 @@
+# Constants and exponents of the argument (gate "constants", Appendix D): each number the paper states, with the
+# pattern by which it is found in the LaTeX source (paper) and in the Lean file that fixes it (file, lean; paths
+# relative to grh-lean/grh/src). Regular expressions; LaTeX backslashes doubled as YAML requires in double quotes.
+- {name: "18480 divides q0", paper: "18480", file: "New/Reduction/Data/FieldsAndPlaces.lean", lean: "18480 ∣ q₀", tex: "$18480\\mid q_0$"}
+- {name: "d = q0/2 - 1 mod q0", paper: "q_0/2-1\\\\pmod\\{q_0\\}", file: "New/Reduction/OneSidedBound.lean", lean: "d ≡ q₀ / 2 - 1 \\[MOD q₀\\]", tex: "$d\\equiv q_0/2-1\\pmod{q_0}$"}
+- {name: "d0 = 9240 N - 1", paper: "9240N-1", file: "New/Reduction/OneSidedBound.lean", lean: "9240 \\* q", tex: "$d_0=9240N-1$"}
+- {name: "q0 = 18480 N", paper: "q_0=18480N", file: "New/Reduction/OneSidedBound.lean", lean: "18480 \\* q", tex: "$q_0=18480N$"}
+- {name: "d > 64", paper: "d>64", file: "New/Reduction/Data/FieldsAndPlaces.lean", lean: "64 < P.d", tex: "$d>64$"}
+- {name: "non-split primes are at least 13", paper: "p\\\\ge13", file: "New/Reduction/Data/FieldsAndPlaces.lean", lean: "13 ≤ p", tex: "non-split primes $p\\ge13$"}
+- {name: "l0 = 3^(floor log3 s + 4)", paper: "3\\^\\{\\\\lfloor\\\\log_3s\\\\rfloor\\+4\\}", file: "New/Reduction/Data/FieldsAndPlaces.lean", lean: "3 \\^ \\(Nat.log 3 s \\+ 4\\)", tex: "$l_0=3^{\\lfloor\\log_3s\\rfloor+4}$"}
+- {name: "27 s < l0 <= 81 s", paper: "27s<l_0\\(s\\)\\\\le81s", file: "New/Reduction/Data/FieldsAndPlaces.lean", lean: "l₀ s ≤ 81 \\* s", tex: "$27s<l_0\\le81s$"}
+- {name: "q2 = (q0 d)^(s+6)", paper: "\\(q_0d\\)\\^\\{s\\+6\\}", file: "New/Reduction/Data/FieldsAndPlaces.lean", lean: "\\(P.q₀ \\* P.d\\) \\^ \\(s \\+ 6\\)", tex: "$q_2=(q_0d)^{s+6}$"}
+- {name: "(log b)^100 <= x", paper: "\\(\\\\log b\\)\\^\\{100\\}\\\\le x", file: "New/Reduction/Data/AdmissibleData.lean", lean: "\\(log b\\) \\^ 100 ≤ x", tex: "$(\\log b)^{100}\\le x$"}
+- {name: "x^(10^6) <= x1", paper: "x\\^\\{10\\^6\\}\\\\le x_1", file: "New/Reduction/Data/AdmissibleData.lean", lean: "x \\^ 10⁶ ≤ x₁", tex: "$x^{10^6}\\le x_1$"}
+- {name: "x1^(10^6) <= b", paper: "x_1\\^\\{10\\^6\\}\\\\le b", file: "New/Reduction/Data/AdmissibleData.lean", lean: "x₁ \\^ 10⁶ ≤ b", tex: "$x_1^{10^6}\\le b$"}
+- {name: "(log x1)^6 <= log b", paper: "\\(\\\\log x_1\\)\\^6\\\\le\\\\log b", file: "New/Reduction/Data/AdmissibleData.lean", lean: "\\(log x₁\\) \\^ 6 ≤ log b", tex: "$(\\log x_1)^6\\le\\log b$"}
+- {name: "log log b >= 10^12 C0", paper: "10\\^\\{12\\}C_0", file: "New/Reduction/Data/AdmissibleData.lean", lean: "1e12 \\* P.constantBound ≤ log logB", tex: "$\\log\\log b\\ge10^{12}C_0$"}
+- {name: "m in [sqrt x, 2 sqrt x]", paper: "m\\\\in\\[\\\\sqrt x,2\\\\sqrt x\\]", file: "New/Reduction/Data/AdmissibleData.lean", lean: "\\[√x, 2 √x\\]", tex: "$m\\in[\\sqrt x,2\\sqrt x]$"}
+- {name: "r in [x^5, 3 x^5]", paper: "r\\\\in\\[x\\^5,3x\\^5\\]", file: "New/Reduction/Data/AdmissibleData.lean", lean: "\\[x⁵, 3 x⁵\\]", tex: "$r\\in[x^5,3x^5]$"}
+- {name: "2^s = m^22", paper: "2\\^s=m\\^\\{22\\}", file: "New/Reduction/Data/AdmissibleData.lean", lean: "2 \\^ s = m \\^ 22", tex: "$2^s=m^{22}$"}
+- {name: "s <= 32 log x", paper: "s\\\\le32\\\\log x", file: "New/Reduction/Data/AdmissibleData.lean", lean: "s ≤ 32 log x", tex: "$s\\le32\\log x$"}
+- {name: "t = 5 r", paper: "t=5r", file: "New/Reduction/Data/AdmissibleData.lean", lean: "def t : ℕ := 5 \\* D.r", tex: "$t=5r$"}
+- {name: "gap = 2 r^8", paper: "\\\\Delta=2r\\^8", file: "New/Reduction/Data/AdmissibleData.lean", lean: "D.r \\^ 8", tex: "$\\Delta=2r^8$"}
+- {name: "p0, p1 in [b^10, b^11]", paper: "\\[b\\^\\{10\\},b\\^\\{11\\}\\]", file: "New/Reduction/Data/AdmissibleData.lean", lean: "\\[b¹⁰, b¹¹\\]", tex: "$p_0,p_1\\in[b^{10},b^{11}]$"}
+- {name: "N- has the factor b^(-15/2)", paper: "b\\^\\{-15/2\\}", file: "New/Reduction/Data/AdmissibleData.lean", lean: "b \\^ \\(-15 / 2\\)", tex: "factor $b^{-15/2}$ in $N_-$"}
+- {name: "log N within sqrt(log b) above log N-", paper: "\\\\log N_-\\+\\\\sqrt\\{\\\\log b\\}", file: "New/Reduction/Data/AdmissibleData.lean", lean: "log N₋ \\+ √\\(log b\\)", tex: "$\\log N\\le\\log N_-+\\sqrt{\\log b}$"}
+- {name: "m log b <= log N <= 30 m log b", paper: "m\\\\log b\\\\le\\\\log N\\\\le30m\\\\log b", file: "New/Reduction/Data/LevelAndTwists.lean", lean: "m log b ≤ log N ≤ 30 m log b", tex: "$m\\log b\\le\\log N\\le30m\\log b$"}
+- {name: "Chebyshev 6 z", paper: "\\\\le6t", file: "New/Reduction/Zeros/PrimeNumberTheorem.lean", lean: "≤ 6 \\* z", tex: "Chebyshev bound $6z$"}
+- {name: "count error 13 t", paper: "\\\\le13t", file: "New/Reduction/Zeros/PrimeNumberTheorem.lean", lean: "≤ 13 \\* t", tex: "count error $13t$"}
+- {name: "slow variation 26", paper: "26/y", file: "New/Reduction/OneSidedBound.lean", lean: "26 / y", tex: "slow variation $26/y$"}
+- {name: "zero-free region exponent 25", paper: "l\\^\\{-25\\}", file: "Lib/Analytic/PrimeNumberTheorem/ZeroFreeRegion.lean", lean: "1 / l \\^ 25", tex: "zero-free region $l^{-25}$"}
+- {name: "G_q bound exponent 26", paper: "l\\^\\{26\\}", file: "New/Reduction/Zeros/PrimeNumberTheorem.lean", lean: "l \\^ 26", tex: "bound $l^{26}$ for $G_q$"}
+- {name: "one-sided bound constant 64 phi + 3", paper: "64\\\\totient\\(q_0\\)\\+3", file: "New/Reduction/OneSidedBound.lean", lean: "64 \\* q₀.totient \\+ 3", tex: "one-sided constant $64\\varphi(q_0)+3$"}
+- {name: "Theorem A error f a log^4 b", paper: "fa\\\\log\\^4b", file: "New/Reduction/ShortAndEnough.lean", lean: "D.f \\* D.a \\* D.logB \\^ 4", tex: "Theorem A: error $fa\\log^4b$"}
+- {name: "Theorem B count 5 d log(1+2b^2)", paper: "5\\\\,\\\\dimT\\\\log\\(1\\+2b\\^2\\)", file: "New/Reduction/ShortAndEnough.lean", lean: "5 \\* D.targetDim \\* log \\(1 \\+ 2 \\* D.b \\^ 2\\)", tex: "Theorem B: count $5\\dimT\\log(1+2b^2)$"}
+- {name: "Theorem B share 1 - 4/b^2", paper: "1-\\\\frac4\\{b\\^2\\}", file: "New/Reduction/ShortAndEnough.lean", lean: "1 - 4 / D.b \\^ 2", tex: "Theorem B: share $1-4/b^2$"}
+- {name: "Theorem C 3 f a log^4 b", paper: "3fa\\\\log\\^4b", file: "New/Determinant/Twist/LongForms.lean", lean: "3 \\* \\(D.f \\* D.a \\* D.logB \\^ 4\\)", tex: "Theorem C: $3fa\\log^4b$"}
+- {name: "main inequality f a log^5 b", paper: "fa\\\\log\\^5b", file: "New/Reduction/MainInequality.lean", lean: "D.f \\* D.a \\* D.logB \\^ 5", tex: "main inequality $fa\\log^5b$"}
+- {name: "index per dimension 10 log(1+2b^2)", paper: "10\\\\log\\(1\\+2b\\^2\\)", file: "New/Reduction/MainInequality.lean", lean: "10 \\* log \\(1 \\+ 2 \\* D.b \\^ 2\\)", tex: "index $10\\log(1+2b^2)$ per dimension"}
+- {name: "weights within x^42", paper: "x\\^\\{42\\}", file: "New/Reduction/Data/LevelAndTwists.lean", lean: "D.x \\^ 42", tex: "weights within $x^{42}$"}
+
+# Part VI and Appendix A
+- {name: "large gap 500 n^3", paper: "500\\(\\\\#n\\)\\^3\\+h", file: "Lib/DiscreteSeries/FlenstedJensen/Defs.lean", lean: "500 \\* Fintype.card n \\^ 3 \\+ A", tex: "gap $500(\\#n)^3+h$"}
+- {name: "Laplace gap 10^30 (N^2 log beta)^3", paper: "10\\^\\{30\\}", file: "New/Appendix/DiscreteSeries/Periods.lean", lean: "10 \\^ 30 \\* \\(\\(card n \\+ card m\\) \\^ 2 \\* β.log\\) \\^ 3", tex: "Laplace gap $10^{30}(N^2\\log\\beta)^3$"}
+- {name: "Laplace loss beta^(20 N^2)", paper: "\\\\beta\\^\\{20N\\}", file: "New/Appendix/DiscreteSeries/Periods.lean", lean: "β \\^ \\(20 \\* \\(card n \\+ card m\\) \\^ 2\\)", tex: "Laplace loss $\\beta^{20N}$"}
+- {name: "small ball (200 beta^5)^-1", paper: "\\(200\\\\beta\\^5\\)\\^\\{-1\\}", file: "New/Appendix/DiscreteSeries/Periods.lean", lean: "\\(200 \\* β \\^ 5\\)⁻¹", tex: "small ball $(200\\beta^5)^{-1}$"}
+- {name: "one minor 10^5 delta", paper: "10\\^5\\\\delta", file: "New/Appendix/DiscreteSeries/OneMinor.lean", lean: "10 \\^ 5 \\* δ", tex: "one minor $10^5\\delta$"}
+- {name: "twist error (4f+3) r v(n_ch)", paper: "\\(4f\\+3\\)\\\\mathrm r", file: "New/Congruences/GaloisRepresentations/SelmerHypotheses.lean", lean: "\\(4 \\* D.f \\+ 3\\) \\* D.r \\* padicValNat ℓ D.chosenGroupOrder \\+ \\(1 / 2\\) \\^ ℓ", tex: "twist error $(4f+3)\\mathrm r\\,v_\\ell(n_{\\rm ch})+2^{-\\ell}$"}
+- {name: "local defect bound 4 f", paper: "4f\\\\,\\\\mathrm\\{defect\\}_\\\\ell", file: "New/Congruences/FirstOrder/TraceRelations.lean", lean: "4 \\* D.f \\* defectBound D ℓ", tex: "local defect $\\mathrm{loc}_\\ell=4f\\,\\mathrm{defect}_\\ell$"}
+- {name: "defect 10^6 (m/k)", paper: "10\\^6\\\\frac mk", file: "New/Congruences/LocalLoss/Basic.lean", lean: "10 \\^ 6 \\* \\(D.m / D.k", tex: "defect $10^6\\frac mk(b\\,v_\\ell(M)+\\dots)$"}
+- {name: "crystalline loss window 30 h^3", paper: "30h\\^3", file: "New/Congruences/LocalLoss/Basic.lean", lean: "30 \\* h \\^ 3", tex: "crystalline loss window $(b-30h^3,b+30h^3]$"}
+- {name: "clearing bound", paper: "\\(1\\+2\\\\mathrm t\\)e'_\\\\ell", file: "New/Congruences/FirstOrder/TraceRelations.lean", lean: "\\(1 \\+ 2 \\* D.t\\) \\* twistError", tex: "clearing bound $\\beta_\\ell=\\mathrm{loc}_\\ell+(1+2\\mathrm t)e'_\\ell+e_\\ell+v_\\ell(N)$"}
+- {name: "odd class bound 2^(4(N+t+3)^27)", paper: "2\\^\\{4\\(N_E\\+\\\\mathrm t\\+3\\)\\^\\{27\\}\\}", file: "New/Congruences/FirstOrder/TraceRelations.lean", lean: "2 \\^ \\(4 \\* \\(D.cyclotomicConductor \\+ D.t \\+ 3\\) \\^ 27\\)", tex: "odd class bound $2^{4(N_E+\\mathrm t+3)^{27}}h_E$"}
+- {name: "denominator budget f a log^3 b/(m k)", paper: "fa\\\\log\\^3b/\\(mk\\)", file: "New/Reduction/Data/AdmissibleData.lean", lean: "D.f \\* D.a \\* D.logB \\^ 3", tex: "budget $fa\\log^3b/(mk)$"}
+- {name: "local loss sum 4 10^6 e^180", paper: "4\\\\cdot10\\^6e\\^\\{180\\}", file: "New/Congruences/FitTwistsExist.lean", lean: "4 \\* 10 \\^ 6 \\* exp 180", tex: "local loss sum $4\\cdot10^6e^{180}f(m/k)b\\log b$"}

@@ -1,0 +1,417 @@
+\section{Spaces, weights and forms}\label{sec:spaces}
+
+This section fixes the hermitian spaces, the weights and the spaces of forms of the upper bound. All
+spaces are over the CM field $E=E(s)$ of the data, and all are definite except the spaces $Y_j$
+($j<m$) and $W_j$, which carry signs at the infinite places. Parameters are doubled throughout, so
+that they are integers; for a rank $n$ the \emph{block} $[n]$ is the vector
+$((n-1)/2,(n-3)/2,\dots,(1-n)/2)$, whose doubled entries are $n-1-2p$, $p<n$. We fix data as in
+\cref{def:data}; recall $k=r+1-m$, $t=5r$, the gap $\Delta=2r^8$, the lift weights
+$\kappa_j=\kappa+(j+\frac12)\Delta$ and $a=xb$. The number $m$ is even and $k$ is even, $r$ and $t$
+are odd (\cref{prop:sizes}). Put $\varrho=m/2-1$; note $\Delta/2=r^8$; and let $\Phia$ be the set of
+$a$-places.
+
+\subsection{Ranks, weights and the diagrams of the lifts}\label{ss:ranks-weights}
+For $j\ge0$ let $n_j=k+j(t+1)$; each $n_j$ is even. For an infinite place $\tau$ and $h\ge1$, the
+\emph{column count} $c_\tau(h)$ is
+\[
+  c_\tau(h)=\begin{cases}
+    a_\tau&h=1,\\
+    \kappa_1(\tau)-n_1/2&h=k,\\
+    \Delta-(t+1)&h>k,\ h\equiv k\pmod{t+1},
+  \end{cases}
+  \qquad a_\tau=\begin{cases}a&\tau\in\Phia,\\0&\text{otherwise,}\end{cases}
+\]
+and $c_\tau(h)=0$ for all other $h$. The \emph{weight} on $X_j$ (a definite space of rank $n_j$) is the
+highest weight $\mu(X_j)_\tau$ with $c_\tau(h)$ columns of height $h$ for $h<n_j$ and last entry
+$e_j(\tau)=0$ for $j=0$ and $e_j(\tau)=n_{j-1}/2-\kappa_j(\tau)$ for $j\ge1$: its entry $p<n_j$ is
+$e_j(\tau)+\sum_{p<h<n_j}c_\tau(h)$.
+\lean{New.Data.n, New.Data.columnCount, New.Data.lastEntry, New.Data.firstRowExcess, New.twiceBlockEntry, New.sum_twiceBlockEntry, New.Data.n_zero, New.Data.n_succ, New.Data.k_le_n, New.Data.n_pos, New.Data.n_even, New.Data.liftWeight_add, New.Data.liftWeight_succ, New.Data.halfGap_le_liftWeight, New.Data.columnCount_le, New.Data.columnCount_one, New.Data.one_lt_k}
+
+\begin{proposition}[The weights of the $X_j$]\label{prop:weights-X}
+Let $\lambda^X_\tau$ be the sequence whose first $k$ doubled entries are $[k]+(2a_\tau,0,\dots,0)$,
+followed for $i=1,2,\dots$ by the doubled block $-2\kappa_i(\tau)+[t+1]$. Then the first $n_j$ entries
+are twice the Harish-Chandra parameter of $\mu(X_j)$, and:
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item the diagram $\mu^+_{j+1}=\mu(X_j)+\kappa_{j+1}-n_{j+1}/2$ of lift $j+1$ has exactly $c_\tau(h)$
+columns of each height $h<n_{j+1}$; $\mu(X_{j+1})=(\mu^+_{j+1},0,\dots,0)+n_j/2-\kappa_{j+1}$;
+$\mu^+_1=(a_\tau,0,\dots,0)+\kappa_1-n_1/2$ in its first $k$ rows, and
+$\mu^+_{j+2}=\mu^+_{j+1}+\Delta-t-1$ in the rows $p<n_{j+1}$;
+\item no column has a height strictly between $1$ and $k$, or strictly between $n_j$ and $n_{j+1}$;
+$c_\tau(k)=\kappa_1-n_1/2\ge0$ and $c_\tau(n_{j+1})=\Delta-t-1\ge0$;
+\item for $j<m$, row $p$ of $\mu^+_{j+1}$ is at most $a_\tau+\kappa_{j+1}$ for $p=0$, at most
+$\kappa_{j+1}$ for $0<p<k$, and at most $m\Delta$ otherwise;
+\item $e_j(\tau)=n_{j+1}/2-\kappa_{j+1}(\tau)+c_\tau(n_j)$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.paramX, New.Data.paramX_block, New.Data.weightX, New.Data.two_mul_weightX, New.Data.liftDiagram, New.Data.weightX_succ, New.Data.liftDiagram_zero, New.Data.liftDiagram_succ, New.Data.cast_columnCount_k, New.Data.cast_columnCount_n_succ, New.Data.columnCount_eq_zero_of_lt_k, New.Data.not_dvd_sub_k, New.Data.columnCount_eq_zero_of_mem_Ioo, New.Data.cast_sum_columnCount_Ioo_k, New.Data.sum_columnCount_Ioo_succ, New.Data.liftDiagram_eq_sum_columnCount, New.Data.liftDiagram_le, New.Data.weightX_eq, New.Data.lastEntry_eq, New.Data.cast_diagramWeight_columnCount}
+
+\begin{proof}
+\emph{Parities.} By \cref{prop:sizes} $k$ is even and $t$ odd, so $n_j=k+j(t+1)$ is even; as $\Delta$ is even, each $\kappa_j=\kappa+(j+\frac12)\Delta$ is an integer. The doubled block $[n_j]$ has the odd entries $n_j-1-2p$. The entries of $\lambda^X_\tau$ are odd as well: $k-1-2p$ (plus $2a_\tau$ at $p=0$) on $[k]$, and $-2\kappa_i+t-2b$ on the $i$-th block. Hence
+$\mu(X_j)_p=\frac12(\lambda^X_p-(n_j-1-2p))$ is an integer: the division by $2$ is exact.
+
+\emph{Columns and the last entry.} The number of columns of height $p+1$ of a weight is $\mu_p-\mu_{p+1}=\frac12(\lambda_p-\lambda_{p+1})-1$, as consecutive entries of $[n_j]$ differ by $2$. Inside $[k]$ and inside a block the doubled entries differ by $2$, except $\lambda_0-\lambda_1=2+2a_\tau$; this gives $a_\tau$ columns of height $1$ and none of the other
+heights below $k$ or strictly between two ranks. Across the end of $[k]$, $\lambda_{k-1}-\lambda_k=(1-k)-(-2\kappa_1+t)$, which gives $\kappa_1-\frac{k+t+1}2=\kappa_1-n_1/2$ columns of height $k$. Across the end of the $i$-th block, $i\ge1$, $\lambda_{n_i-1}-\lambda_{n_i}=(-2\kappa_i-t)-(-2\kappa_{i+1}+t)=2\Delta-2t$, which gives $\Delta-t-1$ columns of height $n_i$. The
+last entry is $\frac12(\lambda_{n_j-1}-(1-n_j))$: it is $0$ for $j=0$, and for $j\ge1$, with $\lambda_{n_j-1}=-2\kappa_j-t$, it is $\frac12(n_j-t-1)-\kappa_j=n_{j-1}/2-\kappa_j$. Hence $\mu(X_j)_p=e_j(\tau)+\sum_{p<h<n_j}c_\tau(h)$, and the first $n_j$ entries of $\lambda^X$ are twice the Harish-Chandra parameter of
+$\mu(X_j)$.
+
+(b) The heights with $c_\tau(h)\ne0$ are $1$, $k$ and the $n_i$ with $i\ge1$: for $n_j<h<n_{j+1}$, $h-k=j(t+1)+s$ with $0<s<t+1$, which $t+1$ does not divide. Further $c_\tau(k)=\kappa_1-n_1/2\ge0$ because $n_1=k+t+1\le\Delta/2\le\kappa_1$, and $\Delta-t-1\ge0$ because $\Delta=2r^8\ge t+1$.
+
+(d) For $j=0$, $e_0=0=n_1/2-\kappa_1+c_\tau(k)$. For $j\ge1$, $n_{j+1}/2-\kappa_{j+1}+c_\tau(n_j)=\frac12n_{j+1}-\kappa_j-\Delta+\Delta-t-1=\frac12(n_{j+1}-2t-2)-\kappa_j=n_{j-1}/2-\kappa_j=e_j$.
+
+(a) For $p<n_j$, row $p$ of $\mu^+_{j+1}$ is $e_j+\kappa_{j+1}-n_{j+1}/2+\sum_{p<h<n_j}c_\tau(h)$, which by (d) is $\sum_{p<h\le n_j}c_\tau(h)=\sum_{p<h<n_{j+1}}c_\tau(h)$, by (b); the rows from $n_j$ on vanish. Hence the diagram has exactly $c_\tau(h)$ columns of each height $h<n_{j+1}$. The formula for $\mu(X_{j+1})$ is the
+same computation with the last entry $e_{j+1}=n_j/2-\kappa_{j+1}$. The first $k$ rows of $\mu^+_1$ are $a_\tau[p=0]+c_\tau(k)=a_\tau[p=0]+\kappa_1-n_1/2$, and in the rows $p<n_{j+1}$ the diagrams of consecutive lifts differ by the columns of height $n_{j+1}$, which are $\Delta-t-1$ in number.
+
+(c) By (a), row $p$ of $\mu^+_{j+1}$ is $a_\tau[p=0]+c_\tau(k)[p<k]+\sum_{1\le i\le j,\,n_i>p}(\Delta-t-1)$. As $c_\tau(k)\le\kappa_1$ and $\kappa_{j+1}=\kappa_1+j\Delta$, row $0$ is at most $a_\tau+\kappa_{j+1}$ and the rows $0<p<k$ at most $\kappa_{j+1}$; for $p\ge k$ only the heights $n_i$ count, and the row is at most $j\Delta\le m\Delta$ since
+$j<m$.
+\end{proof}
+
+The weight on the last space $Y_m$, a definite space of rank $n_m-1$, is obtained by branching. Let
+$c^Y_\tau(h)$ be the number of columns of height $h$ of $\mu(X_m)$ that keep their height, namely
+$\Delta/2-(t+1)/2$ if $h\ge k$ and $h\equiv k\pmod{t+1}$ and $0$ otherwise, plus the columns of height
+$h+1$ that lose a box. The \emph{doubled parameter of $Y_m$} is the sequence with first $k-1$ entries
+$[k-1]$, followed for $i=1,2,\dots$ by $-2\kappa_{i-1/2}=\Delta-2\kappa_i$ and the doubled block
+$-2\kappa_i+[t]$; its first $k-1+i$ entries before the blocks are those of the \emph{target parameter}
+$\varsigma_\tau=(k/2-1,\dots,1-k/2;\ -\kappa_{1/2},-\kappa_{3/2},\dots)$ (\cref{ss:target}).
+\lean{New.Data.keptColumns, New.Data.columnsY, New.Data.sortedParamY, New.Data.sortedParamY_n_sub_one, New.Data.sortedParamY_block, New.Data.weightY, New.Data.two_mul_weightY, New.Data.two_mul_targetParameter_of_lt, New.Data.targetParameter_k_sub_one_add, New.Data.targetParameter, New.Data.reducedHalfGap}
+
+\begin{proposition}[Branching from $X_m$ to $Y_m$]\label{prop:weight-Y}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\mu(Y_m)_p=\mu(X_m)_{p+1}+c^{\rm kept}(p+1)$, where $c^{\rm kept}(h)\le c_\tau(h)$; hence the
+weights interlace. No column of height $<k$ or of height $n_m-1$ keeps its height, and
+$\mu(Y_m)$ has the last entry $e_m$ and $c^Y_\tau(h)$ columns of height $h$.
+\item $c^{\rm kept}(h)\le\Delta/2$; for $h>k$ at most $\Delta/2$ columns lose a box; and
+$c^Y_\tau(h)\le\Delta$ for $h\ge k$.
+\item The \emph{branching exponent} $n_\tau=\abs{\mu(X_m)_\tau}-\abs{\mu(Y_m)_\tau}$ equals
+$a_\tau-m\Delta/2$, and it is the number of columns of $\mu(X_m)$ that lose a box plus $e_m(\tau)$.
+Hence $\sum_\tau n_\tau=\#\Phia\cdot a-fm\Delta/2$.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.sortedParamY_sub_paramX, New.Data.twiceBlockEntry_n_sub_one, New.Data.weightY_eq_weightX_add, New.Data.keptColumns_le_columnCount, New.Data.keptColumns_eq_zero_of_lt_k, New.Data.keptColumns_n_sub_one, New.Data.sum_columnsY_add_keptColumns, New.Data.weightY_eq, New.Data.keptColumns_le_halfGap, New.Data.columnCount_sub_keptColumns_le_halfGap, New.Data.columnsY_le, New.Data.branchExponent, New.Data.sum_paramX, New.Data.sum_sortedParamY, New.Data.branchExponent_eq, New.Data.branchExponent_eq_sum_columns, New.Data.sum_branchExponent}
+
+\begin{proof}
+\emph{The two parameters.} Write $\lambda$ for $\lambda^X$ and $\lambda'$ for the doubled parameter of $Y_m$: $\lambda'_p=k-2-2p$ for $p<k-1$, $\lambda'_{n_j-1}=\Delta-2\kappa_{j+1}$ (the entry $k-1+j$ of $2\varsigma$), and $\lambda'_{n_j+b}=-2\kappa_{j+1}+t-1-2b$ for $b<t$. We show $\lambda'_p-\lambda_{p+1}-1=2c^{\rm kept}(p+1)$. If $p+1<k$, then
+$\lambda'_p-\lambda_{p+1}=(k-2-2p)-(k-3-2p)=1$ and $c^{\rm kept}(p+1)=0$. If $p+1=n_j$, then $\lambda'_p-\lambda_{n_j}=\Delta-2\kappa_{j+1}+2\kappa_{j+1}-t=\Delta-t$, and $\Delta-t-1=2(\Delta/2-(t+1)/2)=2c^{\rm kept}(n_j)$. Otherwise $p=n_j+b$ with $b<t$ and $p+1$ inside the block, and both entries are
+consecutive entries $-2\kappa_{j+1}+t-1-2b$ and $-2\kappa_{j+1}+t-2(b+1)$, of difference $1$, while $c^{\rm kept}(p+1)=0$.
+
+(a) The entries of $[n_m-1]$ are those of $[n_m]$ from the second on, raised by $1$ (doubled): $n_m-2-2p=(n_m-1-2(p+1))+1$. Hence
+\begin{align*}2\mu(Y_m)_p&=\lambda'_p-(n_m-2-2p)\\&=\lambda_{p+1}+1+2c^{\rm kept}(p+1)-(n_m-1-2(p+1))-1\\&=2\mu(X_m)_{p+1}+2c^{\rm kept}(p+1),\end{align*}
+the division being exact because all entries of $\lambda'$ and of $[n_m-1]$ are even. The kept columns are at most the columns: for $h\ge k$ with $h\equiv k$, $c_\tau(h)$ is $\kappa_1-n_1/2$ or $\Delta-t-1$, both at least $\Delta/2-(t+1)/2$ (as $\kappa_1\ge\frac32\Delta$ and $n_1\le\Delta/2$). Hence
+$\mu(X_m)_{p+1}\le\mu(Y_m)_p\le\mu(X_m)_{p+1}+c_\tau(p+1)=\mu(X_m)_p$: the weights interlace. No column of height $h<k$ keeps its height, and $n_m-1\equiv k-1$ modulo $t+1$, so $c^{\rm kept}(n_m-1)=0$ and the last entries agree. Finally $\mu(Y_m)_{h-1}-\mu(Y_m)_h=c^{\rm kept}(h)+c_\tau(h+1)-c^{\rm kept}(h+1)$, which is the
+number $c^Y_\tau(h)$.
+
+(b) $c^{\rm kept}(h)\le\Delta/2$ by definition; for $h>k$ the columns that lose a box are $c_\tau(h)-c^{\rm kept}(h)$, which is $\Delta-t-1-(\Delta/2-(t+1)/2)=\Delta/2-(t+1)/2\le\Delta/2$ at $h=n_i$ and $0$ otherwise; so $c^Y_\tau(h)\le\Delta/2+\Delta/2=\Delta$ for $h\ge k$.
+
+(c) The blocks have sum $0$, so $2\abs{\mu(X_m)}=\sum_{p<n_m}\lambda_p=2a_\tau-2(t+1)\sum_{i\le m}\kappa_i$ and $2\abs{\mu(Y_m)}=\sum_{p<n_m-1}\lambda'_p=\sum_{i\le m}(\Delta-2\kappa_i-2t\kappa_i)=m\Delta-2(t+1)\sum_{i\le m}\kappa_i$. The difference is $2(a_\tau-m\Delta/2)$. Pairing entry $p$ of $\mu(Y_m)$ with entry $p+1$ of
+$\mu(X_m)$ by (a), $n_\tau=\mu(X_m)_0-\sum_{1\le h<n_m}c^{\rm kept}(h)=e_m+\sum_{0<h<n_m}(c_\tau(h)-c^{\rm kept}(h))$, the number of columns that lose a box plus $e_m$. Summing over the $f$ infinite places, of which $\#\Phia$ are $a$-places, gives the last claim.
+\end{proof}
+
+\subsection{Centre systems and the insertion of a block}\label{ss:centres}
+All parameters of the chains are built in one way, at one infinite place. A \emph{centre system}
+consists of a finite set $C$ of centres, each with an integer value $c$, a length $l_c$ and a kind
+(\emph{up} or \emph{down}), and a finite set of doubled \emph{stem} entries. For $B\subseteq C$ let
+$\lambda^+_B$ be the stem together with the blocks $c+[l_c]$, $c\in B$; its rank is $n_B$. The sign of a
+doubled entry $y$ of $\lambda^+_B$ is $(-1)$ to the number of centres outside $B$ that \emph{count} for
+$y$: down centres with $c>y/2$ and up centres with $c<y/2$. The parameter $\lambda_B$ is $\lambda^+_B$
+lowered by $\frac12$ if the stem and $B$ both have odd size, and not lowered otherwise. A vector $l$ on a
+space with signs $s$ \emph{lists $2\lambda_B$ with common sign $\sigma$} if the space has rank $n_B$, the
+raised entries $l+2\cdot$(lowering) are the entries of $\lambda^+_B$, and $s(x)=\sigma$ times the sign of
+the entry of $x$. The system is \emph{separated by $h$} if all lengths have the parity of the stem size,
+the stem entries have the parity making $\lambda$ half-integral or integral as required, and every
+centre $c$ is at distance at least $(h+l_c)/2$ from the stem and from the blocks of the other centres.
+\lean{New.CentreSystem, New.CentreSystem.block, New.CentreSystem.entries, New.CentreSystem.rank, New.CentreSystem.lowering, New.CentreSystem.CountsFor, New.CentreSystem.sign, New.CentreSystem.IsSeparated, New.CentreSystem.IsParam, New.CentreSystem.IsSeparated.subset, New.CentreSystem.entries_insert, New.CentreSystem.rank_insert, New.centredBlock}
+
+A doubled parameter $l$ on a space with signs $s$ has \emph{gap} $h$ if its entries are distinct, have
+the parity of the rank minus one, and differ by at least $h$ at coordinates of opposite sign. Two
+parameters $l$, $l'$ on spaces of ranks $n<n'$ satisfy the \emph{block rule} for weights $\gamma$,
+$\gamma'$ if both have gap $500(n+n')^3$, after shifting $\lambda$ by $n'/2-\gamma'$ and $\lambda'$ by
+$n/2-\gamma$ the longer is the shorter together with a block centred at $0$, and the coordinates of a
+common shifted entry have equal signs if the entry is positive and opposite signs if it is negative.
+These are the conditions under which theta lifts between discrete series of the two groups are
+nonzero and computable (\cref{ss:B-discrete-series}).
+\lean{New.HCParam.HasGap, New.IsBlockRule, New.ParamsCorrespond}
+
+\begin{proposition}[Inserting a block]\label{prop:insert-block}
+Let the system be separated by $h$, $B\subseteq C$, $c\in C\setminus B$, $B'=B\cup\{c\}$, and let $l$, $l'$
+list $2\lambda_B$, $2\lambda_{B'}$ with the same common sign on spaces of ranks $n$, $n'$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $l$ has gap $h$.
+\item Raising $l$ by $n'\bmod2$ and $l'$ by $n\bmod2$, the entries of $l'$ are those of $l$ together with
+the block $c+[n'-n]$; at coordinates with equal raised entry the signs differ exactly when $c$ counts
+for the entry.
+\item If $h\ge500(n+n')^3$ and $c$ is down, then $l$, $l'$ satisfy the block rule for
+$\gamma=c+\lfloor n/2\rfloor$, $\gamma'=c+\lfloor n'/2\rfloor$; if $c$ is up, then $-l$, $-l'$ satisfy it for
+$\gamma=-c+\lceil n/2\rceil$, $\gamma'=-c+\lceil n'/2\rceil$.
+\end{enumerate}
+\end{proposition}
+\lean{New.CentreSystem.sign_eq_ite_sign_insert, New.CentreSystem.IsSeparated.add_length_le_abs_sub_two_mul_centre, New.CentreSystem.IsSeparated.disjoint_entries_block, New.CentreSystem.IsSeparated.card_entries, New.CentreSystem.IsSeparated.odd_add_card_of_mem_entries, New.CentreSystem.IsSeparated.rank_mod_two, New.CentreSystem.IsParam.add_lowering_mem, New.CentreSystem.IsParam.neg_signs, New.CentreSystem.IsParam.exists_not_countsFor_iff_of_sign_ne, New.CentreSystem.IsParam.hasGap, New.CentreSystem.IsSeparated.lowering_eq_rank_emod_two, New.CentreSystem.IsParam.card_le_card_insert, New.CentreSystem.IsParam.image_eq_union_and_sign_ne_iff, New.CentreSystem.IsParam.isBlockRule_insert_of_down, New.CentreSystem.IsParam.isBlockRule_neg_insert_of_up}
+
+\begin{proof}
+\emph{Parities and ranks.} All lengths $l_c$ have the parity of the stem size $s$; the doubled stem entries are odd if $s$ is even and even if $s$ is odd, and so are the doubled entries $2c+l_c-1-2b$ of the blocks. Hence every doubled entry of $\lambda^+_B$ has the parity of $s-1$, and $n_B\equiv s(1+\#B)$ modulo $2$. If $s$ is even, $n_B$ is
+even and the entries are odd, as a parameter on a space of rank $n_B$ requires; if $s$ is odd, the entries are even and $n_B\equiv1+\#B$, so a lowering by $1$ (doubled) is needed exactly when $\#B$ is odd. This is the definition of $\lambda_B$; and the lowering of $B$ is $s\#B\equiv n_{B'}$ modulo $2$, that of $B'$ is $s(\#B+1)\equiv n_B$
+modulo $2$.
+
+(a) By separation each centre $c\notin B$ is at distance at least $(h+l_c)/2$ from every entry of $\lambda^+_B$, and the blocks of the centres in $B$ are disjoint from each other and from the stem; so the entries are distinct and their number is $n_B$, and the lowering does not change differences. If two coordinates have opposite
+signs, the numbers of centres outside $B$ that count for their entries $y$, $y'$ have different parities, so some centre $c\notin B$ counts for exactly one of them. For a down centre this means $y/2<c\le y'/2$ or the reverse, for an up centre the same; in both cases $c$ lies between $y/2$ and $y'/2$, and as both are at distance at least
+$(h+l_c)/2\ge h/2$ from it, $\abs{y/2-y'/2}\ge h$.
+
+(b) By the parities above, raising $l$ by $n'\bmod2$ undoes the lowering of $B$, and raising $l'$ by $n\bmod2$ that of $B'$; so the raised entries are those of $\lambda^+_B$ and of $\lambda^+_{B'}=\lambda^+_B\cup(c+[l_c])$, with $l_c=n_{B'}-n_B=n'-n$. The set of centres outside $B'$ is that outside $B$ without $c$, so the sign of
+an entry in $B'$ is its sign in $B$ times $-1$ exactly when $c$ counts for it. With the common sign $\sigma$ on both spaces, the coordinates of a common raised entry have different signs exactly when $c$ counts for the entry.
+
+(c) Both parameters have gap $h\ge500(n+n')^3$ by (a). Let $c$ be down and $\gamma=c+\lfloor n/2\rfloor$, $\gamma'=c+\lfloor n'/2\rfloor$. Shifting $\lambda$ by $n'/2-\gamma'=(n'\bmod2)/2-c$ and $\lambda'$ by $n/2-\gamma=(n\bmod2)/2-c$ turns the entries into the raised entries of (b), halved and lowered by $c$; so the longer
+shifted parameter is the shorter one together with the block $[n'-n]$ centred at $0$. A common shifted entry $y/2-c$ is positive exactly if $y/2>c$, that is, exactly if the down centre $c$ does not count for $y$, and then the two signs agree by (b); it is negative exactly if $c$ counts, and then they differ. This is the block
+rule. If $c$ is up and $\gamma=-c+\lceil n/2\rceil$, $\gamma'=-c+\lceil n'/2\rceil$, shifting $-\lambda$ by $n'/2-\gamma'=c-(n'\bmod2)/2$ and $-\lambda'$ by $c-(n\bmod2)/2$ gives the negatives $-(y/2-c)$ of the halved raised entries lowered by $c$, so again the longer is the shorter together with a block centred at $0$; a common entry $-(y/2-c)$ is positive exactly if $y/2<c$, that is, exactly if the up centre $c$ does not count for $y$, and the signs on the two spaces, which are not changed, agree; it is negative exactly if $c$ counts, and then they differ.
+\end{proof}
+
+\subsection{The grids}\label{ss:grids}
+Two grids of spaces are needed: $Y^i_j$ and $\tilde Y^j_i$, $0\le i,j\le m$, treated together by a flag
+$z\in\{0,1\}$. The node $(i,j)$ of grid $z$ has a base block of $r+z$ indices, $i$ blocks of length $t+z$
+and $j$ blocks of length $t-z$. With an \emph{offset} $o$ (the grids have $o=0$, the
+\emph{triangles} have $i=0$), the base index numbered $n$ has the sign
+$(-1)^{o+e+\min(e-o,j)}$ with $e=(n+1-k)_+$, and the added blocks have sign $+1$. The doubled
+parameter at $\tau$ is: on the base, $2\varsigma_\tau(n)+z$; on the $l$-th block of the first kind the
+doubled block of length $t+z$ centred at $\kappa_{l}(\tau)$; on the $l$-th block of the second kind the
+doubled block of length $t-z$ centred at $-\kappa_{o+l}(\tau)$; all lowered by $1$ in grid $Y$ if $i+j$
+is odd. In grid $\tilde Y$ the node $(i,j)$ is the space $\tilde Y^j_i$ with the negative of this
+parameter. The spaces $Y_j$ of the target chain are the nodes $(0,j)$ of grid $Y$.
+\lean{New.Data.GridIndex, New.Data.gridIndex_false, New.Data.gridIndex_true, New.Data.gridNumber, New.Data.gridBlockEquiv, New.Data.entrySign, New.Data.entrySign_eq_neg_one_pow, New.Data.entrySign_eq_ite, New.Data.gridSigns, New.Data.gridParam, New.Data.gridParam_false, New.Data.gridParam_true, New.Data.neg_gridParam_true, New.Data.signsY, New.Data.paramY, New.Data.gridWeight, New.Data.gridHarmonic, New.BlockIndex, New.BlockIndex.firstBlock, New.BlockIndex.nonempty_equiv_sum, New.BlockIndex.equivSum, New.BlockIndex.equivSum_zero_apply, New.BlockIndex.card}
+
+\begin{proposition}[Parameters of the grids]\label{prop:grids}
+Let $i,j\le m$ and $\tau\in\Phi$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The node $(i,j)$ has rank $r+z+i(t+z)+j(t-z)\le2n_m$ and $\lfloor(m-j+z)/2\rfloor$ negative signs
+(offset $0$); all its signs are $+1$ for $j\ge m$. At $(j,j)$, the space $\tilde Y$ is $Y$ plus one vector of
+sign $(-1)^j$.
+\item The centres $\pm\kappa_{l+1}(\tau)$, $l<m$ (up of length $t+z$, down of length $t-z$), with the stem
+$\{2\varsigma_\tau(n)+z\}$, form a centre system separated by $\Delta-t-2\ge500(2n_m+2n_m)^3$; the
+doubled parameter of each node of a grid or triangle lists $2\lambda_B$ for the set $B$ of its blocks,
+with common sign $(-1)^o$. In particular it has gap $\Delta$, its entries are bounded by $\lceil20b\rceil$
+in absolute value, and the target parameter is strictly decreasing with $2\varsigma_\tau(n)\le k$.
+\item Each step $(i,j)\to(i+1,j)$ or $(i,j)\to(i,j+1)$ inserts one block, so the parameters at its two
+ends correspond (block rule) for the weights $\lfloor N/2\rfloor-\kappa_{l+1}(\tau)$ or
+$\lceil N/2\rceil-\kappa_{l+1}(\tau)$ of the nodes of rank $N$; and at the node $(m,m)$ the
+parameters of $\tilde Y$ and $Y$ interlace.
+\end{enumerate}
+\end{proposition}
+\lean{New.Data.card_gridIndex, New.Data.negCount_gridSigns_eq_sum, New.Data.negCount_gridSigns, New.Data.gridSigns_true_zero, New.Data.exists_equiv_diagonal_signs, New.Data.gridDiagEquiv, New.Data.sumElim_gridSigns_comp_gridDiagEquiv_symm, New.Data.card_gridIndex_mod_two, New.Data.liftWeight_add_gap_le, New.Data.gridSigns_eq_one, New.Data.sum_ite_lt_sub_two_mul, New.Data.sum_ite_lt_add_two_mul, New.Data.max_min_succ_sub_max_min_mem_Icc, New.Data.targetParameter_sub_one_add, New.Data.sum_ite_targetParameter_sub_sum_ite_mem_Icc, New.Data.gridParam_interlace, New.Data.abs_gridParam_le, New.Data.card_gridIndex_le, New.Data.targetParameter_strictAnti, New.Data.two_mul_targetParameter_le, New.Data.gap_le_liftWeight_succ, New.Data.liftWeight_succ_add_gap_le, New.Data.halfGap_le_targetParameter_add_liftWeight, New.Data.targetParameter_add_liftWeight_le_neg_halfGap, New.Data.targetParameter_add_liftWeight_gap, New.Data.gridCentres, New.Data.gridBlocks, New.Data.gridBlocks_succ_left, New.Data.gridBlocks_succ_right, New.Data.gridBlocks_succ_right_eq_insert_first, New.Data.card_stem_gridCentres, New.Data.gridBlocks_subset, New.Data.isSeparated_gridCentres, New.Data.entrySign_eq_mul_sign, New.Data.gridParam_add_lowering, New.Data.gap_le_abs_targetParameter_sub, New.Data.three_mul_halfGap_le_abs_targetParameter_add_liftWeight, New.Data.gridParam_injective, New.Data.even_gridParam_add_card_sub_one, New.Data.two_mul_gap_le_abs_gridParam_sub, New.Data.hasGap_gridParam, New.Data.gridSigns_eq_mul_sign, New.Data.isParam_gridParam, New.Data.mul_card_gridIndex_add_pow_three_le, New.Data.paramsCorrespond_grid_succ_left, New.Data.gridWeight_not, New.Data.paramsCorrespond_grid_succ_right, New.Data.paramsCorrespond_grid, New.Data.paramsCorrespond_neg_gridParam_insert_first, New.Data.paramsCorrespond_leftPair}
+
+\begin{proof}
+Write $w_l=\kappa_l(\tau)$; consecutive weights differ by $\Delta$, $w_1\ge\frac32\Delta$, and $k+t+1\le\Delta/2$. The target parameter is $\varsigma_p=k/2-1-p$ for $p<k-1$ and $\varsigma_{k-1+a}=\Delta/2-w_{a+1}$ for $a\ge0$; it is strictly decreasing, its entries are integers with $2\varsigma_p\le k$, and an entry $p$ lies at least $\Delta/2$ above the centre $-w_j$
+if $p<k+j-1$ and at least $\Delta/2$ below it otherwise (for $p=k-1+a$ with $a\ge j$, $\varsigma_p+w_j=\Delta/2-w_{a+1}+w_j\le-\Delta/2$). Entries with different values of $(p+1-k)_+$ differ by at least $\Delta$.
+
+(a) The rank is a count of indices: $r$ (resp.\ $r+1$) base indices, $i$ blocks of length $t$ (resp.\ $t+1$) and $j$ of length $t$ (resp.\ $t-1$); and $r+1+2mt\le2(k+m(t+1))$ as $r+1=k+m$. The added blocks have sign $+1$. On the base, with offset $0$, the sign of the index numbered $n$ is $(-1)^{a+\min(a,j)}$ for $a=(n+1-k)_+$, which is $+1$
+for $a\le j$ and $(-1)^{a-j}$ for $a>j$; as $n$ runs over the base, $a$ takes the value $0$ for $n<k$ and each of $1,\dots,m-1+z$ once. Hence the negative signs are those with $a=j+1,j+3,\dots\le m-1+z$, of number $\lfloor(m-j+z)/2\rfloor$, and none for $j\ge m$. At $(j,j)$ the ranks are $r+2jt$ and $r+2jt+1$ and the
+numbers of negative signs differ by $1$ exactly when $m-j$ is odd, that is, as $m$ is even, when $j$ is odd: $\tilde Y$ is $Y$ plus one vector of sign $(-1)^j$.
+
+(b) \emph{Separation.} The lengths $t\pm z$ have the parity of the stem size $r+z$, as $t$ and $r$ are odd; the stem entries $2\varsigma+z$ have the parity of $z$, opposite to that of $r+z$. The up centre $w_{l+1}$ is at doubled distance at least $2w_1-(k+1)\ge2\Delta$ from every stem entry; the down centre $-w_{l+1}$ at least
+$2\cdot\Delta/2-1=\Delta-1$, by the position of the entries; and two centres are at least $\Delta$ apart, so a block, whose doubled entries lie within $t$ of twice its centre, is at doubled distance at least $2\Delta-t$ from twice another centre. All these are at least $(\Delta-t-2)+(t+1)$, which is the separation
+$\Delta-t-2$ with the length $l_c\le t+1$. And $\Delta-t-2\ge500(4n_m)^3$ by \cref{prop:sizes}, as $\Delta=2r^8$ and $n_m\le k+m(t+1)\le40r^2$; this bounds $500(N+N')^3$ for two nodes of rank at most $2n_m$.
+
+\emph{The parameter lists $2\lambda_B$.} Undoing the lowering ($1$ in grid $Y$ for odd $i+j$, which is the case of odd stem size and odd number of blocks), the base entry numbered $n$ is $2\varsigma_n+z$, the entries of an up block are $2w_{l+1}+(t+z)-1-2b$ and those of a down block $-2w_{o+l+1}+(t-z)-1-2b$: this is $\lambda^+_B$ for the set $B$ of
+the up centres $l<i$ and the down centres $o\le l<o+j$. For the signs, count the centres outside $B$ that count for an entry $y$. No up centre outside $B$ counts for a base entry (they all lie above it) or for an up block entry (those outside $B$ lie above). A down centre $-w_{l+1}$ counts for a base entry $2\varsigma_n+z$ exactly when
+$\varsigma_n<-w_{l+1}$, that is, when $l<a=(n+1-k)_+$; so the number is $\#([0,a)\setminus[o,o+j))$, and $\#([0,a)\setminus[o,o+j))+\min((a-o)_+,j)=a$ gives the base sign $(-1)^{o+a+\min((a-o)_+,j)}=(-1)^o\cdot$(the sign of $y$). For an entry of the down block of $-w_{o+l+1}$, the down centres outside $B$ that count are those $l'<o$,
+$o$ in number, so its sign in the system is $(-1)^o$, and the space has $+1$ there; for an up block both are $+1$ with $o=0$. Hence the parameter lists $2\lambda_B$ with common sign $(-1)^o$ (grids $o=0$, triangles $i=0$).
+
+\emph{Gap $\Delta$.} The added blocks have sign $+1$, so of two coordinates of opposite signs one is a base index $x$ of sign $-1$, with $a=(n+1-k)_+>j$. If the other is a base index, its value of $a$ differs, so the entries differ by at least $\Delta$. If it is in an up block, the entries are at least $w_1$ apart. If it is in the down block of
+$-w_{o+l+1}$, both neighbours of this centre among the target entries have the sign $+1$, so $\varsigma_n$ is at least $3\Delta/2$ from it, and the block lies within $(t+1)/2$ of it: the distance is at least $\Delta$. In doubled terms the entries at opposite signs differ by at least $2\Delta$, and the parameter has gap $\Delta$.
+Every entry is at most $2w_m+t+1\le10w_{2m}$ in absolute value, and $w_{2m}\le2b$ by \cref{prop:sizes}; this gives $\lceil20b\rceil$.
+
+(c) The step $(i,j)\to(i+1,j)$ adds the up centre $w_{i+1}$ and the step $(i,j)\to(i,j+1)$ the down centre $-w_{o+j+1}$, so \cref{prop:insert-block}(c) applies with the separation of (b): for the down centre with the weights $-w_{l+1}+\lfloor N/2\rfloor$, for the up centre with the weights $-w_{l+1}+\lceil N/2\rceil$ on the negated
+parameters; in grid $\tilde Y$ the ranks are even and the two roundings agree.
+
+\emph{Interlacing at $(m,m)$.} The doubled entries of $Y^m_m$ are the base $k-2,k-4,\dots,2-k$ and $\Delta-2w_l$ ($1\le l\le m$), and the blocks $2w_l+[t]$ and $-2w_l+[t]$; those of $\tilde Y^m_m$ (the negative of the parameter of grid $\tilde Y$) are $k-3,k-5,\dots,1-k$ and $2w_l-\Delta-1$ ($1\le l\le m+1$), and the blocks
+$2w_l+[t-1]$ and $-2w_l+[t+1]$. In decreasing order they alternate, beginning and ending with $\tilde Y$: from the top, $2w_{l+1}-\Delta-1=2w_l+\Delta-1$ (from $\tilde Y$) precedes the interlaced blocks $2w_l+[t]$, $2w_l+[t-1]$, which begin and end with $Y$, for $l=m,\dots,1$; then $2w_1-\Delta-1$, then the alternating base entries
+$k-2>k-3>\dots>2-k>1-k$; then for $l=1,\dots,m$ the entry $\Delta-2w_l$ of $Y$, far below the preceding entries and at distance $\Delta$ above the block around $-2w_l$, followed by the interlaced blocks $-2w_l+[t+1]$, $-2w_l+[t]$, which begin and end with $\tilde Y$. The blocks do not meet the other entries, as $t+1<\Delta$. Hence the number of
+entries above any $x$ is, on $\tilde Y$, that on $Y$ or one more: the two parameters interlace.
+\end{proof}
+
+\subsection{Labels, the finite group \texorpdfstring{$\bar G$}{G} and good forms}\label{ss:target}
+For a finite field $\mathbb k$ a \emph{label} of degree $r$ is a monic squarefree polynomial $c\in\mathbb
+k[X]$ of degree $r$ with $c(0)\ne0$; it is \emph{primitive} if it is irreducible with a root of order
+$\abs{\mathbb k}^r-1$, and \emph{allowed} for $M$ if it has no root $x\in\mathbb k$ with $x^M=1$. A tuple of
+labels over finite fields $\mathbb k_w$ is \emph{good} for $M$ if every member is allowed and some member
+is primitive. Labels index the irreducible representations of $\GL_r(\mathbb k)$ that occur in the
+Deligne--Lusztig decomposition through Green's characters; for each label $c$ there is a central
+idempotent $e_c$ of $\C[\GL_r(\mathbb k)]$ (\cref{ss:B-green}).
+\lean{New.IsLabel, New.IsPrimitivePolynomial, New.IsPrimitivePolynomial.two_le_card_pow, New.IsPrimitivePolynomial.scaleRoots, New.IsPrimitivePolynomial.pow_geom_sum_eq_prod_aroots, New.IsPrimitivePolynomial.isPrimitiveRoot_prod_aroots, New.IsPrimitivePolynomial.isPrimitiveRoot_prod_aroots_and_exists_pow_eq, New.IsAllowedPolynomial, New.IsAllowedPolynomial.isLabel, New.IsAllowedPolynomial.not_isRoot, New.goodTuples, New.mem_goodTuples, New.tupleIdem, New.piTensorElem}
+
+\begin{lemma}\label{lem:primitive-label}
+Let $c$ be primitive of degree $r$ over $\mathbb k$, $q=\abs{\mathbb k}$. The product of the roots of $c$ is
+$\xi^{1+q+\dots+q^{r-1}}$ for every root $\xi$, and has order $q-1$. If $M^2\mid q-1$ and $a^M=1$, then the
+polynomial with roots multiplied by $a$ is primitive.
+\end{lemma}
+\lean{New.IsPrimitivePolynomial.scaleRoots}
+
+\begin{proof}
+The roots are the conjugates $\xi^{q^i}$, so their product is the norm $\nu=\xi^{S}$ with
+$S=(q^r-1)/(q-1)=1+q+\dots+q^{r-1}$, a generator of $\mathbb k^\times$ since $\xi$ generates $\mathbb
+F_{q^r}^\times$. For the scaling, the roots of the scaled polynomial are the $a\xi^{q^i}=(a\xi)^{q^i}$, the
+conjugates of $a\xi$; so it suffices that $a\xi$ has order $q^r-1$. Let $d$ be this order. Then
+$\xi^d=a^{-d}\in\mathbb k^\times$, so $S\mid d$; write $d=Sd'$ with $d'\mid q-1$. Then
+$(\nu a^{S})^{d'}=\xi^{d}a^{d}=1$. Since $\mathbb k^\times$ is cyclic and $a^M=1$, we have
+$a^S=\nu^{u(q-1)/M}$ for some $u$, and $\nu a^S=\nu^{1+u(q-1)/M}$. Every prime $\ell\mid q-1$ divides
+$(q-1)/M$: this is clear if $\ell\nmid M$, and if $\ell\mid M$ it follows from $v_\ell(q-1)\ge2v_\ell(M)$.
+Hence $1+u(q-1)/M$ is prime to $q-1$, $\nu a^S$ generates $\mathbb k^\times$, and $q-1\mid d'$. Hence
+$d=q^r-1$.
+\end{proof}
+
+The basis of the definite space $X_j$ is indexed by $n_j-1$ indices and one more, the \emph{last} index.
+The space $Y_0$ has rank $r$; its basis is indexed by $e_1,\dots,e_\varrho$, the $k$ indices of $X_0$, a
+\emph{middle} vector $z$, and $e^*_1,\dots,e^*_\varrho$, and we number it once and for all by
+$\{0,\dots,r-1\}$. The basis of $Y_j$ is that of $Y_0$ followed by $j$ blocks of $t$ indices.
+\lean{New.Data.ϱ, New.Data.InitIndex, New.Data.X, New.Data.shape, New.Data.RowIndex, New.Data.Y, New.Data.card_rowIndex, New.Data.basisNumber, New.Data.paramW, New.Data.signsW, New.Data.chosenPlace, New.Shape.besselIndexEquiv, New.Data.m_eq_two_mul_varrho_add_two}
+
+Let $\bar G=\prod_w\GL_r(\F_w)$, the product over the chosen places $w$ above $p_0$ and $p_1$
+(\cref{ss:chosen}). Let $e_0\in\C[\bar G]$ be the sum of the idempotents
+$\bigotimes_we_{c_w}$ over the families $(c_w)$ such that, for $i=0,1$, the labels at the places above
+$p_i$ form a good tuple for $q_2$ of degree $r$.
+\lean{New.Data.chosenGL, New.Data.goodTupleFamilies, New.Data.mem_goodTupleFamilies, New.Data.e₀}
+
+\begin{proposition}\label{prop:e0}
+$e_0$ is a central self-adjoint idempotent. If $\chi$ is a character of $\F_w$ with $\chi^{q_2}=1$ and $l\ne0$,
+then $e_0$ kills every pure tensor that has, at the place $w$, the \emph{hyperplane sum}
+$\sum\chi(\det h)^{-1}h$ over the invertible $h=1+ul^{\mathsf T}$.
+\end{proposition}
+\lean{New.Data.isCentralProj_e₀, New.Data.hyperplaneSum_mul_e₀, New.hyperplaneSum, New.isCentralProj_sum_tupleIdem}
+
+\begin{proof}
+The label idempotents $e_c$ of $\C[\GL_r(\F_w)]$ are central, self-adjoint and orthogonal for distinct labels (\cref{ss:B-green}). Their tensor products $\bigotimes_we_{c_w}$ over the families $(c_w)$ are central self-adjoint idempotents of $\C[\bar G]$, orthogonal for distinct families, so their sum $e_0$ over the good families is a
+central self-adjoint idempotent. For the second claim, let $x$ be a pure tensor whose factor at $w$ is the hyperplane sum $H=\sum_h\chi(\det h)^{-1}h$ over the invertible $h=1+ul^{\mathsf T}$. By centrality, $xe_0$ is the sum over the good families of $\bigotimes_vx_ve_{c_v}$, and it suffices that $He_c=0$ for every allowed label $c$ at
+$w$. The elements $h$ are the transvections and dilations fixing the hyperplane $\ker l$ pointwise, so $H$ lies in the span of the representations induced from the stabiliser of $\ker l$ with the character $\chi\circ\det$ on its Levi factor; in the Deligne--Lusztig decomposition these have labels with the root
+$x_\chi$ that corresponds to $\chi$ under the identification of characters of $\F_w^\times$ with units of $\F_w$, and $x_\chi^{q_2}=1$ because $\chi^{q_2}=1$. An allowed label has no such root, so $e_c$ kills them (\cref{ss:B-green}).
+\end{proof}
+
+\subsection{The spaces \texorpdfstring{$Y_j$}{Yj} and \texorpdfstring{$W_j$}{Wj}, and the target}\label{ss:spaces-Y}
+For a tame character $\vartheta$ (a character of $\U(1)(\Ad)$ of weight $0$ whose tame part is supported on
+a finite set $Q$ of places of norm prime to $MN$, disjoint from its conjugate), the \emph{level places}
+are the chosen places and the places of $Q$. Put $\mathfrak a=\mathfrak a_0/\pi_M$, generated by the idele
+$\alpha/\bar\beta_M$, where $\beta_M$ generates $(\bar\pi_M)$ and is $1$ off the chosen places, and let
+$\pi_N\in\OO_E$ with $\pi_N\bar\pi_N=N$ (\cref{def:data}); the places dividing $\pi_N$ are split of
+degree one above $N$, one in each conjugate pair, and there are $f$ of them.
+\lean{New.Data.TameChar, New.Data.levelPlaces, New.Data.normQ_mem_and_notMem_of_mem_Q, New.Data.twistModulus, New.Data.nonempty_modulus_places, New.Data.chosenIdele, New.Data.valued_chosenIdele, New.Data.chosenIdele_apply_of_not_isChosen, New.Data.ideleA, New.Data.piNIdele, New.Data.isSplitSquarefree_piNIdele, New.Data.latticeScale, New.Data.piN_ne_zero, New.Data.piNPlaces, New.Data.mem_piNPlaces, New.Data.star_mem_piNPlaces_iff, New.Data.isSplitLevel_piNPlaces, New.Data.card_piNPlaces}
+
+\begin{definition}\label{def:spaces-Y}
+For $j<m$, $Y_j$ is the hermitian space (it exists by \cref{lem:spaces-Y}) of rank $r+jt$ with Gram matrix the identity on the indices of
+$X_j$ and antidiagonal on a string of $2\varrho+1-j$ further vectors, with entries $1$ except $-N$ at the
+middle vector if there is one; its lattice is spanned at the finite places by the graded basis built from
+$\mathfrak a$, $\pi_N$ and $(\mathfrak a/\bar{\mathfrak a})^{\lceil(m-j)/2\rceil}$, up to an integral change of
+basis that is trivial at the chosen places. For $j\ge m$, $Y_j$ is the standard definite space. The space
+$W_j$ is the diagonal space of rank $r$ whose $i$-th sign is $-1$ when the number of $i$ is at least
+$k+j-1$.
+\end{definition}
+\lean{New.Data.indexEquivY, New.Data.exists_space_isStd_of_le_and_gram_eq_of_lt, New.Data.spaceY, New.Data.isStd_spaceY_of_le, New.Data.spaceY_gram_eq, New.Data.exists_spaceY_xFin_eq, New.Data.isStd_spaceY_last, New.Data.spaceW, New.gradedGram, New.gradedLatticeBasis}
+
+\begin{lemma}[The spaces $Y_j$ exist]\label{lem:spaces-Y}
+For $j<m$ there is a hermitian space with the signs of $Y_j$ whose Gram matrix is the graded Gram matrix of \cref{def:spaces-Y} and whose lattice basis is the graded basis times an integral change of basis that reduces to $1$ at every chosen place; for $j\ge m$ the standard definite space serves.
+\end{lemma}
+
+\begin{proof}
+At an infinite place the graded Gram matrix is the identity on the $n_j$ indices of $X_j$ and an antidiagonal hermitian form on a string of $2\varrho+1-j$ vectors, whose number of negative signs is half the length of the string, rounded up (the antidiagonal pairs are hyperbolic, and the middle entry $-N$ is negative); this is the number of
+minus signs of $Y_j$, so at each infinite place there is a frame for the Gram matrix with the required signs. At the finite places the lattice with the graded basis is unimodular, as the scalings by $\mathfrak a$, $\pi_N$ and $(\mathfrak a/\bar{\mathfrak a})^{\lceil(m-j)/2\rceil}$ are matched by their conjugates on the hyperbolic pairs and $N=\pi_N\bar\pi_N$ at the
+middle vector; a unimodular hermitian lattice over the integers of a local field split over the base has an orthonormal basis $Ll$ with $l$ integral. The chosen places are split, so there the integral unitary group is $\GL_r$ of the local integers, which maps onto $\GL_r$ of the residue field; correcting $l$ by the integral finite unitary element that lifts the inverse reductions of $l$ at the chosen places and is $1$ elsewhere gives a change of basis that reduces to $1$
+at the chosen places.
+\end{proof}
+
+The \emph{type} of forms on $Y_j$ (or $W_j$) is the product over the infinite places of the discrete
+series with doubled parameter $2\varsigma_\tau$ on the coordinates of $Y_0$ (resp.\ the parameter of the
+node $(0,j)$), with the signs of the space. Forms of \emph{principal level} are those fixed by the integral
+points that reduce to $1$ at all chosen places.
+
+\begin{definition}[Target]\label{def:target}
+For a space $V$ of rank $r$ with signs $s$ for which $2\varsigma$ has gap $\Delta$, let $\mathcal A(V)$ be the space
+of forms on $\U(V)$ of type $2\varsigma$ and principal level. The group $\bar G$ acts on $\mathcal A(V)$ through
+integral lifts. The \emph{good forms} are $e_0\mathcal A(V)$, and the \emph{target} is $\mathcal T=e_0\mathcal
+A(Y_0)$, of dimension $\dimT$.
+\end{definition}
+\lean{New.Data.principalForms, New.Data.principalRep, New.Data.goodForms, New.Data.targetForms, New.Data.targetDim, New.Data.hasGap_signsY_paramW, New.Data.hasGap_paramW, New.Data.isCuspKernel_typeKernel_paramW}
+
+\begin{proposition}\label{prop:target-finite}
+For the signs of $Y_0$ and of each $W_j$, the doubled target parameter has gap $\Delta$ at every infinite
+place; the product of the discrete series kernels is a cusp kernel of order $\Delta/2$, and the space of
+forms of principal level is finite-dimensional.
+\end{proposition}
+
+\begin{proof}
+For $W_j$ the sign of the index numbered $p$ is $-1$ exactly when $p\ge k+j-1$; by the position of the target entries (proof of \cref{prop:grids}) the entries of sign $+1$ lie at least $\Delta/2$ above the centre $-\kappa_j$ and those of sign $-1$ at least $\Delta/2$ below it, so entries at indices of opposite sign differ by at least $\Delta$; the
+entries are distinct integers of the right parity. For $Y_0$ the signs are those of the node $(0,0)$ of grid $Y$, and the gap is \cref{prop:grids}(b). A product of discrete series kernels whose parameters have gap $500r^3+\Delta/2$ is a cusp kernel of order $\Delta/2$ (\cref{ss:B-discrete-series}), and $500r^3\le\Delta/2=r^8$; so gap $\Delta$
+suffices. Forms of fixed level and of a type whose kernel is a cusp kernel form a finite-dimensional space (\cref{ss:B-discrete-series}).
+\end{proof}
+
+\subsection{Descent pairs}\label{ss:descent-pairs}
+A \emph{descent pair} consists of level places $M$, $Q$, a hermitian space $W$ of rank $r_W$ with signs,
+an embedding of its basis indices into those of the definite standard space $V=I_n$ of rank $n>r_W$, a
+numbering of the basis vectors of $W$, column counts $k^+(\tau,i)$, $k^-(\tau,i)$, and a character $\mu$ of
+$\U(1)(\Ad)$ with weight and tame part, trivial off $M\cup Q$. Its forms on $V$ have the highest weight with
+$k^+(\tau,i)+k^-(\tau,n-i)$ columns of height $i$ and the determinant power $-\sum_ik^-(\tau,i)$, and level
+the integral points fixing the embedded basis vectors modulo $M$ and preserving the span of the others
+modulo $Q$, with the character $\prod_{w\in Q}\psi_w^{-1}(\det g_{00})$. The \emph{block datum} $\Psi_{\rm bl}$
+is the function of matrices modulo $MQ$ that is $\prod_{w\in Q}\psi_w(\det X_w|_{\rm incl})$ if $X_w$ is
+the inclusion matrix at every $w\in M$, and $0$ otherwise; $\Psi_{\rm bl}\otimes\mathrm{vac}$ is a finite
+datum on $\Hom(W,V)$. The \emph{normalised descent} of a form $\Xi$ on $V$ is the function
+$g\mapsto\sum_h\overline{\theta(\omega(g,h)(v_{P_{\bar\xi}}\otimes\Psi_{\rm bl}\otimes\mathrm{vac}))}$ on
+$\U(W)(\Ad)$, the class sum over the level of $V$ applied to $\Xi(h)$, where $P_\xi$ is the Fock polynomial of a
+weight vector $\xi$.
+\lean{New.DescentPair, New.DescentPair.levelGroup, New.DescentPair.residueBlockDatum, New.DescentPair.columnCount, New.DescentPair.detExp, New.DescentPair.residueLevelChar, New.DescentPair.residueLevelChar_apply, New.DescentPair.residueLevelChar_firstBlockHom_conj, New.DescentPair.levelChar, New.DescentPair.FormV, New.DescentPair.chosenGLRep, New.DescentPair.formAction, New.DescentPair.tensorPoly, New.DescentPair.tensorPoly_vecMulVec, New.DescentPair.fockPoly, New.DescentPair.charW, New.DescentPair.charV, New.DescentPair.pairThetaKernel, New.DescentPair.blockDatum, New.DescentPair.fockDatum, New.DescentPair.conjKernel, New.DescentPair.normalizedDescent, New.DescentPair.heckePolyOnForms, New.DescentPair.heckePolyOnForms_eq_smul, New.DescentPair.rankDiff, New.DescentPair.liftHeckeRoot, New.DescentPair.HasLiftHeckePolynomial, New.LevelPlaces.ChosenGL, New.firstBlockHom, New.firstBlockHom_apply_inl, New.firstBlockHom_apply_inr, New.descentResidueLevel, New.mem_descentResidueLevel_iff, New.firstBlockHom_conj_apply_inr, New.firstBlockHom_conj_mem_descentResidueLevel}
+
+\begin{proposition}[Descent pairs]\label{prop:descent-pairs}
+Let $O$ be a descent pair and $l$ a doubled parameter on $W$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item $\Psi_{\rm bl}\otimes\mathrm{vac}$ is the sum over $A\in\prod_{w\in Q}\GL(\F_w)$ of the translates, by
+lifts of $A^{-1}$, of $\Psi^1\otimes\mathrm{vac}$, where $\Psi^1$ is the indicator of the matrices that are
+the inclusion at $M$ and whose embedded rows are the identity at $Q$. Integral points $(k,k')$ whose
+reductions are related by $k'=\mathrm{diag}(k,1)j$ at $M$ and $k'=j$ at $Q$, with $j$ in the residue level,
+multiply it by $(\prod_M\psi_w(\det k))^{-1}$ times the level character of $j$.
+\item If $l$ \emph{fits} $O$ (the parameters $l$ on $W$ and $l'$ on $V$ satisfy the block rule for the
+weights $r_-$ and $\lfloor n/2\rfloor+$the weight of $\mu$, the numbering lists the vectors of each sign by
+decreasing $\pm l$, and $k^\pm(\tau,i)=0$ for $i$ above the number of signs $\pm$), then the Fock polynomial of
+the highest vector of $l'$ is the product over $\tau$ of products of leading minors (staircases), each a joint
+harmonic for the dual pair, and the corresponding Fock vector is an edge between the types $l$ and $l'$.
+\item The normalised descent of $\Xi$ is $\dim\cdot[K_0:\mathrm{level}]$ times the conjugate of the lift from $V$
+to $W$, by the datum of the highest vector, of the conjugate of $\Xi$.
+\end{enumerate}
+\end{proposition}
+\lean{New.LevelPlaces.TwistGL, New.LevelPlaces.twistResidue, New.LevelPlaces.twistResidue_inl, New.LevelPlaces.twistResidue_inr, New.LevelPlaces.twistResidueLift, New.LevelPlaces.reduceFamily_twistResidueLift, New.LevelPlaces.reduceAt_twistResidueLift_inl, New.LevelPlaces.reduceAt_twistResidueLift_inr, New.DescentPair.identityBlockIndicator, New.DescentPair.charV_detFin_eq_prod, New.DescentPair.residueBlockDatum_eq_sum, New.DescentPair.blockDatum_eq_sum_modDatum, New.DescentPair.residueBlockDatum_inv_mul_mul, New.DescentPair.omega_blockDatum_eq_smul, New.DescentPair.paramV, New.DescentPair.isHCParam_paramV, New.DescentPair.FitsParams, New.fockRowSubst, New.realPairWeil_one_polyVector, New.fockRowSubst_fockLetters, New.realPairWeil_fockLetters, New.DescentPair.fockRowSubst_tensorPoly, New.DescentPair.realPairWeil_fockPoly, New.DescentPair.productOfMinors, New.DescentPair.decreasingPosition_paramV, New.DescentPair.fockPoly_highestVector, New.DescentPair.FitsParams.isJointHighest_productOfMinors, New.DescentPair.FitsParams.lowestKType_eq_staircaseWeight, New.DescentPair.FitsParams.isJointHarmonic_productOfMinors, New.DescentPair.FitsParams.exists_isJointHarmonic, New.DescentPair.FitsParams.isEdge, New.DescentPair.omega_fockDatum_star, New.DescentPair.conjKernel_equivariant, New.DescentPair.normalizedDescent_eq_smul_star_lift_swap, New.LevelPlaces.ker_reductionGL_eq, New.LevelPlaces.card_levelModulus_residueRing, New.LevelPlaces.card_GL_levelModulus}
+
+\begin{proof}
+(a) For a family $X$ of residue matrices that is the inclusion at $M$, $\prod_Q\psi_w(\det X_w|_{\rm incl})$ is the sum over the families $A$ of invertible matrices at $Q$ of $\prod_Q\psi_w(\det A_w)$ times the indicator that the embedded rows of $X$ are $A$; and the indicator for $A$ is the indicator for the identity moved by a lift of
+$A^{-1}$, which reduces to $1$ at $M$ and to $A^{-1}$ at $Q$. The scalar by which the Weil action of the lift multiplies the finite datum is the inverse of the character of $\det$ of the lift, which is $\prod_Q\psi_w(\det A_w)$; this gives the sum. For the action of the level, the finite Weil action of an integral point $(k,k')$ is the
+substitution $X\mapsto k'^{-1}Xk$ of the reductions times the values of the characters at the determinants. At $M$ the element $j$ fixes the inclusion matrix and $\mathrm{diag}(k,1)\,\mathrm{incl}=\mathrm{incl}\,k$, so the support is preserved; at $Q$ the embedded rows of $j^{-1}Xk$ are the corner of $j^{-1}$ times those of $X$
+times $k$. The characters at $Q$ cancel against those of the substitution, and the character of $\U(W)$ is trivial on integral points; what remains is $(\prod_M\psi_w(\det k))^{-1}$ times the level character of $j$.
+
+(b) The highest vector of the weight with $k^\pm$ columns goes, under the Fock polynomial map, to the product over $\tau$ of the products of the leading $p\times p$ minors of the Fock variables, with the rows ordered by decreasing $\pm l'$ and the columns of each sign by the numbering, to the powers $k^+(\tau,p)$ and $k^-(\tau,p)$: an
+evaluation vector gives a product of powers of minors, and the Cartan embedding of the mixed weight into the tensor product of the two Weyl modules sends the highest vector to a tensor of two evaluation vectors. Such a staircase is highest for the rows, of the lowest $K$-type of $l'$, and for the columns, of the staircase weight;
+it is harmonic on both sides, as its minors are. When $l$ fits $O$, the block rule produces a joint harmonic for the two lowest $K$-types (\cref{ss:B-discrete-series}), which spans the polynomials with these properties, so the lowest $K$-type of $-l$ is the staircase weight and the staircase is a joint harmonic. A joint harmonic
+between the two discrete series types is a half edge in both directions, that is, an edge.
+
+(c) The normalised descent is, at $g$, the class sum over the level of $V$ of the conjugate kernel applied to $\Xi(h)$. By the equivariance of the conjugate kernel under rational points and the level (the real points act on the Fock vector through the conjugate Weyl representation, and the level multiplies the block datum by the
+level character), the function $h\mapsto$ (kernel at $(g,h)$ applied to $\Xi(h)$) is invariant under the level, so the class sum is $[K_0:\mathrm{level}]$ times the integral over the finite points. Expanding $\Xi(h)$ in a basis of the Weyl module and using the invariance under the real points of $\U(V)$, the sum of the data
+$v_{P_{\bar\xi}}\otimes\xi$ over the basis collapses to $\dim$ times the datum of the highest vector; the result is the conjugate of the lift from $V$ to $W$ of the conjugate form by that datum.
+\end{proof}
+
+For $1\le j\le m$ the $j$-th \emph{descent pair} $(W_j,V_j)$ has $W=W_j$, $V=I_{r+t}$, the character
+$\mu^0_j\vartheta^j$ of weight $-\kappa_j$, the numbering of \cref{ss:target} (reversed on the minus signs), and
+the column counts $k^+(\tau,i)=(\varsigma(i-1)-\max(\varsigma(i),\frac{t-1}2-\kappa_j)-1)_+$ and
+$k^-(\tau,i)=(\min(\varsigma(r-i-1),-\kappa_j-\frac{t-1}2)-\varsigma(r-i)-1)_+$.
+\lean{New.Data.descentPair, New.Data.chainChar, New.Data.liftChar, New.Data.liftTamePart, New.Data.hasWeight_liftChar}
+
+\begin{proposition}\label{prop:descent-pair-fits}
+For $1\le j\le m$, $W_j$ has $m-j$ minus signs, the doubled parameter of forms on $V_j$ at $\tau$ is, after the
+shift by $2(m-j+\kappa_j-\lfloor r/2\rfloor)-1$, the sequence $2\varsigma_p$ ($p<k+j-1$), the doubled block of length
+$t$ centred at $-\kappa_j$, and $2\varsigma_{p-t}$; it lists $2\lambda_{\{-\kappa_j\}}$ for the centre system with
+stem $\{2\varsigma\}$ and the single down centre $-\kappa_j$; and the target parameter fits the $j$-th descent pair.
+\end{proposition}
+\lean{New.Data.card_Y_le, New.Data.isHCParam_paramY, New.Data.card_rowIndex_sum_fin, New.Data.card_filter_basisNumber, New.Data.paramW_lt_iff, New.Data.negCount_signsW, New.Data.sum_Ioo_posRank_columnCount_descentPair, New.Data.hcParameter_descentPair, New.Data.descentCentres, New.Data.descentCentres_centre, New.Data.sign_descentCentres, New.Data.isParam_paramW, New.Data.hcParameter_descentPair_sub, New.Data.isParam_paramV, New.Data.paramsCorrespond_descentPair, New.Data.fitsParams_descentPair, New.Data.posRank}
+
+\begin{proof}
+Write $a=k+j-1$ (the number of plus signs of $W_j$), $w=\kappa_j(\tau)$ and $\varsigma=\varsigma_\tau$. \emph{Signs.} The index numbered $p$ has sign $-1$ exactly when $p\ge a$, so there are $r-a=m-j$ minus signs.
+
+\emph{The parameter on $V_j$.} The doubled Harish-Chandra parameter of a weight of rank $N=r+t$ has the steps $\lambda_p-\lambda_{p+1}=2+2\,\mathrm{cols}(p+1)$, where $\mathrm{cols}(i)=k^+(\tau,i)+k^-(\tau,N-i)$. As $\varsigma_q+w\ge\Delta/2$ for $q<a$, $\varsigma_q+w\le-\Delta/2$ for $q\ge a$, and $t/2<\Delta/2$, the maxima, minima and positive parts in
+the column counts are decided: $k^+(\tau,i)=\varsigma_{i-1}-\varsigma_i-1$ for $i<a$, $k^+(\tau,a)=\varsigma_{a-1}+w-\frac{t-1}2-1$, and $k^+(\tau,i)=0$ for $i>a$; and $k^-(\tau,N-i)$ is $0$ for $a\le i<a+t$, $-w-\frac{t-1}2-\varsigma_a-1$ for $i=a+t$, and $\varsigma_{i-1-t}-\varsigma_{i-t}-1$ for $i>a+t$. Hence the steps of the parameter
+are those of the list $L=(\varsigma_0+w,\dots,\varsigma_{a-1}+w,\frac{t-1}2,\frac{t-3}2,\dots,-\frac{t-1}2,\varsigma_a+w,\dots,\varsigma_{r-1}+w)$, doubled: inside the string the steps are $2$, which is no column. The level is fixed by the determinant power $-\sum_ik^-(\tau,i)$: the columns above height $a$, which all come from $k^-$, cancel it,
+and the entry $p$ of the parameter is $r-2a+2L_p$. Lowering by $2u-1$ with $u=m-j+w-\lfloor r/2\rfloor$, and using $r-2a=2(m-j)-r$, the entries become $2\varsigma_p$ for $p<a$, the doubled block $-2w+t-1-2(p-a)$ of length $t$ centred at $-w$ for $a\le p<a+t$, and $2\varsigma_{p-t}$ for $p\ge a+t$.
+
+\emph{Centre systems.} Take the stem $\{2\varsigma_p\}$ and the single down centre $-w$ of length $t$. Without the block, the sign of an entry is $-1$ exactly when the centre counts for it, that is, when $\varsigma_p<-w$, i.e.\ $p\ge a$: this is the sign of $W_j$. With the block every sign is $+1$, as on the definite $V_j$. Hence $2\varsigma$
+on $W_j$ lists $2\lambda_\emptyset$, and the parameter on $V_j$ lowered by $2u$, whose entries raised by the lowering $1$ are those of the stem and the block, lists $2\lambda_{\{-w\}}$, both with common sign $1$; the separation is that of \cref{prop:grids}(b). \Cref{prop:insert-block}(c) gives the block rule for the down centre $-w$, with the weights $-w+\lfloor r/2\rfloor$ and $-w+\lfloor(r+t)/2\rfloor$; raising the first
+weight by $u$ undoes the shift and gives the weights $m-j$, the number of minus signs, and $\lfloor(r+t)/2\rfloor-\kappa_j$.
+
+\emph{Fitting.} The numbering lists the plus vectors by decreasing $\varsigma$ and the minus vectors by increasing $\varsigma$, that is by decreasing $\pm\varsigma$; and $k^+(\tau,i)=0$ for $i>a$, the number of plus signs, and $k^-(\tau,i)=0$ for $i>r-a$, the number of minus signs, by the formulas above.
+\end{proof}

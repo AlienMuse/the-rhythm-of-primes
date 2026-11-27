@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this paper, please cite it as below."
+title: "The Rhythm of Primes: On the Formally Verified Proof of the Generalized Riemann Hypothesis for Dirichlet L-functions"
+version: "1.0.0"
+date-released: "2026-11-27"
+doi: "10.5281/zenodo.24593828"
+license: CC-BY-4.0
+repository-code: "https://github.com/AlienMuse/the-rhythm-of-primes"
+authors:
+  - family-names: Liu
+    given-names: Vincent
+    orcid: "https://orcid.org/0009-0000-8718-222X"
+    affiliation: WiseMotif.ai
+keywords: [Generalized Riemann Hypothesis, Dirichlet L-functions, theta correspondence, Stepanov's method, heights, formal verification, Lean]
+preferred-citation:
+  type: article
+  title: "The Rhythm of Primes: On the Formally Verified Proof of the Generalized Riemann Hypothesis for Dirichlet L-functions"
+  authors:
+  - family-names: Liu
+    given-names: Vincent
+    orcid: "https://orcid.org/0009-0000-8718-222X"
+    affiliation: WiseMotif.ai
+  year: 2026
+  doi: "10.5281/zenodo.24593828"
+  publisher:
+    name: Zenodo
+references:
+  - type: software
+    title: "grh-lean: the Generalized Riemann Hypothesis for Dirichlet L-functions, in Lean 4"
+    authors:
+    - name: "Anthropic, PBC"
+    year: 2026
+    url: "https://github.com/lsernau/grh-lean"
+    license: Apache-2.0

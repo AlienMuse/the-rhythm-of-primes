@@ -1,0 +1,305 @@
+\section{Ribet's method to first order}\label{sec:ribet}
+
+Ribet's method \cite{Ribet1976,Wiles1990} turns a congruence between a lift and a non-lift into an extension of Galois representations. In the form needed here the representations of a whole
+space of forms are treated at once, the auxiliary primes enter through \emph{tie parameters} $X_j$ that tie tame inertia to Frobenius, and only the coefficient of the
+product $\prod_jX_j$ of a Hecke element is controlled. This section proves the algebraic statement, which does not involve Galois groups
+(\cref{thm:ribet-lemma}); \cref{sec:denominators} applies it to the representations of \cref{sec:galois-lifts}.
+
+\subsection{Ribet's method over an algebra}\label{ss:ribet-algebra}
+Let $R\to L$ be rings, $\Lambda$ an $R$-algebra and $\rho\colon\Lambda\to M_\sigma(L)$ an $R$-algebra map such that the characteristic polynomials of a spanning set of $\Lambda$ have coefficients in the image of $R$.
+\lean{New.blockFlattenAlgEquiv, New.amitsur_charpoly_comp_coeff_mem_range, New.Selmer.exists_adjugate_polynomial, New.Selmer.mul_aeval_eq_zero_of_adjugate, New.Selmer.exists_ribet_polynomial, New.exists_family_algHom_charpoly_mem, New.Selmer.det_comp_map_eq_mul_prod, New.Selmer.det_mem_of_coeff_mem, New.Selmer.traceIdeal, New.Selmer.mem_traceIdeal, New.Selmer.trace_mul_mem_of_mem_span, New.Selmer.trace_mul_aeval_apply, New.Selmer.exists_mul_eq_algebraMap_det, New.Selmer.map_mem_span_range, New.Selmer.map_mul_eq_zero_of_blocks, New.Selmer.exists_ribet_element_of_tied_rows}
+
+Throughout, $R$ and $L$ are commutative, $L$ is an $R$-algebra, and an element of $L$ is said to lie \emph{in $R$} if it lies in the image of $R$. A square matrix $P=(P_{ij})$ over $\Lambda$ is read through $\rho$ as the block matrix $\Phi(P)$ with blocks
+$\rho(P_{ij})$; $\Phi$ is again an $R$-algebra map. In (b) of \cref{prop:ribet-algebra}, $\rho_0$, $\rho_1\in\Lambda$ are arbitrary and $P(\rho_0)$ is the value of $P\in R[X]$ at $\rho_0$. In (c), $O$ is a ring, $u_x\colon O[G]\to M_\sigma(O)$
+are $O$-algebra maps, $L$ is an $O$-algebra, $S$ is a subalgebra of the functions $Y\to L$, $I$ is the left ideal spanned by the entries of a vector $y$ over $O[G]$, a \emph{matrix of tied rows} is a square matrix $B$ with
+the entries of $By$ in $\mathfrak a+I\rho_0$, and on $\mathcal X$ the elements $\rho_0$, $\rho_1$ satisfy: $\rho_1$ vanishes on the block and on the characters $\eta_e$, $e\ne0$, $\eta_0(\rho_1)=\mu_0$ and $\eta_0(\rho_0)=0$.
+\lean{New.amitsur_charpoly_mem_of_span, New.exists_adjugate_of_charpoly_mem}
+
+\begin{lemma}[Amitsur's theorem]\label{lem:amitsur}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item If $\Lambda$ is spanned over $R$ by elements $s$ for which the characteristic polynomial of $\rho(s)$ has its coefficients in $R$, then every $\rho(w)$ has this property.
+\item If moreover $\Lambda$ is replaced by $\Lambda[X]$, $R$ by $R[X]$ and $\rho$ by its extension $\rho_X$ to $\Lambda[X]\to M_\sigma(L[X])$ coefficientwise, the hypothesis of (a) holds, and for every square matrix $B$ over $\Lambda[X]$ there are $P\in R[X]$
+and a square matrix $B'$ over $\Lambda[X]$ with $P(0)=\det\Phi(B|_{X=0})$ and $\Phi_X(B'B)=P\cdot1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) For a matrix $A$ of size $n$ over a commutative ring, $\det(1-tA)=\sum_k(-1)^ke_k(A)t^k$, where $\pm e_k(A)$ are the coefficients of the characteristic polynomial; so the claim is that $\det(1-t\rho(w))$ has its coefficients in $R$. Fix
+$e\ge1$, put $L_e=L[t]/(t^e)$, let $R_e$ be the image of $R[t]$ in $L_e$, and extend $\rho$ to $\Lambda_e=\Lambda[t]/(t^e)\to M_\sigma(L_e)$ coefficientwise. $\Lambda_e$ is spanned over $R[t]$ by the given elements $s$. For $j\ge0$ let $\mathrm C(j)$
+be the claim: for every $\beta\in\Lambda_e$ with $\det(1-t\rho(\beta))\in R_e$ and every $\gamma\in\Lambda_e$, $\det(1-t\rho(\beta+t^j\gamma))\in R_e$. For $j\ge e$ this holds because $t^j=0$. Assume $\mathrm C(j+1)$. Writing $\gamma=\sum_ic_is_i$ with $c_i\in R[t]$ and
+adding the terms one at a time, it suffices to show: if $\det(1-t\rho(\beta))\in R_e$, then $\det(1-t\rho(\beta+t^jcs))\in R_e$ for $c\in R[t]$ and a given $s$. Indeed
+\[
+  (1-t\beta)(1-t^{j+1}cs)=1-t\beta''\quad\text{with}\quad\beta''=\beta+t^jcs-t^{j+1}c\beta s,
+\]
+and $\det(1-t^{j+1}c\rho(s))=\sum_k(-1)^ke_k(\rho(s))(t^{j+1}c)^k\in R_e$, so $\det(1-t\rho(\beta''))\in R_e$. As $\beta+t^jcs=\beta''+t^{j+1}(c\beta s)$, $\mathrm C(j+1)$ gives the claim. Hence $\mathrm C(0)$ holds; with $\beta=0$ and $\gamma=w$ it says that the
+coefficients of $\det(1-t\rho(w))$ of degree below $e$ lie in $R$. As $e$ is arbitrary, all of them do.
+
+(b) $\Lambda[X]$ is spanned over $R[X]$ by $\Lambda$, and the characteristic polynomial of $\rho_X(w)=\rho(w)$, $w\in\Lambda$, has its coefficients in $R\subseteq R[X]$; so (a) applies to $\rho_X$. It applies also to $\Phi_X$ on the square matrices over $\Lambda[X]$:
+these are spanned by the matrices $E_q(Q)$ with a single nonzero row, the row $q$ of a matrix $Q$. Let $\mathrm{col}$ be the block column $q$ of the identity matrix and $\mathrm{row}$ the block row $q$ of $\Phi_X(Q)$. Then
+$\Phi_X(E_q(Q))=\mathrm{col}\cdot\mathrm{row}$ and $\mathrm{row}\cdot\mathrm{col}=\rho_X(Q_{qq})$, and for an $a\times b$ matrix $U$ and a $b\times a$ matrix $V$ one has $X^b\chi_{UV}=X^a\chi_{VU}$ (Sylvester), so the characteristic polynomial of $\Phi_X(E_q(Q))$ is a power of $X$
+times that of $\rho_X(Q_{qq})$, whose coefficients lie in $R[X]$. By (a), the characteristic polynomial $\chi=\sum_ia_iT^i$ of $\Phi_X(B)$ has coefficients $a_i\in R[X]$, with $a_0=\pm\det\Phi_X(B)$. By Cayley--Hamilton,
+$\det\Phi_X(B)\cdot1=\mp\sum_{i\ge1}a_i\Phi_X(B)^i=\Phi_X(B'B)$ with $B'=\mp\sum_{i\ge1}a_iB^{i-1}$, a matrix over $\Lambda[X]$ since the $a_i$ are central. Take $P=\det\Phi_X(B)\in R[X]$; its value at $X=0$ is $\det\Phi(B|_{X=0})$.
+\end{proof}
+
+\begin{proposition}[Amitsur, Ribet]\label{prop:ribet-algebra}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Amitsur's formula.) If all characteristic polynomials of the $\rho(w)$ have coefficients in the image of $R$, so do those of every square matrix over $\Lambda$, read through $\rho$ as a block matrix.
+\item (Ribet's method.) Let $\mathfrak a$ be a two-sided ideal containing $\ker\rho$, $I$ the left ideal spanned by a vector $y$, and $B$ a square matrix over $\Lambda$ with $By\in\mathfrak a+I\rho_0$ entrywise. Then some polynomial $P$ over $R$
+has constant term $\det B$, read through $\rho$, and $IP(\rho_0)\subseteq\mathfrak a$; the traces of $\rho(\rho_1P(\rho_0))$ lie in the image of $R$, and if $\delta\in R$ is $\rho(z)$ for some $z\in I$, then $\delta$ times such a trace is the trace of
+$\rho(a)$ for some $a\in\mathfrak a$.
+\item (Tied rows.) For representations $u_x$, $x\in Y$, of $O[G]$, an algebra $S$ of functions $Y\to L$ containing the constants and the coefficients of the characteristic polynomials, and an $S$-module $\mathcal J$, let
+$\mathfrak a$ be spanned by the elements whose traces against every group element lie in $\mathcal J$. If $B$ is a matrix of tied rows and, on a set $\mathcal X$, $u_x$ is a block $\psi_x$ plus characters $\eta_e$, then one $f\in S$
+multiplies $\det(u_x(w))$ into $\mathcal J$ for every $w\in I$, with $f(x)=\mu_0\det(\psi_xB)\prod_e\det(\eta_eB)$ on $\mathcal X$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) is the second half of the proof of \cref{lem:amitsur}(b) without the variable $X$: the matrices with a single nonzero row span, and their characteristic polynomials are powers of $T$ times those of the $\rho(Q_{qq})$.
+
+(b) \emph{The rows.} Write $(By)_i=a_i+z_i\rho_0$ with $a_i\in\mathfrak a$ and $z_i\in I$, and $z_i=\sum_jB_{1,ij}y_j$; this defines a square matrix $B_1$ over $\Lambda$. Put $B_X=B-XB_1$, a matrix over $\Lambda[X]$, and let $P$, $B'$ be as in
+\cref{lem:amitsur}(b) for $B_X$; then $P(0)=\det\Phi(B)$. \emph{The module.} Let $Q=\Lambda/\mathfrak a$, a ring as $\mathfrak a$ is two-sided, and $\pi\colon\Lambda\to Q$ the quotient map. Let $\Lambda[X]$ act on $Q$ by letting $\Lambda$ act by left multiplication and $X$ by
+right multiplication with $\pi(\rho_0)$; the two commute, so this is a left module. Since $\ker\rho\subseteq\mathfrak a$, the action of $p\in\Lambda[X]$ depends only on the images $\rho(p_k)$ of its coefficients. \emph{Killing.} On the vector $\pi(y)\in Q^N$,
+$(B_X\pi(y))_i=\pi((By)_i)-\pi(z_i\rho_0)=\pi(a_i)=0$. Hence $0=B'B_X\pi(y)$, and as $\Phi_X(B'B_X)=P\cdot1$, the matrix $B'B_X$ acts on $\pi(y)$ as the scalar $P$, which acts by right multiplication with $\pi(P(\rho_0))$, the coefficients of
+$P$ being central. Hence $y_iP(\rho_0)\in\mathfrak a$ for every $i$, and for $z=\sum_jc_jy_j\in I$, $zP(\rho_0)=\sum_jc_j\,y_jP(\rho_0)\in\mathfrak a$. \emph{Traces.} The trace of $\rho(\rho_1P(\rho_0))$ is minus a coefficient of its characteristic polynomial, which lies in $R$
+by \cref{lem:amitsur}(a). If $z_0\in I$ has $\rho(z_0)=\delta$, then $a=\rho_1z_0P(\rho_0)\in\mathfrak a$, $\mathfrak a$ being two-sided, and $\rho(a)=\delta\,\rho(\rho_1P(\rho_0))$ because $\delta$ is a scalar; take traces.
+
+(c) \emph{The lift.} Let $\kappa\colon O\to S$ send an element to the constant function, and define the $S$-algebra map $\rho\colon S[G]\to M_\sigma(\mathrm{Fun}(Y,L))$ by $\rho(\sum_gs_gg)=\sum_gs_g\,(x\mapsto u_x(g))$. It is $u_x$ at $x$ on the image of $O[G]$, and the
+characteristic polynomials of the group elements have their coefficients in $S$, so by \cref{lem:amitsur}(a) those of all $\rho(w)$ do. \emph{The ideal.} Let $\mathfrak a'$ be the set of $w\in S[G]$ with $\operatorname{tr}\rho(ws)\in\mathcal J$ for all $s\in S[G]$. It is a
+two-sided ideal: $\operatorname{tr}\rho(aws)=\operatorname{tr}\rho(w\,sa)$ by the cyclicity of the trace, and $\mathcal J$ is an $S$-module; it contains $\ker\rho$. If $r$ is a left combination $\sum_ic_iw_i$ of elements $w_i$ whose traces against all group elements lie in $\mathcal J$, then
+$\operatorname{tr}\rho(rs)=\sum_i\operatorname{tr}\rho(w_i\,sc_i)$ and $sc_i$ is an $S$-combination of group elements, so $r\in\mathfrak a'$. Hence the image of $B$ in $S[G]$ satisfies the hypothesis of (b) with $\mathfrak a'$, $\rho_0$ and the left ideal spanned by
+the image of $y$. Let $P\in S[X]$ be the polynomial of (b) and $f=\operatorname{tr}\rho(\rho_1P(\rho_0))\in S$. \emph{The multiplier.} Let $w\in I$ and $D=(x\mapsto\det u_x(w))$. By \cref{lem:amitsur}(a) the characteristic polynomial of $\rho(w)$ has
+coefficients in $S$, so by Cayley--Hamilton, as in \cref{lem:amitsur}(b), $\rho(vw)=D\cdot1$ for some $v\in S[G]$, and $vw$ lies in the left ideal spanned by $y$. By (b), $Df=\operatorname{tr}\rho(a)$ for some $a\in\mathfrak a'$, and
+$\operatorname{tr}\rho(a\cdot1)\in\mathcal J$. \emph{The value on $\mathcal X$.} For $x\in\mathcal X$, $u_x(\rho_1\rho_0)=0$: $\rho_1$ vanishes on $\psi_x$ and on $\eta_e$ for $e\ne0$, and $\rho_0$ on $\eta_0$. Writing $P(T)=P(0)+TP_1(T)$, the trace of
+$u_x(\rho_1P(\rho_0))$ is $P(0)(x)\operatorname{tr}u_x(\rho_1)=P(0)(x)\mu_0$, and $P(0)(x)$ is the determinant of $B$ read through $u_x$, which is block diagonal: $\det(\psi_xB)\prod_e\det(\eta_eB)$.
+\end{proof}
+
+\subsection{Tie ideals, Fitting ideals and the triangle cost}\label{ss:tie-ideals}
+Let $O$ be a discrete valuation ring, $R=O[X_j]_{j\in J}$, $G$ a group and $u_x$, $x\in Y$, matrix representations of $G$ over $O$ with $u_x(g)-1=\sum_iz_i(g)(u_x(\mathrm{gen}_i)-1)$ for given generators. For $p\in O$, elements
+$\tau_k$, $\varphi_k$ ($k=(j,b)$, $b\in\{\pm\}$) and polynomials $\varepsilon_j$, the \emph{tie ideal} is the left ideal of $R[G]$ spanned by the elements that every $u_x$ kills, by $p$ times the augmentation ideal $I_G$, by
+the \emph{ties} $\tau_k-1-X_j\varepsilon_j(\varphi_k)(\varphi_k-1)$, and by $I_G\rho_0$ for a normaliser $\rho_0$. A row $r$ is \emph{tied} if $\sum_ir_i(\mathrm{gen}_i-1)$ lies in it. An algebra $S$ of families of polynomials and an $S$-module
+$\mathcal J$ form a \emph{trace ideal} if $S$ holds the variables and the coefficients of the characteristic polynomials and $\mathcal J$ holds $p$ times the traces and the traces of the ties times group elements. The
+\emph{Fitting ideal} of $R^s/N$ is generated by the determinants of square matrices with rows in $N$. A module $Z$ of functions on $G$ has \emph{triangle cost $b$} along a set $I$ of indices, up to $C$, if there is
+$A\subseteq G$ such that, with $Z_0$ the members vanishing on $A$: for $j\in I$ and $c\in Z_0$ agreeing at the earlier pairs $\tau_i,\tau'_i$ and (for $i\in I$) $\varphi_i,\varphi'_i$, $C$ kills $c(\tau_j)-c(\tau'_j)$; and the length of
+$Z/Z_0$ plus that of any submodule of $Z_0$ vanishing at all $\tau_j,\tau'_j$ and agreeing at the $\varphi_j,\varphi'_j$, modulo $C$-torsion, is at most $b$.
+\lean{New.Selmer.HasTriangleCost, New.Selmer.exists_mem_fittingIdeal_addVal_constantCoeff_le, New.Selmer.smul_X_smul_mem_of_forall_form, New.Selmer.exists_mul_prod_X_mem_fittingIdeal, New.Selmer.IsTraceIdeal, New.Selmer.ribetCocyclesVanishingOn, New.Selmer.mem_ribetCocyclesVanishingOn, New.Selmer.rankOneRep, New.Selmer.IsCharacterCocycle, New.Selmer.IsDetectedBy, New.Selmer.IsCommonRibetElement, New.Selmer.exists_common_unit_row, New.Selmer.exists_rows_det_eq_pow_mul_det, New.Selmer.exists_relations_det_eq_pow_mul_det, New.Selmer.exists_forall_eq_one_and_forall_eq_zero, New.Selmer.exists_apply_eq_ite_of_prod_dvd, New.Selmer.exists_sum_mul_det_of_mem_fittingIdeal_map, New.Selmer.nonDivisorIdeal, New.Selmer.mem_nonDivisorIdeal, New.Selmer.X_mem_colon_nonDivisorIdeal, New.Selmer.coeff_mul_prod_of_mem_colon, New.Selmer.exists_mem_span_add_mul_eq_add_mul, New.Selmer.exists_block_rows, New.Selmer.isCharacterCocycle_of_mem_formsMod, New.Selmer.exists_unit_row, New.Selmer.exists_row_apply_eq_zero}
+\lean{New.Selmer.polyAction, New.Selmer.polyAction_single, New.Selmer.polyAction_aeval, New.Selmer.polyChar, New.Selmer.polyChar_single, New.Selmer.coordRows, New.Selmer.polyActionAtZero, New.Selmer.coordRows_apply, New.Selmer.polyChar_coordRows, New.Selmer.polyActionAtZero_single, New.Selmer.polyActionAtZero_X_smul, New.Selmer.polyActionAtZero_coordRows, New.Selmer.rowValue, New.Selmer.rowValue_apply, New.Selmer.evalRowAtChar, New.Selmer.evalRowAtChar_apply, New.Selmer.traceLeftIdeal, New.Selmer.mem_traceLeftIdeal_of_forall, New.Selmer.augmentationIdeal, New.Selmer.tieIdeal, New.Selmer.ker_le_tieIdeal, New.Selmer.map_augmentationIdeal_le_tieIdeal, New.Selmer.tie_mem_tieIdeal, New.Selmer.mul_mem_tieIdeal, New.Selmer.tiedRows, New.Selmer.mem_tiedRows, New.Selmer.normaliserRow, New.Selmer.tiedNormaliser, New.Selmer.C_algebraMap_trace, New.Selmer.ribetGenerators, New.Selmer.AreCoordinates, New.Selmer.polyAction_rowValue_coordRows, New.Selmer.polyAction_rowValue_coordRows_of_areCoordinates, New.Selmer.rowValue_mem_augmentationIdeal, New.Selmer.mem_tiedRows_of_forall_eq_zero, New.Selmer.coordRows_cocycle_mem_tiedRows, New.Selmer.coordRows_gen_sub_single_mem_tiedRows, New.Selmer.coordRows_linearCombination_mem_tiedRows, New.Selmer.smul_mem_tiedRows, New.Selmer.coordRows_tau_sub_mem_tiedRows, New.Selmer.polyAction_rowValue_normaliserRow, New.Selmer.sub_one_smul_normaliserRow_mem_tiedRows, New.Selmer.single_mem_tiedRows, New.Selmer.smul_one_mem_traceLeftIdeal, New.Selmer.tie_mem_traceLeftIdeal, New.Selmer.tieIdeal_le, New.Selmer.exists_mem_tiedRows_polyActionAtZero_eq, New.Selmer.coboundary_eq_zero_of_apply_eq_zero, New.Selmer.exists_tiedRows_addVal_det_le, New.Selmer.isCharacterCocycle_of_tiedRows, New.Selmer.mem_map_tiedRows_iff, New.Selmer.tie_mem_map_tiedRows, New.Selmer.exists_mem_fittingIdeal_character, New.Selmer.det_map_polyChar_tame_rows, New.Selmer.CharacterRows, New.Selmer.exists_unit_rows_mem_tiedRows, New.Selmer.exists_sum_mul_det_of_mem_fittingIdeal_evalRowAtChar, New.Selmer.nonempty_characterRows}
+
+We first record the facts on Fitting ideals and lengths over $O$ that are used. Write $v$ for the normalised valuation of $O$, $\varpi$ for a uniformiser, $K$ for the fraction field, and $\mathrm{len}(S,T)$ for the length of
+$S/(S\cap T)$. For $\Phi\colon O^n\to R^s$ an $O$-linear map, $z\colon G\to O^n$, a submodule $N\le R^s$ and $p\in O$, the module $\mathrm{forms}(\Phi,z,N,p)$ consists of the functions $\Psi\circ z$ on $G$, $\Psi\colon O^n\to O/p$ linear and vanishing on
+$\Phi^{-1}N$.
+\lean{New.Selmer.DivisibleQuot, New.Selmer.addVal_le_length_torsionBy, New.Selmer.divQuot, New.Selmer.divQuot_injective, New.Selmer.divQuot_mk, New.Selmer.exists_divQuot_eq, New.Selmer.exists_rows_addVal_det_le, New.Selmer.exists_rows_addVal_det_le_of_divisible, New.Selmer.exists_smul_eq_zero_divisibleQuot}
+\lean{New.DVR, New.DVR.isUnit_or_isUnit_of_add_one, New.DVR.not_a_field', New.DVR.toIsDiscreteValuationRing, New.DVR.toIsDomain, New.DVR.toIsPrincipalIdealRing, New.Lift.relLength_le_of_prime_smul_mem, New.Lift.relLength_le_of_relations, New.Lift.relLength_trans, New.OddPart.length_le_of_detecting_points, New.PadicIntegerRing, New.PadicIntegerRing.ctorIdx, New.PadicIntegerRing.toAlgebra, New.PadicIntegerRing.toCharZero, New.PadicIntegerRing.toDVR, New.PadicIntegerRing.toFinite, New.PadicIntegerRing.toFree, New.PadicIntegerRing.toHasFiniteQuotients, New.QuotSpan, New.Selmer.exists_pow_smul_notMem_and_succ_mem, New.Selmer.fittingIdeal, New.Selmer.fittingIdeal.exists_addVal_le_relLength, New.Selmer.fittingIdeal.exists_ge_mul_prod_mem, New.Selmer.fittingIdeal.mul_mem_of_smul_mem, New.Selmer.fittingIdeal.sup_smul_top_le, New.Selmer.formsMod, New.Selmer.formsMod_anti, New.Selmer.map_mkQ_formsMod_lt, New.Selmer.mem_formsMod, New.Selmer.mem_of_forall_form_eq_zero, New.Selmer.mul_det_mem_fittingIdeal, New.Selmer.nsmul_quot_eq_zero, New.addVal_prod, New.cocycleRelations, New.comp_mem_obeying_iff, New.exists_matrix_addVal_det_le_length, New.length_ker_le_addVal_det, New.length_le_of_le_map, New.length_mono, New.length_obeying_relationsOn_le, New.length_quot_span_eq_addVal, New.mapRel, New.mem_obeying, New.mem_obeying_cocycleRelations, New.mkQ_mem_obeying_relationsOn, New.obeying, New.relEval, New.relEval_apply, New.relLength, New.relLength_add_length_inf, New.relLength_bot, New.relLength_comap, New.relLength_eq_length_map_mkQ, New.relLength_eq_zero, New.relLength_iInf_le, New.relLength_ker, New.relLength_le_of_mapsTo, New.relLength_mono, New.relationsOn, New.smul_quot_eq_zero_of_dvd}
+
+\begin{lemma}[Fitting ideals and lengths]\label{lem:fitting}
+Let $N\le R^s$ and $p\ne0$ with $\Phi(pO^n)\subseteq N$; $\mathrm{Fitt}(N)$ denotes the Fitting ideal of $R^s/N$.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For an ideal $\mathfrak q$ of $R$, $\mathrm{Fitt}(N+\mathfrak qR^s)\subseteq\mathrm{Fitt}(N)+\mathfrak q$.
+\item If $rv\in N$, then $r\,\mathrm{Fitt}(N+Rv)\subseteq\mathrm{Fitt}(N)$. If for each $j$ of a finite ordered set every $K'\ge N$ containing the $v_i$, $i<j$, contains $r_jv_j$, then some $K'\ge N$ contains all $v_j$ and $\prod_jr_j\,\mathrm{Fitt}(K')\subseteq\mathrm{Fitt}(N)$.
+\item (Duality.) If every $\Psi\colon O^n\to O/p$ vanishing on $\Phi^{-1}N$ vanishes at $w$, then $\Phi(w)\in N$.
+\item Let $V$ be an $O$-module of functions $G\to O/p$, and $R$ Noetherian. There are $c\in O$ and $K'\ge N$ with $v(c)\le\mathrm{len}(\mathrm{forms}(\Phi,z,N,p),V)$, $\Phi(w)\in K'$ for every $w$ killed by all $\Psi$ with $\Psi\circ z\in V$,
+and $c\,\mathrm{Fitt}(K')\subseteq\mathrm{Fitt}(N)$.
+\item Let $\psi\colon A\to M_d(O)$ be onto, $N_A$ an $A$-submodule of $A^\iota$, and let the vectors $w\in((K/O)^d)^\iota$ with $\sum_j\psi(t_j)w_j=0$ for all $t\in N_A$ lie in a module of length at most $b$. Then some square matrix $B$ with rows in
+$N_A$ has $v(\det\psi(B))\le b$, $\psi(B)$ read as a block matrix.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Write each row of a square matrix with rows in $N+\mathfrak qR^s$ as $n_i+m_i$, $n_i\in N$, $m_i\in\mathfrak qR^s$; by multilinearity its determinant is $\det(n_i)$ modulo $\mathfrak q$.
+
+(b) Each row of a matrix with rows in $N+Rv$ is an element of $N$ plus a multiple of $v$; expanding the determinant by multilinearity, each term has rows in $N$ or equal to $v$. A term with two rows equal to $v$ vanishes; in a term
+with one, $r$ times it is the determinant with that row replaced by $rv\in N$. The second claim follows by induction, adding the largest index last.
+
+(c) $\Phi^{-1}N\supseteq pO^n$, so $Q=O^n/\Phi^{-1}N$ is a finitely generated module over $O/p=O/\varpi^m$, a sum of cyclic modules $O/\varpi^k$ with $k\le m$, each of which embeds in $O/\varpi^m$. Hence the linear forms $Q\to O/p$
+separate the points of $Q$, and the image of $w$ in $Q$ is zero.
+
+(d) Induction on the length of $\mathrm{forms}(\Phi,z,N,p)$ modulo $V$, which is finite, the module being a quotient of a submodule of the dual of a finite $O/p$-module. If $N$ already contains $\Phi(w)$ for every $w$ killed by all
+$\Psi$ with $\Psi\circ z\in V$, take $K'=N$, $c=1$. Otherwise let $w$ be such a vector with $\Phi(w)\notin N$. As $p$ is a unit times $\varpi^m$ and $\Phi(pw)\in N$, there is $k$ with $x=\Phi(\varpi^kw)\notin N$ and $\varpi x\in N$. Put $N'=N+Rx$; by (b),
+$\varpi\,\mathrm{Fitt}(N')\subseteq\mathrm{Fitt}(N)$. The image of $\mathrm{forms}(\Phi,z,N',p)$ modulo $V$ is strictly smaller than that of $\mathrm{forms}(\Phi,z,N,p)$: otherwise every $\Psi$ vanishing on $\Phi^{-1}N$ agrees modulo $V$ with some $\Psi'$ vanishing on
+$\Phi^{-1}N'$, so $\Psi-\Psi'$ kills $\varpi^kw$ and $\Psi(\varpi^kw)=\Psi'(\varpi^kw)=0$; by (c), $x\in N$, a contradiction. The induction hypothesis for $N'$ gives $c'$ and $K'$, and $c=\varpi c'$ has $v(c)=1+v(c')$, at most the length for $N$.
+
+(e) For $t\in N_A$ the block row $\psi(t)=(\psi(t_j))_j$ is a $d\times d\#\iota$ matrix over $O$; let $L\subseteq O^{d\iota}$ be the $O$-span of the rows of all these matrices. As $N_A$ is an $A$-module and $\psi$ is onto, the set of the $\psi(t)$ is closed under
+addition and under left multiplication by $M_d(O)$, so it is the set of all $d\times d\#\iota$ matrices whose rows lie in $L$. A vector $w$ over $K/O$ is killed by $\psi(N_A)$ exactly when it is orthogonal to $L$. By the theorem on elementary
+divisors there is a basis $e'_i$ of $O^{d\iota}$ with $L=\bigoplus_i\varpi^{a_i}Oe'_i$, $a_i\in\N\cup\{\infty\}$, and the orthogonal of $L$ in $(K/O)^{d\iota}$ is $\bigoplus_i\varpi^{-a_i}O/O$ in the dual basis. Its length is at most $b$, so every $a_i$ is finite and
+$\sum_ia_i\le b$. A basis of $L$ has $d\#\iota$ vectors and a determinant of valuation $\sum_ia_i$; grouping it into $\#\iota$ groups of $d$, each group is the block row $\psi(t^{(i)})$ of some $t^{(i)}\in N_A$, and the matrix $B$ with the rows
+$t^{(i)}$ has $v(\det\psi(B))=\sum_ia_i\le b$.
+\end{proof}
+
+The \emph{actions} of $R[G]$: a representation $u$ of $G$ over $O$ extends to an $R$-algebra map $R[G]\to M(R)$, and a character to $R[G]\to R$. A vector $m$ over $O$ is read as the row of the elements $m_i\cdot1$; the \emph{value} of a row $r$
+is $\sum_ir_i(\mathrm{gen}_i-1)$. The generators are the $\delta_v$ (tame generators at the old places), a finite set $s_0$ and the finite set $s$. The normaliser is $\rho_0=e+(1-e)(a-1)$ with $e=c_1(\gamma-1)$, for elements $\gamma$, $a$ of $G$ and
+$c_1\in O$; its row is $c_1z(\gamma)+(1-e)z(a)$. The $z(g)$ are \emph{coordinates} if $u_x(g)-1=\sum_iz_i(g)(u_x(\mathrm{gen}_i)-1)$ for all $g$ and $x$; such coordinates exist with a finite $s_0$, the $O$-module spanned by the families
+$(u_x(g)-1)_x$ being finitely generated. A \emph{character cocycle} for a character $\chi$ is a cocycle $c\colon G\to O/p$ for $\chi$ that obeys the linear relations among the families $(u_x(g)-1)_x$, vanishes at the $\delta_v$, and has
+$(\chi(g)-1)c(a)=0$ for all $g$ if $c(\gamma)=0$; a module $Z$ of functions is \emph{detected} by $s$ if only $0$ vanishes on $s$.
+
+\begin{lemma}[Tied rows]\label{lem:tied-relations}
+Let the $z(g)$ be coordinates.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item The following rows are tied: the row of $z(gh)-z(g)$ minus $g$ times the row of $z(h)$; the row of $z(\mathrm{gen}_i)$ minus the unit vector $i$; the row of $\sum_g\theta_gz(g)$ whenever $\sum_g\theta_g(u_x(g)-1)=0$ for all $x$; $p$ times any
+row; the row of $z(\tau_k)-X_j\varepsilon_j(\varphi_k)z(\varphi_k)$ for $k=(j,b)$; $g-1$ times the row of the normaliser; and, if $o_v(X)(X-1)$ kills every $u_x(\delta_v)$, the row with the single entry $o_v(\delta_v)$ at $v$.
+\item If $\mathcal J$ holds $p$ times the traces of the $u_x(g)$ and the traces of the ties times group elements, the tie ideal lies in the sum of $I_G\rho_0$ and the left ideal of the elements whose traces against all group elements lie
+in $\mathcal J$; so the value of every tied row is $b+m\rho_0$ with $b$ in that left ideal and $m$ in the left ideal of the $\mathrm{gen}_i-1$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Let $m$ be a vector over $O$. Under each $u_x$ the value of its row acts as
+\[
+  \textstyle\sum_im_i\bigl(u_x(\mathrm{gen}_i)-1\bigr),
+\]
+so the value of the row of $z(g)$ acts as $u_x(g)-1$. The first row then acts as $(gh-1)-(g-1)-g(h-1)=0$, the second as
+$(\mathrm{gen}_i-1)-(\mathrm{gen}_i-1)=0$, and the third as $\sum_g\theta_g(u_x(g)-1)=0$; elements killed by every $u_x$ lie in the tie ideal. $p$ times a value lies in $pI_G$. The value of the fifth row acts as the tie
+$\tau_k-1-X_j\varepsilon_j(\varphi_k)(\varphi_k-1)$, so it is the tie plus an element killed by every $u_x$. The value of the row of the normaliser acts as $\rho_0$, so $g-1$ times it is $(g-1)\rho_0\in I_G\rho_0$ up to an element killed by every
+$u_x$. Finally the value of the last row is $o_v(\delta_v)(\delta_v-1)$, which every $u_x$ kills.
+
+(b) The three kinds of generators other than $I_G\rho_0$ lie in the trace left ideal: an element killed by every $u_x$ has trace $0$ against everything; $p\,u_x(g)$ has its traces in $\mathcal J$; and so do the ties times group elements.
+For the second claim, write an element $l$ of the left ideal of the $\mathrm{gen}_i-1$, under every $u_x$, as an element of that left ideal plus the scalar $\eta_0(l)$, the augmentation; as $\eta_0(m)=0$ for $m\in I_G$, the difference
+$(m-m')\rho_0$ is killed by every $u_x$.
+\end{proof}
+
+\begin{proposition}[Matrices of tied rows]\label{prop:tied-rows}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item (Fitting ideals.) Let $\Phi\colon O^n\to R^s$, $y=\Phi\circ z$, and $N\supseteq\Phi(pO^n)$ with $y(\tau_j)\equiv X_jy(\varphi_j)$ and $y(\tau'_j)\equiv X_jy(\varphi'_j)$ modulo $N$, and with $y(g)$ congruent to the unit vector of $g$ modulo $N$ for $g\in s$; let every
+$i$ below a member of $I$ lie in $I$ or have $X_iR^s\subseteq N$. If the module of functions $\Psi\circ z$, for linear
+$\Psi\colon O^n\to O/p$ vanishing on $\Phi^{-1}N$, has triangle cost $b$ along $I$ up to $C$, then the Fitting ideal of $R^s/N$ contains $F\prod_{j\in I}X_j$ with $v(F(0))\le b+(\#I+\#s)v(C)$.
+\item (The block.) If the matrices $\rho(g)$ span, $\gamma$ acts through $\rho$ by a scalar $y$ with $y-1$ a unit, and the cocycles of $\rho$ with values in $K/O$ that obey the linear relations among the $(u_x(g)-1)_x$ and vanish
+at the $\tau_k$ and at $\gamma$ have length at most $b_0$, then some square matrix of tied rows has, through $\rho$ at $X=0$, a determinant of valuation at most $b_0$.
+\item (The characters.) Let $a$ be an element such that $\prod_{k\ne e}(\xi_e(a)-\xi_k(a))$ divides $C$ for every $e$. Under the corresponding triangle cost hypotheses for each
+character $\xi_e$ and the detection of character cocycles on a finite set $s$, there are matrices $B_{e,i}$ and weights $w_{e,i}$ such that
+$\sum_iw_{e,i}\det B_{e,i}\equiv\Gamma_e\prod_{\mathrm{ty}(j)=e}X_j$ modulo the colon ideal of the monomials not dividing $\prod X_j$, with $v(\Gamma_e(0))\le b_e+(\#\{\mathrm{ty}(j)=e\}+\#s)v(C)$, and each choice of one $B_{e,i}$ per character comes from a
+matrix of tied rows.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) Let $A\subseteq G$ be the set of the triangle cost, $Z=\mathrm{forms}(\Phi,z,N,p)$ and $Z_0$ the members of $Z$ vanishing on $A$. \emph{First stage.} By \cref{lem:fitting}(d) with $V$ the functions vanishing on $A$ there are $e\in O$ with
+$v(e)\le\mathrm{len}(Z,V)$ and $K'\ge N$ with $e\,\mathrm{Fitt}(K')\subseteq\mathrm{Fitt}(N)$ containing $\Phi(w)$ for every $w$ killed by all $\Psi$ with $\Psi\circ z\in V$; in particular $\Phi(z(g))\in K'$ for $g\in A$, so for every $T\ge K'$,
+$\mathrm{forms}(\Phi,z,T,p)\subseteq Z_0$. \emph{Second stage.} Put $v_j=\Phi(z(\varphi_j)-z(\varphi'_j))$; then $\Phi(z(\tau_j)-z(\tau'_j))-X_jv_j\in N$. Let $j\in I$ and $T\ge K'$ contain the $v_i$ with $i\in I$, $i<j$. For $i<j$, $X_iv_i\in T$: if $i\in I$ because
+$v_i\in T$, otherwise because $X_iR^s\subseteq N$. Hence $\Phi(z(\tau_i)-z(\tau'_i))\in T$ for $i<j$. Let $\Psi$ vanish on $\Phi^{-1}T$; then $\Psi\circ z\in Z_0$, it agrees at $\tau_i,\tau'_i$ for $i<j$ and at $\varphi_i,\varphi'_i$ for $i\in I$, $i<j$, so by the
+triangle condition $C\Psi(z(\tau_j))=C\Psi(z(\tau'_j))$. By \cref{lem:fitting}(c), $\Phi(C(z(\tau_j)-z(\tau'_j)))\in T$, hence $CX_jv_j\in T$. By \cref{lem:fitting}(b) there is $T\ge K'$ containing all $v_j$, $j\in I$, with
+$\prod_{j\in I}CX_j\,\mathrm{Fitt}(T)\subseteq\mathrm{Fitt}(K')$. \emph{Third stage.} Let $T_0=T+\mathfrak m_0R^s$, $\mathfrak m_0$ the polynomials without constant term, and $Z_1=\mathrm{forms}(\Phi,z,T_0,p)\subseteq Z_0$. Apply \cref{lem:fitting}(d) to $T_0$ with $V$ the
+$C$-torsion: there are $f$ with $v(f)\le\mathrm{len}(Z_1,C\text{-torsion})$ and $K''\ge T_0$ with $f\,\mathrm{Fitt}(K'')\subseteq\mathrm{Fitt}(T_0)$ containing $\Phi(Cz(g))$ for all $g$. For $g\in s$ the row $Ce_g=\Phi(Cz(g))-C(\Phi(z(g))-e_g)$ lies in
+$K''$, so $C^{\#s}=\det(C\cdot1)\in\mathrm{Fitt}(K'')$ and $fC^{\#s}\in\mathrm{Fitt}(T_0)\subseteq\mathrm{Fitt}(T)+\mathfrak m_0$ by \cref{lem:fitting}(a): $fC^{\#s}=d+r$ with $d\in\mathrm{Fitt}(T)$ and $r(0)=0$, so $d(0)=fC^{\#s}$. \emph{The lengths.} The members of $Z_1$ vanish
+at all $\tau_j,\tau'_j$, since $y(\tau_j)\equiv X_jy(\varphi_j)$ modulo $N$ and $X_jy(\varphi_j)\in T_0$, and agree at $\varphi_j,\varphi'_j$ for $j\in I$, since $v_j\in T$. By the cost condition, $\mathrm{len}(Z,V)+\mathrm{len}(Z_1,C\text{-torsion})\le b$.
+\emph{Conclusion.} $F=eC^{\#I}d$ has $F\prod_{j\in I}X_j=e\prod_{j\in I}(CX_j)\,d\in e\,\mathrm{Fitt}(K')\subseteq\mathrm{Fitt}(N)$ and $v(F(0))=v(e)+\#I\,v(C)+v(f)+\#s\,v(C)\le b+(\#I+\#s)v(C)$.
+
+(b) At $X=0$ the tie of index $k$ is the row of $z(\tau_k)$, and with $c_1(y-1)=1$ the row of $z(\gamma)$ has the same image through $\rho$ at $X=0$ as the tied row $(g-1)$ times the normaliser row for a suitable $g$ (the normaliser
+$e=c_1(\gamma-1)$ is $1$ on $\rho$). Let $N_A$ be the tied rows and $\psi_0$ the action through $\rho$ at $X=0$, which is onto the matrices because the $\rho(g)$ span. A vector $w$ over $K/O$ killed by $\psi_0(N_A)$ defines the form
+$\Psi=\sum_jw_j(\cdot)_j$, and $\Psi\circ z$ is a cocycle for $\rho$ (the cocycle rows are tied), obeys the linear relations (so are those rows), takes the value $w_i$ at $\mathrm{gen}_i$, and vanishes at the $\tau_k$ and at $\gamma$. Hence the
+vectors $w$ lie in the image of the module of these cocycles under evaluation at the generators, of length at most $b_0$, and \cref{lem:fitting}(e) gives the matrix.
+
+(c) Fix $e$, and read rows on $\xi_e$ with the $\delta$-coordinates forgotten; $\xi_e$ is trivial at $\gamma$ and the $\delta_v$. \emph{Cocycles.} For a linear map $A$ and $K_e$ containing the image of the tied rows, every $\Psi$ modulo $p$ on coordinate
+vectors killing the vectors sent into $K_e$ gives a character cocycle $\Psi\circ z$ for $\xi_e$: the cocycle and relation rows are tied; on $\xi_e$ the row $(g-1)$ times the normaliser is $(\xi_e(g)-1)(c_1z(\gamma)+z(a))$, as $\xi_e(\gamma)=1$, so
+$c(\gamma)=0$ forces $(\xi_e(g)-1)c(a)=0$. \emph{The ties on $\xi_e$.} As $\varepsilon_j(\xi_e(\varphi_k))=1+pc$, the row of $z(\tau_k)-X_jz(\varphi_k)$ differs from a tie by $pX_jcz(\varphi_k)$, a tied row. \emph{Unit rows.} Since character cocycles are
+detected by $s$, by duality (\cref{lem:fitting}(c)) the row of $z(g)$, $g\in s_0$, lies in the image of the tied rows modulo the others, and one obtains tied rows $\nu_i$ that are the unit vectors on the $s_0$-coordinates under every
+character at once: if $w$ is the unit row $i$ under the characters already treated and $m_{e,j}$ are the unit rows $j$ under $\xi_e$, then $w+\sum_j(\delta_{ji}-w_j)m_{e,j}$, $w_j$ the entry of $w$ at the coordinate $j$, is the unit row $i$
+under $\xi_e$, and the added sum vanishes under the earlier characters. Eliminate the $s_0$-coordinates by the $\nu_i$. \emph{The Fitting ideal.} Apply (a) to the image $K_e$ of the tied rows on $\xi_e$,
+enlarged by the colon ideal $\mathfrak q_e$ of the monomials not dividing $\prod X_j$ by $\prod_{\mathrm{ty}(j)<e}X_j$, with $I=\{j:\mathrm{ty}(j)=e\}$: an earlier variable $X_i$ has type $e$ or lies in $\mathfrak q_e$ (its product with
+$\prod_{\mathrm{ty}(j)<e}X_j$ is divisible by $X_i^2$), and the triangle cost is the hypothesis. This gives $\Gamma_e$ with the stated bound and $\Gamma_e\prod_{\mathrm{ty}(j)=e}X_j\in\mathrm{Fitt}(K_e+\mathfrak q_eR^s)$. \emph{The matrices.} An element of
+$\mathrm{Fitt}(K_e+\mathfrak q_eR^s)$ is $\sum_iw_{e,i}\det B_{e,i}$ modulo $\mathfrak q_e$, with the rows of each $B_{e,i}$ images of tied rows that vanish on the $s_0$-coordinates under $\xi_e$. For a choice $i=(i_e)_e$, the rows $\nu_j$ and
+$\sum_e\pi_e\cdot(\text{the lift of row }l\text{ of }B_{e,i_e})$, with $\pi_e\in R[G]$ equal to $C$ on $\xi_e$ and $0$ on the other characters (a multiple of $\prod_{k\ne e}(a-\xi_k(a))$, which exists as $\prod_{k\ne e}(\xi_e(a)-\xi_k(a))$ divides $C$), form a square matrix of tied rows which on each $\xi_e$ is block triangular with diagonal blocks $1$ and
+$C\,B_{e,i_e}$; the rows with the single entries $o_v(\delta_v)$ complete it to a square matrix $M$ of tied rows on all coordinates, again block triangular on the characters, where $\delta_v$ is trivial, with the diagonal entries
+$o_v(1)$. Hence $\det(M|_{\xi_e})=c_0\det B_{e,i_e}$ with $c_0=\prod_vo_v(1)\cdot C^{\#s}$.
+\end{proof}
+
+\subsection{Ribet's lemma}\label{ss:ribet-lemma}
+\lean{New.Selmer.polyAction_eq_reindex, New.Selmer.det_polyAction_rowValue, New.Selmer.exists_mulVec_eq_add_mul_of_mem_tiedRows, New.Selmer.exists_ringHom_comp_eq_algebraMap, New.Selmer.coeff_charpoly_map_polyAction_single, New.Selmer.C_det_linearCombination_mem, New.Selmer.det_linearCombination_sub_one_eq_zero, New.Selmer.exists_traceIdeal_multiplier_eq_sum_det, New.Selmer.exists_character_projector, New.Selmer.exists_areCoordinates_ribetGenerators, New.Selmer.CharacterRows.sum_prod_coeff_mul_prod_det_tiedMatrix, New.Selmer.CharacterRows.addVal_constantCoeff_prod_le, New.Selmer.mem_ribetCocyclesIn_iff, New.Selmer.comp_mem_ribetCocyclesIn_iff, New.Selmer.exists_smul_eq_zero_of_mem_ribetCocyclesIn, New.Selmer.length_ribetCocyclesVanishingOn_divisibleQuot_le, New.Selmer.exists_isCommonRibetElement_addVal_le}
+
+\begin{lemma}[From coefficients modulo $p^M$ to $K/O$]\label{lem:divisible-cocycles}
+Let $u_x$ be a finite family of representations of $G$ over $O$, $\rho$ a representation, $T\subseteq G$ and $\gamma\in G$, and consider the cocycles of $\rho$ that vanish on $T$ and at $\gamma$ and obey the linear relations among the families
+$(u_x(g)-1)_x$. Those with values in $K/O$ are torsion, and if for every $M$ those with values in $O/p^M$ form a module of length at most $b$, $p\ne0$ not a unit, so do those with values in $K/O$.
+\end{lemma}
+
+\begin{proof}
+By the coordinates of the $u_x(g)-1$ in finitely many $u_x(\mathrm{gen}_i)-1$, a cocycle obeying the relations is determined by its values at the generators, each of which has a nonzero annihilator in $O$; so it is torsion. Let $a=p^{b+1}$.
+Division by $a$, $O/a\to K/O$, maps the cocycles modulo $a$ onto the $a$-torsion of the module $V$ of the cocycles with values in $K/O$: an $a$-torsion cocycle is the image of a cocycle modulo $a$ with the same relations, the map being
+injective. Hence the $a$-torsion has length at most $b$. If $V$ were not $a$-torsion, its $a$-torsion would contain a copy of $O/a$ (a torsion module over a discrete valuation ring with an element of order not dividing $a$ contains $O/a$),
+of length $v(a)>b$. Hence $V$ is the $a$-torsion.
+\end{proof}
+
+\begin{theorem}[Ribet's lemma to first order]\label{thm:ribet-lemma}
+Let $u_x$, $x\in Y$, be a finite family of matrix representations of a group $G$ over a discrete valuation ring $O$, and $S$, $\mathcal J$ a trace ideal for $p\ne0$, elements $\tau_k$, $\varphi_k$ and polynomials $\varepsilon_j$ with
+$\varepsilon_j\equiv1$ modulo $p$ at the $\xi_e(\varphi_k)$. Assume:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item on a set $\mathcal X$, $u_x$ is a block $\rho_x$ plus characters $\xi_e$ with $\xi_0=1$, and $\rho_\pi$ spans all matrices for some $\pi\in\mathcal X$;
+\item an element $\gamma_x$ acts on the block by a scalar $y_x$ with $y_x-1$ a unit and as the identity on the characters;
+\item for an element $a$ the products $\prod_{k\ne e}(\xi_e(a)-\xi_k(a))$ divide $C$, and each $j$ has a type, monotone in $j$;
+\item the cocycles of $\rho_\pi$ in $K/O$ obeying the relations among the $(u_x(g)-1)_x$ and vanishing at the $\tau_k$ and at $\gamma_\pi$ have length at most $b_0$;
+\item elements $\delta_v$ are trivial on the characters and $o_v(X-1)$ kills every $u_x(\delta_v)$;
+\item for each $e$, every module of character cocycles for $\xi_e$ has triangle cost $b_e$ along the $j$ of type $e$, and is detected on a finite set $s$.
+\end{enumerate}
+Then the determinants of all combinations $\sum\omega_g(u_x(g)-1)$ lie in $S$ and vanish on $\mathcal X$; one $f\in S$ multiplies them into $\mathcal J$; on $\mathcal X$, $f$ has no monomial properly dividing $\prod_jX_j$; and the coefficient of
+$\prod_jX_j$ in $f(\pi)$ comes from some $c\in O$ with
+\[
+  v(c)\le b_0+\sum_eb_e+t\Bigl(\sum_vv(o_v(1))+2\#s\,v(C)\Bigr)+(\#J+1)v(C),
+\]
+$t$ being the number of characters.
+\end{theorem}
+
+\begin{proof}
+\emph{The determinants.} By \cref{lem:amitsur}(a) applied to the lift of the family to $S[G]$ (proof of \cref{prop:ribet-algebra}(c)), the determinant of every element of $O[G]$, as a function of $x$, lies in $S$. On $\mathcal X$ every combination
+$\sum_g\omega_g(u_x(g)-1)$ has the column of $\xi_0=1$ equal to zero, so its determinant vanishes there. \emph{Auxiliary elements.} The element $k=c\,(\gamma_x-1)$ with $c(y_x-1)=1$ is $1$ on every character and $0$ on the block $\rho_x$; multiplying over
+the finitely many $x\in\mathcal X$ such elements (each is $1$ on the characters) gives one $k$ that is $1$ on every character and $0$ on every block. By (iii), for each $e$ an element $q_e$ of $R[G]$, a multiple of $\prod_{k\ne e}(a-\xi_k(a))$, is $C$ on $\xi_e$ and
+$0$ on the other characters. \emph{Generators.} Take a finite $s_0$ and coordinates $z(g)$ in the generators $\delta_v$, $s_0$ and $s$ (\cref{ss:tie-ideals}), and $c_1$ with $c_1(y_\pi-1)=1$, so that $c_1(\gamma_\pi-1)$ is $1$ on $\rho_\pi$.
+\emph{The block.} By (iv) and \cref{prop:tied-rows}(b) there is a square matrix $B_0$ of tied rows whose determinant on $\rho_\pi$ at $X=0$ has valuation at most $b_0$. \emph{The characters.} By (iii), (vi) and \cref{prop:tied-rows}(c) there are matrices
+$B_{e,i}$ with weights $w_{e,i}$, polynomials $\Gamma_e$ and, for each choice $i=(i_e)$, a matrix $M_i$ of tied rows with $\det(M_i|_{\xi_e})=c_0\det B_{e,i_e}$, $c_0=\prod_vo_v(1)C^{\#s}$, such that $d_e=\sum_iw_{e,i}\det B_{e,i}$ satisfies
+$d_e+\zeta_e=\Gamma_e\prod_{\mathrm{ty}(j)=e}X_j$ with $\zeta_e\prod_{\mathrm{ty}(j)<e}X_j$ in the ideal $\mathfrak n$ of the monomials not dividing $\prod_jX_j$.
+\emph{The gluing.} For each choice $i$ the matrix $(1-k)B_0+kM_i$ has tied rows (the tied rows form a module) and is $B_0$ on the blocks and $M_i$ on the characters. Apply \cref{prop:ribet-algebra}(c) with $\rho_1=kq_0$, which vanishes on the blocks,
+is $C$ on $\xi_0$ and $0$ on the other characters, and $\rho_0$ the normaliser, which is $0$ on $\xi_0$ as $\xi_0$ is trivial; by \cref{lem:tied-relations}(b) the hypothesis of (c) holds. It gives $f_i\in S$ multiplying the determinants into $\mathcal J$
+with $f_i(x)=C\det(\rho_xB_0)\prod_e\det(M_i|_{\xi_e})$ on $\mathcal X$. Put $f=\sum_i\prod_ew_{e,i_e}\,f_i$. On $\mathcal X$, summing the products of the weights,
+\[
+  f(x)=C\det(\rho_xB_0)\,c_0^t\prod_e d_e .
+\]
+\emph{The coefficient.} Write $D(x)=C\,c_0^t\det(\rho_xB_0)$. As $\prod_{k<e}(d_k+\zeta_k)$ is a multiple of $\prod_{\mathrm{ty}(j)<e}X_j$, the difference $\prod_ed_e-\prod_e(d_e+\zeta_e)$ lies in $\mathfrak n$, and $\prod_e(d_e+\zeta_e)=\prod_e\Gamma_e\cdot\prod_jX_j$, the types
+partitioning $J$. Hence $D(x)\prod_ed_e$ has no monomial properly dividing $\prod_jX_j$, and its coefficient of $\prod_jX_j$ is the constant term of $D(x)\prod_e\Gamma_e$. At $x=\pi$ this constant term is
+$c=C\,c_0^t\,\det(\rho_\pi B_0)|_{X=0}\prod_e\Gamma_e(0)\in O$, of valuation at most
+\[
+  v(C)+t\Bigl(\sum_vv(o_v(1))+\#s\,v(C)\Bigr)+b_0+\sum_e\bigl(b_e+(\#\{\mathrm{ty}(j)=e\}+\#s)v(C)\bigr),
+\]
+which is the stated bound, as the sets $\{\mathrm{ty}(j)=e\}$ partition $J$.
+\end{proof}
+
+\subsection{Norms, logarithms and first-order deformations}\label{ss:norms-logs}
+The family of Hecke operators at the auxiliary places that realises $\mathcal J$ (\cref{sec:denominators}) is built from the following algebra. A finite group $\Gamma=\prod_j\Gamma_j$ maps multiplicatively to a ring $R$, $g\mapsto g$; $\mathrm{Nm}=\sum_{g\in\Gamma}g$ and
+$\mathrm{Nm}_j=\sum_{g\in\Gamma_j}g$. A congruence $a\equiv b$ is an equality $\sigma(a)=\sigma(b)$ for a ring map $\sigma$; $\sigma$ is a \emph{reduction modulo $m/k$} if it kills every $x$ with $kx\in mR$. For pairwise commuting subrings $\mathcal A_j$ with
+$\mathrm{Nm}_j,\partial_j\in\mathcal A_j$, the \emph{family coefficients} are $N_S=\prod_{j\in S}\partial_j\prod_{j\notin S}\mathrm{Nm}_j$, the coefficients of $\prod_{j\in S}\alpha_j$ in $\prod_j(\mathrm{Nm}_j+\alpha_j\partial_j)$ in commuting variables $\alpha_j$. For a homomorphism
+$c\colon\Gamma\to\Z/m$ and a weight $f\colon\Z/m\to\Z$, the \emph{weighted norm} is $\sum_gf(c(g))\,g$; with $f=\nu$, the lift of least absolute value, it is the \emph{logarithm} $L_c$ of $c$. For a subgroup $H$ with fixed representatives $h$ of
+$\Gamma/H$, $\partial=-(\sum_hh)B(\nu)(\sum_hh^{-1})$ for an additive map $B$ on weights.
+\lean{New.Patching.IsReductionMod, New.Patching.IsReductionMod.natCast_eq_zero, New.Patching.exists_isReductionMod, New.Patching.mul_sum_monoidHom, New.Patching.sum_monoidHom_mul, New.Patching.nsmul_eq_norm_mul, New.Patching.nsmul_eq_mul_norm, New.Patching.map_nsmul_eq_mul_norm, New.Patching.commutingProd, New.Patching.commutingProd_update, New.Patching.commutingProd_sum, New.Patching.familyCoeff, New.Patching.commute_familyCoeff, New.Patching.familyCoeff_empty, New.Patching.exists_familyCoeff_eq_mul, New.Patching.exists_empty_eq_sum_and_insert_eq_mul, New.Patching.coeff_mul_C_sub_X_mul_C_of_notMem, New.Patching.coeff_mul_C_sub_X_mul_C_insert, New.Patching.map_top_coeff_mul_C_sub_X_mul_C_eq_zero, New.Patching.exists_map_pow_mul_family_eq_mul_norm, New.Patching.residueLineStabilizer, New.Patching.mem_residueLineStabilizer, New.Patching.mul_apply_zero_of_mem_residueLineStabilizer, New.Patching.firstEntry, New.Patching.coe_firstEntry, New.Patching.firstEntry_conj_diagGL, New.Patching.transfer_firstEntry_diagGL, New.Patching.map_toGL_transvection_eq_one, New.Patching.transfer_firstEntry_diagGL_mulSingle, New.Patching.transfer_firstEntry, New.Patching.transfer_comp_firstEntry, New.Patching.residueUnit, New.Patching.eq_residueUnit, New.Patching.reduceGL_mem_iff_mem_residuePreimage, New.Patching.reduceGL_mem_residueLineStabilizer_iff, New.Patching.firstEntry_reduceGL, New.Patching.det_reduceGL, New.Patching.det_firstEntry_reduceGL_eq_one_of_mem_proIwahori, New.Patching.exists_residue_log, New.Patching.map_eq_of_weights_modEq, New.Patching.weightedSum, New.Patching.weightedSum_apply, New.Patching.weightedSum_one, New.Patching.mul_weightedSum, New.Patching.weightedSum_mul, New.Patching.cosetNorm, New.Patching.cosetNormInv, New.Patching.cosetDerivative, New.Patching.cosetComponent, New.Patching.cosetNorm_mul_sum_mul, New.Patching.cosetNorm_mul_norm, New.Patching.transfer_eq_prod_cosetComponent, New.Patching.map_cosetNorm_mul_weightedSum_mul_cosetNormInv, New.Patching.map_sub_one_mul_weightedSum_valMinAbs, New.Patching.exists_map_valMinAbs_mul_sub_one, New.Patching.map_valMinAbs_eq_zero_of_shift, New.Patching.exists_map_nsmul_mul_sub_one_eq_sum_mul}
+
+\begin{lemma}[Norms and logarithms]\label{lem:norms-logs}
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item For $j\notin S$, $N_S=N'\mathrm{Nm}_j$ and $N_{S\cup\{j\}}=N'\partial_j$ for one $N'$, and $N_\emptyset=\mathrm{Nm}$. If $t$, $r$ commute with all $\mathcal A_j$, $\mathrm{Nm}_jt=0$ and $\partial_jt\equiv\mathrm{Nm}_jr$, then the coefficient of $\prod_{i\in J}X_i$ in
+$\bigl(\sum_SN_S\prod_{i\in S}X_i\bigr)\cdot G\cdot(t-X_jr)$ is $\equiv0$, for every polynomial $G$ over the commutative ring of $t$, $r$.
+\item Let $\sum_gg^{-1}\Psi g=n$, $\delta=n^2\delta'$ with $\delta'$ commuting with the group and with all $N_S$, and let each $g\in\Gamma_j$ have $Z$ with $n\partial_j(g-1)\equiv\mathrm{Nm}_jZ$ and $\delta'\mathrm{Nm}\,Z=0$. Then for $i\ge\#S$ there is $Y$ with
+$\delta^iN_S\equiv Y\mathrm{Nm}$, and $Y=\delta^i$ if $S=\emptyset$.
+\item Over a finite field, the transfer to $\GL_N$ of the first entry on the stabiliser of the line of the first basis vector is the determinant; so is, after any homomorphism $l$, the transfer of $l\circ$(first entry).
+\item Let $m=0$ in the target of $\sigma$. Then $(\sum_hh)L_a(\sum_hh^{-1})\equiv L_{\mathrm{tr}(a)}$ for $a\colon H\to\Z/m$ and its transfer; $(\gamma-1)L_c\equiv-\mathrm{Nm}$ if $c(\gamma)=1$; and if right multiplication by $p\in H$ shifts the weight of $B$ by
+$a(p)$, then $B(\nu)(\sum_hh^{-1})(g-1)\equiv B(1)Q$ for some $Q$.
+\item If $\sigma$ is a reduction modulo $m/(2k)$ and $C$ is an additive map on weights killing every $f(\cdot-k)-f$, then $\sigma(C(\nu))=0$.
+\item In the setting of (d), let $H$ fix $B(1)$ from the left, $\sum_{p\in H}p^{-1}\Psi p=n$, $Lg=L$ for all $g$ and $L\,B(1)=0$. If $R$ has no $\#H$-torsion, then $n\partial(g-1)\equiv\mathrm{Nm}\,Z$ with $LZ=0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The first claim is the definition, with $N'=\prod_{i\in S}\partial_i\prod_{i\notin S\cup\{j\}}\mathrm{Nm}_i$, the factors commuting. For the second, the coefficient of $\prod_{i\in J}X_i$ in $\mathcal N P$, $\mathcal N=\sum_SN_SX^S$ of degree at most one in each variable, is
+$\sum_SN_{J\setminus S}[X^S]P$. For $P=G(t-X_jr)$ and $j\notin S$, $[X^S]P=t[X^S]G$ and $[X^{S\cup j}]P=t[X^{S\cup j}]G-r[X^S]G$. Pair $S\not\ni j$ with $S\cup\{j\}$ and write $J\setminus S=T\cup\{j\}$: the two terms are
+$N'\partial_j\,t[X^S]G+N'\mathrm{Nm}_j(t[X^{S\cup j}]G-r[X^S]G)=N'(\partial_jt-\mathrm{Nm}_jr)[X^S]G+N'\mathrm{Nm}_jt[X^{S\cup j}]G\equiv0$.
+
+(b) Induction on $S$. For $S=\emptyset$, $\delta^iN_\emptyset=\delta^i\mathrm{Nm}$. Let $S\ne\emptyset$, $i=e+1$, and $\mathcal A=n\delta'\delta^eN_S$. We show $\mathcal A(g-1)\equiv0$ for $g\in\Gamma_j$, for every $j$. If $j\notin S$, then $N_S=N'\mathrm{Nm}_j$ and
+$\mathrm{Nm}_jg=\mathrm{Nm}_j$, so $\mathcal A(g-1)=0$. If $j\in S$, write $N_S=N'\partial_j$ with $N'\mathrm{Nm}_j=N_{S\setminus j}$; as $N'$ lies in the subrings other than $\mathcal A_j$, $\mathcal A(g-1)=\delta'\delta^eN'\cdot n\partial_j(g-1)\equiv\delta'\delta^eN_{S\setminus j}Z$. By the induction
+hypothesis, $\delta^eN_{S\setminus j}\equiv Y\mathrm{Nm}$ ($e\ge\#S-1$), and $\delta'$, which commutes with $\delta^eN_{S\setminus j}$, is moved to its right first (as $Y$ need not commute with $\delta'$): $\delta'\delta^eN_{S\setminus j}Z=\delta^eN_{S\setminus j}\delta'Z\equiv Y\,\delta'\mathrm{Nm}\,Z=0$, $\delta'$
+commuting with $\mathrm{Nm}$. As the factors generate $\Gamma$, $\mathcal Ag\equiv\mathcal A$ for all $g$, and $n\mathcal A=\sum_g\mathcal Ag^{-1}\Psi g\equiv\mathcal A\Psi\mathrm{Nm}$. Finally $\delta^{e+1}N_S=n^2\delta'\delta^eN_S=n\mathcal A$, so $Y=\mathcal A\Psi$ works.
+
+(c) The transfer of a character $\lambda$ of the stabiliser $P$ of a line, at $g$, is the product over the orbits of $g$ on the lines of $\mathbb F^N$: an orbit of length $f$ through the line of $v$ contributes the scalar by which $g^f$ multiplies $v$. For
+$g=\mathrm{diag}(x,1,\dots,1)$ the line of $e_1$ contributes $x$, and every other line contains a vector with a nonzero entry that $g$ fixes, contributing $1$. Conjugating by a permutation matrix gives the same for $x$ in place $i$. A
+character of $\GL_N(\mathbb F)$ with values in $\mathbb F^\times$ is trivial on transvections, since $c\mapsto\tau(\text{transvection }c)$ is a homomorphism from a group of order $q$ to one of order $q-1$. Both the transfer and $\det$ are characters
+agreeing on diagonal matrices and transvections, which generate $\GL_N(\mathbb F)$. The transfer is a product over the cosets, and $l$ commutes with products.
+
+(d) The coefficient of $g$ in $(\sum_hh)L_a(\sum_hh^{-1})$ is $\sum_{h'}\nu(a(p_{h'}))$, where $gh'=hp_{h'}$ with $p_{h'}\in H$; modulo $m$ this is $\nu(\sum_{h'}a(p_{h'}))=\nu(\mathrm{tr}(a)(g))$, the transfer being the product of these components. For the
+second, $(\gamma-1)L_c=\sum_g(\nu(c(g)-1)-\nu(c(g)))g$, and $\nu(x-1)-\nu(x)\equiv-1$ modulo $m$. For the third, right multiplication by $g$ permutes the $h^{-1}$ up to factors in $H$: $(\sum_hh^{-1})g=\sum_hp_hh^{-1}$ with $p_h\in H$. By hypothesis $B(\nu)p_h=B(\nu(\cdot-k_h))$, $k_h=a(p_h)$, and $\nu(x-k)\equiv\nu(x)-\nu(k)$ modulo $m$;
+as $m=0$ in the target, weights that agree modulo $m$ have the same image, so $B(\nu)(p_h-1)h^{-1}\equiv-\nu(k_h)B(1)h^{-1}$, and $Q=-\sum_h\nu(k_h)h^{-1}$.
+
+(e) Let $f(x)=\nu(x)(\nu(x)+k)$. As $\nu(x-k)=\nu(x)-k+m\epsilon(x)$ with $\epsilon$ integral, $f(x-k)-f(x)=-2k\nu(x)+mh(x)$ with $h$ integral. Applying $C$, $0=-2kC(\nu)+mC(h)$, so $2kC(\nu)\in mR$ and $\sigma(C(\nu))=0$.
+
+(f) By the third part of (d), $n\partial(g-1)\equiv-(\sum_hh)\,nB(1)\,Q$. As $H$ fixes $B(1)$ from the left and $\sum_pp^{-1}\Psi p=n$, $nB(1)=\sum_pp^{-1}\Psi\,pB(1)=\sum_pp^{-1}\Psi B(1)=\mathrm{Nm}_H\Psi B(1)$, and $(\sum_hh)\mathrm{Nm}_H=\mathrm{Nm}$. Hence
+$n\partial(g-1)\equiv\mathrm{Nm}\,Z$ with $Z=-\Psi B(1)Q$. Moreover $\#H\cdot L\Psi B(1)=L\,\mathrm{Nm}_H\Psi B(1)=L\,nB(1)=0$, using $Lp=L$, and $R$ has no $\#H$-torsion, so $L\Psi B(1)=0$ and $LZ=0$.
+\end{proof}
